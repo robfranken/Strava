@@ -26,7 +26,7 @@ Last compiled on `r format(Sys.time(), '%B, %Y')`
 <br>
 
 This lab journal is created for the Strava paper. It contains R code.       
-All scripts can be found on [Github](https://github.com/robfranken/STRAVA-paper)
+All scripts can be found on [Github](https://github.com/robfranken/Strava)
 
 <br>
 

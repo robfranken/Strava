@@ -6,3 +6,10 @@ knitr
 rgl
 RSiena
 igraph
+tidyverse
+tibble
+tidyr
+readr
+purrr
+stringr
+moments
