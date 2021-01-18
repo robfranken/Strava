@@ -1,0 +1,9 @@
+name: "Strava Journal"
+navbar:
+  title: "Strava Journal"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Descriptives"
+      href: des.html
+output_dir: "docs"

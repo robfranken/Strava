@@ -1,0 +1,58 @@
+---
+title: "Strava Journal"
+output: html_document
+---
+
+<style type="text/css">
+.title {
+  display: none;
+}
+
+#getting-started img {
+  margin-right: 10px;
+}
+
+</style>
+
+<div class="row" style="padding-top: 30px;">
+<div class="col-sm-6">
+
+# **Strava Journal**
+### Rob Franken - Radboud University
+Last compiled on `r format(Sys.time(), '%B, %Y')`
+
+----
+
+<br>
+
+This lab journal is created for the Strava paper. It contains R code.       
+All scripts can be found on [Github](https://github.com/robfranken/STRAVA-paper)
+
+<br>
+
+----
+
+# Content
+
+By now, we have:
+
+1. imported the raw club data, anonymized them, and stored them in a list object (clubdata.RData)
+
+2. created RSiena objects for each club and stored them in a list file (clubdata_rsiena.RData)
+
+In the following pages, we will:
+
+3. perform descriptive analyses
+
+4. perform exploratory analyses to find the best model
+
+5. estimate the final models
+
+</div>
+<div class="col-sm-6">
+
+<a>
+![](images/strava logo.png)
+</a>
+</div>
+

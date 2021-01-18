@@ -1,0 +1,1147 @@
+---
+title: "Descriptive statistics"
+date: "14-1-2021"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```
+
+
+---
+
+We will use the RSiena object to describe the constant covariates and the behavioral variables.
+We will do this seperately for the 5 clubs.
+
+We cover the following:
+
+* network structure
+* gender composition 
+
+To-do:
+
+* gender seggregation
+* type of sports practiced
+* activity level (frequency and volume)
+* share of clubmembers that uses Strava
+
+----
+
+<br>
+
+# Preparation
+
+Clean the working environment, set the working directory to the folder with the list object containing the RSiena objects, and load in the data.
+
+```{r, attr.output='style="max-height: 200px;"'}
+# clean the working environment 
+rm (list = ls( ))
+
+# set the working directory
+setwd("C:\\Users\\u244147\\Documents\\dissertatie\\Strava data\\clubs") 
+
+# load the object
+load("clubdata_rsiena.RData")
+
+# inspect
+str(clubdata_rsiena)
+```
+
+A list of 5 lists, with each of these lists containing data of the corresponding club.
+
+----
+
+Now define some functions we use later on to describe our data (see [here](https://www.jochemtolsma.nl/courses/complete-networks/socio6/#descriptive-statistics)).
+
+```{r class.source = 'fold-hide'}
+# density: observed relations divided by possible relations
+fdensity <- function(x) {
+    # x is your nomination network make sure diagonal cells are NA
+    diag(x) <- NA
+    # take care of RSiena structural zeros, set as missing.
+    x[x == 10] <- NA
+    sum(x == 1, na.rm = T)/(sum(x == 1 | x == 0, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityintra <- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) <- NA
+    x[x == 10] <- NA
+    diag(A) <- NA
+    sum(x == 1 & A == 1, na.rm = T)/(sum((x == 1 | x == 0) & A == 1, na.rm = T))
+}
+
+# calculate intragroup density
+fdensityinter <- function(x, A) {
+    # A is matrix indicating whether nodes in dyad have same node attributes
+    diag(x) <- NA
+    x[x == 10] <- NA
+    diag(A) <- NA
+    sum(x == 1 & A != 1, na.rm = T)/(sum((x == 1 | x == 0) & A != 1, na.rm = T))
+}
+
+# construct dyadcharacteristic whether nodes are similar/homogenous
+fhomomat <- function(x) {
+    # x is a vector of node-covariate
+    xmat <- matrix(x, nrow = length(x), ncol = length(x))
+    xmatt <- t(xmat)
+    xhomo <- xmat == xmatt
+    return(xhomo)
+}
+
+# a function to calculate all valid dyads.
+fndyads <- function(x) {
+    diag(x) <- NA
+    x[x == 10] <- NA
+    (sum((x == 1 | x == 0), na.rm = T))
+}
+
+# a function to calculate all valid intragroupdyads.
+fndyads2 <- function(x, A) {
+    diag(x) <- NA
+    x[x == 10] <- NA
+    diag(A) <- NA
+    (sum((x == 1 | x == 0) & A == 1, na.rm = T))
+}
+
+
+fscolnet <- function(network, ccovar) {
+    # Calculate coleman on network level:
+    # https://reader.elsevier.com/reader/sd/pii/S0378873314000239?token=A42F99FF6E2B750436DD2CB0DB7B1F41BDEC16052A45683C02644DAF88215A3379636B2AA197B65941D6373E9E2EE413
+    
+    fhomomat <- function(x) {
+        xmat <- matrix(x, nrow = length(x), ncol = length(x))
+        xmatt <- t(xmat)
+        xhomo <- xmat == xmatt
+        return(xhomo)
+    }
+    
+    fsumintra <- function(x, A) {
+        # A is matrix indicating whether nodes constituting dyad have same characteristics
+        diag(x) <- NA
+        x[x == 10] <- NA
+        diag(A) <- NA
+        sum(x == 1 & A == 1, na.rm = T)
+    }
+    
+    # expecation w*=sum_g sum_i (ni((ng-1)/(N-1)))
+    network[network == 10] <- NA
+    ni <- rowSums(network, na.rm = T)
+    ng <- NA
+    for (i in 1:length(ccovar)) {
+        ng[i] <- table(ccovar)[rownames(table(ccovar)) == ccovar[i]]
+    }
+    N <- length(ccovar)
+    wexp <- sum(ni * ((ng - 1)/(N - 1)), na.rm = T)
+    
+    # wgg1 how many intragroup ties
+    w <- fsumintra(network, fhomomat(ccovar))
+    
+    Scol_net <- ifelse(w >= wexp, (w - wexp)/(sum(ni, na.rm = T) - wexp), (w - wexp)/wexp)
+    return(Scol_net)
+}
+```
+
+----
+
+<br>
+
+# Print report
+## {.tabset .tabset-fade} 
+Make sure to check the output of the 'print01Report()' function for general data descripton (degrees, network size, etc.) and a general overview of the dataset.
+
+### Club 1
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+
+library(RSiena)
+print01Report(df)
+
+```
+![](files/Siena1.txt)
+
+### Club 2
+```{r }
+df <- clubdata_rsiena[[2]] # grab club 
+
+library(RSiena)
+print01Report(df)
+```
+![](files/Siena2.txt)
+
+### Club 3
+```{r }
+df <- clubdata_rsiena[[3]] # grab club 
+
+library(RSiena)
+print01Report(df)
+```
+![](files/Siena3.txt)
+
+### Club 4
+```{r}
+df <- clubdata_rsiena[[4]] # grab club 
+
+library(RSiena)
+print01Report(df)
+```
+![](files/Siena4.txt)
+
+### Club 5
+```{r}
+df <- clubdata_rsiena[[5]] # grab club 
+
+library(RSiena)
+print01Report(df)
+```
+![](files/Siena5.txt)
+
+## {-}
+
+----
+
+# Network structure
+## 1. Node-level {.tabset .tabset-fade}
+
+Let's describe the indegrees and outdegrees of the Strava-users in each club. We take from the RSiena object the friendship network of the club in question, and turn it into an *igraph* object. Then we find the in- and outdegree of each node.
+
+### Club 1
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# make a 'graph object'
+library(igraph)
+G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# find in- and outdegree for each node
+hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdegree Strava friendship network")
+hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
+```
+
+### Club 2
+```{r}
+df <- clubdata_rsiena[[2]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# make a 'graph object'
+library(igraph)
+G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# find in- and outdegree for each node
+hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdegree Strava friendship network")
+hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
+```
+
+### Club 3
+```{r}
+df <- clubdata_rsiena[[3]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# make a 'graph object'
+library(igraph)
+G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# find in- and outdegree for each node
+hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdegree Strava friendship network")
+hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
+```
+
+### Club 4
+```{r }
+df <- clubdata_rsiena[[4]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# make a 'graph object'
+library(igraph)
+G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# find in- and outdegree for each node
+hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdegree Strava friendship network")
+hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
+```
+
+### Club 5
+```{r}
+df <- clubdata_rsiena[[5]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# make a 'graph object'
+library(igraph)
+G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# find in- and outdegree for each node
+hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdegree Strava friendship network")
+hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
+```
+
+## {-}
+In general, we see that the in- and outdegree distribution is right-skewed, suggesting that most Strava-users befriend and are befriended by relatively few club-members, while fewer users befriend and are befriended by many club-members.
+
+<br>
+
+## 2. Dyad-level {.tabset .tabset-fade}
+
+Let's investigate to what extent friendship-relationships (dyads) are reciprocated or mutual. There are three types of dyad: mutual, assymetric, and non-existent. We will classify dyads with the dyad-census function, and we will investigate if we observe more mutual dyads than we would expect based on chance.
+
+### Club 1
+```{r }
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[1]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify dyads
+dyadcount <- dyad.census(G1)
+
+# add the total number of dyads to the graph
+dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
+dyadcount
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- dyad.census(random_graph)$mut
+}
+
+{hist(recip, main="number of mutual dyads in random graph", xlab="", )
+abline(v=dyadcount$mut, col="red", lwd=3)}
+```
+
+### Club 2
+```{r }
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[2]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify dyads
+dyadcount <- dyad.census(G1)
+
+# add the total number of dayds to the graph
+dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
+dyadcount
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- dyad.census(random_graph)$mut
+}
+
+{hist(recip, main="number of mutual dyads in random graph", xlab="", )
+abline(v=dyadcount$mut, col="red", lwd=3)}
+```
+
+### Club 3
+```{r}
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[3]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify dyads
+dyadcount <- dyad.census(G1)
+
+# add the total number of dayds to the graph
+dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
+dyadcount
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- dyad.census(random_graph)$mut
+}
+
+{hist(recip, main="number of mutual dyads in random graph", xlab="", )
+abline(v=dyadcount$mut, col="red", lwd=3)}
+```
+
+### Club 4
+```{r }
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[4]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify dyads
+dyadcount <- dyad.census(G1)
+
+# add the total number of dayds to the graph
+dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
+dyadcount
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- dyad.census(random_graph)$mut
+}
+
+{hist(recip, main="number of mutual dyads in random graph", xlab="", )
+abline(v=dyadcount$mut, col="red", lwd=3)}
+```
+
+### Club 5
+```{r}
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[5]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify dyads
+dyadcount <- dyad.census(G1)
+
+# add the total number of dayds to the graph
+dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
+dyadcount
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- dyad.census(random_graph)$mut
+}
+
+{hist(recip, main="number of mutual dyads in random graph", xlab="", )
+abline(v=dyadcount$mut, col="red", lwd=3)}
+```
+
+## {-}
+As expected, mutual dyads are way more prominent than would be expected based on chance, which is indicative of reciprocity effects in Strava-friendships among the members of clubs.
+
+<br>
+
+## 3. Triad-level {.tabset .tabset-fade}
+
+There are 16 types of triads (see paper by [Davis & Leinhard, 1967](https://eric.ed.gov/?id=ED024086)), which can be classified with the triad-census function. See [here](https://igraph.org/r/doc/triad_census.html) for the order in which the multiple triad classifications are counted.
+
+Let's also calculate for each club the (global) transitivity index, which is the ratio of connected triplets (transitive triads) and potentially connected triplets (see [here](http://www.stats.ox.ac.uk/~snijders/Trans_Triads_ha.pdf)). The direction of the edges is ignored. We will then calculate the global transitivity index for random (undirected) graphs.
+
+### Club 1
+```{r}
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[1]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify triads
+triadcount <- triad.census(G1)
+
+# and print the 16 configurations
+print(triadcount)
+
+# global (or undirected) transitivity index
+transitivity(G1)
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- transitivity(random_graph)
+}
+
+{hist(recip, main="global transitivity index in random graph", xlab="" )
+abline(v=transitivity(G1), col="red", lwd=3)}
+
+```
+
+### Club 2
+```{r }
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[2]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify triads
+triadcount <- triad.census(G1)
+
+# and print the 16 configurations
+print(triadcount)
+
+# global (or undirected) transitivity index
+transitivity(G1)
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- transitivity(random_graph)
+}
+
+{hist(recip, main="global transitivity index in random graph", xlab="" )
+abline(v=transitivity(G1), col="red", lwd=3)}
+
+```
+
+### Club 3
+```{r}
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[3]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify triads
+triadcount <- triad.census(G1)
+
+# and print the 16 configurations
+print(triadcount)
+
+# global (or undirected) transitivity index
+transitivity(G1)
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- transitivity(random_graph)
+}
+
+{hist(recip, main="global transitivity index in random graph", xlab="" )
+abline(v=transitivity(G1), col="red", lwd=3)}
+
+```
+
+### Club 4
+```{r}
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[4]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify triads
+triadcount <- triad.census(G1)
+
+# and print the 16 configurations
+print(triadcount)
+
+# global (or undirected) transitivity index
+transitivity(G1)
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- transitivity(random_graph)
+}
+
+{hist(recip, main="global transitivity index in random graph", xlab="" )
+abline(v=transitivity(G1), col="red", lwd=3)}
+
+```
+
+### Club 5
+```{r}
+# make igraph object for the club
+G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[5]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify triads
+triadcount <- triad.census(G1)
+
+# and print the 16 configurations
+print(triadcount)
+
+# global (or undirected) transitivity index
+transitivity(G1)
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- transitivity(random_graph)
+}
+
+hist(recip, main="global transitivity index in random graph", xlab="" )
+
+```
+
+## {-}
+Also transitivity is more prominent than would be expected solely based on chance. 
+
+<br>
+----
+
+# Gender composition 
+## {.tabset .tabset-fade}
+Let's investigate the gender composition of the club.
+We must retrieve gender from the object, and de-mean-center the attribute. Then we make a categorical gender variable and plot it.
+
+### Club 1
+
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[1]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+
+```
+
+### Club 2
+
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[2]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+### Club 3
+
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[3]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+### Club 4
+
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[4]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+### Club 5
+
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[5]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+## {-}
+
+We can see that in all clubs males are overrepresented. 
+
+----
+
+<br>
+
+# Gender segregation
+
+Let's now investigate segregation along gender in the friendship network.
+
+<br>
+
+## Densities{.tabset .tabset-fade}
+Let's start with describing the total density and intra- (same sex) and intergroup (different sex) densities. 
+
+### Club 1
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 2
+
+```{r}
+df <- clubdata_rsiena[[2]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 3
+
+```{r}
+df <- clubdata_rsiena[[3]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 4
+
+```{r}
+df <- clubdata_rsiena[[4]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 5
+
+```{r}
+df <- clubdata_rsiena[[5]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+
+## {-}
+
+Density in friendships is not much higher within the sexes than between the sexes, indicating that gender homophily is not very pronounced, at least in friendships (may be different for Kudos!).
+
+----
+
+<br>
+
+## Coleman's homophily index {.tabset .tabset-fade}
+
+Because men are overrepresented, seggregation may be partly structurally induced by differences in relative group sizes. We calculate the Coleman Homophily index for gender, which reflects gender segregation while taking into account the relative group size of men and women. 
+
+
+### Club 1
+
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+### Club 2
+
+```{r}
+df <- clubdata_rsiena[[2]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+### Club 3
+
+```{r}
+df <- clubdata_rsiena[[3]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+### Club 4
+
+```{r}
+df <- clubdata_rsiena[[4]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+### Club 5
+
+```{r}
+df <- clubdata_rsiena[[5]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+## {-}
+
+Coleman's Homophily Index is close to 0, which indicates that the observed number of same-sex friendship is almost the same as would be expected under random choice, hence indicating absence of gender seggregation in friendship ties.
+

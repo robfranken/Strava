@@ -1,0 +1,8 @@
+base
+ggplot2
+forcats
+dplyr
+knitr
+rgl
+RSiena
+igraph
