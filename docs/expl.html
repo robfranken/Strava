@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>RSiena: Exploratory analyses</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Strava Journal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="des.html">Descriptives</a>
+</li>
+<li>
+  <a href="expl.html">RSiena 1</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">RSiena: Exploratory analyses</h1>
+<h4 class="date">18-1-2021</h4>
+
+</div>
+
+
+<hr />
+<p>We are going to explore the best-fitting model parameters. We are going to start small, focusing on one club, and on just three time-points.</p>
+<hr />
+<p><br></p>
+<div id="preparation" class="section level1">
+<h1>Preparation</h1>
+<p>Clean the working environment and set the working directory.</p>
+<pre class="r"><code># clean the working environment 
+rm (list = ls( ))
+
+# set the working directory
+setwd(&quot;C:\\Users\\u244147\\Documents\\dissertatie\\Strava data\\clubs&quot;) </code></pre>
+<p>We will make a new RSiena object:</p>
+<ul>
+<li>Dependent variables: Kudos, running volume, running frequency</li>
+<li>Constant covariate: friendships (dyadic), gender</li>
+<li>Starting with one club (N=30)</li>
+<li>And using data on three months: t1, t6, t12</li>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="step-1-data" class="section level1">
+<h1>Step 1: Data</h1>
+<pre class="r"><code>load(&quot;clubdata.Rdata&quot;) # load (raw) club list
+club &lt;- clubdata[[1]] # grab club 1
+
+# specify variable roles for RSiena object
+library(RSiena)
+
+kudonet &lt;- sienaDependent(club$kudo[,, c(1, 6, 12)])
+time_run &lt;- sienaDependent(club$time_run[,, c(1, 6, 12)], type= &quot;behavior&quot;)
+time_other &lt;- sienaDependent(club$time_other[,, c(1, 6, 12)], type= &quot;behavior&quot;)
+
+friendship &lt;- coDyadCovar(club$friendship)
+
+gender &lt;- NA
+gender &lt;- ifelse(club$male == 1, 1, gender)
+gender &lt;- ifelse(club$female == 1, 2, gender)
+gender &lt;- ifelse(club$other == 1, 3, gender)
+gender &lt;- coCovar(gender)
+
+mydata &lt;- sienaDataCreate(kudonet, time_run, time_other, friendship, gender)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="step-2-inspect-data" class="section level1">
+<h1>Step 2: Inspect data</h1>
+<pre class="r"><code>print01Report(mydata)</code></pre>
+<p>A text file is printed in the working directory.</p>
+<p><embed src="files/Siena_test.txt" /></p>
+<hr />
+<p><br></p>
+</div>
+<div id="step-3-define-effects" class="section level1">
+<h1>Step 3: Define effects</h1>
+<p>We are going to define our ‘myeff’ object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting effectsDocumentation(myeff).</p>
+<pre class="r"><code>myeff &lt;- getEffects(mydata)
+#effectsDocumentation(myeff)</code></pre>
+<p>First, we are going to include structural network effects.</p>
+<pre class="r"><code># Structural effects
+myeff1 &lt;- includeEffects(myeff, inPop, transTrip, transRecTrip, name=&quot;kudonet&quot;)</code></pre>
+<p>Second, we include selection-effects (i.e. who sends/receives Kudos, and between whom are Kudos exchanged?). We include effects reflecting homophily tendencies in Kudo exchanging based on (a) gender and (b) time spent on running / frequency of running.</p>
+<pre class="r"><code># Homophily tendencies in Kudo relations with respect to gender
+myeff2 &lt;- includeEffects( myeff1, sameX, name=&quot;kudonet&quot;, interaction1 = &quot;gender&quot; )
+
+# Homophily tendencies in Kudo relations with respect to activity level
+myeff2 &lt;- includeEffects(myeff2, egoX, altX, absDiffX, name=&quot;kudonet&quot;, interaction1 = &quot;time_run&quot;)
+myeff2 &lt;- includeEffects(myeff2, egoX, altX, absDiffX, name=&quot;kudonet&quot;, interaction1 = &quot;time_other&quot;)</code></pre>
+<p>Third, in the behavioral model, we include social influence effects of (a) Kudos (<em>social support</em>), and (b) alters’ activity level (‘contagion’, <em>social comparison</em>).</p>
+<pre class="r"><code># Kudo-indegree effect on running  
+myeff3 &lt;- includeEffects(myeff2, indeg, outdeg, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;) # we also include outdegree effect
+myeff3 &lt;- includeEffects(myeff3, indeg, outdeg, name = &quot;time_other&quot;, interaction1 = &quot;kudonet&quot;)
+
+# Subset this model
+myeff0 &lt;- myeff3
+
+# Total alter effect on running 
+myeff3a &lt;- includeEffects(myeff0, totAlt, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff3a &lt;- includeEffects(myeff3a, totAlt, name = &quot;time_other&quot;, interaction1 = &quot;kudonet&quot;)
+
+# Let&#39;s also try the total similarity effect 
+myeff3b &lt;- includeEffects(myeff0, totSim, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff3b &lt;- includeEffects(myeff3b, totSim, name = &quot;time_other&quot;, interaction1 = &quot;kudonet&quot;)
+myeff3b &lt;- includeEffects(myeff3b, totSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)
+
+# And why not also try the total similarity x reciprocity effect
+myeff3c &lt;- includeEffects(myeff0, totSimRecip, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff3c &lt;- includeEffects(myeff3c, totSimRecip, name = &quot;time_other&quot;, interaction1 = &quot;kudonet&quot;)</code></pre>
+<p><strong>Note</strong>: as of yet, I am not sure whether to include the total similarity or the total alter effect (or the average-effect variants). This choice has to be made both on theoretical grounds and on the basis of statistical significance.</p>
+<p><br></p>
+<p>Now check which effects are included in the myeff object.</p>
+<div id="section" class="section level2 tabset tabset-fade">
+<h2></h2>
+<div id="structural-effects" class="section level3">
+<h3>Structural effects</h3>
+<pre class="r fold-hide"><code>options(width = 100) # ignore (this is for the html formatting)
+print(myeff1)</code></pre>
+<pre><code>##    name       effectName                       include fix   test  initialValue parm
+## 1  kudonet    constant kudonet rate (period 1) TRUE    FALSE FALSE    0.83352   0   
+## 2  kudonet    constant kudonet rate (period 2) TRUE    FALSE FALSE    3.38232   0   
+## 3  kudonet    outdegree (density)              TRUE    FALSE FALSE   -0.47767   0   
+## 4  kudonet    reciprocity                      TRUE    FALSE FALSE    0.00000   0   
+## 5  kudonet    transitive triplets              TRUE    FALSE FALSE    0.00000   0   
+## 6  kudonet    transitive recipr. triplets      TRUE    FALSE FALSE    0.00000   0   
+## 7  kudonet    indegree - popularity            TRUE    FALSE FALSE    0.00000   0   
+## 8  time_run   rate time_run (period 1)         TRUE    FALSE FALSE    4.57931   0   
+## 9  time_run   rate time_run (period 2)         TRUE    FALSE FALSE    6.99310   0   
+## 10 time_run   time_run linear shape            TRUE    FALSE FALSE    0.02984   0   
+## 11 time_run   time_run quadratic shape         TRUE    FALSE FALSE    0.00000   0   
+## 12 time_other rate time_other (period 1)       TRUE    FALSE FALSE    5.42069   0   
+## 13 time_other rate time_other (period 2)       TRUE    FALSE FALSE    3.72989   0   
+## 14 time_other time_other linear shape          TRUE    FALSE FALSE    0.01890   0   
+## 15 time_other time_other quadratic shape       TRUE    FALSE FALSE    0.00000   0</code></pre>
+</div>
+<div id="selection" class="section level3">
+<h3>+ Selection</h3>
+<pre class="r fold-hide"><code>options(width = 100) # ignore (this is for the html formatting)
+print(myeff2)</code></pre>
+<pre><code>##    name       effectName                       include fix   test  initialValue parm
+## 1  kudonet    constant kudonet rate (period 1) TRUE    FALSE FALSE    0.83352   0   
+## 2  kudonet    constant kudonet rate (period 2) TRUE    FALSE FALSE    3.38232   0   
+## 3  kudonet    outdegree (density)              TRUE    FALSE FALSE   -0.47767   0   
+## 4  kudonet    reciprocity                      TRUE    FALSE FALSE    0.00000   0   
+## 5  kudonet    transitive triplets              TRUE    FALSE FALSE    0.00000   0   
+## 6  kudonet    transitive recipr. triplets      TRUE    FALSE FALSE    0.00000   0   
+## 7  kudonet    indegree - popularity            TRUE    FALSE FALSE    0.00000   0   
+## 8  kudonet    male alter                       TRUE    FALSE FALSE    0.00000   0   
+## 9  kudonet    male ego                         TRUE    FALSE FALSE    0.00000   0   
+## 10 kudonet    same male                        TRUE    FALSE FALSE    0.00000   0   
+## 11 kudonet    female alter                     TRUE    FALSE FALSE    0.00000   0   
+## 12 kudonet    female ego                       TRUE    FALSE FALSE    0.00000   0   
+## 13 kudonet    same female                      TRUE    FALSE FALSE    0.00000   0   
+## 14 kudonet    time_run alter                   TRUE    FALSE FALSE    0.00000   0   
+## 15 kudonet    time_run ego                     TRUE    FALSE FALSE    0.00000   0   
+## 16 kudonet    time_run similarity              TRUE    FALSE FALSE    0.00000   0   
+## 17 time_run   rate time_run (period 1)         TRUE    FALSE FALSE    4.57931   0   
+## 18 time_run   rate time_run (period 2)         TRUE    FALSE FALSE    6.99310   0   
+## 19 time_run   time_run linear shape            TRUE    FALSE FALSE    0.02984   0   
+## 20 time_run   time_run quadratic shape         TRUE    FALSE FALSE    0.00000   0   
+## 21 time_other rate time_other (period 1)       TRUE    FALSE FALSE    5.42069   0   
+## 22 time_other rate time_other (period 2)       TRUE    FALSE FALSE    3.72989   0   
+## 23 time_other time_other linear shape          TRUE    FALSE FALSE    0.01890   0   
+## 24 time_other time_other quadratic shape       TRUE    FALSE FALSE    0.00000   0</code></pre>
+</div>
+<div id="influence-total-model-total-alter" class="section level3">
+<h3>+ Influence (total model): total alter</h3>
+<pre class="r fold-hide"><code>options(width = 100) # ignore (this is for the html formatting)
+print(myeff3a)</code></pre>
+<pre><code>##    name       effectName                       include fix   test  initialValue parm
+## 1  kudonet    constant kudonet rate (period 1) TRUE    FALSE FALSE    0.83352   0   
+## 2  kudonet    constant kudonet rate (period 2) TRUE    FALSE FALSE    3.38232   0   
+## 3  kudonet    outdegree (density)              TRUE    FALSE FALSE   -0.47767   0   
+## 4  kudonet    reciprocity                      TRUE    FALSE FALSE    0.00000   0   
+## 5  kudonet    transitive triplets              TRUE    FALSE FALSE    0.00000   0   
+## 6  kudonet    transitive recipr. triplets      TRUE    FALSE FALSE    0.00000   0   
+## 7  kudonet    indegree - popularity            TRUE    FALSE FALSE    0.00000   0   
+## 8  kudonet    male alter                       TRUE    FALSE FALSE    0.00000   0   
+## 9  kudonet    male ego                         TRUE    FALSE FALSE    0.00000   0   
+## 10 kudonet    male similarity                  TRUE    FALSE FALSE    0.00000   0   
+## 11 kudonet    female alter                     TRUE    FALSE FALSE    0.00000   0   
+## 12 kudonet    female ego                       TRUE    FALSE FALSE    0.00000   0   
+## 13 kudonet    female similarity                TRUE    FALSE FALSE    0.00000   0   
+## 14 kudonet    other alter                      TRUE    FALSE FALSE    0.00000   0   
+## 15 kudonet    other ego                        TRUE    FALSE FALSE    0.00000   0   
+## 16 kudonet    other similarity                 TRUE    FALSE FALSE    0.00000   0   
+## 17 kudonet    time_run alter                   TRUE    FALSE FALSE    0.00000   0   
+## 18 kudonet    time_run ego                     TRUE    FALSE FALSE    0.00000   0   
+## 19 kudonet    time_run similarity              TRUE    FALSE FALSE    0.00000   0   
+## 20 time_run   rate time_run (period 1)         TRUE    FALSE FALSE    4.57931   0   
+## 21 time_run   rate time_run (period 2)         TRUE    FALSE FALSE    6.99310   0   
+## 22 time_run   time_run linear shape            TRUE    FALSE FALSE    0.02984   0   
+## 23 time_run   time_run quadratic shape         TRUE    FALSE FALSE    0.00000   0   
+## 24 time_run   time_run indegree                TRUE    FALSE FALSE    0.00000   0   
+## 25 time_run   time_run outdegree               TRUE    FALSE FALSE    0.00000   0   
+## 26 time_run   time_run total alter             TRUE    FALSE FALSE    0.00000   0   
+## 27 time_other rate time_other (period 1)       TRUE    FALSE FALSE    5.42069   0   
+## 28 time_other rate time_other (period 2)       TRUE    FALSE FALSE    3.72989   0   
+## 29 time_other time_other linear shape          TRUE    FALSE FALSE    0.01890   0   
+## 30 time_other time_other quadratic shape       TRUE    FALSE FALSE    0.00000   0</code></pre>
+</div>
+<div id="influence-total-model-total-similarity" class="section level3">
+<h3>+ Influence (total model): total similarity</h3>
+<pre class="r fold-hide"><code>options(width = 100) # ignore (this is for the html formatting)
+print(myeff3b)</code></pre>
+<pre><code>##    name       effectName                       include fix   test  initialValue parm
+## 1  kudonet    constant kudonet rate (period 1) TRUE    FALSE FALSE    0.83352   0   
+## 2  kudonet    constant kudonet rate (period 2) TRUE    FALSE FALSE    3.38232   0   
+## 3  kudonet    outdegree (density)              TRUE    FALSE FALSE   -0.47767   0   
+## 4  kudonet    reciprocity                      TRUE    FALSE FALSE    0.00000   0   
+## 5  kudonet    transitive triplets              TRUE    FALSE FALSE    0.00000   0   
+## 6  kudonet    transitive recipr. triplets      TRUE    FALSE FALSE    0.00000   0   
+## 7  kudonet    indegree - popularity            TRUE    FALSE FALSE    0.00000   0   
+## 8  kudonet    male alter                       TRUE    FALSE FALSE    0.00000   0   
+## 9  kudonet    male ego                         TRUE    FALSE FALSE    0.00000   0   
+## 10 kudonet    male similarity                  TRUE    FALSE FALSE    0.00000   0   
+## 11 kudonet    female alter                     TRUE    FALSE FALSE    0.00000   0   
+## 12 kudonet    female ego                       TRUE    FALSE FALSE    0.00000   0   
+## 13 kudonet    female similarity                TRUE    FALSE FALSE    0.00000   0   
+## 14 kudonet    other alter                      TRUE    FALSE FALSE    0.00000   0   
+## 15 kudonet    other ego                        TRUE    FALSE FALSE    0.00000   0   
+## 16 kudonet    other similarity                 TRUE    FALSE FALSE    0.00000   0   
+## 17 kudonet    time_run alter                   TRUE    FALSE FALSE    0.00000   0   
+## 18 kudonet    time_run ego                     TRUE    FALSE FALSE    0.00000   0   
+## 19 kudonet    time_run similarity              TRUE    FALSE FALSE    0.00000   0   
+## 20 time_run   rate time_run (period 1)         TRUE    FALSE FALSE    4.57931   0   
+## 21 time_run   rate time_run (period 2)         TRUE    FALSE FALSE    6.99310   0   
+## 22 time_run   time_run linear shape            TRUE    FALSE FALSE    0.02984   0   
+## 23 time_run   time_run quadratic shape         TRUE    FALSE FALSE    0.00000   0   
+## 24 time_run   time_run total similarity        TRUE    FALSE FALSE    0.00000   0   
+## 25 time_run   time_run indegree                TRUE    FALSE FALSE    0.00000   0   
+## 26 time_run   time_run outdegree               TRUE    FALSE FALSE    0.00000   0   
+## 27 time_other rate time_other (period 1)       TRUE    FALSE FALSE    5.42069   0   
+## 28 time_other rate time_other (period 2)       TRUE    FALSE FALSE    3.72989   0   
+## 29 time_other time_other linear shape          TRUE    FALSE FALSE    0.01890   0   
+## 30 time_other time_other quadratic shape       TRUE    FALSE FALSE    0.00000   0</code></pre>
+</div>
+<div id="influence-total-model-total-similarity-x-reciprocity" class="section level3">
+<h3>+ Influence (total model): total similarity x reciprocity</h3>
+<pre class="r fold-hide"><code>options(width = 100) # ignore (this is for the html formatting)
+print(myeff3c)</code></pre>
+<pre><code>##    name       effectName                       include fix   test  initialValue parm
+## 1  kudonet    constant kudonet rate (period 1) TRUE    FALSE FALSE    0.83352   0   
+## 2  kudonet    constant kudonet rate (period 2) TRUE    FALSE FALSE    3.38232   0   
+## 3  kudonet    outdegree (density)              TRUE    FALSE FALSE   -0.47767   0   
+## 4  kudonet    reciprocity                      TRUE    FALSE FALSE    0.00000   0   
+## 5  kudonet    transitive triplets              TRUE    FALSE FALSE    0.00000   0   
+## 6  kudonet    transitive recipr. triplets      TRUE    FALSE FALSE    0.00000   0   
+## 7  kudonet    indegree - popularity            TRUE    FALSE FALSE    0.00000   0   
+## 8  kudonet    male alter                       TRUE    FALSE FALSE    0.00000   0   
+## 9  kudonet    male ego                         TRUE    FALSE FALSE    0.00000   0   
+## 10 kudonet    male similarity                  TRUE    FALSE FALSE    0.00000   0   
+## 11 kudonet    female alter                     TRUE    FALSE FALSE    0.00000   0   
+## 12 kudonet    female ego                       TRUE    FALSE FALSE    0.00000   0   
+## 13 kudonet    female similarity                TRUE    FALSE FALSE    0.00000   0   
+## 14 kudonet    other alter                      TRUE    FALSE FALSE    0.00000   0   
+## 15 kudonet    other ego                        TRUE    FALSE FALSE    0.00000   0   
+## 16 kudonet    other similarity                 TRUE    FALSE FALSE    0.00000   0   
+## 17 kudonet    time_run alter                   TRUE    FALSE FALSE    0.00000   0   
+## 18 kudonet    time_run ego                     TRUE    FALSE FALSE    0.00000   0   
+## 19 kudonet    time_run similarity              TRUE    FALSE FALSE    0.00000   0   
+## 20 time_run   rate time_run (period 1)         TRUE    FALSE FALSE    4.57931   0   
+## 21 time_run   rate time_run (period 2)         TRUE    FALSE FALSE    6.99310   0   
+## 22 time_run   time_run linear shape            TRUE    FALSE FALSE    0.02984   0   
+## 23 time_run   time_run quadratic shape         TRUE    FALSE FALSE    0.00000   0   
+## 24 time_run   time_run indegree                TRUE    FALSE FALSE    0.00000   0   
+## 25 time_run   time_run outdegree               TRUE    FALSE FALSE    0.00000   0   
+## 26 time_run   time_run tot. sim. x reciprocity TRUE    FALSE FALSE    0.00000   0   
+## 27 time_other rate time_other (period 1)       TRUE    FALSE FALSE    5.42069   0   
+## 28 time_other rate time_other (period 2)       TRUE    FALSE FALSE    3.72989   0   
+## 29 time_other time_other linear shape          TRUE    FALSE FALSE    0.01890   0   
+## 30 time_other time_other quadratic shape       TRUE    FALSE FALSE    0.00000   0</code></pre>
+</div>
+</div>
+<div id="section-1" class="section level2 unnumbered">
+<h2></h2>
+<p>Seems allright!</p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="step-4-define-algorithm" class="section level1">
+<h1>Step 4: Define algorithm</h1>
+<pre class="r"><code>myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;)</code></pre>
+<pre><code>## siena07 will create an output file test.txt .</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="step-5-estimate-the-model" class="section level1">
+<h1>Step 5: Estimate the model</h1>
+<p>Let’s estimate the models, in the following order:</p>
+<ol style="list-style-type: decimal">
+<li>Only the structural effects.</li>
+<li>Include the selection effects.</li>
+<li>Include the influence effects (the total model; the three variants)</li>
+</ol>
+<p>We will save the results in a html-table using the siena.table()-function, in the ‘files’-folder in our working directory (make sure to create one manually). We will run the model as many times as necessary, until we get an acceptable convergence ratio (&lt; .25).</p>
+<div id="section-2" class="section level2 tabset tabset-fade">
+<h2></h2>
+<div id="model-1" class="section level3">
+<h3>Model 1</h3>
+<pre class="r"><code># Only the structural effects (myeff1)
+
+try &lt;- 1
+iteration &lt;- 1
+
+ansM1 &lt;- siena07(myalgorithm, data = mydata, effects = myeff1)
+siena.table(ansM1, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;last.html&quot;, sep = &quot;&quot;))
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM1$tconv.max &gt; 0.25){
+    try &lt;- try + 1
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM1 &lt;- siena07( myalgorithm, data = mydata, effects = myeff1, prevAns= ansM1)
+    siena.table(ansM1, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM1_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    
+  }else{
+    siena.table(ansM1, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM1_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    print(paste(&quot;Reached convergence ratio of &quot;, ansM1$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}</code></pre>
+</div>
+<div id="model-2" class="section level3">
+<h3>Model 2</h3>
+<pre class="r"><code># Include selection effects (myeff2)
+
+try &lt;- 1
+iteration &lt;- 1
+
+ansM2 &lt;- siena07(myalgorithm, data = mydata, effects = myeff2)
+siena.table(ansM2, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;last.html&quot;, sep = &quot;&quot;))
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM2$tconv.max &gt; 0.25){
+    try &lt;- try + 1
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM2 &lt;- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM2)
+    siena.table(ansM2, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM2_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    
+  }else{
+    siena.table(ansM2, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM2_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    print(paste(&quot;Reached convergence ratio of &quot;, ansM2$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}</code></pre>
+</div>
+<div id="model-3a" class="section level3">
+<h3>Model 3a</h3>
+<pre class="r"><code># Include influence effects (myeff3a: totAlt)
+
+try &lt;- 1
+iteration &lt;- 1
+
+ansM3a &lt;- siena07(myalgorithm, data = mydata, effects = myeff3a)
+siena.table(ansM3a, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;last.html&quot;, sep = &quot;&quot;))
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM3a$tconv.max &gt; 0.25){
+    try &lt;- try + 1
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM3a &lt;- siena07( myalgorithm, data = mydata, effects = myeff3a, prevAns= ansM3a)
+    siena.table(ansM3a, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM3a_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    
+  }else{
+    siena.table(ansM3a, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM3a_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    print(paste(&quot;Reached convergence ratio of &quot;, ansM3a$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}</code></pre>
+</div>
+<div id="model-3b" class="section level3">
+<h3>Model 3b</h3>
+<pre class="r"><code># Include influence effects (myeff3b: totSim)
+
+try &lt;- 1
+iteration &lt;- 1
+
+ansM3b &lt;- siena07(myalgorithm, data = mydata, effects = myeff3b)
+siena.table(ansM3b, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;last.html&quot;, sep = &quot;&quot;))
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM3b$tconv.max &gt; 0.25){
+    try &lt;- try + 1
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM3b &lt;- siena07( myalgorithm, data = mydata, effects = myeff3b, prevAns= ansM3b)
+    siena.table(ansM3b, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM3b_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    
+  }else{
+    siena.table(ansM3b, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM3b_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    print(paste(&quot;Reached convergence ratio of &quot;, ansM3b$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}</code></pre>
+</div>
+<div id="model-3c" class="section level3">
+<h3>Model 3c</h3>
+<pre class="r"><code># Include influence effects (myeff3c: totSimRecip)
+
+try &lt;- 1
+iteration &lt;- 1
+
+ansM3c &lt;- siena07(myalgorithm, data = mydata, effects = myeff3c)
+siena.table(ansM3c, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;last.html&quot;, sep = &quot;&quot;))
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM3c$tconv.max &gt; 0.25){
+    try &lt;- try + 1
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM3c &lt;- siena07( myalgorithm, data = mydata, effects = myeff3c, prevAns= ansM3c)
+    siena.table(ansM3c, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM3c_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    
+  }else{
+    siena.table(ansM3c, type=&quot;html&quot;, tstat=T, d=2, sig=T, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;ansM3c_&quot;, iteration, &quot;.html&quot;, sep=&quot;&quot;))
+    print(paste(&quot;Reached convergence ratio of &quot;, ansM3c$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}</code></pre>
+</div>
+</div>
+<div id="section-3" class="section level2 unnumbered">
+<h2></h2>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>Now let’s have a look at the results.</p>
+<div id="section-4" class="section level2 tabset tabset-fade">
+<h2></h2>
+<div id="model-1-1" class="section level3">
+<h3>Model 1</h3>
+<TABLE border=1  rules=none frame = hsides>
+<TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
+					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+<TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>constant kudonet rate (period 1)</TD><TD align="right">   1.14</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.55)</TD><TD align="right">.</TD></TR>
+<TR><TD>constant kudonet rate (period 2)</TD><TD align="right">   5.80</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 3.27)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>outdegree (density)             </TD><TD align="right">&nbsp;&ndash;2.58</TD><TD align="left">***</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.71)</TD><TD align="right">&nbsp;&ndash;3.64</TD></TR>
+<TR><TD>reciprocity                     </TD><TD align="right">   4.12</TD><TD align="left">***</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.11)</TD><TD align="right">  3.70</TD></TR>
+<TR><TD>transitive triplets             </TD><TD align="right">   0.54</TD><TD align="left">*</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.21)</TD><TD align="right">  2.53</TD></TR>
+<TR><TD>transitive recipr. triplets     </TD><TD align="right">&nbsp;&ndash;0.40</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.28)</TD><TD align="right">&nbsp;&ndash;1.40</TD></TR>
+<TR><TD>indegree - popularity           </TD><TD align="right">&nbsp;&ndash;0.06</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.09)</TD><TD align="right">&nbsp;&ndash;0.65</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+<TR> <TD colspan=4 align=left> Behaviour Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>rate time_run (period 1)        </TD><TD align="right">  10.64</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 5.32)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_run (period 2)        </TD><TD align="right">  19.61</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(13.68)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_run linear shape           </TD><TD align="right">&nbsp;&ndash;0.02</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.06)</TD><TD align="right">&nbsp;&ndash;0.27</TD></TR>
+<TR><TD>time_run quadratic shape        </TD><TD align="right">   0.05</TD><TD align="left">*</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.03)</TD><TD align="right">  1.96</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+
+<TR><TD>rate time_other (period 1)      </TD><TD align="right">  45.17</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(19.64)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_other (period 2)      </TD><TD align="right">  14.73</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(11.00)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_other linear shape         </TD><TD align="right">&nbsp;&ndash;0.38</TD><TD align="left">***</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.07)</TD><TD align="right">&nbsp;&ndash;5.78</TD></TR>
+<TR><TD>time_other quadratic shape      </TD><TD align="right">   0.08</TD><TD align="left">***</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.02)</TD><TD align="right">  4.28</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+</TABLE>
+<TABLE border=1  rules=none frame = below>
+<TR> <TD colspan=4 align=left> &#134 p < 0.1;
+							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+ <TR> <TD colspan=9 align=left>
+							all convergence t ratios < 0.13.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+							Overall maximum convergence ratio 0.23.</TD> </TR> <TR> </TR>
+</TABLE>
+</div>
+<div id="model-2-1" class="section level3">
+<h3>Model 2</h3>
+<TABLE border=1  rules=none frame = hsides>
+<TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
+					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+<TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>constant kudonet rate (period 1)</TD><TD align="right">   0.87</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(  0.89)</TD><TD align="right">.</TD></TR>
+<TR><TD>constant kudonet rate (period 2)</TD><TD align="right">   3.51</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(  4.17)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>outdegree (density)             </TD><TD align="right">&nbsp;&ndash;47.72</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(160.68)</TD><TD align="right">&nbsp;&ndash;0.30</TD></TR>
+<TR><TD>reciprocity                     </TD><TD align="right">  47.56</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(181.60)</TD><TD align="right">  0.26</TD></TR>
+<TR><TD>transitive triplets             </TD><TD align="right">   3.28</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 15.14)</TD><TD align="right">  0.22</TD></TR>
+<TR><TD>transitive recipr. triplets     </TD><TD align="right">   2.09</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 37.14)</TD><TD align="right">  0.06</TD></TR>
+<TR><TD>indegree - popularity           </TD><TD align="right">&nbsp;&ndash;0.70</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(  4.25)</TD><TD align="right">&nbsp;&ndash;0.17</TD></TR>
+<TR><TD>time_run alter                  </TD><TD align="right">&nbsp;&ndash;4.79</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 18.56)</TD><TD align="right">&nbsp;&ndash;0.26</TD></TR>
+<TR><TD>time_run ego                    </TD><TD align="right">&nbsp;&ndash;5.15</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 19.44)</TD><TD align="right">&nbsp;&ndash;0.26</TD></TR>
+<TR><TD>time_run abs. difference        </TD><TD align="right">   7.06</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 25.71)</TD><TD align="right">  0.27</TD></TR>
+<TR><TD>time_other alter                </TD><TD align="right">&nbsp;&ndash;3.75</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 12.92)</TD><TD align="right">&nbsp;&ndash;0.29</TD></TR>
+<TR><TD>time_other ego                  </TD><TD align="right">   1.71</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 15.31)</TD><TD align="right">  0.11</TD></TR>
+<TR><TD>time_other abs. difference      </TD><TD align="right">   0.34</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(  9.99)</TD><TD align="right">  0.03</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+<TR> <TD colspan=4 align=left> Behaviour Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>rate time_run (period 1)        </TD><TD align="right">  10.82</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 13.13)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_run (period 2)        </TD><TD align="right">  19.62</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 21.38)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_run linear shape           </TD><TD align="right">&nbsp;&ndash;0.02</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(  0.25)</TD><TD align="right">&nbsp;&ndash;0.07</TD></TR>
+<TR><TD>time_run quadratic shape        </TD><TD align="right">   0.05</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(  0.04)</TD><TD align="right">  1.40</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+
+<TR><TD>rate time_other (period 1)      </TD><TD align="right">  48.68</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 36.23)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_other (period 2)      </TD><TD align="right">  15.35</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 31.14)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_other linear shape         </TD><TD align="right">&nbsp;&ndash;0.38</TD><TD align="left">&#134</TD><TD align="right">&nbsp;&nbsp;&nbsp;(  0.22)</TD><TD align="right">&nbsp;&ndash;1.78</TD></TR>
+<TR><TD>time_other quadratic shape      </TD><TD align="right">   0.09</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(  0.09)</TD><TD align="right">  0.94</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+</TABLE>
+<TABLE border=1  rules=none frame = below>
+<TR> <TD colspan=4 align=left> &#134 p < 0.1;
+							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+ <TR> <TD colspan=9 align=left>
+							all convergence t ratios < 0.09.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+							Overall maximum convergence ratio 0.25.</TD> </TR> <TR> </TR>
+</TABLE>
+</div>
+<div id="model-3a-1" class="section level3">
+<h3>Model 3a</h3>
+<TABLE border=1  rules=none frame = hsides>
+<TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
+					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+<TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>constant kudonet rate (period 1)</TD><TD align="right">   0.98</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.23)</TD><TD align="right">.</TD></TR>
+<TR><TD>constant kudonet rate (period 2)</TD><TD align="right">   4.12</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.65)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>outdegree (density)             </TD><TD align="right">&nbsp;&ndash;10.40</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(38.22)</TD><TD align="right">&nbsp;&ndash;0.27</TD></TR>
+<TR><TD>reciprocity                     </TD><TD align="right">   9.85</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(35.77)</TD><TD align="right">  0.28</TD></TR>
+<TR><TD>transitive triplets             </TD><TD align="right">   0.73</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 2.30)</TD><TD align="right">  0.32</TD></TR>
+<TR><TD>transitive recipr. triplets     </TD><TD align="right">   0.38</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 2.48)</TD><TD align="right">  0.15</TD></TR>
+<TR><TD>indegree - popularity           </TD><TD align="right">&nbsp;&ndash;0.22</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.69)</TD><TD align="right">&nbsp;&ndash;0.31</TD></TR>
+<TR><TD>time_run alter                  </TD><TD align="right">&nbsp;&ndash;0.61</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 3.71)</TD><TD align="right">&nbsp;&ndash;0.17</TD></TR>
+<TR><TD>time_run ego                    </TD><TD align="right">&nbsp;&ndash;0.86</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 6.25)</TD><TD align="right">&nbsp;&ndash;0.14</TD></TR>
+<TR><TD>time_run abs. difference        </TD><TD align="right">   1.43</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 5.88)</TD><TD align="right">  0.24</TD></TR>
+<TR><TD>time_other alter                </TD><TD align="right">&nbsp;&ndash;0.51</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.67)</TD><TD align="right">&nbsp;&ndash;0.30</TD></TR>
+<TR><TD>time_other ego                  </TD><TD align="right">   0.46</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.15)</TD><TD align="right">  0.40</TD></TR>
+<TR><TD>time_other abs. difference      </TD><TD align="right">   0.20</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.17)</TD><TD align="right">  0.17</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+<TR> <TD colspan=4 align=left> Behaviour Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>rate time_run (period 1)        </TD><TD align="right">   9.22</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 9.75)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_run (period 2)        </TD><TD align="right">  14.48</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(41.66)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_run linear shape           </TD><TD align="right">&nbsp;&ndash;0.07</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.34)</TD><TD align="right">&nbsp;&ndash;0.21</TD></TR>
+<TR><TD>time_run quadratic shape        </TD><TD align="right">   0.04</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.06)</TD><TD align="right">  0.74</TD></TR>
+<TR><TD>time_run indegree               </TD><TD align="right">&nbsp;&ndash;0.31</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.74)</TD><TD align="right">&nbsp;&ndash;0.41</TD></TR>
+<TR><TD>time_run outdegree              </TD><TD align="right">   0.33</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.74)</TD><TD align="right">  0.45</TD></TR>
+<TR><TD>time_run total alter            </TD><TD align="right">&nbsp;&ndash;0.00</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.06)</TD><TD align="right">&nbsp;&ndash;0.05</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+
+<TR><TD>rate time_other (period 1)      </TD><TD align="right">  35.26</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(86.31)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_other (period 2)      </TD><TD align="right">  16.56</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(33.86)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_other linear shape         </TD><TD align="right">&nbsp;&ndash;0.31</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.56)</TD><TD align="right">&nbsp;&ndash;0.55</TD></TR>
+<TR><TD>time_other quadratic shape      </TD><TD align="right">   0.06</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.17)</TD><TD align="right">  0.37</TD></TR>
+<TR><TD>time_other indegree             </TD><TD align="right">&nbsp;&ndash;0.26</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.83)</TD><TD align="right">&nbsp;&ndash;0.14</TD></TR>
+<TR><TD>time_other outdegree            </TD><TD align="right">   0.23</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.68)</TD><TD align="right">  0.14</TD></TR>
+<TR><TD>time_other total alter          </TD><TD align="right">&nbsp;&ndash;0.02</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.03)</TD><TD align="right">&nbsp;&ndash;0.78</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+</TABLE>
+<TABLE border=1  rules=none frame = below>
+<TR> <TD colspan=4 align=left> &#134 p < 0.1;
+							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+ <TR> <TD colspan=9 align=left>
+							all convergence t ratios < 0.09.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+							Overall maximum convergence ratio 0.23.</TD> </TR> <TR> </TR>
+</TABLE>
+</div>
+<div id="model-3b-1" class="section level3">
+<h3>Model 3b</h3>
+<TABLE border=1  rules=none frame = hsides>
+<TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
+					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+<TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>constant kudonet rate (period 1)</TD><TD align="right">   1.00</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.54)</TD><TD align="right">.</TD></TR>
+<TR><TD>constant kudonet rate (period 2)</TD><TD align="right">   4.23</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 2.51)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>outdegree (density)             </TD><TD align="right">&nbsp;&ndash;9.70</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(38.39)</TD><TD align="right">&nbsp;&ndash;0.25</TD></TR>
+<TR><TD>reciprocity                     </TD><TD align="right">   9.25</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(31.77)</TD><TD align="right">  0.29</TD></TR>
+<TR><TD>transitive triplets             </TD><TD align="right">   0.75</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.85)</TD><TD align="right">  0.89</TD></TR>
+<TR><TD>transitive recipr. triplets     </TD><TD align="right">   0.27</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.67)</TD><TD align="right">  0.16</TD></TR>
+<TR><TD>indegree - popularity           </TD><TD align="right">&nbsp;&ndash;0.20</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.87)</TD><TD align="right">&nbsp;&ndash;0.23</TD></TR>
+<TR><TD>time_run alter                  </TD><TD align="right">&nbsp;&ndash;0.50</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 3.23)</TD><TD align="right">&nbsp;&ndash;0.15</TD></TR>
+<TR><TD>time_run ego                    </TD><TD align="right">&nbsp;&ndash;0.76</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.76)</TD><TD align="right">&nbsp;&ndash;0.43</TD></TR>
+<TR><TD>time_run abs. difference        </TD><TD align="right">   1.32</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 6.29)</TD><TD align="right">  0.21</TD></TR>
+<TR><TD>time_other alter                </TD><TD align="right">&nbsp;&ndash;0.45</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.74)</TD><TD align="right">&nbsp;&ndash;0.61</TD></TR>
+<TR><TD>time_other ego                  </TD><TD align="right">   0.46</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.75)</TD><TD align="right">  0.26</TD></TR>
+<TR><TD>time_other abs. difference      </TD><TD align="right">   0.16</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.52)</TD><TD align="right">  0.31</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+<TR> <TD colspan=4 align=left> Behaviour Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>rate time_run (period 1)        </TD><TD align="right">   9.45</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(22.85)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_run (period 2)        </TD><TD align="right">  12.81</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(27.35)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_run linear shape           </TD><TD align="right">&nbsp;&ndash;0.07</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.20)</TD><TD align="right">&nbsp;&ndash;0.35</TD></TR>
+<TR><TD>time_run quadratic shape        </TD><TD align="right">   0.05</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.06)</TD><TD align="right">  0.88</TD></TR>
+<TR><TD>time_run total similarity       </TD><TD align="right">   0.25</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.35)</TD><TD align="right">  0.18</TD></TR>
+<TR><TD>time_run indegree               </TD><TD align="right">&nbsp;&ndash;0.40</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 2.30)</TD><TD align="right">&nbsp;&ndash;0.17</TD></TR>
+<TR><TD>time_run outdegree              </TD><TD align="right">   0.41</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 2.27)</TD><TD align="right">  0.18</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+
+<TR><TD>rate time_other (period 1)      </TD><TD align="right">  35.54</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(20.90)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_other (period 2)      </TD><TD align="right">  16.89</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(26.58)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_other linear shape         </TD><TD align="right">&nbsp;&ndash;0.30</TD><TD align="left">&#134</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.16)</TD><TD align="right">&nbsp;&ndash;1.95</TD></TR>
+<TR><TD>time_other quadratic shape      </TD><TD align="right">   0.06</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.07)</TD><TD align="right">  0.91</TD></TR>
+<TR><TD>time_other total similarity     </TD><TD align="right">&nbsp;&ndash;0.37</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.47)</TD><TD align="right">&nbsp;&ndash;0.79</TD></TR>
+<TR><TD>time_other indegree             </TD><TD align="right">&nbsp;&ndash;0.26</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.60)</TD><TD align="right">&nbsp;&ndash;0.42</TD></TR>
+<TR><TD>time_other outdegree            </TD><TD align="right">   0.20</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.55)</TD><TD align="right">  0.38</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+</TABLE>
+<TABLE border=1  rules=none frame = below>
+<TR> <TD colspan=4 align=left> &#134 p < 0.1;
+							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+ <TR> <TD colspan=9 align=left>
+							all convergence t ratios < 0.06.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+							Overall maximum convergence ratio 0.23.</TD> </TR> <TR> </TR>
+</TABLE>
+</div>
+<div id="model-3c-1" class="section level3">
+<h3>Model 3c</h3>
+<TABLE border=1  rules=none frame = hsides>
+<TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
+					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+<TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>constant kudonet rate (period 1)  </TD><TD align="right">   0.98</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.43)</TD><TD align="right">.</TD></TR>
+<TR><TD>constant kudonet rate (period 2)  </TD><TD align="right">   4.17</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.22)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>outdegree (density)               </TD><TD align="right">&nbsp;&ndash;11.17</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(26.39)</TD><TD align="right">&nbsp;&ndash;0.42</TD></TR>
+<TR><TD>reciprocity                       </TD><TD align="right">  10.52</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;(25.08)</TD><TD align="right">  0.42</TD></TR>
+<TR><TD>transitive triplets               </TD><TD align="right">   0.77</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.14)</TD><TD align="right">  0.68</TD></TR>
+<TR><TD>transitive recipr. triplets       </TD><TD align="right">   0.48</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 2.99)</TD><TD align="right">  0.16</TD></TR>
+<TR><TD>indegree - popularity             </TD><TD align="right">&nbsp;&ndash;0.24</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.55)</TD><TD align="right">&nbsp;&ndash;0.43</TD></TR>
+<TR><TD>time_run alter                    </TD><TD align="right">&nbsp;&ndash;0.66</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 2.37)</TD><TD align="right">&nbsp;&ndash;0.28</TD></TR>
+<TR><TD>time_run ego                      </TD><TD align="right">&nbsp;&ndash;0.95</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 3.35)</TD><TD align="right">&nbsp;&ndash;0.28</TD></TR>
+<TR><TD>time_run abs. difference          </TD><TD align="right">   1.56</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 4.21)</TD><TD align="right">  0.37</TD></TR>
+<TR><TD>time_other alter                  </TD><TD align="right">&nbsp;&ndash;0.54</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.04)</TD><TD align="right">&nbsp;&ndash;0.52</TD></TR>
+<TR><TD>time_other ego                    </TD><TD align="right">   0.49</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 1.21)</TD><TD align="right">  0.41</TD></TR>
+<TR><TD>time_other abs. difference        </TD><TD align="right">   0.20</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.84)</TD><TD align="right">  0.24</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+<TR> <TD colspan=4 align=left> Behaviour Dynamics   </TD> </TR> <TR> </TR>
+
+<TR><TD>rate time_run (period 1)          </TD><TD align="right">   9.38</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(16.49)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_run (period 2)          </TD><TD align="right">  12.97</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 9.32)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_run linear shape             </TD><TD align="right">&nbsp;&ndash;0.07</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.13)</TD><TD align="right">&nbsp;&ndash;0.54</TD></TR>
+<TR><TD>time_run quadratic shape          </TD><TD align="right">   0.05</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.03)</TD><TD align="right">  1.47</TD></TR>
+<TR><TD>time_run indegree                 </TD><TD align="right">&nbsp;&ndash;0.36</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.47)</TD><TD align="right">&nbsp;&ndash;0.78</TD></TR>
+<TR><TD>time_run outdegree                </TD><TD align="right">   0.38</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.46)</TD><TD align="right">  0.82</TD></TR>
+<TR><TD>time_run tot. sim. x reciprocity  </TD><TD align="right">   0.16</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.64)</TD><TD align="right">  0.25</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+
+<TR><TD>rate time_other (period 1)        </TD><TD align="right">  36.90</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(48.90)</TD><TD align="right">.</TD></TR>
+<TR><TD>rate time_other (period 2)        </TD><TD align="right">  16.87</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(11.46)</TD><TD align="right">.</TD></TR>
+
+
+<TR><TD>time_other linear shape           </TD><TD align="right">&nbsp;&ndash;0.29</TD><TD align="left">*</TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.14)</TD><TD align="right">&nbsp;&ndash;2.04</TD></TR>
+<TR><TD>time_other quadratic shape        </TD><TD align="right">   0.06</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.06)</TD><TD align="right">  1.03</TD></TR>
+<TR><TD>time_other indegree               </TD><TD align="right">&nbsp;&ndash;0.28</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.72)</TD><TD align="right">&nbsp;&ndash;0.39</TD></TR>
+<TR><TD>time_other outdegree              </TD><TD align="right">   0.23</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.67)</TD><TD align="right">  0.34</TD></TR>
+<TR><TD>time_other tot. sim. x reciprocity</TD><TD align="right">&nbsp;&ndash;0.45</TD><TD align="left">                 </TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.57)</TD><TD align="right">&nbsp;&ndash;0.78</TD></TR>
+<TR> <TD colspan='9'><HR/></TD> </TR>
+</TABLE>
+<TABLE border=1  rules=none frame = below>
+<TR> <TD colspan=4 align=left> &#134 p < 0.1;
+							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+ <TR> <TD colspan=9 align=left>
+							all convergence t ratios < 0.09.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+							Overall maximum convergence ratio 0.22.</TD> </TR> <TR> </TR>
+</TABLE>
+</div>
+</div>
+<div id="section-5" class="section level2 unnumbered">
+<h2></h2>
+<p><br></p>
+<hr />
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlJTaWVuYTogRXhwbG9yYXRvcnkgYW5hbHlzZXMgIg0KZGF0ZTogIjE4LTEtMjAyMSINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQ0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KG1lc3NhZ2U9RkFMU0Usd2FybmluZz1GQUxTRSwgY2FjaGU9VFJVRSkNCmBgYA0KDQotLS0NCg0KV2UgYXJlIGdvaW5nIHRvIGV4cGxvcmUgdGhlIGJlc3QtZml0dGluZyBtb2RlbCBwYXJhbWV0ZXJzLiBXZSBhcmUgZ29pbmcgdG8gc3RhcnQgc21hbGwsIGZvY3VzaW5nIG9uIG9uZSBjbHViLCBhbmQgb24ganVzdCB0aHJlZSB0aW1lLXBvaW50cy4NCg0KLS0tLQ0KDQo8YnI+DQoNCiMgUHJlcGFyYXRpb24NCg0KQ2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQgYW5kIHNldCB0aGUgd29ya2luZyBkaXJlY3RvcnkuDQoNCmBgYHtyLCBhdHRyLm91dHB1dD0nc3R5bGU9Im1heC1oZWlnaHQ6IDIwMHB4OyInfQ0KIyBjbGVhbiB0aGUgd29ya2luZyBlbnZpcm9ubWVudCANCnJtIChsaXN0ID0gbHMoICkpDQoNCiMgc2V0IHRoZSB3b3JraW5nIGRpcmVjdG9yeQ0Kc2V0d2QoIkM6XFxVc2Vyc1xcdTI0NDE0N1xcRG9jdW1lbnRzXFxkaXNzZXJ0YXRpZVxcU3RyYXZhIGRhdGFcXGNsdWJzIikgDQpgYGANCg0KV2Ugd2lsbCBtYWtlIGEgbmV3IFJTaWVuYSBvYmplY3Q6DQoNCiogRGVwZW5kZW50IHZhcmlhYmxlczogS3Vkb3MsIHJ1bm5pbmcgdm9sdW1lLCBydW5uaW5nIGZyZXF1ZW5jeQ0KKiBDb25zdGFudCBjb3ZhcmlhdGU6IGZyaWVuZHNoaXBzIChkeWFkaWMpLCBnZW5kZXINCiogU3RhcnRpbmcgd2l0aCBvbmUgY2x1YiAoTj0zMCkNCiogQW5kIHVzaW5nIGRhdGEgb24gdGhyZWUgbW9udGhzOiB0MSwgdDYsIHQxMg0KDQotLS0tDQoNCjxicj4NCg0KIyBTdGVwIDE6IERhdGENCg0KYGBge3J9DQpsb2FkKCJjbHViZGF0YS5SZGF0YSIpICMgbG9hZCAocmF3KSBjbHViIGxpc3QNCmNsdWIgPC0gY2x1YmRhdGFbWzFdXSAjIGdyYWIgY2x1YiAxDQoNCiMgc3BlY2lmeSB2YXJpYWJsZSByb2xlcyBmb3IgUlNpZW5hIG9iamVjdA0KbGlicmFyeShSU2llbmEpDQoNCmt1ZG9uZXQgPC0gc2llbmFEZXBlbmRlbnQoY2x1YiRrdWRvWywsIGMoMSwgNiwgMTIpXSkNCnRpbWVfcnVuIDwtIHNpZW5hRGVwZW5kZW50KGNsdWIkdGltZV9ydW5bLCwgYygxLCA2LCAxMildLCB0eXBlPSAiYmVoYXZpb3IiKQ0KdGltZV9vdGhlciA8LSBzaWVuYURlcGVuZGVudChjbHViJHRpbWVfb3RoZXJbLCwgYygxLCA2LCAxMildLCB0eXBlPSAiYmVoYXZpb3IiKQ0KDQpmcmllbmRzaGlwIDwtIGNvRHlhZENvdmFyKGNsdWIkZnJpZW5kc2hpcCkNCg0KZ2VuZGVyIDwtIE5BDQpnZW5kZXIgPC0gaWZlbHNlKGNsdWIkbWFsZSA9PSAxLCAxLCBnZW5kZXIpDQpnZW5kZXIgPC0gaWZlbHNlKGNsdWIkZmVtYWxlID09IDEsIDIsIGdlbmRlcikNCmdlbmRlciA8LSBpZmVsc2UoY2x1YiRvdGhlciA9PSAxLCAzLCBnZW5kZXIpDQpnZW5kZXIgPC0gY29Db3ZhcihnZW5kZXIpDQoNCm15ZGF0YSA8LSBzaWVuYURhdGFDcmVhdGUoa3Vkb25ldCwgdGltZV9ydW4sIHRpbWVfb3RoZXIsIGZyaWVuZHNoaXAsIGdlbmRlcikNCmBgYA0KDQotLS0tDQoNCjxicj4NCg0KIyBTdGVwIDI6IEluc3BlY3QgZGF0YQ0KYGBge3IgZXZhbD1UfQ0KcHJpbnQwMVJlcG9ydChteWRhdGEpDQpgYGANCg0KQSB0ZXh0IGZpbGUgaXMgcHJpbnRlZCBpbiB0aGUgd29ya2luZyBkaXJlY3RvcnkuDQoNCiFbXShmaWxlcy9TaWVuYV90ZXN0LnR4dCkNCg0KLS0tLQ0KDQo8YnI+DQoNCiMgU3RlcCAzOiBEZWZpbmUgZWZmZWN0cw0KV2UgYXJlIGdvaW5nIHRvIGRlZmluZSBvdXIgJ215ZWZmJyBvYmplY3QgY29udGFpbmluZyB0aGUgbW9kZWwgcGFyYW1ldGVycy4gQSBsaXN0IG9mIGFsbCBhdmFpbGFibGUgZWZmZWN0cyBmb3IgdGhlIGdpdmVuIG9iamVjdCBjYW4gYmUgZGlzcGxheWVkIGluIGJyb3dzZXIgYnkgcmVxdWVzdGluZyBlZmZlY3RzRG9jdW1lbnRhdGlvbihteWVmZikuDQoNCmBgYHtyIGVjaG89VCwgcmVzdWx0cz0naGlkZSd9DQpteWVmZiA8LSBnZXRFZmZlY3RzKG15ZGF0YSkNCiNlZmZlY3RzRG9jdW1lbnRhdGlvbihteWVmZikNCmBgYA0KDQpGaXJzdCwgd2UgYXJlIGdvaW5nIHRvIGluY2x1ZGUgc3RydWN0dXJhbCBuZXR3b3JrIGVmZmVjdHMuDQoNCmBgYHtyIGVjaG89VCwgcmVzdWx0cz0naGlkZSd9DQojIFN0cnVjdHVyYWwgZWZmZWN0cw0KbXllZmYxIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmLCBpblBvcCwgdHJhbnNUcmlwLCB0cmFuc1JlY1RyaXAsIG5hbWU9Imt1ZG9uZXQiKQ0KYGBgDQoNClNlY29uZCwgd2UgaW5jbHVkZSBzZWxlY3Rpb24tZWZmZWN0cyAoaS5lLiB3aG8gc2VuZHMvcmVjZWl2ZXMgS3Vkb3MsIGFuZCBiZXR3ZWVuIHdob20gYXJlIEt1ZG9zIGV4Y2hhbmdlZD8pLiBXZSBpbmNsdWRlIGVmZmVjdHMgcmVmbGVjdGluZyBob21vcGhpbHkgdGVuZGVuY2llcyBpbiBLdWRvIGV4Y2hhbmdpbmcgYmFzZWQgb24gKGEpIGdlbmRlciBhbmQgKGIpIHRpbWUgc3BlbnQgb24gcnVubmluZyAvIGZyZXF1ZW5jeSBvZiBydW5uaW5nLiANCg0KYGBge3IgZWNobz1ULCByZXN1bHRzPSdoaWRlJ30NCiMgSG9tb3BoaWx5IHRlbmRlbmNpZXMgaW4gS3VkbyByZWxhdGlvbnMgd2l0aCByZXNwZWN0IHRvIGdlbmRlcg0KbXllZmYyIDwtIGluY2x1ZGVFZmZlY3RzKCBteWVmZjEsIHNhbWVYLCBuYW1lPSJrdWRvbmV0IiwgaW50ZXJhY3Rpb24xID0gImdlbmRlciIgKQ0KDQojIEhvbW9waGlseSB0ZW5kZW5jaWVzIGluIEt1ZG8gcmVsYXRpb25zIHdpdGggcmVzcGVjdCB0byBhY3Rpdml0eSBsZXZlbA0KbXllZmYyIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMiwgZWdvWCwgYWx0WCwgYWJzRGlmZlgsIG5hbWU9Imt1ZG9uZXQiLCBpbnRlcmFjdGlvbjEgPSAidGltZV9ydW4iKQ0KbXllZmYyIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMiwgZWdvWCwgYWx0WCwgYWJzRGlmZlgsIG5hbWU9Imt1ZG9uZXQiLCBpbnRlcmFjdGlvbjEgPSAidGltZV9vdGhlciIpDQpgYGANCg0KVGhpcmQsIGluIHRoZSBiZWhhdmlvcmFsIG1vZGVsLCB3ZSBpbmNsdWRlIHNvY2lhbCBpbmZsdWVuY2UgZWZmZWN0cyBvZiAoYSkgS3Vkb3MgKCpzb2NpYWwgc3VwcG9ydCopLCBhbmQgKGIpIGFsdGVycycgYWN0aXZpdHkgbGV2ZWwgKCdjb250YWdpb24nLCAqc29jaWFsIGNvbXBhcmlzb24qKS4NCg0KYGBge3IgZWNobz1ULCByZXN1bHRzPSdoaWRlJ30NCiMgS3Vkby1pbmRlZ3JlZSBlZmZlY3Qgb24gcnVubmluZyAgDQpteWVmZjMgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBpbmRlZywgb3V0ZGVnLCBuYW1lID0gInRpbWVfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKSAjIHdlIGFsc28gaW5jbHVkZSBvdXRkZWdyZWUgZWZmZWN0DQpteWVmZjMgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYzLCBpbmRlZywgb3V0ZGVnLCBuYW1lID0gInRpbWVfb3RoZXIiLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpDQoNCiMgU3Vic2V0IHRoaXMgbW9kZWwNCm15ZWZmMCA8LSBteWVmZjMNCg0KIyBUb3RhbCBhbHRlciBlZmZlY3Qgb24gcnVubmluZyANCm15ZWZmM2EgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYwLCB0b3RBbHQsIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpDQpteWVmZjNhIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmM2EsIHRvdEFsdCwgbmFtZSA9ICJ0aW1lX290aGVyIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKQ0KDQojIExldCdzIGFsc28gdHJ5IHRoZSB0b3RhbCBzaW1pbGFyaXR5IGVmZmVjdCANCm15ZWZmM2IgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYwLCB0b3RTaW0sIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpDQpteWVmZjNiIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmM2IsIHRvdFNpbSwgbmFtZSA9ICJ0aW1lX290aGVyIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKQ0KbXllZmYzYiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjNiLCB0b3RTaW0sIG5hbWUgPSAiZnJlcV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpDQoNCiMgQW5kIHdoeSBub3QgYWxzbyB0cnkgdGhlIHRvdGFsIHNpbWlsYXJpdHkgeCByZWNpcHJvY2l0eSBlZmZlY3QNCm15ZWZmM2MgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYwLCB0b3RTaW1SZWNpcCwgbmFtZSA9ICJ0aW1lX3J1biIsIGludGVyYWN0aW9uMSA9ICJrdWRvbmV0IikNCm15ZWZmM2MgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYzYywgdG90U2ltUmVjaXAsIG5hbWUgPSAidGltZV9vdGhlciIsIGludGVyYWN0aW9uMSA9ICJrdWRvbmV0IikNCmBgYA0KDQoqKk5vdGUqKjogYXMgb2YgeWV0LCBJIGFtIG5vdCBzdXJlIHdoZXRoZXIgdG8gaW5jbHVkZSB0aGUgdG90YWwgc2ltaWxhcml0eSBvciB0aGUgdG90YWwgYWx0ZXIgZWZmZWN0IChvciB0aGUgYXZlcmFnZS1lZmZlY3QgdmFyaWFudHMpLiBUaGlzIGNob2ljZSBoYXMgdG8gYmUgbWFkZSBib3RoIG9uIHRoZW9yZXRpY2FsIGdyb3VuZHMgYW5kIG9uIHRoZSBiYXNpcyBvZiBzdGF0aXN0aWNhbCBzaWduaWZpY2FuY2UuIA0KDQo8YnI+DQoNCk5vdyBjaGVjayB3aGljaCBlZmZlY3RzIGFyZSBpbmNsdWRlZCBpbiB0aGUgbXllZmYgb2JqZWN0Lg0KDQojIyB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KDQojIyMgU3RydWN0dXJhbCBlZmZlY3RzDQoNCmBgYHtyIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnfQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkgIyBpZ25vcmUgKHRoaXMgaXMgZm9yIHRoZSBodG1sIGZvcm1hdHRpbmcpDQpwcmludChteWVmZjEpDQpgYGANCg0KIyMjICsgU2VsZWN0aW9uIA0KDQpgYGB7ciBjbGFzcy5zb3VyY2UgPSAnZm9sZC1oaWRlJyB9DQpvcHRpb25zKHdpZHRoID0gMTAwKSAjIGlnbm9yZSAodGhpcyBpcyBmb3IgdGhlIGh0bWwgZm9ybWF0dGluZykNCnByaW50KG15ZWZmMikNCmBgYA0KDQojIyMgKyBJbmZsdWVuY2UgKHRvdGFsIG1vZGVsKTogdG90YWwgYWx0ZXINCg0KYGBge3IgY2xhc3Muc291cmNlID0gJ2ZvbGQtaGlkZScgfQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkgIyBpZ25vcmUgKHRoaXMgaXMgZm9yIHRoZSBodG1sIGZvcm1hdHRpbmcpDQpwcmludChteWVmZjNhKQ0KYGBgDQoNCiMjIyArIEluZmx1ZW5jZSAodG90YWwgbW9kZWwpOiB0b3RhbCBzaW1pbGFyaXR5DQoNCmBgYHtyIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnIH0NCm9wdGlvbnMod2lkdGggPSAxMDApICMgaWdub3JlICh0aGlzIGlzIGZvciB0aGUgaHRtbCBmb3JtYXR0aW5nKQ0KcHJpbnQobXllZmYzYikNCmBgYA0KDQojIyMgKyBJbmZsdWVuY2UgKHRvdGFsIG1vZGVsKTogdG90YWwgc2ltaWxhcml0eSB4IHJlY2lwcm9jaXR5DQoNCmBgYHtyIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnIH0NCm9wdGlvbnMod2lkdGggPSAxMDApICMgaWdub3JlICh0aGlzIGlzIGZvciB0aGUgaHRtbCBmb3JtYXR0aW5nKQ0KcHJpbnQobXllZmYzYykNCmBgYA0KDQojIyB7LX0NCg0KU2VlbXMgYWxscmlnaHQhDQoNCi0tLS0NCg0KPGJyPg0KDQojIFN0ZXAgNDogRGVmaW5lIGFsZ29yaXRobQ0KDQpgYGB7ciB9DQpteWFsZ29yaXRobSA8LSBzaWVuYUFsZ29yaXRobUNyZWF0ZShwcm9qbmFtZSA9ICJ0ZXN0IikNCmBgYA0KDQotLS0tDQoNCjxicj4NCg0KIyBTdGVwIDU6IEVzdGltYXRlIHRoZSBtb2RlbA0KDQpMZXQncyBlc3RpbWF0ZSB0aGUgbW9kZWxzLCBpbiB0aGUgZm9sbG93aW5nIG9yZGVyOg0KDQoxLiBPbmx5IHRoZSBzdHJ1Y3R1cmFsIGVmZmVjdHMuDQoyLiBJbmNsdWRlIHRoZSBzZWxlY3Rpb24gZWZmZWN0cy4NCjMuIEluY2x1ZGUgdGhlIGluZmx1ZW5jZSBlZmZlY3RzICh0aGUgdG90YWwgbW9kZWw7IHRoZSB0aHJlZSB2YXJpYW50cykNCg0KV2Ugd2lsbCBzYXZlIHRoZSByZXN1bHRzIGluIGEgaHRtbC10YWJsZSB1c2luZyB0aGUgc2llbmEudGFibGUoKS1mdW5jdGlvbiwgaW4gdGhlICdmaWxlcyctZm9sZGVyIGluIG91ciB3b3JraW5nIGRpcmVjdG9yeSAobWFrZSBzdXJlIHRvIGNyZWF0ZSBvbmUgbWFudWFsbHkpLiBXZSB3aWxsIHJ1biB0aGUgbW9kZWwgYXMgbWFueSB0aW1lcyBhcyBuZWNlc3NhcnksIHVudGlsIHdlIGdldCBhbiBhY2NlcHRhYmxlIGNvbnZlcmdlbmNlIHJhdGlvICg8IC4yNSkuDQoNCiMjIHsudGFic2V0IC50YWJzZXQtZmFkZX0gDQoNCiMjIyBNb2RlbCAxDQoNCmBgYHtyIGV2YWw9RkFMU0V9DQojIE9ubHkgdGhlIHN0cnVjdHVyYWwgZWZmZWN0cyAobXllZmYxKQ0KDQp0cnkgPC0gMQ0KaXRlcmF0aW9uIDwtIDENCg0KYW5zTTEgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmMSkNCnNpZW5hLnRhYmxlKGFuc00xLCB0eXBlPSJodG1sIiwgdHN0YXQ9VCwgZD0yLCBzaWc9VCwgZmlsZSA9IHBhc3RlKCJmaWxlcyIsICIvIiwgImxhc3QuaHRtbCIsIHNlcCA9ICIiKSkNCg0KIyB0aGUgZm9sbG93aW5nIHNjcmlwdCBsZXRzIHRoZSBtb2RlbCByZS1ydW4gdW50aWwgd2UgZ2V0IGEgZ29vZCBjb252ZXJnZW5jZSByYXRpbw0Kd2hpbGUgKFRSVUUpew0KICANCiAgaWYoYW5zTTEkdGNvbnYubWF4ID4gMC4yNSl7DQogICAgdHJ5IDwtIHRyeSArIDENCiAgICBwcmludChwYXN0ZSgiVHJ5OiIsIHRyeSwgc2VwPSIgIikpDQogICAgYW5zTTEgPC0gc2llbmEwNyggbXlhbGdvcml0aG0sIGRhdGEgPSBteWRhdGEsIGVmZmVjdHMgPSBteWVmZjEsIHByZXZBbnM9IGFuc00xKQ0KICAgIHNpZW5hLnRhYmxlKGFuc00xLCB0eXBlPSJodG1sIiwgdHN0YXQ9VCwgZD0yLCBzaWc9VCwgZmlsZSA9IHBhc3RlKCJmaWxlcyIsICIvIiwgImFuc00xXyIsIGl0ZXJhdGlvbiwgIi5odG1sIiwgc2VwPSIiKSkNCiAgICANCiAgfWVsc2V7DQogICAgc2llbmEudGFibGUoYW5zTTEsIHR5cGU9Imh0bWwiLCB0c3RhdD1ULCBkPTIsIHNpZz1ULCBmaWxlID0gcGFzdGUoImZpbGVzIiwgIi8iLCAiYW5zTTFfIiwgaXRlcmF0aW9uLCAiLmh0bWwiLCBzZXA9IiIpKQ0KICAgIHByaW50KHBhc3RlKCJSZWFjaGVkIGNvbnZlcmdlbmNlIHJhdGlvIG9mICIsIGFuc00xJHRjb252Lm1heCwgc2VwID0gIiIpKQ0KICAgIGJyZWFrDQogIH0NCn0NCmBgYA0KDQojIyMgTW9kZWwgMg0KDQpgYGB7ciBldmFsPUZBTFNFfQ0KIyBJbmNsdWRlIHNlbGVjdGlvbiBlZmZlY3RzIChteWVmZjIpDQoNCnRyeSA8LSAxDQppdGVyYXRpb24gPC0gMQ0KDQphbnNNMiA8LSBzaWVuYTA3KG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYyKQ0Kc2llbmEudGFibGUoYW5zTTIsIHR5cGU9Imh0bWwiLCB0c3RhdD1ULCBkPTIsIHNpZz1ULCBmaWxlID0gcGFzdGUoImZpbGVzIiwgIi8iLCAibGFzdC5odG1sIiwgc2VwID0gIiIpKQ0KDQojIHRoZSBmb2xsb3dpbmcgc2NyaXB0IGxldHMgdGhlIG1vZGVsIHJlLXJ1biB1bnRpbCB3ZSBnZXQgYSBnb29kIGNvbnZlcmdlbmNlIHJhdGlvDQp3aGlsZSAoVFJVRSl7DQogIA0KICBpZihhbnNNMiR0Y29udi5tYXggPiAwLjI1KXsNCiAgICB0cnkgPC0gdHJ5ICsgMQ0KICAgIHByaW50KHBhc3RlKCJUcnk6IiwgdHJ5LCBzZXA9IiAiKSkNCiAgICBhbnNNMiA8LSBzaWVuYTA3KCBteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmMiwgcHJldkFucz0gYW5zTTIpDQogICAgc2llbmEudGFibGUoYW5zTTIsIHR5cGU9Imh0bWwiLCB0c3RhdD1ULCBkPTIsIHNpZz1ULCBmaWxlID0gcGFzdGUoImZpbGVzIiwgIi8iLCAiYW5zTTJfIiwgaXRlcmF0aW9uLCAiLmh0bWwiLCBzZXA9IiIpKQ0KICAgIA0KICB9ZWxzZXsNCiAgICBzaWVuYS50YWJsZShhbnNNMiwgdHlwZT0iaHRtbCIsIHRzdGF0PVQsIGQ9Miwgc2lnPVQsIGZpbGUgPSBwYXN0ZSgiZmlsZXMiLCAiLyIsICJhbnNNMl8iLCBpdGVyYXRpb24sICIuaHRtbCIsIHNlcD0iIikpDQogICAgcHJpbnQocGFzdGUoIlJlYWNoZWQgY29udmVyZ2VuY2UgcmF0aW8gb2YgIiwgYW5zTTIkdGNvbnYubWF4LCBzZXAgPSAiIikpDQogICAgYnJlYWsNCiAgfQ0KfQ0KYGBgDQoNCiMjIyBNb2RlbCAzYQ0KDQpgYGB7ciBldmFsPUZBTFNFfQ0KIyBJbmNsdWRlIGluZmx1ZW5jZSBlZmZlY3RzIChteWVmZjNhOiB0b3RBbHQpDQoNCnRyeSA8LSAxDQppdGVyYXRpb24gPC0gMQ0KDQphbnNNM2EgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmM2EpDQpzaWVuYS50YWJsZShhbnNNM2EsIHR5cGU9Imh0bWwiLCB0c3RhdD1ULCBkPTIsIHNpZz1ULCBmaWxlID0gcGFzdGUoImZpbGVzIiwgIi8iLCAibGFzdC5odG1sIiwgc2VwID0gIiIpKQ0KDQojIHRoZSBmb2xsb3dpbmcgc2NyaXB0IGxldHMgdGhlIG1vZGVsIHJlLXJ1biB1bnRpbCB3ZSBnZXQgYSBnb29kIGNvbnZlcmdlbmNlIHJhdGlvDQp3aGlsZSAoVFJVRSl7DQogIA0KICBpZihhbnNNM2EkdGNvbnYubWF4ID4gMC4yNSl7DQogICAgdHJ5IDwtIHRyeSArIDENCiAgICBwcmludChwYXN0ZSgiVHJ5OiIsIHRyeSwgc2VwPSIgIikpDQogICAgYW5zTTNhIDwtIHNpZW5hMDcoIG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYzYSwgcHJldkFucz0gYW5zTTNhKQ0KICAgIHNpZW5hLnRhYmxlKGFuc00zYSwgdHlwZT0iaHRtbCIsIHRzdGF0PVQsIGQ9Miwgc2lnPVQsIGZpbGUgPSBwYXN0ZSgiZmlsZXMiLCAiLyIsICJhbnNNM2FfIiwgaXRlcmF0aW9uLCAiLmh0bWwiLCBzZXA9IiIpKQ0KICAgIA0KICB9ZWxzZXsNCiAgICBzaWVuYS50YWJsZShhbnNNM2EsIHR5cGU9Imh0bWwiLCB0c3RhdD1ULCBkPTIsIHNpZz1ULCBmaWxlID0gcGFzdGUoImZpbGVzIiwgIi8iLCAiYW5zTTNhXyIsIGl0ZXJhdGlvbiwgIi5odG1sIiwgc2VwPSIiKSkNCiAgICBwcmludChwYXN0ZSgiUmVhY2hlZCBjb252ZXJnZW5jZSByYXRpbyBvZiAiLCBhbnNNM2EkdGNvbnYubWF4LCBzZXAgPSAiIikpDQogICAgYnJlYWsNCiAgfQ0KfQ0KYGBgDQoNCiMjIyBNb2RlbCAzYg0KDQpgYGB7ciBldmFsPUZBTFNFfQ0KIyBJbmNsdWRlIGluZmx1ZW5jZSBlZmZlY3RzIChteWVmZjNiOiB0b3RTaW0pDQoNCnRyeSA8LSAxDQppdGVyYXRpb24gPC0gMQ0KDQphbnNNM2IgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmM2IpDQpzaWVuYS50YWJsZShhbnNNM2IsIHR5cGU9Imh0bWwiLCB0c3RhdD1ULCBkPTIsIHNpZz1ULCBmaWxlID0gcGFzdGUoImZpbGVzIiwgIi8iLCAibGFzdC5odG1sIiwgc2VwID0gIiIpKQ0KDQojIHRoZSBmb2xsb3dpbmcgc2NyaXB0IGxldHMgdGhlIG1vZGVsIHJlLXJ1biB1bnRpbCB3ZSBnZXQgYSBnb29kIGNvbnZlcmdlbmNlIHJhdGlvDQp3aGlsZSAoVFJVRSl7DQogIA0KICBpZihhbnNNM2IkdGNvbnYubWF4ID4gMC4yNSl7DQogICAgdHJ5IDwtIHRyeSArIDENCiAgICBwcmludChwYXN0ZSgiVHJ5OiIsIHRyeSwgc2VwPSIgIikpDQogICAgYW5zTTNiIDwtIHNpZW5hMDcoIG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYzYiwgcHJldkFucz0gYW5zTTNiKQ0KICAgIHNpZW5hLnRhYmxlKGFuc00zYiwgdHlwZT0iaHRtbCIsIHRzdGF0PVQsIGQ9Miwgc2lnPVQsIGZpbGUgPSBwYXN0ZSgiZmlsZXMiLCAiLyIsICJhbnNNM2JfIiwgaXRlcmF0aW9uLCAiLmh0bWwiLCBzZXA9IiIpKQ0KICAgIA0KICB9ZWxzZXsNCiAgICBzaWVuYS50YWJsZShhbnNNM2IsIHR5cGU9Imh0bWwiLCB0c3RhdD1ULCBkPTIsIHNpZz1ULCBmaWxlID0gcGFzdGUoImZpbGVzIiwgIi8iLCAiYW5zTTNiXyIsIGl0ZXJhdGlvbiwgIi5odG1sIiwgc2VwPSIiKSkNCiAgICBwcmludChwYXN0ZSgiUmVhY2hlZCBjb252ZXJnZW5jZSByYXRpbyBvZiAiLCBhbnNNM2IkdGNvbnYubWF4LCBzZXAgPSAiIikpDQogICAgYnJlYWsNCiAgfQ0KfQ0KYGBgDQoNCiMjIyBNb2RlbCAzYw0KDQpgYGB7ciBldmFsPUZBTFNFfQ0KIyBJbmNsdWRlIGluZmx1ZW5jZSBlZmZlY3RzIChteWVmZjNjOiB0b3RTaW1SZWNpcCkNCg0KdHJ5IDwtIDENCml0ZXJhdGlvbiA8LSAxDQoNCmFuc00zYyA8LSBzaWVuYTA3KG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYzYykNCnNpZW5hLnRhYmxlKGFuc00zYywgdHlwZT0iaHRtbCIsIHRzdGF0PVQsIGQ9Miwgc2lnPVQsIGZpbGUgPSBwYXN0ZSgiZmlsZXMiLCAiLyIsICJsYXN0Lmh0bWwiLCBzZXAgPSAiIikpDQoNCiMgdGhlIGZvbGxvd2luZyBzY3JpcHQgbGV0cyB0aGUgbW9kZWwgcmUtcnVuIHVudGlsIHdlIGdldCBhIGdvb2QgY29udmVyZ2VuY2UgcmF0aW8NCndoaWxlIChUUlVFKXsNCiAgDQogIGlmKGFuc00zYyR0Y29udi5tYXggPiAwLjI1KXsNCiAgICB0cnkgPC0gdHJ5ICsgMQ0KICAgIHByaW50KHBhc3RlKCJUcnk6IiwgdHJ5LCBzZXA9IiAiKSkNCiAgICBhbnNNM2MgPC0gc2llbmEwNyggbXlhbGdvcml0aG0sIGRhdGEgPSBteWRhdGEsIGVmZmVjdHMgPSBteWVmZjNjLCBwcmV2QW5zPSBhbnNNM2MpDQogICAgc2llbmEudGFibGUoYW5zTTNjLCB0eXBlPSJodG1sIiwgdHN0YXQ9VCwgZD0yLCBzaWc9VCwgZmlsZSA9IHBhc3RlKCJmaWxlcyIsICIvIiwgImFuc00zY18iLCBpdGVyYXRpb24sICIuaHRtbCIsIHNlcD0iIikpDQogICAgDQogIH1lbHNlew0KICAgIHNpZW5hLnRhYmxlKGFuc00zYywgdHlwZT0iaHRtbCIsIHRzdGF0PVQsIGQ9Miwgc2lnPVQsIGZpbGUgPSBwYXN0ZSgiZmlsZXMiLCAiLyIsICJhbnNNM2NfIiwgaXRlcmF0aW9uLCAiLmh0bWwiLCBzZXA9IiIpKQ0KICAgIHByaW50KHBhc3RlKCJSZWFjaGVkIGNvbnZlcmdlbmNlIHJhdGlvIG9mICIsIGFuc00zYyR0Y29udi5tYXgsIHNlcCA9ICIiKSkNCiAgICBicmVhaw0KICB9DQp9DQpgYGANCg0KIyMgey19DQoNCi0tLS0NCg0KPGJyPg0KDQojIFJlc3VsdHMNCk5vdyBsZXQncyBoYXZlIGEgbG9vayBhdCB0aGUgcmVzdWx0cy4NCg0KIyMgey50YWJzZXQgLnRhYnNldC1mYWRlfSANCg0KIyMjIE1vZGVsIDENCmBgYHtyLCBlY2hvPUZBTFNFfQ0KaHRtbHRvb2xzOjppbmNsdWRlSFRNTCgiZmlsZXMvYW5zTTFfMS5odG1sIikNCmBgYA0KDQojIyMgTW9kZWwgMg0KYGBge3IsIGVjaG89RkFMU0V9DQpodG1sdG9vbHM6OmluY2x1ZGVIVE1MKCJmaWxlcy9hbnNNMl8xLmh0bWwiKQ0KYGBgDQoNCiMjIyBNb2RlbCAzYQ0KYGBge3IsIGVjaG89RkFMU0V9DQpodG1sdG9vbHM6OmluY2x1ZGVIVE1MKCJmaWxlcy9hbnNNM2FfMS5odG1sIikNCmBgYA0KDQojIyMgTW9kZWwgM2INCmBgYHtyLCBlY2hvPUZBTFNFfQ0KaHRtbHRvb2xzOjppbmNsdWRlSFRNTCgiZmlsZXMvYW5zTTNiXzEuaHRtbCIpDQpgYGANCg0KIyMjIE1vZGVsIDNjDQpgYGB7ciwgZWNobz1GQUxTRX0NCmh0bWx0b29sczo6aW5jbHVkZUhUTUwoImZpbGVzL2Fuc00zY18xLmh0bWwiKQ0KYGBgDQoNCiMjIHstfQ0KDQo8YnI+IA0KDQoNCi0tLS0=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("expl.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

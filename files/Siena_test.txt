@@ -6,7 +6,7 @@ Filename is Siena.txt.
 
 This file contains primary output for SIENA project <<Siena>>.
 
-Date and time: 19/01/2021 17:12:16 
+Date and time: 19/01/2021 10:22:21 
 
 RSiena version 1.2-23 (12 01 2020)
 
@@ -21,7 +21,7 @@ Data input.
 0 dependent bipartite variables,
 2 dependent discrete behavior variables,
 0 dependent continuous behavior variables,
-3 constant actor covariates,
+0 constant actor covariates,
 0 exogenous changing actor covariates,
 1 constant dyadic covariates,
 0 exogenous changing dyadic covariates,
@@ -97,7 +97,7 @@ Reading dependent actor variables.
 1st dependent actor variable named time_run.
 Maximum and minimum rounded values are 0 and 7.
 
-2nd dependent actor variable named freq_run.
+2nd dependent actor variable named time_other.
 Maximum and minimum rounded values are 0 and 7.
 
 
@@ -106,36 +106,12 @@ A total of 2 dependent actor variables.
 Number of missing cases per observation:
  observation         1         2         3		overall
 time_run             0         0         0         0	  ( 0.0 %)
-freq_run             0         0         0         0	  ( 0.0 %)
+time_other           0         0         0         0	  ( 0.0 %)
 
 Means per observation:
  observation         1         2         3		overall
 time_run           3.500     2.700     3.900     3.367
-freq_run           2.033     1.767     2.300     2.033
-
-@2
-Reading constant actor covariates.
-----------------------------------
-
-3 variables, named:
-male            
-female          
-other           
-
-A total of 3 non-changing individual covariates.
-
-Number of missing cases:
-male            0 	( 0.0 %)
-female          0 	( 0.0 %)
-other           0 	( 0.0 %)
-
-Information about covariates:
-               minimum  maximum	  mean  centered 
-male            0.0     1.0      0.567    Y 
-female          0.0     1.0      0.300    Y 
-other           0.0     1.0      0.100    Y 
-The mean values are subtracted from the covariates.
-
+time_other         1.333     2.733     1.567     1.878
 
 @2
 Reading constant dyadic covariates.
@@ -162,11 +138,8 @@ balance calculations is         0.1291.
 For the similarity variable calculated from each actor covariate,
 the mean is subtracted.
 These means are:
-Similarity male                     :       0.4920 
-Similarity female                   :       0.5655 
-Similarity other                    :       0.8138 
 Similarity time_run                 :       0.6079 
-Similarity freq_run                 :       0.7622 
+Similarity time_other               :       0.6424 
 
 
 
@@ -236,18 +209,18 @@ values               1     2     3
   6                  1     2     6
   7                  5     4     6
 No missings
-Dependent actor variable 3: freq_run
+Dependent actor variable 3: time_other
                 Observations
 values               1     2     3
                 ------------------
-  0                  6     7     5
-  1                  4     9     4
-  2                  6     7     7
-  3                 12     4     8
-  4                  1     1     4
-  5                  1     0     1
-  6                  0     0     1
-  7                  0     2     0
+  0                 18    10    17
+  1                  2     1     1
+  2                  4     6     2
+  3                  2     3     4
+  4                  1     3     4
+  5                  0     0     0
+  6                  1     1     0
+  7                  2     6     2
 No missings
 
 
@@ -261,11 +234,11 @@ Dependent actor variable 2: time_run
   2  =>  3             7    12      11         0                   11    47    58
 
 For this variable, the standard initial behavioral tendency parameter is   0.0298
-Dependent actor variable 3: freq_run
+Dependent actor variable 3: time_other
  periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
-  1  =>  2            10     6      14         0                   18    10    28
-  2  =>  3             9    13       8         0                   15    31    46
+  1  =>  2             3    16      11         0                    7    49    56
+  2  =>  3            15     3      12         0                   41     6    47
 
-For this variable, the standard initial behavioral tendency parameter is   0.0435
+For this variable, the standard initial behavioral tendency parameter is   0.0189
 
 Initialisation of project <<Siena>> executed succesfully.

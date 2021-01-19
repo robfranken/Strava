@@ -6,4 +6,6 @@ navbar:
       href: index.html
     - text: "Descriptives"
       href: des.html
+    - text: "RSiena 1"
+      href: expl.html
 output_dir: "docs"

@@ -1721,7 +1721,7 @@ Interestingly,  tendencies towards gender homophily seem greater in the Kudo net
 # Activity level 
 ## 1. Running {.tabset .tabset-fade}
 
-We will describe the running activities of the club-members, in terms of times per week (0-7) and minutes per week (for time we also used categories 0-7, with 0 being 0 minutes, and 7 being more than 720 minutes. First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time, seperately for men and women.  
+We will describe the running activities of the club-members, in terms of times per week (0-7) and minutes per week (for time we also used categories 0-7, with 0 being 0 minutes, and 7 being more than 720 minutes. First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
 
 ### Club 1
 ```{r class.source = 'fold-hide'}
