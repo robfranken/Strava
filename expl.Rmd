@@ -217,7 +217,6 @@ We will save the results in a html-table using the siena.table()-function, in th
 # Only the structural effects (myeff1)
 
 try <- 1
-iteration <- 1
 
 ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff1)
 siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
@@ -229,10 +228,10 @@ while (TRUE){
     try <- try + 1
     print(paste("Try:", try, sep=" "))
     ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff1, prevAns= ansM1)
-    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", iteration, ".html", sep=""))
+    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", iteration, ".html", sep=""))
+    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", try, ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM1$tconv.max, sep = ""))
     break
   }
@@ -245,7 +244,6 @@ while (TRUE){
 # Include selection effects (myeff2)
 
 try <- 1
-iteration <- 1
 
 ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff2)
 siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
@@ -257,10 +255,10 @@ while (TRUE){
     try <- try + 1
     print(paste("Try:", try, sep=" "))
     ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM2)
-    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", iteration, ".html", sep=""))
+    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", iteration, ".html", sep=""))
+    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", try, ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM2$tconv.max, sep = ""))
     break
   }
@@ -273,7 +271,6 @@ while (TRUE){
 # Include influence effects (myeff3a: totAlt)
 
 try <- 1
-iteration <- 1
 
 ansM3a <- siena07(myalgorithm, data = mydata, effects = myeff3a)
 siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
@@ -285,10 +282,10 @@ while (TRUE){
     try <- try + 1
     print(paste("Try:", try, sep=" "))
     ansM3a <- siena07( myalgorithm, data = mydata, effects = myeff3a, prevAns= ansM3a)
-    siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3a_", iteration, ".html", sep=""))
+    siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3a_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3a_", iteration, ".html", sep=""))
+    siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3a_", try, ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM3a$tconv.max, sep = ""))
     break
   }
@@ -301,7 +298,6 @@ while (TRUE){
 # Include influence effects (myeff3b: totSim)
 
 try <- 1
-iteration <- 1
 
 ansM3b <- siena07(myalgorithm, data = mydata, effects = myeff3b)
 siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
@@ -313,10 +309,10 @@ while (TRUE){
     try <- try + 1
     print(paste("Try:", try, sep=" "))
     ansM3b <- siena07( myalgorithm, data = mydata, effects = myeff3b, prevAns= ansM3b)
-    siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3b_", iteration, ".html", sep=""))
+    siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3b_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3b_", iteration, ".html", sep=""))
+    siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3b_", try, ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM3b$tconv.max, sep = ""))
     break
   }
@@ -329,7 +325,6 @@ while (TRUE){
 # Include influence effects (myeff3c: totSimRecip)
 
 try <- 1
-iteration <- 1
 
 ansM3c <- siena07(myalgorithm, data = mydata, effects = myeff3c)
 siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
@@ -341,10 +336,10 @@ while (TRUE){
     try <- try + 1
     print(paste("Try:", try, sep=" "))
     ansM3c <- siena07( myalgorithm, data = mydata, effects = myeff3c, prevAns= ansM3c)
-    siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3c_", iteration, ".html", sep=""))
+    siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3c_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3c_", iteration, ".html", sep=""))
+    siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3c_", try, ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM3c$tconv.max, sep = ""))
     break
   }

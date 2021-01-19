@@ -71,11 +71,11 @@ myalgorithm <- sienaAlgorithmCreate(projname = "test")
 # estimate
 
 
-try <- 1
-iteration <- 1
+try <- 4
 
-ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff2)
-siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
+
+ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff1)
+siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
 
 #In case we want to run the model as many times as it is necessary until we get a good convergence ratio.
 while (TRUE){
@@ -83,11 +83,11 @@ while (TRUE){
   if(ansM2$tconv.max > 0.25){
     try <- try + 1
     print(paste("Try:", try, sep=" "))
-    ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM2)
-    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", iteration, ".html", sep=""))
+    ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff1, prevAns= ansM1)
+    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", iteration, ".html", sep=""))
+    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", try, ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM2$tconv.max, sep = ""))
     break
   }
