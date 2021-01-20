@@ -1,0 +1,13 @@
+base
+RSiena
+igraph
+ggplot2
+forcats
+dplyr
+tidyverse
+tibble
+tidyr
+readr
+purrr
+stringr
+moments

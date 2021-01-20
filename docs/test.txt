@@ -1,0 +1,2035 @@
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:03:36
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 454694.
+Effects object used: myeff1 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8335
+  2. rate:  constant kudonet rate (period 2)                3.3823
+  3. eval:  outdegree (density)                            -0.4777
+  4. eval:  reciprocity                                     0.0000
+  5. eval:  transitive triplets                             0.0000
+  6. eval:  transitive recipr. triplets                     0.0000
+  7. eval:  indegree - popularity                           0.0000
+  8. rate:  rate time_run (period 1)                        4.5793
+  9. rate:  rate time_run (period 2)                        6.9931
+ 10. eval:  time_run linear shape                           0.0298
+ 11. eval:  time_run quadratic shape                        0.0000
+ 12. rate:  rate time_other (period 1)                      5.4207
+ 13. rate:  rate time_other (period 2)                      3.7299
+ 14. eval:  time_other linear shape                         0.0189
+ 15. eval:  time_other quadratic shape                      0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Amount of behavioral change in period 1 on time_run                 48.0000
+  9. Amount of behavioral change in period 2 on time_run                 58.0000
+ 10. time_run centered sum                                               -4.0000
+ 11. time_run sum of cent. squares                                      376.8667
+ 12. Amount of behavioral change in period 1 on time_other               56.0000
+ 13. Amount of behavioral change in period 2 on time_other               47.0000
+ 14. time_other centered sum                                             16.3333
+ 15. time_other sum of cent. squares                                    364.0963
+
+ 15 parameters, 15 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 3266 iterations.
+Parameter estimates based on 2266 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -0.0420   3.4992  -0.0120 
+  2.  -0.1900   8.0079  -0.0237 
+  3.   0.1920  11.9152   0.0161 
+  4.   0.1900  11.3317   0.0168 
+  5.  -0.2290 118.9497  -0.0019 
+  6.  -0.3680 110.6531  -0.0033 
+  7.  -0.2720 152.7895  -0.0018 
+  8.  -0.6400   7.2482  -0.0883 
+  9.  -0.3770   8.7780  -0.0429 
+ 10.  -0.6790  16.1628  -0.0420 
+ 11.  -1.1751  34.8760  -0.0337 
+ 12.   0.6710  10.6570   0.0630 
+ 13.   0.0450   7.7046   0.0058 
+ 14.  -0.5060  15.9420  -0.0317 
+ 15.   0.5603  55.3793   0.0101 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.1742 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 3266 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        1.1145  (   0.4136)
+ 2. rate:  constant kudonet rate (period 2)                        5.7182  (   1.6854)
+ 3. eval:  outdegree (density)                                    -2.5622  (   0.5388)
+ 4. eval:  reciprocity                                             4.1349  (   1.0639)
+ 5. eval:  transitive triplets                                     0.5424  (   0.2074)
+ 6. eval:  transitive recipr. triplets                            -0.3984  (   0.3267)
+ 7. eval:  indegree - popularity                                  -0.0612  (   0.1017)
+
+Behavior Dynamics
+ 8. rate:  <1> rate time_run (period 1)                           10.4218  (   2.9019)
+ 9. rate:  <1> rate time_run (period 2)                           19.7557  (  18.1673)
+10. eval:  <1> time_run linear shape                              -0.0162  (   0.0545)
+11. eval:  <1> time_run quadratic shape                            0.0529  (   0.0286)
+12. rate:  <2> rate time_other (period 1)                         50.0413  (  10.6570)
+13. rate:  <2> rate time_other (period 2)                         15.1582  (  11.6459)
+14. eval:  <2> time_other linear shape                            -0.3883  (   0.0648)
+15. eval:  <2> time_other quadratic shape                          0.0868  (   0.0188)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.171      0.076     -0.045      0.123      0.012     -0.017     -0.004     -0.318     -1.032      0.000     -0.001     -0.060     -0.733     -0.001      0.000
+     0.108      2.841     -0.229      0.324     -0.002     -0.033     -0.008     -0.331     -9.326      0.001     -0.011     -0.498     -2.121      0.009      0.002
+    -0.201     -0.252      0.290     -0.302     -0.058      0.096     -0.026      0.210     -1.614      0.002     -0.002      0.124     -0.929     -0.001      0.000
+     0.280      0.181     -0.526      1.132      0.131     -0.194     -0.036     -0.316     -5.845     -0.004     -0.008     -0.550     -6.350     -0.014      0.002
+     0.145     -0.005     -0.519      0.595      0.043     -0.064      0.000      0.009      1.335     -0.001      0.002     -0.085      0.241      0.000      0.000
+    -0.129     -0.059      0.545     -0.558     -0.941      0.107     -0.006      0.002     -2.463      0.003     -0.003      0.124     -0.632      0.000      0.000
+    -0.106     -0.050     -0.484     -0.330     -0.015     -0.173      0.010     -0.016      1.139     -0.001      0.001      0.015      0.791      0.001      0.000
+    -0.265     -0.068      0.134     -0.103      0.014      0.002     -0.055      8.421      3.347      0.012      0.006      0.196      2.345      0.000     -0.004
+    -0.137     -0.305     -0.165     -0.302      0.354     -0.415      0.617      0.063    330.052     -0.204      0.403      1.141    160.915      0.165     -0.043
+     0.009      0.013      0.074     -0.073     -0.117      0.152     -0.099      0.077     -0.206      0.003      0.000      0.018      0.029      0.000      0.000
+    -0.109     -0.225     -0.121     -0.249      0.264     -0.290      0.473      0.076      0.776     -0.108      0.001     -0.014      0.189      0.000      0.000
+    -0.014     -0.028      0.022     -0.049     -0.038      0.036      0.013      0.006      0.006      0.031     -0.046    113.572      4.136      0.195      0.004
+    -0.152     -0.108     -0.148     -0.513      0.100     -0.166      0.668      0.069      0.761      0.045      0.567      0.033    135.627      0.252     -0.032
+    -0.031      0.082     -0.043     -0.205     -0.031      0.002      0.203     -0.002      0.140      0.065      0.047      0.282      0.334      0.004     -0.001
+    -0.014      0.058      0.003      0.088     -0.036      0.049     -0.107     -0.073     -0.125     -0.019     -0.036      0.019     -0.147     -0.626      0.000
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 23.87 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:04:00
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 63555.
+Effects object used: myeff2 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8335
+  2. rate:  constant kudonet rate (period 2)                3.3823
+  3. eval:  outdegree (density)                            -0.4777
+  4. eval:  reciprocity                                     0.0000
+  5. eval:  transitive triplets                             0.0000
+  6. eval:  transitive recipr. triplets                     0.0000
+  7. eval:  indegree - popularity                           0.0000
+  8. eval:  same gender                                     0.0000
+  9. eval:  time_run alter                                  0.0000
+ 10. eval:  time_run ego                                    0.0000
+ 11. eval:  time_run abs. difference                        0.0000
+ 12. eval:  time_other alter                                0.0000
+ 13. eval:  time_other ego                                  0.0000
+ 14. eval:  time_other abs. difference                      0.0000
+ 15. rate:  rate time_run (period 1)                        4.5793
+ 16. rate:  rate time_run (period 2)                        6.9931
+ 17. eval:  time_run linear shape                           0.0298
+ 18. eval:  time_run quadratic shape                        0.0000
+ 19. rate:  rate time_other (period 1)                      5.4207
+ 20. rate:  rate time_other (period 2)                      3.7299
+ 21. eval:  time_other linear shape                         0.0189
+ 22. eval:  time_other quadratic shape                      0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. Amount of behavioral change in period 1 on time_other               56.0000
+ 20. Amount of behavioral change in period 2 on time_other               47.0000
+ 21. time_other centered sum                                             16.3333
+ 22. time_other sum of cent. squares                                    364.0963
+
+ 22 parameters, 22 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 3751 iterations.
+Parameter estimates based on 2751 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.0320   3.6108   0.0089 
+  2.  -0.0210   7.9342  -0.0026 
+  3.   0.9670  12.0910   0.0800 
+  4.  -0.5700  11.5736  -0.0492 
+  5.   1.0540  99.6767   0.0106 
+  6.  -0.6040  90.9744  -0.0066 
+  7.   1.9030 150.5296   0.0126 
+  8.   0.1100   7.0835   0.0155 
+  9.  -0.9816  17.9365  -0.0547 
+ 10.   0.8604  17.0749   0.0504 
+ 11.   1.1060  42.1729   0.0262 
+ 12.   0.0742  21.2228   0.0035 
+ 13.   1.2402  22.1462   0.0560 
+ 14.   1.5100  39.1446   0.0386 
+ 15.  -0.1520   7.2601  -0.0209 
+ 16.  -0.3880   9.3448  -0.0415 
+ 17.   0.4560  16.2259   0.0281 
+ 18.   1.7876  34.9554   0.0511 
+ 19.  -0.1280  10.6891  -0.0120 
+ 20.  -0.2060   7.8054  -0.0264 
+ 21.  -1.7100  15.8734  -0.1077 
+ 22.  -5.0120  53.7388  -0.0933 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.5503 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 3751 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.8475  (   0.6701)
+ 2. rate:  constant kudonet rate (period 2)                        3.4441  (   1.1747)
+ 3. eval:  outdegree (density)                                   -15.2404  ( 176.5934)
+ 4. eval:  reciprocity                                            14.2553  ( 182.3966)
+ 5. eval:  transitive triplets                                     1.1499  (   6.6836)
+ 6. eval:  transitive recipr. triplets                             0.8071  (  23.3090)
+ 7. eval:  indegree - popularity                                  -0.2573  (   1.8140)
+ 8. eval:  same gender                                            -1.5082  (  12.9543)
+ 9. eval:  time_run alter                                         -1.4252  (  21.6017)
+10. eval:  time_run ego                                           -1.4995  (  23.7279)
+11. eval:  time_run abs. difference                                2.3166  (  27.1592)
+12. eval:  time_other alter                                       -1.0943  (  14.2118)
+13. eval:  time_other ego                                          0.6290  (   9.1647)
+14. eval:  time_other abs. difference                              0.2356  (   2.3242)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                           10.6612  (  15.5505)
+16. rate:  <1> rate time_run (period 2)                           19.3196  (  10.3723)
+17. eval:  <1> time_run linear shape                              -0.0134  (   0.1978)
+18. eval:  <1> time_run quadratic shape                            0.0533  (   0.0340)
+19. rate:  <2> rate time_other (period 1)                         48.8796  (  37.4122)
+20. rate:  <2> rate time_other (period 2)                         14.9912  (  32.1138)
+21. eval:  <2> time_other linear shape                            -0.3885  (   0.2379)
+22. eval:  <2> time_other quadratic shape                          0.0862  (   0.0576)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.449      0.376    -89.064     91.702      3.149     12.099     -0.911     -6.583    -10.900    -11.888     13.733     -7.121      4.732     -1.008      8.092     -1.447      0.097      0.000     19.519    -11.956     -0.115      0.028
+     0.478      1.380   -122.155    129.868      4.200     15.858     -1.019     -8.798    -14.881    -16.781     18.762     -9.917      6.919     -1.972      9.102      3.357      0.122      0.017      7.413     -8.103     -0.161      0.041
+    -0.753     -0.589  31185.223 -32179.484  -1148.220  -4088.119    304.824   2260.610   3813.642   4180.729  -4795.645   2501.695  -1599.795    343.705  -2445.085    206.060    -33.175     -1.653  -3495.206   4260.289     40.118     -9.406
+     0.750      0.606     -0.999  33268.519   1180.887   4217.889   -311.839  -2336.159  -3935.577  -4322.763   4948.733  -2582.640   1657.914   -363.122   2506.533   -158.639     34.079      1.867   3499.439  -4275.580    -41.387      9.752
+     0.703      0.535     -0.973      0.969     44.670    146.946    -11.812    -81.910   -140.030   -152.234    176.481    -92.694     57.863    -11.579     91.081    -12.517      1.232      0.056    127.376   -177.934     -1.482      0.332
+     0.775      0.579     -0.993      0.992      0.943    543.307    -39.524   -298.817   -500.651   -549.975    628.862   -327.163    210.902    -45.895    323.012    -29.221      4.355      0.195    489.703   -540.399     -5.259      1.253
+    -0.750     -0.478      0.952     -0.942     -0.974     -0.935      3.291     21.730     37.160     40.191    -46.889     24.652    -15.286      2.868    -25.691      5.733     -0.335     -0.008    -43.140     50.906      0.399     -0.088
+    -0.758     -0.578      0.988     -0.989     -0.946     -0.990      0.925    167.815    276.802    304.190   -347.888    180.412   -116.850     25.276   -176.018     16.726     -2.391     -0.109   -256.865    287.749      2.883     -0.690
+    -0.753     -0.586      1.000     -0.999     -0.970     -0.994      0.948      0.989    466.635    511.680   -586.491    305.682   -195.702     42.228   -298.574     25.014     -4.055     -0.200   -427.896    517.737      4.900     -1.153
+    -0.748     -0.602      0.998     -0.999     -0.960     -0.994      0.934      0.990      0.998    563.011   -642.989    335.002   -215.434     47.586   -324.396     17.326     -4.409     -0.243   -454.571    543.794      5.365     -1.274
+     0.755      0.588     -1.000      0.999      0.972      0.993     -0.952     -0.989     -1.000     -0.998    737.624   -384.479    246.141    -52.946    376.490    -32.132      5.100      0.251    541.689   -653.001     -6.170      1.449
+    -0.748     -0.594      0.997     -0.996     -0.976     -0.988      0.956      0.980      0.996      0.993     -0.996    201.975   -128.437     27.614   -196.993     15.182     -2.664     -0.144   -278.300    349.579      3.233     -0.749
+     0.770      0.643     -0.988      0.992      0.945      0.987     -0.919     -0.984     -0.989     -0.991      0.989     -0.986     83.991    -18.988    125.875     -5.802      1.686      0.100    175.184   -199.942     -2.066      0.492
+    -0.647     -0.722      0.837     -0.857     -0.745     -0.847      0.680      0.839      0.841      0.863     -0.839      0.836     -0.891      5.402    -25.031     -6.499     -0.341     -0.042    -26.328     27.587      0.443     -0.114
+     0.777      0.498     -0.890      0.884      0.876      0.891     -0.911     -0.874     -0.889     -0.879      0.891     -0.891      0.883     -0.693    241.817    -39.770      2.682      0.031    400.954   -370.528     -3.300      0.746
+    -0.208      0.276      0.112     -0.084     -0.181     -0.121      0.305      0.124      0.112      0.070     -0.114      0.103     -0.061     -0.270     -0.247    107.585     -0.479      0.226   -164.054    154.834      0.319     -0.029
+     0.731      0.524     -0.950      0.945      0.932      0.945     -0.932     -0.933     -0.949     -0.939      0.949     -0.948      0.930     -0.742      0.872     -0.234      0.039      0.001      3.982     -5.080     -0.043      0.010
+    -0.005      0.431     -0.275      0.301      0.248      0.246     -0.124     -0.247     -0.273     -0.301      0.272     -0.299      0.320     -0.532      0.059      0.641      0.183      0.001     -0.456      0.046     -0.002      0.000
+     0.779      0.169     -0.529      0.513      0.509      0.562     -0.636     -0.530     -0.529     -0.512      0.533     -0.523      0.511     -0.303      0.689     -0.423      0.538     -0.359   1399.669   -656.833     -4.745      1.145
+    -0.556     -0.215      0.751     -0.730     -0.829     -0.722      0.874      0.692      0.746      0.714     -0.749      0.766     -0.679      0.370     -0.742      0.465     -0.800      0.042     -0.547   1031.294      5.745     -1.093
+    -0.723     -0.576      0.955     -0.954     -0.932     -0.948      0.925      0.935      0.953      0.950     -0.955      0.956     -0.948      0.802     -0.892      0.129     -0.921     -0.243     -0.533      0.752      0.057     -0.013
+     0.724      0.599     -0.924      0.928      0.861      0.932     -0.844     -0.924     -0.926     -0.931      0.926     -0.915      0.932     -0.848      0.833     -0.048      0.869      0.252      0.531     -0.590     -0.938      0.003
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 27.58 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:04:28
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 919371.
+Effects object used: myeff2 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8475
+  2. rate:  constant kudonet rate (period 2)                3.4441
+  3. eval:  outdegree (density)                           -15.2404
+  4. eval:  reciprocity                                    14.2553
+  5. eval:  transitive triplets                             1.1499
+  6. eval:  transitive recipr. triplets                     0.8071
+  7. eval:  indegree - popularity                          -0.2573
+  8. eval:  same gender                                    -1.5082
+  9. eval:  time_run alter                                 -1.4252
+ 10. eval:  time_run ego                                   -1.4995
+ 11. eval:  time_run abs. difference                        2.3166
+ 12. eval:  time_other alter                               -1.0943
+ 13. eval:  time_other ego                                  0.6290
+ 14. eval:  time_other abs. difference                      0.2356
+ 15. rate:  rate time_run (period 1)                       10.6612
+ 16. rate:  rate time_run (period 2)                       19.3196
+ 17. eval:  time_run linear shape                          -0.0134
+ 18. eval:  time_run quadratic shape                        0.0533
+ 19. rate:  rate time_other (period 1)                     48.8796
+ 20. rate:  rate time_other (period 2)                     14.9912
+ 21. eval:  time_other linear shape                        -0.3885
+ 22. eval:  time_other quadratic shape                      0.0862
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. Amount of behavioral change in period 1 on time_other               56.0000
+ 20. Amount of behavioral change in period 2 on time_other               47.0000
+ 21. time_other centered sum                                             16.3333
+ 22. time_other sum of cent. squares                                    364.0963
+
+ 22 parameters, 22 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 3678 iterations.
+Parameter estimates based on 2678 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -0.0260   3.6319  -0.0072 
+  2.  -0.1230   8.1845  -0.0150 
+  3.  -0.1570  11.7600  -0.0134 
+  4.  -0.7740  11.1302  -0.0695 
+  5.  -2.9980  96.6151  -0.0310 
+  6.  -2.5860  89.0950  -0.0290 
+  7.  -1.7910 146.2818  -0.0122 
+  8.  -0.2350   7.0798  -0.0332 
+  9.   1.2276  17.1769   0.0715 
+ 10.   0.2356  16.6005   0.0142 
+ 11.  -1.4400  41.5696  -0.0346 
+ 12.  -0.7362  21.2187  -0.0347 
+ 13.  -1.3132  21.8227  -0.0602 
+ 14.  -2.7910  38.8274  -0.0719 
+ 15.   0.2320   7.3292   0.0317 
+ 16.  -0.0560   8.8500  -0.0063 
+ 17.   0.4060  15.5807   0.0261 
+ 18.  -0.4557  35.1541  -0.0130 
+ 19.   0.1000  10.4910   0.0095 
+ 20.   0.0800   7.7596   0.0103 
+ 21.   0.0840  15.4785   0.0054 
+ 22.  -4.1555  52.7434  -0.0788 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.3651 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 3678 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.8740  (   0.9923)
+ 2. rate:  constant kudonet rate (period 2)                        3.5065  (   0.8544)
+ 3. eval:  outdegree (density)                                   -34.5174  ( 501.9646)
+ 4. eval:  reciprocity                                            33.9716  ( 517.9628)
+ 5. eval:  transitive triplets                                     2.3715  (  42.2555)
+ 6. eval:  transitive recipr. triplets                             1.8344  (   8.9952)
+ 7. eval:  indegree - popularity                                  -0.4917  (   6.7257)
+ 8. eval:  same gender                                            -2.9369  (  33.8172)
+ 9. eval:  time_run alter                                         -3.4656  (  50.5647)
+10. eval:  time_run ego                                           -3.7180  (  53.8158)
+11. eval:  time_run abs. difference                                5.1867  (  75.6457)
+12. eval:  time_other alter                                       -2.5952  (  34.4727)
+13. eval:  time_other ego                                          1.3041  (  16.8565)
+14. eval:  time_other abs. difference                              0.3638  (   5.2000)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                           10.6540  (   5.4378)
+16. rate:  <1> rate time_run (period 2)                           19.6122  (  18.8163)
+17. eval:  <1> time_run linear shape                              -0.0129  (   0.1579)
+18. eval:  <1> time_run quadratic shape                            0.0532  (   0.0216)
+19. rate:  <2> rate time_other (period 1)                         47.1382  (  12.2574)
+20. rate:  <2> rate time_other (period 2)                         15.2164  (  20.1439)
+21. eval:  <2> time_other linear shape                            -0.3821  (   0.0928)
+22. eval:  <2> time_other quadratic shape                          0.0850  (   0.0980)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+      0.985       0.117    -448.892     462.854      37.581       3.926      -6.095     -28.916     -44.841     -47.834      68.007     -29.700      15.137       4.022       3.127      15.539      -0.116      -0.006      -0.399       8.124      -0.038       0.087
+      0.137       0.730      -5.630       6.343       0.204      -0.358      -0.085      -0.503      -0.151      -0.354       1.006       0.305       0.228       0.298       0.357      -0.671      -0.005      -0.004      -0.109       2.864      -0.005       0.004
+     -0.901      -0.013  251968.464 -259932.883  -21142.373   -2464.716    3340.892   16752.547   25370.603   26982.519  -37961.615   17131.168   -8352.328   -2283.764   -1582.040   -7533.021      61.466       2.476     109.979   -4100.090      14.892     -43.917
+      0.901       0.014      -1.000  268285.452   21815.355    2549.662   -3450.631  -17272.820  -26175.051  -27854.101   39154.719  -17702.106    8621.410    2341.393    1624.623    7742.086     -63.892      -2.551    -103.413    4356.050     -15.393      45.154
+      0.896       0.006      -0.997       0.997    1785.524     184.053    -280.192   -1408.642   -2127.985   -2261.883    3186.162   -1432.720     697.010     194.847     132.525     640.773      -5.102      -0.212      -9.465     321.102      -1.252       3.743
+      0.440      -0.047      -0.546       0.547       0.484      80.914     -33.628    -159.279    -252.076    -273.113     365.680    -191.027      91.245      11.528      12.129      38.301      -0.842      -0.009      -0.762     114.640      -0.109       0.222
+     -0.913      -0.015       0.990      -0.991      -0.986      -0.556      45.236     218.478     335.748     358.705    -503.905     227.542    -111.729     -29.182     -20.424    -104.128       0.861       0.036       2.375     -62.209       0.207      -0.587
+     -0.862      -0.017       0.987      -0.986      -0.986      -0.524       0.961    1143.604    1690.178    1792.628   -2520.828    1139.288    -548.558    -158.622    -108.275    -468.324       3.841       0.157       8.325    -237.217       0.905      -2.876
+     -0.894      -0.003       1.000      -0.999      -0.996      -0.554       0.987       0.988    2556.787    2718.586   -3820.514    1728.667    -840.168    -229.569    -158.709    -748.691       6.171       0.238       9.633    -412.328       1.475      -4.384
+     -0.896      -0.008       0.999      -0.999      -0.995      -0.564       0.991       0.985       0.999    2896.138   -4063.118    1841.831    -894.053    -242.038    -166.900    -794.965       6.647       0.264      15.855    -459.293       1.549      -4.637
+      0.906       0.016      -1.000       0.999       0.997       0.537      -0.990      -0.985      -0.999      -0.998    5722.269   -2574.044    1258.885     345.022     239.926    1149.830      -9.238      -0.381     -17.122     607.309      -2.282       6.677
+     -0.868       0.010       0.990      -0.991      -0.984      -0.616       0.981       0.977       0.992       0.993      -0.987    1188.366    -572.380    -147.195    -101.863    -478.988       4.418       0.150       6.478    -338.910       0.961      -2.816
+      0.905       0.016      -0.987       0.987       0.979       0.602      -0.986      -0.962      -0.986      -0.986       0.987      -0.985     284.140      70.228      51.682     254.631      -2.200      -0.076      -1.692     166.527      -0.560       1.448
+      0.780       0.067      -0.875       0.869       0.887       0.246      -0.834      -0.902      -0.873      -0.865       0.877      -0.821       0.801      27.040      16.340      68.755      -0.373      -0.033      -3.404       0.380      -0.084       0.434
+      0.579       0.077      -0.580       0.577       0.577       0.248      -0.558      -0.589      -0.577      -0.570       0.583      -0.543       0.564       0.578      29.570      51.151      -0.284      -0.007      19.300      15.330      -0.220       0.337
+      0.832      -0.042      -0.798       0.794       0.806       0.226      -0.823      -0.736      -0.787      -0.785       0.808      -0.738       0.803       0.703       0.500     354.054      -1.891      -0.074      -4.793      74.764      -0.688       1.665
+     -0.740      -0.037       0.776      -0.781      -0.765      -0.593       0.811       0.719       0.773       0.782      -0.773       0.812      -0.827      -0.455      -0.331      -0.637       0.025       0.001       0.133      -2.402       0.005      -0.010
+     -0.290      -0.208       0.228      -0.228      -0.231      -0.046       0.249       0.214       0.217       0.227      -0.233       0.201      -0.207      -0.289      -0.060      -0.182       0.154       0.000       0.074      -0.002       0.000      -0.001
+     -0.033      -0.010       0.018      -0.016      -0.018      -0.007       0.029       0.020       0.016       0.024      -0.018       0.015      -0.008      -0.053       0.290      -0.021       0.069       0.280     150.244      27.744      -0.533       0.094
+      0.406       0.166      -0.405       0.417       0.377       0.633      -0.459      -0.348      -0.405      -0.424       0.399      -0.488       0.490       0.004       0.140       0.197      -0.755      -0.005       0.112     405.779      -0.658       0.422
+     -0.411      -0.064       0.320      -0.320      -0.319      -0.131       0.332       0.288       0.314       0.310      -0.325       0.300      -0.358      -0.174      -0.436      -0.394       0.355      -0.049      -0.469      -0.352       0.009      -0.005
+      0.894       0.049      -0.892       0.889       0.903       0.252      -0.890      -0.867      -0.884      -0.879       0.900      -0.833       0.876       0.852       0.632       0.903      -0.636      -0.236       0.078       0.214      -0.519       0.010
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 25.04 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:04:53
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 623879.
+Effects object used: myeff2 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8740
+  2. rate:  constant kudonet rate (period 2)                3.5065
+  3. eval:  outdegree (density)                           -34.5174
+  4. eval:  reciprocity                                    33.9716
+  5. eval:  transitive triplets                             2.3715
+  6. eval:  transitive recipr. triplets                     1.8344
+  7. eval:  indegree - popularity                          -0.4917
+  8. eval:  same gender                                    -2.9369
+  9. eval:  time_run alter                                 -3.4656
+ 10. eval:  time_run ego                                   -3.7180
+ 11. eval:  time_run abs. difference                        5.1867
+ 12. eval:  time_other alter                               -2.5952
+ 13. eval:  time_other ego                                  1.3041
+ 14. eval:  time_other abs. difference                      0.3638
+ 15. rate:  rate time_run (period 1)                       10.6540
+ 16. rate:  rate time_run (period 2)                       19.6122
+ 17. eval:  time_run linear shape                          -0.0129
+ 18. eval:  time_run quadratic shape                        0.0532
+ 19. rate:  rate time_other (period 1)                     47.1382
+ 20. rate:  rate time_other (period 2)                     15.2164
+ 21. eval:  time_other linear shape                        -0.3821
+ 22. eval:  time_other quadratic shape                      0.0850
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. Amount of behavioral change in period 1 on time_other               56.0000
+ 20. Amount of behavioral change in period 2 on time_other               47.0000
+ 21. time_other centered sum                                             16.3333
+ 22. time_other sum of cent. squares                                    364.0963
+
+ 22 parameters, 22 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 3678 iterations.
+Parameter estimates based on 2678 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.0410   3.6003   0.0114 
+  2.   0.2170   8.6977   0.0249 
+  3.   0.5740  12.9957   0.0442 
+  4.  -0.2740  12.2699  -0.0223 
+  5.   1.2600 104.1585   0.0121 
+  6.   1.0210  95.2063   0.0107 
+  7.   3.0640 161.0290   0.0190 
+  8.   0.1800   7.2114   0.0250 
+  9.   0.1555  17.6626   0.0088 
+ 10.  -0.4465  17.4259  -0.0256 
+ 11.   1.0480  46.2899   0.0226 
+ 12.  -0.6798  21.6217  -0.0314 
+ 13.  -0.3858  23.2452  -0.0166 
+ 14.   0.2640  42.9338   0.0061 
+ 15.   0.1230   7.1773   0.0171 
+ 16.  -0.1400   8.8920  -0.0157 
+ 17.   0.3870  16.4421   0.0235 
+ 18.   0.1452  36.2327   0.0040 
+ 19.  -0.4790  10.2693  -0.0466 
+ 20.   0.9060   8.2288   0.1101 
+ 21.   0.6330  16.2621   0.0389 
+ 22.   0.3397  52.3009   0.0065 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.3554 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 3678 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.8686  (   0.8574)
+ 2. rate:  constant kudonet rate (period 2)                        3.4973  (   1.6013)
+ 3. eval:  outdegree (density)                                   -40.6653  ( 417.6158)
+ 4. eval:  reciprocity                                            39.1340  ( 447.4993)
+ 5. eval:  transitive triplets                                     2.7802  (  29.4721)
+ 6. eval:  transitive recipr. triplets                             2.2676  (  22.0761)
+ 7. eval:  indegree - popularity                                  -0.6154  (   6.6627)
+ 8. eval:  same gender                                            -3.2912  (  21.4792)
+ 9. eval:  time_run alter                                         -4.0384  (  45.3498)
+10. eval:  time_run ego                                           -4.3875  (  56.2037)
+11. eval:  time_run abs. difference                                6.1295  (  60.8502)
+12. eval:  time_other alter                                       -3.0372  (  35.2684)
+13. eval:  time_other ego                                          1.4254  (   9.5973)
+14. eval:  time_other abs. difference                              0.5974  (   4.6962)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                           10.8938  (  10.2739)
+16. rate:  <1> rate time_run (period 2)                           19.5027  (  12.0044)
+17. eval:  <1> time_run linear shape                              -0.0142  (   0.0735)
+18. eval:  <1> time_run quadratic shape                            0.0533  (   0.0252)
+19. rate:  <2> rate time_other (period 1)                         47.0972  (  54.0980)
+20. rate:  <2> rate time_other (period 2)                         15.4605  (   6.9478)
+21. eval:  <2> time_other linear shape                            -0.3825  (   0.1491)
+22. eval:  <2> time_other quadratic shape                          0.0855  (   0.0364)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+      0.735       0.320    -227.438     259.350      16.805       7.342      -3.136     -10.507     -25.885     -31.112      32.586     -18.709       5.395       1.073      -6.022      -4.823      -0.030      -0.011      39.999      -0.537      -0.102       0.020
+      0.233       2.564     208.392    -184.659     -14.088     -15.862       4.049      11.021      20.859      26.894     -31.262      17.679      -1.853      -4.604       2.476      -8.265       0.013      -0.015      -5.652      -1.076      -0.026      -0.004
+     -0.635       0.312  174402.981 -186201.166  -12179.229   -8450.196    2739.682    8794.861   18897.718   23407.929  -25404.996   14695.887   -3803.857   -1575.986    3493.195    -133.681      14.223       1.550  -18499.817     761.271      38.563     -11.559
+      0.676      -0.258      -0.996  200255.615   13035.084    8809.978   -2903.612   -9318.435  -20271.575  -25100.917   27081.923  -15704.144    4083.929    1592.999   -3827.205    -151.489     -15.739      -2.021   20363.605    -832.193     -43.290      12.574
+      0.665      -0.299      -0.990       0.988     868.603     558.668    -191.914    -609.677   -1322.300   -1630.058    1774.223   -1022.115     264.086     109.568    -253.019     -12.326      -1.087      -0.140    1354.989     -37.425      -2.927       0.813
+      0.388      -0.449      -0.917       0.892       0.859     487.353    -135.702    -442.108    -899.836   -1131.427    1236.146    -719.748     184.939      86.256    -143.811      82.007      -0.459       0.025     713.849     -57.400      -1.213       0.533
+     -0.549       0.380       0.985      -0.974      -0.977      -0.923      44.391     138.558     294.563     366.670    -400.042     231.904     -58.702     -26.144      53.637     -10.887       0.217       0.012    -275.897      11.971       0.549      -0.178
+     -0.571       0.320       0.980      -0.969      -0.963      -0.932       0.968     461.357     946.851    1172.561   -1284.067     740.970    -195.807     -82.749     166.039     -20.636       0.649       0.056    -870.845      45.212       1.768      -0.567
+     -0.666       0.287       0.998      -0.999      -0.989      -0.899       0.975       0.972    2056.607    2544.147   -2749.639    1591.431    -412.130    -164.955     385.889      11.537       1.603       0.196   -2057.830      80.313       4.356      -1.263
+     -0.646       0.299       0.997      -0.998      -0.984      -0.912       0.979       0.971       0.998    3158.855   -3406.102    1976.782    -509.102    -204.951     475.195      -6.302       1.927       0.210   -2504.602     106.452       5.216      -1.565
+      0.625      -0.321      -1.000       0.995       0.989       0.920      -0.987      -0.982      -0.996      -0.996    3702.752   -2140.000     554.686     231.443    -504.602      28.054      -2.050      -0.214    2671.983    -109.607      -5.560       1.679
+     -0.619       0.313       0.998      -0.995      -0.983      -0.924       0.987       0.978       0.995       0.997      -0.997    1243.863    -319.864    -131.774     293.931     -22.610       1.168       0.116   -1536.356      71.228       3.131      -0.975
+      0.656      -0.121      -0.949       0.951       0.934       0.873      -0.918      -0.950      -0.947      -0.944       0.950      -0.945      92.108      30.497     -71.904      -2.710      -0.254      -0.051     395.452     -17.449      -0.896       0.270
+      0.266      -0.612      -0.804       0.758       0.792       0.832      -0.836      -0.820      -0.775      -0.776       0.810      -0.796       0.677      22.054     -27.745      15.046      -0.097       0.003     135.012      -3.842      -0.213       0.080
+     -0.684       0.150       0.814      -0.832      -0.836      -0.634       0.784       0.752       0.828       0.823      -0.807       0.811      -0.729      -0.575     105.552      19.187       0.421       0.084    -497.576      10.427       1.052      -0.251
+     -0.469      -0.430      -0.027      -0.028      -0.035       0.309      -0.136      -0.080       0.021      -0.009       0.038      -0.053      -0.024       0.267       0.156     144.107       0.107       0.152    -180.078     -22.153       0.784      -0.016
+     -0.472       0.107       0.463      -0.478      -0.502      -0.283       0.443       0.411       0.481       0.466      -0.458       0.450      -0.360      -0.281       0.558       0.121       0.005       0.000      -2.229       0.022       0.005      -0.001
+     -0.489      -0.374       0.147      -0.179      -0.189       0.045       0.074       0.104       0.171       0.148      -0.140       0.131      -0.210       0.026       0.323       0.501       0.145       0.001      -0.543      -0.047       0.002       0.000
+      0.862      -0.065      -0.819       0.841       0.850       0.598      -0.765      -0.749      -0.839      -0.824       0.812      -0.805       0.762       0.531      -0.895      -0.277      -0.560      -0.398    2926.593     -36.450      -6.740       1.494
+     -0.090      -0.097       0.262      -0.268      -0.183      -0.374       0.259       0.303       0.255       0.273      -0.259       0.291      -0.262      -0.118       0.146      -0.266       0.043      -0.267      -0.097      48.272      -0.064      -0.037
+     -0.795      -0.110       0.619      -0.649      -0.666      -0.369       0.552       0.552       0.644       0.623      -0.613       0.595      -0.626      -0.305       0.687       0.438       0.448       0.433      -0.836      -0.062       0.022      -0.004
+      0.637      -0.068      -0.759       0.771       0.757       0.663      -0.734      -0.725      -0.764      -0.764       0.757      -0.759       0.773       0.467      -0.669      -0.037      -0.323      -0.225       0.758      -0.148      -0.798       0.001
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 26.48 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:05:19
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 844816.
+Effects object used: myeff2 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8686
+  2. rate:  constant kudonet rate (period 2)                3.4973
+  3. eval:  outdegree (density)                           -40.6653
+  4. eval:  reciprocity                                    39.1340
+  5. eval:  transitive triplets                             2.7802
+  6. eval:  transitive recipr. triplets                     2.2676
+  7. eval:  indegree - popularity                          -0.6154
+  8. eval:  same gender                                    -3.2912
+  9. eval:  time_run alter                                 -4.0384
+ 10. eval:  time_run ego                                   -4.3875
+ 11. eval:  time_run abs. difference                        6.1295
+ 12. eval:  time_other alter                               -3.0372
+ 13. eval:  time_other ego                                  1.4254
+ 14. eval:  time_other abs. difference                      0.5974
+ 15. rate:  rate time_run (period 1)                       10.8938
+ 16. rate:  rate time_run (period 2)                       19.5027
+ 17. eval:  time_run linear shape                          -0.0142
+ 18. eval:  time_run quadratic shape                        0.0533
+ 19. rate:  rate time_other (period 1)                     47.0972
+ 20. rate:  rate time_other (period 2)                     15.4605
+ 21. eval:  time_other linear shape                        -0.3825
+ 22. eval:  time_other quadratic shape                      0.0855
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. Amount of behavioral change in period 1 on time_other               56.0000
+ 20. Amount of behavioral change in period 2 on time_other               47.0000
+ 21. time_other centered sum                                             16.3333
+ 22. time_other sum of cent. squares                                    364.0963
+
+ 22 parameters, 22 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 3678 iterations.
+Parameter estimates based on 2678 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.1820   3.5377   0.0514 
+  2.   0.7190   8.5092   0.0845 
+  3.   0.5270  12.1433   0.0434 
+  4.  -1.0500  11.2984  -0.0929 
+  5.  -0.6680  97.5006  -0.0069 
+  6.  -2.0260  88.4500  -0.0229 
+  7.  -0.8350 150.9193  -0.0055 
+  8.  -0.4100   6.9857  -0.0587 
+  9.  -1.1792  17.3954  -0.0678 
+ 10.  -1.2782  16.6380  -0.0768 
+ 11.   1.4710  42.8175   0.0344 
+ 12.  -2.8326  20.7158  -0.1367 
+ 13.  -0.5966  22.8069  -0.0262 
+ 14.  -0.7040  40.6655  -0.0173 
+ 15.  -0.1750   7.4690  -0.0234 
+ 16.   0.0970   9.2075   0.0105 
+ 17.   0.6020  16.2595   0.0370 
+ 18.   0.9645  34.9336   0.0276 
+ 19.   0.2000  10.6993   0.0187 
+ 20.  -1.0270   7.1834  -0.1430 
+ 21.  -0.1650  15.7113  -0.0105 
+ 22.   1.2727  53.5039   0.0238 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.5383 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 3678 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.8563  (   1.2713)
+ 2. rate:  constant kudonet rate (period 2)                        3.4455  (   3.2755)
+ 3. eval:  outdegree (density)                                   -80.0151  (2284.3936)
+ 4. eval:  reciprocity                                            74.6213  (2145.7487)
+ 5. eval:  transitive triplets                                     4.9470  (  98.2786)
+ 6. eval:  transitive recipr. triplets                             5.7466  ( 187.0397)
+ 7. eval:  indegree - popularity                                  -1.1293  (  23.7786)
+ 8. eval:  same gender                                            -6.7239  ( 193.5270)
+ 9. eval:  time_run alter                                         -8.4271  ( 203.2705)
+10. eval:  time_run ego                                           -9.0170  ( 241.5456)
+11. eval:  time_run abs. difference                               12.1713  ( 357.6667)
+12. eval:  time_other alter                                       -6.1220  ( 189.8411)
+13. eval:  time_other ego                                          3.3054  ( 180.3774)
+14. eval:  time_other abs. difference                              0.9238  (  23.5040)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                           10.5770  (  21.2635)
+16. rate:  <1> rate time_run (period 2)                           19.5478  ( 208.9401)
+17. eval:  <1> time_run linear shape                              -0.0138  (   0.6844)
+18. eval:  <1> time_run quadratic shape                            0.0528  (   0.0334)
+19. rate:  <2> rate time_other (period 1)                         49.1575  ( 100.5181)
+20. rate:  <2> rate time_other (period 2)                         14.9317  (  35.7770)
+21. eval:  <2> time_other linear shape                            -0.3853  (   0.4539)
+22. eval:  <2> time_other quadratic shape                          0.0859  (   0.3052)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+       1.616       -3.730    -2405.371     2283.528       95.180      198.294      -22.659     -204.372     -205.380     -251.570      377.754     -203.111      202.858       22.930      -23.483      240.059       -0.765       -0.029      118.133       39.484       -0.539       -0.348
+      -0.896       10.729     6703.017    -6339.900     -268.072     -548.691       63.595      570.593      574.900      702.838    -1052.549      560.506     -556.211      -66.571       62.471     -660.052        2.126        0.071     -297.154     -108.846        1.415        0.949
+      -0.828        0.896  5218453.963 -4899532.454  -222043.343  -426564.228    53390.603   441695.213   462490.491   551469.721  -817022.639   433297.616  -406394.153   -51144.302    44344.166  -440502.280     1510.145       52.021  -212780.192   -68072.954      971.774      640.073
+       0.837       -0.902       -1.000  4604237.300   208037.064   400213.001   -49967.658  -414885.846  -433773.652  -517771.899   767171.048  -406924.711   382647.633    47744.295   -41604.547   416372.565    -1421.732      -48.449   200072.679    64660.632     -918.836     -603.978
+       0.762       -0.833       -0.989        0.987     9658.682    18127.650    -2331.467   -18765.317   -19916.793   -23549.973    34729.301   -18392.532    16891.986     2153.754    -1819.414    17645.078      -62.034       -2.140     8803.521     2653.528      -39.570      -25.667
+       0.834       -0.896       -0.998        0.997        0.986    34983.833    -4369.079   -36101.122   -37819.679   -45065.149    66785.662   -35449.098    33223.889     4190.542    -3655.672    35901.732     -123.358       -4.340    17645.737     5513.865      -79.685      -52.301
+      -0.750        0.816        0.983       -0.979       -0.998       -0.982      565.420     4508.440     4801.595     5665.646    -8350.111     4423.799    -4041.181     -518.711      438.086    -4178.038       14.805        0.523    -2134.312     -619.964        9.453        6.096
+      -0.831        0.900        0.999       -0.999       -0.987       -0.997        0.980    37452.696    39136.525    46690.732   -69155.615    36649.374   -34423.142    -4321.284     3731.404   -37396.552      127.992        4.318   -17965.197    -5781.798       82.455       54.192
+      -0.795        0.863        0.996       -0.995       -0.997       -0.995        0.993        0.995    41318.887    49002.861   -72363.676    38334.191   -35507.697    -4484.189     3832.930   -37618.235      130.826        4.465   -18609.629    -5707.034       84.196       54.578
+      -0.819        0.888        0.999       -0.999       -0.992       -0.997        0.986        0.999        0.998    58344.278   -86324.535    45753.308   -42763.620    -5370.847     4636.209   -46054.453      158.477        5.390   -22361.252    -7085.843      102.115       66.793
+       0.831       -0.898       -1.000        1.000        0.988        0.998       -0.982       -0.999       -0.995       -0.999   127925.502   -67850.091    63704.236     8009.777    -6956.865    69171.300     -236.871       -8.166    33365.932    10705.790     -152.478     -100.523
+      -0.842        0.901        0.999       -0.999       -0.986       -0.998        0.980        0.998        0.993        0.998       -0.999    36039.626   -33883.568    -4241.794     3724.577   -36839.444      125.932        4.424   -17894.764    -5713.003       81.407       53.663
+       0.885       -0.941       -0.986        0.989        0.953        0.985       -0.942       -0.986       -0.968       -0.982        0.987       -0.990    32536.000     4002.786    -3602.846    36606.578     -122.297       -4.260    17139.658     5844.472      -79.506      -53.287
+       0.767       -0.865       -0.953        0.947        0.932        0.953       -0.928       -0.950       -0.939       -0.946        0.953       -0.951        0.944      552.440     -459.226     4447.689      -15.235       -0.571     2076.996      680.814       -9.331       -6.542
+      -0.869        0.897        0.913       -0.912       -0.871       -0.919        0.866        0.907        0.887        0.903       -0.915        0.923       -0.939       -0.919      452.135    -4114.672       13.653        0.566    -2000.229     -655.291        8.877        6.099
+       0.904       -0.964       -0.923        0.929        0.859        0.919       -0.841       -0.925       -0.886       -0.913        0.926       -0.929        0.971        0.906       -0.926    43655.965     -140.544       -4.793    19022.443     7224.944      -91.531      -63.286
+      -0.880        0.949        0.966       -0.968       -0.922       -0.964        0.910        0.966        0.940        0.959       -0.968        0.969       -0.991       -0.947        0.938       -0.983        0.468        0.016      -63.829      -22.762        0.299        0.205
+      -0.676        0.646        0.682       -0.676       -0.652       -0.695        0.659        0.668        0.658        0.668       -0.684        0.698       -0.707       -0.728        0.797       -0.687        0.714        0.001       -2.562       -0.770        0.010        0.007
+       0.924       -0.903       -0.927        0.928        0.891        0.939       -0.893       -0.924       -0.911       -0.921        0.928       -0.938        0.945        0.879       -0.936        0.906       -0.928       -0.763    10103.886     2961.713      -43.647      -27.975
+       0.868       -0.929       -0.833        0.842        0.755        0.824       -0.729       -0.835       -0.785       -0.820        0.837       -0.841        0.906        0.810       -0.861        0.967       -0.930       -0.644        0.824     1279.995      -14.737      -10.533
+      -0.935        0.952        0.937       -0.943       -0.887       -0.939        0.876        0.939        0.913        0.931       -0.939        0.945       -0.971       -0.875        0.920       -0.965        0.961        0.685       -0.957       -0.907        0.206        0.132
+      -0.896        0.949        0.918       -0.922       -0.856       -0.916        0.840        0.917        0.880        0.906       -0.921        0.926       -0.968       -0.912        0.940       -0.992        0.981        0.732       -0.912       -0.964        0.950        0.093
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 28.33 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:05:48
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 679718.
+Effects object used: myeff2 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8563
+  2. rate:  constant kudonet rate (period 2)                3.4455
+  3. eval:  outdegree (density)                           -80.0151
+  4. eval:  reciprocity                                    74.6213
+  5. eval:  transitive triplets                             4.9470
+  6. eval:  transitive recipr. triplets                     5.7466
+  7. eval:  indegree - popularity                          -1.1293
+  8. eval:  same gender                                    -6.7239
+  9. eval:  time_run alter                                 -8.4271
+ 10. eval:  time_run ego                                   -9.0170
+ 11. eval:  time_run abs. difference                       12.1713
+ 12. eval:  time_other alter                               -6.1220
+ 13. eval:  time_other ego                                  3.3054
+ 14. eval:  time_other abs. difference                      0.9238
+ 15. rate:  rate time_run (period 1)                       10.5770
+ 16. rate:  rate time_run (period 2)                       19.5478
+ 17. eval:  time_run linear shape                          -0.0138
+ 18. eval:  time_run quadratic shape                        0.0528
+ 19. rate:  rate time_other (period 1)                     49.1575
+ 20. rate:  rate time_other (period 2)                     14.9317
+ 21. eval:  time_other linear shape                        -0.3853
+ 22. eval:  time_other quadratic shape                      0.0859
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. Amount of behavioral change in period 1 on time_other               56.0000
+ 20. Amount of behavioral change in period 2 on time_other               47.0000
+ 21. time_other centered sum                                             16.3333
+ 22. time_other sum of cent. squares                                    364.0963
+
+ 22 parameters, 22 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 3678 iterations.
+Parameter estimates based on 2678 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.1890   3.6158   0.0523 
+  2.  -0.3510   8.2859  -0.0424 
+  3.  -0.8640  12.6639  -0.0682 
+  4.  -1.2140  11.9469  -0.1016 
+  5.  -5.5230 106.0051  -0.0521 
+  6.  -5.0600  97.4717  -0.0519 
+  7.  -7.8840 156.8371  -0.0503 
+  8.  -0.4400   7.0480  -0.0624 
+  9.   0.7438  17.7230   0.0420 
+ 10.  -0.3562  16.3512  -0.0218 
+ 11.  -2.9780  42.4865  -0.0701 
+ 12.  -0.9396  21.4234  -0.0439 
+ 13.   0.5754  22.0639   0.0261 
+ 14.  -2.3310  42.4342  -0.0549 
+ 15.  -0.3310   7.1035  -0.0466 
+ 16.   0.3790   8.6482   0.0438 
+ 17.   0.0440  16.4950   0.0027 
+ 18.   0.3877  34.3930   0.0113 
+ 19.  -0.5950  10.4616  -0.0569 
+ 20.  -0.0050   7.6638  -0.0007 
+ 21.  -0.1160  16.0922  -0.0072 
+ 22.   0.5796  53.3817   0.0109 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.2293 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 3678 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.8877  (   8.1889)
+ 2. rate:  constant kudonet rate (period 2)                        3.5235  (  10.0713)
+ 3. eval:  outdegree (density)                                  -104.6767  (7150.4612)
+ 4. eval:  reciprocity                                           101.1373  (6764.1822)
+ 5. eval:  transitive triplets                                     6.8627  ( 463.6086)
+ 6. eval:  transitive recipr. triplets                             5.5182  ( 409.2202)
+ 7. eval:  indegree - popularity                                  -1.2647  (  67.4887)
+ 8. eval:  same gender                                            -8.2988  ( 438.8899)
+ 9. eval:  time_run alter                                        -10.5874  ( 757.0624)
+10. eval:  time_run ego                                          -11.0131  ( 803.9646)
+11. eval:  time_run abs. difference                               15.5222  (1023.8826)
+12. eval:  time_other alter                                       -8.1079  ( 567.3431)
+13. eval:  time_other ego                                          3.7898  ( 329.4214)
+14. eval:  time_other abs. difference                              1.3205  (  57.1542)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                           10.4616  (  10.3477)
+16. rate:  <1> rate time_run (period 2)                           19.8278  ( 138.1062)
+17. eval:  <1> time_run linear shape                              -0.0132  (   0.2798)
+18. eval:  <1> time_run quadratic shape                            0.0531  (   0.0837)
+19. rate:  <2> rate time_other (period 1)                         46.4094  ( 243.7961)
+20. rate:  <2> rate time_other (period 2)                         15.2887  (  17.9742)
+21. eval:  <2> time_other linear shape                            -0.3882  (   0.3645)
+22. eval:  <2> time_other quadratic shape                          0.0872  (   0.0527)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+       67.059        81.965    -58095.825     54957.805      3764.473      3333.525      -547.957     -3550.241     -6153.872     -6539.133      8316.121     -4611.843      2686.070       450.203        35.455      1127.948        -2.084         0.654     -1988.939      -120.289         2.894        -0.377
+        0.994       101.431    -70874.104     67054.427      4590.683      4068.957      -668.600     -4323.730     -7507.929     -7976.948     10145.064     -5626.806      3280.725       543.738        40.576      1379.858        -2.527         0.801     -2432.176      -148.693         3.521        -0.459
+       -0.992        -0.984  51129095.226 -48365183.264  -3314798.038  -2923136.075    482161.836   3135539.334   5413261.590   5748171.764  -7321175.787   4056583.299  -2352432.631   -402198.893    -32366.098   -979463.628      1834.608      -575.053   1716864.484     96888.948     -2508.880       321.862
+        0.992         0.984        -1.000  45754161.105   3135604.185   2764737.193   -456096.642  -2966050.423  -5120632.172  -5437141.069   6925371.542  -3837433.396   2224935.799    380134.871     30217.006    926247.157     -1739.607       544.538  -1624398.903    -91714.344      2374.592      -305.011
+        0.992         0.983        -1.000         1.000    214932.954    189447.435    -31259.236   -203310.423   -350946.050   -372652.989    474652.550   -262985.213    152485.437     26092.622      2109.558     63458.713      -118.978        37.268   -111229.956     -6254.963       162.593       -20.839
+        0.995         0.987        -0.999         0.999         0.999    167461.187    -27585.700   -179094.351   -309524.794   -328775.537    418543.972   -231966.088    134744.321     22932.995      1861.405     56236.290      -104.230        32.875    -98612.868     -5693.476       143.686       -18.499
+       -0.991        -0.984         0.999        -0.999        -0.999        -0.999      4554.722     29555.900     51047.555     54208.914    -69046.905     38260.146    -22200.043     -3783.895      -303.066     -9233.608        17.199        -5.448     16195.194       917.180       -23.584         3.037
+       -0.988        -0.978         0.999        -0.999        -0.999        -0.997         0.998    192624.311    331924.703    352389.666   -448999.423    248748.076   -144065.768    -24789.179     -1993.473    -59873.434       112.984       -35.261    104899.184      5804.743      -153.398        19.564
+       -0.993        -0.985         1.000        -1.000        -1.000        -0.999         0.999         0.999    573143.480    608617.279   -775113.846    429495.193   -249097.673    -42564.775     -3427.907   -103750.156       194.288       -60.878    181880.125     10292.687      -265.860        34.134
+       -0.993        -0.985         1.000        -1.000        -1.000        -0.999         0.999         0.999         1.000    646359.032   -823063.863    456064.394   -264623.007    -45195.913     -3682.598   -110268.465       205.823       -64.559    193268.350     10981.468      -282.451        36.255
+        0.992         0.984        -1.000         1.000         1.000         0.999        -0.999        -0.999        -1.000        -1.000   1048335.665   -580853.386    336831.647     57600.056      4641.719    140204.617      -262.491        82.352   -245728.898    -13844.762       359.021       -46.043
+       -0.993        -0.985         1.000        -1.000        -1.000        -0.999         0.999         0.999         1.000         1.000        -1.000    321878.148   -186667.424    -31881.312     -2540.083    -77743.627       145.777       -45.675    136345.020      7720.678      -199.144        25.583
+        0.996         0.989        -0.999         0.999         0.998         1.000        -0.999        -0.996        -0.999        -0.999         0.999        -0.999    108518.438     18420.546      1510.803     45296.949       -83.604        26.419    -79452.141     -4602.077       115.622       -14.859
+        0.962         0.945        -0.984         0.983         0.985         0.981        -0.981        -0.988        -0.984        -0.984         0.984        -0.983         0.978      3266.600       305.088      7633.797       -14.367         4.431    -13243.142      -689.773        19.524        -2.432
+        0.418         0.389        -0.437         0.432         0.440         0.440        -0.434        -0.439        -0.438        -0.443         0.438        -0.433         0.443         0.516       107.074       631.629        -0.655         0.269      -961.373       -42.815         1.453        -0.123
+        0.997         0.992        -0.992         0.992         0.991         0.995        -0.991        -0.988        -0.992        -0.993         0.992        -0.992         0.996         0.967         0.442     19073.330       -34.870        10.964    -33445.024     -2018.128        48.682        -6.291
+       -0.910        -0.897         0.917        -0.919        -0.917        -0.910         0.911         0.920         0.917         0.915        -0.916         0.918        -0.907        -0.898        -0.226        -0.902         0.078        -0.021        62.495         3.572        -0.094         0.012
+        0.954         0.951        -0.961         0.962         0.961         0.960        -0.965        -0.960        -0.961        -0.960         0.961        -0.962         0.958         0.926         0.310         0.949        -0.899         0.007       -19.412        -1.083         0.028        -0.004
+       -0.996        -0.991         0.985        -0.985        -0.984        -0.988         0.984         0.980         0.985         0.986        -0.984         0.986        -0.989        -0.950        -0.381        -0.993         0.916        -0.951     59436.548      3653.342       -86.110        11.335
+       -0.817        -0.821         0.754        -0.754        -0.751        -0.774         0.756         0.736         0.756         0.760        -0.752         0.757        -0.777        -0.671        -0.230        -0.813         0.710        -0.720         0.834       323.073        -5.351         0.766
+        0.970         0.959        -0.963         0.963         0.962         0.963        -0.959        -0.959        -0.963        -0.964         0.962        -0.963         0.963         0.937         0.385         0.967        -0.918         0.915        -0.969        -0.817         0.133        -0.018
+       -0.873        -0.866         0.854        -0.855        -0.853        -0.858         0.854         0.846         0.855         0.856        -0.853         0.855        -0.856        -0.807        -0.225        -0.864         0.846        -0.835         0.882         0.809        -0.932         0.003
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 30.43 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:06:18
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 43386.
+Effects object used: myeff3a 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8335
+  2. rate:  constant kudonet rate (period 2)                3.3823
+  3. eval:  outdegree (density)                            -0.4777
+  4. eval:  reciprocity                                     0.0000
+  5. eval:  transitive triplets                             0.0000
+  6. eval:  transitive recipr. triplets                     0.0000
+  7. eval:  indegree - popularity                           0.0000
+  8. eval:  same gender                                     0.0000
+  9. eval:  time_run alter                                  0.0000
+ 10. eval:  time_run ego                                    0.0000
+ 11. eval:  time_run abs. difference                        0.0000
+ 12. eval:  time_other alter                                0.0000
+ 13. eval:  time_other ego                                  0.0000
+ 14. eval:  time_other abs. difference                      0.0000
+ 15. rate:  rate time_run (period 1)                        4.5793
+ 16. rate:  rate time_run (period 2)                        6.9931
+ 17. eval:  time_run linear shape                           0.0298
+ 18. eval:  time_run quadratic shape                        0.0000
+ 19. eval:  time_run indegree                               0.0000
+ 20. eval:  time_run outdegree                              0.0000
+ 21. eval:  time_run total alter                            0.0000
+ 22. rate:  rate time_other (period 1)                      5.4207
+ 23. rate:  rate time_other (period 2)                      3.7299
+ 24. eval:  time_other linear shape                         0.0189
+ 25. eval:  time_other quadratic shape                      0.0000
+ 26. eval:  time_other indegree                             0.0000
+ 27. eval:  time_other outdegree                            0.0000
+ 28. eval:  time_other total alter                          0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. time_run indegrees                                                 149.1333
+ 20. time_run outdegrees                                                206.1333
+ 21. time_run total alters                                              193.4511
+ 22. Amount of behavioral change in period 1 on time_other               56.0000
+ 23. Amount of behavioral change in period 2 on time_other               47.0000
+ 24. time_other centered sum                                             16.3333
+ 25. time_other sum of cent. squares                                    364.0963
+ 26. time_other indegrees                                                -8.3778
+ 27. time_other outdegrees                                               16.6222
+ 28. time_other total alters                                           -121.0240
+
+ 28 parameters, 28 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 4157 iterations.
+Parameter estimates based on 3157 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -0.0940   3.5780  -0.0263 
+  2.   0.1460   8.3079   0.0176 
+  3.   0.5020  12.5934   0.0399 
+  4.   0.2980  12.2112   0.0244 
+  5.   1.8890 100.4944   0.0188 
+  6.   2.1970  94.7812   0.0232 
+  7.   4.2020 154.4730   0.0272 
+  8.  -0.1630   7.8098  -0.0209 
+  9.   0.0489  17.9145   0.0027 
+ 10.  -0.1631  16.9429  -0.0096 
+ 11.   1.3500  45.6121   0.0296 
+ 12.   0.3714  20.8755   0.0178 
+ 13.   0.1864  21.1402   0.0088 
+ 14.   1.1750  40.5148   0.0290 
+ 15.   0.2740   6.9087   0.0397 
+ 16.   0.0620   8.5663   0.0072 
+ 17.   0.4900  14.2379   0.0344 
+ 18.   1.3207  36.2980   0.0364 
+ 19.   1.8020  47.6137   0.0378 
+ 20.   2.3640  52.2446   0.0452 
+ 21.   4.9195 142.1967   0.0346 
+ 22.  -0.6760   9.9545  -0.0679 
+ 23.  -0.1820   7.5817  -0.0240 
+ 24.  -1.5280  13.5853  -0.1125 
+ 25.  -0.1715  50.4072  -0.0034 
+ 26.  -3.5910  38.2800  -0.0938 
+ 27.  -3.7810  43.3054  -0.0873 
+ 28.   4.9180  70.3051   0.0700 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.2773 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 4157 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.9562  (   0.4213)
+ 2. rate:  constant kudonet rate (period 2)                        4.0634  (   1.6862)
+ 3. eval:  outdegree (density)                                   -11.2529  (  30.0001)
+ 4. eval:  reciprocity                                            10.4050  (  28.7249)
+ 5. eval:  transitive triplets                                     0.6944  (   1.4992)
+ 6. eval:  transitive recipr. triplets                             0.6809  (   3.6419)
+ 7. eval:  indegree - popularity                                  -0.2356  (   0.5571)
+ 8. eval:  same gender                                            -0.6693  (   1.4219)
+ 9. eval:  time_run alter                                         -0.7003  (   3.0974)
+10. eval:  time_run ego                                           -0.9755  (   4.8562)
+11. eval:  time_run abs. difference                                1.6116  (   4.8460)
+12. eval:  time_other alter                                       -0.5047  (   0.9941)
+13. eval:  time_other ego                                          0.4938  (   0.9611)
+14. eval:  time_other abs. difference                              0.2564  (   0.7892)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                            9.5235  (  15.3583)
+16. rate:  <1> rate time_run (period 2)                           14.3669  (  20.4270)
+17. eval:  <1> time_run linear shape                              -0.0698  (   0.1160)
+18. eval:  <1> time_run quadratic shape                            0.0426  (   0.0227)
+19. eval:  <1> time_run indegree                                  -0.2978  (   0.7446)
+20. eval:  <1> time_run outdegree                                  0.3197  (   0.7107)
+21. eval:  <1> time_run total alter                               -0.0018  (   0.0652)
+22. rate:  <2> rate time_other (period 1)                         39.0725  (  80.6309)
+23. rate:  <2> rate time_other (period 2)                         16.5075  (  17.3584)
+24. eval:  <2> time_other linear shape                            -0.3199  (   0.1608)
+25. eval:  <2> time_other quadratic shape                          0.0683  (   0.0756)
+26. eval:  <2> time_other indegree                                -0.2648  (   1.6695)
+27. eval:  <2> time_other outdegree                                0.2292  (   1.5239)
+28. eval:  <2> time_other total alter                             -0.0219  (   0.0625)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.177      0.075      6.945     -6.658     -0.302     -0.651      0.124     -0.166      0.740      1.191     -1.133      0.187     -0.053     -0.076      2.865      2.370     -0.018      0.000     -0.037      0.042     -0.008     18.229      3.516     -0.019      0.014      0.366     -0.334     -0.010
+     0.106      2.843      7.694     -5.208      0.076     -1.827      0.269      0.860      0.902      0.647     -1.062      0.656      0.160     -0.831     -7.049    -19.049     -0.022      0.002     -0.483      0.442      0.057    -22.406      1.464      0.079     -0.037     -0.304      0.292      0.036
+     0.550      0.152    900.008   -836.601    -33.199    -90.901     14.688    -13.334     91.512    141.633   -144.992     24.854    -15.540     -8.848    339.446    310.948     -1.876      0.124      1.929     -1.370     -0.819   1799.400    333.119     -1.949      1.634     40.173    -36.789     -1.332
+    -0.550     -0.108     -0.971    825.119     36.158     74.930    -14.191     15.556    -86.538   -136.842    133.968    -23.882     13.323      7.010   -351.215   -265.637      1.783     -0.113      1.315     -1.747      0.789  -1963.947   -374.983      2.353     -1.724    -42.905     39.203      1.267
+    -0.478      0.030     -0.738      0.840      2.248      1.447     -0.651      1.073     -3.349     -5.651      5.305     -0.933      0.444      0.214    -16.946    -10.865      0.069     -0.004      0.243     -0.259      0.041   -102.063    -19.385      0.143     -0.086     -2.147      1.958      0.059
+    -0.424     -0.297     -0.832      0.716      0.265     13.263     -1.398      0.052     -9.384    -13.823     14.734     -2.623      1.773      1.123    -27.092    -31.232      0.204     -0.016     -0.716      0.653      0.062   -123.213    -20.521      0.087     -0.123     -2.937      2.701      0.113
+     0.528      0.286      0.879     -0.887     -0.780     -0.689      0.310     -0.207      1.486      2.350     -2.375      0.477     -0.246     -0.166      5.494      3.777     -0.036      0.002     -0.033      0.040     -0.012     32.264      5.823     -0.042      0.028      0.707     -0.644     -0.020
+    -0.277      0.359     -0.313      0.381      0.503      0.010     -0.261      2.022     -1.434     -2.756      2.224     -0.092      0.082     -0.264    -10.870    -12.728      0.024      0.001     -0.029      0.003      0.037    -57.368    -12.387      0.090     -0.054     -1.215      1.113      0.044
+     0.567      0.173      0.985     -0.973     -0.721     -0.832      0.861     -0.326      9.594     14.757    -14.677      2.582     -1.440     -0.876     35.372     29.235     -0.199      0.013     -0.009      0.058     -0.079    193.903     36.586     -0.212      0.170      4.268     -3.903     -0.132
+     0.582      0.079      0.972     -0.981     -0.776     -0.782      0.869     -0.399      0.981     23.583    -22.794      3.869     -2.151     -1.084     61.493     52.594     -0.304      0.019      0.093      0.000     -0.150    331.825     61.859     -0.397      0.297      7.228     -6.612     -0.226
+    -0.555     -0.130     -0.997      0.962      0.730      0.835     -0.880      0.323     -0.978     -0.969     23.484     -3.915      2.643      1.273    -55.080    -54.204      0.302     -0.019     -0.472      0.370      0.142   -287.956    -52.139      0.318     -0.266     -6.420      5.883      0.222
+     0.446      0.391      0.833     -0.836     -0.626     -0.725      0.861     -0.065      0.838      0.802     -0.813      0.988     -0.394     -0.368      8.238      3.408     -0.063      0.003     -0.130      0.134     -0.011     49.495      8.453     -0.057      0.041      1.069     -0.972     -0.026
+    -0.132      0.099     -0.539      0.483      0.308      0.507     -0.459      0.060     -0.484     -0.461      0.568     -0.413      0.924     -0.199     -6.527    -11.541      0.042     -0.002     -0.307      0.285      0.028    -24.624      0.297      0.051     -0.034     -0.519      0.482      0.033
+    -0.228     -0.624     -0.374      0.309      0.181      0.391     -0.377     -0.235     -0.358     -0.283      0.333     -0.469     -0.262      0.623      1.067      6.344      0.012     -0.003      0.182     -0.169     -0.019     -0.848     -4.183     -0.038      0.008     -0.134      0.119     -0.008
+     0.443     -0.272      0.737     -0.796     -0.736     -0.484      0.642     -0.498      0.744      0.824     -0.740      0.540     -0.442      0.088    235.876    213.811     -0.740      0.036      1.711     -1.263     -0.683   1106.940    165.780     -1.694      1.047     22.487    -20.612     -0.808
+     0.275     -0.553      0.507     -0.453     -0.355     -0.420      0.332     -0.438      0.462      0.530     -0.548      0.168     -0.588      0.394      0.682    417.263     -0.690      0.012     10.581     -9.680     -1.078    814.003     41.882     -1.562      1.015     15.776    -14.713     -1.067
+    -0.366     -0.114     -0.539      0.535      0.398      0.483     -0.553      0.143     -0.555     -0.540      0.538     -0.543      0.380      0.127     -0.415     -0.291      0.013      0.000      0.006     -0.008      0.002     -4.731     -0.471      0.008     -0.004     -0.096      0.087      0.003
+    -0.028      0.055      0.182     -0.173     -0.109     -0.193      0.160      0.046      0.186      0.176     -0.171      0.146     -0.074     -0.192      0.103      0.026      0.058      0.001      0.000      0.000      0.000      0.220      0.043      0.000      0.000      0.006     -0.005      0.000
+    -0.116     -0.385      0.086      0.061      0.217     -0.264     -0.080     -0.028     -0.004      0.026     -0.131     -0.176     -0.429      0.310      0.150      0.696      0.067     -0.014      0.554     -0.528     -0.020    -11.078     -4.877      0.009      0.004     -0.212      0.180     -0.019
+     0.141      0.368     -0.064     -0.086     -0.243      0.252      0.102      0.003      0.027      0.000      0.108      0.189      0.417     -0.301     -0.116     -0.667     -0.100     -0.010     -0.997      0.505      0.017     12.619      4.914     -0.012     -0.002      0.239     -0.206      0.017
+    -0.303      0.521     -0.419      0.421      0.422      0.263     -0.343      0.403     -0.391     -0.473      0.450     -0.171      0.442     -0.367     -0.682     -0.809      0.300      0.131     -0.420      0.365      0.004     -3.177     -0.239      0.006     -0.003     -0.058      0.053      0.003
+     0.537     -0.165      0.744     -0.848     -0.844     -0.420      0.718     -0.500      0.776      0.847     -0.737      0.617     -0.318     -0.013      0.894      0.494     -0.506      0.120     -0.185      0.220     -0.604   6501.341   1057.423     -9.804      5.536    129.517   -118.188     -3.599
+     0.481      0.050      0.640     -0.752     -0.745     -0.325      0.602     -0.502      0.680      0.734     -0.620      0.490      0.018     -0.305      0.622      0.118     -0.234      0.109     -0.377      0.398     -0.211      0.756    301.315     -1.008      0.815     24.043    -21.881     -0.459
+    -0.278      0.292     -0.404      0.509      0.594      0.149     -0.465      0.396     -0.425     -0.509      0.408     -0.360      0.327     -0.302     -0.686     -0.476      0.423     -0.051      0.078     -0.107      0.582     -0.756     -0.361      0.026     -0.010     -0.188      0.171      0.006
+     0.435     -0.287      0.721     -0.794     -0.761     -0.446      0.675     -0.500      0.727      0.810     -0.726      0.544     -0.472      0.138      0.902      0.657     -0.482      0.124      0.072     -0.040     -0.672      0.909      0.621     -0.829      0.006      0.115     -0.105     -0.004
+     0.520     -0.108      0.802     -0.895     -0.858     -0.483      0.760     -0.512      0.825      0.891     -0.794      0.644     -0.323     -0.102      0.877      0.463     -0.493      0.147     -0.171      0.202     -0.531      0.962      0.830     -0.701      0.914      2.787     -2.544     -0.075
+    -0.521      0.114     -0.805      0.896      0.857      0.487     -0.759      0.514     -0.827     -0.894      0.797     -0.641      0.329      0.099     -0.881     -0.473      0.493     -0.147      0.159     -0.190      0.538     -0.962     -0.827      0.698     -0.916     -1.000      2.322      0.069
+    -0.383      0.346     -0.711      0.706      0.627      0.498     -0.572      0.491     -0.682     -0.746      0.732     -0.417      0.555     -0.155     -0.843     -0.837      0.373     -0.061     -0.407      0.374      0.749     -0.715     -0.423      0.552     -0.786     -0.715      0.724      0.004
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 125.73 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:08:24
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 612505.
+Effects object used: myeff3a 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.9562
+  2. rate:  constant kudonet rate (period 2)                4.0634
+  3. eval:  outdegree (density)                           -11.2529
+  4. eval:  reciprocity                                    10.4050
+  5. eval:  transitive triplets                             0.6944
+  6. eval:  transitive recipr. triplets                     0.6809
+  7. eval:  indegree - popularity                          -0.2356
+  8. eval:  same gender                                    -0.6693
+  9. eval:  time_run alter                                 -0.7003
+ 10. eval:  time_run ego                                   -0.9755
+ 11. eval:  time_run abs. difference                        1.6116
+ 12. eval:  time_other alter                               -0.5047
+ 13. eval:  time_other ego                                  0.4938
+ 14. eval:  time_other abs. difference                      0.2564
+ 15. rate:  rate time_run (period 1)                        9.5235
+ 16. rate:  rate time_run (period 2)                       14.3669
+ 17. eval:  time_run linear shape                          -0.0698
+ 18. eval:  time_run quadratic shape                        0.0426
+ 19. eval:  time_run indegree                              -0.2978
+ 20. eval:  time_run outdegree                              0.3197
+ 21. eval:  time_run total alter                           -0.0018
+ 22. rate:  rate time_other (period 1)                     39.0725
+ 23. rate:  rate time_other (period 2)                     16.5075
+ 24. eval:  time_other linear shape                        -0.3199
+ 25. eval:  time_other quadratic shape                      0.0683
+ 26. eval:  time_other indegree                            -0.2648
+ 27. eval:  time_other outdegree                            0.2292
+ 28. eval:  time_other total alter                         -0.0219
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. time_run indegrees                                                 149.1333
+ 20. time_run outdegrees                                                206.1333
+ 21. time_run total alters                                              193.4511
+ 22. Amount of behavioral change in period 1 on time_other               56.0000
+ 23. Amount of behavioral change in period 2 on time_other               47.0000
+ 24. time_other centered sum                                             16.3333
+ 25. time_other sum of cent. squares                                    364.0963
+ 26. time_other indegrees                                                -8.3778
+ 27. time_other outdegrees                                               16.6222
+ 28. time_other total alters                                           -121.0240
+
+ 28 parameters, 28 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 4066 iterations.
+Parameter estimates based on 3066 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.  -0.1960   3.5733  -0.0549 
+  2.   0.1880   8.7960   0.0214 
+  3.   0.1860  12.6426   0.0147 
+  4.   0.5500  12.0897   0.0455 
+  5.  -0.1360 105.5186  -0.0013 
+  6.   0.3980  98.8105   0.0040 
+  7.   3.1400 157.6166   0.0199 
+  8.   0.0580   8.2507   0.0070 
+  9.  -0.0252  17.6920  -0.0014 
+ 10.   0.0598  17.1649   0.0035 
+ 11.   0.8990  44.0687   0.0204 
+ 12.   0.0537  21.7101   0.0025 
+ 13.  -0.3233  21.4522  -0.0151 
+ 14.   0.7150  43.1039   0.0166 
+ 15.   0.0930   7.3000   0.0127 
+ 16.   0.1110   8.3855   0.0132 
+ 17.   0.0460  13.8596   0.0033 
+ 18.   0.1703  35.1693   0.0048 
+ 19.   0.6090  48.5921   0.0125 
+ 20.   1.4860  54.3806   0.0273 
+ 21.  -1.9262 144.3763  -0.0133 
+ 22.   0.1920   9.7108   0.0198 
+ 23.  -0.1400   8.1590  -0.0172 
+ 24.   0.0640  14.2702   0.0045 
+ 25.   1.0316  49.7316   0.0207 
+ 26.  -1.1740  39.8409  -0.0295 
+ 27.  -0.8340  45.1961  -0.0185 
+ 28.   5.0716  70.7802   0.0717 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.203 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 4066 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.9955  (   7.2068)
+ 2. rate:  constant kudonet rate (period 2)                        4.1882  (   6.9892)
+ 3. eval:  outdegree (density)                                   -11.4715  ( 114.0018)
+ 4. eval:  reciprocity                                            11.1987  ( 142.3911)
+ 5. eval:  transitive triplets                                     0.8127  (   1.5993)
+ 6. eval:  transitive recipr. triplets                             0.4622  (  16.5365)
+ 7. eval:  indegree - popularity                                  -0.2436  (   1.1270)
+ 8. eval:  same gender                                            -0.6680  (   1.9817)
+ 9. eval:  time_run alter                                         -0.6954  (  19.3675)
+10. eval:  time_run ego                                           -0.9794  (  16.1591)
+11. eval:  time_run abs. difference                                1.6169  (  17.0012)
+12. eval:  time_other alter                                       -0.5583  (   4.6167)
+13. eval:  time_other ego                                          0.4980  (   1.8338)
+14. eval:  time_other abs. difference                              0.2449  (   3.7288)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                            9.4042  (  77.2474)
+16. rate:  <1> rate time_run (period 2)                           14.2509  ( 130.2227)
+17. eval:  <1> time_run linear shape                              -0.0699  (   1.4772)
+18. eval:  <1> time_run quadratic shape                            0.0418  (   0.0510)
+19. eval:  <1> time_run indegree                                  -0.3218  (   2.3872)
+20. eval:  <1> time_run outdegree                                  0.3472  (   1.6828)
+21. eval:  <1> time_run total alter                               -0.0052  (   0.1930)
+22. rate:  <2> rate time_other (period 1)                         36.8143  ( 578.9027)
+23. rate:  <2> rate time_other (period 2)                         16.6032  (  21.7597)
+24. eval:  <2> time_other linear shape                            -0.3109  (   2.7685)
+25. eval:  <2> time_other quadratic shape                          0.0661  (   0.1739)
+26. eval:  <2> time_other indegree                                -0.2556  (   1.5374)
+27. eval:  <2> time_other outdegree                                0.2219  (   0.7586)
+28. eval:  <2> time_other total alter                             -0.0226  (   0.1515)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+    51.938    -47.345    792.800  -1003.769      6.450   -115.656     -1.198     -0.742    138.091    112.803   -116.311     30.408      1.870     26.229    547.954   -933.994     10.567      0.317    -16.949     11.713      1.352   4150.677    140.251    -19.843      1.217     10.766     -4.970      1.067
+    -0.940     48.849   -673.643    869.319     -8.196     99.375      3.347      3.734   -121.951    -96.032     96.742    -24.299     -4.828    -24.692   -524.539    868.496     -9.922     -0.285     14.918     -9.996     -1.292  -3896.903   -118.650     18.611     -1.086    -10.053      4.609     -0.955
+     0.965     -0.845  12996.405 -16192.712     67.374  -1874.916     12.296     32.945   2188.945   1840.117  -1934.668    517.352    -14.621    391.986   8156.846 -14180.882    158.769      4.906   -264.930    186.468     19.974  62390.466   2296.106   -299.183     19.246    163.140    -75.952     16.726
+    -0.978      0.874     -0.998  20275.227    -93.037   2337.256     -5.963    -27.111  -2748.944  -2295.566   2402.279   -640.342      7.671   -501.724 -10419.302  17980.515   -202.018     -6.180    333.229   -233.341    -25.539 -79412.861  -2857.023    380.428    -24.178   -206.865     95.916    -21.052
+     0.560     -0.733      0.370     -0.409      2.558    -11.629     -1.388     -1.615     14.643      9.970     -8.795      1.641      2.161      3.534     78.276   -123.914      1.441      0.038     -1.921      1.198      0.197    563.228     12.224     -2.686      0.133      1.470     -0.682      0.121
+    -0.970      0.860     -0.995      0.993     -0.440    273.455     -1.090     -4.333   -317.780   -266.052    278.562    -73.860      0.518    -57.102  -1192.778   2075.046    -23.215     -0.718     38.672    -27.189     -2.927  -9118.144   -331.144     43.745     -2.795    -23.912     11.169     -2.434
+    -0.148      0.425      0.096     -0.037     -0.770     -0.058      1.270      1.685     -0.629      1.487     -2.931      1.257     -1.758     -0.978    -23.623     28.092     -0.373     -0.004      0.155      0.038     -0.062   -145.944      2.348      0.673     -0.008     -0.332      0.129     -0.012
+    -0.052      0.270      0.146     -0.096     -0.510     -0.132      0.755      3.927      2.046      4.416     -6.318      2.270     -1.914     -1.270    -26.227     17.060     -0.358     -0.001     -0.282      0.457     -0.065   -134.780      4.415      0.591      0.010     -0.275      0.084      0.014
+     0.989     -0.901      0.991     -0.997      0.473     -0.992     -0.029      0.053    375.099    310.862   -323.488     85.503      1.542     69.093   1442.827  -2483.543     27.915      0.847    -45.706     31.887      3.545  10971.159    385.320    -52.550      3.297     28.536    -13.210      2.885
+     0.969     -0.850      0.999     -0.998      0.386     -0.996      0.082      0.138      0.993    261.117   -273.730     73.045     -1.425     55.823   1161.548  -2018.724     22.588      0.694    -37.686     26.517      2.848   8880.916    322.628    -42.574      2.722     23.148    -10.746      2.379
+    -0.949      0.814     -0.998      0.992     -0.323      0.991     -0.153     -0.188     -0.982     -0.996    289.040    -77.633      3.754    -57.256  -1187.016   2073.666    -23.169     -0.722     39.066    -27.624     -2.901  -9106.709   -341.564     43.688     -2.840    -23.825     11.100     -2.465
+     0.914     -0.753      0.983     -0.974      0.222     -0.967      0.242      0.248      0.956      0.979     -0.989     21.314     -1.881     14.893    306.100   -538.691      6.019      0.190    -10.318      7.352      0.747   2363.196     92.471    -11.342      0.754      6.214     -2.909      0.648
+     0.142     -0.377     -0.070      0.029      0.737      0.017     -0.851     -0.527      0.043     -0.048      0.120     -0.222      3.363      0.922     32.015    -46.888      0.522      0.006     -0.396      0.116      0.089    209.465     -5.972     -0.985      0.004      0.442     -0.160      0.029
+     0.976     -0.947      0.922     -0.945      0.593     -0.926     -0.233     -0.172      0.957      0.926     -0.903      0.865      0.135     13.904    283.908   -471.859      5.409      0.158     -8.414      5.738      0.696   2125.004     69.963    -10.137      0.613      5.469     -2.500      0.532
+     0.984     -0.972      0.926     -0.947      0.634     -0.934     -0.271     -0.171      0.964      0.931     -0.904      0.858      0.226      0.986   5967.164  -9942.610    113.335      3.309   -175.828    119.670     14.671  44536.679   1442.857   -212.823     12.764    114.753    -52.520     11.154
+    -0.995      0.954     -0.955      0.970     -0.595      0.964      0.191      0.066     -0.985     -0.959      0.937     -0.896     -0.196     -0.972     -0.988  16957.959   -191.325     -5.690    305.529   -210.622    -24.557 -75121.367  -2508.332    359.460    -21.926   -195.158     90.235    -19.277
+     0.993     -0.961      0.943     -0.960      0.610     -0.950     -0.224     -0.122      0.976      0.946     -0.923      0.883      0.193      0.982      0.993     -0.995      2.182      0.065     -3.426      2.347      0.280    853.157     28.450     -4.079      0.248      2.223     -1.030      0.216
+     0.862     -0.800      0.844     -0.851      0.466     -0.852     -0.072     -0.010      0.858      0.842     -0.833      0.807      0.069      0.833      0.840     -0.857      0.862      0.003     -0.105      0.073      0.008     25.283      0.863     -0.121      0.008      0.067     -0.032      0.006
+    -0.985      0.894     -0.973      0.980     -0.503      0.980      0.058     -0.060     -0.989     -0.977      0.963     -0.936     -0.090     -0.945     -0.953      0.983     -0.971     -0.862      5.699     -3.997     -0.436  -1345.059    -46.710      6.439     -0.401     -3.498      1.622     -0.354
+     0.966     -0.850      0.972     -0.974      0.445     -0.977      0.020      0.137      0.978      0.975     -0.966      0.946      0.037      0.914      0.921     -0.961      0.944      0.847     -0.995      2.832      0.296    922.128     32.734     -4.417      0.279      2.399     -1.114      0.247
+     0.972     -0.958      0.908     -0.929      0.640     -0.917     -0.286     -0.171      0.948      0.913     -0.884      0.838      0.252      0.967      0.984     -0.977      0.981      0.847     -0.947      0.913      0.037    109.871      3.518     -0.525      0.031      0.283     -0.130      0.028
+     0.995     -0.963      0.945     -0.963      0.608     -0.952     -0.224     -0.117      0.979      0.949     -0.925      0.884      0.197      0.984      0.996     -0.996      0.998      0.857     -0.973      0.947      0.983 335128.335  11046.211  -1601.578     96.969    867.085   -399.029     84.939
+     0.894     -0.780      0.926     -0.922      0.351     -0.920      0.096      0.102      0.914      0.918     -0.923      0.920     -0.150      0.862      0.858     -0.885      0.885      0.778     -0.899      0.894      0.838      0.877    473.487    -53.082      3.576     30.396    -14.817      2.918
+    -0.995      0.962     -0.948      0.965     -0.607      0.956      0.216      0.108     -0.980     -0.952      0.928     -0.887     -0.194     -0.982     -0.995      0.997     -0.997     -0.858      0.974     -0.948     -0.982     -0.999     -0.881      7.664     -0.466     -4.158      1.919     -0.407
+     0.971     -0.894      0.971     -0.977      0.480     -0.972     -0.039      0.029      0.979      0.969     -0.961      0.940      0.013      0.945      0.950     -0.968      0.966      0.854     -0.966      0.952      0.932      0.964      0.945     -0.969      0.030      0.261     -0.124      0.025
+     0.972     -0.936      0.931     -0.945      0.598     -0.941     -0.192     -0.090      0.958      0.932     -0.912      0.876      0.157      0.954      0.966     -0.975      0.979      0.858     -0.953      0.927      0.955      0.974      0.909     -0.977      0.975      2.364     -1.142      0.221
+    -0.909      0.869     -0.878      0.888     -0.562      0.890      0.151      0.056     -0.899     -0.877      0.861     -0.830     -0.115     -0.884     -0.896      0.913     -0.919     -0.822      0.895     -0.873     -0.888     -0.909     -0.898      0.914     -0.942     -0.979      0.576     -0.102
+     0.978     -0.902      0.969     -0.976      0.498     -0.972     -0.071      0.047      0.984      0.972     -0.957      0.927      0.103      0.941      0.953     -0.977      0.965      0.840     -0.978      0.968      0.941      0.969      0.886     -0.971      0.963      0.947     -0.886      0.023
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 99.3 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:10:04
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 596513.
+Effects object used: myeff3b 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8335
+  2. rate:  constant kudonet rate (period 2)                3.3823
+  3. eval:  outdegree (density)                            -0.4777
+  4. eval:  reciprocity                                     0.0000
+  5. eval:  transitive triplets                             0.0000
+  6. eval:  transitive recipr. triplets                     0.0000
+  7. eval:  indegree - popularity                           0.0000
+  8. eval:  same gender                                     0.0000
+  9. eval:  time_run alter                                  0.0000
+ 10. eval:  time_run ego                                    0.0000
+ 11. eval:  time_run abs. difference                        0.0000
+ 12. eval:  time_other alter                                0.0000
+ 13. eval:  time_other ego                                  0.0000
+ 14. eval:  time_other abs. difference                      0.0000
+ 15. rate:  rate time_run (period 1)                        4.5793
+ 16. rate:  rate time_run (period 2)                        6.9931
+ 17. eval:  time_run linear shape                           0.0298
+ 18. eval:  time_run quadratic shape                        0.0000
+ 19. eval:  time_run total similarity                       0.0000
+ 20. eval:  time_run indegree                               0.0000
+ 21. eval:  time_run outdegree                              0.0000
+ 22. rate:  rate time_other (period 1)                      5.4207
+ 23. rate:  rate time_other (period 2)                      3.7299
+ 24. eval:  time_other linear shape                         0.0189
+ 25. eval:  time_other quadratic shape                      0.0000
+ 26. eval:  time_other total similarity                     0.0000
+ 27. eval:  time_other indegree                             0.0000
+ 28. eval:  time_other outdegree                            0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. time_run total similarity                                            5.4709
+ 20. time_run indegrees                                                 149.1333
+ 21. time_run outdegrees                                                206.1333
+ 22. Amount of behavioral change in period 1 on time_other               56.0000
+ 23. Amount of behavioral change in period 2 on time_other               47.0000
+ 24. time_other centered sum                                             16.3333
+ 25. time_other sum of cent. squares                                    364.0963
+ 26. time_other total similarity                                         -5.2187
+ 27. time_other indegrees                                                -8.3778
+ 28. time_other outdegrees                                               16.6222
+
+ 28 parameters, 28 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 4339 iterations.
+Parameter estimates based on 3339 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.0350   3.4073   0.0103 
+  2.   0.5390   8.7411   0.0617 
+  3.   1.1900  12.7917   0.0930 
+  4.   1.0280  12.3288   0.0834 
+  5.   5.4880 107.8356   0.0509 
+  6.   5.2430 101.5042   0.0517 
+  7.  11.9760 158.1514   0.0757 
+  8.   0.3050   8.0316   0.0380 
+  9.  -0.1493  17.6120  -0.0085 
+ 10.  -0.6133  17.5743  -0.0349 
+ 11.   4.4520  43.8582   0.1015 
+ 12.  -1.5066  21.5109  -0.0700 
+ 13.   0.4714  22.2142   0.0212 
+ 14.   3.4680  42.8618   0.0809 
+ 15.   0.0960   7.3457   0.0131 
+ 16.   0.2340   8.5087   0.0275 
+ 17.   0.7700  14.7661   0.0521 
+ 18.  -0.4567  38.6148  -0.0118 
+ 19.   0.0556   5.7774   0.0096 
+ 20.   0.1450  53.5831   0.0027 
+ 21.   0.7220  59.6816   0.0121 
+ 22.  -0.7030   9.5884  -0.0733 
+ 23.  -0.0320   7.7204  -0.0041 
+ 24.   0.3070  14.3705   0.0214 
+ 25.  -1.5660  50.3531  -0.0311 
+ 26.   0.0160   7.7694   0.0021 
+ 27.   1.2970  43.0990   0.0301 
+ 28.   1.0170  48.3072   0.0211 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.2425 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 4339 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.9840  (   1.8634)
+ 2. rate:  constant kudonet rate (period 2)                        4.1952  (   3.3052)
+ 3. eval:  outdegree (density)                                   -10.1972  (  41.8046)
+ 4. eval:  reciprocity                                             9.7366  (  31.5837)
+ 5. eval:  transitive triplets                                     0.7229  (   1.4164)
+ 6. eval:  transitive recipr. triplets                             0.4643  (   9.1321)
+ 7. eval:  indegree - popularity                                  -0.2179  (   0.8352)
+ 8. eval:  same gender                                            -0.6218  (   3.5329)
+ 9. eval:  time_run alter                                         -0.5627  (   5.4005)
+10. eval:  time_run ego                                           -0.8279  (   5.8025)
+11. eval:  time_run abs. difference                                1.4439  (   6.7235)
+12. eval:  time_other alter                                       -0.4648  (   1.4090)
+13. eval:  time_other ego                                          0.5035  (   1.8563)
+14. eval:  time_other abs. difference                              0.2077  (   2.4746)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                            9.3128  (  21.5901)
+16. rate:  <1> rate time_run (period 2)                           12.9550  (  39.0935)
+17. eval:  <1> time_run linear shape                              -0.0689  (   0.1403)
+18. eval:  <1> time_run quadratic shape                            0.0512  (   0.0384)
+19. eval:  <1> time_run total similarity                           0.2555  (   2.0259)
+20. eval:  <1> time_run indegree                                  -0.3683  (   3.0602)
+21. eval:  <1> time_run outdegree                                  0.3813  (   3.1096)
+22. rate:  <2> rate time_other (period 1)                         34.7300  (  59.1676)
+23. rate:  <2> rate time_other (period 2)                         16.5818  (  13.2547)
+24. eval:  <2> time_other linear shape                            -0.2977  (   0.1491)
+25. eval:  <2> time_other quadratic shape                          0.0589  (   0.0282)
+26. eval:  <2> time_other total similarity                        -0.3806  (   0.4512)
+27. eval:  <2> time_other indegree                                -0.2295  (   0.4887)
+28. eval:  <2> time_other outdegree                                0.1800  (   0.4672)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     3.472      5.216     69.388    -50.245      2.103    -16.075      1.455      5.666      9.349      9.687    -11.156      2.205      3.108     -4.356    -39.176    -70.158      0.145      0.010      3.489     -5.508      5.601     99.765     20.696     -0.132     -0.002      0.145     -0.323      0.376
+     0.847     10.925    131.217    -97.808      2.812    -27.853      2.432     10.680     16.904     18.095    -21.193      4.157      4.207     -7.353    -59.656   -110.952      0.315      0.026      5.596     -8.444      8.543    125.089     27.161     -0.076     -0.015      0.475     -0.989      1.023
+     0.891      0.950   1747.624  -1309.403     36.120   -368.398     32.850    142.401    223.722    240.871   -280.755     56.733     56.574    -98.895   -796.437  -1452.903      3.930      0.248     72.677   -111.233    112.637   1728.201    366.407     -1.103     -0.166      5.676    -11.604     12.174
+    -0.854     -0.937     -0.992    997.528    -23.678    268.918    -24.393   -106.575   -166.156   -180.124    210.382    -43.182    -39.152     72.137    577.937   1053.235     -2.957     -0.187    -52.784     80.227    -81.172  -1224.229   -253.174      0.563      0.142     -4.102      8.884     -9.209
+     0.797      0.601      0.610     -0.529      2.006    -10.207      0.787      3.143      5.246      5.173     -5.826      1.056      2.140     -2.535    -24.558    -45.166      0.081      0.006      2.199     -3.560      3.628     65.853     14.586     -0.114      0.004      0.077     -0.096      0.141
+    -0.945     -0.923     -0.965      0.932     -0.789     83.395     -7.247    -30.623    -48.496    -51.471     59.224    -11.758    -14.032     21.965    184.532    336.687     -0.805     -0.044    -16.608     25.982    -26.372   -432.488    -92.193      0.432      0.017     -1.120      2.099     -2.298
+     0.935      0.881      0.941     -0.925      0.665     -0.950      0.698      2.711      4.286      4.593     -5.290      1.074      1.262     -1.982    -16.658    -29.720      0.065      0.003      1.468     -2.310      2.348     41.188      8.352     -0.042     -0.001      0.090     -0.181      0.200
+     0.861      0.915      0.964     -0.955      0.628     -0.949      0.919     12.481     18.179     19.784    -22.954      4.589      4.517     -8.090    -64.559   -117.177      0.320      0.012      5.732     -8.951      9.070    141.611     29.274     -0.082     -0.011      0.490     -0.942      0.990
+     0.929      0.947      0.991     -0.974      0.686     -0.983      0.950      0.953     29.166     31.003    -35.907      7.231      7.984    -12.975   -107.724   -197.025      0.501      0.035      9.845    -15.154     15.362    243.599     51.827     -0.214     -0.016      0.670     -1.349      1.448
+     0.896      0.944      0.993     -0.983      0.629     -0.971      0.948      0.965      0.989     33.669    -38.665      7.852      8.007    -13.794   -110.028   -200.185      0.522      0.023      9.872    -15.309     15.515    244.378     50.808     -0.162     -0.020      0.792     -1.560      1.647
+    -0.890     -0.954     -0.999      0.991     -0.612      0.965     -0.942     -0.966     -0.989     -0.991     45.205     -9.062     -8.970     15.809    127.801    233.363     -0.637     -0.041    -11.673     17.846    -18.069   -276.600    -58.187      0.172      0.028     -0.933      1.898     -1.987
+     0.840      0.893      0.963     -0.970      0.529     -0.914      0.913      0.922      0.950      0.960     -0.957      1.985      1.783     -3.183    -25.472    -46.253      0.122      0.006      2.312     -3.543      3.587     54.853     11.485     -0.028     -0.005      0.170     -0.366      0.382
+     0.899      0.686      0.729     -0.668      0.814     -0.828      0.814      0.689      0.796      0.743     -0.719      0.682      3.446     -4.017    -36.376    -65.750      0.107      0.011      3.281     -5.226      5.329     99.076     22.424     -0.170      0.004      0.101     -0.151      0.217
+    -0.945     -0.899     -0.956      0.923     -0.723      0.972     -0.959     -0.925     -0.971     -0.961      0.950     -0.913     -0.874      6.124     50.106     90.006     -0.208     -0.010     -4.462      7.021     -7.131   -120.060    -25.610      0.127      0.005     -0.286      0.564     -0.620
+    -0.974     -0.836     -0.882      0.848     -0.803      0.936     -0.924     -0.846     -0.924     -0.878      0.880     -0.837     -0.908      0.938    466.131    827.519     -1.731     -0.171    -41.744     65.237    -66.311  -1167.645   -247.137      1.588      0.026     -1.419      3.587     -4.209
+    -0.963     -0.859     -0.889      0.853     -0.816      0.943     -0.910     -0.848     -0.933     -0.883      0.888     -0.840     -0.906      0.930      0.980   1528.299     -3.322     -0.392    -76.879    118.847   -120.726  -2042.095   -446.220      2.795      0.024     -2.766      6.448     -7.525
+     0.554      0.679      0.670     -0.667      0.409     -0.628      0.553      0.646      0.661      0.641     -0.675      0.618      0.409     -0.599     -0.571     -0.606      0.020      0.002      0.172     -0.250      0.250      2.736      0.623      0.001     -0.001      0.015     -0.039      0.039
+     0.143      0.206      0.154     -0.154      0.116     -0.125      0.079      0.085      0.171      0.103     -0.161      0.116      0.148     -0.110     -0.206     -0.261      0.375      0.001      0.031     -0.031      0.030      0.079      0.105      0.000      0.000      0.000     -0.002      0.002
+     0.924      0.836      0.858     -0.825      0.766     -0.898      0.868      0.801      0.900      0.840     -0.857      0.810      0.872     -0.890     -0.954     -0.971      0.606      0.400      4.104     -6.037      6.122     99.648     23.216     -0.138     -0.003      0.142     -0.351      0.402
+    -0.966     -0.835     -0.869      0.830     -0.821      0.930     -0.904     -0.828     -0.917     -0.862      0.867     -0.822     -0.920      0.927      0.987      0.993     -0.581     -0.263     -0.974      9.365     -9.515   -163.224    -35.900      0.234      0.001     -0.210      0.477     -0.567
+     0.967      0.831      0.866     -0.826      0.824     -0.929      0.904      0.826      0.915      0.860     -0.864      0.819      0.923     -0.927     -0.988     -0.993      0.572      0.255      0.972     -1.000      9.670    166.789     36.600     -0.241     -0.001      0.209     -0.473      0.566
+     0.905      0.640      0.699     -0.655      0.786     -0.800      0.833      0.677      0.762      0.712     -0.695      0.658      0.902     -0.820     -0.914     -0.883      0.330      0.035      0.831     -0.901      0.907   3500.807    679.181     -5.991      0.193      0.092     -1.874      4.192
+     0.838      0.620      0.661     -0.605      0.777     -0.762      0.754      0.625      0.724      0.661     -0.653      0.615      0.911     -0.781     -0.864     -0.861      0.335      0.207      0.865     -0.885      0.888      0.866    175.688     -1.289      0.058      0.659     -0.689      1.169
+    -0.474     -0.153     -0.177      0.120     -0.542      0.318     -0.338     -0.156     -0.266     -0.187      0.172     -0.134     -0.615      0.344      0.494      0.480      0.045     -0.065     -0.456      0.513     -0.521     -0.679     -0.653      0.022     -0.002      0.004     -0.026      0.019
+    -0.038     -0.163     -0.141      0.160      0.090      0.064     -0.057     -0.109     -0.107     -0.121      0.146     -0.125      0.069      0.072      0.042      0.022     -0.281     -0.078     -0.058      0.012     -0.007      0.116      0.156     -0.546      0.001      0.002      0.007     -0.006
+     0.172      0.318      0.301     -0.288      0.121     -0.272      0.238      0.308      0.275      0.302     -0.308      0.268      0.120     -0.256     -0.146     -0.157      0.244      0.029      0.156     -0.152      0.149      0.003      0.110      0.058      0.121      0.204     -0.109      0.114
+    -0.354     -0.612     -0.568      0.576     -0.138      0.470     -0.443     -0.546     -0.511     -0.550      0.578     -0.532     -0.166      0.466      0.340      0.338     -0.572     -0.117     -0.355      0.319     -0.311     -0.065     -0.106     -0.351      0.494     -0.493      0.239     -0.227
+     0.432      0.662      0.623     -0.624      0.214     -0.539      0.512      0.600      0.574      0.607     -0.633      0.581      0.251     -0.536     -0.417     -0.412      0.591      0.121      0.425     -0.397      0.390      0.152      0.189      0.266     -0.455      0.541     -0.993      0.218
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 84.56 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 20/01/2021 12:11:29
+New results follow.
+-----------------------------------
+
+RSiena version 1.2-23 (12 jan 20)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 226947.
+Effects object used: myeff3c 
+Model Type:
+ 
+Behavioral Model Type:
+Behavior 1 time_run : 
+Behavior 2 time_other : 
+Estimation method: unconditional moment estimation.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.8335
+  2. rate:  constant kudonet rate (period 2)                3.3823
+  3. eval:  outdegree (density)                            -0.4777
+  4. eval:  reciprocity                                     0.0000
+  5. eval:  transitive triplets                             0.0000
+  6. eval:  transitive recipr. triplets                     0.0000
+  7. eval:  indegree - popularity                           0.0000
+  8. eval:  same gender                                     0.0000
+  9. eval:  time_run alter                                  0.0000
+ 10. eval:  time_run ego                                    0.0000
+ 11. eval:  time_run abs. difference                        0.0000
+ 12. eval:  time_other alter                                0.0000
+ 13. eval:  time_other ego                                  0.0000
+ 14. eval:  time_other abs. difference                      0.0000
+ 15. rate:  rate time_run (period 1)                        4.5793
+ 16. rate:  rate time_run (period 2)                        6.9931
+ 17. eval:  time_run linear shape                           0.0298
+ 18. eval:  time_run quadratic shape                        0.0000
+ 19. eval:  time_run indegree                               0.0000
+ 20. eval:  time_run outdegree                              0.0000
+ 21. eval:  time_run tot. sim. x reciprocity                0.0000
+ 22. rate:  rate time_other (period 1)                      5.4207
+ 23. rate:  rate time_other (period 2)                      3.7299
+ 24. eval:  time_other linear shape                         0.0189
+ 25. eval:  time_other quadratic shape                      0.0000
+ 26. eval:  time_other indegree                             0.0000
+ 27. eval:  time_other outdegree                            0.0000
+ 28. eval:  time_other tot. sim. x reciprocity              0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                12.0000
+  2. Amount of network change in period 2                                49.0000
+  3. Number of ties                                                     171.0000
+  4. Number of reciprocated ties                                        152.0000
+  5. Number of transitive triplets                                      604.0000
+  6. Number of transitive recipr. triplets                              556.0000
+  7. Sum of squared indegrees                                          1175.0000
+  8. Same values on gender                                               97.0000
+  9. Sum indegrees x time_run                                           150.3000
+ 10. Sum outdegrees x time_run                                          144.3000
+ 11. Sum_ties abs.diff time_run                                         438.0000
+ 12. Sum indegrees x time_other                                         -29.1000
+ 13. Sum outdegrees x time_other                                          5.9000
+ 14. Sum_ties abs.diff time_other                                       449.0000
+ 15. Amount of behavioral change in period 1 on time_run                 48.0000
+ 16. Amount of behavioral change in period 2 on time_run                 58.0000
+ 17. time_run centered sum                                               -4.0000
+ 18. time_run sum of cent. squares                                      376.8667
+ 19. time_run indegrees                                                 149.1333
+ 20. time_run outdegrees                                                206.1333
+ 21. time_run tot. similarity x reciprocity                               7.6256
+ 22. Amount of behavioral change in period 1 on time_other               56.0000
+ 23. Amount of behavioral change in period 2 on time_other               47.0000
+ 24. time_other centered sum                                             16.3333
+ 25. time_other sum of cent. squares                                    364.0963
+ 26. time_other indegrees                                                -8.3778
+ 27. time_other outdegrees                                               16.6222
+ 28. time_other tot. similarity x reciprocity                            -5.9409
+
+ 28 parameters, 28 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 4157 iterations.
+Parameter estimates based on 3157 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.1230   3.6567   0.0336 
+  2.   0.0680   8.4975   0.0080 
+  3.   0.4910  12.4541   0.0394 
+  4.   0.6560  12.0590   0.0544 
+  5.   5.5190 101.2060   0.0545 
+  6.   5.6310  94.7236   0.0594 
+  7.   5.1390 151.9213   0.0338 
+  8.   0.6570   7.7873   0.0844 
+  9.   0.6140  17.9675   0.0342 
+ 10.  -0.3930  17.0698  -0.0230 
+ 11.   1.4950  44.0566   0.0339 
+ 12.   0.9500  21.6790   0.0438 
+ 13.   0.9540  22.7419   0.0419 
+ 14.   1.1760  41.6331   0.0282 
+ 15.   0.1730   7.0137   0.0247 
+ 16.  -0.0100   8.1005  -0.0012 
+ 17.   0.0370  14.5760   0.0025 
+ 18.  -1.2741  36.3583  -0.0350 
+ 19.   0.7850  52.9063   0.0148 
+ 20.   0.6460  59.0001   0.0109 
+ 21.  -0.0757   5.9916  -0.0126 
+ 22.  -0.0040   9.7008  -0.0004 
+ 23.   0.0540   7.8328   0.0069 
+ 24.  -1.1380  14.2148  -0.0801 
+ 25.  -4.8142  50.7178  -0.0949 
+ 26.   1.3200  41.7310   0.0316 
+ 27.   1.8140  46.6897   0.0389 
+ 28.  -0.4509   7.2170  -0.0625 
+
+Good convergence is indicated by the t-ratios being close to zero.
+
+Overall maximum convergence ratio =  0.2443 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 4157 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        0.9926  (   0.5822)
+ 2. rate:  constant kudonet rate (period 2)                        4.1566  (   2.0711)
+ 3. eval:  outdegree (density)                                   -11.2213  (  41.7851)
+ 4. eval:  reciprocity                                            10.7756  (  38.2780)
+ 5. eval:  transitive triplets                                     0.7817  (   1.0315)
+ 6. eval:  transitive recipr. triplets                             0.5421  (   6.2302)
+ 7. eval:  indegree - popularity                                  -0.2409  (   0.7572)
+ 8. eval:  same gender                                            -0.6345  (   2.2478)
+ 9. eval:  time_run alter                                         -0.6565  (   3.7769)
+10. eval:  time_run ego                                           -0.9696  (   5.6473)
+11. eval:  time_run abs. difference                                1.5898  (   7.4432)
+12. eval:  time_other alter                                       -0.5234  (   1.1916)
+13. eval:  time_other ego                                          0.5313  (   2.6254)
+14. eval:  time_other abs. difference                              0.2245  (   0.4888)
+Behavior Dynamics
+
+15. rate:  <1> rate time_run (period 1)                            9.4446  (   5.9653)
+16. rate:  <1> rate time_run (period 2)                           13.4683  (  10.2699)
+17. eval:  <1> time_run linear shape                              -0.0703  (   0.1123)
+18. eval:  <1> time_run quadratic shape                            0.0469  (   0.0319)
+19. eval:  <1> time_run indegree                                  -0.3404  (   0.4118)
+20. eval:  <1> time_run outdegree                                  0.3567  (   0.4047)
+21. eval:  <1> time_run tot. sim. x reciprocity                    0.1487  (   0.4802)
+22. rate:  <2> rate time_other (period 1)                         35.2358  (  21.9482)
+23. rate:  <2> rate time_other (period 2)                         17.0913  (  12.1120)
+24. eval:  <2> time_other linear shape                            -0.2974  (   0.1061)
+25. eval:  <2> time_other quadratic shape                          0.0575  (   0.0390)
+26. eval:  <2> time_other indegree                                -0.2882  (   0.5750)
+27. eval:  <2> time_other outdegree                                0.2344  (   0.5452)
+28. eval:  <2> time_other tot. sim. x reciprocity                 -0.4608  (   0.7935)
+
+
+@3
+Covariance matrices
+                   
+Covariance matrix of estimates (correlations below diagonal):
+     0.339      0.854     17.129    -15.277     -0.180     -2.554      0.308      0.856      1.491      2.291     -3.100      0.472     -1.110     -0.036     -1.276     -3.350     -0.006      0.000      0.027     -0.031      0.018      4.762     -2.415     -0.020      0.002     -0.055      0.072      0.237
+     0.709      4.289     68.623    -61.672     -0.988     -9.556      1.143      3.159      6.047      9.145    -12.357      1.554     -4.288     -0.265     -2.099    -10.053     -0.007     -0.007      0.277     -0.282     -0.130     12.098     -7.676     -0.091      0.015     -0.110      0.189      0.955
+     0.704      0.793   1745.997  -1591.395    -19.973   -246.277     29.488     76.451    155.937    232.841   -310.693     43.090   -105.963     -6.062    -32.817   -326.625      0.187     -0.224      6.928     -7.069     -3.249     74.411   -236.783     -1.816      0.514      0.804      1.570     23.893
+    -0.686     -0.778     -0.995   1465.202     19.086    221.822    -26.886    -68.802   -142.838   -213.120    283.085    -39.296     96.748      4.911     27.177    288.525     -0.022      0.223     -6.822      6.913      3.184    -74.136    203.794      1.645     -0.493     -1.683     -0.496    -21.112
+    -0.300     -0.463     -0.463      0.483      1.064      1.147     -0.429     -0.357     -1.528     -2.183      3.487     -0.467      1.137      0.203      1.677      1.497      0.019      0.007     -0.045      0.041      0.096     -2.845      1.156      0.024     -0.004     -0.034      0.010     -0.165
+    -0.704     -0.741     -0.946      0.930      0.178     38.816     -4.120    -12.221    -22.441    -33.920     44.059     -6.350     15.357      0.509      3.450     52.537     -0.090      0.012     -0.954      0.994      0.263     -8.092     41.144      0.256     -0.068      0.191     -0.532     -3.805
+     0.699      0.729      0.932     -0.928     -0.549     -0.873      0.573      1.332      2.561      3.856     -5.276      0.795     -1.859     -0.099     -1.062     -6.153      0.005     -0.002      0.087     -0.091     -0.026      2.029     -5.068     -0.032      0.007     -0.033      0.072      0.425
+     0.654      0.678      0.814     -0.800     -0.154     -0.873      0.782      5.053      6.799     10.378    -13.752      2.140     -4.905     -0.201     -2.425    -17.249      0.014      0.003      0.218     -0.234      0.037      8.095    -13.973     -0.063      0.009     -0.262      0.353      1.208
+     0.678      0.773      0.988     -0.988     -0.392     -0.954      0.895      0.801     14.265     21.247    -27.751      3.742     -9.331     -0.461     -1.804    -28.812      0.018     -0.024      0.686     -0.694     -0.359      2.543    -19.205     -0.167      0.054      0.219      0.004      2.127
+     0.697      0.782      0.987     -0.986     -0.375     -0.964      0.902      0.818      0.996     31.892    -41.483      5.690    -14.046     -0.660     -2.698    -43.479      0.032     -0.032      1.039     -1.055     -0.502      5.372    -30.134     -0.254      0.079      0.257      0.075      3.237
+    -0.715     -0.802     -0.999      0.994      0.454      0.950     -0.936     -0.822     -0.987     -0.987     55.401     -7.628     18.954      0.987      5.958     58.722     -0.036      0.038     -1.221      1.247      0.563    -14.019     42.107      0.329     -0.092     -0.127     -0.295     -4.260
+     0.680      0.630      0.865     -0.861     -0.380     -0.855      0.881      0.799      0.831      0.845     -0.860      1.420     -2.796     -0.138     -2.119     -9.045     -0.001      0.002      0.103     -0.113      0.032      6.465     -9.375     -0.029      0.003     -0.159      0.208      0.661
+    -0.726     -0.789     -0.966      0.963      0.420      0.939     -0.935     -0.831     -0.941     -0.947      0.970     -0.894      6.893      0.181      2.848     20.833     -0.015      0.003     -0.396      0.413      0.086    -10.099     17.924      0.106     -0.023      0.137     -0.270     -1.529
+    -0.128     -0.262     -0.297      0.263      0.402      0.167     -0.266     -0.183     -0.250     -0.239      0.271     -0.238      0.141      0.239      0.051      0.595      0.000      0.003     -0.021      0.019      0.026     -0.243      0.494      0.005     -0.001     -0.001     -0.006     -0.079
+    -0.367     -0.170     -0.132      0.119      0.272      0.093     -0.235     -0.181     -0.080     -0.080      0.134     -0.298      0.182      0.017     35.585     12.358      0.163     -0.008      1.245     -1.212     -0.599    -47.913     13.398     -0.007      0.078      1.357     -1.309     -0.241
+    -0.560     -0.473     -0.761      0.734      0.141      0.821     -0.791     -0.747     -0.743     -0.750      0.768     -0.739      0.773      0.118      0.202    105.470     -0.333     -0.016     -0.120      0.236     -0.209     14.588     76.182      0.279     -0.062      1.187     -1.641     -5.554
+    -0.088     -0.032      0.040     -0.005      0.163     -0.128      0.060      0.055      0.041      0.050     -0.044     -0.004     -0.050     -0.001      0.244     -0.289      0.013      0.001      0.000     -0.002     -0.007     -1.097     -0.311     -0.001      0.001     -0.003      0.005      0.020
+    -0.020     -0.102     -0.168      0.183      0.225      0.059     -0.072      0.046     -0.200     -0.177      0.161      0.046      0.039      0.176     -0.042     -0.048      0.210      0.001     -0.002      0.002      0.009      0.194     -0.128      0.001      0.000     -0.009      0.008      0.003
+     0.115      0.325      0.403     -0.433     -0.107     -0.372      0.278      0.236      0.441      0.447     -0.398      0.209     -0.366     -0.103      0.507     -0.028     -0.004     -0.171      0.170     -0.166     -0.071     -0.330     -0.591     -0.013      0.006      0.093     -0.079      0.089
+    -0.131     -0.336     -0.418      0.446      0.099      0.394     -0.296     -0.257     -0.454     -0.461      0.414     -0.235      0.389      0.097     -0.502      0.057     -0.036      0.126     -0.997      0.164      0.063      0.194      0.760      0.013     -0.006     -0.083      0.070     -0.097
+     0.063     -0.131     -0.162      0.173      0.194      0.088     -0.072      0.035     -0.198     -0.185      0.158      0.055      0.068      0.110     -0.209     -0.042     -0.132      0.607     -0.357      0.325      0.231      4.657     -0.829      0.015     -0.008     -0.130      0.115      0.001
+     0.373      0.266      0.081     -0.088     -0.126     -0.059      0.122      0.164      0.031      0.043     -0.086      0.247     -0.175     -0.023     -0.366      0.065     -0.445      0.277     -0.036      0.022      0.442    481.722    -27.625      0.143     -0.363     -4.464      3.912      0.116
+    -0.343     -0.306     -0.468      0.440      0.093      0.545     -0.553     -0.513     -0.420     -0.441      0.467     -0.650      0.564      0.083      0.185      0.612     -0.229     -0.331     -0.119      0.155     -0.142     -0.104    146.701      0.043      0.101      3.936     -4.191     -6.745
+    -0.321     -0.413     -0.410      0.405      0.223      0.387     -0.403     -0.263     -0.418     -0.423      0.416     -0.231      0.380      0.102     -0.011      0.257     -0.122      0.191     -0.307      0.305      0.287      0.061      0.034      0.011     -0.003     -0.019      0.014     -0.030
+     0.094      0.186      0.316     -0.331     -0.108     -0.281      0.234      0.101      0.368      0.361     -0.316      0.054     -0.224     -0.074      0.334     -0.154      0.182     -0.378      0.390     -0.376     -0.439     -0.424      0.214     -0.687      0.002      0.016     -0.014      0.007
+    -0.164     -0.092      0.033     -0.076     -0.057      0.053     -0.075     -0.203      0.101      0.079     -0.030     -0.232      0.091     -0.005      0.395      0.201     -0.054     -0.499      0.391     -0.358     -0.470     -0.354      0.565     -0.318      0.695      0.331     -0.311     -0.132
+     0.228      0.168      0.069     -0.024      0.019     -0.157      0.174      0.288      0.002      0.024     -0.073      0.320     -0.189     -0.023     -0.403     -0.293      0.088      0.486     -0.350      0.315      0.440      0.327     -0.635      0.244     -0.636     -0.992      0.297      0.173
+     0.513      0.581      0.721     -0.695     -0.201     -0.770      0.707      0.677      0.710      0.722     -0.721      0.699     -0.734     -0.205     -0.051     -0.682      0.228      0.138      0.274     -0.303      0.003      0.007     -0.702     -0.362      0.215     -0.289      0.400      0.630
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 82.54 seconds.
