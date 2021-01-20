@@ -52,7 +52,7 @@ In the following pages, we will:
 <div class="col-sm-6">
 
 <a>
-![](images/strava logo.png)
+![](images/logo.png)
 </a>
 </div>
 
