@@ -10,4 +10,13 @@ navbar:
       href: des.html
     - text: "Exploring RSiena"
       href: expl.html
+  right:
+    - icon: fab fa-github
+      href: https://github.com/robfranken/Strava
+output:
+  html_document:
+    theme: flatly
+    highlight: default
+    include:
+      after_body: footer.html
 output_dir: "docs"

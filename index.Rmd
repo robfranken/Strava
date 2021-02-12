@@ -1,18 +1,74 @@
 ---
 title: "Sport motivation"
-output: html_document
+bibliography: references.bib
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+output: 
+  html_document:
+    toc:  false
+    toc_float: true
+    number_sections: false
+    code_folding: show
+    code_download: yes
 ---
 
-<style type="text/css">
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color, 
+      x)
+  } else x
+}
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+```{css, echo=FALSE}
+pre.test {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin: 0px;
+}
+
+pre.test2 {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin: 0px;
+  background-color: white
+}
+
+
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 24px;
+}
+
 .title {
   display: none;
 }
 
-#getting-started img {
+# getting-started img {
   margin-right: 10px;
 }
 
-</style>
+
+
+```
+
+----
 
 <div class="row" style="padding-top: 30px;">
 <div class="col-sm-6">
@@ -22,14 +78,12 @@ output: html_document
 Last compiled on `r format(Sys.time(), '%B, %Y')`
 
 ----
-
-<br>
-
-This lab journal is created for the Strava paper. It contains R code.       
+  
+  
+This lab journal is created for the Strava paper @Franken2021. It contains R code.       
 All scripts can be found on [Github](https://github.com/robfranken/Strava)
-
-<br>
-
+  
+  
 ----
 
 </div>
@@ -39,3 +93,5 @@ All scripts can be found on [Github](https://github.com/robfranken/Strava)
 </a>
 </div>
 
+
+# References

@@ -1,16 +1,82 @@
 ---
 title: "Data preparation"
-date: "18-1-2021"
-output:
+bibliography: references.bib
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+output: 
   html_document:
+    toc:  true
+    toc_float: true
+    number_sections: false
     code_folding: show
     code_download: yes
 ---
 
 
-```{r setup, include=FALSE}
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color, 
+      x)
+  } else x
+}
+
 ```
+
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+```{css, echo=FALSE}
+pre.test {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin: 0px;
+}
+
+pre.test2 {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin: 0px;
+  background-color: white
+}
+
+
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 24px;
+}
+
+.title {
+  display: none;
+}
+
+#getting-started img {
+  margin-right: 10px;
+}
+
+
+
+```
+
+---  
+
+
+
+## clubdata.RData
 
 In the following scripts a list containing the (anonymized) data of all clubs is made (clubdata.RData).
 
@@ -288,6 +354,10 @@ save(clubdata, file="clubdata.RData")
 
 ``` 
 
+---  
+
+## clubdata_rsiena.RData
+
 The following script creates a list containing RSiena objects for all clubs (clubdata_rsiena.RData).
 
 ```{r eval=FALSE}
@@ -365,4 +435,6 @@ clubdata_rsiena <- list(rsienadataobjectclub_1, rsienadataobjectclub_2, rsienada
 # save the output
 save(clubdata_rsiena, file="clubdata_rsiena.RData")
 ```
+
+---  
 
