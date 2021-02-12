@@ -18,7 +18,7 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 
 ---
 
-We are going to explore the best-fitting model parameters. We are going to start small, focusing on one club, and on just three time-points.
+We are going to explore the best-fitting model parameters. We are going to start small...
 
 ----
 
@@ -33,15 +33,14 @@ Clean the working environment and set the working directory.
 rm (list = ls( ))
 
 # set the working directory
-setwd("C:\\Users\\u244147\\Documents\\dissertatie\\Strava data\\clubs") 
+setwd("C:\\Users\\u244147\\Documents\\GitHub\\Stravajournal") 
 ```
 
 We will make a new RSiena object:
 
-* Dependent variables: Kudos, running volume, running frequency
+* Dependent variables: Kudos, running frequency
 * Constant covariate: friendships (dyadic), gender
 * Starting with one club (N=30)
-* And using data on three months: t1, t6, t12
 
 ----
 
@@ -49,26 +48,35 @@ We will make a new RSiena object:
 
 # Step 1: Data
 
+We start with fewer waves...
+
 ```{r}
+#load("clubdata_rsiena.Rdata") # load club list
+#mydata <- clubdata_rsiena[[1]] # grab rsiena object club 1
+#library(RSiena) #and load package
+
+# for fewer waves
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[1]] # grab club 1
+club <- clubdata[[1]] # grab club 
 
 # specify variable roles for RSiena object
-library(RSiena)
-
 kudonet <- sienaDependent(club$kudo[,, c(1, 6, 12)])
-time_run <- sienaDependent(club$time_run[,, c(1, 6, 12)], type= "behavior")
-time_other <- sienaDependent(club$time_other[,, c(1, 6, 12)], type= "behavior")
+freq_run <- sienaDependent(club$freq_run[,, c(1, 6, 12)], type= "behavior")
+#time_run <- sienaDependent(club$time_run[,, c(1, 6, 12)], type= "behavior")
 
 friendship <- coDyadCovar(club$friendship)
 
-gender <- NA
+gender <- NA #we dichotomize gender as binary (men vs. women and other)
 gender <- ifelse(club$male == 1, 1, gender)
 gender <- ifelse(club$female == 1, 2, gender)
-gender <- ifelse(club$other == 1, 3, gender)
+gender <- ifelse(club$other == 1, 2, gender)
 gender <- coCovar(gender)
 
-mydata <- sienaDataCreate(kudonet, time_run, time_other, friendship, gender)
+winter <- varCovar(club$winter[, c(1, 6, 12)])
+
+#create rsiena data object
+mydata <- sienaDataCreate(kudonet, freq_run, friendship, gender, winter)
+#mydata <- sienaDataCreate(kudonet, time_run, freq_run, friendship, gender, winter)
 ```
 
 ----
@@ -82,7 +90,7 @@ print01Report(mydata)
 
 A text file is printed in the working directory.
 
-![](files/Siena_test.txt)
+![](files/Siena.txt)
 
 ----
 
@@ -96,89 +104,72 @@ myeff <- getEffects(mydata)
 #effectsDocumentation(myeff)
 ```
 
-First, we are going to include structural network effects.
+First, we are going to include structural network effects, guided by recommendations of Snijders (see [here](http://www.stats.ox.ac.uk/~snijders/siena/Net_longi7_A_s.pdf) and [here](http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf)). And we also include covariate effects of gender (monadic and dyadic)
 
 ```{r echo=T, results='hide'}
 # Structural effects
-myeff1 <- includeEffects(myeff, inPop, transTrip, transRecTrip, name="kudonet")
+myeff1 <- includeEffects(myeff, gwespFF, #triadic
+                         inPop, outAct, name = "kudonet") #degree-related
+
+myeff1 <- includeInteraction(myeff1, recip, gwespFF, parameter = 69) #gwesp x reciprocity
+
+myeff1 <- includeEffects(myeff1, egoX, altX, sameX, name = "kudonet", interaction1 = "gender")
+
 ```
 
 Second, we include selection-effects (i.e. who sends/receives Kudos, and between whom are Kudos exchanged?). We include effects reflecting homophily tendencies in Kudo exchanging based on (a) gender and (b) time spent on running / frequency of running. 
 
-```{r echo=T, results='hide'}
-# Homophily tendencies in Kudo relations with respect to gender
-myeff2 <- includeEffects( myeff1, sameX, name="kudonet", interaction1 = "gender" )
+For the selection-on-behavior-part, we may want to try the 'five-parameter' (quadratic) model (see [here, slide 23](http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf)).
 
-# Homophily tendencies in Kudo relations with respect to activity level
-myeff2 <- includeEffects(myeff2, egoX, altX, absDiffX, name="kudonet", interaction1 = "time_run")
-myeff2 <- includeEffects(myeff2, egoX, altX, absDiffX, name="kudonet", interaction1 = "time_other")
+But for now, we use the simpler model (i.e., egoX, altX, simX).
+
+```{r echo=T, results='hide'}
+# attribute effects and homophily tendencies in Kudo relations with respect to gender
+myeff2 <- includeEffects( myeff1, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+
+# attribute effects and homophily tendencies in Kudo relations with respect to activity level
+myeff2 <- includeEffects(myeff2, egoX, altX, simX, name="kudonet", interaction1 = "freq_run")
+
+# the full quadratic model: 
+#myeff2 <- includeEffects(myeff1, diffSqX, altSqX, altX, egoX, egoSqX, interaction1 = "freq_run")
 ```
 
-Third, in the behavioral model, we include social influence effects of (a) Kudos (*social support*), and (b) alters' activity level ('contagion', *social comparison*).
+Third, in the behavioral model, we include social influence effects of (a) Kudos (*social support*), and (b) alters' activity level ('contagion', *social comparison*). 
+
 
 ```{r echo=T, results='hide'}
 # Kudo-indegree effect on running  
-myeff3 <- includeEffects(myeff2, indeg, outdeg, name = "time_run", interaction1 = "kudonet") # we also include outdegree effect
-myeff3 <- includeEffects(myeff3, indeg, outdeg, name = "time_other", interaction1 = "kudonet")
+myeff3 <- includeEffects(myeff2, indeg, name = "freq_run", interaction1 = "kudonet") #popularity-related tendency (i.e. "support")
 
-# Subset this model
-myeff0 <- myeff3
+# we may want to include the square root version! How to specify?
+# also: we may want to condition the popularity-related tendency on current behavior!
 
-# Total alter effect on running 
-myeff3a <- includeEffects(myeff0, totAlt, name = "time_run", interaction1 = "kudonet")
-myeff3a <- includeEffects(myeff3a, totAlt, name = "time_other", interaction1 = "kudonet")
+myeff3 <- includeEffects(myeff3, avAlt, name = "freq_run", interaction1 = "kudonet") #behavior-related average similarity
 
-# Let's also try the total similarity effect 
-myeff3b <- includeEffects(myeff0, totSim, name = "time_run", interaction1 = "kudonet")
-myeff3b <- includeEffects(myeff3b, totSim, name = "time_other", interaction1 = "kudonet")
-myeff3b <- includeEffects(myeff3b, totSim, name = "freq_run", interaction1 = "kudonet")
+myeff3 <- includeInteraction(myeff3, quad, effFrom, name = "freq_run", interaction1 = c("", "winter")) #also, we condition the shape effect on winter, to check for seasonal effects.
 
-# And why not also try the total similarity x reciprocity effect
-myeff3c <- includeEffects(myeff0, totSimRecip, name = "time_run", interaction1 = "kudonet")
-myeff3c <- includeEffects(myeff3c, totSimRecip, name = "time_other", interaction1 = "kudonet")
+# additional interactions:
+myeff3 <- includeInteraction(myeff3, quad, avAlt, name = "freq_run", interaction1 = c("", "kudonet"))
+#check whether social influence ("contagion") is conditional on actors current activity level (see RSiena manual, p.57).
+
 ```
 
-**Note**: as of yet, I am not sure whether to include the total similarity or the total alter effect (or the average-effect variants). This choice has to be made both on theoretical grounds and on the basis of statistical significance. 
+And last we add effects on behavior of other variables
+```{r echo=T, results='hide'}
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gender")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "winter")
+```
+
+
+**Note**: as of yet, I am not sure whether to include the total similarity or the total alter effect (or the average-effect variants). This choice has to be made both on theoretical grounds and on the basis of statistical significance. For now we go with the average alter effect. 
 
 <br>
 
 Now check which effects are included in the myeff object.
 
-## {.tabset .tabset-fade} 
-
-### Structural effects
-
-```{r class.source = 'fold-hide'}
-options(width = 100) # ignore (this is for the html formatting)
-print(myeff1)
-```
-
-### + Selection 
-
 ```{r class.source = 'fold-hide' }
 options(width = 100) # ignore (this is for the html formatting)
-print(myeff2)
-```
-
-### + Influence (total model): total alter
-
-```{r class.source = 'fold-hide' }
-options(width = 100) # ignore (this is for the html formatting)
-print(myeff3a)
-```
-
-### + Influence (total model): total similarity
-
-```{r class.source = 'fold-hide' }
-options(width = 100) # ignore (this is for the html formatting)
-print(myeff3b)
-```
-
-### + Influence (total model): total similarity x reciprocity
-
-```{r class.source = 'fold-hide' }
-options(width = 100) # ignore (this is for the html formatting)
-print(myeff3c)
+print(myeff3)
 ```
 
 ## {-}
@@ -201,24 +192,16 @@ myalgorithm <- sienaAlgorithmCreate(projname = "test")
 
 # Step 5: Estimate the model
 
-Let's estimate the models, in the following order:
-
-1. Only the structural effects.
-2. Include the selection effects.
-3. Include the influence effects (the total model; the three variants)
+Let's estimate the model.
 
 We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory (make sure to create one manually). We will run the model as many times as necessary, until we get an acceptable convergence ratio (< .25).
 
-## {.tabset .tabset-fade} 
 
-### Model 1
-
-```{r eval=FALSE}
-# Only the structural effects (myeff1)
+```{r eval=F }
 
 try <- 1
 
-ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff1)
+ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff3)
 siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
 
 # the following script lets the model re-run until we get a good convergence ratio
@@ -238,154 +221,34 @@ while (TRUE){
 }
 ```
 
-### Model 2
-
-```{r eval=FALSE}
-# Include selection effects (myeff2)
-
-try <- 1
-
-ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff2)
-siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
-
-# the following script lets the model re-run until we get a good convergence ratio
-while (TRUE){
-  
-  if(ansM2$tconv.max > 0.25){
-    try <- try + 1
-    print(paste("Try:", try, sep=" "))
-    ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM2)
-    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", try, ".html", sep=""))
-    
-  }else{
-    siena.table(ansM2, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM2_", try, ".html", sep=""))
-    print(paste("Reached convergence ratio of ", ansM2$tconv.max, sep = ""))
-    break
-  }
-}
-```
-
-### Model 3a
-
-```{r eval=FALSE}
-# Include influence effects (myeff3a: totAlt)
-
-try <- 1
-
-ansM3a <- siena07(myalgorithm, data = mydata, effects = myeff3a)
-siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
-
-# the following script lets the model re-run until we get a good convergence ratio
-while (TRUE){
-  
-  if(ansM3a$tconv.max > 0.25){
-    try <- try + 1
-    print(paste("Try:", try, sep=" "))
-    ansM3a <- siena07( myalgorithm, data = mydata, effects = myeff3a, prevAns= ansM3a)
-    siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3a_", try, ".html", sep=""))
-    
-  }else{
-    siena.table(ansM3a, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3a_", try, ".html", sep=""))
-    print(paste("Reached convergence ratio of ", ansM3a$tconv.max, sep = ""))
-    break
-  }
-}
-```
-
-### Model 3b
-
-```{r eval=FALSE}
-# Include influence effects (myeff3b: totSim)
-
-try <- 1
-
-ansM3b <- siena07(myalgorithm, data = mydata, effects = myeff3b)
-siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
-
-# the following script lets the model re-run until we get a good convergence ratio
-while (TRUE){
-  
-  if(ansM3b$tconv.max > 0.25){
-    try <- try + 1
-    print(paste("Try:", try, sep=" "))
-    ansM3b <- siena07( myalgorithm, data = mydata, effects = myeff3b, prevAns= ansM3b)
-    siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3b_", try, ".html", sep=""))
-    
-  }else{
-    siena.table(ansM3b, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3b_", try, ".html", sep=""))
-    print(paste("Reached convergence ratio of ", ansM3b$tconv.max, sep = ""))
-    break
-  }
-}
-```
-
-### Model 3c
-
-```{r eval=FALSE}
-# Include influence effects (myeff3c: totSimRecip)
-
-try <- 1
-
-ansM3c <- siena07(myalgorithm, data = mydata, effects = myeff3c)
-siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
-
-# the following script lets the model re-run until we get a good convergence ratio
-while (TRUE){
-  
-  if(ansM3c$tconv.max > 0.25){
-    try <- try + 1
-    print(paste("Try:", try, sep=" "))
-    ansM3c <- siena07( myalgorithm, data = mydata, effects = myeff3c, prevAns= ansM3c)
-    siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3c_", try, ".html", sep=""))
-    
-  }else{
-    siena.table(ansM3c, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM3c_", try, ".html", sep=""))
-    print(paste("Reached convergence ratio of ", ansM3c$tconv.max, sep = ""))
-    break
-  }
-}
-```
-
-## {-}
-
 ----
 
 <br>
 
-# Results
-Now let's have a look at the results.
+
+# Step 6: Results
+
+Down below the results are shown for club 2 (N = 62), club 3 (N = 165) and club 5 (N = 77). All models converged well. For clubs with fewer members (e.g., club 1 (N = 30)), we may want to use more waves to get good convergence. 
 
 ## {.tabset .tabset-fade} 
 
-### Model 1
+### Club 2
 ```{r, echo=FALSE}
-htmltools::includeHTML("files/ansM1_1.html")
+htmltools::includeHTML("files/Club2_ansM1_1.html")
 ```
 
-### Model 2
+### Club 3
 ```{r, echo=FALSE}
-htmltools::includeHTML("files/ansM2_5.html")
+htmltools::includeHTML("files/Club3_ansM1_1.html")
 ```
 
-### Model 3a
+### Club 5
 ```{r, echo=FALSE}
-htmltools::includeHTML("files/ansM3a_2.html")
+htmltools::includeHTML("files/Club5_ansM1_1.html")
 ```
 
-### Model 3b
-```{r, echo=FALSE}
-htmltools::includeHTML("files/ansM3b_1.html")
-```
-
-### Model 3c
-```{r, echo=FALSE}
-htmltools::includeHTML("files/ansM3c_1.html")
-```
 
 ## {-}
 
-<br> 
-
-hmmmmm......
-
 ----
+

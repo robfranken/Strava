@@ -1,0 +1,1959 @@
+
+
+At the dyad-level: let's see to what extent Kudos tend to be reciprocated between actors.
+
+### Club 1
+```{r }
+# make igraph object for the club, at wave 1, transforming structural NA's
+G1 <- igraph::graph_from_adjacency_matrix( 
+  ifelse((clubdata_rsiena[[1]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[1]]$depvars$kudonet[,,1])),
+  mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
+
+# classify dyads
+dyadcount <- dyad.census(G1)
+
+# add the total number of dyads to the graph
+dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
+dyadcount
+
+# compare values with a random graph of the same size with the same density
+dens <- graph.density(G1)
+size <- vcount(G1)
+trial <- 1000
+recip <- rep(NA, trial)
+
+for ( i in 1:trial ){
+  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- dyad.census(random_graph)$mut
+}
+
+
+
+
+# Gender composition 
+## {.tabset .tabset-fade}
+Let's investigate the gender composition of the club.
+We must retrieve gender from the object, and de-mean-center the attribute. Then we make a categorical gender variable and plot it.
+
+### Club 1
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[1]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+
+```
+
+### Club 2
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[2]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+### Club 3
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[3]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+### Club 4
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[4]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+### Club 5
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[5]] # grab club 
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+# require packages
+library(ggplot2) 
+library(forcats)
+library(dplyr)
+
+# make dataframe
+df <- data.frame(
+  gender = as.factor(c("Male", "Female", "Other", "Missing")),
+  n = c(length(gender[gender == "Male"]), length(gender[gender == "Female"]), length(gender[gender == "Other"]), length(gender[gender == "Missing"])),
+  freq = c(round(length(gender[gender=="Male"])/length(gender), digits=2), round(length(gender[gender=="Female"])/length(gender), digits=2), round(length(gender[gender=="Other"])/length(gender), digits=2), round(length(gender[gender=="Missing"])/length(gender), digits=2))
+)
+
+# plot
+df %>%
+  mutate(gender = fct_reorder(gender, -n)) %>%
+           ggplot(aes(gender, n, fill=gender)) + 
+           geom_bar(stat="identity", width=0.8) +
+           geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
+```
+
+## {-}
+
+We can see that in all clubs men are overrepresented. 
+
+----
+
+<br>
+
+# Gender segregation
+
+Let's now investigate segregation along gender in the friendship network.
+
+<br>
+
+## Densities{.tabset .tabset-fade}
+Let's start with describing the total density and intra- (same sex) and intergroup (different sex) densities. 
+
+### Club 1
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 2
+```{r}
+df <- clubdata_rsiena[[2]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 3
+```{r}
+df <- clubdata_rsiena[[3]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 4
+```{r}
+df <- clubdata_rsiena[[4]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 5
+```{r}
+df <- clubdata_rsiena[[5]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(fnet)
+desmat[2, 1] <- fdensityintra(fnet, male_m)
+desmat[3, 1] <- fdensityinter(fnet, male_m)
+desmat[4, 1] <- fdensityintra(fnet, female_m)
+desmat[5, 1] <- fdensityinter(fnet, female_m)
+colnames(desmat) <- "friendships"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+
+## {-}
+
+Density in friendships is not much higher within the sexes than between the sexes, indicating that gender homophily is not very pronounced, at least in friendships. Let's also explore this for Kudos.
+
+## {.tabset .tabset-fade}
+
+### Club 1
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+knet1.na <- ifelse((clubdata_rsiena[[1]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[1]]$depvars$kudonet[,,1])) # take kudo network (here I already dealt with 10s, but this is not necessary given the functions used later on).
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(knet1.na)
+desmat[2, 1] <- fdensityintra(knet1.na, male_m)
+desmat[3, 1] <- fdensityinter(knet1.na, male_m)
+desmat[4, 1] <- fdensityintra(knet1.na, female_m)
+desmat[5, 1] <- fdensityinter(knet1.na, female_m)
+colnames(desmat) <- "Kudos"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 2
+```{r}
+df <- clubdata_rsiena[[2]] # grab club 
+knet1.na <- ifelse((clubdata_rsiena[[2]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[2]]$depvars$kudonet[,,1])) # take kudo network (here I already dealt with 10s, but this is not necessary given the functions used later on).
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(knet1.na)
+desmat[2, 1] <- fdensityintra(knet1.na, male_m)
+desmat[3, 1] <- fdensityinter(knet1.na, male_m)
+desmat[4, 1] <- fdensityintra(knet1.na, female_m)
+desmat[5, 1] <- fdensityinter(knet1.na, female_m)
+colnames(desmat) <- "Kudos"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 3
+```{r}
+df <- clubdata_rsiena[[3]] # grab club 
+knet1.na <- ifelse((clubdata_rsiena[[3]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[3]]$depvars$kudonet[,,1])) # take kudo network (here I already dealt with 10s, but this is not necessary given the functions used later on).
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(knet1.na)
+desmat[2, 1] <- fdensityintra(knet1.na, male_m)
+desmat[3, 1] <- fdensityinter(knet1.na, male_m)
+desmat[4, 1] <- fdensityintra(knet1.na, female_m)
+desmat[5, 1] <- fdensityinter(knet1.na, female_m)
+colnames(desmat) <- "Kudos"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 4
+```{r}
+df <- clubdata_rsiena[[4]] # grab club 
+knet1.na <- ifelse((clubdata_rsiena[[4]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[4]]$depvars$kudonet[,,1])) # take kudo network (here I already dealt with 10s, but this is not necessary given the functions used later on).
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(knet1.na)
+desmat[2, 1] <- fdensityintra(knet1.na, male_m)
+desmat[3, 1] <- fdensityinter(knet1.na, male_m)
+desmat[4, 1] <- fdensityintra(knet1.na, female_m)
+desmat[5, 1] <- fdensityinter(knet1.na, female_m)
+colnames(desmat) <- "Kudos"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+### Club 5
+```{r}
+df <- clubdata_rsiena[[5]] # grab club 
+knet1.na <- ifelse((clubdata_rsiena[[5]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[5]]$depvars$kudonet[,,1])) # take kudo network (here I already dealt with 10s, but this is not necessary given the functions used later on).
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# construct dyad similarity matrix
+male_m <- fhomomat(male)
+female_m <- fhomomat(female)
+
+# make object to store results
+desmat <- matrix(NA, nrow=5, ncol=1)
+
+# use function
+desmat[1, 1] <- fdensity(knet1.na)
+desmat[2, 1] <- fdensityintra(knet1.na, male_m)
+desmat[3, 1] <- fdensityinter(knet1.na, male_m)
+desmat[4, 1] <- fdensityintra(knet1.na, female_m)
+desmat[5, 1] <- fdensityinter(knet1.na, female_m)
+colnames(desmat) <- "Kudos"
+rownames(desmat) <- c("total", "men: same sex", "men: different sex", "women: same sex", "women: different sex")
+print(desmat)
+```
+
+## {-}
+
+A similar pattern... the ratio between total/intra-/inter-sex densities is different between clubs. 
+
+----
+
+<br>
+
+## Coleman's homophily index {.tabset .tabset-fade}
+
+Because men are overrepresented, seggregation may be partly structurally induced by differences in relative group sizes. We calculate the Coleman Homophily index for gender, which reflects gender segregation while taking into account the relative group size of men and women. We start with calculating the index for the friendship networks.
+
+### Club 1
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+### Club 2
+```{r}
+df <- clubdata_rsiena[[2]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+### Club 3
+```{r}
+df <- clubdata_rsiena[[3]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+# retrieve node-attribute gender from rsiena object
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# coleman homophily index
+colmat <- matrix(NA, nrow = 2, ncol = 1)
+colmat[1, 1] <- fscolnet(fnet, male)
+colmat[2, 1] <- fscolnet(fnet, female)
+
+colnames(colmat) <- "Coleman Homophily Index"
+rownames(colmat) <- c("male", "female")
+print(colmat)
+```
+
+### Club 4
+```{r}
+df <- clubdata_rsiena[[4]] # grab club 
+fnet <- df$dycCovars$friendship # take friendship network
+
+
+# Activity level 
+## 1. Running {.tabset .tabset-fade}
+
+We will describe the running activities of the club-members, in terms of times per week (0-7) and minutes per week (for time we also used categories 0-7, with 0 being 0 minutes, and 7 being more than 720 minutes. First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
+
+### Club 1
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[1]] # grab club 
+
+# development of the mean over time
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+
+# retrieve gender
+male <- df$cCovars$male
+female <- df$cCovars$female
+other <- df$cCovars$other
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+other <- other + attributes(other)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender)
+
+# create wide dataframe
+  df2long <- data.frame (
+    id = 1:length(df$nodeSets$Actors),
+    gender = gender,
+    freq1 = df$depvars$freq_run[,,1],
+    freq2 = df$depvars$freq_run[,,2],
+    freq3 = df$depvars$freq_run[,,3],
+    freq4 = df$depvars$freq_run[,,4],
+    freq5 = df$depvars$freq_run[,,5],
+    freq6 = df$depvars$freq_run[,,6],
+    freq7 = df$depvars$freq_run[,,7],
+    freq8 = df$depvars$freq_run[,,8],
+    freq9 = df$depvars$freq_run[,,9],
+    freq10 = df$depvars$freq_run[,,10],
+    freq11 = df$depvars$freq_run[,,11],
+    freq12 = df$depvars$freq_run[,,12],
+    time1 = df$depvars$time_run[,,1],
+    time2 = df$depvars$time_run[,,2],
+    time3 = df$depvars$time_run[,,3],
+    time4 = df$depvars$time_run[,,4],
+    time5 = df$depvars$time_run[,,5],
+    time6 = df$depvars$time_run[,,6],
+    time7 = df$depvars$time_run[,,7],
+    time8 = df$depvars$time_run[,,8],
+    time9 = df$depvars$time_run[,,9],
+    time10 = df$depvars$time_run[,,10],
+    time11 = df$depvars$time_run[,,11],
+    time12 = df$depvars$time_run[,,12])
+
+# reshape to long dataframe
+df_long <- reshape(df2long,
+                     direction = "long",
+                     varying = c(list(names(df2long)[3:14]),
+                                 list(names(df2long)[15:26])),
+                     v.names = c("run_freq", "run_time"),
+                     idvar = "id",
+                     timevar = "time",
+                     times = 1:12)
+
+# Reorder data based on user id
+df_long  <- df_long [(order(df_long$id)), ]
+
+# create data to plot, seperately for men and women
+ data_all <- df_long %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(run_freq, na.rm=T),
+              mean_time = mean(run_time, na.rm=T),
+              se_freq = 1.96 * (sd(run_freq, na.rm=T)/sqrt(sum(!is.na(run_freq)))),
+              se_time = 1.96 * (sd(run_time, na.rm=T)/sqrt(sum(!is.na(run_time)))),
+              sd_freq = sd(run_freq, na.rm=T),
+              sd_time = sd(run_time, na.rm=T),
+              var_freq = var(run_freq, na.rm = T),
+              var_time = var(run_time, na.rm = T),
+              kurtosis_freq = kurtosis(run_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(run_time, na.rm = T) - 3,
+              class = "Full Sample"
+    )
+ 
+ data_men <- df_long[which(df_long$gender == "Male"), ]
+  data_men <- data_men %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(run_freq, na.rm=T),
+              mean_time = mean(run_time, na.rm=T),
+              se_freq = 1.96 * (sd(run_freq, na.rm=T)/sqrt(sum(!is.na(run_freq)))),
+              se_time = 1.96 * (sd(run_time, na.rm=T)/sqrt(sum(!is.na(run_time)))),
+              sd_freq = sd(run_freq, na.rm=T),
+
+
+## 2. Other {.tabset .tabset-fade}
+
+We will describe other activities as well. For now we will describe cycling activities. Note that we also have 'other activities'. 
+
+### Club 1
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[1]] # grab club 
+
+# development of the mean over time
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+
+# retrieve gender
+male <- df$cCovars$male
+female <- df$cCovars$female
+ride <- df$cCovars$ride
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+ride <- ride + attributes(ride)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(ride == 1, "Ride", gender)
+gender <- ifelse(is.na(gender), "Missing", gender)
+
+# create wide dataframe
+df2long <- data.frame (
+  id = 1:length(df$nodeSets$Actors),
+  gender = gender,
+  freq1 = df$depvars$freq_ride[,,1],
+  freq2 = df$depvars$freq_ride[,,2],
+  freq3 = df$depvars$freq_ride[,,3],
+  freq4 = df$depvars$freq_ride[,,4],
+  freq5 = df$depvars$freq_ride[,,5],
+  freq6 = df$depvars$freq_ride[,,6],
+  freq7 = df$depvars$freq_ride[,,7],
+  freq8 = df$depvars$freq_ride[,,8],
+  freq9 = df$depvars$freq_ride[,,9],
+  freq10 = df$depvars$freq_ride[,,10],
+  freq11 = df$depvars$freq_ride[,,11],
+  freq12 = df$depvars$freq_ride[,,12],
+  time1 = df$depvars$time_ride[,,1],
+  time2 = df$depvars$time_ride[,,2],
+  time3 = df$depvars$time_ride[,,3],
+  time4 = df$depvars$time_ride[,,4],
+  time5 = df$depvars$time_ride[,,5],
+  time6 = df$depvars$time_ride[,,6],
+  time7 = df$depvars$time_ride[,,7],
+  time8 = df$depvars$time_ride[,,8],
+  time9 = df$depvars$time_ride[,,9],
+  time10 = df$depvars$time_ride[,,10],
+  time11 = df$depvars$time_ride[,,11],
+  time12 = df$depvars$time_ride[,,12])
+
+# reshape to long dataframe
+df_long <- reshape(df2long,
+                   direction = "long",
+                   varying = c(list(names(df2long)[3:14]),
+                               list(names(df2long)[15:26])),
+                   v.names = c("ride_freq", "ride_time"),
+                   idvar = "id",
+                   timevar = "time",
+                   times = 1:12)
+
+# Reorder data based on user id
+df_long  <- df_long [(order(df_long$id)), ]
+
+# create data to plot, seperately for men and women
+data_all <- df_long %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Full Sample"
+  )
+
+data_men <- df_long[which(df_long$gender == "Male"), ]
+data_men <- data_men %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Men"
+  )
+
+data_women <- df_long[which(df_long$gender == "Female"), ]
+data_women <- data_women %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Women"
+  )
+
+# stack data 
+plot.data <- rbind(data_all, data_men, data_women)
+rm(data_all, data_men, data_women)
+
+# add months
+plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 3)
+
+# plot
+plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Frequency per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,5) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Volume per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,7) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+### Output ###
+
+# histogram (assuming independent observations)
+hist(df$depvars$freq_ride, main = "Histogram of Frequency Ride Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_ride, main = "Histogram of Volume Ride Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+
+# development mean over time
+plot_mean_freq
+plot_mean_time
+```
+
+### Club 2
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[2]] # grab club 
+
+# development of the mean over time
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+
+# retrieve gender
+male <- df$cCovars$male
+female <- df$cCovars$female
+ride <- df$cCovars$ride
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+ride <- ride + attributes(ride)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(ride == 1, "Ride", gender)
+gender <- ifelse(is.na(gender), "Missing", gender)
+
+# create wide dataframe
+df2long <- data.frame (
+  id = 1:length(df$nodeSets$Actors),
+  gender = gender,
+  freq1 = df$depvars$freq_ride[,,1],
+  freq2 = df$depvars$freq_ride[,,2],
+  freq3 = df$depvars$freq_ride[,,3],
+  freq4 = df$depvars$freq_ride[,,4],
+  freq5 = df$depvars$freq_ride[,,5],
+  freq6 = df$depvars$freq_ride[,,6],
+  freq7 = df$depvars$freq_ride[,,7],
+  freq8 = df$depvars$freq_ride[,,8],
+  freq9 = df$depvars$freq_ride[,,9],
+  freq10 = df$depvars$freq_ride[,,10],
+  freq11 = df$depvars$freq_ride[,,11],
+  freq12 = df$depvars$freq_ride[,,12],
+  time1 = df$depvars$time_ride[,,1],
+  time2 = df$depvars$time_ride[,,2],
+  time3 = df$depvars$time_ride[,,3],
+  time4 = df$depvars$time_ride[,,4],
+  time5 = df$depvars$time_ride[,,5],
+  time6 = df$depvars$time_ride[,,6],
+  time7 = df$depvars$time_ride[,,7],
+  time8 = df$depvars$time_ride[,,8],
+  time9 = df$depvars$time_ride[,,9],
+  time10 = df$depvars$time_ride[,,10],
+  time11 = df$depvars$time_ride[,,11],
+  time12 = df$depvars$time_ride[,,12])
+
+# reshape to long dataframe
+df_long <- reshape(df2long,
+                   direction = "long",
+                   varying = c(list(names(df2long)[3:14]),
+                               list(names(df2long)[15:26])),
+                   v.names = c("ride_freq", "ride_time"),
+                   idvar = "id",
+                   timevar = "time",
+                   times = 1:12)
+
+# Reorder data based on user id
+df_long  <- df_long [(order(df_long$id)), ]
+
+# create data to plot, seperately for men and women
+data_all <- df_long %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Full Sample"
+  )
+
+data_men <- df_long[which(df_long$gender == "Male"), ]
+data_men <- data_men %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Men"
+  )
+
+data_women <- df_long[which(df_long$gender == "Female"), ]
+data_women <- data_women %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Women"
+  )
+
+# stack data 
+plot.data <- rbind(data_all, data_men, data_women)
+rm(data_all, data_men, data_women)
+
+# add months
+plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 3)
+
+# plot
+plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Frequency per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,5) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Volume per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,7) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+### Output ###
+
+# histogram (assuming independent observations)
+hist(df$depvars$freq_ride, main = "Histogram of Frequency Ride Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_ride, main = "Histogram of Volume Ride Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+
+# development mean over time
+plot_mean_freq
+plot_mean_time
+```
+
+### Club 3
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[3]] # grab club 
+
+# development of the mean over time
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+
+# retrieve gender
+male <- df$cCovars$male
+female <- df$cCovars$female
+ride <- df$cCovars$ride
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+ride <- ride + attributes(ride)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(ride == 1, "Ride", gender)
+gender <- ifelse(is.na(gender), "Missing", gender)
+
+# create wide dataframe
+df2long <- data.frame (
+  id = 1:length(df$nodeSets$Actors),
+  gender = gender,
+  freq1 = df$depvars$freq_ride[,,1],
+  freq2 = df$depvars$freq_ride[,,2],
+  freq3 = df$depvars$freq_ride[,,3],
+  freq4 = df$depvars$freq_ride[,,4],
+  freq5 = df$depvars$freq_ride[,,5],
+  freq6 = df$depvars$freq_ride[,,6],
+  freq7 = df$depvars$freq_ride[,,7],
+  freq8 = df$depvars$freq_ride[,,8],
+  freq9 = df$depvars$freq_ride[,,9],
+  freq10 = df$depvars$freq_ride[,,10],
+  freq11 = df$depvars$freq_ride[,,11],
+  freq12 = df$depvars$freq_ride[,,12],
+  time1 = df$depvars$time_ride[,,1],
+  time2 = df$depvars$time_ride[,,2],
+  time3 = df$depvars$time_ride[,,3],
+  time4 = df$depvars$time_ride[,,4],
+  time5 = df$depvars$time_ride[,,5],
+  time6 = df$depvars$time_ride[,,6],
+  time7 = df$depvars$time_ride[,,7],
+  time8 = df$depvars$time_ride[,,8],
+  time9 = df$depvars$time_ride[,,9],
+  time10 = df$depvars$time_ride[,,10],
+  time11 = df$depvars$time_ride[,,11],
+  time12 = df$depvars$time_ride[,,12])
+
+# reshape to long dataframe
+df_long <- reshape(df2long,
+                   direction = "long",
+                   varying = c(list(names(df2long)[3:14]),
+                               list(names(df2long)[15:26])),
+                   v.names = c("ride_freq", "ride_time"),
+                   idvar = "id",
+                   timevar = "time",
+                   times = 1:12)
+
+# Reorder data based on user id
+df_long  <- df_long [(order(df_long$id)), ]
+
+# create data to plot, seperately for men and women
+data_all <- df_long %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Full Sample"
+  )
+
+data_men <- df_long[which(df_long$gender == "Male"), ]
+data_men <- data_men %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Men"
+  )
+
+data_women <- df_long[which(df_long$gender == "Female"), ]
+data_women <- data_women %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Women"
+  )
+
+# stack data 
+plot.data <- rbind(data_all, data_men, data_women)
+rm(data_all, data_men, data_women)
+
+# add months
+plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 3)
+
+# plot
+plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Frequency per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,5) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Volume per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,7) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+### Output ###
+
+# histogram (assuming independent observations)
+hist(df$depvars$freq_ride, main = "Histogram of Frequency Ride Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_ride, main = "Histogram of Volume Ride Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+
+# development mean over time
+plot_mean_freq
+plot_mean_time
+```
+
+### Club 4
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[4]] # grab club 
+
+# development of the mean over time
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+
+# retrieve gender
+male <- df$cCovars$male
+female <- df$cCovars$female
+ride <- df$cCovars$ride
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+ride <- ride + attributes(ride)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(ride == 1, "Ride", gender)
+gender <- ifelse(is.na(gender), "Missing", gender)
+
+# create wide dataframe
+df2long <- data.frame (
+  id = 1:length(df$nodeSets$Actors),
+  gender = gender,
+  freq1 = df$depvars$freq_ride[,,1],
+  freq2 = df$depvars$freq_ride[,,2],
+  freq3 = df$depvars$freq_ride[,,3],
+  freq4 = df$depvars$freq_ride[,,4],
+  freq5 = df$depvars$freq_ride[,,5],
+  freq6 = df$depvars$freq_ride[,,6],
+  freq7 = df$depvars$freq_ride[,,7],
+  freq8 = df$depvars$freq_ride[,,8],
+  freq9 = df$depvars$freq_ride[,,9],
+  freq10 = df$depvars$freq_ride[,,10],
+  freq11 = df$depvars$freq_ride[,,11],
+  freq12 = df$depvars$freq_ride[,,12],
+  time1 = df$depvars$time_ride[,,1],
+  time2 = df$depvars$time_ride[,,2],
+  time3 = df$depvars$time_ride[,,3],
+  time4 = df$depvars$time_ride[,,4],
+  time5 = df$depvars$time_ride[,,5],
+  time6 = df$depvars$time_ride[,,6],
+  time7 = df$depvars$time_ride[,,7],
+  time8 = df$depvars$time_ride[,,8],
+  time9 = df$depvars$time_ride[,,9],
+  time10 = df$depvars$time_ride[,,10],
+  time11 = df$depvars$time_ride[,,11],
+  time12 = df$depvars$time_ride[,,12])
+
+# reshape to long dataframe
+df_long <- reshape(df2long,
+                   direction = "long",
+                   varying = c(list(names(df2long)[3:14]),
+                               list(names(df2long)[15:26])),
+                   v.names = c("ride_freq", "ride_time"),
+                   idvar = "id",
+                   timevar = "time",
+                   times = 1:12)
+
+# Reorder data based on user id
+df_long  <- df_long [(order(df_long$id)), ]
+
+# create data to plot, seperately for men and women
+data_all <- df_long %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Full Sample"
+  )
+
+data_men <- df_long[which(df_long$gender == "Male"), ]
+data_men <- data_men %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Men"
+  )
+
+data_women <- df_long[which(df_long$gender == "Female"), ]
+data_women <- data_women %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Women"
+  )
+
+# stack data 
+plot.data <- rbind(data_all, data_men, data_women)
+rm(data_all, data_men, data_women)
+
+# add months
+plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 3)
+
+# plot
+plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Frequency per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,5) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Volume per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,7) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+### Output ###
+
+# histogram (assuming independent observations)
+hist(df$depvars$freq_ride, main = "Histogram of Frequency Ride Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_ride, main = "Histogram of Volume Ride Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+
+# development mean over time
+plot_mean_freq
+plot_mean_time
+```
+
+### Club 5
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[5]] # grab club 
+
+# development of the mean over time
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+
+# retrieve gender
+male <- df$cCovars$male
+female <- df$cCovars$female
+ride <- df$cCovars$ride
+
+# de-mean-center
+male <- male + attributes(male)$mean
+female <- female + attributes(female)$mean
+ride <- ride + attributes(ride)$mean
+
+# as factor
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(ride == 1, "Ride", gender)
+gender <- ifelse(is.na(gender), "Missing", gender)
+
+# create wide dataframe
+df2long <- data.frame (
+  id = 1:length(df$nodeSets$Actors),
+  gender = gender,
+  freq1 = df$depvars$freq_ride[,,1],
+  freq2 = df$depvars$freq_ride[,,2],
+  freq3 = df$depvars$freq_ride[,,3],
+  freq4 = df$depvars$freq_ride[,,4],
+  freq5 = df$depvars$freq_ride[,,5],
+  freq6 = df$depvars$freq_ride[,,6],
+  freq7 = df$depvars$freq_ride[,,7],
+  freq8 = df$depvars$freq_ride[,,8],
+  freq9 = df$depvars$freq_ride[,,9],
+  freq10 = df$depvars$freq_ride[,,10],
+  freq11 = df$depvars$freq_ride[,,11],
+  freq12 = df$depvars$freq_ride[,,12],
+  time1 = df$depvars$time_ride[,,1],
+  time2 = df$depvars$time_ride[,,2],
+  time3 = df$depvars$time_ride[,,3],
+  time4 = df$depvars$time_ride[,,4],
+  time5 = df$depvars$time_ride[,,5],
+  time6 = df$depvars$time_ride[,,6],
+  time7 = df$depvars$time_ride[,,7],
+  time8 = df$depvars$time_ride[,,8],
+  time9 = df$depvars$time_ride[,,9],
+  time10 = df$depvars$time_ride[,,10],
+  time11 = df$depvars$time_ride[,,11],
+  time12 = df$depvars$time_ride[,,12])
+
+# reshape to long dataframe
+df_long <- reshape(df2long,
+                   direction = "long",
+                   varying = c(list(names(df2long)[3:14]),
+                               list(names(df2long)[15:26])),
+                   v.names = c("ride_freq", "ride_time"),
+                   idvar = "id",
+                   timevar = "time",
+                   times = 1:12)
+
+# Reorder data based on user id
+df_long  <- df_long [(order(df_long$id)), ]
+
+# create data to plot, seperately for men and women
+data_all <- df_long %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Full Sample"
+  )
+
+data_men <- df_long[which(df_long$gender == "Male"), ]
+data_men <- data_men %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Men"
+  )
+
+data_women <- df_long[which(df_long$gender == "Female"), ]
+data_women <- data_women %>%
+  group_by(time) %>%
+  summarise(mean_freq = mean(ride_freq, na.rm=T),
+            mean_time = mean(ride_time, na.rm=T),
+            se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+            se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+            sd_freq = sd(ride_freq, na.rm=T),
+            sd_time = sd(ride_time, na.rm=T),
+            var_freq = var(ride_freq, na.rm = T),
+            var_time = var(ride_time, na.rm = T),
+            kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+            kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+            class = "Women"
+  )
+
+# stack data 
+plot.data <- rbind(data_all, data_men, data_women)
+rm(data_all, data_men, data_women)
+
+# add months
+plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 3)
+
+# plot
+plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Frequency per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,5) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+  geom_point() +
+  geom_smooth(method = "loess", size=2) +
+  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                    width = 0.4)) +
+  theme_bw(base_family="serif", base_size=16) +
+  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+  labs(y = "Volume per week", x="Month") +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  ylim(0,7) +
+  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+        legend.position = "right", legend.title=element_blank()
+  )
+
+### Output ###
+
+# histogram (assuming independent observations)
+hist(df$depvars$freq_ride, main = "Histogram of Frequency Ride Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_ride, main = "Histogram of Volume Ride Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+
+# development mean over time
+plot_mean_freq
+plot_mean_time
+```
+
+
+## {-}
+
+The members of the respective clubs seem to differ in their activity levels. Especially members of club 5 seem 'significantly' more active, both in running and cycling activities.
+
+----
+
+<br>
+
+# Activity-based homophily 
+## Densities {.tabset .tabset-fade}
+
+We have now covered the sport activity levels of our club-athletes, and the extent to which friendship- and Kudo-associations are segregated along gender. Last, we will explore if friendship- and Kudo-associations are also seggregated along activity levels. Or in other words: do people with similar activity levels tend to socialize to a greater extent - by befriending one another and by exchanging Kudos - even when taking into account the opportunity structures for meeting with (dis)similar others?
+
+We will explore whether intragroup densities are greater than intergroup densities, for the friendship network (constant dyadic covariate) and the Kudo networks at 3 time-points.
+
+But first the question: *when are two athletes similar?* We will start exploratively, by using a dyad characteristic indicating whether nodes ran equally frequently.
+
+### Club 1
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[1]] # grab club 
+
+# retrieve friendship and kudo network data
+fnet <- df$dycCovars$friendship
+knet1 <- df$depvars$kudonet[,,1]
+knet2 <- df$depvars$kudonet[,,6]
+knet3 <- df$depvars$kudonet[,,12]
+
+# retrieve running frequency
+freq1 <- df$depvars$freq_run[,,1]
+freq2 <- df$depvars$freq_run[,,6]
+freq3 <- df$depvars$freq_run[,,12]
+
+# make dyad characterstic indicating whether nodes' run frequency is similar:
+# T1:
+xmat <- matrix(freq1, nrow = length(freq1), ncol = length(freq1))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t1 <- ydif == 0
+
+# T6:
+xmat <- matrix(freq2, nrow = length(freq2), ncol = length(freq2))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t6 <- ydif == 0
+
+# T12:
+xmat <- matrix(freq3, nrow = length(freq3), ncol = length(freq3))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t12 <- ydif == 0
+
+# make object to store results
+desmat <- matrix(NA, nrow = 3, ncol = 4 )
+
+# use functions, to calculate:
+# total density
+desmat[1, 1] <- fdensity(fnet)
+desmat[1, 2] <- fdensity(knet1)
+desmat[1, 3] <- fdensity(knet2)
+desmat[1, 4] <- fdensity(knet3)
+
+# intragroup density
+desmat[2, 1] <- fdensityintra(fnet, ydif0_t1)
+desmat[2, 2] <- fdensityintra(knet1, ydif0_t1)
+desmat[2, 3] <- fdensityintra(knet2, ydif0_t6)
+desmat[2, 4] <- fdensityintra(knet3, ydif0_t12)
+
+# intergroup density
+desmat[3, 1] <- fdensityinter(fnet, ydif0_t1)
+desmat[3, 2] <- fdensityinter(knet1, ydif0_t1)
+desmat[3, 3] <- fdensityinter(knet2, ydif0_t6)
+desmat[3, 4] <- fdensityinter(knet3, ydif0_t12)
+
+colnames(desmat) <- c ( "friendship" , "Kudo T1", "Kudo T6", "Kudo T12")
+rownames(desmat) <- c ( "total", "similar run freq.", "dissimilar run freq.")                      
+
+print(desmat)   
+```
+
+### Club 2
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[2]] # grab club 
+
+# retrieve friendship and kudo network data
+fnet <- df$dycCovars$friendship
+knet1 <- df$depvars$kudonet[,,1]
+knet2 <- df$depvars$kudonet[,,6]
+knet3 <- df$depvars$kudonet[,,12]
+
+# retrieve running frequency
+freq1 <- df$depvars$freq_run[,,1]
+freq2 <- df$depvars$freq_run[,,6]
+freq3 <- df$depvars$freq_run[,,12]
+
+# make dyad characterstic indicating whether nodes' run frequency is similar:
+# T1:
+xmat <- matrix(freq1, nrow = length(freq1), ncol = length(freq1))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t1 <- ydif == 0
+
+# T6:
+xmat <- matrix(freq2, nrow = length(freq2), ncol = length(freq2))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t6 <- ydif == 0
+
+# T12:
+xmat <- matrix(freq3, nrow = length(freq3), ncol = length(freq3))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t12 <- ydif == 0
+
+# make object to store results
+desmat <- matrix(NA, nrow = 3, ncol = 4 )
+
+# use functions, to calculate:
+# total density
+desmat[1, 1] <- fdensity(fnet)
+desmat[1, 2] <- fdensity(knet1)
+desmat[1, 3] <- fdensity(knet2)
+desmat[1, 4] <- fdensity(knet3)
+
+# intragroup density
+desmat[2, 1] <- fdensityintra(fnet, ydif0_t1)
+desmat[2, 2] <- fdensityintra(knet1, ydif0_t1)
+desmat[2, 3] <- fdensityintra(knet2, ydif0_t6)
+desmat[2, 4] <- fdensityintra(knet3, ydif0_t12)
+
+# intergroup density
+desmat[3, 1] <- fdensityinter(fnet, ydif0_t1)
+desmat[3, 2] <- fdensityinter(knet1, ydif0_t1)
+desmat[3, 3] <- fdensityinter(knet2, ydif0_t6)
+desmat[3, 4] <- fdensityinter(knet3, ydif0_t12)
+
+colnames(desmat) <- c ( "friendship" , "Kudo T1", "Kudo T6", "Kudo T12")
+rownames(desmat) <- c ( "total", "similar run freq.", "dissimilar run freq.")                      
+
+print(desmat)   
+```
+
+### Club 3
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[3]] # grab club 
+
+# retrieve friendship and kudo network data
+fnet <- df$dycCovars$friendship
+knet1 <- df$depvars$kudonet[,,1]
+knet2 <- df$depvars$kudonet[,,6]
+knet3 <- df$depvars$kudonet[,,12]
+
+# retrieve running frequency
+freq1 <- df$depvars$freq_run[,,1]
+freq2 <- df$depvars$freq_run[,,6]
+freq3 <- df$depvars$freq_run[,,12]
+
+# make dyad characterstic indicating whether nodes' run frequency is similar:
+# T1:
+xmat <- matrix(freq1, nrow = length(freq1), ncol = length(freq1))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t1 <- ydif == 0
+
+# T6:
+xmat <- matrix(freq2, nrow = length(freq2), ncol = length(freq2))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t6 <- ydif == 0
+
+# T12:
+xmat <- matrix(freq3, nrow = length(freq3), ncol = length(freq3))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t12 <- ydif == 0
+
+# make object to store results
+desmat <- matrix(NA, nrow = 3, ncol = 4 )
+
+# use functions, to calculate:
+# total density
+desmat[1, 1] <- fdensity(fnet)
+desmat[1, 2] <- fdensity(knet1)
+desmat[1, 3] <- fdensity(knet2)
+desmat[1, 4] <- fdensity(knet3)
+
+# intragroup density
+desmat[2, 1] <- fdensityintra(fnet, ydif0_t1)
+desmat[2, 2] <- fdensityintra(knet1, ydif0_t1)
+desmat[2, 3] <- fdensityintra(knet2, ydif0_t6)
+desmat[2, 4] <- fdensityintra(knet3, ydif0_t12)
+
+# intergroup density
+desmat[3, 1] <- fdensityinter(fnet, ydif0_t1)
+desmat[3, 2] <- fdensityinter(knet1, ydif0_t1)
+desmat[3, 3] <- fdensityinter(knet2, ydif0_t6)
+desmat[3, 4] <- fdensityinter(knet3, ydif0_t12)
+
+colnames(desmat) <- c ( "friendship" , "Kudo T1", "Kudo T6", "Kudo T12")
+rownames(desmat) <- c ( "total", "similar run freq.", "dissimilar run freq.")                      
+
+print(desmat)   
+```
+
+### Club 4
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[4]] # grab club 
+
+# retrieve friendship and kudo network data
+fnet <- df$dycCovars$friendship
+knet1 <- df$depvars$kudonet[,,1]
+knet2 <- df$depvars$kudonet[,,6]
+knet3 <- df$depvars$kudonet[,,12]
+
+# retrieve running frequency
+freq1 <- df$depvars$freq_run[,,1]
+freq2 <- df$depvars$freq_run[,,6]
+freq3 <- df$depvars$freq_run[,,12]
+
+# make dyad characterstic indicating whether nodes' run frequency is similar:
+# T1:
+xmat <- matrix(freq1, nrow = length(freq1), ncol = length(freq1))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t1 <- ydif == 0
+
+# T6:
+xmat <- matrix(freq2, nrow = length(freq2), ncol = length(freq2))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t6 <- ydif == 0
+
+# T12:
+xmat <- matrix(freq3, nrow = length(freq3), ncol = length(freq3))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t12 <- ydif == 0
+
+# make object to store results
+desmat <- matrix(NA, nrow = 3, ncol = 4 )
+
+# use functions, to calculate:
+# total density
+desmat[1, 1] <- fdensity(fnet)
+desmat[1, 2] <- fdensity(knet1)
+desmat[1, 3] <- fdensity(knet2)
+desmat[1, 4] <- fdensity(knet3)
+
+# intragroup density
+desmat[2, 1] <- fdensityintra(fnet, ydif0_t1)
+desmat[2, 2] <- fdensityintra(knet1, ydif0_t1)
+desmat[2, 3] <- fdensityintra(knet2, ydif0_t6)
+desmat[2, 4] <- fdensityintra(knet3, ydif0_t12)
+
+# intergroup density
+desmat[3, 1] <- fdensityinter(fnet, ydif0_t1)
+desmat[3, 2] <- fdensityinter(knet1, ydif0_t1)
+desmat[3, 3] <- fdensityinter(knet2, ydif0_t6)
+desmat[3, 4] <- fdensityinter(knet3, ydif0_t12)
+
+colnames(desmat) <- c ( "friendship" , "Kudo T1", "Kudo T6", "Kudo T12")
+rownames(desmat) <- c ( "total", "similar run freq.", "dissimilar run freq.")                      
+
+print(desmat)   
+```
+
+### Club 5
+```{r class.source = 'fold-hide'}
+df <- clubdata_rsiena[[5]] # grab club 
+
+# retrieve friendship and kudo network data
+fnet <- df$dycCovars$friendship
+knet1 <- df$depvars$kudonet[,,1]
+knet2 <- df$depvars$kudonet[,,6]
+knet3 <- df$depvars$kudonet[,,12]
+
+# retrieve running frequency
+freq1 <- df$depvars$freq_run[,,1]
+freq2 <- df$depvars$freq_run[,,6]
+freq3 <- df$depvars$freq_run[,,12]
+
+# make dyad characterstic indicating whether nodes' run frequency is similar:
+# T1:
+xmat <- matrix(freq1, nrow = length(freq1), ncol = length(freq1))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t1 <- ydif == 0
+
+# T6:
+xmat <- matrix(freq2, nrow = length(freq2), ncol = length(freq2))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t6 <- ydif == 0
+
+# T12:
+xmat <- matrix(freq3, nrow = length(freq3), ncol = length(freq3))
+xmatt <- t(xmat)
+ydif <- abs(xmat - xmatt)
+ydif0_t12 <- ydif == 0
+
+# make object to store results
+desmat <- matrix(NA, nrow = 3, ncol = 4 )
+
+# use functions, to calculate:
+# total density
+desmat[1, 1] <- fdensity(fnet)
+desmat[1, 2] <- fdensity(knet1)
+desmat[1, 3] <- fdensity(knet2)
+desmat[1, 4] <- fdensity(knet3)
+
+# intragroup density
+desmat[2, 1] <- fdensityintra(fnet, ydif0_t1)
+desmat[2, 2] <- fdensityintra(knet1, ydif0_t1)
+desmat[2, 3] <- fdensityintra(knet2, ydif0_t6)
+desmat[2, 4] <- fdensityintra(knet3, ydif0_t12)
+
+# intergroup density
+desmat[3, 1] <- fdensityinter(fnet, ydif0_t1)
+desmat[3, 2] <- fdensityinter(knet1, ydif0_t1)
+desmat[3, 3] <- fdensityinter(knet2, ydif0_t6)
+desmat[3, 4] <- fdensityinter(knet3, ydif0_t12)
+
+colnames(desmat) <- c ( "friendship" , "Kudo T1", "Kudo T6", "Kudo T12")
+rownames(desmat) <- c ( "total", "similar run freq.", "dissimilar run freq.")                      
+
+print(desmat)   
+```
+
+## {-}
+
+At face value it seems that there is quite some homophily in friendship- and Kudo dyads: densities are higher between nodes with similar activity (i.c. frequency) levels than between nodes with dissimilar activity levels.
+
+----

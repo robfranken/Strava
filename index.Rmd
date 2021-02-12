@@ -1,5 +1,5 @@
 ---
-title: "Strava Journal"
+title: "Sport motivation"
 output: html_document
 ---
 
@@ -32,26 +32,9 @@ All scripts can be found on [Github](https://github.com/robfranken/Strava)
 
 ----
 
-# Content
-
-By now, we have:
-
-1. imported the raw club data, anonymized them, and stored them in a list object (clubdata.RData)
-
-2. created RSiena objects for each club and stored them in a list file (clubdata_rsiena.RData)
-
-In the following pages, we will:
-
-3. perform descriptive analyses
-
-4. perform exploratory analyses to find the best model
-
-5. estimate the final models
-
 </div>
 <div class="col-sm-6">
 
-<a>
 ![](images/logo.png)
 </a>
 </div>

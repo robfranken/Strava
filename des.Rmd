@@ -18,6 +18,7 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 
 ---
 
+
 We will use the RSiena object to describe the constant covariates and the behavioral variables.
 We will do this seperately for the 5 clubs.
 
@@ -42,7 +43,7 @@ Clean the working environment, set the working directory to the folder with the 
 rm (list = ls( ))
 
 # set the working directory
-setwd("C:\\Users\\u244147\\Documents\\dissertatie\\Strava data\\clubs") 
+setwd("C:\\Users\\u244147\\Documents\\dissertatie\\Strava data\\clubs")
 
 # load the object
 load("clubdata_rsiena.RData")
@@ -155,15 +156,15 @@ fscolnet <- function(network, ccovar) {
 ## {.tabset .tabset-fade} 
 Make sure to check the output of the 'print01Report()' function for general data descripton (degrees, network size, etc.) and a general overview of the dataset.
 
+**to-do**: print outputs.
+
 ### Club 1
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 
 library(RSiena)
 print01Report(df)
-
 ```
-![](files/Siena1.txt)
 
 ### Club 2
 ```{r }
@@ -172,7 +173,6 @@ df <- clubdata_rsiena[[2]] # grab club
 library(RSiena)
 print01Report(df)
 ```
-![](files/Siena2.txt)
 
 ### Club 3
 ```{r }
@@ -181,7 +181,6 @@ df <- clubdata_rsiena[[3]] # grab club
 library(RSiena)
 print01Report(df)
 ```
-![](files/Siena3.txt)
 
 ### Club 4
 ```{r}
@@ -190,7 +189,6 @@ df <- clubdata_rsiena[[4]] # grab club
 library(RSiena)
 print01Report(df)
 ```
-![](files/Siena4.txt)
 
 ### Club 5
 ```{r}
@@ -199,7 +197,6 @@ df <- clubdata_rsiena[[5]] # grab club
 library(RSiena)
 print01Report(df)
 ```
-![](files/Siena5.txt)
 
 ## {-}
 
@@ -315,27 +312,36 @@ In general, we see that the in- and outdegree distribution is right-skewed, sugg
 
 Let's investigate to what extent friendship-relationships (dyads) are reciprocated or mutual. There are three types of dyad: mutual, assymetric, and non-existent. We will classify dyads with the dyad-census function, and we will investigate if we observe more mutual dyads than we would expect based on chance.
 
+
 ### Club 1
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[1]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dyads to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of mutual dyads in random graph", xlab="", )
@@ -344,25 +350,33 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 2
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[2]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dayds to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of mutual dyads in random graph", xlab="", )
@@ -371,25 +385,33 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 3
 ```{r}
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[3]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dayds to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of mutual dyads in random graph", xlab="", )
@@ -398,25 +420,33 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 4
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[4]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dayds to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of mutual dyads in random graph", xlab="", )
@@ -425,25 +455,33 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 5
 ```{r}
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[5]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dayds to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of mutual dyads in random graph", xlab="", )
@@ -463,11 +501,19 @@ Let's also calculate for each club the (global) transitivity index, which is the
 
 ### Club 1
 ```{r}
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+        
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[1]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
-triadcount <- triad.census(G1)
+triadcount <- igraph::triad.census(G1)
 
 # and print the 16 configurations
 print(triadcount)
@@ -476,13 +522,13 @@ print(triadcount)
 transitivity(G1)
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
   recip[i] <- transitivity(random_graph)
 }
 
@@ -493,11 +539,19 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ### Club 2
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+        
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[2]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
-triadcount <- triad.census(G1)
+triadcount <- igraph::triad.census(G1)
 
 # and print the 16 configurations
 print(triadcount)
@@ -506,13 +560,13 @@ print(triadcount)
 transitivity(G1)
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
   recip[i] <- transitivity(random_graph)
 }
 
@@ -523,11 +577,19 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ### Club 3
 ```{r}
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+        
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[3]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
-triadcount <- triad.census(G1)
+triadcount <- igraph::triad.census(G1)
 
 # and print the 16 configurations
 print(triadcount)
@@ -536,13 +598,13 @@ print(triadcount)
 transitivity(G1)
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
   recip[i] <- transitivity(random_graph)
 }
 
@@ -553,11 +615,19 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ### Club 4
 ```{r}
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+        
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[4]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
-triadcount <- triad.census(G1)
+triadcount <- igraph::triad.census(G1)
 
 # and print the 16 configurations
 print(triadcount)
@@ -566,13 +636,13 @@ print(triadcount)
 transitivity(G1)
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
   recip[i] <- transitivity(random_graph)
 }
 
@@ -583,11 +653,19 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ### Club 5
 ```{r}
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+        
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[5]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
-triadcount <- triad.census(G1)
+triadcount <- igraph::triad.census(G1)
 
 # and print the 16 configurations
 print(triadcount)
@@ -596,13 +674,13 @@ print(triadcount)
 transitivity(G1)
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
   recip[i] <- transitivity(random_graph)
 }
 
@@ -611,6 +689,7 @@ hist(recip, main="global transitivity index in random graph", xlab="" )
 ```
 
 ## {-}
+
 Also transitivity is more prominent than would be expected solely based on chance. 
 
 <br>
@@ -726,27 +805,35 @@ At the dyad-level: let's see to what extent Kudos tend to be reciprocated betwee
 
 ### Club 1
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club, at wave 1, transforming structural NA's
 G1 <- igraph::graph_from_adjacency_matrix( 
   ifelse((clubdata_rsiena[[1]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[1]]$depvars$kudonet[,,1])),
   mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dyads to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of reciprocated Kudos in random graph", xlab="", )
@@ -755,27 +842,35 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 2
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club, at wave 1, transforming structural NA's
 G1 <- igraph::graph_from_adjacency_matrix( 
   ifelse((clubdata_rsiena[[2]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[2]]$depvars$kudonet[,,1])),
   mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dyads to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of reciprocated Kudos in random graph", xlab="", )
@@ -784,27 +879,35 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 3
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club, at wave 1, transforming structural NA's
 G1 <- igraph::graph_from_adjacency_matrix( 
   ifelse((clubdata_rsiena[[3]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[3]]$depvars$kudonet[,,1])),
   mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dyads to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of reciprocated Kudos in random graph", xlab="", )
@@ -813,27 +916,35 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 4
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club, at wave 1, transforming structural NA's
 G1 <- igraph::graph_from_adjacency_matrix( 
   ifelse((clubdata_rsiena[[4]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[4]]$depvars$kudonet[,,1])),
   mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dyads to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of reciprocated Kudos in random graph", xlab="", )
@@ -842,27 +953,35 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 
 ### Club 5
 ```{r }
+# install packages
+library(stats)
+library(tidyverse)
+library(moments)
+library(dplyr)
+library(ggplot2)
+library(igraph)
+
 # make igraph object for the club, at wave 1, transforming structural NA's
 G1 <- igraph::graph_from_adjacency_matrix( 
   ifelse((clubdata_rsiena[[5]]$depvars$kudonet[,,1]) == 10, NA, (clubdata_rsiena[[5]]$depvars$kudonet[,,1])),
   mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
-dyadcount <- dyad.census(G1)
+dyadcount <- igraph::dyad.census(G1)
 
 # add the total number of dyads to the graph
 dyadcount$total <- (vcount(G1)*(vcount(G1)-1))/2
 dyadcount
 
 # compare values with a random graph of the same size with the same density
-dens <- graph.density(G1)
-size <- vcount(G1)
+dens <- igraph::graph.density(G1)
+size <- igraph::vcount(G1)
 trial <- 1000
 recip <- rep(NA, trial)
 
 for ( i in 1:trial ){
-  random_graph <- erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
-  recip[i] <- dyad.census(random_graph)$mut
+  random_graph <- igraph::erdos.renyi.game(n = size, p.or.m = dens, directed = TRUE)
+  recip[i] <- igraph::dyad.census(random_graph)$mut
 }
 
 {hist(recip, main="number of reciprocated Kudos in random graph", xlab="", )
@@ -874,6 +993,7 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 Conclusion: Kudos tend to be reciprocated, like friendships!
 
 ----
+
 
 <br>
 
@@ -1448,8 +1568,6 @@ A similar pattern... the ratio between total/intra-/inter-sex densities is diffe
 
 ----
 
-<br>
-
 ## Coleman's homophily index {.tabset .tabset-fade}
 
 Because men are overrepresented, seggregation may be partly structurally induced by differences in relative group sizes. We calculate the Coleman Homophily index for gender, which reflects gender segregation while taking into account the relative group size of men and women. We start with calculating the index for the friendship networks.
@@ -1582,6 +1700,8 @@ print(colmat)
 ## {-}
 
 In general, Coleman's Homophily Index is close to 0, which indicates that the observed number of same-sex friendship is almost the same as would be expected under random choice, hence indicating absence of gender seggregation in friendship ties. Now let's calculate the index for Kudo relationships.
+
+<br>
 
 ## {.tabset .tabset-fade}
 
@@ -1723,6 +1843,13 @@ Interestingly,  tendencies towards gender homophily seem greater in the Kudo net
 
 We will describe the running activities of the club-members, in terms of times per week (0-7) and minutes per week (for time we also used categories 0-7, with 0 being 0 minutes, and 7 being more than 720 minutes. First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
 
+**Notes**: 
+I categorized these continuous dependent behavioral variables following recommendations in the literature ( [Strava manual, p. 27](http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf); [Niezink 2018, Chapter 6](https://www.rug.nl/research/portal/files/59290618/Complete_thesis.pdf) ):
+
+- For *frequency*, I chose 8 categories, ranging from 0-7. This theoretically makes sense, and also provides a rather smooth right-skewed distribution of values. For some clubs the addition of a 9th category makes sense (as a substantial proportion of Club members ran more than once a day), as can be seen by the histograms down below...
+- For *volume*, for now a rather arbitrary (read: Manuel's) categorization was used. I think I should categorize time in such a way that all categories are equally populated (cf. [Flashman 2012](https://journals.sagepub.com/doi/pdf/10.1177/0038040711417014?casa_token=VE4Hmlk_608AAAAA:AdvYahhmc_HDD0w-GZF0eAh0mLPT9KSPNziwcSM5AZxGpWGV75nWPKlnyyDKH_FWf_bM5sw5LdvqGhs)). This would result in different categorizations for each club. Note that such a transformation completely does away with the original distribution...
+
+
 ### Club 1
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[1]] # grab club 
@@ -2562,11 +2689,12 @@ plot_mean_time
 
 ----
 
-## 2. Other {.tabset .tabset-fade}
+## 2. Cycling {.tabset .tabset-fade}
 
-We will describe other activities as well. For now we combine cycling activities and other activities than running and cycling. Note that the distribution of frequency of other activities ranges from 0 to 14, because we summed 'cycling activities' and 'other activities'. 
+We will describe other activities as well. Let's describe cycling activities.
 
 ### Club 1
+
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[1]] # grab club 
 
@@ -2596,94 +2724,94 @@ gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender)
 
 # create wide dataframe
-df2long <- data.frame (
-  id = 1:length(df$nodeSets$Actors),
-  gender = gender,
-  freq1 = df$depvars$freq_other[,,1],
-  freq2 = df$depvars$freq_other[,,2],
-  freq3 = df$depvars$freq_other[,,3],
-  freq4 = df$depvars$freq_other[,,4],
-  freq5 = df$depvars$freq_other[,,5],
-  freq6 = df$depvars$freq_other[,,6],
-  freq7 = df$depvars$freq_other[,,7],
-  freq8 = df$depvars$freq_other[,,8],
-  freq9 = df$depvars$freq_other[,,9],
-  freq10 = df$depvars$freq_other[,,10],
-  freq11 = df$depvars$freq_other[,,11],
-  freq12 = df$depvars$freq_other[,,12],
-  time1 = df$depvars$time_other[,,1],
-  time2 = df$depvars$time_other[,,2],
-  time3 = df$depvars$time_other[,,3],
-  time4 = df$depvars$time_other[,,4],
-  time5 = df$depvars$time_other[,,5],
-  time6 = df$depvars$time_other[,,6],
-  time7 = df$depvars$time_other[,,7],
-  time8 = df$depvars$time_other[,,8],
-  time9 = df$depvars$time_other[,,9],
-  time10 = df$depvars$time_other[,,10],
-  time11 = df$depvars$time_other[,,11],
-  time12 = df$depvars$time_other[,,12])
+  df2long <- data.frame (
+    id = 1:length(df$nodeSets$Actors),
+    gender = gender,
+    freq1 = df$depvars$freq_ride[,,1],
+    freq2 = df$depvars$freq_ride[,,2],
+    freq3 = df$depvars$freq_ride[,,3],
+    freq4 = df$depvars$freq_ride[,,4],
+    freq5 = df$depvars$freq_ride[,,5],
+    freq6 = df$depvars$freq_ride[,,6],
+    freq7 = df$depvars$freq_ride[,,7],
+    freq8 = df$depvars$freq_ride[,,8],
+    freq9 = df$depvars$freq_ride[,,9],
+    freq10 = df$depvars$freq_ride[,,10],
+    freq11 = df$depvars$freq_ride[,,11],
+    freq12 = df$depvars$freq_ride[,,12],
+    time1 = df$depvars$time_ride[,,1],
+    time2 = df$depvars$time_ride[,,2],
+    time3 = df$depvars$time_ride[,,3],
+    time4 = df$depvars$time_ride[,,4],
+    time5 = df$depvars$time_ride[,,5],
+    time6 = df$depvars$time_ride[,,6],
+    time7 = df$depvars$time_ride[,,7],
+    time8 = df$depvars$time_ride[,,8],
+    time9 = df$depvars$time_ride[,,9],
+    time10 = df$depvars$time_ride[,,10],
+    time11 = df$depvars$time_ride[,,11],
+    time12 = df$depvars$time_ride[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
-                   direction = "long",
-                   varying = c(list(names(df2long)[3:14]),
-                               list(names(df2long)[15:26])),
-                   v.names = c("other_freq", "other_time"),
-                   idvar = "id",
-                   timevar = "time",
-                   times = 1:12)
+                     direction = "long",
+                     varying = c(list(names(df2long)[3:14]),
+                                 list(names(df2long)[15:26])),
+                     v.names = c("ride_freq", "ride_time"),
+                     idvar = "id",
+                     timevar = "time",
+                     times = 1:12)
 
 # Reorder data based on user id
 df_long  <- df_long [(order(df_long$id)), ]
 
 # create data to plot, seperately for men and women
-data_all <- df_long %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Full Sample"
-  )
-
-data_men <- df_long[which(df_long$gender == "Male"), ]
-data_men <- data_men %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Men"
-  )
-
-data_women <- df_long[which(df_long$gender == "Female"), ]
-data_women <- data_women %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Women"
-  )
+ data_all <- df_long %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Full Sample"
+    )
+ 
+ data_men <- df_long[which(df_long$gender == "Male"), ]
+  data_men <- data_men %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Men"
+    )
+  
+  data_women <- df_long[which(df_long$gender == "Female"), ]
+  data_women <- data_women %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Women"
+    )
 
 # stack data 
 plot.data <- rbind(data_all, data_men, data_women)
@@ -2694,38 +2822,39 @@ plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 
 # plot
 plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Frequency per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,5) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
-
-plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Volume per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,7) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening frequency per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,5) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
+  
+  plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening volume per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,7) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Frequency Other Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
-hist(df$depvars$time_other, main = "Histogram of Volume Other Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$freq_ride, main = "Histogram of Cycling Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+
+hist(df$depvars$time_ride, main = "Histogram of Cycling Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2733,6 +2862,7 @@ plot_mean_time
 ```
 
 ### Club 2
+
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[2]] # grab club 
 
@@ -2762,94 +2892,94 @@ gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender)
 
 # create wide dataframe
-df2long <- data.frame (
-  id = 1:length(df$nodeSets$Actors),
-  gender = gender,
-  freq1 = df$depvars$freq_other[,,1],
-  freq2 = df$depvars$freq_other[,,2],
-  freq3 = df$depvars$freq_other[,,3],
-  freq4 = df$depvars$freq_other[,,4],
-  freq5 = df$depvars$freq_other[,,5],
-  freq6 = df$depvars$freq_other[,,6],
-  freq7 = df$depvars$freq_other[,,7],
-  freq8 = df$depvars$freq_other[,,8],
-  freq9 = df$depvars$freq_other[,,9],
-  freq10 = df$depvars$freq_other[,,10],
-  freq11 = df$depvars$freq_other[,,11],
-  freq12 = df$depvars$freq_other[,,12],
-  time1 = df$depvars$time_other[,,1],
-  time2 = df$depvars$time_other[,,2],
-  time3 = df$depvars$time_other[,,3],
-  time4 = df$depvars$time_other[,,4],
-  time5 = df$depvars$time_other[,,5],
-  time6 = df$depvars$time_other[,,6],
-  time7 = df$depvars$time_other[,,7],
-  time8 = df$depvars$time_other[,,8],
-  time9 = df$depvars$time_other[,,9],
-  time10 = df$depvars$time_other[,,10],
-  time11 = df$depvars$time_other[,,11],
-  time12 = df$depvars$time_other[,,12])
+  df2long <- data.frame (
+    id = 1:length(df$nodeSets$Actors),
+    gender = gender,
+    freq1 = df$depvars$freq_ride[,,1],
+    freq2 = df$depvars$freq_ride[,,2],
+    freq3 = df$depvars$freq_ride[,,3],
+    freq4 = df$depvars$freq_ride[,,4],
+    freq5 = df$depvars$freq_ride[,,5],
+    freq6 = df$depvars$freq_ride[,,6],
+    freq7 = df$depvars$freq_ride[,,7],
+    freq8 = df$depvars$freq_ride[,,8],
+    freq9 = df$depvars$freq_ride[,,9],
+    freq10 = df$depvars$freq_ride[,,10],
+    freq11 = df$depvars$freq_ride[,,11],
+    freq12 = df$depvars$freq_ride[,,12],
+    time1 = df$depvars$time_ride[,,1],
+    time2 = df$depvars$time_ride[,,2],
+    time3 = df$depvars$time_ride[,,3],
+    time4 = df$depvars$time_ride[,,4],
+    time5 = df$depvars$time_ride[,,5],
+    time6 = df$depvars$time_ride[,,6],
+    time7 = df$depvars$time_ride[,,7],
+    time8 = df$depvars$time_ride[,,8],
+    time9 = df$depvars$time_ride[,,9],
+    time10 = df$depvars$time_ride[,,10],
+    time11 = df$depvars$time_ride[,,11],
+    time12 = df$depvars$time_ride[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
-                   direction = "long",
-                   varying = c(list(names(df2long)[3:14]),
-                               list(names(df2long)[15:26])),
-                   v.names = c("other_freq", "other_time"),
-                   idvar = "id",
-                   timevar = "time",
-                   times = 1:12)
+                     direction = "long",
+                     varying = c(list(names(df2long)[3:14]),
+                                 list(names(df2long)[15:26])),
+                     v.names = c("ride_freq", "ride_time"),
+                     idvar = "id",
+                     timevar = "time",
+                     times = 1:12)
 
 # Reorder data based on user id
 df_long  <- df_long [(order(df_long$id)), ]
 
 # create data to plot, seperately for men and women
-data_all <- df_long %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Full Sample"
-  )
-
-data_men <- df_long[which(df_long$gender == "Male"), ]
-data_men <- data_men %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Men"
-  )
-
-data_women <- df_long[which(df_long$gender == "Female"), ]
-data_women <- data_women %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Women"
-  )
+ data_all <- df_long %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Full Sample"
+    )
+ 
+ data_men <- df_long[which(df_long$gender == "Male"), ]
+  data_men <- data_men %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Men"
+    )
+  
+  data_women <- df_long[which(df_long$gender == "Female"), ]
+  data_women <- data_women %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Women"
+    )
 
 # stack data 
 plot.data <- rbind(data_all, data_men, data_women)
@@ -2860,38 +2990,39 @@ plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 
 # plot
 plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Frequency per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,5) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
-
-plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Volume per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,7) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening frequency per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,5) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
+  
+  plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening volume per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,7) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Frequency Other Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
-hist(df$depvars$time_other, main = "Histogram of Volume Other Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$freq_ride, main = "Histogram of Cycling Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+
+hist(df$depvars$time_ride, main = "Histogram of Cycling Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2899,6 +3030,7 @@ plot_mean_time
 ```
 
 ### Club 3
+
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[3]] # grab club 
 
@@ -2928,94 +3060,94 @@ gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender)
 
 # create wide dataframe
-df2long <- data.frame (
-  id = 1:length(df$nodeSets$Actors),
-  gender = gender,
-  freq1 = df$depvars$freq_other[,,1],
-  freq2 = df$depvars$freq_other[,,2],
-  freq3 = df$depvars$freq_other[,,3],
-  freq4 = df$depvars$freq_other[,,4],
-  freq5 = df$depvars$freq_other[,,5],
-  freq6 = df$depvars$freq_other[,,6],
-  freq7 = df$depvars$freq_other[,,7],
-  freq8 = df$depvars$freq_other[,,8],
-  freq9 = df$depvars$freq_other[,,9],
-  freq10 = df$depvars$freq_other[,,10],
-  freq11 = df$depvars$freq_other[,,11],
-  freq12 = df$depvars$freq_other[,,12],
-  time1 = df$depvars$time_other[,,1],
-  time2 = df$depvars$time_other[,,2],
-  time3 = df$depvars$time_other[,,3],
-  time4 = df$depvars$time_other[,,4],
-  time5 = df$depvars$time_other[,,5],
-  time6 = df$depvars$time_other[,,6],
-  time7 = df$depvars$time_other[,,7],
-  time8 = df$depvars$time_other[,,8],
-  time9 = df$depvars$time_other[,,9],
-  time10 = df$depvars$time_other[,,10],
-  time11 = df$depvars$time_other[,,11],
-  time12 = df$depvars$time_other[,,12])
+  df2long <- data.frame (
+    id = 1:length(df$nodeSets$Actors),
+    gender = gender,
+    freq1 = df$depvars$freq_ride[,,1],
+    freq2 = df$depvars$freq_ride[,,2],
+    freq3 = df$depvars$freq_ride[,,3],
+    freq4 = df$depvars$freq_ride[,,4],
+    freq5 = df$depvars$freq_ride[,,5],
+    freq6 = df$depvars$freq_ride[,,6],
+    freq7 = df$depvars$freq_ride[,,7],
+    freq8 = df$depvars$freq_ride[,,8],
+    freq9 = df$depvars$freq_ride[,,9],
+    freq10 = df$depvars$freq_ride[,,10],
+    freq11 = df$depvars$freq_ride[,,11],
+    freq12 = df$depvars$freq_ride[,,12],
+    time1 = df$depvars$time_ride[,,1],
+    time2 = df$depvars$time_ride[,,2],
+    time3 = df$depvars$time_ride[,,3],
+    time4 = df$depvars$time_ride[,,4],
+    time5 = df$depvars$time_ride[,,5],
+    time6 = df$depvars$time_ride[,,6],
+    time7 = df$depvars$time_ride[,,7],
+    time8 = df$depvars$time_ride[,,8],
+    time9 = df$depvars$time_ride[,,9],
+    time10 = df$depvars$time_ride[,,10],
+    time11 = df$depvars$time_ride[,,11],
+    time12 = df$depvars$time_ride[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
-                   direction = "long",
-                   varying = c(list(names(df2long)[3:14]),
-                               list(names(df2long)[15:26])),
-                   v.names = c("other_freq", "other_time"),
-                   idvar = "id",
-                   timevar = "time",
-                   times = 1:12)
+                     direction = "long",
+                     varying = c(list(names(df2long)[3:14]),
+                                 list(names(df2long)[15:26])),
+                     v.names = c("ride_freq", "ride_time"),
+                     idvar = "id",
+                     timevar = "time",
+                     times = 1:12)
 
 # Reorder data based on user id
 df_long  <- df_long [(order(df_long$id)), ]
 
 # create data to plot, seperately for men and women
-data_all <- df_long %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Full Sample"
-  )
-
-data_men <- df_long[which(df_long$gender == "Male"), ]
-data_men <- data_men %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Men"
-  )
-
-data_women <- df_long[which(df_long$gender == "Female"), ]
-data_women <- data_women %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Women"
-  )
+ data_all <- df_long %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Full Sample"
+    )
+ 
+ data_men <- df_long[which(df_long$gender == "Male"), ]
+  data_men <- data_men %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Men"
+    )
+  
+  data_women <- df_long[which(df_long$gender == "Female"), ]
+  data_women <- data_women %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Women"
+    )
 
 # stack data 
 plot.data <- rbind(data_all, data_men, data_women)
@@ -3026,38 +3158,39 @@ plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 
 # plot
 plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Frequency per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,5) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
-
-plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Volume per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,7) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening frequency per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,5) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
+  
+  plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening volume per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,7) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Frequency Other Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
-hist(df$depvars$time_other, main = "Histogram of Volume Other Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$freq_ride, main = "Histogram of Cycling Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+
+hist(df$depvars$time_ride, main = "Histogram of Cycling Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -3065,6 +3198,7 @@ plot_mean_time
 ```
 
 ### Club 4
+
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[4]] # grab club 
 
@@ -3094,94 +3228,94 @@ gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender)
 
 # create wide dataframe
-df2long <- data.frame (
-  id = 1:length(df$nodeSets$Actors),
-  gender = gender,
-  freq1 = df$depvars$freq_other[,,1],
-  freq2 = df$depvars$freq_other[,,2],
-  freq3 = df$depvars$freq_other[,,3],
-  freq4 = df$depvars$freq_other[,,4],
-  freq5 = df$depvars$freq_other[,,5],
-  freq6 = df$depvars$freq_other[,,6],
-  freq7 = df$depvars$freq_other[,,7],
-  freq8 = df$depvars$freq_other[,,8],
-  freq9 = df$depvars$freq_other[,,9],
-  freq10 = df$depvars$freq_other[,,10],
-  freq11 = df$depvars$freq_other[,,11],
-  freq12 = df$depvars$freq_other[,,12],
-  time1 = df$depvars$time_other[,,1],
-  time2 = df$depvars$time_other[,,2],
-  time3 = df$depvars$time_other[,,3],
-  time4 = df$depvars$time_other[,,4],
-  time5 = df$depvars$time_other[,,5],
-  time6 = df$depvars$time_other[,,6],
-  time7 = df$depvars$time_other[,,7],
-  time8 = df$depvars$time_other[,,8],
-  time9 = df$depvars$time_other[,,9],
-  time10 = df$depvars$time_other[,,10],
-  time11 = df$depvars$time_other[,,11],
-  time12 = df$depvars$time_other[,,12])
+  df2long <- data.frame (
+    id = 1:length(df$nodeSets$Actors),
+    gender = gender,
+    freq1 = df$depvars$freq_ride[,,1],
+    freq2 = df$depvars$freq_ride[,,2],
+    freq3 = df$depvars$freq_ride[,,3],
+    freq4 = df$depvars$freq_ride[,,4],
+    freq5 = df$depvars$freq_ride[,,5],
+    freq6 = df$depvars$freq_ride[,,6],
+    freq7 = df$depvars$freq_ride[,,7],
+    freq8 = df$depvars$freq_ride[,,8],
+    freq9 = df$depvars$freq_ride[,,9],
+    freq10 = df$depvars$freq_ride[,,10],
+    freq11 = df$depvars$freq_ride[,,11],
+    freq12 = df$depvars$freq_ride[,,12],
+    time1 = df$depvars$time_ride[,,1],
+    time2 = df$depvars$time_ride[,,2],
+    time3 = df$depvars$time_ride[,,3],
+    time4 = df$depvars$time_ride[,,4],
+    time5 = df$depvars$time_ride[,,5],
+    time6 = df$depvars$time_ride[,,6],
+    time7 = df$depvars$time_ride[,,7],
+    time8 = df$depvars$time_ride[,,8],
+    time9 = df$depvars$time_ride[,,9],
+    time10 = df$depvars$time_ride[,,10],
+    time11 = df$depvars$time_ride[,,11],
+    time12 = df$depvars$time_ride[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
-                   direction = "long",
-                   varying = c(list(names(df2long)[3:14]),
-                               list(names(df2long)[15:26])),
-                   v.names = c("other_freq", "other_time"),
-                   idvar = "id",
-                   timevar = "time",
-                   times = 1:12)
+                     direction = "long",
+                     varying = c(list(names(df2long)[3:14]),
+                                 list(names(df2long)[15:26])),
+                     v.names = c("ride_freq", "ride_time"),
+                     idvar = "id",
+                     timevar = "time",
+                     times = 1:12)
 
 # Reorder data based on user id
 df_long  <- df_long [(order(df_long$id)), ]
 
 # create data to plot, seperately for men and women
-data_all <- df_long %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Full Sample"
-  )
-
-data_men <- df_long[which(df_long$gender == "Male"), ]
-data_men <- data_men %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Men"
-  )
-
-data_women <- df_long[which(df_long$gender == "Female"), ]
-data_women <- data_women %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Women"
-  )
+ data_all <- df_long %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Full Sample"
+    )
+ 
+ data_men <- df_long[which(df_long$gender == "Male"), ]
+  data_men <- data_men %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Men"
+    )
+  
+  data_women <- df_long[which(df_long$gender == "Female"), ]
+  data_women <- data_women %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Women"
+    )
 
 # stack data 
 plot.data <- rbind(data_all, data_men, data_women)
@@ -3192,38 +3326,39 @@ plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 
 # plot
 plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Frequency per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,5) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
-
-plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Volume per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,7) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening frequency per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,5) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
+  
+  plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening volume per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,7) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Frequency Other Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
-hist(df$depvars$time_other, main = "Histogram of Volume Other Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$freq_ride, main = "Histogram of Cycling Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+
+hist(df$depvars$time_ride, main = "Histogram of Cycling Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -3231,6 +3366,7 @@ plot_mean_time
 ```
 
 ### Club 5
+
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[5]] # grab club 
 
@@ -3260,94 +3396,94 @@ gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender)
 
 # create wide dataframe
-df2long <- data.frame (
-  id = 1:length(df$nodeSets$Actors),
-  gender = gender,
-  freq1 = df$depvars$freq_other[,,1],
-  freq2 = df$depvars$freq_other[,,2],
-  freq3 = df$depvars$freq_other[,,3],
-  freq4 = df$depvars$freq_other[,,4],
-  freq5 = df$depvars$freq_other[,,5],
-  freq6 = df$depvars$freq_other[,,6],
-  freq7 = df$depvars$freq_other[,,7],
-  freq8 = df$depvars$freq_other[,,8],
-  freq9 = df$depvars$freq_other[,,9],
-  freq10 = df$depvars$freq_other[,,10],
-  freq11 = df$depvars$freq_other[,,11],
-  freq12 = df$depvars$freq_other[,,12],
-  time1 = df$depvars$time_other[,,1],
-  time2 = df$depvars$time_other[,,2],
-  time3 = df$depvars$time_other[,,3],
-  time4 = df$depvars$time_other[,,4],
-  time5 = df$depvars$time_other[,,5],
-  time6 = df$depvars$time_other[,,6],
-  time7 = df$depvars$time_other[,,7],
-  time8 = df$depvars$time_other[,,8],
-  time9 = df$depvars$time_other[,,9],
-  time10 = df$depvars$time_other[,,10],
-  time11 = df$depvars$time_other[,,11],
-  time12 = df$depvars$time_other[,,12])
+  df2long <- data.frame (
+    id = 1:length(df$nodeSets$Actors),
+    gender = gender,
+    freq1 = df$depvars$freq_ride[,,1],
+    freq2 = df$depvars$freq_ride[,,2],
+    freq3 = df$depvars$freq_ride[,,3],
+    freq4 = df$depvars$freq_ride[,,4],
+    freq5 = df$depvars$freq_ride[,,5],
+    freq6 = df$depvars$freq_ride[,,6],
+    freq7 = df$depvars$freq_ride[,,7],
+    freq8 = df$depvars$freq_ride[,,8],
+    freq9 = df$depvars$freq_ride[,,9],
+    freq10 = df$depvars$freq_ride[,,10],
+    freq11 = df$depvars$freq_ride[,,11],
+    freq12 = df$depvars$freq_ride[,,12],
+    time1 = df$depvars$time_ride[,,1],
+    time2 = df$depvars$time_ride[,,2],
+    time3 = df$depvars$time_ride[,,3],
+    time4 = df$depvars$time_ride[,,4],
+    time5 = df$depvars$time_ride[,,5],
+    time6 = df$depvars$time_ride[,,6],
+    time7 = df$depvars$time_ride[,,7],
+    time8 = df$depvars$time_ride[,,8],
+    time9 = df$depvars$time_ride[,,9],
+    time10 = df$depvars$time_ride[,,10],
+    time11 = df$depvars$time_ride[,,11],
+    time12 = df$depvars$time_ride[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
-                   direction = "long",
-                   varying = c(list(names(df2long)[3:14]),
-                               list(names(df2long)[15:26])),
-                   v.names = c("other_freq", "other_time"),
-                   idvar = "id",
-                   timevar = "time",
-                   times = 1:12)
+                     direction = "long",
+                     varying = c(list(names(df2long)[3:14]),
+                                 list(names(df2long)[15:26])),
+                     v.names = c("ride_freq", "ride_time"),
+                     idvar = "id",
+                     timevar = "time",
+                     times = 1:12)
 
 # Reorder data based on user id
 df_long  <- df_long [(order(df_long$id)), ]
 
 # create data to plot, seperately for men and women
-data_all <- df_long %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Full Sample"
-  )
-
-data_men <- df_long[which(df_long$gender == "Male"), ]
-data_men <- data_men %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Men"
-  )
-
-data_women <- df_long[which(df_long$gender == "Female"), ]
-data_women <- data_women %>%
-  group_by(time) %>%
-  summarise(mean_freq = mean(other_freq, na.rm=T),
-            mean_time = mean(other_time, na.rm=T),
-            se_freq = 1.96 * (sd(other_freq, na.rm=T)/sqrt(sum(!is.na(other_freq)))),
-            se_time = 1.96 * (sd(other_time, na.rm=T)/sqrt(sum(!is.na(other_time)))),
-            sd_freq = sd(other_freq, na.rm=T),
-            sd_time = sd(other_time, na.rm=T),
-            var_freq = var(other_freq, na.rm = T),
-            var_time = var(other_time, na.rm = T),
-            kurtosis_freq = kurtosis(other_freq, na.rm = T) - 3,
-            kurtosis_time = kurtosis(other_time, na.rm = T) - 3,
-            class = "Women"
-  )
+ data_all <- df_long %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Full Sample"
+    )
+ 
+ data_men <- df_long[which(df_long$gender == "Male"), ]
+  data_men <- data_men %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Men"
+    )
+  
+  data_women <- df_long[which(df_long$gender == "Female"), ]
+  data_women <- data_women %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(ride_freq, na.rm=T),
+              mean_time = mean(ride_time, na.rm=T),
+              se_freq = 1.96 * (sd(ride_freq, na.rm=T)/sqrt(sum(!is.na(ride_freq)))),
+              se_time = 1.96 * (sd(ride_time, na.rm=T)/sqrt(sum(!is.na(ride_time)))),
+              sd_freq = sd(ride_freq, na.rm=T),
+              sd_time = sd(ride_time, na.rm=T),
+              var_freq = var(ride_freq, na.rm = T),
+              var_time = var(ride_time, na.rm = T),
+              kurtosis_freq = kurtosis(ride_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(ride_time, na.rm = T) - 3,
+              class = "Women"
+    )
 
 # stack data 
 plot.data <- rbind(data_all, data_men, data_women)
@@ -3358,38 +3494,39 @@ plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 
 # plot
 plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Frequency per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,5) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
-
-plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
-  geom_point() +
-  geom_smooth(method = "loess", size=2) +
-  geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
-                    width = 0.4)) +
-  theme_bw(base_family="serif", base_size=16) +
-  scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-  labs(y = "Volume per week", x="Month") +
-  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-  ylim(0,7) +
-  theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
-        legend.position = "right", legend.title=element_blank()
-  )
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening frequency per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,5) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
+  
+  plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Ridening volume per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,7) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Frequency Other Activities", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
-hist(df$depvars$time_other, main = "Histogram of Volume Other Activities", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$freq_ride, main = "Histogram of Cycling Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+
+hist(df$depvars$time_ride, main = "Histogram of Cycling Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -3397,8 +3534,6 @@ plot_mean_time
 ```
 
 ## {-}
-
-The members of the respective clubs seem to differ in their activity levels. Especially members of club 5 seem 'significantly' more active, both in running and in other activities.
 
 ----
 

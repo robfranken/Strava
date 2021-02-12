@@ -1,13 +1,13 @@
 base
 RSiena
 igraph
-ggplot2
-forcats
-dplyr
 tidyverse
+ggplot2
 tibble
 tidyr
 readr
 purrr
+dplyr
 stringr
+forcats
 moments

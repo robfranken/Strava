@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data preparation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Strava Journal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li>
+  <a href="des.html">Descriptives</a>
+</li>
+<li>
+  <a href="expl.html">Exploring RSiena</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Data preparation</h1>
+<h4 class="date">18-1-2021</h4>
+
+</div>
+
+
+<p>In the following scripts a list containing the (anonymized) data of all clubs is made (clubdata.RData).</p>
+<pre class="r"><code># first, install the required packages.
+library(RSiena)
+library(gdata)
+library(psych)
+library(dlookr)
+library(gsubfn)
+require(igraph)
+
+# clean the working environment and set the working directory to the folder containing the scraped clubdata.
+rm (list = ls( ))
+setwd(&quot;C:\\YOURID\\YOURSUBID\\YOURSUBSUBDIR\\&quot;)
+getwd()
+
+# club string represents the club ID, anonymized here
+club_str &lt;- &quot;clubid1 \n clubid2 \n clubid3 \n clubid4 \n clubid5&quot; #enter club-IDs manually
+club_str_list &lt;- strsplit(club_str, &quot;\n&quot;)
+club_str &lt;- as.numeric(unlist(club_str_list))
+
+# the following script reads the data of the clubs from the folder for each club, stores them in a list, and saves it in an object in the last function call of this script. 
+# we start with the first club, by assigning the first club-id from the club-string to our identifier.
+# we can alter the identifier to match another club, and then re-run the script. (in the future, make a loop that does everything automatically...)
+
+####################################################
+
+club_id &lt;- club_str[1] #### RESTART FROM HERE #####
+
+
+{
+# read the data from the club    
+clubdata &lt;- read.csv(paste(club_id, &quot;/&quot;, &quot;egoData_extended.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep= &quot;,&quot;)
+
+# saving club size
+size &lt;- length(clubdata[, &#39;gender&#39;])
+
+# the number of months that we want to add as waves
+n_waves &lt;- 12
+
+# separating male/female/other
+male &lt;- ifelse(clubdata[,&#39;gender&#39;] == &quot;M&quot;, 1, 0)
+female &lt;- ifelse(clubdata[,&#39;gender&#39;] == &quot;F&quot;, 1, 0)
+other &lt;- ifelse(clubdata[,&#39;gender&#39;] == &quot;O&quot;, 1, 0)
+
+# in case we want to condition on the first activity recorded by users:
+st_yr &lt;- clubdata[,&#39;start_date_year&#39;]
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] &lt;= 2011, 1, st_yr)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2012, 2, start_year)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2013, 3, start_year)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2014, 4, start_year)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2015, 5, start_year)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2016, 6, start_year)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2017, 7, start_year)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2018, 8, start_year)
+start_year &lt;-  ifelse(clubdata[,&#39;start_date_year&#39;] == 2019, 9, start_year)
+table(start_year)
+
+# let&#39;s load the friendship network
+friend_data &lt;- as.matrix(read.csv(paste(club_id, &quot;/&quot;, &quot;socialnetwork.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+# remove the first column (represents index made in the csv)
+friend_data &lt;- friend_data[, 2:ncol(friend_data)]
+# and anonymize the user id, with an id-maker function
+idmaker &lt;- function(x)
+{
+  max.val = x*100000
+  count &lt;- nchar(as.character(max.val))           # find out how many &#39;numbers&#39; each id will have after the letter
+  size &lt;- paste(&quot;%0&quot;,count,&quot;d&quot;,sep=&quot;&quot;)            # set the variable to be fed into &#39;sprintf&#39; to ensure we have leading 0&#39;s
+  lets &lt;- toupper(sample(letters,x, replace=T))   # randomizing the letters 
+  nums &lt;- sprintf(size,sample(1:max.val)[1:x])    # randomizing the numbers, and ensuring they all have the same number of characters
+  ids &lt;- paste(lets,nums,sep=&quot;&quot;)                  # joining them together
+  return(ids)
+}
+fakeid &lt;- idmaker(nrow(friend_data)) # generate random id
+colnames(friend_data) &lt;- fakeid # anonymizing users
+
+# the following line makes a friendship network of reciprocal ties.
+friend_recip &lt;- matrix(NA, nrow = nrow(friend_data), ncol = ncol(friend_data))
+for(row in 1:nrow(friend_data)) {
+  for(col in 1:ncol(friend_data)) {
+    value &lt;- friend_data[row,col] * friend_data[col,row]
+    friend_recip[row,col] &lt;- value
+    friend_recip[col,row] &lt;- value
+  }
+}
+str(friend_recip)
+
+# let&#39;s load the kudo network
+path &lt;- paste(club_id, &quot;/&quot;, &quot;kudos&quot;, sep=&quot;&quot;) # create path
+{
+  kudo_w1 &lt;- as.matrix(read.csv(paste(path, &quot;1-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w1 &lt;- kudo_w1[,2:ncol(kudo_w1)]
+  
+  kudo_w2 &lt;- as.matrix(read.csv(paste(path, &quot;2-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w2 &lt;- kudo_w2[,2:ncol(kudo_w2)]
+  
+  kudo_w3 &lt;- as.matrix(read.csv(paste(path, &quot;3-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w3 &lt;- kudo_w3[,2:ncol(kudo_w3)]
+  
+  kudo_w4 &lt;- as.matrix(read.csv(paste(path, &quot;4-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w4 &lt;- kudo_w4[,2:ncol(kudo_w4)]
+  
+  kudo_w5 &lt;- as.matrix(read.csv(paste(path, &quot;5-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w5 &lt;- kudo_w5[,2:ncol(kudo_w5)]
+  
+  kudo_w6 &lt;- as.matrix(read.csv(paste(path, &quot;6-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w6 &lt;- kudo_w6[,2:ncol(kudo_w6)]
+  
+  kudo_w7 &lt;- as.matrix(read.csv(paste(path, &quot;7-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w7 &lt;- kudo_w7[,2:ncol(kudo_w7)]
+  
+  kudo_w8 &lt;- as.matrix(read.csv(paste(path, &quot;8-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w8 &lt;- kudo_w8[,2:ncol(kudo_w8)]
+  
+  kudo_w9 &lt;- as.matrix(read.csv(paste(path, &quot;9-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w9 &lt;- kudo_w9[,2:ncol(kudo_w9)]
+  
+  kudo_w10 &lt;- as.matrix(read.csv(paste(path, &quot;10-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w10 &lt;- kudo_w10[,2:ncol(kudo_w10)]
+  
+  kudo_w11 &lt;- as.matrix(read.csv(paste(path, &quot;11-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w11 &lt;- kudo_w11[,2:ncol(kudo_w11)]
+  
+  kudo_w12 &lt;- as.matrix(read.csv(paste(path, &quot;12-2019.csv&quot;, sep=&quot;&quot;), row.names = NULL, sep= &quot;,&quot;))
+  kudo_w12 &lt;- kudo_w12[,2:ncol(kudo_w12)]
+}
+kudos &lt;- array( c(kudo_w1,kudo_w2,kudo_w3,kudo_w4,kudo_w5,kudo_w6,kudo_w7,kudo_w8,kudo_w9,kudo_w10,kudo_w11,kudo_w12),
+                  dim = c( size, size, n_waves)) #Kudo matrix
+
+kudo_data &lt;- ifelse(kudos &gt; 0, 1, 0) #if at least 1 Kudo is send, give value 1
+
+#make an ordered dependent network variable: 
+#prop.table(table(kudos))
+
+#if Kudo-exchange as a dyadic variable is at least 1, dyads are nominated for the second-order Kudo-network, in which Kudo-exchange &gt; 3 == 1.
+#dyads that are not nominated are structural zeros.
+kudo_data2 &lt;- ifelse(kudo_data == 0, NA, kudos) 
+kudo_data2 &lt;- ifelse(kudo_data2 &gt; 3, 1, 0)
+kudo_data2 &lt;- ifelse(is.na(kudo_data2), 10, kudo_data2) #turn NA&#39;s into structural zeros (10s)
+
+#if Kudo-exchange as a dyadic variable is at least 2, dyads are nominated for the third-order Kudo-network, in which Kudo-exchange &gt; 7 == 1.
+#dyads that are not nominated are structural zeros.
+kudo_data3 &lt;- ifelse(kudo_data == 0, NA, ifelse(kudo_data2 == 0, NA, kudos)) 
+kudo_data3 &lt;- ifelse(kudo_data3 &gt; 7, 1, 0)
+kudo_data3 &lt;- ifelse(is.na(kudo_data3), 10, kudo_data3) #turn NA&#39;s into structural zeros (10s)
+
+#for now, these order cut-offs were quite arbitrarily chosen; can be extended, or be applied with other categories.
+
+# let&#39;s load the behavioral data
+# running time
+time_run &lt;- array( c( clubdata[, &#39;time_run_1.2019&#39;], clubdata[, &#39;time_run_2.2019&#39;], clubdata[, &#39;time_run_3.2019&#39;], clubdata[, &#39;time_run_4.2019&#39;], clubdata[, &#39;time_run_5.2019&#39;], clubdata[, &#39;time_run_6.2019&#39;], clubdata[, &#39;time_run_7.2019&#39;], clubdata[, &#39;time_run_8.2019&#39;], clubdata[, &#39;time_run_9.2019&#39;], clubdata[, &#39;time_run_10.2019&#39;], clubdata[, &#39;time_run_11.2019&#39;], clubdata[, &#39;time_run_12.2019&#39;]),
+                   dim = c( size, 1, n_waves ) )
+str(time_run)
+
+# we cluster the time into 8 categories (from 0 to 7, with 0 being 0 minutes)
+# this is Manuel&#39;s clustering
+# follow recommendations by Snijders and colleaugues (see RSiena manual),
+# and specifically check dissertation bij Niezink (Chapter 6):
+# smooth (skew) distribution of values / or equally populated categories (cf. Flashman 2012)
+time_run_temp &lt;- ifelse(time_run &gt; 0 &amp; time_run &lt;= 120, 1, time_run)
+time_run_temp &lt;- ifelse(time_run &gt; 120 &amp; time_run &lt;= 240, 2, time_run_temp)
+time_run_temp &lt;- ifelse(time_run &gt; 240 &amp; time_run &lt;= 360, 3, time_run_temp)
+time_run_temp &lt;- ifelse(time_run &gt; 360 &amp; time_run &lt;= 480, 4, time_run_temp)
+time_run_temp &lt;- ifelse(time_run &gt; 480 &amp; time_run &lt;= 600, 5, time_run_temp)
+time_run_temp &lt;- ifelse(time_run &gt; 600 &amp; time_run &lt;= 720, 6, time_run_temp)
+time_run_temp &lt;- ifelse(time_run &gt; 720, 7, time_run_temp)
+#table(time_run_temp) #minutes per month
+#hist(time_run_temp)
+
+# running frequency
+# here a categorization for 0-7 times a week makes sense, theoretically
+# and gives a smoothly right-skewed distribution
+# clubs may differ in their (average) activity levels: in some an substantial proportion 
+# runs more than 7 times (thus more than once a day)... add an 9th category for these clubs?
+freq_run &lt;- array( c( clubdata[, &#39;X.run_1.2019&#39;], clubdata[, &#39;X.run_2.2019&#39;], clubdata[, &#39;X.run_3.2019&#39;], clubdata[, &#39;X.run_4.2019&#39;], clubdata[, &#39;X.run_5.2019&#39;], clubdata[, &#39;X.run_6.2019&#39;], clubdata[, &#39;X.run_7.2019&#39;], clubdata[, &#39;X.run_8.2019&#39;], clubdata[, &#39;X.run_9.2019&#39;], clubdata[, &#39;X.run_10.2019&#39;], clubdata[, &#39;X.run_11.2019&#39;], clubdata[, &#39;X.run_12.2019&#39;]),
+                dim = c( size, 1, n_waves ) )
+frequencies &lt;- ceiling(freq_run/4)
+freq_run_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies) 
+#freq_run_temp &lt;- ifelse(frequencies &gt; 7, 8, frequencies) #extra category?
+#table(freq_run_temp) #days a week
+
+# now that we have running data, let&#39;s load cycling data
+# time
+time_ride &lt;- array( c( clubdata[, &#39;time_ride_1.2019&#39;], clubdata[, &#39;time_ride_2.2019&#39;], clubdata[, &#39;time_ride_3.2019&#39;], clubdata[, &#39;time_ride_4.2019&#39;], clubdata[, &#39;time_ride_5.2019&#39;], clubdata[, &#39;time_ride_6.2019&#39;], clubdata[, &#39;time_ride_7.2019&#39;], clubdata[, &#39;time_ride_8.2019&#39;], clubdata[, &#39;time_ride_9.2019&#39;], clubdata[, &#39;time_ride_10.2019&#39;], clubdata[, &#39;time_ride_11.2019&#39;], clubdata[, &#39;time_ride_12.2019&#39;]),
+                    dim = c( size, 1, n_waves ) )
+time_ride_temp &lt;- ifelse(time_ride &gt; 0 &amp; time_ride &lt;= 120, 1, time_ride)
+time_ride_temp &lt;- ifelse(time_ride &gt; 120 &amp; time_ride &lt;= 240, 2, time_ride_temp)
+time_ride_temp &lt;- ifelse(time_ride &gt; 240 &amp; time_ride &lt;= 360, 3, time_ride_temp)
+time_ride_temp &lt;- ifelse(time_ride &gt; 360 &amp; time_ride &lt;= 480, 4, time_ride_temp)
+time_ride_temp &lt;- ifelse(time_ride &gt; 480 &amp; time_ride &lt;= 600, 5, time_ride_temp)
+time_ride_temp &lt;- ifelse(time_ride &gt; 600 &amp; time_ride &lt;= 720, 6, time_ride_temp)
+time_ride_temp &lt;- ifelse(time_ride &gt; 720, 7, time_ride_temp)
+#table(time_ride_temp) #minutes per month
+#hist(time_run_temp)  
+
+# frequency
+freq_ride &lt;- array( c( clubdata[, &#39;X.ride_1.2019&#39;], clubdata[, &#39;X.ride_2.2019&#39;], clubdata[, &#39;X.ride_3.2019&#39;], clubdata[, &#39;X.ride_4.2019&#39;], clubdata[, &#39;X.ride_5.2019&#39;], clubdata[, &#39;X.ride_6.2019&#39;], clubdata[, &#39;X.ride_7.2019&#39;], clubdata[, &#39;X.ride_8.2019&#39;], clubdata[, &#39;X.ride_9.2019&#39;], clubdata[, &#39;X.ride_10.2019&#39;], clubdata[, &#39;X.ride_11.2019&#39;], clubdata[, &#39;X.ride_12.2019&#39;]),
+                    dim = c( size, 1, n_waves ) )
+frequencies &lt;- ceiling(freq_ride/4)
+freq_ride_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)
+#freq_ride_temp &lt;- ifelse(frequencies &gt; 7, 8, frequencies) #extra category?
+#table(freq_ride_temp) #days a week
+
+# and &#39;other&#39; activities
+# time
+time_other &lt;- array( c( clubdata[, &#39;time_other_1.2019&#39;], clubdata[, &#39;time_other_2.2019&#39;], clubdata[, &#39;time_other_3.2019&#39;], clubdata[, &#39;time_other_4.2019&#39;], clubdata[, &#39;time_other_5.2019&#39;], clubdata[, &#39;time_other_6.2019&#39;], clubdata[, &#39;time_other_7.2019&#39;], clubdata[, &#39;time_other_8.2019&#39;], clubdata[, &#39;time_other_9.2019&#39;], clubdata[, &#39;time_other_10.2019&#39;], clubdata[, &#39;time_other_11.2019&#39;], clubdata[, &#39;time_other_12.2019&#39;]),
+                     dim = c( size, 1, n_waves ) )
+time_other_temp &lt;- ifelse(time_other &gt; 0 &amp; time_other &lt;= 120, 1, time_other)
+time_other_temp &lt;- ifelse(time_other &gt; 120 &amp; time_other &lt;= 240, 2, time_other_temp)
+time_other_temp &lt;- ifelse(time_other &gt; 240 &amp; time_other &lt;= 360, 3, time_other_temp)
+time_other_temp &lt;- ifelse(time_other &gt; 360 &amp; time_other &lt;= 480, 4, time_other_temp)
+time_other_temp &lt;- ifelse(time_other &gt; 480 &amp; time_other &lt;= 600, 5, time_other_temp)
+time_other_temp &lt;- ifelse(time_other &gt; 600 &amp; time_other &lt;= 720, 6, time_other_temp)
+time_other_temp &lt;- ifelse(time_other &gt; 720, 7, time_other_temp)
+#table(time_other_temp) #minutes per month
+#hist(time_other_temp)  
+
+# frequency
+freq_other &lt;- array( c( clubdata[, &#39;X.other_1.2019&#39;], clubdata[, &#39;X.other_2.2019&#39;], clubdata[, &#39;X.other_3.2019&#39;], clubdata[, &#39;X.other_4.2019&#39;], clubdata[, &#39;X.other_5.2019&#39;], clubdata[, &#39;X.other_6.2019&#39;], clubdata[, &#39;X.other_7.2019&#39;], clubdata[, &#39;X.other_8.2019&#39;], clubdata[, &#39;X.other_9.2019&#39;], clubdata[, &#39;X.other_10.2019&#39;], clubdata[, &#39;X.other_11.2019&#39;], clubdata[, &#39;X.other_12.2019&#39;]),
+                     dim = c( size, 1, n_waves ) )
+frequencies &lt;- ceiling(freq_other/4)
+freq_other_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)
+#freq_other_temp &lt;- ifelse(frequencies &gt; 7, 8, frequencies) #extra category?
+#table(freq_other_temp) #days a week
+
+# specify months of winter in case we want to use it as a varying covariate
+# starts with december?
+winter &lt;- rep(c(1,1,1,0,0,0,0,0,0,0,0,0), size)
+winter &lt;- matrix(winter,nrow = size,ncol = n_waves, byrow = TRUE)
+
+# create a list containing all the read club data for club 1
+club &lt;- list(&quot;friendship&quot; = friend_data, 
+             &quot;kudo&quot; = kudo_data, &quot;kudo2&quot; = kudo_data2, &quot;kudo3&quot; = kudo_data3,
+             &quot;freq_run&quot; = freq_run_temp, &quot;time_run&quot; = time_run_temp, &quot;freq_ride&quot; = freq_ride_temp, &quot;time_ride&quot; = time_ride_temp, &quot;freq_other&quot; = freq_other_temp, &quot;time_other&quot; = time_other_temp, &quot;winter&quot; = winter, &quot;male&quot; = male, &quot;female&quot; = female, &quot;other&quot; = other, &quot;netsize&quot; = size, &quot;startyear&quot; = st_yr)
+
+# and restart from line 35
+}
+
+# save it in the working directory folder
+save(club, file=paste(&quot;club&quot;, club_id, &quot;.RData&quot;, sep = &quot;&quot;))
+
+####################################################
+
+# Now that we have saved the clubdata for all clubs, let&#39;s combine them in one list
+
+# first clean the working directory
+rm (list = ls( ))
+
+# load in the separate club-objects
+{
+  club1 &lt;- load(&quot;clubclubid1.RData&quot;)
+  club1 &lt;- club
+  
+  club2 &lt;- load(&quot;clubclubid2.RData&quot;)
+  club2 &lt;- club
+  
+  club3 &lt;- load(&quot;clubclubid2.RData&quot;)
+  club3 &lt;- club
+  
+  club4 &lt;- load(&quot;clubclubid4.RData&quot;)
+  club4 &lt;- club
+  
+  club5 &lt;- load(&quot;clubclubid5.RData&quot;)
+  club5 &lt;- club
+}
+# and make a list containing all the clubdata
+clubdata &lt;- list(club1, club2, club3, club4, club5)
+
+# save the output
+save(clubdata, file=&quot;clubdata.RData&quot;)
+
+# end.</code></pre>
+<p>The following script creates a list containing RSiena objects for all clubs (clubdata_rsiena.RData).</p>
+<pre class="r"><code># install RSiena
+library(RSiena)
+
+# clean the working environment 
+# set the working directory to the folder containing the clubdata (clubdata.RData)
+rm (list = ls( ))
+setwd(&quot;C:\\YOURID\\YOURSUBID\\YOURSUBSUBDIR\\&quot;)
+getwd()
+
+# load the clubdata
+load(&quot;clubdata.RData&quot;)
+str(clubdata) # inspect structure
+# clubdata is a list of 5 lists, 
+# with each of these lists containing data of the corresponding club.
+
+# the following script will make a RSiena object.
+# again, we start with the first club.
+# the script can be re-run after pulling from the list the data of another club (and so forth...)
+# eventually, we will combine the output into a list containing the RSiena objects of all the clubs.
+
+####################################################
+
+club &lt;- clubdata[[1]] #### RESTART FROM HERE #####
+
+
+{ 
+  # specify the roles of variables
+  names(club)
+  
+  # A: dependent variables
+  kudonet &lt;- sienaDependent(club$kudo) #at least one Kudo
+  kudonet2 &lt;- sienaDependent(club$kudo2) #&gt;3 Kudos
+  kudonet3 &lt;- sienaDependent(club$kudo3) #&gt;7 Kudos
+  time_run &lt;- sienaDependent(club$time_run, type= &quot;behavior&quot;)
+  freq_run &lt;- sienaDependent(club$freq_run, type= &quot;behavior&quot;)
+  time_ride &lt;- sienaDependent(club$time_ride, type= &quot;behavior&quot;)
+  freq_ride &lt;- sienaDependent(club$freq_ride, type= &quot;behavior&quot;)
+  time_other &lt;- sienaDependent(club$time_other, type= &quot;behavior&quot;)
+  freq_other &lt;- sienaDependent(club$freq_other, type= &quot;behavior&quot;)
+  
+  # B: explanatory variables
+  friendship &lt;- coDyadCovar(club$friendship)
+  winter &lt;- varCovar(club$winter)
+  male &lt;- coCovar(club$male)
+  female &lt;- coCovar(club$female)
+  other &lt;- coCovar(club$other)
+  
+  # now combine the dependent and independent variables in a data object
+  mydata &lt;- sienaDataCreate(kudonet, kudonet2, kudonet3,  time_run, freq_run, time_ride, freq_ride, time_other, freq_other, friendship, winter, male, female, other)
+  mydata 
+  
+  # this finishes the data specification
+} 
+
+# save the RSiena object and restart the process from line 33.
+rsienadataobjectclub_1 &lt;- mydata # adjust number to match the corresponding club number
+
+####################################################
+
+# now make a list containing all the RSiena data objects
+clubdata_rsiena &lt;- list(rsienadataobjectclub_1, rsienadataobjectclub_2, rsienadataobjectclub_3, rsienadataobjectclub_4, rsienadataobjectclub_5)
+
+# add netsize
+{
+  clubdata_rsiena[[1]]$netsize &lt;- clubdata[[1]]$netsize
+  clubdata_rsiena[[2]]$netsize &lt;- clubdata[[2]]$netsize
+  clubdata_rsiena[[3]]$netsize &lt;- clubdata[[3]]$netsize
+  clubdata_rsiena[[4]]$netsize &lt;- clubdata[[4]]$netsize
+  clubdata_rsiena[[5]]$netsize &lt;- clubdata[[5]]$netsize
+}
+
+# save the output
+save(clubdata_rsiena, file=&quot;clubdata_rsiena.RData&quot;)</code></pre>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkRhdGEgcHJlcGFyYXRpb24iDQpkYXRlOiAiMTgtMS0yMDIxIg0Kb3V0cHV0Og0KICBodG1sX2RvY3VtZW50Og0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCg0KYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9DQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQpgYGANCg0KSW4gdGhlIGZvbGxvd2luZyBzY3JpcHRzIGEgbGlzdCBjb250YWluaW5nIHRoZSAoYW5vbnltaXplZCkgZGF0YSBvZiBhbGwgY2x1YnMgaXMgbWFkZSAoY2x1YmRhdGEuUkRhdGEpLg0KDQoNCmBgYHtyIGV2YWw9RkFMU0V9DQojIGZpcnN0LCBpbnN0YWxsIHRoZSByZXF1aXJlZCBwYWNrYWdlcy4NCmxpYnJhcnkoUlNpZW5hKQ0KbGlicmFyeShnZGF0YSkNCmxpYnJhcnkocHN5Y2gpDQpsaWJyYXJ5KGRsb29rcikNCmxpYnJhcnkoZ3N1YmZuKQ0KcmVxdWlyZShpZ3JhcGgpDQoNCiMgY2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQgYW5kIHNldCB0aGUgd29ya2luZyBkaXJlY3RvcnkgdG8gdGhlIGZvbGRlciBjb250YWluaW5nIHRoZSBzY3JhcGVkIGNsdWJkYXRhLg0Kcm0gKGxpc3QgPSBscyggKSkNCnNldHdkKCJDOlxcWU9VUklEXFxZT1VSU1VCSURcXFlPVVJTVUJTVUJESVJcXCIpDQpnZXR3ZCgpDQoNCiMgY2x1YiBzdHJpbmcgcmVwcmVzZW50cyB0aGUgY2x1YiBJRCwgYW5vbnltaXplZCBoZXJlDQpjbHViX3N0ciA8LSAiY2x1YmlkMSBcbiBjbHViaWQyIFxuIGNsdWJpZDMgXG4gY2x1YmlkNCBcbiBjbHViaWQ1IiAjZW50ZXIgY2x1Yi1JRHMgbWFudWFsbHkNCmNsdWJfc3RyX2xpc3QgPC0gc3Ryc3BsaXQoY2x1Yl9zdHIsICJcbiIpDQpjbHViX3N0ciA8LSBhcy5udW1lcmljKHVubGlzdChjbHViX3N0cl9saXN0KSkNCg0KIyB0aGUgZm9sbG93aW5nIHNjcmlwdCByZWFkcyB0aGUgZGF0YSBvZiB0aGUgY2x1YnMgZnJvbSB0aGUgZm9sZGVyIGZvciBlYWNoIGNsdWIsIHN0b3JlcyB0aGVtIGluIGEgbGlzdCwgYW5kIHNhdmVzIGl0IGluIGFuIG9iamVjdCBpbiB0aGUgbGFzdCBmdW5jdGlvbiBjYWxsIG9mIHRoaXMgc2NyaXB0LiANCiMgd2Ugc3RhcnQgd2l0aCB0aGUgZmlyc3QgY2x1YiwgYnkgYXNzaWduaW5nIHRoZSBmaXJzdCBjbHViLWlkIGZyb20gdGhlIGNsdWItc3RyaW5nIHRvIG91ciBpZGVudGlmaWVyLg0KIyB3ZSBjYW4gYWx0ZXIgdGhlIGlkZW50aWZpZXIgdG8gbWF0Y2ggYW5vdGhlciBjbHViLCBhbmQgdGhlbiByZS1ydW4gdGhlIHNjcmlwdC4gKGluIHRoZSBmdXR1cmUsIG1ha2UgYSBsb29wIHRoYXQgZG9lcyBldmVyeXRoaW5nIGF1dG9tYXRpY2FsbHkuLi4pDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KY2x1Yl9pZCA8LSBjbHViX3N0clsxXSAjIyMjIFJFU1RBUlQgRlJPTSBIRVJFICMjIyMjDQoNCg0Kew0KIyByZWFkIHRoZSBkYXRhIGZyb20gdGhlIGNsdWIgICAgDQpjbHViZGF0YSA8LSByZWFkLmNzdihwYXN0ZShjbHViX2lkLCAiLyIsICJlZ29EYXRhX2V4dGVuZGVkLmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpDQoNCiMgc2F2aW5nIGNsdWIgc2l6ZQ0Kc2l6ZSA8LSBsZW5ndGgoY2x1YmRhdGFbLCAnZ2VuZGVyJ10pDQoNCiMgdGhlIG51bWJlciBvZiBtb250aHMgdGhhdCB3ZSB3YW50IHRvIGFkZCBhcyB3YXZlcw0Kbl93YXZlcyA8LSAxMg0KDQojIHNlcGFyYXRpbmcgbWFsZS9mZW1hbGUvb3RoZXINCm1hbGUgPC0gaWZlbHNlKGNsdWJkYXRhWywnZ2VuZGVyJ10gPT0gIk0iLCAxLCAwKQ0KZmVtYWxlIDwtIGlmZWxzZShjbHViZGF0YVssJ2dlbmRlciddID09ICJGIiwgMSwgMCkNCm90aGVyIDwtIGlmZWxzZShjbHViZGF0YVssJ2dlbmRlciddID09ICJPIiwgMSwgMCkNCg0KIyBpbiBjYXNlIHdlIHdhbnQgdG8gY29uZGl0aW9uIG9uIHRoZSBmaXJzdCBhY3Rpdml0eSByZWNvcmRlZCBieSB1c2VyczoNCnN0X3lyIDwtIGNsdWJkYXRhWywnc3RhcnRfZGF0ZV95ZWFyJ10NCnN0YXJ0X3llYXIgPC0gIGlmZWxzZShjbHViZGF0YVssJ3N0YXJ0X2RhdGVfeWVhciddIDw9IDIwMTEsIDEsIHN0X3lyKQ0Kc3RhcnRfeWVhciA8LSAgaWZlbHNlKGNsdWJkYXRhWywnc3RhcnRfZGF0ZV95ZWFyJ10gPT0gMjAxMiwgMiwgc3RhcnRfeWVhcikNCnN0YXJ0X3llYXIgPC0gIGlmZWxzZShjbHViZGF0YVssJ3N0YXJ0X2RhdGVfeWVhciddID09IDIwMTMsIDMsIHN0YXJ0X3llYXIpDQpzdGFydF95ZWFyIDwtICBpZmVsc2UoY2x1YmRhdGFbLCdzdGFydF9kYXRlX3llYXInXSA9PSAyMDE0LCA0LCBzdGFydF95ZWFyKQ0Kc3RhcnRfeWVhciA8LSAgaWZlbHNlKGNsdWJkYXRhWywnc3RhcnRfZGF0ZV95ZWFyJ10gPT0gMjAxNSwgNSwgc3RhcnRfeWVhcikNCnN0YXJ0X3llYXIgPC0gIGlmZWxzZShjbHViZGF0YVssJ3N0YXJ0X2RhdGVfeWVhciddID09IDIwMTYsIDYsIHN0YXJ0X3llYXIpDQpzdGFydF95ZWFyIDwtICBpZmVsc2UoY2x1YmRhdGFbLCdzdGFydF9kYXRlX3llYXInXSA9PSAyMDE3LCA3LCBzdGFydF95ZWFyKQ0Kc3RhcnRfeWVhciA8LSAgaWZlbHNlKGNsdWJkYXRhWywnc3RhcnRfZGF0ZV95ZWFyJ10gPT0gMjAxOCwgOCwgc3RhcnRfeWVhcikNCnN0YXJ0X3llYXIgPC0gIGlmZWxzZShjbHViZGF0YVssJ3N0YXJ0X2RhdGVfeWVhciddID09IDIwMTksIDksIHN0YXJ0X3llYXIpDQp0YWJsZShzdGFydF95ZWFyKQ0KDQojIGxldCdzIGxvYWQgdGhlIGZyaWVuZHNoaXAgbmV0d29yaw0KZnJpZW5kX2RhdGEgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKGNsdWJfaWQsICIvIiwgInNvY2lhbG5ldHdvcmsuY3N2Iiwgc2VwID0gIiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQojIHJlbW92ZSB0aGUgZmlyc3QgY29sdW1uIChyZXByZXNlbnRzIGluZGV4IG1hZGUgaW4gdGhlIGNzdikNCmZyaWVuZF9kYXRhIDwtIGZyaWVuZF9kYXRhWywgMjpuY29sKGZyaWVuZF9kYXRhKV0NCiMgYW5kIGFub255bWl6ZSB0aGUgdXNlciBpZCwgd2l0aCBhbiBpZC1tYWtlciBmdW5jdGlvbg0KaWRtYWtlciA8LSBmdW5jdGlvbih4KQ0Kew0KICBtYXgudmFsID0geCoxMDAwMDANCiAgY291bnQgPC0gbmNoYXIoYXMuY2hhcmFjdGVyKG1heC52YWwpKSAgICAgICAgICAgIyBmaW5kIG91dCBob3cgbWFueSAnbnVtYmVycycgZWFjaCBpZCB3aWxsIGhhdmUgYWZ0ZXIgdGhlIGxldHRlcg0KICBzaXplIDwtIHBhc3RlKCIlMCIsY291bnQsImQiLHNlcD0iIikgICAgICAgICAgICAjIHNldCB0aGUgdmFyaWFibGUgdG8gYmUgZmVkIGludG8gJ3NwcmludGYnIHRvIGVuc3VyZSB3ZSBoYXZlIGxlYWRpbmcgMCdzDQogIGxldHMgPC0gdG91cHBlcihzYW1wbGUobGV0dGVycyx4LCByZXBsYWNlPVQpKSAgICMgcmFuZG9taXppbmcgdGhlIGxldHRlcnMgDQogIG51bXMgPC0gc3ByaW50ZihzaXplLHNhbXBsZSgxOm1heC52YWwpWzE6eF0pICAgICMgcmFuZG9taXppbmcgdGhlIG51bWJlcnMsIGFuZCBlbnN1cmluZyB0aGV5IGFsbCBoYXZlIHRoZSBzYW1lIG51bWJlciBvZiBjaGFyYWN0ZXJzDQogIGlkcyA8LSBwYXN0ZShsZXRzLG51bXMsc2VwPSIiKSAgICAgICAgICAgICAgICAgICMgam9pbmluZyB0aGVtIHRvZ2V0aGVyDQogIHJldHVybihpZHMpDQp9DQpmYWtlaWQgPC0gaWRtYWtlcihucm93KGZyaWVuZF9kYXRhKSkgIyBnZW5lcmF0ZSByYW5kb20gaWQNCmNvbG5hbWVzKGZyaWVuZF9kYXRhKSA8LSBmYWtlaWQgIyBhbm9ueW1pemluZyB1c2Vycw0KDQojIHRoZSBmb2xsb3dpbmcgbGluZSBtYWtlcyBhIGZyaWVuZHNoaXAgbmV0d29yayBvZiByZWNpcHJvY2FsIHRpZXMuDQpmcmllbmRfcmVjaXAgPC0gbWF0cml4KE5BLCBucm93ID0gbnJvdyhmcmllbmRfZGF0YSksIG5jb2wgPSBuY29sKGZyaWVuZF9kYXRhKSkNCmZvcihyb3cgaW4gMTpucm93KGZyaWVuZF9kYXRhKSkgew0KICBmb3IoY29sIGluIDE6bmNvbChmcmllbmRfZGF0YSkpIHsNCiAgICB2YWx1ZSA8LSBmcmllbmRfZGF0YVtyb3csY29sXSAqIGZyaWVuZF9kYXRhW2NvbCxyb3ddDQogICAgZnJpZW5kX3JlY2lwW3Jvdyxjb2xdIDwtIHZhbHVlDQogICAgZnJpZW5kX3JlY2lwW2NvbCxyb3ddIDwtIHZhbHVlDQogIH0NCn0NCnN0cihmcmllbmRfcmVjaXApDQoNCiMgbGV0J3MgbG9hZCB0aGUga3VkbyBuZXR3b3JrDQpwYXRoIDwtIHBhc3RlKGNsdWJfaWQsICIvIiwgImt1ZG9zIiwgc2VwPSIiKSAjIGNyZWF0ZSBwYXRoDQp7DQogIGt1ZG9fdzEgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIxLTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3cxIDwtIGt1ZG9fdzFbLDI6bmNvbChrdWRvX3cxKV0NCiAgDQogIGt1ZG9fdzIgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIyLTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3cyIDwtIGt1ZG9fdzJbLDI6bmNvbChrdWRvX3cyKV0NCiAgDQogIGt1ZG9fdzMgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIzLTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3czIDwtIGt1ZG9fdzNbLDI6bmNvbChrdWRvX3czKV0NCiAgDQogIGt1ZG9fdzQgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI0LTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3c0IDwtIGt1ZG9fdzRbLDI6bmNvbChrdWRvX3c0KV0NCiAgDQogIGt1ZG9fdzUgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI1LTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3c1IDwtIGt1ZG9fdzVbLDI6bmNvbChrdWRvX3c1KV0NCiAgDQogIGt1ZG9fdzYgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI2LTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3c2IDwtIGt1ZG9fdzZbLDI6bmNvbChrdWRvX3c2KV0NCiAgDQogIGt1ZG9fdzcgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI3LTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3c3IDwtIGt1ZG9fdzdbLDI6bmNvbChrdWRvX3c3KV0NCiAgDQogIGt1ZG9fdzggPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI4LTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3c4IDwtIGt1ZG9fdzhbLDI6bmNvbChrdWRvX3c4KV0NCiAgDQogIGt1ZG9fdzkgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI5LTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3c5IDwtIGt1ZG9fdzlbLDI6bmNvbChrdWRvX3c5KV0NCiAgDQogIGt1ZG9fdzEwIDwtIGFzLm1hdHJpeChyZWFkLmNzdihwYXN0ZShwYXRoLCAiMTAtMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogIGt1ZG9fdzEwIDwtIGt1ZG9fdzEwWywyOm5jb2woa3Vkb193MTApXQ0KICANCiAga3Vkb193MTEgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIxMS0yMDE5LmNzdiIsIHNlcD0iIiksIHJvdy5uYW1lcyA9IE5VTEwsIHNlcD0gIiwiKSkNCiAga3Vkb193MTEgPC0ga3Vkb193MTFbLDI6bmNvbChrdWRvX3cxMSldDQogIA0KICBrdWRvX3cxMiA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjEyLTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICBrdWRvX3cxMiA8LSBrdWRvX3cxMlssMjpuY29sKGt1ZG9fdzEyKV0NCn0NCmt1ZG9zIDwtIGFycmF5KCBjKGt1ZG9fdzEsa3Vkb193MixrdWRvX3czLGt1ZG9fdzQsa3Vkb193NSxrdWRvX3c2LGt1ZG9fdzcsa3Vkb193OCxrdWRvX3c5LGt1ZG9fdzEwLGt1ZG9fdzExLGt1ZG9fdzEyKSwNCiAgICAgICAgICAgICAgICAgIGRpbSA9IGMoIHNpemUsIHNpemUsIG5fd2F2ZXMpKSAjS3VkbyBtYXRyaXgNCg0Ka3Vkb19kYXRhIDwtIGlmZWxzZShrdWRvcyA+IDAsIDEsIDApICNpZiBhdCBsZWFzdCAxIEt1ZG8gaXMgc2VuZCwgZ2l2ZSB2YWx1ZSAxDQoNCiNtYWtlIGFuIG9yZGVyZWQgZGVwZW5kZW50IG5ldHdvcmsgdmFyaWFibGU6IA0KI3Byb3AudGFibGUodGFibGUoa3Vkb3MpKQ0KDQojaWYgS3Vkby1leGNoYW5nZSBhcyBhIGR5YWRpYyB2YXJpYWJsZSBpcyBhdCBsZWFzdCAxLCBkeWFkcyBhcmUgbm9taW5hdGVkIGZvciB0aGUgc2Vjb25kLW9yZGVyIEt1ZG8tbmV0d29yaywgaW4gd2hpY2ggS3Vkby1leGNoYW5nZSA+IDMgPT0gMS4NCiNkeWFkcyB0aGF0IGFyZSBub3Qgbm9taW5hdGVkIGFyZSBzdHJ1Y3R1cmFsIHplcm9zLg0Ka3Vkb19kYXRhMiA8LSBpZmVsc2Uoa3Vkb19kYXRhID09IDAsIE5BLCBrdWRvcykgDQprdWRvX2RhdGEyIDwtIGlmZWxzZShrdWRvX2RhdGEyID4gMywgMSwgMCkNCmt1ZG9fZGF0YTIgPC0gaWZlbHNlKGlzLm5hKGt1ZG9fZGF0YTIpLCAxMCwga3Vkb19kYXRhMikgI3R1cm4gTkEncyBpbnRvIHN0cnVjdHVyYWwgemVyb3MgKDEwcykNCg0KI2lmIEt1ZG8tZXhjaGFuZ2UgYXMgYSBkeWFkaWMgdmFyaWFibGUgaXMgYXQgbGVhc3QgMiwgZHlhZHMgYXJlIG5vbWluYXRlZCBmb3IgdGhlIHRoaXJkLW9yZGVyIEt1ZG8tbmV0d29yaywgaW4gd2hpY2ggS3Vkby1leGNoYW5nZSA+IDcgPT0gMS4NCiNkeWFkcyB0aGF0IGFyZSBub3Qgbm9taW5hdGVkIGFyZSBzdHJ1Y3R1cmFsIHplcm9zLg0Ka3Vkb19kYXRhMyA8LSBpZmVsc2Uoa3Vkb19kYXRhID09IDAsIE5BLCBpZmVsc2Uoa3Vkb19kYXRhMiA9PSAwLCBOQSwga3Vkb3MpKSANCmt1ZG9fZGF0YTMgPC0gaWZlbHNlKGt1ZG9fZGF0YTMgPiA3LCAxLCAwKQ0Ka3Vkb19kYXRhMyA8LSBpZmVsc2UoaXMubmEoa3Vkb19kYXRhMyksIDEwLCBrdWRvX2RhdGEzKSAjdHVybiBOQSdzIGludG8gc3RydWN0dXJhbCB6ZXJvcyAoMTBzKQ0KDQojZm9yIG5vdywgdGhlc2Ugb3JkZXIgY3V0LW9mZnMgd2VyZSBxdWl0ZSBhcmJpdHJhcmlseSBjaG9zZW47IGNhbiBiZSBleHRlbmRlZCwgb3IgYmUgYXBwbGllZCB3aXRoIG90aGVyIGNhdGVnb3JpZXMuDQoNCiMgbGV0J3MgbG9hZCB0aGUgYmVoYXZpb3JhbCBkYXRhDQojIHJ1bm5pbmcgdGltZQ0KdGltZV9ydW4gPC0gYXJyYXkoIGMoIGNsdWJkYXRhWywgJ3RpbWVfcnVuXzEuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3J1bl8yLjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9ydW5fMy4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfcnVuXzQuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3J1bl81LjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9ydW5fNi4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfcnVuXzcuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3J1bl84LjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9ydW5fOS4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfcnVuXzEwLjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9ydW5fMTEuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3J1bl8xMi4yMDE5J10pLA0KICAgICAgICAgICAgICAgICAgIGRpbSA9IGMoIHNpemUsIDEsIG5fd2F2ZXMgKSApDQpzdHIodGltZV9ydW4pDQoNCiMgd2UgY2x1c3RlciB0aGUgdGltZSBpbnRvIDggY2F0ZWdvcmllcyAoZnJvbSAwIHRvIDcsIHdpdGggMCBiZWluZyAwIG1pbnV0ZXMpDQojIHRoaXMgaXMgTWFudWVsJ3MgY2x1c3RlcmluZw0KIyBmb2xsb3cgcmVjb21tZW5kYXRpb25zIGJ5IFNuaWpkZXJzIGFuZCBjb2xsZWF1Z3VlcyAoc2VlIFJTaWVuYSBtYW51YWwpLA0KIyBhbmQgc3BlY2lmaWNhbGx5IGNoZWNrIGRpc3NlcnRhdGlvbiBiaWogTmllemluayAoQ2hhcHRlciA2KToNCiMgc21vb3RoIChza2V3KSBkaXN0cmlidXRpb24gb2YgdmFsdWVzIC8gb3IgZXF1YWxseSBwb3B1bGF0ZWQgY2F0ZWdvcmllcyAoY2YuIEZsYXNobWFuIDIwMTIpDQp0aW1lX3J1bl90ZW1wIDwtIGlmZWxzZSh0aW1lX3J1biA+IDAgJiB0aW1lX3J1biA8PSAxMjAsIDEsIHRpbWVfcnVuKQ0KdGltZV9ydW5fdGVtcCA8LSBpZmVsc2UodGltZV9ydW4gPiAxMjAgJiB0aW1lX3J1biA8PSAyNDAsIDIsIHRpbWVfcnVuX3RlbXApDQp0aW1lX3J1bl90ZW1wIDwtIGlmZWxzZSh0aW1lX3J1biA+IDI0MCAmIHRpbWVfcnVuIDw9IDM2MCwgMywgdGltZV9ydW5fdGVtcCkNCnRpbWVfcnVuX3RlbXAgPC0gaWZlbHNlKHRpbWVfcnVuID4gMzYwICYgdGltZV9ydW4gPD0gNDgwLCA0LCB0aW1lX3J1bl90ZW1wKQ0KdGltZV9ydW5fdGVtcCA8LSBpZmVsc2UodGltZV9ydW4gPiA0ODAgJiB0aW1lX3J1biA8PSA2MDAsIDUsIHRpbWVfcnVuX3RlbXApDQp0aW1lX3J1bl90ZW1wIDwtIGlmZWxzZSh0aW1lX3J1biA+IDYwMCAmIHRpbWVfcnVuIDw9IDcyMCwgNiwgdGltZV9ydW5fdGVtcCkNCnRpbWVfcnVuX3RlbXAgPC0gaWZlbHNlKHRpbWVfcnVuID4gNzIwLCA3LCB0aW1lX3J1bl90ZW1wKQ0KI3RhYmxlKHRpbWVfcnVuX3RlbXApICNtaW51dGVzIHBlciBtb250aA0KI2hpc3QodGltZV9ydW5fdGVtcCkNCg0KIyBydW5uaW5nIGZyZXF1ZW5jeQ0KIyBoZXJlIGEgY2F0ZWdvcml6YXRpb24gZm9yIDAtNyB0aW1lcyBhIHdlZWsgbWFrZXMgc2Vuc2UsIHRoZW9yZXRpY2FsbHkNCiMgYW5kIGdpdmVzIGEgc21vb3RobHkgcmlnaHQtc2tld2VkIGRpc3RyaWJ1dGlvbg0KIyBjbHVicyBtYXkgZGlmZmVyIGluIHRoZWlyIChhdmVyYWdlKSBhY3Rpdml0eSBsZXZlbHM6IGluIHNvbWUgYW4gc3Vic3RhbnRpYWwgcHJvcG9ydGlvbiANCiMgcnVucyBtb3JlIHRoYW4gNyB0aW1lcyAodGh1cyBtb3JlIHRoYW4gb25jZSBhIGRheSkuLi4gYWRkIGFuIDl0aCBjYXRlZ29yeSBmb3IgdGhlc2UgY2x1YnM/DQpmcmVxX3J1biA8LSBhcnJheSggYyggY2x1YmRhdGFbLCAnWC5ydW5fMS4yMDE5J10sIGNsdWJkYXRhWywgJ1gucnVuXzIuMjAxOSddLCBjbHViZGF0YVssICdYLnJ1bl8zLjIwMTknXSwgY2x1YmRhdGFbLCAnWC5ydW5fNC4yMDE5J10sIGNsdWJkYXRhWywgJ1gucnVuXzUuMjAxOSddLCBjbHViZGF0YVssICdYLnJ1bl82LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5ydW5fNy4yMDE5J10sIGNsdWJkYXRhWywgJ1gucnVuXzguMjAxOSddLCBjbHViZGF0YVssICdYLnJ1bl85LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5ydW5fMTAuMjAxOSddLCBjbHViZGF0YVssICdYLnJ1bl8xMS4yMDE5J10sIGNsdWJkYXRhWywgJ1gucnVuXzEyLjIwMTknXSksDQogICAgICAgICAgICAgICAgZGltID0gYyggc2l6ZSwgMSwgbl93YXZlcyApICkNCmZyZXF1ZW5jaWVzIDwtIGNlaWxpbmcoZnJlcV9ydW4vNCkNCmZyZXFfcnVuX3RlbXAgPC0gaWZlbHNlKGZyZXF1ZW5jaWVzID4gNywgNywgZnJlcXVlbmNpZXMpIA0KI2ZyZXFfcnVuX3RlbXAgPC0gaWZlbHNlKGZyZXF1ZW5jaWVzID4gNywgOCwgZnJlcXVlbmNpZXMpICNleHRyYSBjYXRlZ29yeT8NCiN0YWJsZShmcmVxX3J1bl90ZW1wKSAjZGF5cyBhIHdlZWsNCg0KIyBub3cgdGhhdCB3ZSBoYXZlIHJ1bm5pbmcgZGF0YSwgbGV0J3MgbG9hZCBjeWNsaW5nIGRhdGENCiMgdGltZQ0KdGltZV9yaWRlIDwtIGFycmF5KCBjKCBjbHViZGF0YVssICd0aW1lX3JpZGVfMS4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfcmlkZV8yLjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9yaWRlXzMuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3JpZGVfNC4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfcmlkZV81LjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9yaWRlXzYuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3JpZGVfNy4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfcmlkZV84LjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9yaWRlXzkuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3JpZGVfMTAuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3JpZGVfMTEuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX3JpZGVfMTIuMjAxOSddKSwNCiAgICAgICAgICAgICAgICAgICAgZGltID0gYyggc2l6ZSwgMSwgbl93YXZlcyApICkNCnRpbWVfcmlkZV90ZW1wIDwtIGlmZWxzZSh0aW1lX3JpZGUgPiAwICYgdGltZV9yaWRlIDw9IDEyMCwgMSwgdGltZV9yaWRlKQ0KdGltZV9yaWRlX3RlbXAgPC0gaWZlbHNlKHRpbWVfcmlkZSA+IDEyMCAmIHRpbWVfcmlkZSA8PSAyNDAsIDIsIHRpbWVfcmlkZV90ZW1wKQ0KdGltZV9yaWRlX3RlbXAgPC0gaWZlbHNlKHRpbWVfcmlkZSA+IDI0MCAmIHRpbWVfcmlkZSA8PSAzNjAsIDMsIHRpbWVfcmlkZV90ZW1wKQ0KdGltZV9yaWRlX3RlbXAgPC0gaWZlbHNlKHRpbWVfcmlkZSA+IDM2MCAmIHRpbWVfcmlkZSA8PSA0ODAsIDQsIHRpbWVfcmlkZV90ZW1wKQ0KdGltZV9yaWRlX3RlbXAgPC0gaWZlbHNlKHRpbWVfcmlkZSA+IDQ4MCAmIHRpbWVfcmlkZSA8PSA2MDAsIDUsIHRpbWVfcmlkZV90ZW1wKQ0KdGltZV9yaWRlX3RlbXAgPC0gaWZlbHNlKHRpbWVfcmlkZSA+IDYwMCAmIHRpbWVfcmlkZSA8PSA3MjAsIDYsIHRpbWVfcmlkZV90ZW1wKQ0KdGltZV9yaWRlX3RlbXAgPC0gaWZlbHNlKHRpbWVfcmlkZSA+IDcyMCwgNywgdGltZV9yaWRlX3RlbXApDQojdGFibGUodGltZV9yaWRlX3RlbXApICNtaW51dGVzIHBlciBtb250aA0KI2hpc3QodGltZV9ydW5fdGVtcCkgIA0KDQojIGZyZXF1ZW5jeQ0KZnJlcV9yaWRlIDwtIGFycmF5KCBjKCBjbHViZGF0YVssICdYLnJpZGVfMS4yMDE5J10sIGNsdWJkYXRhWywgJ1gucmlkZV8yLjIwMTknXSwgY2x1YmRhdGFbLCAnWC5yaWRlXzMuMjAxOSddLCBjbHViZGF0YVssICdYLnJpZGVfNC4yMDE5J10sIGNsdWJkYXRhWywgJ1gucmlkZV81LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5yaWRlXzYuMjAxOSddLCBjbHViZGF0YVssICdYLnJpZGVfNy4yMDE5J10sIGNsdWJkYXRhWywgJ1gucmlkZV84LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5yaWRlXzkuMjAxOSddLCBjbHViZGF0YVssICdYLnJpZGVfMTAuMjAxOSddLCBjbHViZGF0YVssICdYLnJpZGVfMTEuMjAxOSddLCBjbHViZGF0YVssICdYLnJpZGVfMTIuMjAxOSddKSwNCiAgICAgICAgICAgICAgICAgICAgZGltID0gYyggc2l6ZSwgMSwgbl93YXZlcyApICkNCmZyZXF1ZW5jaWVzIDwtIGNlaWxpbmcoZnJlcV9yaWRlLzQpDQpmcmVxX3JpZGVfdGVtcCA8LSBpZmVsc2UoZnJlcXVlbmNpZXMgPiA3LCA3LCBmcmVxdWVuY2llcykNCiNmcmVxX3JpZGVfdGVtcCA8LSBpZmVsc2UoZnJlcXVlbmNpZXMgPiA3LCA4LCBmcmVxdWVuY2llcykgI2V4dHJhIGNhdGVnb3J5Pw0KI3RhYmxlKGZyZXFfcmlkZV90ZW1wKSAjZGF5cyBhIHdlZWsNCg0KIyBhbmQgJ290aGVyJyBhY3Rpdml0aWVzDQojIHRpbWUNCnRpbWVfb3RoZXIgPC0gYXJyYXkoIGMoIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfMS4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfMi4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfMy4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfNC4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfNS4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfNi4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfNy4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfOC4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfOS4yMDE5J10sIGNsdWJkYXRhWywgJ3RpbWVfb3RoZXJfMTAuMjAxOSddLCBjbHViZGF0YVssICd0aW1lX290aGVyXzExLjIwMTknXSwgY2x1YmRhdGFbLCAndGltZV9vdGhlcl8xMi4yMDE5J10pLA0KICAgICAgICAgICAgICAgICAgICAgZGltID0gYyggc2l6ZSwgMSwgbl93YXZlcyApICkNCnRpbWVfb3RoZXJfdGVtcCA8LSBpZmVsc2UodGltZV9vdGhlciA+IDAgJiB0aW1lX290aGVyIDw9IDEyMCwgMSwgdGltZV9vdGhlcikNCnRpbWVfb3RoZXJfdGVtcCA8LSBpZmVsc2UodGltZV9vdGhlciA+IDEyMCAmIHRpbWVfb3RoZXIgPD0gMjQwLCAyLCB0aW1lX290aGVyX3RlbXApDQp0aW1lX290aGVyX3RlbXAgPC0gaWZlbHNlKHRpbWVfb3RoZXIgPiAyNDAgJiB0aW1lX290aGVyIDw9IDM2MCwgMywgdGltZV9vdGhlcl90ZW1wKQ0KdGltZV9vdGhlcl90ZW1wIDwtIGlmZWxzZSh0aW1lX290aGVyID4gMzYwICYgdGltZV9vdGhlciA8PSA0ODAsIDQsIHRpbWVfb3RoZXJfdGVtcCkNCnRpbWVfb3RoZXJfdGVtcCA8LSBpZmVsc2UodGltZV9vdGhlciA+IDQ4MCAmIHRpbWVfb3RoZXIgPD0gNjAwLCA1LCB0aW1lX290aGVyX3RlbXApDQp0aW1lX290aGVyX3RlbXAgPC0gaWZlbHNlKHRpbWVfb3RoZXIgPiA2MDAgJiB0aW1lX290aGVyIDw9IDcyMCwgNiwgdGltZV9vdGhlcl90ZW1wKQ0KdGltZV9vdGhlcl90ZW1wIDwtIGlmZWxzZSh0aW1lX290aGVyID4gNzIwLCA3LCB0aW1lX290aGVyX3RlbXApDQojdGFibGUodGltZV9vdGhlcl90ZW1wKSAjbWludXRlcyBwZXIgbW9udGgNCiNoaXN0KHRpbWVfb3RoZXJfdGVtcCkgIA0KDQojIGZyZXF1ZW5jeQ0KZnJlcV9vdGhlciA8LSBhcnJheSggYyggY2x1YmRhdGFbLCAnWC5vdGhlcl8xLjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl8yLjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl8zLjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl80LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl81LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl82LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl83LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl84LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl85LjIwMTknXSwgY2x1YmRhdGFbLCAnWC5vdGhlcl8xMC4yMDE5J10sIGNsdWJkYXRhWywgJ1gub3RoZXJfMTEuMjAxOSddLCBjbHViZGF0YVssICdYLm90aGVyXzEyLjIwMTknXSksDQogICAgICAgICAgICAgICAgICAgICBkaW0gPSBjKCBzaXplLCAxLCBuX3dhdmVzICkgKQ0KZnJlcXVlbmNpZXMgPC0gY2VpbGluZyhmcmVxX290aGVyLzQpDQpmcmVxX290aGVyX3RlbXAgPC0gaWZlbHNlKGZyZXF1ZW5jaWVzID4gNywgNywgZnJlcXVlbmNpZXMpDQojZnJlcV9vdGhlcl90ZW1wIDwtIGlmZWxzZShmcmVxdWVuY2llcyA+IDcsIDgsIGZyZXF1ZW5jaWVzKSAjZXh0cmEgY2F0ZWdvcnk/DQojdGFibGUoZnJlcV9vdGhlcl90ZW1wKSAjZGF5cyBhIHdlZWsNCg0KIyBzcGVjaWZ5IG1vbnRocyBvZiB3aW50ZXIgaW4gY2FzZSB3ZSB3YW50IHRvIHVzZSBpdCBhcyBhIHZhcnlpbmcgY292YXJpYXRlDQojIHN0YXJ0cyB3aXRoIGRlY2VtYmVyPw0Kd2ludGVyIDwtIHJlcChjKDEsMSwxLDAsMCwwLDAsMCwwLDAsMCwwKSwgc2l6ZSkNCndpbnRlciA8LSBtYXRyaXgod2ludGVyLG5yb3cgPSBzaXplLG5jb2wgPSBuX3dhdmVzLCBieXJvdyA9IFRSVUUpDQoNCiMgY3JlYXRlIGEgbGlzdCBjb250YWluaW5nIGFsbCB0aGUgcmVhZCBjbHViIGRhdGEgZm9yIGNsdWIgMQ0KY2x1YiA8LSBsaXN0KCJmcmllbmRzaGlwIiA9IGZyaWVuZF9kYXRhLCANCiAgICAgICAgICAgICAia3VkbyIgPSBrdWRvX2RhdGEsICJrdWRvMiIgPSBrdWRvX2RhdGEyLCAia3VkbzMiID0ga3Vkb19kYXRhMywNCiAgICAgICAgICAgICAiZnJlcV9ydW4iID0gZnJlcV9ydW5fdGVtcCwgInRpbWVfcnVuIiA9IHRpbWVfcnVuX3RlbXAsICJmcmVxX3JpZGUiID0gZnJlcV9yaWRlX3RlbXAsICJ0aW1lX3JpZGUiID0gdGltZV9yaWRlX3RlbXAsICJmcmVxX290aGVyIiA9IGZyZXFfb3RoZXJfdGVtcCwgInRpbWVfb3RoZXIiID0gdGltZV9vdGhlcl90ZW1wLCAid2ludGVyIiA9IHdpbnRlciwgIm1hbGUiID0gbWFsZSwgImZlbWFsZSIgPSBmZW1hbGUsICJvdGhlciIgPSBvdGhlciwgIm5ldHNpemUiID0gc2l6ZSwgInN0YXJ0eWVhciIgPSBzdF95cikNCg0KIyBhbmQgcmVzdGFydCBmcm9tIGxpbmUgMzUNCn0NCg0KIyBzYXZlIGl0IGluIHRoZSB3b3JraW5nIGRpcmVjdG9yeSBmb2xkZXINCnNhdmUoY2x1YiwgZmlsZT1wYXN0ZSgiY2x1YiIsIGNsdWJfaWQsICIuUkRhdGEiLCBzZXAgPSAiIikpDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KIyBOb3cgdGhhdCB3ZSBoYXZlIHNhdmVkIHRoZSBjbHViZGF0YSBmb3IgYWxsIGNsdWJzLCBsZXQncyBjb21iaW5lIHRoZW0gaW4gb25lIGxpc3QNCg0KIyBmaXJzdCBjbGVhbiB0aGUgd29ya2luZyBkaXJlY3RvcnkNCnJtIChsaXN0ID0gbHMoICkpDQoNCiMgbG9hZCBpbiB0aGUgc2VwYXJhdGUgY2x1Yi1vYmplY3RzDQp7DQogIGNsdWIxIDwtIGxvYWQoImNsdWJjbHViaWQxLlJEYXRhIikNCiAgY2x1YjEgPC0gY2x1Yg0KICANCiAgY2x1YjIgPC0gbG9hZCgiY2x1YmNsdWJpZDIuUkRhdGEiKQ0KICBjbHViMiA8LSBjbHViDQogIA0KICBjbHViMyA8LSBsb2FkKCJjbHViY2x1YmlkMi5SRGF0YSIpDQogIGNsdWIzIDwtIGNsdWINCiAgDQogIGNsdWI0IDwtIGxvYWQoImNsdWJjbHViaWQ0LlJEYXRhIikNCiAgY2x1YjQgPC0gY2x1Yg0KICANCiAgY2x1YjUgPC0gbG9hZCgiY2x1YmNsdWJpZDUuUkRhdGEiKQ0KICBjbHViNSA8LSBjbHViDQp9DQojIGFuZCBtYWtlIGEgbGlzdCBjb250YWluaW5nIGFsbCB0aGUgY2x1YmRhdGENCmNsdWJkYXRhIDwtIGxpc3QoY2x1YjEsIGNsdWIyLCBjbHViMywgY2x1YjQsIGNsdWI1KQ0KDQojIHNhdmUgdGhlIG91dHB1dA0Kc2F2ZShjbHViZGF0YSwgZmlsZT0iY2x1YmRhdGEuUkRhdGEiKQ0KDQojIGVuZC4NCg0KYGBgIA0KDQpUaGUgZm9sbG93aW5nIHNjcmlwdCBjcmVhdGVzIGEgbGlzdCBjb250YWluaW5nIFJTaWVuYSBvYmplY3RzIGZvciBhbGwgY2x1YnMgKGNsdWJkYXRhX3JzaWVuYS5SRGF0YSkuDQoNCmBgYHtyIGV2YWw9RkFMU0V9DQojIGluc3RhbGwgUlNpZW5hDQpsaWJyYXJ5KFJTaWVuYSkNCg0KIyBjbGVhbiB0aGUgd29ya2luZyBlbnZpcm9ubWVudCANCiMgc2V0IHRoZSB3b3JraW5nIGRpcmVjdG9yeSB0byB0aGUgZm9sZGVyIGNvbnRhaW5pbmcgdGhlIGNsdWJkYXRhIChjbHViZGF0YS5SRGF0YSkNCnJtIChsaXN0ID0gbHMoICkpDQpzZXR3ZCgiQzpcXFlPVVJJRFxcWU9VUlNVQklEXFxZT1VSU1VCU1VCRElSXFwiKQ0KZ2V0d2QoKQ0KDQojIGxvYWQgdGhlIGNsdWJkYXRhDQpsb2FkKCJjbHViZGF0YS5SRGF0YSIpDQpzdHIoY2x1YmRhdGEpICMgaW5zcGVjdCBzdHJ1Y3R1cmUNCiMgY2x1YmRhdGEgaXMgYSBsaXN0IG9mIDUgbGlzdHMsIA0KIyB3aXRoIGVhY2ggb2YgdGhlc2UgbGlzdHMgY29udGFpbmluZyBkYXRhIG9mIHRoZSBjb3JyZXNwb25kaW5nIGNsdWIuDQoNCiMgdGhlIGZvbGxvd2luZyBzY3JpcHQgd2lsbCBtYWtlIGEgUlNpZW5hIG9iamVjdC4NCiMgYWdhaW4sIHdlIHN0YXJ0IHdpdGggdGhlIGZpcnN0IGNsdWIuDQojIHRoZSBzY3JpcHQgY2FuIGJlIHJlLXJ1biBhZnRlciBwdWxsaW5nIGZyb20gdGhlIGxpc3QgdGhlIGRhdGEgb2YgYW5vdGhlciBjbHViIChhbmQgc28gZm9ydGguLi4pDQojIGV2ZW50dWFsbHksIHdlIHdpbGwgY29tYmluZSB0aGUgb3V0cHV0IGludG8gYSBsaXN0IGNvbnRhaW5pbmcgdGhlIFJTaWVuYSBvYmplY3RzIG9mIGFsbCB0aGUgY2x1YnMuDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KY2x1YiA8LSBjbHViZGF0YVtbMV1dICMjIyMgUkVTVEFSVCBGUk9NIEhFUkUgIyMjIyMNCg0KDQp7IA0KICAjIHNwZWNpZnkgdGhlIHJvbGVzIG9mIHZhcmlhYmxlcw0KICBuYW1lcyhjbHViKQ0KICANCiAgIyBBOiBkZXBlbmRlbnQgdmFyaWFibGVzDQogIGt1ZG9uZXQgPC0gc2llbmFEZXBlbmRlbnQoY2x1YiRrdWRvKSAjYXQgbGVhc3Qgb25lIEt1ZG8NCiAga3Vkb25ldDIgPC0gc2llbmFEZXBlbmRlbnQoY2x1YiRrdWRvMikgIz4zIEt1ZG9zDQogIGt1ZG9uZXQzIDwtIHNpZW5hRGVwZW5kZW50KGNsdWIka3VkbzMpICM+NyBLdWRvcw0KICB0aW1lX3J1biA8LSBzaWVuYURlcGVuZGVudChjbHViJHRpbWVfcnVuLCB0eXBlPSAiYmVoYXZpb3IiKQ0KICBmcmVxX3J1biA8LSBzaWVuYURlcGVuZGVudChjbHViJGZyZXFfcnVuLCB0eXBlPSAiYmVoYXZpb3IiKQ0KICB0aW1lX3JpZGUgPC0gc2llbmFEZXBlbmRlbnQoY2x1YiR0aW1lX3JpZGUsIHR5cGU9ICJiZWhhdmlvciIpDQogIGZyZXFfcmlkZSA8LSBzaWVuYURlcGVuZGVudChjbHViJGZyZXFfcmlkZSwgdHlwZT0gImJlaGF2aW9yIikNCiAgdGltZV9vdGhlciA8LSBzaWVuYURlcGVuZGVudChjbHViJHRpbWVfb3RoZXIsIHR5cGU9ICJiZWhhdmlvciIpDQogIGZyZXFfb3RoZXIgPC0gc2llbmFEZXBlbmRlbnQoY2x1YiRmcmVxX290aGVyLCB0eXBlPSAiYmVoYXZpb3IiKQ0KICANCiAgIyBCOiBleHBsYW5hdG9yeSB2YXJpYWJsZXMNCiAgZnJpZW5kc2hpcCA8LSBjb0R5YWRDb3ZhcihjbHViJGZyaWVuZHNoaXApDQogIHdpbnRlciA8LSB2YXJDb3ZhcihjbHViJHdpbnRlcikNCiAgbWFsZSA8LSBjb0NvdmFyKGNsdWIkbWFsZSkNCiAgZmVtYWxlIDwtIGNvQ292YXIoY2x1YiRmZW1hbGUpDQogIG90aGVyIDwtIGNvQ292YXIoY2x1YiRvdGhlcikNCiAgDQogICMgbm93IGNvbWJpbmUgdGhlIGRlcGVuZGVudCBhbmQgaW5kZXBlbmRlbnQgdmFyaWFibGVzIGluIGEgZGF0YSBvYmplY3QNCiAgbXlkYXRhIDwtIHNpZW5hRGF0YUNyZWF0ZShrdWRvbmV0LCBrdWRvbmV0Miwga3Vkb25ldDMsICB0aW1lX3J1biwgZnJlcV9ydW4sIHRpbWVfcmlkZSwgZnJlcV9yaWRlLCB0aW1lX290aGVyLCBmcmVxX290aGVyLCBmcmllbmRzaGlwLCB3aW50ZXIsIG1hbGUsIGZlbWFsZSwgb3RoZXIpDQogIG15ZGF0YSANCiAgDQogICMgdGhpcyBmaW5pc2hlcyB0aGUgZGF0YSBzcGVjaWZpY2F0aW9uDQp9IA0KDQojIHNhdmUgdGhlIFJTaWVuYSBvYmplY3QgYW5kIHJlc3RhcnQgdGhlIHByb2Nlc3MgZnJvbSBsaW5lIDMzLg0KcnNpZW5hZGF0YW9iamVjdGNsdWJfMSA8LSBteWRhdGEgIyBhZGp1c3QgbnVtYmVyIHRvIG1hdGNoIHRoZSBjb3JyZXNwb25kaW5nIGNsdWIgbnVtYmVyDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KIyBub3cgbWFrZSBhIGxpc3QgY29udGFpbmluZyBhbGwgdGhlIFJTaWVuYSBkYXRhIG9iamVjdHMNCmNsdWJkYXRhX3JzaWVuYSA8LSBsaXN0KHJzaWVuYWRhdGFvYmplY3RjbHViXzEsIHJzaWVuYWRhdGFvYmplY3RjbHViXzIsIHJzaWVuYWRhdGFvYmplY3RjbHViXzMsIHJzaWVuYWRhdGFvYmplY3RjbHViXzQsIHJzaWVuYWRhdGFvYmplY3RjbHViXzUpDQoNCiMgYWRkIG5ldHNpemUNCnsNCiAgY2x1YmRhdGFfcnNpZW5hW1sxXV0kbmV0c2l6ZSA8LSBjbHViZGF0YVtbMV1dJG5ldHNpemUNCiAgY2x1YmRhdGFfcnNpZW5hW1syXV0kbmV0c2l6ZSA8LSBjbHViZGF0YVtbMl1dJG5ldHNpemUNCiAgY2x1YmRhdGFfcnNpZW5hW1szXV0kbmV0c2l6ZSA8LSBjbHViZGF0YVtbM11dJG5ldHNpemUNCiAgY2x1YmRhdGFfcnNpZW5hW1s0XV0kbmV0c2l6ZSA8LSBjbHViZGF0YVtbNF1dJG5ldHNpemUNCiAgY2x1YmRhdGFfcnNpZW5hW1s1XV0kbmV0c2l6ZSA8LSBjbHViZGF0YVtbNV1dJG5ldHNpemUNCn0NCg0KIyBzYXZlIHRoZSBvdXRwdXQNCnNhdmUoY2x1YmRhdGFfcnNpZW5hLCBmaWxlPSJjbHViZGF0YV9yc2llbmEuUkRhdGEiKQ0KYGBgDQoNCg==</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("prep.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

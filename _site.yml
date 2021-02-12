@@ -4,8 +4,10 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "Preparation"
+      href: prep.html
     - text: "Descriptives"
       href: des.html
-    - text: "RSiena 1"
+    - text: "Exploring RSiena"
       href: expl.html
 output_dir: "docs"
