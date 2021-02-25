@@ -57,8 +57,9 @@ Clean the working environment and set the working directory.
 # clean the working environment 
 rm (list = ls( ))
 
+#JT. nope dont use local working directories
 # set the working directory
-setwd("C:\\Users\\u244147\\Documents\\GitHub\\Stravajournal") 
+#setwd("C:\\Users\\u244147\\Documents\\GitHub\\Stravajournal") 
 ```
 
 We will make a new RSiena object:
