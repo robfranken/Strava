@@ -1,19 +1,22 @@
 ---
-title: "Sport motivation"
-bibliography: references.bib
+title: "RSiena: Exploratory analyses "
 date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
-output: 
+bibliography: references.bib
+output:
   html_document:
     css: tweaks.css
-    toc:  false
+    toc: true
     toc_float: true
+    collapsed: false
     number_sections: false
+    toc_depth: 1
     code_folding: show
     code_download: yes
 ---
-
+  
 ```{r, globalsettings, echo=FALSE, warning=FALSE}
 library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
 options(width = 100)
 rgl::setupKnitr()
@@ -24,7 +27,7 @@ colorize <- function(x, color) {
     sprintf("\\textcolor{%s}{%s}", color, x)
   } else if (knitr::is_html_output()) {
     sprintf("<span style='color: %s;'>%s</span>", color, 
-      x)
+            x)
   } else x
 }
 
@@ -37,31 +40,21 @@ klippy::klippy(position = c('top', 'right'))
 ```
 
 
-
-----
-
-<div class="row" style="padding-top: 30px;">
-<div class="col-sm-6">
-
-# **Strava Journal**
-### Rob Franken - Radboud University
-Last compiled on `r format(Sys.time(), '%B, %Y')`
-
-----
-  
-  
-This lab journal is created for the Strava paper @Franken2021. It contains R code.       
-All scripts can be found on [Github](https://github.com/robfranken/Strava)
-  
-  
-----
-
-</div>
-<div class="col-sm-6">
-
-![](images/logo.png)
-</a>
-</div>
+## print stuf
 
 
-# References
+A text file is printed in the working directory.
+
+![](files/Siena.txt){#id .class width=100% height=200px}
+
+not working. 
+
+<img src=files/Siena.txt width="200">
+
+zo dan? 
+
+```{r test, child="files/Siena.Rmd", eval=TRUE, results='hide'}
+
+```
+
+

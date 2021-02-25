@@ -1,8 +1,10 @@
 ---
 title: "Descriptive statistics"
-date: "18-1-2021"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
 output:
   html_document:
+    css: tweaks.css
     toc: true
     toc_float: true
     collapsed: false
@@ -12,9 +14,34 @@ output:
     code_download: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+
+
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color, 
+      x)
+  } else x
+}
+
 ```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
 
 ---
 
@@ -32,18 +59,26 @@ We cover the following:
 
 ----
 
+<!--- #JT Please try to avoid any html if not necessary. instead of <br> simply use double space and return . --->
+<!---#JT I have some comments in the scripts and text. simply search for #JT --> 
+
 <br>
 
 # Preparation
 
 Clean the working environment, set the working directory to the folder with the list object containing the RSiena objects, and load in the data.
 
+
 ```{r, attr.output='style="max-height: 200px;"'}
 # clean the working environment 
 rm (list = ls( ))
 
+# JT: dont use global working directories. Everything should be in the repository. 
+# put sensitivey data in a directory 'raw data' and add this folder to the gitignore file. 
+# all data necessary to replicate scripts should be in folder 'data'. 
+
 # set the working directory
-setwd("C:\\Users\\u244147\\Documents\\dissertatie\\Strava data\\clubs")
+# setwd("C:\\Users\\u244147\\Documents\\dissertatie\\Strava data\\clubs")
 
 # load the object
 load("clubdata_rsiena.RData")
@@ -54,9 +89,33 @@ str(clubdata_rsiena)
 
 A list of 5 lists, with each of these lists containing data of the corresponding club.
 
+
+
+
+```{r packages}
+#install if necessary 
+if (!require("RSiena", character.only = TRUE)) {install.packages("RSiena", dependencies=TRUE)}
+if (!require("igraph", character.only = TRUE)) {install.packages("igraph", dependencies=TRUE)}
+
+#load packages.
+library(RSiena) #RSiena models, some descriptives on network level
+library(igraph) #Descriptives: dyad/triad census, degree
+
+```
+
+
 ----
 
-Now define some functions we use later on to describe our data (see [here](https://www.jochemtolsma.nl/courses/complete-networks/socio6/#descriptive-statistics)).
+Now define some functions we use later on to describe our data (see [www.jochemtolsma.nl](https://www.jochemtolsma.nl/courses/complete-networks/socio6/#descriptive-statistics)).  
+
+- fdensity: calculate density (exclude NA and structural zeros)  
+- fdensityintra: calculate density within group (exclude NA and structural zeros)  
+- fdensityinter: calculate density between groups (exclude NA and structural zeros)  
+- fhomomat: based on ego/alter characteristics, construct dyad characteristic whether or not ego/alter are same. 
+- fndyads: calculate all valid dyads (no NA or structural zeros)  
+- fscolnet: calculate Coleman's segregation index on the network-level  
+
+
 
 ```{r class.source = 'fold-hide'}
 # density: observed relations divided by possible relations
@@ -158,11 +217,12 @@ Make sure to check the output of the 'print01Report()' function for general data
 
 **to-do**: print outputs.
 
+<!--- #JT lets try to minimize code. thus only call library(RSiena) once ---> 
+
 ### Club 1
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 
-library(RSiena)
 print01Report(df)
 ```
 
@@ -170,7 +230,6 @@ print01Report(df)
 ```{r }
 df <- clubdata_rsiena[[2]] # grab club 
 
-library(RSiena)
 print01Report(df)
 ```
 
@@ -178,7 +237,6 @@ print01Report(df)
 ```{r }
 df <- clubdata_rsiena[[3]] # grab club 
 
-library(RSiena)
 print01Report(df)
 ```
 
@@ -186,7 +244,6 @@ print01Report(df)
 ```{r}
 df <- clubdata_rsiena[[4]] # grab club 
 
-library(RSiena)
 print01Report(df)
 ```
 
@@ -194,7 +251,6 @@ print01Report(df)
 ```{r}
 df <- clubdata_rsiena[[5]] # grab club 
 
-library(RSiena)
 print01Report(df)
 ```
 
@@ -239,7 +295,6 @@ df <- clubdata_rsiena[[1]] # grab club
 fnet <- df$dycCovars$friendship # take friendship network
 
 # make a 'graph object'
-library(igraph)
 G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -253,7 +308,6 @@ df <- clubdata_rsiena[[2]] # grab club
 fnet <- df$dycCovars$friendship # take friendship network
 
 # make a 'graph object'
-library(igraph)
 G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -267,7 +321,6 @@ df <- clubdata_rsiena[[3]] # grab club
 fnet <- df$dycCovars$friendship # take friendship network
 
 # make a 'graph object'
-library(igraph)
 G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -281,7 +334,6 @@ df <- clubdata_rsiena[[4]] # grab club
 fnet <- df$dycCovars$friendship # take friendship network
 
 # make a 'graph object'
-library(igraph)
 G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -295,7 +347,6 @@ df <- clubdata_rsiena[[5]] # grab club
 fnet <- df$dycCovars$friendship # take friendship network
 
 # make a 'graph object'
-library(igraph)
 G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -312,6 +363,7 @@ In general, we see that the in- and outdegree distribution is right-skewed, sugg
 
 Let's investigate to what extent friendship-relationships (dyads) are reciprocated or mutual. There are three types of dyad: mutual, assymetric, and non-existent. We will classify dyads with the dyad-census function, and we will investigate if we observe more mutual dyads than we would expect based on chance.
 
+<!--- #do we need all libraries below? --> 
 
 ### Club 1
 ```{r }
@@ -495,6 +547,10 @@ As expected, mutual dyads are way more prominent than would be expected based on
 
 ## 3. Triad-level {.tabset .tabset-fade}
 
+<!--- #JT if you cite literatury, please use the references.bib below is an example ---> 
+
+...see paper of @davis1967structure
+
 There are 16 types of triads (see paper by [Davis & Leinhard, 1967](https://eric.ed.gov/?id=ED024086)), which can be classified with the triad-census function. See [here](https://igraph.org/r/doc/triad_census.html) for the order in which the multiple triad classifications are counted.
 
 Let's also calculate for each club the (global) transitivity index, which is the ratio of connected triplets (transitive triads) and potentially connected triplets (see [here](http://www.stats.ox.ac.uk/~snijders/Trans_Triads_ha.pdf)). The direction of the edges is ignored. We will then calculate the global transitivity index for random (undirected) graphs.
@@ -519,6 +575,7 @@ triadcount <- igraph::triad.census(G1)
 print(triadcount)
 
 # global (or undirected) transitivity index
+#JT which package?
 transitivity(G1)
 
 # compare values with a random graph of the same size with the same density
@@ -1220,6 +1277,8 @@ We can see that in all clubs men are overrepresented.
 
 Let's now investigate segregation along gender in the friendship network.
 
+<!--- #JT perhaps use two segregation measures at once. reduces code quite a bit. also Coleman's ---> 
+
 <br>
 
 ## Densities{.tabset .tabset-fade}
@@ -1830,9 +1889,12 @@ rownames(colmat) <- c("male", "female")
 print(colmat)
 ```
 
+<!--- #JT Wouldn't it be nice to have one big matrix for all networks that shows segregation with different measures? --->
+
 ## {-}
 
 Interestingly,  tendencies towards gender homophily seem greater in the Kudo networks than in the friendship networks!
+
 
 ----
 
@@ -3540,6 +3602,8 @@ plot_mean_time
 <br>
 
 # Activity-based homophily 
+<!--- I think I would use 'my' Moran's I function ---> 
+
 ## Densities {.tabset .tabset-fade}
 
 We have now covered the sport activity levels of our club-athletes, and the extent to which friendship- and Kudo-associations are segregated along gender. Last, we will explore if friendship- and Kudo-associations are also seggregated along activity levels. Or in other words: do people with similar activity levels tend to socialize to a greater extent - by befriending one another and by exchanging Kudos - even when taking into account the opportunity structures for meeting with (dis)similar others?
@@ -3863,3 +3927,6 @@ print(desmat)
 At face value it seems that there is quite some homophily in friendship- and Kudo dyads: densities are higher between nodes with similar activity levels than between nodes with dissimilar activity levels.
 
 ----
+
+## References  
+

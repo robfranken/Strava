@@ -1,8 +1,10 @@
 ---
 title: "RSiena: Exploratory analyses "
-date: "18-1-2021"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
 output:
   html_document:
+    css: tweaks.css
     toc: true
     toc_float: true
     collapsed: false
@@ -12,9 +14,32 @@ output:
     code_download: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color, 
+      x)
+  } else x
+}
+
 ```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
 
 ---
 
@@ -90,7 +115,9 @@ print01Report(mydata)
 
 A text file is printed in the working directory.
 
-![](files/Siena.txt)
+<!--- #JT see my small tweak--->
+
+![](files/Siena.txt){#id .class width=100% height=200px}
 
 ----
 
@@ -195,6 +222,15 @@ myalgorithm <- sienaAlgorithmCreate(projname = "test")
 Let's estimate the model.
 
 We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory (make sure to create one manually). We will run the model as many times as necessary, until we get an acceptable convergence ratio (< .25).
+
+<!--- 
+
+#JT not necessary to create manually. thanx to github. ;-) !! 
+
+I like the code below. Please save the 'final' ans objects somewhere. 
+I guess a could way for replication in the end is to have all final Ans objects somewhere. and then with a specific seed rerun all models? or dont we really care about this? 
+
+---> 
 
 
 ```{r eval=F }
