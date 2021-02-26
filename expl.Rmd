@@ -16,6 +16,7 @@ output:
 
 ```{r, globalsettings, echo=FALSE, warning=FALSE}
 library(knitr)
+library(RSiena)
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
 options(width = 100)
@@ -35,7 +36,7 @@ klippy::klippy(position = c('top', 'right'))
 
 ---
 
-We are going to explore the best-fitting model parameters. We are going to start small...
+Let's estimate the Stochastic Actor-Oriented Model (SAOM) implemented in R as the Simulation Investigation for Empirical Network Analysis (R-SIENA), developed by @snijders2010.
 
 ----
 
@@ -43,22 +44,25 @@ We are going to explore the best-fitting model parameters. We are going to start
 
 # Preparation
 
-Clean the working environment and set the working directory.
+Clean the working environment.
 
 ```{r, attr.output='style="max-height: 200px;"'}
 # clean the working environment 
 rm (list = ls( ))
-
-#JT. nope dont use local working directories
-# set the working directory
-#setwd("C:\\Users\\u244147\\Documents\\GitHub\\Stravajournal") 
 ```
 
-We will make a new RSiena object:
+<br> 
 
-* Dependent variables: Kudos, running frequency
-* Constant covariate: friendships (dyadic), gender
-* Starting with one club (N=30)
+On this page we will:
+
+1. Get our data and create an R-SIENA object
+2. Inspect our data
+3. Define our effects
+4. Define our algorithm
+5. And estimate the SAOM
+
+Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs (and afterwards with the ego-centered networks).
+
 
 ----
 
@@ -66,35 +70,43 @@ We will make a new RSiena object:
 
 # Step 1: Data
 
-We start with fewer waves...
+We start off by reading in the data, specifying variable roles for the RSiena object, and creating an RSiena object. We use the clubdata.RData object.
+
+- For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. Later on, we may want to use the ordered variable.
+
+- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to >7 times per week), and running volume (in minutes per month; with 8 equally populated categories).
+
+- We included activity in other sports (e.g., cycling and swimming) as a time-varying covariate.
+
+- And we also included gender (men vs. women and others), and winter as constant and varying covariates, respectively, and friendship as a time-constant dyadic covariate. 
+
 
 ```{r}
-#load("clubdata_rsiena.Rdata") # load club list
-#mydata <- clubdata_rsiena[[1]] # grab rsiena object club 1
-#library(RSiena) #and load package
-
-# for fewer waves
 load("clubdata.Rdata") # load (raw) club list
 club <- clubdata[[1]] # grab club 
 
 # specify variable roles for RSiena object
-kudonet <- sienaDependent(club$kudo[,, c(1, 6, 12)])
-freq_run <- sienaDependent(club$freq_run[,, c(1, 6, 12)], type= "behavior")
-#time_run <- sienaDependent(club$time_run[,, c(1, 6, 12)], type= "behavior")
+kudonet <- sienaDependent(club$kudo)
 
-friendship <- coDyadCovar(club$friendship)
+freq_run <- sienaDependent(club$freq_run, type= "behavior")
 
-gender <- NA #we dichotomize gender as binary (men vs. women and other)
+time_run <- sienaDependent(club$time_run, type = "behavior")
+
+freq_other <- varCovar(club$freq_other[,,])
+time_other <- varCovar(club$time_other[,,])
+
+gender <- NA 
 gender <- ifelse(club$male == 1, 1, gender)
 gender <- ifelse(club$female == 1, 2, gender)
 gender <- ifelse(club$other == 1, 2, gender)
 gender <- coCovar(gender)
 
-winter <- varCovar(club$winter[, c(1, 6, 12)])
+winter <- varCovar(club$winter)
+
+friendship <- coDyadCovar(club$friendship)
 
 #create rsiena data object
-mydata <- sienaDataCreate(kudonet, freq_run, friendship, gender, winter)
-#mydata <- sienaDataCreate(kudonet, time_run, freq_run, friendship, gender, winter)
+mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, gender, winter, friendship)
 ```
 
 ----
@@ -108,8 +120,6 @@ print01Report(mydata)
 
 A text file is printed in the working directory.
 
-<!--- #JT see my small tweak--->
-
 ![](files/Siena.txt){#id .class width=100% height=200px}
 
 ----
@@ -117,71 +127,111 @@ A text file is printed in the working directory.
 <br>
 
 # Step 3: Define effects
-We are going to define our 'myeff' object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting effectsDocumentation(myeff).
+We are going to define our 'myeff' object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting effectsDocumentation(myeff). See @rsienamanual for a substantial and mathematical description of all effects.
+
+We include:
+
+1. [structural network effects](#str)
+2. [network selection effects](#sel)
+3. [network influence effects](#inf)
+4. and [covariate effects](#co) on network and behavior 
+
 
 ```{r echo=T, results='hide'}
 myeff <- getEffects(mydata)
 #effectsDocumentation(myeff)
 ```
 
-First, we are going to include structural network effects, guided by recommendations of Snijders (see [here](http://www.stats.ox.ac.uk/~snijders/siena/Net_longi7_A_s.pdf) and [here](http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf)). And we also include covariate effects of gender (monadic and dyadic)
+<br>
+
+## Structural network effects {#str}
+First, we are going to include structural network effects, guided by recommendations of @snijderspres: transitivity (GWESP), indegree popularity (sqrt.), outdegree activity (sqrt.), and the transitive reciprocated triplets effect. For the last effect, see @block2015.
 
 ```{r echo=T, results='hide'}
-# Structural effects
-myeff1 <- includeEffects(myeff, gwespFF, #triadic
-                         inPop, outAct, name = "kudonet") #degree-related
-
-myeff1 <- includeInteraction(myeff1, recip, gwespFF, parameter = 69) #gwesp x reciprocity
-
-myeff1 <- includeEffects(myeff1, egoX, altX, sameX, name = "kudonet", interaction1 = "gender")
+myeff1 <- includeEffects(myeff, gwespFF, 
+                         inPopSqrt, outActSqrt, name = "kudonet") 
+myeff1 <- includeInteraction(myeff1, recip, gwespFF, parameter = 69) 
 
 ```
 
-Second, we include selection-effects (i.e. who sends/receives Kudos, and between whom are Kudos exchanged?). We include effects reflecting homophily tendencies in Kudo exchanging based on (a) gender and (b) time spent on running / frequency of running. 
+<br>
 
-For the selection-on-behavior-part, we may want to try the 'five-parameter' (quadratic) model (see [here, slide 23](http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf)).
+## Selection effects {#sel}
+Second, we include selection effects with respect to behavior. We estimate the effect of actors' (ego and alter) behavior, and the similarity between the two (homophily) on tie formation. 
 
-But for now, we use the simpler model (i.e., egoX, altX, simX).
+We start with effects of frequency on tie formation. Later, we will add volume.
+
+For now we only include the monadic effects (i.e. of frequency), to control for *structural* effects (i.e., being more active on Strava may increase one's opportunities to award and receive Kudos). After estimating this structural part, we can add the similarity effect, which reflects homophilous *preferences*, over and above the opportunity structures. 
+
 
 ```{r echo=T, results='hide'}
-# attribute effects and homophily tendencies in Kudo relations with respect to gender
-myeff2 <- includeEffects( myeff1, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+myeff2 <- includeEffects(myeff1, egoX, altX, name="kudonet", interaction1 = "freq_run")
 
-# attribute effects and homophily tendencies in Kudo relations with respect to activity level
-myeff2 <- includeEffects(myeff2, egoX, altX, simX, name="kudonet", interaction1 = "freq_run")
+myeff2 <- includeEffects(myeff2, egoX, altX, name="kudonet", interaction1 = "time_run")
 
-# the full quadratic model: 
-#myeff2 <- includeEffects(myeff1, diffSqX, altSqX, altX, egoX, egoSqX, interaction1 = "freq_run")
+myeff2a <- includeEffects(myeff2, simX, name="kudonet", interaction1 = "freq_run")
+
+myeff2a <- includeEffects(myeff2a, simX, name="kudonet", interaction1 = "time_run")
 ```
 
-Third, in the behavioral model, we include social influence effects of (a) Kudos (*social support*), and (b) alters' activity level ('contagion', *social comparison*). 
+<br>
 
+## Influence effects {#inf}
+We included two influence effects to test our hypotheses on the influence of social support and social comparison processes respectively:
+
+1. The reciprocated degree effect on behavior.
+This tests the social support explanation: the more reciprocated Kudo-ties (i.e. "strong tie" friendships), the greater the probability of increasing the behavior. 
+
+2. The average reciprocated alter effect.
+This test the social comparison explanation: the tendency to assimilate to the average behavior of reciprocated alters (i.e. "strong tie" friends).
+
+**Note** that in the average reciprocated alter effect the expected positive effect of upward comparison and the negative effect of downward comparison are assumed to even each other out. In our case this assumption is rather poor, as upward and downward comparison processes may have independent effects on ego’s tendency to increase their behavior. Therefore, we may want to find a more suitable effect. 
+
+We start with myeff3: to test if reciprocated degrees have an influence. Afterwards, we will test myeff4: to investigate through what mechanism (support vs. comparison).
 
 ```{r echo=T, results='hide'}
-# Kudo-indegree effect on running  
-myeff3 <- includeEffects(myeff2, indeg, name = "freq_run", interaction1 = "kudonet") #popularity-related tendency (i.e. "support")
+myeff3 <- includeEffects(myeff2, recipDeg, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, recipDeg, name = "time_run", interaction1 = "kudonet")
 
-# we may want to include the square root version! How to specify?
-# also: we may want to condition the popularity-related tendency on current behavior!
-
-myeff3 <- includeEffects(myeff3, avAlt, name = "freq_run", interaction1 = "kudonet") #behavior-related average similarity
-
-myeff3 <- includeInteraction(myeff3, quad, effFrom, name = "freq_run", interaction1 = c("", "winter")) #also, we condition the shape effect on winter, to check for seasonal effects.
-
-# additional interactions:
-myeff3 <- includeInteraction(myeff3, quad, avAlt, name = "freq_run", interaction1 = c("", "kudonet"))
-#check whether social influence ("contagion") is conditional on actors current activity level (see RSiena manual, p.57).
-
+myeff4 <- includeEffects(myeff3, avRecAlt, name = "freq_run", interaction1 = "kudonet") 
+myeff4 <- includeEffects(myeff4, avRecAlt, name = "time_run", interaction1 = "kudonet") 
 ```
 
-And last we add effects on behavior of other variables
+<br>
+
+An extra theoretical thought: we may want to condition the reciprocated degree effects on current behavior, to see if they hold to a greater/lesser extent for 'novice' athletes.
+
+```{r echo=F, eval=F, results='hide'}
+myeff5 <- includeEffects(myeff4, quad, recipDeg, name = "freq_run", interaction1 = c("", "kudonet"))
+myeff5 <- includeEffects(myeff4, quad, avRecAlt, name = "freq_run", interaction1 = c("", "kudonet"))
+```
+
+<br>
+
+## Covariate effects {#co}
+
+And last we add effects on tie and behavior changes of other variables:
+
+- the interdependence between frequency and volume
+- the interdependence between running and other sports
+- winter on behavior
+- gender on tie selection and behavior
+
 ```{r echo=T, results='hide'}
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gender")
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "freq_run")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
+
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "time_other")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
+
 myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "winter")
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "winter")
+
+myeff3 <- includeEffects( myeff3, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gender")
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "gender")
 ```
 
-
-**Note**: as of yet, I am not sure whether to include the total similarity or the total alter effect (or the average-effect variants). This choice has to be made both on theoretical grounds and on the basis of statistical significance. For now we go with the average alter effect. 
 
 <br>
 
@@ -212,13 +262,11 @@ myalgorithm <- sienaAlgorithmCreate(projname = "test")
 
 # Step 5: Estimate the model
 
-Let's estimate the model.
+Let's estimate the SAOM.
 
-We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory (make sure to create one manually). We will run the model as many times as necessary, until we get an acceptable convergence ratio (< .25).
+We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we get an acceptable convergence ratio (< .25).
 
 <!--- 
-
-#JT not necessary to create manually. thanx to github. ;-) !! 
 
 I like the code below. Please save the 'final' ans objects somewhere. 
 I guess a could way for replication in the end is to have all final Ans objects somewhere. and then with a specific seed rerun all models? or dont we really care about this? 
@@ -226,7 +274,7 @@ I guess a could way for replication in the end is to have all final Ans objects 
 ---> 
 
 
-```{r eval=F }
+```{r eval= F }
 
 try <- 1
 
@@ -239,11 +287,11 @@ while (TRUE){
   if(ansM1$tconv.max > 0.25){
     try <- try + 1
     print(paste("Try:", try, sep=" "))
-    ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff1, prevAns= ansM1)
+    ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM1)
     siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", try, ".html", sep=""))
+    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "final", ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM1$tconv.max, sep = ""))
     break
   }
@@ -255,29 +303,23 @@ while (TRUE){
 <br>
 
 
-# Step 6: Results
+# Step 6: Results {#result}
 
-Down below the results are shown for club 2 (N = 62), club 3 (N = 165) and club 5 (N = 77). All models converged well. For clubs with fewer members (e.g., club 1 (N = 30)), we may want to use more waves to get good convergence. 
+Here we present the results for club 1 (N=30). We did not get a convergence ratio <.25, but close (.29), which we accept for our exploratory SAOM. 
 
-## {.tabset .tabset-fade} 
+<!--- 
 
-### Club 2
-```{r, echo=FALSE}
-htmltools::includeHTML("files/Club2_ansM1_1.html")
+Estimate the same SAOM for club 2 and 5;
+Present the results
+Reflect on results
+Modify SAOM; extra effects where necessary.
+
+---> 
+
+```{r, echo=F}
+htmltools::includeHTML("files/ansM1_4.html")
 ```
-
-### Club 3
-```{r, echo=FALSE}
-htmltools::includeHTML("files/Club3_ansM1_1.html")
-```
-
-### Club 5
-```{r, echo=FALSE}
-htmltools::includeHTML("files/Club5_ansM1_1.html")
-```
-
-
-## {-}
 
 ----
 
+## References

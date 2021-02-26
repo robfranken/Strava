@@ -53,8 +53,8 @@ We cover the following:
 * club characteristics
 * network structure in Friendship and Kudo networks
 * gender composition / segregation
-* activity level (frequency and volume)
-* spatial network autocorrelation
+* behavior: activity level (frequency and volume)
+* spatial network autocorrelation: behavioral similarity in networks
 
 
 ----
@@ -123,7 +123,7 @@ Now define some functions we use later on to describe our data (see [www.jochemt
 - fhomomat: based on ego/alter characteristics, construct dyad characteristic whether or not ego/alter are same 
 - fndyads: calculate all valid dyads (no NA or structural zeros)  
 - fscolnet: calculate Coleman's segregation index on the network-level  
-- fMoran.i: calculate Moran's I spatial autocorrelation (see [here](https://www.jochemtolsma.nl/courses/complete-networks/socio7/#morans-autocorrelation-for-outgoing-ties-rsiena-build-in-dataset))
+- fMoran.i: calculate Moran's I spatial autocorrelation statistic (see [here](https://www.jochemtolsma.nl/courses/complete-networks/socio7/#morans-autocorrelation-for-outgoing-ties-rsiena-build-in-dataset))
 
 
 
@@ -2239,9 +2239,9 @@ plot_mean_time
 
 ----
 
-## 2. Other activities (e.g., cycling and swimming) {.tabset .tabset-fade}
+## 2. Other activities {.tabset .tabset-fade}
 
-We will describe other activities as well.
+We will describe other activities as well (e.g., cycling and swimming).
 
 ### Club 1
 ```{r class.source = 'fold-hide'}
@@ -3028,11 +3028,13 @@ plot_mean_freq
 plot_mean_time
 ```
 
+## {-}
+
 ----
 
 <br>
 
-# Behavioral similarity in networks
+# Network autocorrelation
 
 ## {.tabset .tabset-fade}
 We have now covered the sport activity levels of our club-athletes, and the extent to which friendship- and Kudo-associations are segregated along gender. Last, we will explore if friendship- and Kudo-associations are also segregated along activity levels. Or in other words: do people with similar activity levels tend to socialize to a greater extent - by befriending one another and by exchanging Kudos - even when taking into account the opportunity structures for 'interacting' with (dis)similar others? 
@@ -3104,11 +3106,286 @@ knitr::kable(mat, digits=2, "html", caption="Moran's I statistic for spatial aut
 
 knitr::kable(mat2, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and monthly running volume") %>% 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```
 
+### Club 2
+```{r}
+df <- clubdata_rsiena[[2]] # grab club 
+df2 <- clubdata[[2]] # grab club 
+
+fnet <- network::as.network(df$dycCovars$friendship) # take friendship network
+knet <- df$depvars$kudonet # take kudo network
+knet1 <- network::as.network(knet[,,1]) # let's take wave 1
+
+# get behavioral data
+freq1 <- df2$freq_run[,,1] # running frequencies wave 1
+vol1 <- df2$time_run[,,1] # running volume wave 1
+
+# we include geodistances: shortest path lengths from i to j
+f_geodistances <- sna::geodist(fnet, count.paths=T)
+f_geodistances <- f_geodistances$gdist 
+k_geodistances <- sna::geodist(knet1, count.paths=T)
+k_geodistances <- k_geodistances$gdist 
+
+# set the distance 'to yourself' to 'Inf'
+diag(f_geodistances) <- Inf
+diag(k_geodistances) <- Inf
+
+# and use the negative exponential distance-decay function
+f_weights2 <- exp(-f_geodistances)
+k_weights2 <- exp(-k_geodistances)
+
+# calculate Moran's I
+# we do not row standardize!
+f_freq <- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+f_vol <- fMoran.I(vol1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_freq <- fMoran.I(freq1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_vol <- fMoran.I(vol1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+
+# make object to store results
+# 1. frequency
+mat <- matrix(NA, nrow=2, ncol=4)
+mat[1,1] <- f_freq$observed
+mat[1,2] <- f_freq$expected
+mat[1,3] <- f_freq$sd
+mat[1,4] <- f_freq$p.value
+mat[2,1] <- k_freq$observed
+mat[2,2] <- k_freq$expected
+mat[2,3] <- k_freq$sd
+mat[2,4] <- k_freq$p.value
+
+# 2. volume
+mat2 <- matrix(NA, nrow=2, ncol=4)
+mat2[1,1] <- f_vol$observed
+mat2[1,2] <- f_vol$expected
+mat2[1,3] <- f_vol$sd
+mat2[1,4] <- f_vol$p.value
+mat2[2,1] <- k_vol$observed
+mat2[2,2] <- k_vol$expected
+mat2[2,3] <- k_vol$sd
+mat2[2,4] <- k_vol$p.value
+
+colnames(mat) <- colnames(mat2) <- c("observed", "expected", "sd", "p-value")
+rownames(mat) <- rownames(mat2) <- c("friendship network", "kudo network")
+
+knitr::kable(mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+
+knitr::kable(mat2, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and monthly running volume") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
 
+### Club 3
+```{r}
+df <- clubdata_rsiena[[3]] # grab club 
+df2 <- clubdata[[3]] # grab club 
+
+fnet <- network::as.network(df$dycCovars$friendship) # take friendship network
+knet <- df$depvars$kudonet # take kudo network
+knet1 <- network::as.network(knet[,,1]) # let's take wave 1
+
+# get behavioral data
+freq1 <- df2$freq_run[,,1] # running frequencies wave 1
+vol1 <- df2$time_run[,,1] # running volume wave 1
+
+# we include geodistances: shortest path lengths from i to j
+f_geodistances <- sna::geodist(fnet, count.paths=T)
+f_geodistances <- f_geodistances$gdist 
+k_geodistances <- sna::geodist(knet1, count.paths=T)
+k_geodistances <- k_geodistances$gdist 
+
+# set the distance 'to yourself' to 'Inf'
+diag(f_geodistances) <- Inf
+diag(k_geodistances) <- Inf
+
+# and use the negative exponential distance-decay function
+f_weights2 <- exp(-f_geodistances)
+k_weights2 <- exp(-k_geodistances)
+
+# calculate Moran's I
+# we do not row standardize!
+f_freq <- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+f_vol <- fMoran.I(vol1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_freq <- fMoran.I(freq1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_vol <- fMoran.I(vol1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+
+# make object to store results
+# 1. frequency
+mat <- matrix(NA, nrow=2, ncol=4)
+mat[1,1] <- f_freq$observed
+mat[1,2] <- f_freq$expected
+mat[1,3] <- f_freq$sd
+mat[1,4] <- f_freq$p.value
+mat[2,1] <- k_freq$observed
+mat[2,2] <- k_freq$expected
+mat[2,3] <- k_freq$sd
+mat[2,4] <- k_freq$p.value
+
+# 2. volume
+mat2 <- matrix(NA, nrow=2, ncol=4)
+mat2[1,1] <- f_vol$observed
+mat2[1,2] <- f_vol$expected
+mat2[1,3] <- f_vol$sd
+mat2[1,4] <- f_vol$p.value
+mat2[2,1] <- k_vol$observed
+mat2[2,2] <- k_vol$expected
+mat2[2,3] <- k_vol$sd
+mat2[2,4] <- k_vol$p.value
+
+colnames(mat) <- colnames(mat2) <- c("observed", "expected", "sd", "p-value")
+rownames(mat) <- rownames(mat2) <- c("friendship network", "kudo network")
+
+knitr::kable(mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+
+knitr::kable(mat2, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and monthly running volume") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
+
+### Club 4
+```{r}
+df <- clubdata_rsiena[[4]] # grab club 
+df2 <- clubdata[[4]] # grab club 
+
+fnet <- network::as.network(df$dycCovars$friendship) # take friendship network
+knet <- df$depvars$kudonet # take kudo network
+knet1 <- network::as.network(knet[,,1]) # let's take wave 1
+
+# get behavioral data
+freq1 <- df2$freq_run[,,1] # running frequencies wave 1
+vol1 <- df2$time_run[,,1] # running volume wave 1
+
+# we include geodistances: shortest path lengths from i to j
+f_geodistances <- sna::geodist(fnet, count.paths=T)
+f_geodistances <- f_geodistances$gdist 
+k_geodistances <- sna::geodist(knet1, count.paths=T)
+k_geodistances <- k_geodistances$gdist 
+
+# set the distance 'to yourself' to 'Inf'
+diag(f_geodistances) <- Inf
+diag(k_geodistances) <- Inf
+
+# and use the negative exponential distance-decay function
+f_weights2 <- exp(-f_geodistances)
+k_weights2 <- exp(-k_geodistances)
+
+# calculate Moran's I
+# we do not row standardize!
+f_freq <- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+f_vol <- fMoran.I(vol1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_freq <- fMoran.I(freq1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_vol <- fMoran.I(vol1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+
+# make object to store results
+# 1. frequency
+mat <- matrix(NA, nrow=2, ncol=4)
+mat[1,1] <- f_freq$observed
+mat[1,2] <- f_freq$expected
+mat[1,3] <- f_freq$sd
+mat[1,4] <- f_freq$p.value
+mat[2,1] <- k_freq$observed
+mat[2,2] <- k_freq$expected
+mat[2,3] <- k_freq$sd
+mat[2,4] <- k_freq$p.value
+
+# 2. volume
+mat2 <- matrix(NA, nrow=2, ncol=4)
+mat2[1,1] <- f_vol$observed
+mat2[1,2] <- f_vol$expected
+mat2[1,3] <- f_vol$sd
+mat2[1,4] <- f_vol$p.value
+mat2[2,1] <- k_vol$observed
+mat2[2,2] <- k_vol$expected
+mat2[2,3] <- k_vol$sd
+mat2[2,4] <- k_vol$p.value
+
+colnames(mat) <- colnames(mat2) <- c("observed", "expected", "sd", "p-value")
+rownames(mat) <- rownames(mat2) <- c("friendship network", "kudo network")
+
+knitr::kable(mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+
+knitr::kable(mat2, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and monthly running volume") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+### Club 5
+```{r}
+df <- clubdata_rsiena[[5]] # grab club 
+df2 <- clubdata[[5]] # grab club 
+
+fnet <- network::as.network(df$dycCovars$friendship) # take friendship network
+knet <- df$depvars$kudonet # take kudo network
+knet1 <- network::as.network(knet[,,1]) # let's take wave 1
+
+# get behavioral data
+freq1 <- df2$freq_run[,,1] # running frequencies wave 1
+vol1 <- df2$time_run[,,1] # running volume wave 1
+
+# we include geodistances: shortest path lengths from i to j
+f_geodistances <- sna::geodist(fnet, count.paths=T)
+f_geodistances <- f_geodistances$gdist 
+k_geodistances <- sna::geodist(knet1, count.paths=T)
+k_geodistances <- k_geodistances$gdist 
+
+# set the distance 'to yourself' to 'Inf'
+diag(f_geodistances) <- Inf
+diag(k_geodistances) <- Inf
+
+# and use the negative exponential distance-decay function
+f_weights2 <- exp(-f_geodistances)
+k_weights2 <- exp(-k_geodistances)
+
+# calculate Moran's I
+# we do not row standardize!
+f_freq <- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+f_vol <- fMoran.I(vol1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_freq <- fMoran.I(freq1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+k_vol <- fMoran.I(vol1, scaled = FALSE, weight = k_weights2, na.rm = TRUE, rowstandardize = FALSE)
+
+# make object to store results
+# 1. frequency
+mat <- matrix(NA, nrow=2, ncol=4)
+mat[1,1] <- f_freq$observed
+mat[1,2] <- f_freq$expected
+mat[1,3] <- f_freq$sd
+mat[1,4] <- f_freq$p.value
+mat[2,1] <- k_freq$observed
+mat[2,2] <- k_freq$expected
+mat[2,3] <- k_freq$sd
+mat[2,4] <- k_freq$p.value
+
+# 2. volume
+mat2 <- matrix(NA, nrow=2, ncol=4)
+mat2[1,1] <- f_vol$observed
+mat2[1,2] <- f_vol$expected
+mat2[1,3] <- f_vol$sd
+mat2[1,4] <- f_vol$p.value
+mat2[2,1] <- k_vol$observed
+mat2[2,2] <- k_vol$expected
+mat2[2,3] <- k_vol$sd
+mat2[2,4] <- k_vol$p.value
+
+colnames(mat) <- colnames(mat2) <- c("observed", "expected", "sd", "p-value")
+rownames(mat) <- rownames(mat2) <- c("friendship network", "kudo network")
+
+knitr::kable(mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+
+knitr::kable(mat2, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and monthly running volume") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+## {-}
+
+Here, the Moran's I statistic tests whether club members that are *closer to one another* (i.e., having a shorter geodesic/path length), are more a similar with respect to their behavior, under the null hypothesis that behavior is 'randomly distributed' among the club members.
+
+We observe that, indeed, friends that are closer to one another are more alike, and especially "strong tie" friends (indicated by the strongly significant Moran's I statistics on the Kudo networks). Additional analyses (not shown here) revealed that autocorrelation was even stronger without the distance-decay function, which suggests that especially close alters (with path length one) are similar. 
+
+----
+
+<br>
 
 ## References

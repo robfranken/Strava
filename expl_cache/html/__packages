@@ -1,14 +1,3 @@
 base
-RSiena
-igraph
-tidyverse
-ggplot2
-tibble
-tidyr
-readr
-purrr
-dplyr
-stringr
-forcats
-moments
 knitr
+RSiena
