@@ -12,3 +12,7 @@ stringr
 forcats
 moments
 knitr
+kableExtra
+network
+statnet.common
+sna

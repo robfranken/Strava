@@ -1,5 +1,5 @@
 ---
-title: "Sport motivation"
+title: "Strava paper"
 bibliography: references.bib
 date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
 output: 
@@ -42,7 +42,7 @@ Last compiled on `r format(Sys.time(), '%B, %Y')`
 ----
   
   
-This lab journal is created for the Strava paper @Franken2021. It contains R code.       
+This lab journal is created for the Strava paper by @Franken2021. It contains R code.       
 All scripts can be found on [Github](https://github.com/robfranken/Strava)
   
   
