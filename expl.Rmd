@@ -72,7 +72,7 @@ Below, we will follow these steps for club 1 (N=30). We will explore the SAOM fo
 
 We start off by reading in the data, specifying variable roles for the RSiena object, and creating an RSiena object. We use the clubdata.RData object.
 
-- For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. Later on, we may want to use the ordered variable.
+- For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. Later on, we use the [ordered variable](#lvl2).
 
 - Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to >7 times per week), and running volume (in minutes per month; with 8 equally populated categories).
 
@@ -81,9 +81,15 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 - And we also included gender (men vs. women and others), and winter as constant and varying covariates, respectively, and friendship as a time-constant dyadic covariate. 
 
 
+<!--- 
+
+After the estimation procedure, just edit the number within the double brackets [[x]] to grab another club.
+
+---> 
+
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[1]] # grab club 
+club <- clubdata[[5]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
@@ -145,7 +151,7 @@ myeff <- getEffects(mydata)
 <br>
 
 ## Structural network effects {#str}
-First, we are going to include structural network effects, guided by recommendations of @snijderspres: transitivity (GWESP), indegree popularity (sqrt.), outdegree activity (sqrt.), and the transitive reciprocated triplets effect. For the last effect, see @block2015.
+First, we are going to include structural network effects, guided by recommendations of @snijderspres: outdegree, reciprocity, and transitivity (GWESP), indegree popularity (sqrt.), outdegree activity (sqrt.), and we may want to add the transitive reciprocated triplets effect; see @block2015.
 
 ```{r echo=T, results='hide'}
 myeff1 <- includeEffects(myeff, gwespFF, 
@@ -164,14 +170,21 @@ We start with effects of frequency on tie formation. Later, we will add volume.
 For now we only include the monadic effects (i.e. of frequency), to control for *structural* effects (i.e., being more active on Strava may increase one's opportunities to award and receive Kudos). After estimating this structural part, we can add the similarity effect, which reflects homophilous *preferences*, over and above the opportunity structures. 
 
 
+<!--- 
+
+to include volume,
+and similarity effects:
+
+myeff2 <- includeEffects(myeff2, egoX, altX, name="kudonet", interaction1 = "time_run")
+myeff2 <- includeEffects(myeff2, simX, name="kudonet", interaction1 = "freq_run")
+myeff2 <- includeEffects(myeff2, simX, name="kudonet", interaction1 = "time_run")
+
+---> 
+
+
 ```{r echo=T, results='hide'}
 myeff2 <- includeEffects(myeff1, egoX, altX, name="kudonet", interaction1 = "freq_run")
 
-myeff2 <- includeEffects(myeff2, egoX, altX, name="kudonet", interaction1 = "time_run")
-
-myeff2a <- includeEffects(myeff2, simX, name="kudonet", interaction1 = "freq_run")
-
-myeff2a <- includeEffects(myeff2a, simX, name="kudonet", interaction1 = "time_run")
 ```
 
 <br>
@@ -187,24 +200,27 @@ This test the social comparison explanation: the tendency to assimilate to the a
 
 **Note** that in the average reciprocated alter effect the expected positive effect of upward comparison and the negative effect of downward comparison are assumed to even each other out. In our case this assumption is rather poor, as upward and downward comparison processes may have independent effects on ego’s tendency to increase their behavior. Therefore, we may want to find a more suitable effect. 
 
-We start with myeff3: to test if reciprocated degrees have an influence. Afterwards, we will test myeff4: to investigate through what mechanism (support vs. comparison).
-
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff2, recipDeg, name = "freq_run", interaction1 = "kudonet") 
 myeff3 <- includeEffects(myeff3, recipDeg, name = "time_run", interaction1 = "kudonet")
 
-myeff4 <- includeEffects(myeff3, avRecAlt, name = "freq_run", interaction1 = "kudonet") 
-myeff4 <- includeEffects(myeff4, avRecAlt, name = "time_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, avRecAlt, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, avRecAlt, name = "time_run", interaction1 = "kudonet") 
 ```
 
 <br>
 
-An extra theoretical thought: we may want to condition the reciprocated degree effects on current behavior, to see if they hold to a greater/lesser extent for 'novice' athletes.
+<!--- 
 
-```{r echo=F, eval=F, results='hide'}
+to include volume,
+and similarity effects:
+
 myeff5 <- includeEffects(myeff4, quad, recipDeg, name = "freq_run", interaction1 = c("", "kudonet"))
 myeff5 <- includeEffects(myeff4, quad, avRecAlt, name = "freq_run", interaction1 = c("", "kudonet"))
-```
+
+---> 
+
+An extra theoretical thought: we may want to condition the reciprocated degree effects on current behavior, to see if they hold to a greater/lesser extent for 'novice' athletes.
 
 <br>
 
@@ -268,13 +284,13 @@ We will save the results in a html-table using the siena.table()-function, in th
 
 <!--- 
 
-I like the code below. Please save the 'final' ans objects somewhere. 
+#JT I like the code below. Please save the 'final' ans objects somewhere. 
 I guess a could way for replication in the end is to have all final Ans objects somewhere. and then with a specific seed rerun all models? or dont we really care about this? 
 
 ---> 
 
 
-```{r eval= F }
+```{r eval=  F}
 
 try <- 1
 
@@ -298,6 +314,11 @@ while (TRUE){
 }
 ```
 
+<!--- 
+
+#RF in the files folder sub-folders are made for each club, with preliminary results (final.html) in the 'prelim' folder
+---> 
+
 ----
 
 <br>
@@ -305,8 +326,9 @@ while (TRUE){
 
 # Step 6: Results {#result}
 
-Here we present the results for club 1 (N=30). We did not get a convergence ratio <.25, but close (.29), which we accept for our exploratory SAOM. 
+Here we present the results for club 1 (N=30), club 2 (N=63), and club 5 (N=77).
 
+## {.tabset .tabset-fade}
 <!--- 
 
 Estimate the same SAOM for club 2 and 5;
@@ -316,10 +338,26 @@ Modify SAOM; extra effects where necessary.
 
 ---> 
 
+### Club 1
 ```{r, echo=F}
-htmltools::includeHTML("files/ansM1_4.html")
+htmltools::includeHTML("files/club 1/prelim/final.html")
 ```
 
+### Club 2
+```{r, echo=F}
+htmltools::includeHTML("files/club 2/prelim/final.html")
+```
+
+### Club 5
+```{r, echo=F}
+htmltools::includeHTML("files/club 5/prelim/final.html")
+```
+
+## {-}
+
+
 ----
+
+
 
 ## References
