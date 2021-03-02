@@ -61,7 +61,7 @@ On this page we will:
 4. Define our algorithm
 5. And estimate the SAOM
 
-Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs (and afterwards with the ego-centered networks).
+Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs (and afterwards with the ego-centered networks), but more on that later.
 
 
 ----
@@ -72,27 +72,27 @@ Below, we will follow these steps for club 1 (N=30). We will explore the SAOM fo
 
 We start off by reading in the data, specifying variable roles for the RSiena object, and creating an RSiena object. We use the clubdata.RData object.
 
-- For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. Later on, we use the [ordered variable](#lvl2).
+- For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. Later on, we use the [ordered variable](#lvl2): in which the second-order network in which awarding/receiving more than 1 Kudo constitutes the presence of a tie, is a sub-network of the first-order network.
 
 - Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to >7 times per week), and running volume (in minutes per month; with 8 equally populated categories).
 
 - We included activity in other sports (e.g., cycling and swimming) as a time-varying covariate.
 
-- And we also included gender (men vs. women and others), and winter as constant and varying covariates, respectively, and friendship as a time-constant dyadic covariate. 
-
+- And we also included gender (men vs. women and others), and winter as constant and varying covariates, respectively.
 
 <!--- 
 
-After the estimation procedure, just edit the number within the double brackets [[x]] to grab another club.
+We may also want to include friendship, as a constant dyadic covariate?
 
 ---> 
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[5]] # grab club 
+club <- clubdata[[1]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
+kudonet2 <- sienaDependent(club$kudo2) 
 
 freq_run <- sienaDependent(club$freq_run, type= "behavior")
 
@@ -114,6 +114,12 @@ friendship <- coDyadCovar(club$friendship)
 #create rsiena data object
 mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, gender, winter, friendship)
 ```
+
+<!--- 
+
+After the estimation procedure, just edit the number within the double brackets [[x]] to grab another club.
+
+---> 
 
 ----
 
@@ -184,7 +190,6 @@ myeff2 <- includeEffects(myeff2, simX, name="kudonet", interaction1 = "time_run"
 
 ```{r echo=T, results='hide'}
 myeff2 <- includeEffects(myeff1, egoX, altX, name="kudonet", interaction1 = "freq_run")
-
 ```
 
 <br>
@@ -355,9 +360,20 @@ htmltools::includeHTML("files/club 5/prelim/final.html")
 
 ## {-}
 
+We see a marginal reciprocated degree effect on running volume (club 1) and running frequency (club 2), but not in club 5. In club 5 we find a significant and positive parameter estimate for the average reciprocated degree effect on behavior. 
 
 ----
 
+# Ordered network variable {#lvl2}
+
+In the estimated SAOM the reciprocation of at least 1 Kudo constituted the presence of a tie. In the following we will estimate the same SAOM but now with the ordered kudo-network, with 2 levels. We predict to find more substantial effects in the second-order network. 
+
+<!--- 
+
+replace the kudonet with kudonet2
+---> 
+
+----
 
 
 ## References
