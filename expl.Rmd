@@ -88,7 +88,7 @@ We may also want to include friendship, as a constant dyadic covariate?
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[3]] # grab club 
+club <- clubdata[[1]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
