@@ -71,9 +71,11 @@ rm (list = ls( ))
 
 # load the object
 load("clubdata_rsiena.RData")
+load("clubdata.RData")
 
 # inspect
-str(clubdata_rsiena)
+str(clubdata_rsiena, 1)
+
 ```
 
 A list of 5 lists, with each of these lists containing data of the corresponding club.
@@ -323,36 +325,47 @@ Make sure to check the output of the 'print01Report()' function for general data
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 
-print01Report(df)
+print01Report(df, modelname="files/club1")
 ```
+
+![](files/club1.txt){#id .class width=100% height=200px}
 
 ### Club 2
 ```{r }
 df <- clubdata_rsiena[[2]] # grab club 
 
-print01Report(df)
+print01Report(df, modelname="files/club2")
 ```
+
+![](files/club2.txt){#id .class width=100% height=200px}
 
 ### Club 3
 ```{r }
 df <- clubdata_rsiena[[3]] # grab club 
 
-print01Report(df)
+print01Report(df, modelname="files/club3")
 ```
+
+![](files/club3.txt){#id .class width=100% height=200px}
 
 ### Club 4
 ```{r}
 df <- clubdata_rsiena[[4]] # grab club 
 
-print01Report(df)
+print01Report(df, modelname="files/club4")
 ```
+
+![](files/club4.txt){#id .class width=100% height=200px}
 
 ### Club 5
 ```{r}
 df <- clubdata_rsiena[[5]] # grab club 
 
-print01Report(df)
+print01Report(df, modelname="files/club5")
 ```
+
+![](files/club5.txt){#id .class width=100% height=200px}
+
 
 ## {-}
 
