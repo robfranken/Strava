@@ -61,7 +61,7 @@ On this page we will:
 4. Define our algorithm
 5. And estimate the SAOM
 
-Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs (and afterwards with the ego-centered networks), but more on that later.
+Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs (and afterwards with the ego-centered networks, but more on that later).
 
 
 ----
@@ -88,7 +88,7 @@ We may also want to include friendship, as a constant dyadic covariate?
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[1]] # grab club 
+club <- clubdata[[3]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
@@ -295,7 +295,7 @@ I guess a could way for replication in the end is to have all final Ans objects 
 ---> 
 
 
-```{r eval=  F}
+```{r eval= F}
 
 try <- 1
 
@@ -331,7 +331,7 @@ while (TRUE){
 
 # Step 6: Results {#result}
 
-Here we present the results for club 1 (N=30), club 2 (N=63), and club 5 (N=77).
+We present the results for club 1 (N=30), club 2 (N=62), and club 5 (N=77). We also show results for club 3 (N=165) and club 4 (N=13).
 
 ## {.tabset .tabset-fade}
 <!--- 
@@ -353,6 +353,18 @@ htmltools::includeHTML("files/club 1/prelim/final.html")
 htmltools::includeHTML("files/club 2/prelim/final.html")
 ```
 
+### Club 4
+```{r, echo=F}
+htmltools::includeHTML("files/club 3/prelim/final.html")
+```
+
+### Club 4
+```{r, echo=F}
+htmltools::includeHTML("files/club 4/prelim/final.html")
+```
+
+Note that we excluded gender effects on tie formation and behavior change, as they were non-significant and caused convergence issues (probably because of small N).
+
 ### Club 5
 ```{r, echo=F}
 htmltools::includeHTML("files/club 5/prelim/final.html")
@@ -360,7 +372,14 @@ htmltools::includeHTML("files/club 5/prelim/final.html")
 
 ## {-}
 
-We see a marginal reciprocated degree effect on running volume (club 1) and running frequency (club 2), but not in club 5. In club 5 we find a significant and positive parameter estimate for the average reciprocated degree effect on behavior. 
+We see a marginal reciprocated degree effect on running volume (club 1) and running frequency (club 2), but not in club 5. In club 5 we find a significant and positive parameter estimate for the average reciprocated alter effect on behavior. This model specification seems to work.
+
+
+
+We find average reciprocated alter effect in club 3, for both behaviors. No influence effects were found for club 4.
+
+These results demonstrate that in the clubs under investigation (excluding club 4) influence effects are at play. In two clubs, reciprocating Kudos spurs activity, and in two clubs actors assimilate to the average behavior of their reciprocated ties (indicating support and comparison respectively). These effects are observed even after controlling for selection effects and structural network effects.
+
 
 ----
 

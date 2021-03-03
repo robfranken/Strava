@@ -388,4 +388,18 @@ save(clubdata_rsiena, file="clubdata_rsiena.RData")
 
 ---  
 
+# egodata.RData
+
+In the following scripts a list containing the (anonymized) data of all ego-centered networks is made (egodata.RData). We went two levels deep: we mapped ego's friends (1.0 degree network), the friends of ego's friends (2.0 degree network), and all the Kudo-ties defined on this set ("2.5 degree network"). We set all the non-existing ties with distance ≥ 2 in their friendship-ties to structural zeros.
+
+---  
+
+# egodata_rsiena.RData
+
+The following script creates a list containing RSiena objects for all ego-centered networks (egodata_rsiena.RData).   
+
+---  
+
+
+
 ## References
