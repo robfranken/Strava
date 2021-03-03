@@ -23,14 +23,7 @@ options(width = 100)
 rgl::setupKnitr()
 
 
-colorize <- function(x, color) {
-  if (knitr::is_latex_output()) {
-    sprintf("\\textcolor{%s}{%s}", color, x)
-  } else if (knitr::is_html_output()) {
-    sprintf("<span style='color: %s;'>%s</span>", color, 
-      x)
-  } else x
-}
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
 
 ```
 
@@ -73,7 +66,9 @@ rm (list = ls( ))
 load("clubdata_rsiena.RData")
 
 # inspect
-str(clubdata_rsiena)
+str(clubdata_rsiena, 1)
+
+load("clubdata.RData")
 ```
 
 A list of 5 lists, with each of these lists containing data of the corresponding club.
@@ -318,13 +313,17 @@ fMoran.I <- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = "tw
 ## {.tabset .tabset-fade} 
 Make sure to check the output of the 'print01Report()' function for general data descripton (degrees, network size, etc.) and a general overview of the dataset. Output is printed in a .txt file in the directory specified.
 
+<!--- #JT see how I fixed the printing. use directory names en name the specific files ---> 
 
 ### Club 1
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 
-print01Report(df)
+print01Report(df, modelname="files/club1")
 ```
+
+![](files/club1.txt){#id .class width=100% height=200px}
+
 
 ### Club 2
 ```{r }

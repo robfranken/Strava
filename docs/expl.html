@@ -13,6 +13,7 @@
 
 <title>RSiena: Exploratory analyses</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -91,6 +92,28 @@ h6 {
 }
 </style>
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="tweaks.css" type="text/css" />
 
@@ -412,7 +435,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">RSiena: Exploratory analyses</h1>
-<h4 class="date">Last compiled on maart, 2021</h4>
+<h4 class="date">Last compiled on March, 2021</h4>
 
 </div>
 
@@ -589,69 +612,33 @@ myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;time_run&quot;, intera
 <pre class="r fold-hide"><code>options(width = 100)  # ignore (this is for the html formatting)
 print(myeff3)</code></pre>
 <pre class="test2"><code>#&gt;    name     effectName                        include fix   test  initialValue parm effect1 effect2
-#&gt; 1  kudonet  constant kudonet rate (period 1)  TRUE    FALSE FALSE    0.51338    0    0       0     
-#&gt; 2  kudonet  constant kudonet rate (period 2)  TRUE    FALSE FALSE    0.34777    0    0       0     
-#&gt; 3  kudonet  constant kudonet rate (period 3)  TRUE    FALSE FALSE    0.67898    0    0       0     
-#&gt; 4  kudonet  constant kudonet rate (period 4)  TRUE    FALSE FALSE    0.34777    0    0       0     
-#&gt; 5  kudonet  constant kudonet rate (period 5)  TRUE    FALSE FALSE    0.51338    0    0       0     
-#&gt; 6  kudonet  constant kudonet rate (period 6)  TRUE    FALSE FALSE    0.67898    0    0       0     
-#&gt; 7  kudonet  constant kudonet rate (period 7)  TRUE    FALSE FALSE    1.34140    0    0       0     
-#&gt; 8  kudonet  constant kudonet rate (period 8)  TRUE    FALSE FALSE    0.67898    0    0       0     
-#&gt; 9  kudonet  constant kudonet rate (period 9)  TRUE    FALSE FALSE    1.17580    0    0       0     
-#&gt; 10 kudonet  constant kudonet rate (period 10) TRUE    FALSE FALSE    0.34777    0    0       0     
-#&gt; 11 kudonet  constant kudonet rate (period 11) TRUE    FALSE FALSE    0.84459    0    0       0     
-#&gt; 12 kudonet  outdegree (density)               TRUE    FALSE FALSE   -0.93766    0    0       0     
-#&gt; 13 kudonet  reciprocity                       TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 14 kudonet  GWESP I -&gt; K -&gt; J (#)             TRUE    FALSE FALSE    0.00000   69    0       0     
-#&gt; 15 kudonet  indegree - popularity (sqrt)      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 16 kudonet  outdegree - activity (sqrt)       TRUE    FALSE FALSE    0.00000    1    0       0     
-#&gt; 17 kudonet  gender alter                      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 18 kudonet  gender ego                        TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 19 kudonet  same gender                       TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 20 kudonet  freq_run alter                    TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 21 kudonet  freq_run ego                      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 22 kudonet  unspecified interaction effect    TRUE    FALSE FALSE    0.00000   69   26      60     
-#&gt; 23 freq_run rate freq_run (period 1)          TRUE    FALSE FALSE    1.06410    0    0       0     
-#&gt; 24 freq_run rate freq_run (period 2)          TRUE    FALSE FALSE    0.56154    0    0       0     
-#&gt; 25 freq_run rate freq_run (period 3)          TRUE    FALSE FALSE    0.57692    0    0       0     
-#&gt; 26 freq_run rate freq_run (period 4)          TRUE    FALSE FALSE    0.64103    0    0       0     
-#&gt; 27 freq_run rate freq_run (period 5)          TRUE    FALSE FALSE    0.73077    0    0       0     
-#&gt; 28 freq_run rate freq_run (period 6)          TRUE    FALSE FALSE    0.33077    0    0       0     
-#&gt; 29 freq_run rate freq_run (period 7)          TRUE    FALSE FALSE    0.40769    0    0       0     
-#&gt; 30 freq_run rate freq_run (period 8)          TRUE    FALSE FALSE    0.76923    0    0       0     
-#&gt; 31 freq_run rate freq_run (period 9)          TRUE    FALSE FALSE    0.57692    0    0       0     
-#&gt; 32 freq_run rate freq_run (period 10)         TRUE    FALSE FALSE    0.40769    0    0       0     
-#&gt; 33 freq_run rate freq_run (period 11)         TRUE    FALSE FALSE    0.56154    0    0       0     
-#&gt; 34 freq_run freq_run linear shape             TRUE    FALSE FALSE   -0.03682    0    0       0     
-#&gt; 35 freq_run freq_run quadratic shape          TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 36 freq_run freq_run average rec. alters      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 37 freq_run freq_run reciprocated degree      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 38 freq_run freq_run: effect from gender      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 39 freq_run freq_run: effect from time_run    TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 40 freq_run freq_run: effect from freq_other  TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 41 freq_run freq_run: effect from winter      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 42 time_run rate time_run (period 1)          TRUE    FALSE FALSE    3.00000    0    0       0     
-#&gt; 43 time_run rate time_run (period 2)          TRUE    FALSE FALSE    1.58974    0    0       0     
-#&gt; 44 time_run rate time_run (period 3)          TRUE    FALSE FALSE    1.25641    0    0       0     
-#&gt; 45 time_run rate time_run (period 4)          TRUE    FALSE FALSE    1.76923    0    0       0     
-#&gt; 46 time_run rate time_run (period 5)          TRUE    FALSE FALSE    3.02564    0    0       0     
-#&gt; 47 time_run rate time_run (period 6)          TRUE    FALSE FALSE    1.91026    0    0       0     
-#&gt; 48 time_run rate time_run (period 7)          TRUE    FALSE FALSE    4.83333    0    0       0     
-#&gt; 49 time_run rate time_run (period 8)          TRUE    FALSE FALSE    1.58974    0    0       0     
-#&gt; 50 time_run rate time_run (period 9)          TRUE    FALSE FALSE    1.93590    0    0       0     
-#&gt; 51 time_run rate time_run (period 10)         TRUE    FALSE FALSE    1.73077    0    0       0     
-#&gt; 52 time_run rate time_run (period 11)         TRUE    FALSE FALSE    1.97436    0    0       0     
-#&gt; 53 time_run time_run linear shape             TRUE    FALSE FALSE   -0.02090    0    0       0     
-#&gt; 54 time_run time_run quadratic shape          TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 55 time_run time_run average rec. alters      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 56 time_run time_run reciprocated degree      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 57 time_run time_run: effect from gender      TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 58 time_run time_run: effect from freq_run    TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 59 time_run time_run: effect from time_other  TRUE    FALSE FALSE    0.00000    0    0       0     
-#&gt; 60 time_run time_run: effect from winter      TRUE    FALSE FALSE    0.00000    0    0       0</code></pre>
+#&gt; 1  kudonet  constant kudonet rate (period 1)  TRUE    FALSE FALSE    0.83352    0     0       0    
+#&gt; 2  kudonet  constant kudonet rate (period 2)  TRUE    FALSE FALSE    3.58898    0     0       0    
+#&gt; 3  kudonet  outdegree (density)               TRUE    FALSE FALSE   -0.47767    0     0       0    
+#&gt; 4  kudonet  reciprocity                       TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 5  kudonet  GWESP I -&gt; K -&gt; J (#)             TRUE    FALSE FALSE    0.00000   69     0       0    
+#&gt; 6  kudonet  indegree - popularity             TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 7  kudonet  outdegree - activity              TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 8  kudonet  gender alter                      TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 9  kudonet  gender ego                        TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 10 kudonet  same gender                       TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 11 kudonet  freq_run alter                    TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 12 kudonet  freq_run ego                      TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 13 kudonet  freq_run similarity               TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 14 kudonet  unspecified interaction effect    TRUE    FALSE FALSE    0.00000   69    14      48    
+#&gt; 15 freq_run rate freq_run (period 1)          TRUE    FALSE FALSE    2.06437    0     0       0    
+#&gt; 16 freq_run rate freq_run (period 2)          TRUE    FALSE FALSE    3.84368    0     0       0    
+#&gt; 17 freq_run freq_run linear shape             TRUE    FALSE FALSE    0.04351    0     0       0    
+#&gt; 18 freq_run freq_run quadratic shape          TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 19 freq_run freq_run indegree                 TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 20 freq_run freq_run average alter            TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 21 freq_run freq_run: effect from gender      TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 22 freq_run freq_run: effect from winter      TRUE    FALSE FALSE    0.00000    0     0       0    
+#&gt; 23 freq_run freq_run: unspecified interaction TRUE    FALSE FALSE    0.00000    0   707     851    
+#&gt; 24 freq_run freq_run: unspecified interaction TRUE    FALSE FALSE    0.00000    0   707     746</code></pre>
 </div>
 <div id="section" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>Seems allright!</p>
 <hr />
 <p><br></p>
@@ -708,7 +695,7 @@ while (TRUE) {
 <h1>Step 6: Results</h1>
 <p>We present the results for club 1 (N=30), club 2 (N=62), and club 5 (N=77). We also show results for club 3 (N=165) and club 4 (N=13).</p>
 <div id="section-1" class="section level2 tabset tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-fade"></h2>
 <!--- 
 
 Estimate the same SAOM for club 2 and 5;
@@ -721,7 +708,7 @@ Modify SAOM; extra effects where necessary.
 <h3>Club 1</h3>
 <TABLE border=1  rules=none frame = hsides>
 <TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
-					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+                    <TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
 <TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
 
 <TR><TD>constant kudonet rate (period 1)          </TD><TD align="right">   1.52</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.57)</TD><TD align="right">.</TD></TR>
@@ -799,17 +786,17 @@ Modify SAOM; extra effects where necessary.
 </TABLE>
 <TABLE border=1  rules=none frame = below>
 <TR> <TD colspan=4 align=left> &#134 p < 0.1;
-							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+                            * p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
  <TR> <TD colspan=9 align=left>
-							all convergence t ratios < 0.07.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
-							Overall maximum convergence ratio 0.25.</TD> </TR> <TR> </TR>
+                            all convergence t ratios < 0.07.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+                            Overall maximum convergence ratio 0.25.</TD> </TR> <TR> </TR>
 </TABLE>
 </div>
 <div id="club-2" class="section level3">
 <h3>Club 2</h3>
 <TABLE border=1  rules=none frame = hsides>
 <TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
-					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+                    <TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
 <TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
 
 <TR><TD>constant kudonet rate (period 1)          </TD><TD align="right">   5.46</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.54)</TD><TD align="right">.</TD></TR>
@@ -887,17 +874,17 @@ Modify SAOM; extra effects where necessary.
 </TABLE>
 <TABLE border=1  rules=none frame = below>
 <TR> <TD colspan=4 align=left> &#134 p < 0.1;
-							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+                            * p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
  <TR> <TD colspan=9 align=left>
-							all convergence t ratios < 0.08.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
-							Overall maximum convergence ratio 0.25.</TD> </TR> <TR> </TR>
+                            all convergence t ratios < 0.08.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+                            Overall maximum convergence ratio 0.25.</TD> </TR> <TR> </TR>
 </TABLE>
 </div>
 <div id="club-4" class="section level3">
 <h3>Club 4</h3>
 <TABLE border=1  rules=none frame = hsides>
 <TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
-					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+                    <TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
 <TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
 
 <TR><TD>constant kudonet rate (period 1)          </TD><TD align="right">  3.50</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(0.45)</TD><TD align="right">.</TD></TR>
@@ -975,17 +962,17 @@ Modify SAOM; extra effects where necessary.
 </TABLE>
 <TABLE border=1  rules=none frame = below>
 <TR> <TD colspan=4 align=left> &#134 p < 0.1;
-							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+                            * p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
  <TR> <TD colspan=9 align=left>
-							all convergence t ratios < 0.07.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
-							Overall maximum convergence ratio 0.23.</TD> </TR> <TR> </TR>
+                            all convergence t ratios < 0.07.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+                            Overall maximum convergence ratio 0.23.</TD> </TR> <TR> </TR>
 </TABLE>
 </div>
 <div id="club-4-1" class="section level3">
 <h3>Club 4</h3>
 <TABLE border=1  rules=none frame = hsides>
 <TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
-					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+                    <TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
 <TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
 
 <TR><TD>constant kudonet rate (period 1)          </TD><TD align="right">   0.77</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;( 0.56)</TD><TD align="right">.</TD></TR>
@@ -1058,10 +1045,10 @@ Modify SAOM; extra effects where necessary.
 </TABLE>
 <TABLE border=1  rules=none frame = below>
 <TR> <TD colspan=4 align=left> &#134 p < 0.1;
-							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+                            * p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
  <TR> <TD colspan=9 align=left>
-							all convergence t ratios < 0.1.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
-							Overall maximum convergence ratio 0.24.</TD> </TR> <TR> </TR>
+                            all convergence t ratios < 0.1.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+                            Overall maximum convergence ratio 0.24.</TD> </TR> <TR> </TR>
 </TABLE>
 <p>Note that we excluded gender effects on tie formation and behavior change, as they were non-significant and caused convergence issues (probably because of small N).</p>
 </div>
@@ -1069,7 +1056,7 @@ Modify SAOM; extra effects where necessary.
 <h3>Club 5</h3>
 <TABLE border=1  rules=none frame = hsides>
 <TR><TD>Effect</TD><TD>&nbsp;&nbsp;&nbsp;par.</TD><TD></TD>
-					<TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
+                    <TD>&nbsp;&nbsp;&nbsp; (s.e.) </TD> <TD>t stat.</TD> </TR>
 <TR> <TD colspan=4 align=left> Network Dynamics   </TD> </TR> <TR> </TR>
 
 <TR><TD>constant kudonet rate (period 1)          </TD><TD align="right">   5.75</TD><TD align="left"></TD><TD align="right">&nbsp;&nbsp;&nbsp;(0.66)</TD><TD align="right">.</TD></TR>
@@ -1147,15 +1134,15 @@ Modify SAOM; extra effects where necessary.
 </TABLE>
 <TABLE border=1  rules=none frame = below>
 <TR> <TD colspan=4 align=left> &#134 p < 0.1;
-							* p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
+                            * p < 0.05; ** p < 0.01; *** p < 0.001;  </TD> </TR> <TR> </TR> 
  <TR> <TD colspan=9 align=left>
-							all convergence t ratios < 0.08.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
-							Overall maximum convergence ratio 0.24.</TD> </TR> <TR> </TR>
+                            all convergence t ratios < 0.08.</TD> </TR> <TR> </TR> <TR> <TD colspan=9 align=left>
+                            Overall maximum convergence ratio 0.24.</TD> </TR> <TR> </TR>
 </TABLE>
 </div>
 </div>
 <div id="section-2" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>We see a marginal reciprocated degree effect on running volume (club 1) and running frequency (club 2), but not in club 5. In club 5 we find a significant and positive parameter estimate for the average reciprocated alter effect on behavior. This model specification seems to work.</p>
 <p>We find average reciprocated alter effect in club 3, for both behaviors. No influence effects were found for club 4.</p>
 <p>These results demonstrate that in the clubs under investigation (excluding club 4) influence effects are at play. In two clubs, reciprocating Kudos spurs activity, and in two clubs actors assimilate to the average behavior of their reciprocated ties (indicating support and comparison respectively). These effects are observed even after controlling for selection effects and structural network effects.</p>
@@ -1171,19 +1158,19 @@ replace the kudonet with kudonet2
 --->
 <hr />
 <div id="references" class="section level2 unnumbered">
-<h2>References</h2>
-<div id="refs" class="references">
-<div id="ref-block2015">
-<p>Block, Per. 2015. “Reciprocity, Transitivity, and the Mysterious Three-Cycle.” <em>Social Networks</em> 40 (1): 163–73. <a href="https://doi.org/10.1016/j.socnet.2014.10.005">https://doi.org/10.1016/j.socnet.2014.10.005</a>.</p>
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-block2015" class="csl-entry">
+Block, Per. 2015. <span>“Reciprocity, Transitivity, and the Mysterious Three-Cycle.”</span> <em>Social Networks</em> 40 (1): 163–73. <a href="https://doi.org/10.1016/j.socnet.2014.10.005">https://doi.org/10.1016/j.socnet.2014.10.005</a>.
 </div>
-<div id="ref-rsienamanual">
-<p>Ripley, R. M., T. A. Snijders, Z. Boda, A. Vörös, and P. &amp; Preciado. 2011. “Manual for Rsiena.” <em>University of Oxford, Department of Statistics, Nuffield College</em> - (-): –. <a href="http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf">http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf</a>.</p>
+<div id="ref-rsienamanual" class="csl-entry">
+Ripley, R. M., T. A. Snijders, Z. Boda, A. Vörös, and P. &amp; Preciado. 2011. <span>“Manual for RSIENA.”</span> <em>University of Oxford, Department of Statistics, Nuffield College</em> - (-): –. <a href="http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf">http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf</a>.
 </div>
-<div id="ref-snijderspres">
-<p>Snijders, T. A.B. 2020. “Statistical Methods for Social Network Dynamics. A: Networks.” <a href="http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf">http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf</a>.</p>
+<div id="ref-snijderspres" class="csl-entry">
+Snijders, T. A. B. 2020. <span>“Statistical Methods for Social Network Dynamics. A: Networks.”</span> <a href="http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf">http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf</a>.
 </div>
-<div id="ref-snijders2010">
-<p>Snijders, T. A.B., G. G. Van de Bunt, and C. E.G. Steglich. 2010. “Introduction to Stochastic Actor-Based Models for Network Dynamics.” <em>Social Networks</em> 32 (1): 44–60. <a href="http://www.sciencedirect.com/science/article/pii/S0378873309000069">http://www.sciencedirect.com/science/article/pii/S0378873309000069</a>.</p>
+<div id="ref-snijders2010" class="csl-entry">
+Snijders, T. A. B., G. G. Van de Bunt, and C. E. G. Steglich. 2010. <span>“Introduction to Stochastic Actor-Based Models for Network Dynamics.”</span> <em>Social Networks</em> 32 (1): 44–60. <a href="http://www.sciencedirect.com/science/article/pii/S0378873309000069">http://www.sciencedirect.com/science/article/pii/S0378873309000069</a>.
 </div>
 </div>
 </div>
