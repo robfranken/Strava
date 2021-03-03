@@ -353,7 +353,7 @@ htmltools::includeHTML("files/club 1/prelim/final.html")
 htmltools::includeHTML("files/club 2/prelim/final.html")
 ```
 
-### Club 4
+### Club 3
 ```{r, echo=F}
 htmltools::includeHTML("files/club 3/prelim/final.html")
 ```

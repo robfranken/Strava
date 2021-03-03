@@ -63,7 +63,7 @@ library(RSiena)
 library(dplyr)
 
 
-# clean the working environment and set the working directory to the folder containing the scraped clubdata.
+# clean the working environment 
 rm (list = ls( ))
 
 # club string represents the club ID

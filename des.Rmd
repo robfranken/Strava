@@ -1457,6 +1457,8 @@ We will describe the running activities of the club-members, in terms of times p
 
 ### Club 1
 ```{r class.source = 'fold-hide'}
+
+options(width = 100) # ignore (this is for the html formatting)
 df <- clubdata_rsiena[[1]] # grab club 
 df2 <- clubdata[[1]]
 
