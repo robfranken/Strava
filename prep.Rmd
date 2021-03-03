@@ -5,9 +5,10 @@ date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
 output: 
   html_document:
     css: tweaks.css
-    toc:  false
+    toc:  true
     toc_float: true
     number_sections: false
+    toc_depth: 1
     code_folding: show
     code_download: yes
 ---
