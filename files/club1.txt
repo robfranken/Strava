@@ -1,12 +1,12 @@
 							************************
-									 Siena.txt
+									 files/club1.txt
 							************************
 
-Filename is Siena.txt.
+Filename is files/club1.txt.
 
-This file contains primary output for SIENA project <<Siena>>.
+This file contains primary output for SIENA project <<files/club1>>.
 
-Date and time: 03/03/2021 15:19:12 
+Date and time: 03/03/2021 15:18:17 
 
 RSiena version 1.2-23 (12 01 2020)
 
@@ -1252,4 +1252,4 @@ Dependent actor variable 9: freq_other
 
 For this variable, the standard initial behavioral tendency parameter is   0.0155
 
-Initialisation of project <<Siena>> executed succesfully.
+Initialisation of project <<files/club1>> executed succesfully.
