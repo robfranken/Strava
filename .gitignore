@@ -49,3 +49,6 @@ docs/
 
 # translation temp files
 po/*~
+
+# data files
+/clubs/

@@ -1,15 +1,15 @@
-pre.test {
+.test {
   max-height: 300px;
   overflow-y: auto;
   overflow-x: auto;
-  margin: 0px;
+  margin: 0;
 }
 
-pre.test2 {
+.test2 {
   max-height: 300px;
   overflow-y: auto;
   overflow-x: auto;
-  margin: 0px;
+  margin: 0;
   background-color: white
 }
 
@@ -22,7 +22,4 @@ h1, .h1, h2, .h2, h3, .h3 {
   display: none;
 }
 
-# getting-started img {
-#  margin-right: 10px;
-# }
 

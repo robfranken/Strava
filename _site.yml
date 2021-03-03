@@ -1,4 +1,5 @@
 name: "Strava Journal"
+exclude: "clubs"
 navbar:
   title: "Strava Journal"
   left:
