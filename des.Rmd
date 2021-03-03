@@ -1444,6 +1444,164 @@ Coleman's Homophily indices vary across clubs. In some clubs there is slight gen
 
 # Behavior
 
+```{r}
+df <- clubdata_rsiena[[1]] # grab club 
+df2 <- clubdata[[1]]
+
+# development of the mean over time
+
+# retrieve gender
+male <- df2$male
+female <- df2$female
+other <- df2$other
+
+gender <- NA
+gender <- ifelse(male == 1, "Male", gender)
+gender <- ifelse(female == 1, "Female", gender)
+gender <- ifelse(other == 1, "Other", gender)
+gender <- ifelse(is.na(gender), "Missing", gender) # missing category
+
+
+# create wide dataframe
+  df2long <- data.frame (
+    id = 1:length(df$nodeSets$Actors),
+    gender = gender,
+    freq1 = df$depvars$freq_run[,,1],
+    freq2 = df$depvars$freq_run[,,2],
+    freq3 = df$depvars$freq_run[,,3],
+    freq4 = df$depvars$freq_run[,,4],
+    freq5 = df$depvars$freq_run[,,5],
+    freq6 = df$depvars$freq_run[,,6],
+    freq7 = df$depvars$freq_run[,,7],
+    freq8 = df$depvars$freq_run[,,8],
+    freq9 = df$depvars$freq_run[,,9],
+    freq10 = df$depvars$freq_run[,,10],
+    freq11 = df$depvars$freq_run[,,11],
+    freq12 = df$depvars$freq_run[,,12],
+    time1 = df$depvars$time_run[,,1],
+    time2 = df$depvars$time_run[,,2],
+    time3 = df$depvars$time_run[,,3],
+    time4 = df$depvars$time_run[,,4],
+    time5 = df$depvars$time_run[,,5],
+    time6 = df$depvars$time_run[,,6],
+    time7 = df$depvars$time_run[,,7],
+    time8 = df$depvars$time_run[,,8],
+    time9 = df$depvars$time_run[,,9],
+    time10 = df$depvars$time_run[,,10],
+    time11 = df$depvars$time_run[,,11],
+    time12 = df$depvars$time_run[,,12])
+
+# reshape to long dataframe
+df_long <- reshape(df2long,
+                     direction = "long",
+                     varying = c(list(names(df2long)[3:14]),
+                                 list(names(df2long)[15:26])),
+                     v.names = c("run_freq", "run_time"),
+                     idvar = "id",
+                     timevar = "time",
+                     times = 1:12)
+
+# Reorder data based on user id
+df_long  <- df_long [(order(df_long$id)), ]
+
+# create data to plot, seperately for men and women
+ data_all <- df_long %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(run_freq, na.rm=T),
+              mean_time = mean(run_time, na.rm=T),
+              se_freq = 1.96 * (sd(run_freq, na.rm=T)/sqrt(sum(!is.na(run_freq)))),
+              se_time = 1.96 * (sd(run_time, na.rm=T)/sqrt(sum(!is.na(run_time)))),
+              sd_freq = sd(run_freq, na.rm=T),
+              sd_time = sd(run_time, na.rm=T),
+              var_freq = var(run_freq, na.rm = T),
+              var_time = var(run_time, na.rm = T),
+              kurtosis_freq = kurtosis(run_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(run_time, na.rm = T) - 3,
+              class = "Full Sample"
+    )
+ 
+ data_men <- df_long[which(df_long$gender == "Male"), ]
+  data_men <- data_men %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(run_freq, na.rm=T),
+              mean_time = mean(run_time, na.rm=T),
+              se_freq = 1.96 * (sd(run_freq, na.rm=T)/sqrt(sum(!is.na(run_freq)))),
+              se_time = 1.96 * (sd(run_time, na.rm=T)/sqrt(sum(!is.na(run_time)))),
+              sd_freq = sd(run_freq, na.rm=T),
+              sd_time = sd(run_time, na.rm=T),
+              var_freq = var(run_freq, na.rm = T),
+              var_time = var(run_time, na.rm = T),
+              kurtosis_freq = kurtosis(run_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(run_time, na.rm = T) - 3,
+              class = "Men"
+    )
+  
+  data_women <- df_long[which(df_long$gender == "Female"), ]
+  data_women <- data_women %>%
+    group_by(time) %>%
+    summarise(mean_freq = mean(run_freq, na.rm=T),
+              mean_time = mean(run_time, na.rm=T),
+              se_freq = 1.96 * (sd(run_freq, na.rm=T)/sqrt(sum(!is.na(run_freq)))),
+              se_time = 1.96 * (sd(run_time, na.rm=T)/sqrt(sum(!is.na(run_time)))),
+              sd_freq = sd(run_freq, na.rm=T),
+              sd_time = sd(run_time, na.rm=T),
+              var_freq = var(run_freq, na.rm = T),
+              var_time = var(run_time, na.rm = T),
+              kurtosis_freq = kurtosis(run_freq, na.rm = T) - 3,
+              kurtosis_time = kurtosis(run_time, na.rm = T) - 3,
+              class = "Women"
+    )
+
+# stack data 
+plot.data <- rbind(data_all, data_men, data_women)
+rm(data_all, data_men, data_women)
+
+# add months
+plot.data$month <- rep(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 3)
+
+# plot
+plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour = class)) +
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_freq, ymin = mean_freq - se_freq, ymax = mean_freq + se_freq,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Running frequency per week", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,5) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
+  
+  plot_mean_time <- ggplot(plot.data, aes(month, mean_time, group = class, colour = class)) +
+    geom_point() +
+    geom_smooth(method = "loess", size=2) +
+    geom_errorbar(aes(time, mean_time, ymin = mean_time - se_time, ymax = mean_time + se_time,
+                      width = 0.4)) +
+    theme_bw(base_family="serif", base_size=16) +
+    scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
+    labs(y = "Running volume per month", x="Month") +
+    scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+    ylim(0,7) +
+    theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
+          legend.position = "right", legend.title=element_blank()
+    )
+
+### Output ###
+
+# histogram (assuming independent observations)
+#hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+
+#hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+
+# development mean over time
+plot_mean_freq
+#plot_mean_time
+
+```
+
+
 ## 1. Running {.tabset .tabset-fade}
 
 We will describe the running activities of the club-members, in terms of times per week (0 - >7) and minutes per month (8 equally populated categories). First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
