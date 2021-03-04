@@ -215,7 +215,7 @@ for (i in (1: length(club_str))) {
 
 
   # save 
-  #save(club, file=paste("clubs/", "club", i, ".RData", sep = ""))
+  save(club, file=paste("clubs/", "club", i, ".RData", sep = ""))
 
 }
 
@@ -228,26 +228,26 @@ rm (list = ls( ))
 
 # load in the separate club-objects
 {
-  load("clubs/clubid1/club1.RData")
+  load("clubs/club1.RData")
   club1 <- club
   
-  club2 <- load("clubs/clubid2/club2.RData")
+  club2 <- load("clubs/club2.RData")
   club2 <- club
   
-  club3 <- load("clubs/clubid3/club3.RData")
+  club3 <- load("clubs/club3.RData")
   club3 <- club
   
-  club4 <- load("clubs/clubid4/club4.RData")
+  club4 <- load("clubs/club4.RData")
   club4 <- club
   
-  club5 <- load("clubs/clubid5/club5.RData")
+  club5 <- load("clubs/club5.RData")
   club5 <- club
 }
 # and make a list containing all the clubdata
 clubdata <- list(club1, club2, club3, club4, club5)
 
 # save the output
-save(clubdata, file="clubdata.RData")
+save(clubdata, file="clubs/clubdata.RData")
 
 
 ``` 
@@ -263,11 +263,10 @@ The following script creates a list containing R-SIENA objects for all clubs (cl
 library(RSiena)
 
 # clean the working environment 
-# set the working directory to the folder containing the clubdata (clubdata.RData)
 rm (list = ls( ))
 
 # load the clubdata
-load("clubdata.RData")
+load("clubs/clubdata.RData")
 str(clubdata) # inspect structure
 # clubdata is a list of 5 lists, 
 # with each of these lists containing data of the corresponding club.
@@ -279,10 +278,11 @@ str(clubdata) # inspect structure
 
 ####################################################
 
-club <- clubdata[[1]] #### RESTART FROM HERE #####
 
+clubdata_rsiena <- list()
 
-{ 
+for (i in 1:5) { 
+  club <- clubdata[[1]]
   # specify the roles of variables
   names(club)
   
@@ -317,15 +317,8 @@ club <- clubdata[[1]] #### RESTART FROM HERE #####
   print01Report(mydata)
 
   # this finishes the data specification
+  clubdata_rsiena[[i]] <- mydata 
 } 
-
-# save the RSiena object and restart the process from line 33.
-rsienadataobjectclub_x <- mydata # adjust number to match the corresponding club number
-
-####################################################
-
-# now make a list containing all the RSiena data objects
-clubdata_rsiena <- list(rsienadataobjectclub_1, rsienadataobjectclub_2, rsienadataobjectclub_3, rsienadataobjectclub_4, rsienadataobjectclub_5)
 
 # add netsize
 {
@@ -337,9 +330,8 @@ clubdata_rsiena <- list(rsienadataobjectclub_1, rsienadataobjectclub_2, rsienada
 }
 
 # save the output
-save(clubdata_rsiena, file="clubdata_rsiena.RData")
+save(clubdata_rsiena, file="clubs/clubdata_rsiena.RData")
 
-# end.
 ```
 
 ---  
