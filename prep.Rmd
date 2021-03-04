@@ -314,7 +314,7 @@ for (i in 1:5) {
   #mydata2 <- sienaDataCreate(kudonet, kudonet2, kudonet3, friendship, time_run, freq_run, 
   #                           time_other, freq_other, gender, winter, exp) #ordered network variable.
 
-  print01Report(mydata)
+  #print01Report(mydata)
 
   # this finishes the data specification
   clubdata_rsiena[[i]] <- mydata 
