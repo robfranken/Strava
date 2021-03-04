@@ -12,3 +12,7 @@ dplyr
 stringr
 forcats
 moments
+kableExtra
+network
+statnet.common
+sna
