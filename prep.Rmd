@@ -256,7 +256,7 @@ save(clubdata, file="clubdata.RData")
 
 # clubdata_rsiena.RData
 
-The following script creates a list containing RSiena objects for all clubs (clubdata_rsiena.RData).
+The following script creates a list containing R-SIENA objects for all clubs (clubdata_rsiena.RData).
 
 ```{r eval=FALSE}
 # install RSiena
@@ -343,5 +343,19 @@ save(clubdata_rsiena, file="clubdata_rsiena.RData")
 ```
 
 ---  
+
+
+# egodata.RData
+ 
+In the following script we will do the same for our ego-centered data (egodata.RData). Note that we set non-existing (Kudo) ties between actors *i* and *j* with a distance >2 in their friendship ties to *structural zeros*. 
+
+
+---  
+
+# egodata_rsiena.RData
+
+And create a list containing R-SIENA objects for all ego-centered networks (egodata_rsiena.RData).
+
+---
 
 ## References
