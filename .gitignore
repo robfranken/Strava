@@ -51,7 +51,7 @@ vignettes/*.pdf
 po/*~
 
 # data files
-#/clubs/
+/clubs/
 
 # test
 docs/test/
