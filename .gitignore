@@ -45,7 +45,8 @@ vignettes/*.pdf
 .Renviron
 
 # pkgdown site
-docs/
+#docs/ 
+#docs willen we wel synchen ivm 
 
 # translation temp files
 po/*~
