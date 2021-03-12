@@ -42,7 +42,6 @@ In the following scripts a list containing the (anonymized) data of all clubs is
 
 * Our primary network variable is the Kudo-network. We argue that Kudos are an indication of the 'strength' of friendships. We construct and ordered Kudo-network variable, i.e., a network in which awarding/receiving **more than 1** Kudo constitutes the presence of a (directed) tie, is a sub-network of the network in which awarding/receiving **at least 1 Kudo** counts as a tie. Thus, the Kudo-network with numeric tie values (i.e., number of Kudos awarded/received) is represented as a multivariate network, in which it is impossible that a tie exists in the second-order but not in the first-order network, as suggested by @rsienamanual, section 5.6.
 
-
 * For the behavioral data we include information on the *frequency* (i.e., in times per week) and *volume* (i.e., in minutes per month) of running activities. We included activity (frequency and volume) in other sports (e.g., cycling and swimming) as a time-varying covariate. We categorized these continuous behavioral variables following recommendations in the literature: chapter 6 of @niezink and page 27 of @rsienamanual.
 
   + For *frequency*, I chose 9 categories, ranging from 0-7 times per week, and a 9th category, since in some clubs a substantial proportion of club members ran more frequently than once a day.
@@ -339,7 +338,216 @@ save(clubdata_rsiena, file="clubs/clubdata_rsiena.RData")
 
 # egodata.RData
  
-In the following script we will do the same for our ego-centered data (egodata.RData). Note that we set non-existing (Kudo) ties between actors *i* and *j* with a distance >2 in their friendship ties to *structural zeros*. 
+In the following script we will do the same for our ego-centered data (egodata.RData). Note that we set non-existing (Kudo) ties between actors *i* and *j* with a distance >2 in their friendship ties to *structural zeros* (**NOT YET**). 
+
+```{r egos, eval=FALSE}
+#clean working directory
+rm (list = ls( )) 
+
+n_egos <- 11 #number of egonets to be included
+user_str <- paste(toString("user"), c(1:n_egos), sep = "")
+
+# the following script reads the data of the egos from the folder for each ego, stores them in a list, and saves it in an object in the last function call of this script. 
+  for (i in (1: length(user_str))) {
+    user_id <- user_str[i] 
+    
+    # read the data from the egonet  
+    user_data <- read.csv(paste(user_str[i], "/", user_str[i], "egoData_extended.csv", sep = ""), row.names = NULL, sep=",")
+    # save netsize
+    size <- length(user_data[, 'gender'])
+    # number of waves
+    n_waves <- 12
+    # separating male/female/other
+    male <- ifelse(user_data[,'gender'] == "M", 1, 0)
+    female <- ifelse(user_data[,'gender'] == "F", 1, 0)
+    other <- ifelse(user_data[,'gender'] == "O", 1, 0)
+    
+    # in case we want to condition on the first activity recorded by users:
+    st_yr <- user_data[,'start_date_year']
+    novice <-  ifelse(user_data[,'start_date_year'] <= 2011, 9, st_yr)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2012, 8, novice)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2013, 7, novice)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2014, 6, novice)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2015, 5, novice)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2016, 4, novice)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2017, 3, novice)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2018, 2, novice)
+    novice <-  ifelse(user_data[,'start_date_year'] == 2019, 1, novice)
+    
+    # let's load the friendship network
+    friend_data <- read.csv(paste(user_id, "/", user_id,"_extended.csv", sep = ""), row.names = NULL, sep= ",")
+    # remove the first column (represents index made in the csv)
+    friend_data <- friend_data[, 2:ncol(friend_data)]
+    
+    # and anonymize the user id, with an id-maker function
+    idmaker <- function(x)
+    {
+      max.val = x*100000
+      count <- nchar(as.character(max.val))         
+      size <- paste("%0",count,"d",sep="")           
+      lets <- toupper(sample(letters,x, replace=T))   
+      nums <- sprintf(size,sample(1:max.val)[1:x])    
+      ids <- paste(lets,nums,sep="")                  
+      return(ids)
+    }
+    fakeid <- idmaker(nrow(friend_data)) 
+    colnames(friend_data) <- fakeid 
+ 
+    # the following line makes a friendship network of reciprocal ties.
+    friend_recip <- matrix(NA, nrow = nrow(friend_data), ncol = ncol(friend_data))
+    for(row in 1:nrow(friend_data)) {
+      for(col in 1:ncol(friend_data)) {
+        value <- friend_data[row,col] * friend_data[col,row]
+        friend_recip[row,col] <- value
+        friend_recip[col,row] <- value
+      }
+    }
+
+    # let's load the kudo network
+    path <- paste(user_id, "/", user_id, "kudos", sep="") # create path
+    {
+      kudo_w1 <- as.matrix(read.csv(paste(path, "1-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w1 <- kudo_w1[,2:ncol(kudo_w1)]
+      kudo_w2 <- as.matrix(read.csv(paste(path, "2-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w2 <- kudo_w2[,2:ncol(kudo_w2)]
+      kudo_w3 <- as.matrix(read.csv(paste(path, "3-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w3 <- kudo_w3[,2:ncol(kudo_w3)]
+      kudo_w4 <- as.matrix(read.csv(paste(path, "4-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w4 <- kudo_w4[,2:ncol(kudo_w4)]
+      kudo_w5 <- as.matrix(read.csv(paste(path, "5-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w5 <- kudo_w5[,2:ncol(kudo_w5)]
+      kudo_w6 <- as.matrix(read.csv(paste(path, "6-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w6 <- kudo_w6[,2:ncol(kudo_w6)]
+      kudo_w7 <- as.matrix(read.csv(paste(path, "7-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w7 <- kudo_w7[,2:ncol(kudo_w7)]
+      kudo_w8 <- as.matrix(read.csv(paste(path, "8-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w8 <- kudo_w8[,2:ncol(kudo_w8)]
+      kudo_w9 <- as.matrix(read.csv(paste(path, "9-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w9 <- kudo_w9[,2:ncol(kudo_w9)]
+      kudo_w10 <- as.matrix(read.csv(paste(path, "10-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w10 <- kudo_w10[,2:ncol(kudo_w10)]
+      kudo_w11 <- as.matrix(read.csv(paste(path, "11-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w11 <- kudo_w11[,2:ncol(kudo_w11)]
+      kudo_w12 <- as.matrix(read.csv(paste(path, "12-2019.csv", sep=""), row.names = NULL, sep= ","))
+      kudo_w12 <- kudo_w12[,2:ncol(kudo_w12)]
+    }
+    kudos <- array( c(kudo_w1,kudo_w2,kudo_w3,kudo_w4,kudo_w5,kudo_w6,kudo_w7,kudo_w8,kudo_w9,kudo_w10,kudo_w11,kudo_w12),
+                    dim = c( size, size, n_waves)) #Kudo matrix
+    
+    # we operationalize kudo-relationships in different ways: in an ordered fashion
+    # rsiena will set constraints between the networks
+    kudo_data <- ifelse(kudos > 0, 1, 0) #if at least 1 Kudo is send, tie exists
+    kudo_data2 <- ifelse(kudos > 1, 1, 0) #at least 2 Kudos
+    kudo_data3 <- ifelse(kudos > 2, 1, 0) #at least 3 Kudos
+
+    # running time
+    time_run <- array( c( user_data[, 'time_run_1.2019'], user_data[, 'time_run_2.2019'], user_data[, 'time_run_3.2019'], user_data[, 'time_run_4.2019'], user_data[, 'time_run_5.2019'], user_data[, 'time_run_6.2019'], user_data[, 'time_run_7.2019'], user_data[, 'time_run_8.2019'], user_data[, 'time_run_9.2019'], user_data[, 'time_run_10.2019'], user_data[, 'time_run_11.2019'], user_data[, 'time_run_12.2019']),
+                       dim = c( size, 1, n_waves ) )
+        # we cluster the time into 8 categories (from 0 to 8, with 0 being 0 minutes)
+    # we will equally populate the categories 1-8 (cf. Flashman 2012)
+    df <- data.frame(matrix(time_run))
+    df$matrix.time_run. <- ifelse(df$matrix.time_run. == 0, NA, df$matrix.time_run.) #turn 0's to NA
+    df <- mutate(df, cat = ntile(df$matrix.time_run., 8))
+    df$cat <- ifelse(is.na(df$cat), 0, df$cat)
+    time_run_temp <- array(df$cat, dim = c(size, 1, n_waves))
+ 
+    # running frequency
+    freq_run <- array( c( user_data[, 'X.run_1.2019'], user_data[, 'X.run_2.2019'], user_data[, 'X.run_3.2019'], user_data[, 'X.run_4.2019'], user_data[, 'X.run_5.2019'], user_data[, 'X.run_6.2019'], user_data[, 'X.run_7.2019'], user_data[, 'X.run_8.2019'], user_data[, 'X.run_9.2019'], user_data[, 'X.run_10.2019'], user_data[, 'X.run_11.2019'], user_data[, 'X.run_12.2019']),
+                       dim = c( size, 1, n_waves ) )
+    frequencies <- ceiling(freq_run/4)
+    freq_run_temp <- ifelse(frequencies > 7, 8, frequencies) 
+
+    # now that we have running data, let's load other activity data (e.g., cycling, swimming)
+    # time
+    time_ride <- array( c( user_data[, 'time_ride_1.2019'], user_data[, 'time_ride_2.2019'], user_data[, 'time_ride_3.2019'], user_data[, 'time_ride_4.2019'], user_data[, 'time_ride_5.2019'], user_data[, 'time_ride_6.2019'], user_data[, 'time_ride_7.2019'], user_data[, 'time_ride_8.2019'], user_data[, 'time_ride_9.2019'], user_data[, 'time_ride_10.2019'], user_data[, 'time_ride_11.2019'], user_data[, 'time_ride_12.2019']),
+                        dim = c( size, 1, n_waves ) )
+    time_other <- array( c( user_data[, 'time_other_1.2019'], user_data[, 'time_other_2.2019'], user_data[, 'time_other_3.2019'], user_data[, 'time_other_4.2019'], user_data[, 'time_other_5.2019'], user_data[, 'time_other_6.2019'], user_data[, 'time_other_7.2019'], user_data[, 'time_other_8.2019'], user_data[, 'time_other_9.2019'], user_data[, 'time_other_10.2019'], user_data[, 'time_other_11.2019'], user_data[, 'time_other_12.2019']),
+                         dim = c( size, 1, n_waves ) )
+    
+    time_other <- time_ride + time_other
+    
+    df <- data.frame(matrix(time_other))
+    df$matrix.time_other. <- ifelse(df$matrix.time_other. == 0, NA, df$matrix.time_other.) #turn 0's to NA
+    df <- mutate(df, cat = ntile(df$matrix.time_other., 8))
+    df$cat <- ifelse(is.na(df$cat), 0, df$cat)
+    time_other_temp <- array(df$cat, dim = c(size, 1, n_waves))
+    
+    # frequency
+    freq_ride <- array( c( user_data[, 'X.ride_1.2019'], user_data[, 'X.ride_2.2019'], user_data[, 'X.ride_3.2019'], user_data[, 'X.ride_4.2019'], user_data[, 'X.ride_5.2019'], user_data[, 'X.ride_6.2019'], user_data[, 'X.ride_7.2019'], user_data[, 'X.ride_8.2019'], user_data[, 'X.ride_9.2019'], user_data[, 'X.ride_10.2019'], user_data[, 'X.ride_11.2019'], user_data[, 'X.ride_12.2019']),
+                        dim = c( size, 1, n_waves ) )
+    freq_other <- array( c( user_data[, 'X.other_1.2019'], user_data[, 'X.other_2.2019'], user_data[, 'X.other_3.2019'], user_data[, 'X.other_4.2019'], user_data[, 'X.other_5.2019'], user_data[, 'X.other_6.2019'], user_data[, 'X.other_7.2019'], user_data[, 'X.other_8.2019'], user_data[, 'X.other_9.2019'], user_data[, 'X.other_10.2019'], user_data[, 'X.other_11.2019'], user_data[, 'X.other_12.2019']),
+                         dim = c( size, 1, n_waves ) )
+    
+    freq_other <- freq_ride + freq_other
+    frequencies <- ceiling(freq_other/4)
+    freq_other_temp <- ifelse(frequencies > 7, 8, frequencies)
+    
+    
+    # specify months of winter in case we want to use it as a varying covariate
+    # starts with december
+    winter <- rep(c(1,1,1,0,0,0,0,0,0,0,0,0), size)
+    winter <- matrix(winter,nrow = size,ncol = n_waves, byrow = TRUE)
+    
+    # create list containing all egonet data
+    ego <- list("friendship" = friend_data, 
+                 "kudo" = kudo_data, "kudo2" = kudo_data2, "kudo3" = kudo_data3,
+                 "freq_run" = freq_run_temp, "time_run" = time_run_temp, "freq_other" = freq_other_temp, "time_other" = time_other_temp, "winter" = winter, "male" = male, "female" = female, "other" = other, "netsize" = size, "exp" = novice)
+    
+    # save 
+    save(ego, file=paste("egonets/", "ego", i, ".RData", sep = ""))
+    
+   
+  }
+
+####################################################
+
+# Now that we have saved data of all egonets, let's combine them in one list
+
+# load in the separate egonet objects 
+{
+  load("egonets/ego1.RData")
+  ego1 <- ego
+  
+  load("egonets/ego2.RData")
+  ego2 <- ego
+  
+  load("egonets/ego3.RData")
+  ego3 <- ego
+  
+  load("egonets/ego4.RData")
+  ego4 <- ego
+  
+  load("egonets/ego5.RData")
+  ego5 <- ego
+  
+  load("egonets/ego6.RData")
+  ego6 <- ego
+  
+  load("egonets/ego7.RData")
+  ego7 <- ego
+  
+  load("egonets/ego8.RData")
+  ego8 <- ego
+  
+  load("egonets/ego9.RData")
+  ego9 <- ego
+  
+  load("egonets/ego10.RData")
+  ego10 <- ego
+  
+  load("egonets/ego11.RData")
+  ego11 <- ego
+
+}
+# and make a list containing all the egodata
+egodata <- list(ego1, ego2, ego3, ego4, ego5, ego6, ego7, ego8, ego9, ego10, ego11)
+
+# save the output
+save(egodata, file="egonets/egodata.RData")
+
+
+``` 
+
 
 
 ---  

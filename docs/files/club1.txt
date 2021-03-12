@@ -6,7 +6,7 @@ Filename is files/club1.txt.
 
 This file contains primary output for SIENA project <<files/club1>>.
 
-Date and time: 03/03/2021 15:37:44 
+Date and time: 08/03/2021 09:28:14 
 
 RSiena version 1.2-23 (12 01 2020)
 
