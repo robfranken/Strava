@@ -1,0 +1,881 @@
+							************************
+									 files/ego10_1.5.txt
+							************************
+
+Filename is files/ego10_1.5.txt.
+
+This file contains primary output for SIENA project <<files/ego10_1.5>>.
+
+Date and time: 17/03/2021 15:04:54 
+
+RSiena version 1.2-23 (12 01 2020)
+
+
+@1
+Data input.
+===========
+
+12 observations,
+14 actors,
+3 dependent network variables,
+0 dependent bipartite variables,
+2 dependent discrete behavior variables,
+0 dependent continuous behavior variables,
+1 constant actor covariates,
+3 exogenous changing actor covariates,
+1 constant dyadic covariates,
+0 exogenous changing dyadic covariates,
+0 no files with times of composition change.
+
+
+@2
+Reading network variables.
+--------------------------
+
+Name of this network variable: kudonet.
+oneMode network.
+For observation moment 1, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 3  1  1  0  0  0  1  0  0  0  0  1  0  0
+in-degrees
+ 3  1  0  0  1  1  0  0  0  0  0  1  0  0
+
+No missing data for observation 1.
+
+For observation moment 2, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 6  1  3  0  0  2  3  0  0  2  0  1  0  0
+in-degrees
+ 5  1  0  0  2  3  3  0  0  2  0  1  1  0
+
+No missing data for observation 2.
+
+For observation moment 3, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 5  0  3  0  1  2  1  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  2  3  3  0  0  2  0  1  0  1
+
+No missing data for observation 3.
+
+For observation moment 4, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 7  1  3  0  3  3  2  0  1  1  1  1  0  1
+in-degrees
+ 8  1  0  0  4  3  3  0  0  2  1  1  0  1
+
+No missing data for observation 4.
+
+For observation moment 5, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 7  1  4  0  3  3  2  0  1  0  3  1  0  1
+in-degrees
+ 8  1  0  0  4  4  3  0  0  2  2  1  0  1
+
+No missing data for observation 5.
+
+For observation moment 6, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  4  0  3  2  3  0  0  0  4  1  0  1
+in-degrees
+ 7  1  1  0  4  4  2  0  0  3  3  1  0  1
+
+No missing data for observation 6.
+
+For observation moment 7, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  4  0  3  3  2  0  0  0  6  1  0  1
+in-degrees
+ 6  1  2  0  4  3  3  0  0  3  4  2  0  1
+
+No missing data for observation 7.
+
+For observation moment 8, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  4  0  3  1  2  0  0  2  3  0  0  1
+in-degrees
+ 7  1  2  0  3  2  2  0  0  2  4  1  0  1
+
+No missing data for observation 8.
+
+For observation moment 9, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 9  1  4  0  4  3  5  0  1  0  3  1  0  1
+in-degrees
+ 8  1  4  0  3  4  3  0  1  2  4  1  0  1
+
+No missing data for observation 9.
+
+For observation moment 10, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  5  0  1  4  2  0  1  1  3  0  0  1
+in-degrees
+ 7  1  4  0  4  3  2  0  0  2  2  1  0  1
+
+No missing data for observation 10.
+
+For observation moment 11, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  0  5  0  2  3  3  0  0  0  2  0  0  0
+in-degrees
+ 0  0  4  1  3  3  2  0  0  1  1  0  0  0
+
+No missing data for observation 11.
+
+For observation moment 12, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 12.
+
+
+Name of this network variable: kudonet2.
+oneMode network.
+For observation moment 1, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  1  1  0  0  0  0  0  0  0  0  1  0  0
+in-degrees
+ 2  0  0  0  1  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 1.
+
+For observation moment 2, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 5  1  2  0  0  1  2  0  0  0  0  1  0  0
+in-degrees
+ 4  1  0  0  1  2  1  0  0  2  0  1  0  0
+
+No missing data for observation 2.
+
+For observation moment 3, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 5  0  2  0  1  2  1  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  2  3  2  0  0  2  0  1  0  1
+
+No missing data for observation 3.
+
+For observation moment 4, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 6  1  3  0  1  2  1  0  0  1  1  0  0  1
+in-degrees
+ 6  1  0  0  3  2  2  0  0  1  0  1  0  1
+
+No missing data for observation 4.
+
+For observation moment 5, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 7  1  3  0  3  2  0  0  1  0  2  1  0  1
+in-degrees
+ 7  1  0  0  4  3  1  0  0  1  2  1  0  1
+
+No missing data for observation 5.
+
+For observation moment 6, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  4  0  1  2  1  0  0  0  3  1  0  1
+in-degrees
+ 7  1  0  0  4  2  2  0  0  2  2  1  0  1
+
+No missing data for observation 6.
+
+For observation moment 7, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  3  0  1  2  1  0  0  0  4  1  0  1
+in-degrees
+ 6  1  1  0  4  2  1  0  0  3  2  1  0  1
+
+No missing data for observation 7.
+
+For observation moment 8, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  4  0  2  0  1  0  0  1  3  0  0  1
+in-degrees
+ 5  1  2  0  3  2  2  0  0  2  2  1  0  1
+
+No missing data for observation 8.
+
+For observation moment 9, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 9  1  4  0  3  0  4  0  0  0  3  1  0  1
+in-degrees
+ 5  1  2  0  3  4  2  0  1  2  4  1  0  1
+
+No missing data for observation 9.
+
+For observation moment 10, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 4  1  4  0  0  2  1  0  0  0  3  0  0  1
+in-degrees
+ 3  1  2  0  4  2  1  0  0  2  1  0  0  0
+
+No missing data for observation 10.
+
+For observation moment 11, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  0  4  0  1  3  3  0  0  0  2  0  0  0
+in-degrees
+ 0  0  3  1  3  3  2  0  0  1  0  0  0  0
+
+No missing data for observation 11.
+
+For observation moment 12, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 12.
+
+
+Name of this network variable: kudonet3.
+oneMode network.
+For observation moment 1, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  1  0  0  0  0  0  0  0  0  0  1  0  0
+in-degrees
+ 2  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 1.
+
+For observation moment 2, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 5  1  2  0  0  1  2  0  0  0  0  1  0  0
+in-degrees
+ 4  1  0  0  1  2  1  0  0  2  0  1  0  0
+
+No missing data for observation 2.
+
+For observation moment 3, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 5  0  2  0  1  0  1  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  1  3  1  0  0  2  0  1  0  1
+
+No missing data for observation 3.
+
+For observation moment 4, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 6  1  2  0  1  2  0  0  0  1  1  0  0  1
+in-degrees
+ 5  1  0  0  3  2  1  0  0  1  0  1  0  1
+
+No missing data for observation 4.
+
+For observation moment 5, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 6  1  3  0  3  2  0  0  0  0  2  1  0  1
+in-degrees
+ 6  1  0  0  4  3  0  0  0  1  2  1  0  1
+
+No missing data for observation 5.
+
+For observation moment 6, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  4  0  1  1  0  0  0  0  2  0  0  1
+in-degrees
+ 5  1  0  0  3  2  2  0  0  1  2  1  0  1
+
+No missing data for observation 6.
+
+For observation moment 7, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 8  1  3  0  1  2  1  0  0  0  3  1  0  1
+in-degrees
+ 6  1  1  0  4  2  1  0  0  2  2  1  0  1
+
+No missing data for observation 7.
+
+For observation moment 8, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 7  1  4  0  2  0  1  0  0  1  3  0  0  1
+in-degrees
+ 5  1  2  0  3  1  2  0  0  2  2  1  0  1
+
+No missing data for observation 8.
+
+For observation moment 9, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 9  1  4  0  0  0  1  0  0  0  3  0  0  1
+in-degrees
+ 3  1  1  0  3  2  2  0  1  2  2  1  0  1
+
+No missing data for observation 9.
+
+For observation moment 10, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 2  1  3  0  0  1  0  0  0  0  1  0  0  1
+in-degrees
+ 2  1  2  0  1  1  0  0  0  1  1  0  0  0
+
+No missing data for observation 10.
+
+For observation moment 11, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  0  4  0  0  2  1  0  0  0  0  0  0  0
+in-degrees
+ 0  0  1  1  1  1  2  0  0  1  0  0  0  0
+
+No missing data for observation 11.
+
+For observation moment 12, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 12.
+
+
+
+
+
+
+@2
+Reading dependent actor variables.
+----------------------------------
+
+1st dependent actor variable named time_run.
+Maximum and minimum rounded values are 0 and 8.
+
+2nd dependent actor variable named freq_run.
+Maximum and minimum rounded values are 0 and 6.
+
+
+A total of 2 dependent actor variables.
+
+Number of missing cases per observation:
+ observation         1         2         3         4         5         6         7         8         9        10        11        12		overall
+time_run             0         0         0         0         0         0         0         0         0         0         0         0         0	  ( 0.0 %)
+freq_run             0         0         0         0         0         0         0         0         0         0         0         0         0	  ( 0.0 %)
+
+Means per observation:
+ observation         1         2         3         4         5         6         7         8         9        10        11        12		overall
+time_run           3.071     3.286     2.643     3.000     2.929     2.786     2.643     3.286     3.643     2.714     2.357     0.000     2.696
+freq_run           1.571     1.857     1.357     1.643     1.929     1.786     1.714     1.929     2.000     1.714     1.143     0.000     1.554
+
+@2
+Reading constant actor covariates.
+----------------------------------
+
+1 variable, named:
+gender          
+
+A total of 1 non-changing individual covariate.
+
+Number of missing cases:
+gender          0 	( 0.0 %)
+
+Information about covariates:
+               minimum  maximum	  mean  centered 
+gender          1.0     2.0      1.500    Y 
+The mean value is subtracted from the centered covariate.
+
+
+@2
+Reading exogenous changing actor covariates.
+--------------------------------------------
+
+3 variables, named:
+time_other      
+freq_other      
+winter          
+
+A total of 3 exogenous changing actor covariates.
+
+Number of missing cases per period:
+ period                    1       2       3       4       5       6       7       8       9      10      11     overall
+time_other                 0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
+freq_other                 0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
+winter                     0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
+
+Information about changing covariates:
+
+               minimum  maximum	  mean  centered 
+time_other                                 Y 
+	period   1     0.0     7.0      1.500 
+	period   2     0.0     7.0      1.357 
+	period   3     0.0     7.0      1.000 
+	period   4     0.0     8.0      1.714 
+	period   5     0.0     7.0      1.571 
+	period   6     0.0     8.0      1.929 
+	period   7     0.0     8.0      1.643 
+	period   8     0.0     8.0      1.929 
+	period   9     0.0     8.0      1.786 
+	period  10     0.0     8.0      2.286 
+	period  11     0.0     8.0      1.357 
+Overall                            1.643 
+
+freq_other                                 Y 
+	period   1     0.0     8.0      0.929 
+	period   2     0.0     8.0      1.000 
+	period   3     0.0     8.0      0.714 
+	period   4     0.0     8.0      1.000 
+	period   5     0.0     8.0      1.000 
+	period   6     0.0     8.0      1.214 
+	period   7     0.0     8.0      0.929 
+	period   8     0.0     8.0      1.214 
+	period   9     0.0     8.0      1.000 
+	period  10     0.0     8.0      1.143 
+	period  11     0.0     8.0      0.786 
+Overall                            0.994 
+
+winter                                     Y 
+	period   1     1.0     1.0      1.000 
+	period   2     1.0     1.0      1.000 
+	period   3     1.0     1.0      1.000 
+	period   4     0.0     0.0      0.000 
+	period   5     0.0     0.0      0.000 
+	period   6     0.0     0.0      0.000 
+	period   7     0.0     0.0      0.000 
+	period   8     0.0     0.0      0.000 
+	period   9     0.0     0.0      0.000 
+	period  10     0.0     0.0      0.000 
+	period  11     0.0     0.0      0.000 
+Overall                            0.273 
+
+The mean values are subtracted from the covariates.
+
+
+@2
+Reading constant dyadic covariates.
+-----------------------------------
+
+Dyadic covariate named friendship.
+
+A total of 1 dyadic individual covariate.
+
+Number of tie variables with missing data:
+friendship                     0   ( 0.0 %)
+
+Information about dyadic covariates:
+                                  minimum  maximum	  mean  centered 
+friendship                          0.0     1.0      0.242    Y 
+
+The mean value is subtracted from the centered covariate.
+
+
+
+Network kudonet:
+All network changes are upward for the following periods:
+1 => 2; 3 => 4;
+This will be respected in the simulations.
+
+Network kudonet2:
+All network changes are upward for the following periods:
+1 => 2;
+This will be respected in the simulations.
+
+Network kudonet3:
+All network changes are upward for the following periods:
+1 => 2;
+This will be respected in the simulations.
+
+Network kudonet
+All network changes are downward for the following periods:
+11 => 12;
+This will be respected in the simulations.
+
+Network kudonet2
+All network changes are downward for the following periods:
+11 => 12;
+This will be respected in the simulations.
+
+Network kudonet3
+All network changes are downward for the following periods:
+11 => 12;
+This will be respected in the simulations.
+
+
+Behavior time_run:
+All behavior changes are downward for the following periods:
+11 => 12;
+This will be respected in the simulations.
+
+
+Behavior freq_run:
+All behavior changes are downward for the following periods:
+2 => 3; 11 => 12;
+This will be respected in the simulations.
+
+The mean structural dissimilarity values subtracted in the
+balance calculations are
+for network kudonet             0.1865.
+for network kudonet2            0.1520.
+for network kudonet3            0.1305.
+
+For the similarity variable calculated from each actor covariate,
+the mean is subtracted.
+These means are:
+Similarity gender                   :       0.4615 
+Similarity time_run                 :       0.5898 
+Similarity freq_run                 :       0.6968 
+Similarity time_other               :       0.6804 
+Similarity freq_other               :       0.7903 
+Similarity winter                   :       1.0000 
+
+Network kudonet is higher than network kudonet2.
+This will be respected in the simulations.
+
+Network kudonet is higher than network kudonet3.
+This will be respected in the simulations.
+
+Network kudonet2 is higher than network kudonet3.
+This will be respected in the simulations.
+
+
+
+
+@1
+Initial data description.
+=========================
+
+
+@2
+Change in networks:
+-------------------
+
+
+@3
+Network: kudonet
+                
+For the following statistics, missing values (if any) are not counted.
+
+Network density indicators:
+observation time              1      2      3      4      5      6      7
+density                    0.038  0.099  0.066  0.132  0.143  0.148  0.159
+average degree             0.500  1.286  0.857  1.714  1.857  1.929  2.071
+number of ties                 7     18     12     24     26     27     29
+missing fraction           0.000  0.000  0.000  0.000  0.000  0.000  0.000
+observation time              8      9     10     11     12
+density                    0.137  0.176  0.148  0.082  0.000
+average degree             1.786  2.286  1.929  1.071  0.000
+number of ties                25     32     27     15      0
+missing fraction           0.000  0.000  0.000  0.000  0.000
+
+The average degree is 1.44 
+
+
+Tie changes between subsequent observations:
+ periods        0 =>  0   0 =>  1   1 =>  0   1 =>  1   Distance Jaccard   Missing
+  1 ==>   2       164        11         0         7        11     0.389         0 (0%)
+  2 ==>   3       161         3         9         9        12     0.429         0 (0%)
+  3 ==>   4       158        12         0        12        12     0.500         0 (0%)
+  4 ==>   5       154         4         2        22         6     0.786         0 (0%)
+  5 ==>   6       153         3         2        24         5     0.828         0 (0%)
+  6 ==>   7       151         4         2        25         6     0.806         0 (0%)
+  7 ==>   8       149         4         8        21        12     0.636         0 (0%)
+  8 ==>   9       148         9         2        23        11     0.676         0 (0%)
+  9 ==>  10       146         4         9        23        13     0.639         0 (0%)
+ 10 ==>  11       152         3        15        12        18     0.400         0 (0%)
+ 11 ==>  12       167         0        15         0        15     0.000         0 (0%)
+
+Directed dyad Counts:
+ observation    total    mutual    asymm.     null
+     1.           182        4         6       172
+     2.           182       12        12       158
+     3.           182        2        20       160
+     4.           182       18        12       152
+     5.           182       18        16       148
+     6.           182       20        14       148
+     7.           182       22        14       146
+     8.           182       20        10       152
+     9.           182       28         8       146
+    10.           182       20        14       148
+    11.           182       12         6       164
+    12.           182        0         0       182
+
+Standard values for initial parameter values
+-------------------------------------------------
+
+constant kudonet rate (period 1)        1.6984 
+constant kudonet rate (period 2)        1.8514 
+constant kudonet rate (period 3)        1.8514 
+constant kudonet rate (period 4)        0.9333 
+constant kudonet rate (period 5)        0.7803 
+constant kudonet rate (period 6)        0.9333 
+constant kudonet rate (period 7)        1.8514 
+constant kudonet rate (period 8)        1.6984 
+constant kudonet rate (period 9)        2.0044 
+constant kudonet rate (period 10)       2.7694 
+constant kudonet rate (period 11)       2.3104 
+kudonet: outdegree (density)                      -1.0806 
+
+@3
+Network: kudonet2
+                 
+For the following statistics, missing values (if any) are not counted.
+
+Network density indicators:
+observation time              1      2      3      4      5      6      7
+density                    0.016  0.066  0.060  0.093  0.115  0.121  0.121
+average degree             0.214  0.857  0.786  1.214  1.500  1.571  1.571
+number of ties                 3     12     11     17     21     22     22
+missing fraction           0.000  0.000  0.000  0.000  0.000  0.000  0.000
+observation time              8      9     10     11     12
+density                    0.115  0.143  0.088  0.071  0.000
+average degree             1.500  1.857  1.143  0.929  0.000
+number of ties                21     26     16     13      0
+missing fraction           0.000  0.000  0.000  0.000  0.000
+
+The average degree is 1.095 
+
+
+Tie changes between subsequent observations:
+ periods        0 =>  0   0 =>  1   1 =>  0   1 =>  1   Distance Jaccard   Missing
+  1 ==>   2       170         9         0         3         9     0.250         0 (0%)
+  2 ==>   3       166         4         5         7         9     0.438         0 (0%)
+  3 ==>   4       162         9         3         8        12     0.400         0 (0%)
+  4 ==>   5       158         7         3        14        10     0.583         0 (0%)
+  5 ==>   6       157         4         3        18         7     0.720         0 (0%)
+  6 ==>   7       158         2         2        20         4     0.833         0 (0%)
+  7 ==>   8       157         3         4        18         7     0.720         0 (0%)
+  8 ==>   9       154         7         2        19         9     0.679         0 (0%)
+  9 ==>  10       154         2        12        14        14     0.500         0 (0%)
+ 10 ==>  11       161         5         8         8        13     0.381         0 (0%)
+ 11 ==>  12       169         0        13         0        13     0.000         0 (0%)
+
+Directed dyad Counts:
+ observation    total    mutual    asymm.     null
+     1.           182        0         6       176
+     2.           182        8         8       166
+     3.           182        2        18       162
+     4.           182       10        14       158
+     5.           182       14        14       154
+     6.           182       14        16       152
+     7.           182       14        16       152
+     8.           182       14        14       154
+     9.           182       16        20       146
+    10.           182        6        20       156
+    11.           182        8        10       164
+    12.           182        0         0       182
+
+Standard values for initial parameter values
+-------------------------------------------------
+
+constant kudonet2 rate (period 1)       1.3923 
+constant kudonet2 rate (period 2)       1.3923 
+constant kudonet2 rate (period 3)       1.8514 
+constant kudonet2 rate (period 4)       1.5454 
+constant kudonet2 rate (period 5)       1.0863 
+constant kudonet2 rate (period 6)       0.6273 
+constant kudonet2 rate (period 7)       1.0863 
+constant kudonet2 rate (period 8)       1.3923 
+constant kudonet2 rate (period 9)       2.1574 
+constant kudonet2 rate (period 10)      2.0044 
+constant kudonet2 rate (period 11)      2.0044 
+kudonet2: outdegree (density)                     -1.0645 
+
+@3
+Network: kudonet3
+                 
+For the following statistics, missing values (if any) are not counted.
+
+Network density indicators:
+observation time              1      2      3      4      5      6      7
+density                    0.011  0.066  0.049  0.082  0.104  0.099  0.115
+average degree             0.143  0.857  0.643  1.071  1.357  1.286  1.500
+number of ties                 2     12      9     15     19     18     21
+missing fraction           0.000  0.000  0.000  0.000  0.000  0.000  0.000
+observation time              8      9     10     11     12
+density                    0.110  0.104  0.049  0.038  0.000
+average degree             1.429  1.357  0.643  0.500  0.000
+number of ties                20     19      9      7      0
+missing fraction           0.000  0.000  0.000  0.000  0.000
+
+The average degree is 0.899 
+
+
+Tie changes between subsequent observations:
+ periods        0 =>  0   0 =>  1   1 =>  0   1 =>  1   Distance Jaccard   Missing
+  1 ==>   2       170        10         0         2        10     0.167         0 (0%)
+  2 ==>   3       168         2         5         7         7     0.500         0 (0%)
+  3 ==>   4       165         8         2         7        10     0.412         0 (0%)
+  4 ==>   5       161         6         2        13         8     0.619         0 (0%)
+  5 ==>   6       160         3         4        15         7     0.682         0 (0%)
+  6 ==>   7       160         4         1        17         5     0.773         0 (0%)
+  7 ==>   8       158         3         4        17         7     0.708         0 (0%)
+  8 ==>   9       160         2         3        17         5     0.773         0 (0%)
+  9 ==>  10       162         1        11         8        12     0.400         0 (0%)
+ 10 ==>  11       169         4         6         3        10     0.231         0 (0%)
+ 11 ==>  12       175         0         7         0         7     0.000         0 (0%)
+
+Directed dyad Counts:
+ observation    total    mutual    asymm.     null
+     1.           182        0         4       178
+     2.           182        8         8       166
+     3.           182        0        18       164
+     4.           182        8        14       160
+     5.           182       14        10       158
+     6.           182       10        16       156
+     7.           182       14        14       154
+     8.           182       14        12       156
+     9.           182        8        22       152
+    10.           182        6         6       170
+    11.           182        2        10       170
+    12.           182        0         0       182
+
+Standard values for initial parameter values
+-------------------------------------------------
+
+constant kudonet3 rate (period 1)       1.5454 
+constant kudonet3 rate (period 2)       1.0863 
+constant kudonet3 rate (period 3)       1.5454 
+constant kudonet3 rate (period 4)       1.2393 
+constant kudonet3 rate (period 5)       1.0863 
+constant kudonet3 rate (period 6)       0.7803 
+constant kudonet3 rate (period 7)       1.0863 
+constant kudonet3 rate (period 8)       0.7803 
+constant kudonet3 rate (period 9)       1.8514 
+constant kudonet3 rate (period 10)      1.5454 
+constant kudonet3 rate (period 11)      1.0863 
+kudonet3: outdegree (density)                     -1.1855 
+
+
+
+@2
+Dependent discrete actor variables:
+-----------------------------------
+
+
+@3
+Marginal distributions
+                      
+Dependent actor variable 4: time_run
+                                           Observations
+values               1     2     3     4     5     6     7     8     9    10    11    12
+                ------------------------------------------------------------------------
+  0                  5     4     7     5     5     5     4     4     3     5     5    14
+  1                  0     2     1     1     2     1     1     1     1     1     2     0
+  2                  3     2     0     1     0     1     2     2     1     1     0     0
+  3                  1     0     1     1     0     1     3     1     2     1     2     0
+  4                  0     1     0     1     1     2     1     1     1     2     3     0
+  5                  0     0     0     2     3     1     1     1     2     2     1     0
+  6                  2     1     2     0     2     2     1     1     1     1     0     0
+  7                  2     2     3     2     0     0     0     1     2     0     0     0
+  8                  1     2     0     1     1     1     1     2     1     1     1     0
+No missings
+Dependent actor variable 5: freq_run
+                                           Observations
+values               1     2     3     4     5     6     7     8     9    10    11    12
+                ------------------------------------------------------------------------
+  0                  5     4     7     5     5     5     4     4     3     5     5    14
+  1                  4     3     1     1     2     2     3     3     3     2     4     0
+  2                  0     1     1     3     1     1     3     1     1     2     4     0
+  3                  2     3     4     4     3     4     2     3     5     4     0     0
+  4                  3     3     1     1     2     1     1     2     2     0     1     0
+  5                  0     0     0     0     0     1     1     1     0     0     0     0
+  6                  0     0     0     0     1     0     0     0     0     1     0     0
+No missings
+
+
+
+@3
+Changes
+       
+Dependent actor variable 4: time_run
+ periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
+  1  =>  2             3     6       5         0                    7    10    17
+  2  =>  3             6     3       5         0                   13     4    17
+  3  =>  4             3     4       7         0                    7    12    19
+  4  =>  5             5     3       6         0                    6     5    11
+  5  =>  6             2     2      10         0                    4     2     6
+  6  =>  7             3     3       8         0                    6     4    10
+  7  =>  8             1     3      10         0                    1    10    11
+  8  =>  9             3     6       5         0                    5    10    15
+  9  => 10             8     2       4         0                   16     3    19
+ 10  => 11             4     3       7         0                    8     3    11
+ 11  => 12             9     0       5         0                   33     0    33
+
+For this variable, the standard initial behavioral tendency parameter is  -0.0785
+Dependent actor variable 5: freq_run
+ periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
+  1  =>  2             4     6       4         0                    4     8    12
+  2  =>  3             4     0      10         0                    7     0     7
+  3  =>  4             2     4       8         0                    3     7    10
+  4  =>  5             2     4       8         0                    2     6     8
+  5  =>  6             2     1      11         0                    3     1     4
+  6  =>  7             4     3       7         0                    4     3     7
+  7  =>  8             2     3       9         0                    2     5     7
+  8  =>  9             3     3       8         0                    3     4     7
+  9  => 10             5     1       8         0                    6     2     8
+ 10  => 11             6     1       7         0                    9     1    10
+ 11  => 12             9     0       5         0                   16     0    16
+
+For this variable, the standard initial behavioral tendency parameter is  -0.1302
+
+Initialisation of project <<files/ego10_1.5>> executed succesfully.

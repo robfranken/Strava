@@ -1,0 +1,413 @@
+							************************
+									 files/ego2_1.5.txt
+							************************
+
+Filename is files/ego2_1.5.txt.
+
+This file contains primary output for SIENA project <<files/ego2_1.5>>.
+
+Date and time: 17/03/2021 15:04:41 
+
+RSiena version 1.2-23 (12 01 2020)
+
+
+@1
+Data input.
+===========
+
+12 observations,
+16 actors,
+3 dependent network variables,
+0 dependent bipartite variables,
+2 dependent discrete behavior variables,
+0 dependent continuous behavior variables,
+1 constant actor covariates,
+3 exogenous changing actor covariates,
+1 constant dyadic covariates,
+0 exogenous changing dyadic covariates,
+0 no files with times of composition change.
+
+
+@2
+Reading network variables.
+--------------------------
+
+Name of this network variable: kudonet.
+oneMode network.
+For observation moment 1, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 1.
+
+For observation moment 2, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 2.
+
+For observation moment 3, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 3.
+
+For observation moment 4, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 4.
+
+For observation moment 5, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 5.
+
+For observation moment 6, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 6.
+
+For observation moment 7, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 7.
+
+For observation moment 8, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 8.
+
+For observation moment 9, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 9.
+
+For observation moment 10, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 10.
+
+For observation moment 11, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 11.
+
+For observation moment 12, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 12.
+
+
+Name of this network variable: kudonet2.
+oneMode network.
+For observation moment 1, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 1.
+
+For observation moment 2, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 2.
+
+For observation moment 3, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 3.
+
+For observation moment 4, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 4.
+
+For observation moment 5, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 5.
+
+For observation moment 6, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 6.
+
+For observation moment 7, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 7.
+
+For observation moment 8, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 8.
+
+For observation moment 9, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 9.
+
+For observation moment 10, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 10.
+
+For observation moment 11, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 11.
+
+For observation moment 12, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 12.
+
+
+Name of this network variable: kudonet3.
+oneMode network.
+For observation moment 1, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 1.
+
+For observation moment 2, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 2.
+
+For observation moment 3, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 3.
+
+For observation moment 4, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 4.
+
+For observation moment 5, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 5.
+
+For observation moment 6, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 6.
+
+For observation moment 7, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 7.
+
+For observation moment 8, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 8.
+
+For observation moment 9, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 9.
+
+For observation moment 10, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 10.
+
+For observation moment 11, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 11.
+
+For observation moment 12, degree distributions are as follows:
+Nodes
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+out-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+in-degrees
+ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+No missing data for observation 12.
+
+
+
+
+
+
+@2
+Reading dependent actor variables.
+----------------------------------
+
+1st dependent actor variable named time_run.
+Maximum and minimum rounded values are 0 and 0.

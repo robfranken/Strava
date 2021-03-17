@@ -56,8 +56,8 @@ rm (list = ls( ))
 # load the object
 load("clubdata_rsiena.RData")
 load("clubdata.RData")
-load("egodata.RData")
-
+load("egodata1.5.RData")
+load("egodata2.5.RData")
 ```
 
 
@@ -315,16 +315,15 @@ Make sure to check the output of the 'print01Report()' function for general data
 
 
 #### Club 1
-```{r}
+```{r eval= F}
 df <- clubdata_rsiena[[1]] # grab club 
-
 print01Report(df, modelname="files/club1")
 ```
 
 ![](files/club1.txt){#id .class width=100% height=200px}
 
 #### Club 2
-```{r }
+```{r eval= F}
 df <- clubdata_rsiena[[2]] # grab club 
 
 print01Report(df, modelname="files/club2")
@@ -333,33 +332,30 @@ print01Report(df, modelname="files/club2")
 ![](files/club2.txt){#id .class width=100% height=200px}
 
 #### Club 3
-```{r }
+```{r eval= F}
 df <- clubdata_rsiena[[3]] # grab club 
-
 print01Report(df, modelname="files/club3")
 ```
 
 ![](files/club3.txt){#id .class width=100% height=200px}
 
 #### Club 4
-```{r}
+```{r eval= F}
 df <- clubdata_rsiena[[4]] # grab club 
-
 print01Report(df, modelname="files/club4")
 ```
 
 ![](files/club4.txt){#id .class width=100% height=200px}
 
 #### Club 5
-```{r}
+```{r eval= F}
 df <- clubdata_rsiena[[5]] # grab club 
-
 print01Report(df, modelname="files/club5")
 ```
 
 ![](files/club5.txt){#id .class width=100% height=200px}
 
-<!--- RF: hier gaat nog iets niet helemaal goed: hij geeft prints van club 1 voor alle clubs. --> 
+<!--- RF: hier gaat nog iets niet helemaal goed: hij geeft prints van club 1 voor alle clubs; R-SIENA list is niet goed  --> 
 
 ### {-}
 
@@ -3550,9 +3546,8 @@ We observe that, indeed, friends that are closer to one another are more alike, 
 
 # Egos {#egos}
 
-For the egonets, we went two levels deep: 1) we mapped all the others Strava users that are followed by ego, 2) and all the Strava users that are followed by ego's alters (i.e. "friends of friends"); we mapped all ties defined on level 2. 
+For the egonets, we went two levels deep: 1) we mapped all the others Strava users that are followed by ego, 2) and all the Strava users that are followed by ego's alters (i.e. "friends of friends"); we mapped all ties defined on this set (which we define as a 2.5 degree ego-centered network). 
 
-we mapped all ties defined on this set (which we define as a 2.5 degree ego-centered network).
 
 Let's see what  the resulting networks look like.
 
@@ -3562,23 +3557,20 @@ Let's see what  the resulting networks look like.
 
 #### E1
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[1]] #grab egonet 
+df <- egodata2.5[[1]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
+
 
 # plot
 par(bg="white")
@@ -3613,23 +3605,20 @@ plot(simplify(G),
 
 #### E2
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[2]] #grab egonet 
+df <- egodata2.5[[2]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
+
 
 # plot
 par(bg="white")
@@ -3665,7 +3654,7 @@ plot(simplify(G),
 #### E3
 
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[3]] #grab egonet 
+df <- egodata2.5[[3]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
 
@@ -3675,13 +3664,13 @@ vertex_attr(G)$name[1] <- "ego"
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
+
 
 # plot
 par(bg="white")
@@ -3716,23 +3705,20 @@ plot(simplify(G),
 
 #### E4
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[4]] #grab egonet 
+df <- egodata2.5[[4]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
+
 
 # plot
 par(bg="white")
@@ -3768,23 +3754,20 @@ plot(simplify(G),
 #### E5
 
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[5]] #grab egonet 
+df <- egodata2.5[[5]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
+
 
 # plot
 par(bg="white")
@@ -3819,23 +3802,20 @@ plot(simplify(G),
 
 #### E6
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[6]] #grab egonet 
+df <- egodata2.5[[6]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
+
 
 # plot
 par(bg="white")
@@ -3872,23 +3852,19 @@ plot(simplify(G),
 #### E8
 
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[8]] #grab egonet 
+df <- egodata2.5[[8]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
 
 # plot
 par(bg="white")
@@ -3924,23 +3900,19 @@ plot(simplify(G),
 #### E9
 
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[9]] #grab egonet 
+df <- egodata2.5[[9]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
 
 # plot
 par(bg="white")
@@ -3975,23 +3947,19 @@ plot(simplify(G),
 
 #### E10
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[10]] #grab egonet 
+df <- egodata2.5[[10]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
 
 # plot
 par(bg="white")
@@ -4026,23 +3994,19 @@ plot(simplify(G),
 
 #### E11
 ```{r fig.height = 12, fig.width = 12}
-df <- egodata[[11]] #grab egonet 
+df <- egodata2.5[[11]] #grab egonet 
 fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
 G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
 
 # identify ego's alters (1.0)
 e <- as.data.frame(get.edgelist(G))
 colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == "ego", 1, 0) #if ego i follows actor j, j is ego's alter
-vertex_attr(G)$name <- ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "alter", vertex_attr(G)$name)
+e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
 
-# give actor attributes
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) #ego is squared
+# make actors (ego, 1.0-alter; 2.0-alters) identifiable
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
 vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == "ego", "#BEBADA", ifelse(vertex_attr(G)$name == "alter", "#FFFFB3", "#8DD3C7"))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
 
 # plot
 par(bg="white")
@@ -4076,11 +4040,506 @@ plot(simplify(G),
 ```
 
 
+
 ### {-}
+
+These are very big networks, so we will start with describing 1.5 degree ego-centered networks, which we define as the network consisting of ego, ego's alters, and the ties defined on this set.
+
+----
+
+<br>
+
+## 1.5 degree
+
+### {.tabset .tabset-fade}
+
+#### E1
+
+```{r }
+df <- egodata1.5[[1]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E2
+
+```{r }
+df <- egodata1.5[[2]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E3
+
+```{r }
+df <- egodata1.5[[3]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E5
+
+```{r }
+df <- egodata1.5[[5]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E6
+
+```{r }
+df <- egodata1.5[[6]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E8
+
+```{r }
+df <- egodata1.5[[8]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E9
+
+```{r }
+df <- egodata1.5[[9]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E10
+
+```{r }
+df <- egodata1.5[[10]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+#### E11
+
+```{r }
+df <- egodata1.5[[11]] #grab egonet 
+fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
+G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
+
+# actor attributes: shape and colour
+vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
+vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
+
+# plot
+{
+  plot(simplify(G),
+       main = "1.5 ego-centered network of directed STRAVA friendships",
+
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="black",                           
+       edge.width=1,                                
+       edge.arrow.size=.4,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=0)
+  
+  # Add a legend
+  legend("bottomleft", legend=c("ego", "alter"),
+         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
+  )
+}
+```
+
+
+### {-}
+
+<!--- 
+
+#RF: especially E3 and E5 seem appropriate for R-SIENA (high density)
+---> 
 
 
 ----
 
 <br>
 
+## Print report
+### {.tabset .tabset-fade} 
+Let's get some first descriptives of the egonets
+
+```{r eval = F}
+df <- egodata1.5_rsiena[[1]] # grab club 
+print01Report(df, modelname="files/ego1_1.5")
+
+df <- egodata1.5_rsiena[[2]] # grab club 
+print01Report(df, modelname="files/ego2_1.5")
+
+df <- egodata1.5_rsiena[[3]] # grab club 
+print01Report(df, modelname="files/ego3_1.5")
+
+df <- egodata1.5_rsiena[[4]] # grab club 
+print01Report(df, modelname="files/ego4_1.5")
+
+df <- egodata1.5_rsiena[[5]] # grab club 
+print01Report(df, modelname="files/ego5_1.5")
+
+df <- egodata1.5_rsiena[[6]] # grab club 
+print01Report(df, modelname="files/ego6_1.5")
+
+df <- egodata1.5_rsiena[[7]] # grab club 
+print01Report(df, modelname="files/ego7_1.5")
+
+df <- egodata1.5_rsiena[[8]] # grab club 
+print01Report(df, modelname="files/ego8_1.5")
+
+df <- egodata1.5_rsiena[[9]] # grab club 
+print01Report(df, modelname="files/ego9_1.5")
+
+df <- egodata1.5_rsiena[[10]] # grab club 
+print01Report(df, modelname="files/ego10_1.5")
+
+df <- egodata1.5_rsiena[[11]] # grab club 
+print01Report(df, modelname="files/ego11_1.5")
+```
+
+<br> 
+
+#### E1
+
+![](files/ego1_1.5.txt){#id .class width=100% height=200px}
+
+#### E2
+
+![](files/ego2_1.5.txt){#id .class width=100% height=200px}
+
+#### E3
+
+![](files/ego3_1.5.txt){#id .class width=100% height=200px}
+
+#### E4
+
+![](files/ego4_1.5.txt){#id .class width=100% height=200px}
+
+#### E5
+
+![](files/ego5_1.5.txt){#id .class width=100% height=200px}
+
+#### E6
+
+![](files/ego6_1.5.txt){#id .class width=100% height=200px}
+
+#### E7
+
+![](files/ego7_1.5.txt){#id .class width=100% height=200px}
+
+#### E8
+
+![](files/ego8_1.5.txt){#id .class width=100% height=200px}
+
+#### E9
+
+![](files/ego9_1.5.txt){#id .class width=100% height=200px}
+
+#### E10
+
+![](files/ego10_1.5.txt){#id .class width=100% height=200px}
+
+#### E11
+
+![](files/ego11_1.5.txt){#id .class width=100% height=200px}
+
+### {-}
+
+
+----
 ### References

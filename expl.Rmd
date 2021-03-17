@@ -9,7 +9,7 @@ output:
     toc_float: true
     collapsed: false
     number_sections: false
-    toc_depth: 1
+    toc_depth: 2
     code_folding: show
     code_download: yes
 ---
@@ -42,7 +42,11 @@ Let's estimate the Stochastic Actor-Oriented Model (SAOM) implemented in R as th
 
 <br>
 
-# Preparation
+# Clubs
+
+<br> 
+
+## Preparation
 
 Clean the working environment.
 
@@ -53,7 +57,7 @@ rm (list = ls( ))
 
 <br> 
 
-On this page we will:
+We will:
 
 1. Get our data and create an R-SIENA object
 2. Inspect our data
@@ -61,14 +65,14 @@ On this page we will:
 4. Define our algorithm
 5. And estimate the SAOM
 
-Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs (and afterwards with the ego-centered networks, but more on that later).
+Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs (and afterwards with the [ego-centered networks](#egos)).
 
 
 ----
 
 <br>
 
-# Step 1: Data
+## Step 1: Data
 
 We start off by reading in the data, specifying variable roles for the RSiena object, and creating an RSiena object. We use the clubdata.RData object.
 
@@ -122,8 +126,8 @@ After the estimation procedure, just edit the number within the double brackets 
 
 <br>
 
-# Step 2: Inspect data
-```{r eval=T}
+## Step 2: Inspect data
+```{r eval=F}
 print01Report(mydata)
 ```
 
@@ -135,7 +139,7 @@ A text file is printed in the working directory.
 
 <br>
 
-# Step 3: Define effects
+## Step 3: Define effects
 We are going to define our 'myeff' object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting effectsDocumentation(myeff). See @rsienamanual for a substantial and mathematical description of all effects.
 
 We include:
@@ -154,7 +158,7 @@ effectsDocumentation(myeff)
 
 <br>
 
-## Structural network effects {#str}
+### Structural network effects {#str}
 First, we are going to include structural network effects, guided by recommendations of @snijderspres: outdegree, reciprocity, and transitivity (GWESP).
 We also add degree-related effects: indegree-popularity and outdegree-activity (square-root versions).
 
@@ -165,7 +169,7 @@ myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet")
 
 <br>
 
-## Selection effects {#sel}
+### Selection effects {#sel}
 Second, we include selection effects with respect to behavior. We estimate the effect of actors' (ego and alter) behavior, and the similarity between the two (homophily) on tie formation. 
 
 We start with effects of frequency on tie formation.
@@ -177,7 +181,7 @@ myeff2 <- includeEffects(myeff1, egoX, altX, simX, name="kudonet", interaction1 
 
 <br>
 
-## Influence effects {#inf}
+### Influence effects {#inf}
 We included two influence effects to test our hypotheses on the influence of social support and social comparison processes respectively:
 
 1. The reciprocated degree effect on behavior.
@@ -211,7 +215,7 @@ myeff3 <- includeInteraction(myeff3, quad, avRecAlt, name="freq_run", interactio
 
 <br>
 
-## Covariate effects {#co}
+### Covariate effects {#co}
 
 And last we add effects on tie and behavior changes of other variables:
 
@@ -249,7 +253,6 @@ options(width = 100) # ignore (this is for the html formatting)
 print(myeff3)
 ```
 
-## {-}
 
 Seems allright!
 
@@ -257,7 +260,7 @@ Seems allright!
 
 <br>
 
-# Step 4: Define algorithm
+## Step 4: Define algorithm
 
 ```{r class.source = 'fold-hide'  }
 myalgorithm <- sienaAlgorithmCreate(projname = "test")
@@ -267,7 +270,7 @@ myalgorithm <- sienaAlgorithmCreate(projname = "test")
 
 <br>
 
-# Step 5: Estimate the model
+## Step 5: Estimate the model
 
 Let's estimate the SAOM.
 
@@ -310,44 +313,50 @@ We show the results in the prelim2 folder: in these models we added friendship a
 <br>
 
 
-# Step 6: Results {#result}
+## Step 6: Results {#result}
 
 We present the SAOM results for all clubs.
 
-## {.tabset .tabset-fade}
+### {.tabset .tabset-fade}
 
-### Club 1
+#### Club 1
 ```{r, echo=F}
 htmltools::includeHTML("files/prelim2/club 1/final.html")
 ```
 
-### Club 2
+#### Club 2
 ```{r, echo=F}
 htmltools::includeHTML("files/prelim2/club 2/final.html")
 ```
 
-### Club 3
+#### Club 3
 ```{r, echo=F}
 htmltools::includeHTML("files/prelim2/club 3/final.html")
 ```
 
-### Club 4
+#### Club 4
 ```{r, echo=F}
 htmltools::includeHTML("files/prelim2/club 4/final.html")
 ```
 
 Note that we excluded gender effects on tie formation and behavior change, as they were non-significant and caused convergence issues (probably because of small N).
 
-### Club 5
+#### Club 5
 ```{r, echo=F}
 htmltools::includeHTML("files/prelim2/club 5/final.html")
 ```
 
-## {-}
+### {-}
 
 - We see a marginal reciprocated degree effect on running volume (club 1) and running frequency (club 2).
 
 - We see positive average reciprocated alter effect on running frequency and volume (club 5). Previously (in a model without friendship effect and behavioral similarity effect on ties), we also found these effects for Club 3, but these effects are now non-significant.
+
+<!--- 
+
+#RF: I think friendship may be left out... it seems to explain away structural effects such as reciprocity and transitivity.
+---> 
+
 
 Thus, in three clubs we find influence effects (indicating support and comparison). These effects are observed even after controlling for selection and structural network effects. 
 
@@ -355,7 +364,7 @@ Thus, in three clubs we find influence effects (indicating support and compariso
 
 ----
 
-# Ordered network variable {#lvl2}
+## Ordered network variable {#lvl2}
 
 In the estimated SAOM the reciprocation of at least 1 Kudo constituted the presence of a tie. In the following we will estimate the same SAOM but now with the ordered kudo-network, with 2 levels. We predict to find more substantial effects in the second-order network. 
 
@@ -364,7 +373,206 @@ In the estimated SAOM the reciprocation of at least 1 Kudo constituted the prese
 replace the kudonet with kudonet2
 ---> 
 
+
 ----
 
+<br>
 
-## References
+# Egos {#egos}
+
+<br>
+
+## Preparation
+
+Clean the working environment.
+
+```{r, attr.output='style="max-height: 200px;"'}
+# clean the working environment 
+rm (list = ls( ))
+```
+<br>
+
+We will check if the model also fits the ego-centered data. We start with the 1.5 degree network of one ego. Later on we can estimate multiple models for the respective egos, or do a multi-group analysis.
+
+We start off with ego 3 (N=28). Descriptive statistics revealed that this ego-centered network was appropriate for R-SIENA (i.e. appropriate Jaccard indices, sufficient degrees/density).
+
+<br>
+
+## Step 1: Data
+
+Reading the data, specifying variable roles for the RSiena object, creating an RSiena object.
+
+```{r}
+load("egodata1.5.Rdata") # load (raw) 1.5 degree ego-centered data list
+ego <- egodata1.5[[3]] # grab club 
+
+# specify variable roles for RSiena object
+
+kudonet <- sienaDependent(ego$kudo[,, 1:11])
+kudonet2 <- sienaDependent(ego$kudo2[,, 1:11]) 
+
+freq_run <- sienaDependent(ego$freq_run[,, 1:11], type= "behavior")
+time_run <- sienaDependent(ego$time_run[,, 1:11], type = "behavior")
+
+freq_other <- varCovar(ego$freq_other[,,1:11])
+time_other <- varCovar(ego$time_other[,,1:11])
+
+gender <- NA 
+gender <- ifelse(ego$male == 1, 1, gender)
+gender <- ifelse(ego$female == 1, 2, gender)
+gender <- ifelse(ego$other == 1, 2, gender)
+gender <- coCovar(gender)
+
+winter <- varCovar(ego$winter[,1:11])
+
+#create rsiena data object
+mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, gender, winter)
+```
+
+----
+
+<br>
+
+## Step 2: Inspect data
+```{r eval=F}
+print01Report(mydata)
+```
+
+![](files/ego3_1.5.txt){#id .class width=100% height=200px}
+
+----
+
+<br>
+
+## Step 3: Define effects
+We include the same effects as in the clubs (but we exclude friendship as a covariate effect.):
+
+1. [structural network effects](#str2)
+2. [network selection effects](#sel2)
+3. [network influence effects](#inf2)
+4. and [covariate effects](#co2) on network and behavior 
+
+
+```{r echo=T, results='hide'}
+myeff <- getEffects(mydata)
+effectsDocumentation(myeff)
+```
+
+<br>
+
+### Structural network effects {#str2}
+
+```{r echo=T, results='hide'}
+myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
+myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet")
+```
+
+<br>
+
+### Selection effects {#sel2}
+
+```{r echo=T, results='hide'}
+myeff2 <- includeEffects(myeff1, egoX, altX, simX, name="kudonet", interaction1 = "freq_run")
+```
+
+<br>
+
+### Influence effects {#inf2}
+
+```{r echo=T, results='hide'}
+myeff3 <- includeEffects(myeff2, recipDeg, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, recipDeg, name = "time_run", interaction1 = "kudonet")
+
+myeff3 <- includeEffects(myeff3, avRecAlt, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, avRecAlt, name = "time_run", interaction1 = "kudonet") 
+```
+
+<br>
+
+### Covariate effects {#co2}
+
+```{r echo=T, results='hide'}
+
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "freq_run")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
+
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "time_other")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
+
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "winter")
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "winter")
+
+
+myeff3 <- includeEffects( myeff3, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gender")
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "gender")
+```
+
+
+<br>
+
+Now check the effects
+
+```{r class.source = 'fold-hide' }
+options(width = 100) # ignore (this is for the html formatting)
+print(myeff3)
+```
+
+----
+
+<br>
+
+## Step 4: Define algorithm
+
+```{r class.source = 'fold-hide'  }
+myalgorithm <- sienaAlgorithmCreate(projname = "test")
+```
+
+----
+
+<br>
+
+## Step 5: Estimate the model
+
+```{r eval= F}
+try <- 1
+
+ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff3)
+
+siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "last.html", sep = ""))
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM1$tconv.max > .30){
+    try <- try + 1
+    print(paste("Try:", try, sep=" "))
+    ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM1)
+    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM1_", try, ".html", sep=""))
+    
+  }else{
+    siena.table(ansM1, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "final", ".html", sep=""))
+    print(paste("Reached convergence ratio of ", ansM1$tconv.max, sep = ""))
+    break
+  }
+}
+```
+
+<!--- 
+
+#RF: I left out W12 as it had very high rate functions. Perhaps i have to fix some rate parameters (see p.72 R-SIENA manual)
+---> 
+
+
+<br>
+
+## Step 6: Results
+
+```{r, echo=F}
+htmltools::includeHTML("files/ansego3.html")
+```
+
+
+----
+
+### References
