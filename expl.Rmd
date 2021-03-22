@@ -89,7 +89,7 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[1]] # grab club 
+club <- clubdata[[4]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
@@ -219,15 +219,14 @@ myeff3 <- includeInteraction(myeff3, quad, avRecAlt, name="freq_run", interactio
 
 And last we add effects on tie and behavior changes of other variables:
 
-- friendship on Kudos
 - the interdependence between frequency and volume
 - the interdependence between running and other sports
 - winter on behavior
 - gender on tie selection and behavior
 
-```{r echo=T, results='hide'}
-myeff3 <- includeEffects(myeff3, X, name = "kudonet", interaction1 = "friendship")
+Note: we also estimated models with an effect of the constant dyadic covariate Friendship on Kudo ties, which was highly significant. However, this effect seemed to be collinear with structural network effect, meaning that it explained similar tie formation structures. Therefore we excluded Friendship. 
 
+```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "freq_run")
 myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
 
@@ -321,29 +320,29 @@ We present the SAOM results for all clubs.
 
 #### Club 1
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim2/club 1/final.html")
+htmltools::includeHTML("files/clubs results/club1.html")
 ```
 
 #### Club 2
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim2/club 2/final.html")
+htmltools::includeHTML("files/clubs results/club2.html")
 ```
 
 #### Club 3
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim2/club 3/final.html")
+htmltools::includeHTML("files/clubs results/club3.html")
 ```
 
 #### Club 4
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim2/club 4/final.html")
+htmltools::includeHTML("files/clubs results/club4.html")
 ```
 
-Note that we excluded gender effects on tie formation and behavior change, as they were non-significant and caused convergence issues (probably because of small N).
+Note that we excluded gender effects on tie formation and behavior change, as they were non-significant and caused convergence issues (probably because of small N). Also note the high rate parameters!
 
 #### Club 5
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim2/club 5/final.html")
+htmltools::includeHTML("files/clubs results/club5.html")
 ```
 
 ### {-}
@@ -560,7 +559,7 @@ while (TRUE){
 
 <!--- 
 
-#RF: I left out W12 as it had very high rate functions. Perhaps i have to fix some rate parameters (see p.72 R-SIENA manual)
+#RF: I left out W12 as there was no data of W12...
 ---> 
 
 
