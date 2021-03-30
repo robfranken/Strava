@@ -6,7 +6,7 @@ Filename is files/test.txt.
 
 This file contains primary output for SIENA project <<files/test>>.
 
-Date and time: 24/03/2021 16:52:21 
+Date and time: 25/03/2021 13:45:48 
 
 RSiena version 1.2-23 (12 01 2020)
 

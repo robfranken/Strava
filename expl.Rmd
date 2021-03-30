@@ -78,7 +78,7 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 - For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. Later on we will estimate a model in which awarding/receiving more than 1 Kudo constitutes the presence of a tie. Ultimately, we may want to construct an ordered network-variable, in which awarding/receiving more than 1 Kudo is a sub-network of the network in which awarding/reciving 1 Kudo counts as a tie. 
 
-- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to >7 times per week), and running volume (in minutes per month; with 8 equally populated categories).
+- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7 times per week), and running volume (in minutes per month; with 8 equally populated categories).
 
 - We included activity in other sports (e.g., cycling and swimming) as a time-varying covariate.
 
@@ -89,12 +89,12 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[2]] # grab club 
+club <- clubdata[[1]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
-#kudonet <- sienaDependent(club$kudo2) 
-#kudonet <- sienaDependent(club$kudo3) 
+kudonet2 <- sienaDependent(club$kudo2) 
+#kudonet3 <- sienaDependent(club$kudo3) 
 
 freq_run <- sienaDependent(club$freq_run, type= "behavior")
 
@@ -102,6 +102,10 @@ time_run <- sienaDependent(club$time_run, type = "behavior")
 
 freq_other <- varCovar(club$freq_other[,,])
 time_other <- varCovar(club$time_other[,,])
+
+freq_discount <- varCovar(club$freq_other[,,])
+vol_discount <- varCovar(club$time_other[,,])
+
 
 gender <- NA 
 gender <- ifelse(club$male == 1, 1, gender)
@@ -114,7 +118,7 @@ winter <- varCovar(club$winter)
 friendship <- coDyadCovar(club$friendship)
 
 #create rsiena data object
-mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, gender, winter, friendship)
+mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, gender, winter, friendship, freq_discount, vol_discount)
 ```
 
 <!--- 
@@ -201,6 +205,7 @@ myeff3 <- includeEffects(myeff3, recipDeg, name = "time_run", interaction1 = "ku
 
 myeff3 <- includeEffects(myeff3, avRecAlt, name = "freq_run", interaction1 = "kudonet") 
 myeff3 <- includeEffects(myeff3, avRecAlt, name = "time_run", interaction1 = "kudonet") 
+
 ```
 
 <br>
@@ -352,7 +357,7 @@ htmltools::includeHTML("files/clubs results/club5.html")
 
 - We see a marginal reciprocated degree effect on running volume (club 1) and running frequency (club 2).
 
-- We see positive average reciprocated alter effect on running frequency and volume (club 5). Previously (in a model without friendship effect and behavioral similarity effect on ties), we also found these effects for Club 3, but these effects are now non-significant.
+- We see positive average reciprocated alter effect on running frequency and volume (club 5). 
 
 <!--- 
 
