@@ -78,19 +78,6 @@ for (i in (1: length(club_str))) {
   female <- ifelse(clubdata[,'gender'] == "F", 1, 0)
   other <- ifelse(clubdata[,'gender'] == "O", 1, 0)
   
-  # in case we want to condition on the first activity recorded by users:
-  # experience variable: higher values indicate longer since first activity.
-  st_yr <- clubdata[,'start_date_year']
-  novice <-  ifelse(clubdata[,'start_date_year'] <= 2011, 9, st_yr)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2012, 8, novice)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2013, 7, novice)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2014, 6, novice)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2015, 5, novice)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2016, 4, novice)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2017, 3, novice)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2018, 2, novice)
-  novice <-  ifelse(clubdata[,'start_date_year'] == 2019, 1, novice)
-  
   
   # let's load the friendship network
   friend_data <- as.matrix(read.csv(paste("clubs/", club_id, "/", "socialnetwork.csv", sep = ""), row.names = NULL, sep= ","))
@@ -110,15 +97,6 @@ for (i in (1: length(club_str))) {
   fakeid <- idmaker(nrow(friend_data)) # generate random id
   colnames(friend_data) <- fakeid # anonymizing users
   
-  # the following line makes a friendship network of reciprocal ties.
-  friend_recip <- matrix(NA, nrow = nrow(friend_data), ncol = ncol(friend_data))
-  for(row in 1:nrow(friend_data)) {
-    for(col in 1:ncol(friend_data)) {
-      value <- friend_data[row,col] * friend_data[col,row]
-      friend_recip[row,col] <- value
-      friend_recip[col,row] <- value
-    }
-  }
   
   # let's load the kudo network
   path <- paste("clubs/", club_id, "/", "kudos", sep="") # create path
@@ -158,23 +136,53 @@ for (i in (1: length(club_str))) {
   kudo_data3 <- ifelse(kudos > 2, 1, 0) #at least 3 Kudos
   #for now, these order cut-offs were quite arbitrarily chosen; can be extended, or be applied with other categories.
   
+  
   # running time
   time_run <- array( c( clubdata[, 'time_run_1.2019'], clubdata[, 'time_run_2.2019'], clubdata[, 'time_run_3.2019'], clubdata[, 'time_run_4.2019'], clubdata[, 'time_run_5.2019'], clubdata[, 'time_run_6.2019'], clubdata[, 'time_run_7.2019'], clubdata[, 'time_run_8.2019'], clubdata[, 'time_run_9.2019'], clubdata[, 'time_run_10.2019'], clubdata[, 'time_run_11.2019'], clubdata[, 'time_run_12.2019']),
                      dim = c( size, 1, n_waves ) )
-  
-  # we cluster the time into 8 categories (from 0 to 8, with 0 being 0 minutes)
+
+  # we cluster the time into 9 categories (from 0 to 8, with 0 being 0 minutes)
   # we will equally populate the categories 1-8 (cf. Flashman 2012)
   df <- data.frame(matrix(time_run))
   df$matrix.time_run. <- ifelse(df$matrix.time_run. == 0, NA, df$matrix.time_run.) #turn 0's to NA
   df <- mutate(df, cat = ntile(df$matrix.time_run., 8))
   df$cat <- ifelse(is.na(df$cat), 0, df$cat)
   time_run_temp <- array(df$cat, dim = c(size, 1, n_waves))
+
+  # we also make an independent behavior-based variable that does not consider
+  # actors' absolute score (or category), but rather their ranking on the behavioral scale, for each time point. 
+  # this variable will be used to construct independent influence effects of alters that score higher and lower than ego
+  # we use dense ranking ("111223") ranking (so all actors scoring 0 get the same rank)
+  out <- list()
+  for (i in 1:n_waves) { 
+    df <- data.frame(x = time_run[,,i]) # raw scores for each time point
+    df <- mutate(df, rank = rank(x, ties.method = "max")) # rank and keep ties ties 
+    denserank <- df$rank - (min(df$rank) - 1) # make dense ranking
+    out[[i]] <- denserank
+  }
+  time_rank <- array(
+    c(out[[1]], out[[2]], out[[3]], out[[4]], out[[5]], out[[6]], out[[7]], out[[8]], out[[9]], out[[10]], out[[11]], out[[12]]),
+    dim = c( size, 1, n_waves)) 
+
   
   # running frequency
   freq_run <- array( c( clubdata[, 'X.run_1.2019'], clubdata[, 'X.run_2.2019'], clubdata[, 'X.run_3.2019'], clubdata[, 'X.run_4.2019'], clubdata[, 'X.run_5.2019'], clubdata[, 'X.run_6.2019'], clubdata[, 'X.run_7.2019'], clubdata[, 'X.run_8.2019'], clubdata[, 'X.run_9.2019'], clubdata[, 'X.run_10.2019'], clubdata[, 'X.run_11.2019'], clubdata[, 'X.run_12.2019']),
-                     dim = c( size, 1, n_waves ) )
-  frequencies <- ceiling(freq_run/4)
-  freq_run_temp <- ifelse(frequencies > 7, 8, frequencies) 
+                     dim = c( size, 1, n_waves ) ) # frequencies per month
+  frequencies <- ceiling(freq_run/4) # per week
+  freq_run_temp <- ifelse(frequencies > 7, 7, frequencies) # cap off at 7 times per week
+  
+  # also make the independent ranking variable for running frequency
+  out <- list()
+  for (i in 1:n_waves) { 
+    df <- data.frame(x = freq_run[,,i]) # raw scores for each time point
+    df <- mutate(df, rank = rank(x, ties.method = "max")) # rank and keep ties ties 
+    denserank <- df$rank - (min(df$rank) - 1) # make dense ranking
+    out[[i]] <- denserank
+  }
+  freq_rank <- array(
+    c(out[[1]], out[[2]], out[[3]], out[[4]], out[[5]], out[[6]], out[[7]], out[[8]], out[[9]], out[[10]], out[[11]], out[[12]]),
+    dim = c( size, 1, n_waves)) 
+
   
   # now that we have running data, let's load other activity data (e.g., cycling, swimming)
   # time
@@ -199,7 +207,7 @@ for (i in (1: length(club_str))) {
   
   freq_other <- freq_ride + freq_other
   frequencies <- ceiling(freq_other/4)
-  freq_other_temp <- ifelse(frequencies > 7, 8, frequencies)
+  freq_other_temp <- ifelse(frequencies > 7, 7, frequencies)
   
   # specify months of winter in case we want to use it as a varying covariate
   # starts with december
@@ -209,13 +217,13 @@ for (i in (1: length(club_str))) {
   # create a list containing all the read club data for the current club
   club <- list("friendship" = friend_data, 
                "kudo" = kudo_data, "kudo2" = kudo_data2, "kudo3" = kudo_data3,
-               "freq_run" = freq_run_temp, "time_run" = time_run_temp, "freq_other" = freq_other_temp, "time_other" = time_other_temp, "winter" = winter, "male" = male, "female" = female, "other" = other, "netsize" = size, "exp" = novice)
+               "freq_run" = freq_run_temp, "time_run" = time_run_temp, "freq_other" = freq_other_temp, "time_other" = time_other_temp, "winter" = winter, "male" = male, "female" = female, "other" = other, "netsize" = size,
+               "freq_rank" = freq_rank, "time_rank" = time_rank)
   
-
-
   # save 
-  save(club, file=paste("clubs/", "club", i, ".RData", sep = ""))
-
+  
+  save(club, file=paste("clubs/", "club", club_id, ".RData", sep = ""))
+  
 }
 
 ####################################################
@@ -273,7 +281,7 @@ str(clubdata) # inspect structure
 clubdata_rsiena <- list()
 
 for (i in 1:5) { 
-  club <- clubdata[[1]]
+  club <- clubdata[[i]]
   # specify the roles of variables
   names(club)
   
@@ -830,6 +838,18 @@ for (i in 1:length(egodata2.5)) {
 save(egodata2.5_rsiena, file="egonets/egodata2.5_rsiena.RData")
 
 ```
+
+<!--- 
+
+#RF I added to the clubdata.RData the behavior-based 'ranking' variable for creating the interaction average alter effect and alter-level behavior.
+
+# I have to update the clubdata_rsiena.RData and the ego preps accordingly.
+
+Also, in the clubdata.RData I altered some stuff, e.g., removing experience, and capping frequency with a maximum of 7 times per week. 
+
+---> 
+
+
 
 ---
 

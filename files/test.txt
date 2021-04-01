@@ -6,7 +6,7 @@ Filename is files/test.txt.
 
 This file contains primary output for SIENA project <<files/test>>.
 
-Date and time: 25/03/2021 13:45:48 
+Date and time: 30/03/2021 12:54:12 
 
 RSiena version 1.2-23 (12 01 2020)
 
@@ -22,7 +22,7 @@ Data input.
 2 dependent discrete behavior variables,
 0 dependent continuous behavior variables,
 1 constant actor covariates,
-3 exogenous changing actor covariates,
+7 exogenous changing actor covariates,
 1 constant dyadic covariates,
 0 exogenous changing dyadic covariates,
 0 no files with times of composition change.
@@ -240,35 +240,43 @@ The mean value is subtracted from the centered covariate.
 Reading exogenous changing actor covariates.
 --------------------------------------------
 
-3 variables, named:
+7 variables, named:
 freq_other      
 time_other      
 winter          
+freq_rank       
+freq_rank_raw   
+time_rank       
+time_rank_raw   
 
-A total of 3 exogenous changing actor covariates.
+A total of 7 exogenous changing actor covariates.
 
 Number of missing cases per period:
  period                    1       2       3       4       5       6       7       8       9      10      11     overall
 freq_other                 0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
 time_other                 0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
 winter                     0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
+freq_rank                  0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
+freq_rank_raw              0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
+time_rank                  0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
+time_rank_raw              0       0       0       0       0       0       0       0       0       0       0        0 	   ( 0.0 %)
 
 Information about changing covariates:
 
                minimum  maximum	  mean  centered 
 freq_other                                 Y 
 	period   1     0.0     4.0      0.700 
-	period   2     0.0     8.0      0.933 
+	period   2     0.0     7.0      0.900 
 	period   3     0.0     6.0      0.833 
-	period   4     0.0     8.0      0.967 
-	period   5     0.0     8.0      1.333 
+	period   4     0.0     7.0      0.933 
+	period   5     0.0     7.0      1.300 
 	period   6     0.0     6.0      1.233 
 	period   7     0.0     6.0      1.467 
-	period   8     0.0     8.0      1.400 
-	period   9     0.0     8.0      1.433 
-	period  10     0.0     8.0      1.067 
+	period   8     0.0     7.0      1.367 
+	period   9     0.0     7.0      1.400 
+	period  10     0.0     7.0      1.033 
 	period  11     0.0     4.0      0.733 
-Overall                            1.100 
+Overall                            1.082 
 
 time_other                                 Y 
 	period   1     0.0     7.0      1.500 
@@ -298,8 +306,63 @@ winter                                     Y
 	period  11     0.0     0.0      0.000 
 Overall                            0.273 
 
-The mean values are subtracted from the covariates.
+freq_rank                                  Y 
+	period   1     1.0    25.0     11.733 
+	period   2     1.0    25.0     11.767 
+	period   3     1.0    26.0     12.167 
+	period   4     1.0    27.0     13.333 
+	period   5     1.0    27.0     13.533 
+	period   6     1.0    24.0     10.733 
+	period   7     1.0    25.0     11.633 
+	period   8     1.0    24.0     10.633 
+	period   9     1.0    26.0     12.600 
+	period  10     1.0    26.0     12.300 
+	period  11     1.0    24.0     10.600 
+Overall                           11.912 
 
+freq_rank_raw                              N 
+	period   1     1.0    25.0     11.733 
+	period   2     1.0    25.0     11.767 
+	period   3     1.0    26.0     12.167 
+	period   4     1.0    27.0     13.333 
+	period   5     1.0    27.0     13.533 
+	period   6     1.0    24.0     10.733 
+	period   7     1.0    25.0     11.633 
+	period   8     1.0    24.0     10.633 
+	period   9     1.0    26.0     12.600 
+	period  10     1.0    26.0     12.300 
+	period  11     1.0    24.0     10.600 
+Overall                           11.912 
+
+time_rank                                  Y 
+	period   1     1.0    25.0     11.000 
+	period   2     1.0    25.0     11.033 
+	period   3     1.0    26.0     11.867 
+	period   4     1.0    27.0     12.733 
+	period   5     1.0    27.0     12.733 
+	period   6     1.0    24.0     10.233 
+	period   7     1.0    25.0     11.033 
+	period   8     1.0    24.0     10.200 
+	period   9     1.0    26.0     11.833 
+	period  10     1.0    26.0     11.833 
+	period  11     1.0    24.0     10.200 
+Overall                           11.336 
+
+time_rank_raw                              N 
+	period   1     1.0    25.0     11.000 
+	period   2     1.0    25.0     11.033 
+	period   3     1.0    26.0     11.867 
+	period   4     1.0    27.0     12.733 
+	period   5     1.0    27.0     12.733 
+	period   6     1.0    24.0     10.233 
+	period   7     1.0    25.0     11.033 
+	period   8     1.0    24.0     10.200 
+	period   9     1.0    26.0     11.833 
+	period  10     1.0    26.0     11.833 
+	period  11     1.0    24.0     10.200 
+Overall                           11.336 
+
+For the centered variables, the mean values are subtracted from the covariates.
 
 @2
 Reading constant dyadic covariates.
@@ -333,9 +396,13 @@ These means are:
 Similarity gender                   :       0.4975 
 Similarity freq_run                 :       0.7669 
 Similarity time_run                 :       0.6131 
-Similarity freq_other               :       0.8199 
+Similarity freq_other               :       0.7993 
 Similarity time_other               :       0.6306 
 Similarity winter                   :       1.0000 
+Similarity freq_rank                :       0.6325 
+Similarity freq_rank_raw            :       0.6325 
+Similarity time_rank                :       0.6342 
+Similarity time_rank_raw            :       0.6342 
 
 
 
