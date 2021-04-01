@@ -44,7 +44,7 @@ In the following scripts a list containing the (anonymized) data of all clubs is
 
 * For the behavioral data we include information on the *frequency* (i.e., in times per week) and *volume* (i.e., in minutes per month) of running activities. We included activity (frequency and volume) in other sports (e.g., cycling and swimming) as a time-varying covariate. We categorized these continuous behavioral variables following recommendations in the literature: chapter 6 of @niezink and page 27 of @rsienamanual.
 
-  + For *frequency*, I chose 9 categories, ranging from 0-7 times per week, and a 9th category, since in some clubs a substantial proportion of club members ran more frequently than once a day.
+  + For *frequency*, I chose 8 categories, ranging from 0-7 times per week.
 
   + For *volume*, I chose 9 categories, with category 0 indicating 0 minutes spent on training, and categories 1-8 being equally populated (as in @flashman). Note that this results in different categorizations for each club. 
 

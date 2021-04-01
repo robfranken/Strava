@@ -1517,7 +1517,7 @@ df_long <- reshape(df2long,
 df_long  <- df_long [(order(df_long$id)), ]
 
 # create data to plot, seperately for men and women
- data_all <- df_long %>%
+data_all <- df_long %>%
     group_by(time) %>%
     summarise(mean_freq = mean(run_freq, na.rm=T),
               mean_time = mean(run_time, na.rm=T),

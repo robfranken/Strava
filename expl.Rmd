@@ -125,8 +125,6 @@ mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, g
 
 After the estimation procedure, just edit the number within the double brackets [[x]] to grab another club.
 
-And to estimate the model in which awarding/receiving >1 Kudo constitutes the presence of a tie,
-'unhash (#)' line 96.
 ---> 
 
 ----
@@ -199,6 +197,8 @@ This test the social comparison explanation: the tendency to assimilate to the a
 
 **Note** that in the average reciprocated alter effect the expected positive effect of upward comparison and the negative effect of downward comparison are assumed to even each other out. In our case this assumption is rather poor, as upward and downward comparison processes may have independent effects on ego’s tendency to increase their behavior. Therefore, we may want to find a more suitable effect. 
 
+**Update**: currently attempting to program a variant of the average alter effect.
+
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff2, recipDeg, name = "freq_run", interaction1 = "kudonet") 
 myeff3 <- includeEffects(myeff3, recipDeg, name = "time_run", interaction1 = "kudonet")
@@ -232,7 +232,7 @@ And last we add effects on tie and behavior changes of other variables:
 - winter on behavior
 - gender on tie selection and behavior
 
-Note: we also estimated models with an effect of the constant dyadic covariate Friendship on Kudo ties, which was highly significant. However, this effect seemed to be collinear with structural network effect, meaning that it explained similar tie formation structures. Therefore we excluded Friendship. 
+Note: we also estimated models with an effect of the constant dyadic covariate Friendship on Kudo ties, which was highly significant. However, this effect seemed to be highly collinear with structural network effect, meaning that it explained similar tie formation structures. Therefore we excluded Friendship. 
 
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "freq_run")
