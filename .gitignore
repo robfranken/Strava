@@ -54,6 +54,5 @@ po/*~
 # data files
 /clubs/
 
-# test
-docs/test/
+
 
