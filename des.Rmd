@@ -325,7 +325,6 @@ print01Report(df, modelname="files/club1")
 #### Club 2
 ```{r eval= F}
 df <- clubdata_rsiena[[2]] # grab club 
-
 print01Report(df, modelname="files/club2")
 ```
 
@@ -354,8 +353,6 @@ print01Report(df, modelname="files/club5")
 ```
 
 ![](files/club5.txt){#id .class width=100% height=200px}
-
-<!--- RF: hier gaat nog iets niet helemaal goed: hij geeft prints van club 1 voor alle clubs; R-SIENA list is niet goed  --> 
 
 ### {-}
 
@@ -2267,35 +2264,34 @@ gender <- ifelse(female == 1, "Female", gender)
 gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender) # missing category
 
-
 # create wide dataframe
   df2long <- data.frame (
     id = 1:length(df$nodeSets$Actors),
     gender = gender,
-    freq1 = df$depvars$freq_other[,,1],
-    freq2 = df$depvars$freq_other[,,2],
-    freq3 = df$depvars$freq_other[,,3],
-    freq4 = df$depvars$freq_other[,,4],
-    freq5 = df$depvars$freq_other[,,5],
-    freq6 = df$depvars$freq_other[,,6],
-    freq7 = df$depvars$freq_other[,,7],
-    freq8 = df$depvars$freq_other[,,8],
-    freq9 = df$depvars$freq_other[,,9],
-    freq10 = df$depvars$freq_other[,,10],
-    freq11 = df$depvars$freq_other[,,11],
-    freq12 = df$depvars$freq_other[,,12],
-    time1 = df$depvars$time_other[,,1],
-    time2 = df$depvars$time_other[,,2],
-    time3 = df$depvars$time_other[,,3],
-    time4 = df$depvars$time_other[,,4],
-    time5 = df$depvars$time_other[,,5],
-    time6 = df$depvars$time_other[,,6],
-    time7 = df$depvars$time_other[,,7],
-    time8 = df$depvars$time_other[,,8],
-    time9 = df$depvars$time_other[,,9],
-    time10 = df$depvars$time_other[,,10],
-    time11 = df$depvars$time_other[,,11],
-    time12 = df$depvars$time_other[,,12])
+    freq1 = df2$freq_other[,,1],
+    freq2 = df2$freq_other[,,2],
+    freq3 = df2$freq_other[,,3],
+    freq4 = df2$freq_other[,,4],
+    freq5 = df2$freq_other[,,5],
+    freq6 = df2$freq_other[,,6],
+    freq7 = df2$freq_other[,,7],
+    freq8 = df2$freq_other[,,8],
+    freq9 = df2$freq_other[,,9],
+    freq10 = df2$freq_other[,,10],
+    freq11 = df2$freq_other[,,11],
+    freq12 = df2$freq_other[,,12],
+    time1 = df2$time_other[,,1],
+    time2 = df2$time_other[,,2],
+    time3 = df2$time_other[,,3],
+    time4 = df2$time_other[,,4],
+    time5 = df2$time_other[,,5],
+    time6 = df2$time_other[,,6],
+    time7 = df2$time_other[,,7],
+    time8 = df2$time_other[,,8],
+    time9 = df2$time_other[,,9],
+    time10 = df2$time_other[,,10],
+    time11 = df2$time_other[,,11],
+    time12 = df2$time_other[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
@@ -2397,9 +2393,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2424,35 +2420,34 @@ gender <- ifelse(female == 1, "Female", gender)
 gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender) # missing category
 
-
 # create wide dataframe
   df2long <- data.frame (
     id = 1:length(df$nodeSets$Actors),
     gender = gender,
-    freq1 = df$depvars$freq_other[,,1],
-    freq2 = df$depvars$freq_other[,,2],
-    freq3 = df$depvars$freq_other[,,3],
-    freq4 = df$depvars$freq_other[,,4],
-    freq5 = df$depvars$freq_other[,,5],
-    freq6 = df$depvars$freq_other[,,6],
-    freq7 = df$depvars$freq_other[,,7],
-    freq8 = df$depvars$freq_other[,,8],
-    freq9 = df$depvars$freq_other[,,9],
-    freq10 = df$depvars$freq_other[,,10],
-    freq11 = df$depvars$freq_other[,,11],
-    freq12 = df$depvars$freq_other[,,12],
-    time1 = df$depvars$time_other[,,1],
-    time2 = df$depvars$time_other[,,2],
-    time3 = df$depvars$time_other[,,3],
-    time4 = df$depvars$time_other[,,4],
-    time5 = df$depvars$time_other[,,5],
-    time6 = df$depvars$time_other[,,6],
-    time7 = df$depvars$time_other[,,7],
-    time8 = df$depvars$time_other[,,8],
-    time9 = df$depvars$time_other[,,9],
-    time10 = df$depvars$time_other[,,10],
-    time11 = df$depvars$time_other[,,11],
-    time12 = df$depvars$time_other[,,12])
+    freq1 = df2$freq_other[,,1],
+    freq2 = df2$freq_other[,,2],
+    freq3 = df2$freq_other[,,3],
+    freq4 = df2$freq_other[,,4],
+    freq5 = df2$freq_other[,,5],
+    freq6 = df2$freq_other[,,6],
+    freq7 = df2$freq_other[,,7],
+    freq8 = df2$freq_other[,,8],
+    freq9 = df2$freq_other[,,9],
+    freq10 = df2$freq_other[,,10],
+    freq11 = df2$freq_other[,,11],
+    freq12 = df2$freq_other[,,12],
+    time1 = df2$time_other[,,1],
+    time2 = df2$time_other[,,2],
+    time3 = df2$time_other[,,3],
+    time4 = df2$time_other[,,4],
+    time5 = df2$time_other[,,5],
+    time6 = df2$time_other[,,6],
+    time7 = df2$time_other[,,7],
+    time8 = df2$time_other[,,8],
+    time9 = df2$time_other[,,9],
+    time10 = df2$time_other[,,10],
+    time11 = df2$time_other[,,11],
+    time12 = df2$time_other[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
@@ -2554,9 +2549,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2581,35 +2576,34 @@ gender <- ifelse(female == 1, "Female", gender)
 gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender) # missing category
 
-
 # create wide dataframe
   df2long <- data.frame (
     id = 1:length(df$nodeSets$Actors),
     gender = gender,
-    freq1 = df$depvars$freq_other[,,1],
-    freq2 = df$depvars$freq_other[,,2],
-    freq3 = df$depvars$freq_other[,,3],
-    freq4 = df$depvars$freq_other[,,4],
-    freq5 = df$depvars$freq_other[,,5],
-    freq6 = df$depvars$freq_other[,,6],
-    freq7 = df$depvars$freq_other[,,7],
-    freq8 = df$depvars$freq_other[,,8],
-    freq9 = df$depvars$freq_other[,,9],
-    freq10 = df$depvars$freq_other[,,10],
-    freq11 = df$depvars$freq_other[,,11],
-    freq12 = df$depvars$freq_other[,,12],
-    time1 = df$depvars$time_other[,,1],
-    time2 = df$depvars$time_other[,,2],
-    time3 = df$depvars$time_other[,,3],
-    time4 = df$depvars$time_other[,,4],
-    time5 = df$depvars$time_other[,,5],
-    time6 = df$depvars$time_other[,,6],
-    time7 = df$depvars$time_other[,,7],
-    time8 = df$depvars$time_other[,,8],
-    time9 = df$depvars$time_other[,,9],
-    time10 = df$depvars$time_other[,,10],
-    time11 = df$depvars$time_other[,,11],
-    time12 = df$depvars$time_other[,,12])
+    freq1 = df2$freq_other[,,1],
+    freq2 = df2$freq_other[,,2],
+    freq3 = df2$freq_other[,,3],
+    freq4 = df2$freq_other[,,4],
+    freq5 = df2$freq_other[,,5],
+    freq6 = df2$freq_other[,,6],
+    freq7 = df2$freq_other[,,7],
+    freq8 = df2$freq_other[,,8],
+    freq9 = df2$freq_other[,,9],
+    freq10 = df2$freq_other[,,10],
+    freq11 = df2$freq_other[,,11],
+    freq12 = df2$freq_other[,,12],
+    time1 = df2$time_other[,,1],
+    time2 = df2$time_other[,,2],
+    time3 = df2$time_other[,,3],
+    time4 = df2$time_other[,,4],
+    time5 = df2$time_other[,,5],
+    time6 = df2$time_other[,,6],
+    time7 = df2$time_other[,,7],
+    time8 = df2$time_other[,,8],
+    time9 = df2$time_other[,,9],
+    time10 = df2$time_other[,,10],
+    time11 = df2$time_other[,,11],
+    time12 = df2$time_other[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
@@ -2711,9 +2705,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2738,35 +2732,34 @@ gender <- ifelse(female == 1, "Female", gender)
 gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender) # missing category
 
-
 # create wide dataframe
   df2long <- data.frame (
     id = 1:length(df$nodeSets$Actors),
     gender = gender,
-    freq1 = df$depvars$freq_other[,,1],
-    freq2 = df$depvars$freq_other[,,2],
-    freq3 = df$depvars$freq_other[,,3],
-    freq4 = df$depvars$freq_other[,,4],
-    freq5 = df$depvars$freq_other[,,5],
-    freq6 = df$depvars$freq_other[,,6],
-    freq7 = df$depvars$freq_other[,,7],
-    freq8 = df$depvars$freq_other[,,8],
-    freq9 = df$depvars$freq_other[,,9],
-    freq10 = df$depvars$freq_other[,,10],
-    freq11 = df$depvars$freq_other[,,11],
-    freq12 = df$depvars$freq_other[,,12],
-    time1 = df$depvars$time_other[,,1],
-    time2 = df$depvars$time_other[,,2],
-    time3 = df$depvars$time_other[,,3],
-    time4 = df$depvars$time_other[,,4],
-    time5 = df$depvars$time_other[,,5],
-    time6 = df$depvars$time_other[,,6],
-    time7 = df$depvars$time_other[,,7],
-    time8 = df$depvars$time_other[,,8],
-    time9 = df$depvars$time_other[,,9],
-    time10 = df$depvars$time_other[,,10],
-    time11 = df$depvars$time_other[,,11],
-    time12 = df$depvars$time_other[,,12])
+    freq1 = df2$freq_other[,,1],
+    freq2 = df2$freq_other[,,2],
+    freq3 = df2$freq_other[,,3],
+    freq4 = df2$freq_other[,,4],
+    freq5 = df2$freq_other[,,5],
+    freq6 = df2$freq_other[,,6],
+    freq7 = df2$freq_other[,,7],
+    freq8 = df2$freq_other[,,8],
+    freq9 = df2$freq_other[,,9],
+    freq10 = df2$freq_other[,,10],
+    freq11 = df2$freq_other[,,11],
+    freq12 = df2$freq_other[,,12],
+    time1 = df2$time_other[,,1],
+    time2 = df2$time_other[,,2],
+    time3 = df2$time_other[,,3],
+    time4 = df2$time_other[,,4],
+    time5 = df2$time_other[,,5],
+    time6 = df2$time_other[,,6],
+    time7 = df2$time_other[,,7],
+    time8 = df2$time_other[,,8],
+    time9 = df2$time_other[,,9],
+    time10 = df2$time_other[,,10],
+    time11 = df2$time_other[,,11],
+    time12 = df2$time_other[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
@@ -2868,9 +2861,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2895,35 +2888,34 @@ gender <- ifelse(female == 1, "Female", gender)
 gender <- ifelse(other == 1, "Other", gender)
 gender <- ifelse(is.na(gender), "Missing", gender) # missing category
 
-
 # create wide dataframe
   df2long <- data.frame (
     id = 1:length(df$nodeSets$Actors),
     gender = gender,
-    freq1 = df$depvars$freq_other[,,1],
-    freq2 = df$depvars$freq_other[,,2],
-    freq3 = df$depvars$freq_other[,,3],
-    freq4 = df$depvars$freq_other[,,4],
-    freq5 = df$depvars$freq_other[,,5],
-    freq6 = df$depvars$freq_other[,,6],
-    freq7 = df$depvars$freq_other[,,7],
-    freq8 = df$depvars$freq_other[,,8],
-    freq9 = df$depvars$freq_other[,,9],
-    freq10 = df$depvars$freq_other[,,10],
-    freq11 = df$depvars$freq_other[,,11],
-    freq12 = df$depvars$freq_other[,,12],
-    time1 = df$depvars$time_other[,,1],
-    time2 = df$depvars$time_other[,,2],
-    time3 = df$depvars$time_other[,,3],
-    time4 = df$depvars$time_other[,,4],
-    time5 = df$depvars$time_other[,,5],
-    time6 = df$depvars$time_other[,,6],
-    time7 = df$depvars$time_other[,,7],
-    time8 = df$depvars$time_other[,,8],
-    time9 = df$depvars$time_other[,,9],
-    time10 = df$depvars$time_other[,,10],
-    time11 = df$depvars$time_other[,,11],
-    time12 = df$depvars$time_other[,,12])
+    freq1 = df2$freq_other[,,1],
+    freq2 = df2$freq_other[,,2],
+    freq3 = df2$freq_other[,,3],
+    freq4 = df2$freq_other[,,4],
+    freq5 = df2$freq_other[,,5],
+    freq6 = df2$freq_other[,,6],
+    freq7 = df2$freq_other[,,7],
+    freq8 = df2$freq_other[,,8],
+    freq9 = df2$freq_other[,,9],
+    freq10 = df2$freq_other[,,10],
+    freq11 = df2$freq_other[,,11],
+    freq12 = df2$freq_other[,,12],
+    time1 = df2$time_other[,,1],
+    time2 = df2$time_other[,,2],
+    time3 = df2$time_other[,,3],
+    time4 = df2$time_other[,,4],
+    time5 = df2$time_other[,,5],
+    time6 = df2$time_other[,,6],
+    time7 = df2$time_other[,,7],
+    time8 = df2$time_other[,,8],
+    time9 = df2$time_other[,,9],
+    time10 = df2$time_other[,,10],
+    time11 = df2$time_other[,,11],
+    time12 = df2$time_other[,,12])
 
 # reshape to long dataframe
 df_long <- reshape(df2long,
@@ -3025,9 +3017,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 ### Output ###
 
 # histogram (assuming independent observations)
-hist(df$depvars$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$freq_other, main = "Histogram of Other Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$vCovar$time_other, main = "Histogram of Other Volume", xlab = "", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq

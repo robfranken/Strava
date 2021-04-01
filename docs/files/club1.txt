@@ -6,7 +6,7 @@ Filename is files/club1.txt.
 
 This file contains primary output for SIENA project <<files/club1>>.
 
-Date and time: 08/03/2021 09:28:14 
+Date and time: 01/04/2021 16:17:53 
 
 RSiena version 1.2-23 (12 01 2020)
 
@@ -21,7 +21,7 @@ Data input.
 0 dependent bipartite variables,
 2 dependent discrete behavior variables,
 0 dependent continuous behavior variables,
-2 constant actor covariates,
+1 constant actor covariates,
 3 exogenous changing actor covariates,
 1 constant dyadic covariates,
 0 exogenous changing dyadic covariates,
@@ -222,21 +222,18 @@ freq_run           2.033     1.967     2.433     2.100     2.000     1.767     1
 Reading constant actor covariates.
 ----------------------------------
 
-2 variables, named:
+1 variable, named:
 gender          
-exp             
 
-A total of 2 non-changing individual covariates.
+A total of 1 non-changing individual covariate.
 
 Number of missing cases:
 gender          1 	( 3.3 %)
-exp             1 	( 3.3 %)
 
 Information about covariates:
                minimum  maximum	  mean  centered 
 gender          1.0     2.0      1.414    Y 
-exp             1.0     9.0      4.724    Y 
-The mean values are subtracted from the covariates.
+The mean value is subtracted from the centered covariate.
 
 
 @2
@@ -275,17 +272,17 @@ Overall                            2.439
 
 freq_other                                 Y 
 	period   1     0.0     4.0      0.700 
-	period   2     0.0     8.0      0.933 
+	period   2     0.0     7.0      0.900 
 	period   3     0.0     6.0      0.833 
-	period   4     0.0     8.0      0.967 
-	period   5     0.0     8.0      1.333 
+	period   4     0.0     7.0      0.933 
+	period   5     0.0     7.0      1.300 
 	period   6     0.0     6.0      1.233 
 	period   7     0.0     6.0      1.467 
-	period   8     0.0     8.0      1.400 
-	period   9     0.0     8.0      1.433 
-	period  10     0.0     8.0      1.067 
+	period   8     0.0     7.0      1.367 
+	period   9     0.0     7.0      1.400 
+	period  10     0.0     7.0      1.033 
 	period  11     0.0     4.0      0.733 
-Overall                            1.100 
+Overall                            1.082 
 
 winter                                     Y 
 	period   1     1.0     1.0      1.000 
@@ -334,11 +331,10 @@ For the similarity variable calculated from each actor covariate,
 the mean is subtracted.
 These means are:
 Similarity gender                   :       0.4975 
-Similarity exp                      :       0.6663 
 Similarity time_run                 :       0.6131 
 Similarity freq_run                 :       0.7669 
 Similarity time_other               :       0.6306 
-Similarity freq_other               :       0.8199 
+Similarity freq_other               :       0.7993 
 Similarity winter                   :       1.0000 
 
 
