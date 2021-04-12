@@ -40,7 +40,7 @@ klippy::klippy(position = c('top', 'right'))
 
 In the following scripts a list containing the (anonymized) data of all clubs is made (clubdata.RData).
 
-* Our primary network variable is the Kudo-network. We argue that Kudos are an indication of the 'strength' of friendships. We construct and ordered Kudo-network variable, i.e., a network in which awarding/receiving **more than 1** Kudo constitutes the presence of a (directed) tie, is a sub-network of the network in which awarding/receiving **at least 1 Kudo** counts as a tie. Thus, the Kudo-network with numeric tie values (i.e., number of Kudos awarded/received) is represented as a multivariate network, in which it is impossible that a tie exists in the second-order but not in the first-order network, as suggested by @rsienamanual, section 5.6.
+* Our primary network variable is the Kudo-network. We argue that Kudos are an indication of the 'strength' of friendships. We construct an ordered Kudo-network variable, i.e., a network in which awarding/receiving **more than 1** Kudo constitutes the presence of a (directed) tie, is a sub-network of the network in which awarding/receiving **at least 1 Kudo** counts as a tie. Thus, the Kudo-network with numeric tie values (i.e., number of Kudos awarded/received) is represented as a multivariate network, in which it is impossible that a tie exists in the second-order but not in the first-order network, as suggested by @rsienamanual, section 5.6.
 
 * For the behavioral data we include information on the *frequency* (i.e., in times per week) and *volume* (i.e., in minutes per month) of running activities. We included activity (frequency and volume) in other sports (e.g., cycling and swimming) as a time-varying covariate. We categorized these continuous behavioral variables following recommendations in the literature: chapter 6 of @niezink and page 27 of @rsienamanual.
 
@@ -163,7 +163,7 @@ for (i in (1: length(club_str))) {
   time_rank <- array(
     c(out[[1]], out[[2]], out[[3]], out[[4]], out[[5]], out[[6]], out[[7]], out[[8]], out[[9]], out[[10]], out[[11]], out[[12]]),
     dim = c( size, 1, n_waves)) 
-
+  
   
   # running frequency
   freq_run <- array( c( clubdata[, 'X.run_1.2019'], clubdata[, 'X.run_2.2019'], clubdata[, 'X.run_3.2019'], clubdata[, 'X.run_4.2019'], clubdata[, 'X.run_5.2019'], clubdata[, 'X.run_6.2019'], clubdata[, 'X.run_7.2019'], clubdata[, 'X.run_8.2019'], clubdata[, 'X.run_9.2019'], clubdata[, 'X.run_10.2019'], clubdata[, 'X.run_11.2019'], clubdata[, 'X.run_12.2019']),
@@ -182,6 +182,10 @@ for (i in (1: length(club_str))) {
   freq_rank <- array(
     c(out[[1]], out[[2]], out[[3]], out[[4]], out[[5]], out[[6]], out[[7]], out[[8]], out[[9]], out[[10]], out[[11]], out[[12]]),
     dim = c( size, 1, n_waves)) 
+  
+  # and for a robustness check, we also investigate persistence/dropout more directly, by using a binary dependent
+  # variable indicating whether or not athletes persist in training at least 2 (or 3) times per week.
+  persist <- ifelse(frequencies >= 3, 3, frequencies)
 
   
   # now that we have running data, let's load other activity data (e.g., cycling, swimming)
@@ -293,6 +297,7 @@ for (i in 1:5) {
   # B: behavioral variables
   time_run <- sienaDependent(club$time_run, type= "behavior")
   freq_run <- sienaDependent(club$freq_run, type= "behavior")
+  persist <- sienaDependent(club$persist, type = "behavior")
   
   time_other <- varCovar(club$time_other[,,])
   freq_other <- varCovar(club$freq_other[,,])
@@ -307,7 +312,7 @@ for (i in 1:5) {
   gender <- coCovar(gender)
   
   # now combine the dependent and independent variables in a data object
-  mydata <- sienaDataCreate(kudonet, friendship, time_run, freq_run, time_other, freq_other, 
+  mydata <- sienaDataCreate(kudonet, friendship, time_run, freq_run, persist, time_other, freq_other, 
                             gender, winter)
   #mydata2 <- sienaDataCreate(kudonet, kudonet2, kudonet3, friendship, time_run, freq_run, 
   #                           time_other, freq_other, gender, winter) #ordered network variable.
