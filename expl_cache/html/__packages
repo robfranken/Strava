@@ -2,3 +2,6 @@ base
 knitr
 RSiena
 ggplot2
+statnet.common
+network
+sna

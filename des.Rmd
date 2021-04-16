@@ -9,7 +9,7 @@ output:
     toc_float: true
     collapsed: false
     number_sections: false
-    toc_depth: 2
+    toc_depth: 1
     code_folding: show
     code_download: yes
 ---
@@ -38,9 +38,7 @@ klippy::klippy(position = c('top', 'right'))
 
 ---
 
-We will use the RSiena object to describe the friendship and kudo networks, constant covariates and behavioral variables. We will do this seperately for the [clubs](#clubs) and [egos](#egos).
-
-
+We will use the RSiena object to describe the friendship and kudo networks, constant covariates and behavioral variables. 
 
 <br>
 
@@ -294,27 +292,24 @@ fMoran.I <- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = "tw
 
 ----
 
-# Clubs {#clubs}
-
-
 We cover the following:
 
 * club characteristics
 * network structure in Friendship and Kudo networks
 * gender composition / segregation
-* behavior: activity level (frequency and volume)
+* behavior: activity level (frequency and volume) and correlation
 * spatial network autocorrelation: behavioral similarity in networks
 
 ----
 
 <br>
 
-## Print report
-### {.tabset .tabset-fade} 
+# Print report
+## {.tabset .tabset-fade} 
 Make sure to check the output of the 'print01Report()' function for general data descripton (degrees, network size, etc.) and a general overview of the dataset. Output is printed in a .txt file in the directory specified.
 
 
-#### Club 1
+### Club 1
 ```{r eval= F}
 df <- clubdata_rsiena[[1]] # grab club 
 print01Report(df, modelname="files/club1")
@@ -322,7 +317,7 @@ print01Report(df, modelname="files/club1")
 
 ![](files/club1.txt){#id .class width=100% height=200px}
 
-#### Club 2
+### Club 2
 ```{r eval= F}
 df <- clubdata_rsiena[[2]] # grab club 
 print01Report(df, modelname="files/club2")
@@ -330,7 +325,7 @@ print01Report(df, modelname="files/club2")
 
 ![](files/club2.txt){#id .class width=100% height=200px}
 
-#### Club 3
+### Club 3
 ```{r eval= F}
 df <- clubdata_rsiena[[3]] # grab club 
 print01Report(df, modelname="files/club3")
@@ -338,7 +333,7 @@ print01Report(df, modelname="files/club3")
 
 ![](files/club3.txt){#id .class width=100% height=200px}
 
-#### Club 4
+### Club 4
 ```{r eval= F}
 df <- clubdata_rsiena[[4]] # grab club 
 print01Report(df, modelname="files/club4")
@@ -346,7 +341,7 @@ print01Report(df, modelname="files/club4")
 
 ![](files/club4.txt){#id .class width=100% height=200px}
 
-#### Club 5
+### Club 5
 ```{r eval= F}
 df <- clubdata_rsiena[[5]] # grab club 
 print01Report(df, modelname="files/club5")
@@ -354,11 +349,11 @@ print01Report(df, modelname="files/club5")
 
 ![](files/club5.txt){#id .class width=100% height=200px}
 
-### {-}
+## {-}
 
 ----
 
-## Club characteristics
+# Club characteristics
 
 Some club characteristics. We show the size of the network (the number of actors) for each club and the number of active members currently (18-1-2021) on Strava, by adding to *www.strava.com/clubs/...* the original club id. 
 
@@ -381,15 +376,15 @@ print(df)
 
 ----
 
-## Friendship network
+# Friendship network
 
 We describe the friendship network. Note that the friendship network is a constant dyadic covariate.
 
-### 1. Node-level {.tabset .tabset-fade}
+## 1. Node-level {.tabset .tabset-fade}
 
 Let's describe the friendship-indegrees and -outdegrees of the Strava-users in each club. We take from the RSiena object the friendship network of the club in question, and turn it into an *igraph* object. Then we find the in- and outdegree of each node.
 
-#### Club 1
+### Club 1
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 fnet <- df$dycCovars$friendship # take friendship network
@@ -402,7 +397,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdeg
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
 ```
 
-#### Club 2
+### Club 2
 ```{r}
 df <- clubdata_rsiena[[2]] # grab club 
 fnet <- df$dycCovars$friendship # take friendship network
@@ -415,7 +410,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdeg
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
 ```
 
-#### Club 3
+### Club 3
 ```{r}
 df <- clubdata_rsiena[[3]] # grab club 
 fnet <- df$dycCovars$friendship # take friendship network
@@ -428,7 +423,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdeg
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
 ```
 
-#### Club 4
+### Club 4
 ```{r }
 df <- clubdata_rsiena[[4]] # grab club 
 fnet <- df$dycCovars$friendship # take friendship network
@@ -441,7 +436,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdeg
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
 ```
 
-#### Club 5
+### Club 5
 ```{r}
 df <- clubdata_rsiena[[5]] # grab club 
 fnet <- df$dycCovars$friendship # take friendship network
@@ -454,17 +449,17 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdeg
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
 ```
 
-### {-}
+## {-}
 
 In general, we see that the in- and outdegree distribution is right-skewed, suggesting that most Strava-users befriend and are befriended by relatively few club-members, while fewer users befriend and are befriended by many club-members.
 
 <br>
 
-### 2. Dyad-level {.tabset .tabset-fade}
+## 2. Dyad-level {.tabset .tabset-fade}
 
 Let's investigate to what extent friendship-relationships (dyads) are reciprocated or mutual. There are three types of dyad: mutual, assymetric, and non-existent. We will classify dyads with the dyad-census function, and we will investigate if we observe more mutual dyads than we would expect based on chance.
 
-#### Club 1
+### Club 1
 ```{r }
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[1]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -491,7 +486,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 2
+### Club 2
 ```{r }
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[2]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -518,7 +513,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 3
+### Club 3
 ```{r}
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[3]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -545,7 +540,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 4
+### Club 4
 ```{r }
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[4]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -572,7 +567,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 5
+### Club 5
 ```{r}
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[5]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -599,19 +594,19 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-### {-}
+## {-}
 
 As expected, mutual dyads are way more prominent than would be expected based on chance, which is indicative of reciprocity effects in Strava-friendships among the members of clubs.   
 
 <br>
 
-### 3. Triad-level {.tabset .tabset-fade}
+## 3. Triad-level {.tabset .tabset-fade}
 
 There are 16 types of triads; see @davis1967structure. They can be classified with the triad-census function. See [here](https://igraph.org/r/doc/triad_census.html) for the order in which the multiple triad classifications are counted.
 
 Let's also calculate for each club the (global) transitivity index, which is the ratio of connected triplets (transitive triads) and potentially connected triplets (see [here](http://www.stats.ox.ac.uk/~snijders/Trans_Triads_ha.pdf)). The direction of the edges is ignored. We will then calculate the global transitivity index for random (undirected) graphs.
 
-#### Club 1
+### Club 1
 ```{r}
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[1]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -641,7 +636,7 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ```
 
-#### Club 2
+### Club 2
 ```{r }
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[2]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -671,7 +666,7 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ```
 
-#### Club 3
+### Club 3
 ```{r}
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[3]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -701,7 +696,7 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ```
 
-#### Club 4
+### Club 4
 ```{r}
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[4]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -731,7 +726,7 @@ abline(v=transitivity(G1), col="red", lwd=3)}
 
 ```
 
-#### Club 5
+### Club 5
 ```{r}
 # make igraph object for the club
 G1 <- igraph::graph_from_adjacency_matrix(clubdata_rsiena[[5]]$dycCovars$friendship, mode = "directed", weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
@@ -760,22 +755,22 @@ hist(recip, main="global transitivity index in random graph", xlab="" )
 
 ```
 
-### {-}
+## {-}
 Also transitivity is more prominent than would be expected solely based on chance. 
 
 
 ----
 
 
-## Kudo network
+# Kudo network
 
 Now let's describe the Kudo network, which we view as a dependent behavioral variable. 
 
-### 1. Node-level {.tabset .tabset-fade}
+## 1. Node-level {.tabset .tabset-fade}
 
 Starting, again, with indegrees and outdegrees: who receives and gives Kudos? We take from the RSiena object the Kudo network for each club, subset the first wave, and turn it into an *igraph* object. 
 
-#### Club 1
+### Club 1
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 knet <- df$depvars$kudonet # take Kudo network
@@ -790,7 +785,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of Kudo o
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of Kudo indegree")
 ```
 
-#### Club 2
+### Club 2
 ```{r}
 df <- clubdata_rsiena[[2]] # grab club 
 knet <- df$depvars$kudonet # take Kudo network
@@ -805,7 +800,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of Kudo o
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of Kudo indegree")
 ```
 
-#### Club 3
+### Club 3
 ```{r}
 df <- clubdata_rsiena[[3]] # grab club 
 knet <- df$depvars$kudonet # take Kudo network
@@ -820,7 +815,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of Kudo o
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of Kudo indegree")
 ```
 
-#### Club 4
+### Club 4
 ```{r}
 df <- clubdata_rsiena[[4]] # grab club 
 knet <- df$depvars$kudonet # take Kudo network
@@ -835,7 +830,7 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of Kudo o
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of Kudo indegree")
 ```
 
-#### Club 5
+### Club 5
 ```{r}
 df <- clubdata_rsiena[[5]] # grab club 
 knet <- df$depvars$kudonet # take Kudo network
@@ -850,17 +845,17 @@ hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of Kudo o
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of Kudo indegree")
 ```
 
-### {-}
+## {-}
 
 We can observe the same Pareto-like-patern: some give/receive most of the Kudos given, while most give/receive few.
 
 <br>
 
-### 2. Dyad-level {.tabset .tabset-fade}
+## 2. Dyad-level {.tabset .tabset-fade}
 
 At the dyad-level: let's see to what extent Kudos tend to be reciprocated between actors.
 
-#### Club 1
+### Club 1
 ```{r }
 # make igraph object for the club, at wave 1
 df <- clubdata_rsiena[[1]] # grab club 
@@ -892,7 +887,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 2
+### Club 2
 ```{r }
 # make igraph object for the club, at wave 1
 df <- clubdata_rsiena[[2]] # grab club 
@@ -924,7 +919,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 3
+### Club 3
 ```{r }
 # make igraph object for the club, at wave 1
 df <- clubdata_rsiena[[3]] # grab club 
@@ -956,7 +951,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 4
+### Club 4
 ```{r }
 # make igraph object for the club, at wave 1
 df <- clubdata_rsiena[[4]] # grab club 
@@ -988,7 +983,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-#### Club 5
+### Club 5
 ```{r }
 # make igraph object for the club, at wave 1
 df <- clubdata_rsiena[[5]] # grab club 
@@ -1020,7 +1015,7 @@ for ( i in 1:trial ){
 abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
-### {-}
+## {-}
 
 Conclusion: Kudos tend to be reciprocated, like friendships!
 
@@ -1029,14 +1024,14 @@ Conclusion: Kudos tend to be reciprocated, like friendships!
 
 <br>
 
-## Gender composition 
+# Gender composition 
 
-### {.tabset .tabset-fade}
+## {.tabset .tabset-fade}
 
 Let's investigate the gender composition of the club.
 We must retrieve gender from the object (note that we use the clubdata object, not the rsiena object). Then we make a categorical gender variable and plot it.
 
-#### Club 1
+### Club 1
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[1]] # grab club 
 
@@ -1068,7 +1063,7 @@ df %>%
 
 ```
 
-#### Club 2
+### Club 2
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[2]] # grab club 
 
@@ -1099,7 +1094,7 @@ df %>%
            geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
 ```
 
-#### Club 3
+### Club 3
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[3]] # grab club 
 
@@ -1130,7 +1125,7 @@ df %>%
            geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
 ```
 
-#### Club 4
+### Club 4
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[4]] # grab club 
 
@@ -1161,7 +1156,7 @@ df %>%
            geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
 ```
 
-#### Club 5
+### Club 5
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[5]] # grab club 
 
@@ -1192,7 +1187,7 @@ df %>%
            geom_text(aes(label=paste0(freq,"%")), vjust=1.5, colour="white")
 ```
 
-### {-}
+## {-}
 
 We can see that in all clubs men are overrepresented. 
 
@@ -1200,16 +1195,16 @@ We can see that in all clubs men are overrepresented.
 
 <br>
 
-## Gender segregation
+# Gender segregation
 
 Let's now investigate segregation along gender in the friendship network.
 
 
-### {.tabset .tabset-fade}
+## {.tabset .tabset-fade}
 
 Let's start with describing the total density and intra- (same gender) and intergroup (different gender) densities. We also calculate the Coleman Homophily index for gender, which refelcts gender segregation while taking into account the relative group size of gender categories. We describe these segregation measures for friendship and kudo-networks respectively. 
 
-#### Club 1
+### Club 1
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 df2 <- clubdata[[1]]
@@ -1255,7 +1250,7 @@ knitr::kable(desmat, digits=2, "html", caption="Gender segregation in friendship
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-#### Club 2
+### Club 2
 ```{r}
 df <- clubdata_rsiena[[2]] # grab club 
 df2 <- clubdata[[2]]
@@ -1300,7 +1295,7 @@ knitr::kable(desmat, digits=2, "html", caption="Gender segregation in friendship
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-#### Club 3
+### Club 3
 ```{r}
 df <- clubdata_rsiena[[3]] # grab club 
 df2 <- clubdata[[3]]
@@ -1345,7 +1340,7 @@ knitr::kable(desmat, digits=2, "html", caption="Gender segregation in friendship
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-#### Club 4
+### Club 4
 ```{r}
 df <- clubdata_rsiena[[4]] # grab club 
 df2 <- clubdata[[4]]
@@ -1390,7 +1385,7 @@ knitr::kable(desmat, digits=2, "html", caption="Gender segregation in friendship
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-#### Club 5
+### Club 5
 ```{r}
 df <- clubdata_rsiena[[5]] # grab club 
 df2 <- clubdata[[5]]
@@ -1434,7 +1429,7 @@ knitr::kable(desmat, digits=2, "html", caption="Gender segregation in friendship
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-### {-}
+## {-}
 
 Density in friendships is not much higher within-gender than between-genders, though this ratio differs per club (and in some clubs between-gender friendships are more common). The same pattern holds for Kudo-relationships. 
 
@@ -1444,15 +1439,15 @@ Coleman's Homophily indices vary across clubs. In some clubs there is slight gen
 
 <br>
 
-## Behavior
+# Behavior
 
-### 1. Running {.tabset .tabset-fade}
+## 1. Running {.tabset .tabset-fade}
 
 We will describe the running activities of the club-members, in terms of times per week (0 - >7) and minutes per month (8 equally populated categories). First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
 
 
 
-#### Club 1
+### Club 1
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[1]] # grab club 
 df2 <- clubdata[[1]]
@@ -1590,9 +1585,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running volume per month", x="Month") +
+    labs(y = "Running hours per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -1610,7 +1605,7 @@ plot_mean_time
 
 ```
 
-#### Club 2
+### Club 2
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[2]] # grab club 
 df2 <- clubdata[[2]]
@@ -1748,9 +1743,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running volume per month", x="Month") +
+    labs(y = "Running hours per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -1767,7 +1762,7 @@ plot_mean_freq
 plot_mean_time
 ```
 
-#### Club 3
+### Club 3
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[3]] # grab club 
 df2 <- clubdata[[3]]
@@ -1905,9 +1900,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running volume per month", x="Month") +
+    labs(y = "Running hours per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -1924,7 +1919,7 @@ plot_mean_freq
 plot_mean_time
 ```
 
-#### Club 4
+### Club 4
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[4]] # grab club 
 df2 <- clubdata[[4]]
@@ -2062,9 +2057,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running volume per month", x="Month") +
+    labs(y = "Running hours per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2081,7 +2076,7 @@ plot_mean_freq
 plot_mean_time
 ```
 
-#### Club 5
+### Club 5
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[5]] # grab club 
 df2 <- clubdata[[5]]
@@ -2219,9 +2214,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running volume per month", x="Month") +
+    labs(y = "Running hours per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2238,15 +2233,15 @@ plot_mean_freq
 plot_mean_time
 ```
 
-### {-}
+## {-}
 
 ----
 
-### 2. Other activities {.tabset .tabset-fade}
+## 2. Other activities {.tabset .tabset-fade}
 
 We will describe other activities as well (e.g., cycling and swimming).
 
-#### Club 1
+### Club 1
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[1]] # grab club 
 df2 <- clubdata[[1]]
@@ -2385,7 +2380,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2402,7 +2397,7 @@ plot_mean_freq
 plot_mean_time
 ```
 
-#### Club 2
+### Club 2
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[2]] # grab club 
 df2 <- clubdata[[2]]
@@ -2541,7 +2536,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2558,7 +2553,7 @@ plot_mean_freq
 plot_mean_time
 ```
 
-#### Club 3
+### Club 3
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[3]] # grab club 
 df2 <- clubdata[[3]]
@@ -2697,7 +2692,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2714,7 +2709,7 @@ plot_mean_freq
 plot_mean_time
 ```
 
-#### Club 4
+### Club 4
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[4]] # grab club 
 df2 <- clubdata[[4]]
@@ -2853,7 +2848,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2870,7 +2865,7 @@ plot_mean_freq
 plot_mean_time
 ```
 
-#### Club 5
+### Club 5
 ```{r class.source = 'fold-hide'}
 df <- clubdata_rsiena[[5]] # grab club 
 df2 <- clubdata[[5]]
@@ -3009,7 +3004,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,7) +
+    ylim(0,4) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -3026,18 +3021,18 @@ plot_mean_freq
 plot_mean_time
 ```
 
-### {-}
+## {-}
 
 ----
 
 <br>
 
-## Within-person change
+# Within-person change
 
-### {.tabset .tabset-fade}
+## {.tabset .tabset-fade}
 We have illustrated the development of the mean of the dependent behavioral variable over time, and the extent to which it differed across the genders. Now let's also check if behavior varied over time within individuals. Within-person variation is a prerequisite for identifying influence effects on behavior. Down below we demonstrate how running activity varies within individuals over time, in absolute scores (i.e. in times per week).
 
-#### Club 1
+### Club 1
 
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[1]] # grab club
@@ -3064,7 +3059,7 @@ p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq
 
 ```
 
-#### Club 2
+### Club 2
 
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[2]] # grab club
@@ -3092,7 +3087,7 @@ p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq
 ```
 
 
-#### Club 3
+### Club 3
 
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[3]] # grab club
@@ -3119,7 +3114,7 @@ p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq
 
 ```
 
-#### Club 4
+### Club 4
 
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[4]] # grab club
@@ -3147,7 +3142,7 @@ p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq
 ```
 
 
-#### Club 5
+### Club 5
 
 ```{r class.source = 'fold-hide'}
 df <- clubdata[[5]] # grab club
@@ -3174,22 +3169,39 @@ p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq
 
 ```
 
-### {-}
+## {-}
 
 There seems to be 'sufficient' within-person variability in running behavior, at least in frequency.
 
 ----
 
+# Correlation between frequency and volume
+
+Let's plot the relation between frequency in times per week and volume in hours per week.
+
+## {.tabset .tabset-fade}
+
+### Club 1
+
+
+## {-}
+
+Conclusion:
+
+----
+
 <br>
 
-## Network autocorrelation
 
-### {.tabset .tabset-fade}
+
+# Network autocorrelation
+
+## {.tabset .tabset-fade}
 We have now covered the sport activity levels of our club-athletes, and the extent to which friendship- and Kudo-associations are segregated along gender. Last, we will explore if friendship- and Kudo-associations are also segregated along activity levels. Or in other words: do people with similar activity levels tend to socialize to a greater extent - by befriending one another and by exchanging Kudos - even when taking into account the opportunity structures for 'interacting' with (dis)similar others? 
 
 We use Moran's I spatial autocorrelation measure for this, which is the correlation between the behavioral score of actor *i* and the (total/mean) behavioral score of alters *j* to whom *i* is connected **directly**. We also calculated Moran's I by including the behavioral scores of the actors *h* to whom *i* is indirectly tied, and used the negative exponential function as described by @chen2013 as a distance-decay function for assigning weights.
 
-#### Club 1
+### Club 1
 ```{r}
 df <- clubdata_rsiena[[1]] # grab club 
 df2 <- clubdata[[1]] # grab club 
@@ -3282,7 +3294,7 @@ knitr::kable(v_mat, digits=2, "html", caption="Moran's I statistic for spatial a
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-#### Club 2
+### Club 2
 ```{r}
 df <- clubdata_rsiena[[2]] # grab club 
 df2 <- clubdata[[2]] # grab club 
@@ -3375,7 +3387,7 @@ knitr::kable(v_mat, digits=2, "html", caption="Moran's I statistic for spatial a
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-#### Club 3
+### Club 3
 ```{r}
 df <- clubdata_rsiena[[3]] # grab club 
 df2 <- clubdata[[3]] # grab club 
@@ -3469,7 +3481,7 @@ knitr::kable(v_mat, digits=2, "html", caption="Moran's I statistic for spatial a
 ```
 
 
-#### Club 4
+### Club 4
 ```{r}
 df <- clubdata_rsiena[[4]] # grab club 
 df2 <- clubdata[[4]] # grab club 
@@ -3564,7 +3576,7 @@ knitr::kable(v_mat, digits=2, "html", caption="Moran's I statistic for spatial a
 ```
 
 
-#### Club 5
+### Club 5
 ```{r}
 df <- clubdata_rsiena[[5]] # grab club 
 df2 <- clubdata[[5]] # grab club 
@@ -3658,7 +3670,7 @@ knitr::kable(v_mat, digits=2, "html", caption="Moran's I statistic for spatial a
 ```
 
 
-### {-}
+## {-}
 
 Here, the Moran's I statistic tests whether club members that are *closer to one another* (i.e., having a shorter geodesic/path length), are more a similar with respect to their behavior, under the null hypothesis that behavior is 'randomly distributed' among the club members.
 
@@ -3668,1002 +3680,8 @@ We observe that, indeed, friends that are closer to one another are more alike, 
 
 <br>
 
-# Egos {#egos}
 
-For the egonets, we went two levels deep: 1) we mapped all the others Strava users that are followed by ego, 2) and all the Strava users that are followed by ego's alters (i.e. "friends of friends"); we mapped all ties defined on this set (which we define as a 2.5 degree ego-centered network). 
-
-
-Let's see what  the resulting networks look like.
-
-## 2.5 degree
-
-### {.tabset .tabset-fade}
-
-#### E1
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[1]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E2
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[2]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E3
-
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[3]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego (the first node)
-vertex_attr(G)$name[1] <- "ego"
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E4
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[4]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E5
-
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[5]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E6
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[6]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-
-#### E8
-
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[8]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E9
-
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[9]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E10
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[10]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-#### E11
-```{r fig.height = 12, fig.width = 12}
-df <- egodata2.5[[11]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# identify ego's alters (1.0)
-e <- as.data.frame(get.edgelist(G))
-colnames(e) <- c("i", "j")
-e$alter <- ifelse(e$i == vertex_attr(G)$name[1], 1, 0) #if ego i follows actor j, j is ego's alter
-
-# make actors (ego, 1.0-alter; 2.0-alters) identifiable
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1))) # ego = squared
-vertex_attr(G)$size <- c(8, rep(4, (nrow(fnet) - 1))) # and bigger
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA", ifelse(vertex_attr(G)$name %in% e$j[e$alter==1], "#FFFFB3", "#8DD3C7"))
-
-# plot
-par(bg="white")
-plot(simplify(G),
-     
-     main = "2.5 ego-centered network of directed STRAVA friendships",
-     sub = "ego is purple squared node, their alters (1.0) are yellow nodes, alters of alters (2.0) are green nodes",
-     
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape,                    
-     vertex.size=vertex_attr(G)$size,
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="black",                           
-     edge.width=1,                                
-     edge.arrow.size=0,                      
-     edge.arrow.width=0,                         
-     edge.lty="solid",                             
-     edge.curved=0)
-```
-
-
-
-### {-}
-
-These are very big networks, so we will start with describing 1.5 degree ego-centered networks, which we define as the network consisting of ego, ego's alters, and the ties defined on this set.
-
-----
-
-<br>
-
-## 1.5 degree
-
-### {.tabset .tabset-fade}
-
-#### E1
-
-```{r }
-df <- egodata1.5[[1]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E2
-
-```{r }
-df <- egodata1.5[[2]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E3
-
-```{r }
-df <- egodata1.5[[3]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E5
-
-```{r }
-df <- egodata1.5[[5]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E6
-
-```{r }
-df <- egodata1.5[[6]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E8
-
-```{r }
-df <- egodata1.5[[8]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E9
-
-```{r }
-df <- egodata1.5[[9]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E10
-
-```{r }
-df <- egodata1.5[[10]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-#### E11
-
-```{r }
-df <- egodata1.5[[11]] #grab egonet 
-fnet <- RSiena::coDyadCovar(data.matrix(df$friendship)) #take friendship matrix
-G <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", diag = FALSE) #make an 'igraph object'
-
-# actor attributes: shape and colour
-vertex_attr(G)$shape <- c("square", rep("circle", (nrow(fnet) - 1)))
-vertex_attr(G)$color <- ifelse(vertex_attr(G)$name == vertex_attr(G)$name[1], "#BEBADA","#FFFFB3")
-
-# plot
-{
-  plot(simplify(G),
-       main = "1.5 ego-centered network of directed STRAVA friendships",
-
-       # === vertex
-       vertex.frame.color ="black",          
-       vertex.size2=NA,                            
-       
-       # === vertex label
-       vertex.label=NA,                             
-       vertex.label.family="Times",              
-       vertex.label.font=2,                     
-       vertex.label.cex=1,                           
-       vertex.label.dist=0,                        
-       vertex.label.degree=0 ,                      
-       
-       # === Edge
-       edge.color="black",                           
-       edge.width=1,                                
-       edge.arrow.size=.4,                      
-       edge.arrow.width=1,                         
-       edge.lty="solid",                             
-       edge.curved=0)
-  
-  # Add a legend
-  legend("bottomleft", legend=c("ego", "alter"),
-         col = vertex.attributes(G)$color, bty = "n", pt.cex = 2.5, pch = c(15, 19), horiz = F, inset = c(0.15, 0.15)
-  )
-}
-```
-
-
-### {-}
-
-<!--- 
-
-#RF: especially E3 and E5 seem appropriate for R-SIENA (high density)
----> 
 
 
 ----
-
-<br>
-
-## Print report
-### {.tabset .tabset-fade} 
-Let's get some first descriptives of the egonets
-
-```{r eval = F}
-df <- egodata1.5_rsiena[[1]] # grab club 
-print01Report(df, modelname="files/ego1_1.5")
-
-df <- egodata1.5_rsiena[[2]] # grab club 
-print01Report(df, modelname="files/ego2_1.5")
-
-df <- egodata1.5_rsiena[[3]] # grab club 
-print01Report(df, modelname="files/ego3_1.5")
-
-df <- egodata1.5_rsiena[[4]] # grab club 
-print01Report(df, modelname="files/ego4_1.5")
-
-df <- egodata1.5_rsiena[[5]] # grab club 
-print01Report(df, modelname="files/ego5_1.5")
-
-df <- egodata1.5_rsiena[[6]] # grab club 
-print01Report(df, modelname="files/ego6_1.5")
-
-df <- egodata1.5_rsiena[[7]] # grab club 
-print01Report(df, modelname="files/ego7_1.5")
-
-df <- egodata1.5_rsiena[[8]] # grab club 
-print01Report(df, modelname="files/ego8_1.5")
-
-df <- egodata1.5_rsiena[[9]] # grab club 
-print01Report(df, modelname="files/ego9_1.5")
-
-df <- egodata1.5_rsiena[[10]] # grab club 
-print01Report(df, modelname="files/ego10_1.5")
-
-df <- egodata1.5_rsiena[[11]] # grab club 
-print01Report(df, modelname="files/ego11_1.5")
-```
-
-<br> 
-
-#### E1
-
-![](files/ego1_1.5.txt){#id .class width=100% height=200px}
-
-#### E2
-
-![](files/ego2_1.5.txt){#id .class width=100% height=200px}
-
-#### E3
-
-![](files/ego3_1.5.txt){#id .class width=100% height=200px}
-
-#### E4
-
-![](files/ego4_1.5.txt){#id .class width=100% height=200px}
-
-#### E5
-
-![](files/ego5_1.5.txt){#id .class width=100% height=200px}
-
-#### E6
-
-![](files/ego6_1.5.txt){#id .class width=100% height=200px}
-
-#### E7
-
-![](files/ego7_1.5.txt){#id .class width=100% height=200px}
-
-#### E8
-
-![](files/ego8_1.5.txt){#id .class width=100% height=200px}
-
-#### E9
-
-![](files/ego9_1.5.txt){#id .class width=100% height=200px}
-
-#### E10
-
-![](files/ego10_1.5.txt){#id .class width=100% height=200px}
-
-#### E11
-
-![](files/ego11_1.5.txt){#id .class width=100% height=200px}
-
-### {-}
-
-
-----
-### References
+## References
