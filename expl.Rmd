@@ -291,7 +291,7 @@ Let's estimate the SAOM.
 We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior)
 
 
-```{r eval= T}
+```{r eval=F }
 try <- 1
 
 ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff3, returnDeps=TRUE)
