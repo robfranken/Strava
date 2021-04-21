@@ -5,3 +5,14 @@ ggplot2
 statnet.common
 network
 sna
+igraph
+tidyverse
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+moments
+kableExtra

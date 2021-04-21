@@ -3177,16 +3177,103 @@ There seems to be 'sufficient' within-person variability in running behavior, at
 
 # Correlation between frequency and volume
 
-Let's plot the relation between frequency in times per week and volume in hours per week.
+Let's plot the relation between frequency in times per week and volume in hours per week. We also calculate Kendall's tau-b, i.e. a non-parametric measure of correlation on ranks @khamis.
 
 ## {.tabset .tabset-fade}
 
 ### Club 1
 
+```{r}
+df <- clubdata[[1]] # grab club 
+df <- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
+
+c <- cor.test(df$x, df$y, method="kendall")
+
+plot(df, type="b", 
+     main = "Relation between weekly running variables: frequency and hours",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     xlab = "hours per week", ylab = "sessions per week",
+     col="blue", lwd=c(1,rep(6,10000))) + 
+  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = .5, y = 5, "Kendall's tau-b =")
+
+```
+
+### Club 2
+
+```{r}
+df <- clubdata[[2]] # grab club 
+df <- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
+c <- cor.test(df$x,df$y,method="kendall")
+
+plot(df, type="b", 
+     main = "Relation between weekly running variables: frequency and hours",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     xlab = "hours per week", ylab = "sessions per week",
+     col="blue", lwd=c(1,rep(6,10000))) + 
+  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = .5, y = 5, "Kendall's tau-b =")
+```
+
+### Club 3
+
+```{r}
+df <- clubdata[[3]] # grab club 
+df <- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
+c <- cor.test(df$x,df$y,method="kendall")
+
+plot(df, type="b", 
+     main = "Relation between weekly running variables: frequency and hours",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     xlab = "hours per week", ylab = "sessions per week",
+     col="blue", lwd=c(1,rep(6,10000))) + 
+  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = .5, y = 5, "Kendall's tau-b =")
+```
+
+### Club 4
+
+```{r}
+df <- clubdata[[4]] # grab club 
+df <- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
+c <- cor.test(df$x,df$y,method="kendall")
+
+plot(df, type="b", 
+     main = "Relation between weekly running variables: frequency and hours",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     xlab = "hours per week", ylab = "sessions per week",
+     col="blue", lwd=c(1,rep(6,10000))) + 
+  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = .5, y = 5, "Kendall's tau-b =")
+```
+
+### Club 5
+
+```{r}
+df <- clubdata[[5]] # grab club 
+df <- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
+c <- cor.test(df$x,df$y,method="kendall")
+
+plot(df, type="b", 
+     main = "Relation between weekly running variables: frequency and hours",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     xlab = "hours per week", ylab = "sessions per week",
+     col="blue", lwd=c(1,rep(6,10000))) + 
+  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = .5, y = 5, "Kendall's tau-b =")
+```
 
 ## {-}
 
-Conclusion:
+Although frequency and duration are strongly related, there is some invariance. 
+
+
+<!--- 
+
+#RF: How does this happen? Running 3+ hours in one session? Do we miss something...?
+
+
+---> 
 
 ----
 
