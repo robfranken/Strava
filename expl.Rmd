@@ -79,7 +79,7 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 - For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. (Ultimately, we may want to construct an ordered network-variable, in which awarding/receiving more than 1 Kudo is a sub-network of the network in which awarding/reciving 1 Kudo counts as a tie, as a robusness test) 
 
-- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7 times per week), and running volume (in hours per week, capped at 3+).
+- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7 times per week), and running volume (in half hours per week, capped at 7).
 
 - We included activity in other sports (e.g., cycling and swimming) as a time-varying covariate.
 
@@ -88,7 +88,7 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[2]] # grab club 
+club <- clubdata[[4]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
@@ -180,14 +180,14 @@ to perform score-type tests, include the effects with the setEffect command, set
 ```{r echo=T, results='hide'}
 myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
 myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
-myeff1 <- includeEffects(myeff1, isolateNet, name = "kudonet") 
+
 ```
 
 
 <!--- 
 
 test the network-isolate effect
-
+myeff1 <- includeEffects(myeff1, isolateNet, name = "kudonet") 
 ---> 
 
 
@@ -210,12 +210,16 @@ We included two influence effects to test our hypotheses on the influence of soc
 1. The indegree effect on behavior.
 This tests the social support explanation: the higher indegree (our operationalization of received support), the greater the probability of increasing the behavior. 
 
-2. (..)
+2. The average alter effect on behavior.
+This tests social comparison as assimilation.
 
 
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff2, indeg, name = "freq_run", interaction1 = "kudonet") 
 myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
+
+myeff3 <- includeEffects(myeff3, avAlt, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, avAlt, name = "time_run", interaction1 = "kudonet")
 
 ```
 
@@ -223,7 +227,7 @@ myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudon
 
 
 <!--- 
-#RF currently programming a outdegree effect on behavior, conditional on behavior alters > behavior ego.
+
 
 for robustness check with separate creation and endowment effects:
 
@@ -426,72 +430,30 @@ We present the SAOM results for all clubs.
 
 ### Club 1
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim3/club 1/final.html")
-
+htmltools::includeHTML("files/clubs results/28-4/club 1.html")
 ```
 
 ### Club 2
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim3/club 2/final.html")
+htmltools::includeHTML("files/clubs results/28-4/club 2.html")
 ```
 
 ### Club 3
-```{r, echo=F}
-htmltools::includeHTML("files/prelim3/club 3/final.html")
-```
+
 
 ### Club 4
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim3/club 4/final.html")
+htmltools::includeHTML("files/clubs results/28-4/club 4.html")
 ```
 
-Note that we excluded gender effects on tie formation and behavior change, as they were non-significant and caused convergence issues (probably because of small N). Also note the high rate parameters!
+Gender effects on tie formation and behavior changes were excluded in Club 4; they were fixed to 0 and tested, but were insignificant.
 
 ### Club 5
 ```{r, echo=F}
-htmltools::includeHTML("files/prelim3/club 5/final.html")
+htmltools::includeHTML("files/clubs results/28-4/club 5.html")
 ```
 
 ## {-}
-
-- We see a marginal reciprocated degree effect on running volume (club 1) and running frequency (club 2).
-
-- We see positive average reciprocated alter effect on running frequency and volume (club 5). 
-
-
-Thus, in three clubs we find influence effects (indicating support and comparison). These effects are observed even after controlling for selection and structural network effects. 
-
-
-
-----
-
-## Ordered network variable {#lvl2}
-
-In the estimated SAOM the reciprocation of at least 1 Kudo constituted the presence of a tie. I also estimated the model with reciprocation of *more than* 1 Kudo constituting the presence of a tie
-
-<!--- 
-
-replace the kudonet with kudonet2
----> 
-
-### {.tabset .tabset-fade}
-
-#### Club 1
-```{r, echo=F}
-htmltools::includeHTML("files/clubs results/knet2/club1.html")
-```
-
-#### Club 2
-```{r, echo=F}
-htmltools::includeHTML("files/clubs results/knet2/club2.html")
-```
-
-#### Club 5
-```{r, echo=F}
-htmltools::includeHTML("files/clubs results/knet2/club5.html")
-```
-
-### {-}
 
 
 
