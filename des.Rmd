@@ -54,8 +54,6 @@ rm (list = ls( ))
 # load the object
 load("clubdata_rsiena.RData")
 load("clubdata.RData")
-load("egodata1.5.RData")
-load("egodata2.5.RData")
 ```
 
 
@@ -394,6 +392,7 @@ G1 <- igraph::graph_from_adjacency_matrix(fnet, mode = "directed", weighted = NU
 
 # find in- and outdegree for each node
 hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of outdegree Strava friendship network")
+?hist
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree Strava friendship network")
 ```
 
@@ -1443,7 +1442,7 @@ Coleman's Homophily indices vary across clubs. In some clubs there is slight gen
 
 ## 1. Running {.tabset .tabset-fade}
 
-We will describe the running activities of the club-members, in terms of times per week (0 - >7) and minutes per month (8 equally populated categories). First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
+We will describe the running activities of the club-members, in terms of times per week (0 - 7) and half hours per week (capped of at 3.5 hours). First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
 
 
 
@@ -1585,9 +1584,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running hours per week", x="Month") +
+    labs(y = "Weekly running duration in half hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -1597,7 +1596,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -1743,9 +1742,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running hours per week", x="Month") +
+    labs(y = "Weekly running duration in half hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -1755,7 +1754,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -1900,9 +1899,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running hours per week", x="Month") +
+    labs(y = "Weekly running duration in half hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -1912,7 +1911,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2057,9 +2056,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running hours per week", x="Month") +
+    labs(y = "Weekly running duration in half hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2069,7 +2068,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2214,9 +2213,9 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Running hours per week", x="Month") +
+    labs(y = "Weekly running duration in half hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2226,7 +2225,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
 
 # development mean over time
 plot_mean_freq
@@ -2380,7 +2379,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2536,7 +2535,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2692,7 +2691,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -2848,7 +2847,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -3004,7 +3003,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
     labs(y = "Other volume per month", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
-    ylim(0,4) +
+    ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
           legend.position = "right", legend.title=element_blank()
     )
@@ -3177,7 +3176,7 @@ There seems to be 'sufficient' within-person variability in running behavior, at
 
 # Correlation between frequency and volume
 
-Let's plot the relation between frequency in times per week and volume in hours per week. We also calculate Kendall's tau-b, i.e. a non-parametric measure of correlation on ranks @khamis.
+Let's plot the relation between frequency in times per week and volume in half hours per week. We also calculate Kendall's tau-b, i.e. a non-parametric measure of correlation on ranks (cf. @khamis).
 
 ## {.tabset .tabset-fade}
 
@@ -3190,11 +3189,11 @@ df <- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
 c <- cor.test(df$x, df$y, method="kendall")
 
 plot(df, type="b", 
-     main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
-     xlab = "hours per week", ylab = "sessions per week",
+     main = "Relation between weekly running variables: frequency and (half) hours",
+     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
+     xlab = "half hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
   text(x = .5, y = 5, "Kendall's tau-b =")
 
 ```
@@ -3208,10 +3207,10 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
   text(x = .5, y = 5, "Kendall's tau-b =")
 ```
 
@@ -3224,10 +3223,10 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
   text(x = .5, y = 5, "Kendall's tau-b =")
 ```
 
@@ -3240,10 +3239,10 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
   text(x = .5, y = 5, "Kendall's tau-b =")
 ```
 
@@ -3256,24 +3255,16 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 3",
+     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1, y = 5, round(c$estimate, digits=2)) +
+  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
   text(x = .5, y = 5, "Kendall's tau-b =")
 ```
 
 ## {-}
 
 Although frequency and duration are strongly related, there is some invariance. 
-
-
-<!--- 
-
-#RF: How does this happen? Running 3+ hours in one session? Do we miss something...?
-
-
----> 
 
 ----
 

@@ -133,12 +133,13 @@ for (i in (1: length(club_str))) {
   #for now, these order cut-offs were quite arbitrarily chosen; can be extended, or be applied with other categories.
   
   
-  # running time (in hours per week)
+  # running time (in (half) hours per week)
   time_run <- array( c( clubdata[, 'time_run_1.2019'], clubdata[, 'time_run_2.2019'], clubdata[, 'time_run_3.2019'], clubdata[, 'time_run_4.2019'], clubdata[, 'time_run_5.2019'], clubdata[, 'time_run_6.2019'], clubdata[, 'time_run_7.2019'], clubdata[, 'time_run_8.2019'], clubdata[, 'time_run_9.2019'], clubdata[, 'time_run_10.2019'], clubdata[, 'time_run_11.2019'], clubdata[, 'time_run_12.2019']),
                      dim = c( size, 1, n_waves ) ) # minutes per month
   time_run_h <- time_run / 60 # hours per month
-  hours <- ceiling(time_run_h/4) # hours per week
-  time_run_temp <- ifelse(hours > 3, 3, hours ) # cap off at 3 hours per week
+  time_run_30 <- time_run_h *2 # half hours
+  time <- ceiling(time_run_30/4) # per week
+  time_run_temp <- ifelse(time > 7, 7, time ) # cap off at 3.5 hours per week
   
   
   # running frequency (times per week)
@@ -161,9 +162,10 @@ for (i in (1: length(club_str))) {
   
   time_other <- time_ride + time_other # minutes per month
   time_other_h <- time_other / 60 # hours per month
-  hours <- ceiling(time_other_h/4) # hours per week
-  time_other_temp <- ifelse(hours > 3, 3, hours ) # cap off at 3 hours per week
-
+  time_other_h <- time_other_h *2  # half hours
+  time <- ceiling(time_other_h/4) #per week
+  time_other_temp <- ifelse(time > 7, 7, time ) # cap off at 3.5 hours per week
+  
   
   # frequency
   freq_ride <- array( c( clubdata[, 'X.ride_1.2019'], clubdata[, 'X.ride_2.2019'], clubdata[, 'X.ride_3.2019'], clubdata[, 'X.ride_4.2019'], clubdata[, 'X.ride_5.2019'], clubdata[, 'X.ride_6.2019'], clubdata[, 'X.ride_7.2019'], clubdata[, 'X.ride_8.2019'], clubdata[, 'X.ride_9.2019'], clubdata[, 'X.ride_10.2019'], clubdata[, 'X.ride_11.2019'], clubdata[, 'X.ride_12.2019']),

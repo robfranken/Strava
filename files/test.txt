@@ -6,9 +6,9 @@ Filename is files/test.txt.
 
 This file contains primary output for SIENA project <<files/test>>.
 
-Date and time: 20/04/2021 17:02:30 
+Date and time: 29/04/2021 09:40:42 
 
-RSiena version 1.2-23 (12 01 2020)
+RSiena version 1.2.33 (19 03 2021)
 
 
 @1
@@ -203,7 +203,7 @@ Reading dependent actor variables.
 Maximum and minimum rounded values are 0 and 7.
 
 2nd dependent actor variable named time_run.
-Maximum and minimum rounded values are 0 and 3.
+Maximum and minimum rounded values are 0 and 7.
 
 
 A total of 2 dependent actor variables.
@@ -216,7 +216,7 @@ time_run             0         0         0         0         0         0        
 Means per observation:
  observation         1         2         3         4         5         6         7         8         9        10        11        12		overall
 freq_run           2.033     1.967     2.433     2.100     2.000     1.767     1.567     2.033     2.233     2.133     1.900     2.300     2.039
-time_run           1.833     1.733     2.033     2.000     1.833     1.500     1.500     1.800     1.900     1.833     1.800     1.967     1.811
+time_run           3.500     3.567     4.167     3.900     3.467     2.700     2.767     3.533     3.800     3.567     3.633     3.900     3.542
 
 @2
 Reading constant actor covariates.
@@ -271,18 +271,18 @@ freq_other                                 Y
 Overall                            1.082 
 
 time_other                                 Y 
-	period   1     0.0     3.0      0.700 
-	period   2     0.0     3.0      0.800 
-	period   3     0.0     3.0      0.867 
-	period   4     0.0     3.0      0.833 
-	period   5     0.0     3.0      1.133 
-	period   6     0.0     3.0      1.333 
-	period   7     0.0     3.0      1.600 
-	period   8     0.0     3.0      1.267 
-	period   9     0.0     3.0      1.367 
-	period  10     0.0     3.0      0.933 
-	period  11     0.0     3.0      0.733 
-Overall                            1.052 
+	period   1     0.0     7.0      1.333 
+	period   2     0.0     7.0      1.533 
+	period   3     0.0     7.0      1.567 
+	period   4     0.0     7.0      1.667 
+	period   5     0.0     7.0      2.333 
+	period   6     0.0     7.0      2.733 
+	period   7     0.0     7.0      3.267 
+	period   8     0.0     7.0      2.567 
+	period   9     0.0     7.0      2.633 
+	period  10     0.0     7.0      1.900 
+	period  11     0.0     7.0      1.333 
+Overall                            2.079 
 
 winter                                     Y 
 	period   1     1.0     1.0      1.000 
@@ -314,9 +314,9 @@ the mean is subtracted.
 These means are:
 Similarity gender                   :       0.4975 
 Similarity freq_run                 :       0.7669 
-Similarity time_run                 :       0.5861 
+Similarity time_run                 :       0.5917 
 Similarity freq_other               :       0.7993 
-Similarity time_other               :       0.5944 
+Similarity time_other               :       0.6262 
 Similarity winter                   :       1.0000 
 
 
@@ -420,9 +420,13 @@ Dependent actor variable 3: time_run
 values               1     2     3     4     5     6     7     8     9    10    11    12
                 ------------------------------------------------------------------------
   0                  6     6     5     4     4     7     6     7     5     5     7     5
-  1                  4     6     5     6     5     7    10     6     4     5     3     5
-  2                  9     8     4     6    13    10     7     3    10    10     9     6
-  3                 11    10    16    14     8     6     7    14    11    10    11    14
+  1                  2     0     2     2     2     5     4     5     0     2     1     1
+  2                  2     6     3     4     3     2     6     1     4     3     2     4
+  3                  3     2     1     5     6     8     5     1     4     8     3     4
+  4                  6     6     3     1     7     2     2     2     6     2     6     2
+  5                  5     1     3     2     3     0     2     4     3     1     1     2
+  6                  1     3     4     6     0     2     1     2     1     1     4     6
+  7                  5     6     9     6     5     4     4     8     7     8     6     6
 No missings
 
 
@@ -447,18 +451,18 @@ Dependent actor variable 2: freq_run
 For this variable, the standard initial behavioral tendency parameter is   0.0184
 Dependent actor variable 3: time_run
  periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
-  1  =>  2             8     4      18         0                    9     6    15
-  2  =>  3             2     7      21         0                    2    11    13
-  3  =>  4             4     4      22         0                    5     4     9
-  4  =>  5             7     2      21         0                    7     2     9
-  5  =>  6            11     4      15         0                   14     4    18
-  6  =>  7             8     8      14         0                   10    10    20
-  7  =>  8             4    12      14         0                    5    14    19
-  8  =>  9             4     4      22         0                    4     7    11
-  9  => 10             4     2      24         0                    4     2     6
- 10  => 11             6     6      18         0                    8     7    15
- 11  => 12             4     7      19         0                    4     9    13
+  1  =>  2            11     7      12         0                   16    18    34
+  2  =>  3             3    10      17         0                    5    23    28
+  3  =>  4            11     6      13         0                   19    11    30
+  4  =>  5            10     7      13         0                   21     8    29
+  5  =>  6            13     6      11         0                   32     9    41
+  6  =>  7            10    12       8         0                   22    24    46
+  7  =>  8             5    15      10         0                   11    34    45
+  8  =>  9             6     7      17         0                    9    17    26
+  9  => 10             8     4      18         0                   12     5    17
+ 10  => 11             8     9      13         0                   18    20    38
+ 11  => 12             7     8      15         0                    9    17    26
 
-For this variable, the standard initial behavioral tendency parameter is   0.0194
+For this variable, the standard initial behavioral tendency parameter is   0.0121
 
 Initialisation of project <<files/test>> executed succesfully.

@@ -66,7 +66,7 @@ We will:
 4. Define our algorithm
 5. And estimate the SAOM
 
-Below, we will follow these steps for club 1 (N=30). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs.
+Below, we will follow these steps for club 2 (N=62). We will explore the SAOM for 3 clubs in order to find the best model (see [Results](#result)). We will subsequently test if this model also fits the data of the remaining two clubs.
 
 
 ----
@@ -88,7 +88,7 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[1]] # grab club 
+club <- clubdata[[2]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
@@ -118,6 +118,14 @@ mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, g
 <!--- 
 
 After the estimation procedure, just edit the number within the double brackets [[x]] to grab another club.
+
+
+For robustness check: add the number of followees as covariate
+code:
+following <- c(81,67,33,159,167,61,122,160,273,65,412,52,280,149,49,15,64,49,125,61,210,28,34,90,47,134,842,256,169,225,264,193,87,14,219,111,56,56,84,70,96,123,120,101,196,168,9,108,30,63,137,79,99,61,147,91,104,422,77,119,12,13)
+# cluster it in 10 equally populated categories
+fol <- ntile(following, 10)
+following <- coCovar(fol)
 
 ---> 
 
@@ -171,8 +179,16 @@ to perform score-type tests, include the effects with the setEffect command, set
 
 ```{r echo=T, results='hide'}
 myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
-myeff1 <- includeEffects(myeff, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff1 <- includeEffects(myeff1, isolateNet, name = "kudonet") 
 ```
+
+
+<!--- 
+
+test the network-isolate effect
+
+---> 
 
 
 
@@ -208,6 +224,16 @@ myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudon
 
 <!--- 
 #RF currently programming a outdegree effect on behavior, conditional on behavior alters > behavior ego.
+
+for robustness check with separate creation and endowment effects:
+
+myeff3 <- includeEffects(myeff2, indeg, name = "freq_run", interaction1 = "kudonet", type = "creation") 
+myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet", type = "endow") 
+myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet", type="creation")
+myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet", type="endow")
+
+
+
 
 ---> 
 
@@ -254,6 +280,12 @@ myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender",
 myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0)
 
 
+For robustness test with individual level covariate 'following', include effect on 
+behavior and ties: 
+
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "following")
+myeff3 <- includeEffects( myeff3, egoX, name="kudonet", interaction1 = "following" )
+
 ---> 
 
 
@@ -291,7 +323,7 @@ Let's estimate the SAOM.
 We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior)
 
 
-```{r eval=F }
+```{r eval= F }
 try <- 1
 
 ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff3, returnDeps=TRUE)
