@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Strava paper</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Strava Journal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li>
+  <a href="des.html">Descriptives</a>
+</li>
+<li>
+  <a href="expl.html">Exploring RSiena</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Strava paper</h1>
+<h4 class="date">Last compiled on april, 2021</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<pre class="r test"><code>require(RSiena)</code></pre>
+<div id="data-sim" class="section level2">
+<h2>Data sim</h2>
+<pre class="r test"><code>networkt1 &lt;- matrix(1, nrow = 4, ncol = 4)
+networkt1[2, 1] &lt;- 0
+networkt1[3, 2] &lt;- 0
+networkt2 &lt;- matrix(1, nrow = 4, ncol = 4)
+
+sport &lt;- c(2, 1, 3, 3)
+
+friendship &lt;- sienaDependent(array(c(networkt1, networkt2), dim = c(4, 4, 2)))
+sport &lt;- coCovar(sport)
+mydata &lt;- sienaDataCreate(friendship, sport)</code></pre>
+</div>
+<div id="calculating-the-similarity-scores" class="section level2">
+<h2>calculating the similarity scores</h2>
+<ul>
+<li>maximum similarity is 1<br />
+</li>
+<li>maximum difference is 0</li>
+</ul>
+<p>The mean of the similarity values</p>
+<pre class="r test"><code># attr(mydata$cCovars$sport, &#39;centered&#39;)
+attr(mydata$cCovars$sport, &quot;simMean&quot;)
+# mydata$cCovars$sport</code></pre>
+<pre class="test2"><code>#&gt; [1] 0.4166667</code></pre>
+<div id="calculate-ourselves" class="section level3">
+<h3>calculate ourselves</h3>
+<pre class="r test"><code>rv &lt;- attr(mydata$cCovars$sport, &quot;range&quot;)
+rv
+
+
+mydata$depvars[[1]][, , 1]
+
+ego &lt;- matrix(sport, nrow = 4, ncol = 4, byrow = FALSE)
+alter &lt;- t(ego)
+ego
+alter
+sim &lt;- 1 - (abs(ego - alter)/rv)
+sim
+diag(sim) &lt;- NA
+mean(sim, na.rm = T)</code></pre>
+<pre class="test2"><code>#&gt; [1] 2
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]    1    1    1    1
+#&gt; [2,]    0    1    1    1
+#&gt; [3,]    1    0    1    1
+#&gt; [4,]    1    1    1    1
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]    2    2    2    2
+#&gt; [2,]    1    1    1    1
+#&gt; [3,]    3    3    3    3
+#&gt; [4,]    3    3    3    3
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]    2    1    3    3
+#&gt; [2,]    2    1    3    3
+#&gt; [3,]    2    1    3    3
+#&gt; [4,]    2    1    3    3
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]  1.0  0.5  0.5  0.5
+#&gt; [2,]  0.5  1.0  0.0  0.0
+#&gt; [3,]  0.5  0.0  1.0  1.0
+#&gt; [4,]  0.5  0.0  1.0  1.0
+#&gt; [1] 0.4166667</code></pre>
+</div>
+</div>
+<div id="avatthigher" class="section level2">
+<h2>avAttHigher</h2>
+<p><span class="math display">\[ s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j + p_1)&gt;z_i \} sim^z_{ij} + p_2*I \{ (z_j + p_1) \le z_i \} )\,\]</span></p>
+<pre class="r test"><code>ego &lt;- 1
+behavior &lt;- &quot;sport&quot;
+alter &lt;- 1
+
+fef &lt;- function(ego, behavior, mydata) {
+    beh &lt;- mydata$cCovars[[names(mydata$cCovars) == behavior]]
+    rv &lt;- attr(mydata$cCovars[[names(mydata$cCovars) == behavior]], &quot;range&quot;)
+    
+    egom &lt;- matrix(mydata$cCovars[[names(mydata$cCovars) == behavior]], nrow = 4, ncol = 4, byrow = FALSE)
+    alterm &lt;- t(egom)
+    sim &lt;- 1 - (abs(egom - alterm)/rv)
+    diag(sim) &lt;- NA
+    
+    sbeh &lt;- 0
+    
+    for (alter in 1:length(beh)) {
+        if (alter != ego &amp; beh[alter] &gt; beh[ego]) 
+            sbeh &lt;- sbeh + mydata$depvars[[1]][ego, alter, 1] * sim[alter, ego]
+        if (alter != ego &amp; beh[alter] &lt;= beh[ego]) 
+            sbeh &lt;- sbeh + mydata$depvars[[1]][ego, alter, 1]
+    }
+    sbeh &lt;- sbeh/(sum(mydata$depvars[[1]][ego, , 1]) - 1)
+    return(list(rv, sim, sbeh))
+}</code></pre>
+<pre class="r test"><code>sport &lt;- c(2, 1, 3, 3)
+sport &lt;- coCovar(sport)
+mydata &lt;- sienaDataCreate(friendship, sport)
+fef(1, &quot;sport&quot;, mydata)
+
+sport &lt;- c(3, 1, 3, 3)
+sport &lt;- coCovar(sport)
+mydata &lt;- sienaDataCreate(friendship, sport)
+fef(1, &quot;sport&quot;, mydata)
+
+sport &lt;- c(1, 1, 3, 3)
+sport &lt;- coCovar(sport)
+mydata &lt;- sienaDataCreate(friendship, sport)
+fef(1, &quot;sport&quot;, mydata)</code></pre>
+<pre class="test2"><code>#&gt; [[1]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[2]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]   NA  0.5  0.5  0.5
+#&gt; [2,]  0.5   NA  0.0  0.0
+#&gt; [3,]  0.5  0.0   NA  1.0
+#&gt; [4,]  0.5  0.0  1.0   NA
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 0.6666667
+#&gt; 
+#&gt; [[1]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[2]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]   NA    0    1    1
+#&gt; [2,]    0   NA    0    0
+#&gt; [3,]    1    0   NA    1
+#&gt; [4,]    1    0    1   NA
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 1
+#&gt; 
+#&gt; [[1]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[2]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]   NA    1    0    0
+#&gt; [2,]    1   NA    0    0
+#&gt; [3,]    0    0   NA    1
+#&gt; [4,]    0    0    1   NA
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 0.3333333</code></pre>
+<p>Alternative operationalization</p>
+<p><span class="math display">\[  s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, 1 - \frac{max(z_j - z_i,0)}{r_Z})\,\]</span></p>
+<pre class="r test"><code>fef2 &lt;- function(ego, behavior, mydata) {
+    beh &lt;- mydata$cCovars[[names(mydata$cCovars) == behavior]]
+    rv &lt;- attr(mydata$cCovars[[names(mydata$cCovars) == behavior]], &quot;range&quot;)
+    
+    ego &lt;- 1
+    alter &lt;- 2
+    sbeh &lt;- 0
+    
+    for (alter in 1:length(beh)) {
+        if (alter != ego) 
+            sbeh &lt;- sbeh + mydata$depvars[[1]][ego, alter, 1] * (1 - max(beh[alter] - beh[ego], 0)/rv)
+    }
+    sbeh &lt;- sbeh/(sum(mydata$depvars[[1]][ego, , 1]) - 1)
+    return(list(rv, sbeh))
+}</code></pre>
+<pre class="r test"><code>sport &lt;- c(2, 1, 3, 3)
+sport &lt;- coCovar(sport)
+mydata &lt;- sienaDataCreate(friendship, sport)
+fef2(1, &quot;sport&quot;, mydata)
+
+sport &lt;- c(3, 1, 3, 3)
+sport &lt;- coCovar(sport)
+mydata &lt;- sienaDataCreate(friendship, sport)
+fef2(1, &quot;sport&quot;, mydata)
+
+sport &lt;- c(1, 1, 3, 3)
+sport &lt;- coCovar(sport)
+mydata &lt;- sienaDataCreate(friendship, sport)
+fef2(1, &quot;sport&quot;, mydata)</code></pre>
+<pre class="test2"><code>#&gt; [[1]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 0.6666667
+#&gt; 
+#&gt; [[1]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 1
+#&gt; 
+#&gt; [[1]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 0.3333333</code></pre>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlN0cmF2YSBwYXBlciINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCmRhdGU6ICJMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgIg0Kb3V0cHV0OiANCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6ICBmYWxzZQ0KICAgIHRvY19mbG9hdDogdHJ1ZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KGtuaXRyKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIHJlc3VsdHM9ImhvbGQiLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KLS0tLSAgDQoNCmBgYHtyfQ0KcmVxdWlyZShSU2llbmEpDQpgYGANCg0KIyMgRGF0YSBzaW0NCg0KYGBge3J9DQpuZXR3b3JrdDEgPC0gbWF0cml4KDEsIG5yb3c9NCwgbmNvbD00KQ0KbmV0d29ya3QxWzIsMV0gPC0gMA0KbmV0d29ya3QxWzMsMl0gPC0gMA0KbmV0d29ya3QyIDwtIG1hdHJpeCgxLCBucm93PTQsIG5jb2w9NCkNCg0Kc3BvcnQgPC0gYygyLDEsMywzKQ0KDQpmcmllbmRzaGlwIDwtIHNpZW5hRGVwZW5kZW50KGFycmF5KCBjKCBuZXR3b3JrdDEsIG5ldHdvcmt0MiksIGRpbSA9IGMoIDQsNCwyICkgKSApDQpzcG9ydCA8LSBjb0NvdmFyKHNwb3J0KQ0KbXlkYXRhIDwtIHNpZW5hRGF0YUNyZWF0ZSggZnJpZW5kc2hpcCwgc3BvcnQgKQ0KDQoNCmBgYA0KIyMgY2FsY3VsYXRpbmcgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQoNCi0gbWF4aW11bSBzaW1pbGFyaXR5IGlzIDEgIA0KLSBtYXhpbXVtIGRpZmZlcmVuY2UgaXMgMCAgDQoNClRoZSBtZWFuIG9mIHRoZSBzaW1pbGFyaXR5IHZhbHVlcw0KYGBge3J9DQoNCiNhdHRyKG15ZGF0YSRjQ292YXJzJHNwb3J0LCAiY2VudGVyZWQiKQ0KYXR0cihteWRhdGEkY0NvdmFycyRzcG9ydCwgInNpbU1lYW4iKQ0KI215ZGF0YSRjQ292YXJzJHNwb3J0DQpgYGANCg0KIyMjIGNhbGN1bGF0ZSBvdXJzZWx2ZXMNCg0KYGBge3J9DQpydiA8LSBhdHRyKG15ZGF0YSRjQ292YXJzJHNwb3J0LCAicmFuZ2UiKQ0KcnYNCg0KDQpteWRhdGEkZGVwdmFyc1tbMV1dWywsMV0NCg0KZWdvIDwtIG1hdHJpeChzcG9ydCwgbnJvdz00LCBuY29sPTQgLGJ5cm93PUZBTFNFKQ0KYWx0ZXIgPC0gdChlZ28pDQplZ28NCmFsdGVyDQpzaW0gPC0gMSAtIChhYnMoZWdvLWFsdGVyKS9ydikNCnNpbQ0KZGlhZyhzaW0pIDwtIE5BDQptZWFuKHNpbSwgbmEucm09VCkNCg0KYGBgDQoNCiMjIGF2QXR0SGlnaGVyDQoNCiQkIHNee2JlaH1fe2kyM30oeCx6KSA9IHheey0xfV97aSt9XHN1bV9qIHhfe2lqfSAoXCwgSSBceyAoel9qICsgcF8xKT56X2kgXH0gc2ltXnpfe2lqfSArIHBfMipJIFx7ICh6X2ogKyBwXzEpIFxsZSB6X2kgXH0gKVwsJCQNCg0KYGBge3J9DQoNCmVnbyA8LSAxDQpiZWhhdmlvciA8LSAic3BvcnQiDQphbHRlciA8LSAxDQoNCmZlZiA8LSBmdW5jdGlvbihlZ28sIGJlaGF2aW9yLCBteWRhdGEpIHsNCiAgYmVoIDwtIG15ZGF0YSRjQ292YXJzW1tuYW1lcyhteWRhdGEkY0NvdmFycyk9PWJlaGF2aW9yXV0NCiAgcnYgPC0gYXR0cihteWRhdGEkY0NvdmFyc1tbbmFtZXMobXlkYXRhJGNDb3ZhcnMpPT1iZWhhdmlvcl1dLCAicmFuZ2UiKSANCg0KZWdvbSA8LSBtYXRyaXgobXlkYXRhJGNDb3ZhcnNbW25hbWVzKG15ZGF0YSRjQ292YXJzKT09YmVoYXZpb3JdXSwgbnJvdz00LCBuY29sPTQgLGJ5cm93PUZBTFNFKQ0KYWx0ZXJtIDwtIHQoZWdvbSkNCnNpbSA8LSAxIC0gKGFicyhlZ29tLWFsdGVybSkvcnYpDQpkaWFnKHNpbSkgPC0gTkENCg0Kc2JlaCA8LSAwIA0KDQogIGZvciAoYWx0ZXIgaW4gMTpsZW5ndGgoYmVoKSkgew0KICAgIGlmIChhbHRlciE9ZWdvICYgYmVoW2FsdGVyXT5iZWhbZWdvXSkgc2JlaCA8LSBzYmVoICsgbXlkYXRhJGRlcHZhcnNbWzFdXVtlZ28sYWx0ZXIsMV0gKiBzaW1bYWx0ZXIsZWdvXSANCiAgICBpZiAoYWx0ZXIhPWVnbyAmIGJlaFthbHRlcl08PWJlaFtlZ29dKSBzYmVoIDwtIHNiZWggKyBteWRhdGEkZGVwdmFyc1tbMV1dW2VnbyxhbHRlciwxXSANCiAgfQ0KICBzYmVoIDwtIHNiZWggLyAoc3VtKG15ZGF0YSRkZXB2YXJzW1sxXV1bZWdvLCwxXSkgLSAxKQ0KIHJldHVybihsaXN0KHJ2LCBzaW0sc2JlaCkpDQp9DQpgYGANCg0KYGBge3J9DQoNCnNwb3J0IDwtIGMoMiwxLDMsMykNCnNwb3J0IDwtIGNvQ292YXIoc3BvcnQpDQpteWRhdGEgPC0gc2llbmFEYXRhQ3JlYXRlKCBmcmllbmRzaGlwLCBzcG9ydCApDQpmZWYoMSwgInNwb3J0IiwgbXlkYXRhKQ0KDQpzcG9ydCA8LSBjKDMsMSwzLDMpDQpzcG9ydCA8LSBjb0NvdmFyKHNwb3J0KQ0KbXlkYXRhIDwtIHNpZW5hRGF0YUNyZWF0ZSggZnJpZW5kc2hpcCwgc3BvcnQgKQ0KZmVmKDEsICJzcG9ydCIsIG15ZGF0YSkNCg0Kc3BvcnQgPC0gYygxLDEsMywzKQ0Kc3BvcnQgPC0gY29Db3ZhcihzcG9ydCkNCm15ZGF0YSA8LSBzaWVuYURhdGFDcmVhdGUoIGZyaWVuZHNoaXAsIHNwb3J0ICkNCmZlZigxLCAic3BvcnQiLCBteWRhdGEpDQoNCmBgYA0KDQpBbHRlcm5hdGl2ZSBvcGVyYXRpb25hbGl6YXRpb24NCg0KJCQgIHNee2JlaH1fe2kyM30oeCx6KSA9IHheey0xfV97aSt9XHN1bV9qIHhfe2lqfSAoXCwgMSAtIFxmcmFje21heCh6X2ogLSB6X2ksMCl9e3JfWn0pXCwkJA0KDQoNCmBgYHtyfQ0KDQpmZWYyIDwtIGZ1bmN0aW9uKGVnbywgYmVoYXZpb3IsIG15ZGF0YSkgew0KICBiZWggPC0gbXlkYXRhJGNDb3ZhcnNbW25hbWVzKG15ZGF0YSRjQ292YXJzKT09YmVoYXZpb3JdXQ0KICBydiA8LSBhdHRyKG15ZGF0YSRjQ292YXJzW1tuYW1lcyhteWRhdGEkY0NvdmFycyk9PWJlaGF2aW9yXV0sICJyYW5nZSIpIA0KDQogIGVnbyA8LSAxDQogIGFsdGVyIDwtIDINCnNiZWggPC0gMCANCg0KICBmb3IgKGFsdGVyIGluIDE6bGVuZ3RoKGJlaCkpIHsNCiAgICBpZiAoYWx0ZXIhPWVnbykgc2JlaCA8LSBzYmVoICsgbXlkYXRhJGRlcHZhcnNbWzFdXVtlZ28sYWx0ZXIsMV0gKiAoMSAtIG1heChiZWhbYWx0ZXJdIC0gYmVoW2Vnb10sMCkvcnYpDQogICAgfQ0KIHNiZWggPC0gc2JlaCAvIChzdW0obXlkYXRhJGRlcHZhcnNbWzFdXVtlZ28sLDFdKSAtIDEpDQogcmV0dXJuKGxpc3QocnYsc2JlaCkpDQp9DQpgYGANCg0KDQpgYGB7cn0NCg0Kc3BvcnQgPC0gYygyLDEsMywzKQ0Kc3BvcnQgPC0gY29Db3ZhcihzcG9ydCkNCm15ZGF0YSA8LSBzaWVuYURhdGFDcmVhdGUoIGZyaWVuZHNoaXAsIHNwb3J0ICkNCmZlZjIoMSwgInNwb3J0IiwgbXlkYXRhKQ0KDQpzcG9ydCA8LSBjKDMsMSwzLDMpDQpzcG9ydCA8LSBjb0NvdmFyKHNwb3J0KQ0KbXlkYXRhIDwtIHNpZW5hRGF0YUNyZWF0ZSggZnJpZW5kc2hpcCwgc3BvcnQgKQ0KZmVmMigxLCAic3BvcnQiLCBteWRhdGEpDQoNCnNwb3J0IDwtIGMoMSwxLDMsMykNCnNwb3J0IDwtIGNvQ292YXIoc3BvcnQpDQpteWRhdGEgPC0gc2llbmFEYXRhQ3JlYXRlKCBmcmllbmRzaGlwLCBzcG9ydCApDQpmZWYyKDEsICJzcG9ydCIsIG15ZGF0YSkNCg0KYGBgDQo=</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("_neweffect.rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
