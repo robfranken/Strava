@@ -428,9 +428,6 @@ htmltools::includeHTML("files/clubs results/4-5/club 2.html")
 ```
 
 ### Club 3
-```{r, echo=F}
-
-```
 
 
 ### Club 4
@@ -457,6 +454,7 @@ Next, in the second model-set, we added to the behavior objective function the *
 htmltools::includeHTML("files/clubs results/final/club 1.html")
 
 ```
+
 ### Club 2
 ```{r, echo=F}
 htmltools::includeHTML("files/clubs results/final/club 2.html")
