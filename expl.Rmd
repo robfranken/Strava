@@ -88,16 +88,14 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[4]] # grab club 
+club <- clubdata[[3]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
-kudonet2 <- sienaDependent(club$kudo2) 
-kudonet3 <- sienaDependent(club$kudo3) 
 
 freq_run <- sienaDependent(club$freq_run, type= "behavior")
 time_run <- sienaDependent(club$time_run, type = "behavior")
-persist <- sienaDependent(club$persist, type = "behavior")
+#persist <- sienaDependent(club$persist, type = "behavior")
 
 freq_other <- varCovar(club$freq_other[,,])
 time_other <- varCovar(club$time_other[,,])
@@ -118,14 +116,6 @@ mydata <- sienaDataCreate(kudonet, freq_run, time_run, freq_other, time_other, g
 <!--- 
 
 After the estimation procedure, just edit the number within the double brackets [[x]] to grab another club.
-
-
-For robustness check: add the number of followees as covariate
-code:
-following <- c(81,67,33,159,167,61,122,160,273,65,412,52,280,149,49,15,64,49,125,61,210,28,34,90,47,134,842,256,169,225,264,193,87,14,219,111,56,56,84,70,96,123,120,101,196,168,9,108,30,63,137,79,99,61,147,91,104,422,77,119,12,13)
-# cluster it in 10 equally populated categories
-fol <- ntile(following, 10)
-following <- coCovar(fol)
 
 ---> 
 
@@ -153,13 +143,14 @@ We include:
 
 1. [structural network effects](#str)
 2. [network selection effects](#sel)
-3. [network influence effects](#inf)
-4. and [covariate effects](#co) on network and behavior 
+3. [covariate effects](#co) on network and behavior 
+4. [network influence effects](#inf)
+
 
 
 ```{r echo=T, results='hide'}
 myeff <- getEffects(mydata)
-effectsDocumentation(myeff)
+#effectsDocumentation(myeff)
 ```
 
 
@@ -195,78 +186,38 @@ myeff1 <- includeEffects(myeff1, isolateNet, name = "kudonet")
 <br>
 
 ## Selection effects {#sel}
-Second, we include selection effects with respect to behavior. We estimate the effect of actors' (ego and alter) frequency, and the similarity between the two (homophily) on tie formation. Again, we applied score-type tests (not shown here).
+Second, we include selection effects with respect to behavior. We estimate the effect of actors' (ego and alter) frequency, and the similarity between the two (homophily) on tie formation. Score-type tests indicated that these effects are not 0.
 
 
 ```{r echo=T, results='hide'}
 myeff2 <- includeEffects(myeff1, egoX, altX, simX, name = "kudonet", interaction1 = "freq_run")
 ```
 
-<br>
-
-## Influence effects {#inf}
-We included two influence effects to test our hypotheses on the influence of social support and social comparison processes respectively:
-
-1. The indegree effect on behavior.
-This tests the social support explanation: the higher indegree (our operationalization of received support), the greater the probability of increasing the behavior. 
-
-2. The average alter effect on behavior.
-This tests social comparison as assimilation.
-
-
-```{r echo=T, results='hide'}
-myeff3 <- includeEffects(myeff2, indeg, name = "freq_run", interaction1 = "kudonet") 
-myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
-
-myeff3 <- includeEffects(myeff3, avAlt, name = "freq_run", interaction1 = "kudonet") 
-myeff3 <- includeEffects(myeff3, avAlt, name = "time_run", interaction1 = "kudonet")
-
-```
-
-<br>
-
-
-<!--- 
-
-
-for robustness check with separate creation and endowment effects:
-
-myeff3 <- includeEffects(myeff2, indeg, name = "freq_run", interaction1 = "kudonet", type = "creation") 
-myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet", type = "endow") 
-myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet", type="creation")
-myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet", type="endow")
-
-
-
-
----> 
 
 <br>
 
 ## Covariate effects {#co}
 
-And last we add effects on tie and behavior changes of other variables:
+We add effects on tie and behavior changes of other variables:
 
 - the interdependence between frequency and volume
 - the interdependence between running and other sports
 - winter on behavior
 - gender on tie selection and behavior
 
-Note: we also estimated models with an effect of the constant dyadic covariate Friendship on Kudo ties, which was highly significant. However, this effect seemed to be highly collinear with structural network effect, meaning that it explained similar tie formation structures. Therefore we excluded Friendship. 
-
 ```{r echo=T, results='hide'}
-myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "freq_run")
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
+myeff2 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "freq_run")
+myeff2 <- includeEffects(myeff2, effFrom, name = "freq_run", interaction1 = "time_run")
 
-myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "time_other")
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
+myeff2 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "time_other")
+myeff2 <- includeEffects(myeff2, effFrom, name = "freq_run", interaction1 = "freq_other")
 
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "winter")
-myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "winter")
+myeff2 <- includeEffects(myeff2, effFrom, name = "freq_run", interaction1 = "winter")
+myeff2 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "winter")
 
-myeff3 <- includeEffects( myeff3, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gender")
-myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "gender")
+myeff2 <- includeEffects(myeff2, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+myeff2 <- includeEffects(myeff2, effFrom, name = "freq_run", interaction1 = "gender")
+myeff2 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "gender")
 
 ```
 
@@ -277,21 +228,53 @@ for club 4 fix the effects of gender at the current value (0), and also apply th
 
 with the following code:
 
-myeff3 <- setEffect( myeff3, egoX, name="kudonet", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0 )
-myeff3 <- setEffect( myeff3, altX, name="kudonet", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0 )
-myeff3 <- setEffect( myeff3, simX, name="kudonet", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0 )
-myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0)
-myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0)
+myeff2 <- setEffect( myeff2, egoX, name="kudonet", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0 )
+myeff2 <- setEffect( myeff2, altX, name="kudonet", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0 )
+myeff2 <- setEffect( myeff2, simX, name="kudonet", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0 )
 
+and:
 
-For robustness test with individual level covariate 'following', include effect on 
-behavior and ties: 
+myeff2 <- setEffect(myeff2, effFrom, name = "freq_run", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0)
+myeff2 <- setEffect(myeff2, effFrom, name = "time_run", interaction1 = "gender", fix=TRUE, test=TRUE, initialValue=0)
 
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "following")
-myeff3 <- includeEffects( myeff3, egoX, name="kudonet", interaction1 = "following" )
 
 ---> 
 
+<br> 
+
+## Influence effects {#inf}
+We included two influence effects to test our hypotheses on the influence of social support and social comparison processes respectively:
+
+1. The indegree effect on behavior.
+This tests the social support explanation: the higher indegree (our operationalization of received support), the greater the probability of increasing the behavior. 
+
+2. The average attraction towards higher alters effect
+This tests social comparison as assimilation.
+
+We test these effects sequentially:
+so first, we estimate a model with the indegree effect on behavior added to the baseline model;
+second, we add the average attraction to higher alters effect. We also include an effect of outdegree on behavior, to rule out possible confounding of the outdegree effect.
+
+
+```{r echo=T, results='hide'}
+myeff3 <- includeEffects(myeff2, indeg, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
+
+myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
+myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
+myeff4 <- includeEffects(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet") 
+myeff4 <- includeEffects(myeff4, outdeg, name = "time_run", interaction1 = "kudonet")
+
+```
+
+<br>
+
+
+<!--- 
+
+# RF: robustness check with endowment function?
+
+---> 
 
 
 <br>
@@ -301,6 +284,7 @@ Now check which effects are included in the myeff object.
 ```{r class.source = 'fold-hide' }
 options(width = 100) # ignore (this is for the html formatting)
 print(myeff3)
+print(myeff4)
 ```
 
 
@@ -324,7 +308,7 @@ myalgorithm <- sienaAlgorithmCreate(projname = "test")
 
 Let's estimate the SAOM.
 
-We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior)
+We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior).
 
 
 ```{r eval= F }
@@ -348,6 +332,8 @@ while (TRUE){
     break
   }
 }
+
+summary(ansM1)
 ```
 
 <br>
@@ -426,35 +412,77 @@ plot(gof0.gd)
 
 We present the SAOM results for all clubs.
 
+The first set of models contain (1) network structure; (2) network dynamics (selection); (3) behavior dynamics comprising shape effects, *indegree effect* on behavior, and covariate effects on behavior change.
+
 ## {.tabset .tabset-fade}
 
 ### Club 1
 ```{r, echo=F}
-htmltools::includeHTML("files/clubs results/28-4/club 1.html")
+htmltools::includeHTML("files/clubs results/4-5/club 1.html")
+
 ```
 
 ### Club 2
 ```{r, echo=F}
-htmltools::includeHTML("files/clubs results/28-4/club 2.html")
+htmltools::includeHTML("files/clubs results/4-5/club 2.html")
 ```
 
 ### Club 3
+```{r, echo=F}
+
+```
 
 
 ### Club 4
 ```{r, echo=F}
-htmltools::includeHTML("files/clubs results/28-4/club 4.html")
+htmltools::includeHTML("files/clubs results/4-5/club 4.html")
 ```
 
 Gender effects on tie formation and behavior changes were excluded in Club 4; they were fixed to 0 and tested, but were insignificant.
 
 ### Club 5
 ```{r, echo=F}
-htmltools::includeHTML("files/clubs results/28-4/club 5.html")
+htmltools::includeHTML("files/clubs results/4-5/club 5.html")
 ```
 
 ## {-}
 
+
+Next, in the second model-set, we added to the behavior objective function the *average attraction toward higher alters* and the *outdegree* effect on behavior. 
+
+## {.tabset .tabset-fade}
+
+### Club 1
+```{r, echo=F}
+htmltools::includeHTML("files/clubs results/final/club 1.html")
+
+```
+### Club 2
+```{r, echo=F}
+htmltools::includeHTML("files/clubs results/final/club 2.html")
+
+```
+
+### Club 3
+```{r, echo=F}
+htmltools::includeHTML("files/clubs results/final/club 3.html")
+
+```
+
+### Club 4
+```{r, echo=F}
+htmltools::includeHTML("files/clubs results/final/club 4.html")
+
+```
+This model failed to converge, even when leaving out some effects...
+
+### Club 5
+```{r, echo=F}
+htmltools::includeHTML("files/clubs results/final/club 5.html")
+
+```
+
+## {-}
 
 
 ----
