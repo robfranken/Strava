@@ -1,0 +1,100 @@
+---
+title: "Strava paper"
+bibliography: references.bib
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+output: 
+  html_document:
+    css: tweaks.css
+    toc:  false
+    toc_float: true
+    number_sections: false
+    code_folding: show
+    code_download: yes
+---
+  
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, results="hold", message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+----  
+  
+```{r}
+require(RSiena)
+require(igraph)
+```
+
+
+Clean the working environment.
+
+```{r, attr.output='style="max-height: 200px;"'}
+# clean the working environment and load in clubdata
+rm (list = ls( ))
+load("clubdata.Rdata") # load (raw) club list
+```
+
+```{r}
+club <- clubdata[[1]] # grab club
+
+knet1 <- RSiena::coDyadCovar(data.matrix(club$kudo[,,6])) #take kudo network at wave 1
+
+G <- igraph::graph_from_adjacency_matrix(knet1, mode = "directed", diag = FALSE) # make an igraph object
+
+# change vertices
+V(G)$color <- ifelse(club$male == 1, "#E69F00", "#56B4E9") # vertice color indicating sex (male vs. not male)
+
+# plot
+plot(G, edge.arrow.size=.4, vertex.label=NA)
+
+deg <- degree(G, mode="in")
+V(G)$size <- 7 + deg*1.25 # set node size based on indegree
+
+graph_attr(G, "layout") <- layout_with_lgl # adjust network layout
+
+plot(G, edge.arrow.size=.4, vertex.label=NA)
+legend(x=-1.5, y=-1.1, c("Male", "Not male"), pch=21,
+       col="#777777", pt.bg=c("#E69F00", "#56B4E9"), pt.cex=2, cex=.8, bty="n", ncol=1))
+
+plot(net) 
+
+plot(G, edge.arrow.size=.4, vertex.label=NA)
+
+
+
+plot(simplify(G),
+     
+     main = "Kudo network of Strava club (N=30)",
+     
+     # === vertex
+     vertex.frame.color ="black",     
+     
+     # === vertex label
+     vertex.label=NA,                             
+     vertex.label.family="Times",              
+     vertex.label.font=2,                     
+     vertex.label.cex=1,                           
+     vertex.label.dist=0,                        
+     vertex.label.degree=0 ,                      
+     
+     # === Edge
+     edge.color="black",                           
+     edge.width=1,                                
+     edge.arrow.size=.4,                     
+     edge.arrow.width=0,                         
+     edge.lty="solid",                             
+     edge.curved=0)
+
+
+```
+
