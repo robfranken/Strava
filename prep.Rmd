@@ -40,9 +40,9 @@ klippy::klippy(position = c('top', 'right'))
 
 In the following scripts a list containing the (anonymized) data of all clubs is made (clubdata.RData).
 
-* Our primary network variable is the Kudo-network. A tie i -> j exists if ego i award at least 1 Kudo to alter j. We may want to include the Kudo-netwerk as an ordered network variable, as described in @rsienamanual, section 5.6.
+* Our primary network variable is the Kudos-network. A tie i -> j exists if ego i award at least 1 Kudos to alter j. We may want to include the Kudos-netwerk as an ordered network variable, as described in @rsienamanual, section 5.6. We also include network variables where the cut-off value for a kudos tie to exist is 2 (knet2) and 3 (knet3)
 
-* For the behavioral data we include information on the *frequency* (i.e., in times per week) and *volume* (i.e., in hours per week) of running activities. We included activity (frequency and volume) in other sports (e.g., cycling and swimming) as a time-varying covariate.
+* For the behavioral data we include information on the *frequency* (i.e., in times per week) and *duration* (i.e., in hours per week) of running activities. We included activity (frequency and duration) in other sports (e.g., cycling and swimming) as a time-varying covariate.
 
 
 ```{r clubs, eval=FALSE}
@@ -149,10 +149,6 @@ for (i in (1: length(club_str))) {
   freq_run_temp <- ifelse(frequencies > 7, 7, frequencies) # cap off at 7 times per week
   
   
-  # and for a robustness check, we also investigate persistence/dropout more directly, by using a binary dependent
-  # variable indicating whether or not athletes persist in training at least 2 (or 3) times per week.
-  persist <- ifelse(frequencies >= 3, 3, frequencies)
-  
   # now that we have running data, let's load other activity data (e.g., cycling, swimming)
   # time
   time_ride <- array( c( clubdata[, 'time_ride_1.2019'], clubdata[, 'time_ride_2.2019'], clubdata[, 'time_ride_3.2019'], clubdata[, 'time_ride_4.2019'], clubdata[, 'time_ride_5.2019'], clubdata[, 'time_ride_6.2019'], clubdata[, 'time_ride_7.2019'], clubdata[, 'time_ride_8.2019'], clubdata[, 'time_ride_9.2019'], clubdata[, 'time_ride_10.2019'], clubdata[, 'time_ride_11.2019'], clubdata[, 'time_ride_12.2019']),
@@ -204,19 +200,19 @@ rm (list = ls( ))
 
 # load in the separate club-objects
 {
-  load("clubs/club19037.RData")
+  load("clubs/clubid1.RData")
   club1 <- club
   
-  load("clubs/club73971.RData")
+  load("clubs/clubid2.RData")
   club2 <- club
   
-  load("clubs/club147521.RData")
+  load("clubs/clubid3.RData")
   club3 <- club
   
-  load("clubs/club324488.RData")
+  load("clubs/clubid4.RData")
   club4 <- club
   
-  load("clubs/club473939.RData")
+  load("clubs/clubid5.RData")
   club5 <- club
 }
 
@@ -248,7 +244,11 @@ str(clubdata) # inspect structure
 ####################################################
 
 
-clubdata_rsiena <- list()
+{
+  clubdata_rsiena <- list()
+  clubdata_rsiena2 <- list() # here we take as a cut-off value for kudos-ties 2 kudos from   i to j
+  clubdata_rsiena3 <- list() # and here 3
+}
 
 for (i in 1:5) { 
   club <- clubdata[[i]]
@@ -263,7 +263,6 @@ for (i in 1:5) {
   # B: behavioral variables
   time_run <- sienaDependent(club$time_run, type= "behavior")
   freq_run <- sienaDependent(club$freq_run, type= "behavior")
-  persist <- sienaDependent(club$persist, type = "behavior")
   
   time_other <- varCovar(club$time_other[,,])
   freq_other <- varCovar(club$freq_other[,,])
@@ -278,15 +277,14 @@ for (i in 1:5) {
   gender <- coCovar(gender)
   
   # now combine the dependent and independent variables in a data object
-  mydata <- sienaDataCreate(kudonet, friendship, time_run, freq_run, persist, time_other, freq_other, 
-                            gender, winter)
-  #mydata2 <- sienaDataCreate(kudonet, kudonet2, kudonet3, friendship, time_run, freq_run, 
-  #                           time_other, freq_other, gender, winter) #ordered network variable.
-
-  #print01Report(mydata)
+  mydata <- sienaDataCreate(kudonet, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
+  mydata2 <- sienaDataCreate(kudonet2, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
+  mydata3 <- sienaDataCreate(kudonet3, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
 
   # this finishes the data specification
   clubdata_rsiena[[i]] <- mydata 
+  clubdata_rsiena2[[i]] <- mydata2 
+  clubdata_rsiena3[[i]] <- mydata3
 } 
 
 # add netsize
@@ -299,8 +297,11 @@ for (i in 1:5) {
 }
 
 # save the output
-save(clubdata_rsiena, file="clubs/clubdata_rsiena.RData")
-
+{
+  save(clubdata_rsiena, file="clubs/clubdata_rsiena.RData")
+  save(clubdata_rsiena2, file="clubs/clubdata_rsiena2.RData")
+  save(clubdata_rsiena3, file="clubs/clubdata_rsiena3.RData")
+}
 ```
 
 

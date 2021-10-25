@@ -124,6 +124,7 @@ plot (network.extract(knetDyn, at=1)) # this plots the edges at time 2 (and not 
 
 # let's generate a quick animation of the dynamic kudo network
 render.d3movie(knetDyn)
+?render.d3movie
 # to embed this animation (Markdown), use the parameter output.mode='inline'
 
 ##########################################

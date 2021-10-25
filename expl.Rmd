@@ -77,7 +77,7 @@ Below, we will follow these steps for club 2 (N=62). We will explore the SAOM fo
 
 We start off by reading in the data, specifying variable roles for the RSiena object, and creating an RSiena object. We use the clubdata.RData object.
 
-- For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. (Ultimately, we may want to construct an ordered network-variable, in which awarding/receiving more than 1 Kudo is a sub-network of the network in which awarding/reciving 1 Kudo counts as a tie, as a robusness test) 
+- For now we take as our (explanatory) network variable the Kudo-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. (Ultimately, we may want to construct an ordered network-variable, in which awarding/receiving more than 1 Kudo is a sub-network of the network in which awarding/reciving 1 Kudo counts as a tie, as a robusness test. Alternately, we may want to define a cut-off value for the number of kudos required for a tie to a exist, based on resulting measures such as Jaccard indices) 
 
 - Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7 times per week), and running volume (in half hours per week, capped at 7).
 
@@ -88,7 +88,7 @@ We start off by reading in the data, specifying variable roles for the RSiena ob
 
 ```{r}
 load("clubdata.Rdata") # load (raw) club list
-club <- clubdata[[2]] # grab club 
+club <- clubdata[[4]] # grab club 
 
 # specify variable roles for RSiena object
 kudonet <- sienaDependent(club$kudo)
@@ -171,6 +171,7 @@ to perform score-type tests, include the effects with the setEffect command, set
 ```{r echo=T, results='hide'}
 myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
 myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff1 <- setEffect( myeff1, outIso, name="kudonet", fix=TRUE, test=TRUE, initialValue=0 )
 
 ```
 
@@ -178,7 +179,10 @@ myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet")
 <!--- 
 
 test the network-isolate effect
-myeff1 <- includeEffects(myeff1, isolateNet, name = "kudonet") 
+myeff1 <- setEffect( myeff1, outIso, name="kudonet", fix=TRUE, test=TRUE, initialValue=0 )
+
+not significant in club 1.
+
 ---> 
 
 
@@ -262,6 +266,8 @@ myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudon
 
 myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
 myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
+#myeff4 <- includeEffects(myeff4, avAttLower, name = "freq_run", interaction1 = "kudonet") 
+#myeff4 <- includeEffects(myeff4, avAttLower, name = "time_run", interaction1 = "kudonet")
 myeff4 <- includeEffects(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet") 
 myeff4 <- includeEffects(myeff4, outdeg, name = "time_run", interaction1 = "kudonet")
 

@@ -1,0 +1,362 @@
+---
+title: "Modeling steps SAOM  "
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+library(RSiena)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+# Preparation
+
+Clean the working environment.
+
+```{r, attr.output='style="max-height: 200px;"'}
+# clean the working environment 
+rm (list = ls( ))
+```
+
+----
+
+<br>
+
+# Step 1: Load the R-SIENA objects
+
+Later on we want to use R-SIENA object list...
+
+```{r}
+load("clubdata_rsiena.Rdata")
+```
+
+We start with club 1 (N=30)
+
+```{r}
+mydata <- clubdata_rsiena[[4]]
+mydata
+```
+
+----
+
+<br>
+
+# Step 2: Define effects
+
+## Modelling network (kudo-tie) dynamics
+
+We build increasingly complex models.
+We start with "pure" network effects to the (network) objective function: we add transitivity effect and endogenous degree-related effects. We fix these effects to 0 and test them with the score-type test @Schweinberger2012 (we test the hypothesis that the parameter estimates are not 0, other than the model assumes).
+
+```{r echo=T, results='hide'}
+myeff <- getEffects(mydata)
+#effectsDocumentation(myeff)
+```
+
+```{r echo=T, results='hide'}
+myeff1 <- setEffect(myeff, gwespFF, name = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
+myeff1 <- setEffect(myeff1, outActSqrt, name = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
+myeff1 <- setEffect(myeff1, inPopSqrt, name = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
+```
+
+<br>
+
+Check the effects object
+
+```{r class.source = 'fold-hide' }
+options(width = 100) # ignore (this is for the html formatting)
+print(myeff1)
+```
+
+---
+
+<br>
+
+# Step 3: Define algorithm
+
+```{r class.source = 'fold-hide'  }
+myalgorithm <- sienaAlgorithmCreate(projname = "test")
+```
+
+---
+
+<br>
+
+# Step 4: Estimate the model
+
+Let's estimate the SAOM.
+
+
+```{r eval= F }
+ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff1)
+ansM1
+```
+
+
+---
+
+<br>
+
+Okay... the tested effects are not 0; so we include them, and run the model. Subsequently, we assess the model's GOF to additional effects that were not directly modeled: the in- and outdegree distribution and the geodesic distance distribution.
+
+```{r echo=T, results='hide'}
+myeff2 <- setEffect(myeff1, gwespFF, name = "kudonet", fix = FALSE, test = FALSE)
+myeff2 <- setEffect(myeff2, outActSqrt, name = "kudonet", fix = FALSE, test = FALSE)
+myeff2 <- setEffect(myeff2, inPopSqrt, name = "kudonet", fix = FALSE, test = FALSE)
+
+ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff2,
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+gofi <- sienaGOF(ansM2, 
+                 IndegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+
+gofo <- sienaGOF(ansM2, 
+                 OutdegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+
+GeodesicDistribution <- function (i, data, sims, period, groupName,
+   varName, levls=c(1:5,Inf), cumulative=TRUE, ...) {
+     x <- networkExtraction(i, data, sims, period, groupName, varName)
+     require(sna)
+     a <- sna::geodist(symmetrize(x))$gdist
+     if (cumulative)
+     {
+       gdi <- sapply(levls, function(i){ sum(a<=i) })
+     }
+     else
+     {
+       gdi <- sapply(levls, function(i){ sum(a==i) })
+     }
+     names(gdi) <- as.character(levls)
+     gdi
+}
+
+gofgeo <- sienaGOF(ansM2, 
+                 GeodesicDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+
+plot(gofi)
+plot(gofo)
+plot(gofgeo)
+```
+
+---
+
+<br>
+
+The expected indegree distribution over time significantly differs from the observed indegree distribution over time, with an overal p value of .03.
+Let's add effects that model the the indegree distribution more properly. 
+
+Perhaps we need to include the out-isolate effect, the effect of ego having outdegree 0.
+We fix this effect to 0 and score-type test it. 
+
+```{r echo=T, results='hide'}
+myeff3 <- setEffect(myeff2, outIso, name = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
+ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff3,
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+ansM3
+```
+
+<br>
+
+Apparently, this effect is not significantly different from 0 for this club. It might be necessary to add an effect that directly models the relationship between actors' indegree and outdegrees (e.g., outPop, reflecting the tendency of high outdegree actors to receive more kudos). Such effects typically improve GOF on degree distribution (and geodesic distribution, which is all right in our case). 
+
+```{r echo=T, results='hide'}
+myeff3 <- setEffect(myeff2, outIso, name = "kudonet")
+ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff3,
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+```
+
+<br>
+
+
+The score-test suggests that we should include the outPopSqrt effects in our model. Using the model with outdegree, reciprocity, clustering, in- and outdegree effect, and an effect controlling for the correlation between in- and outdegrees and rerunning GOF diagnostics suggests that the fit of the indegree distribution improves. However, now, the oudegree distribution fit decreases (not shown). So, we leave out the outPop effect, settling for the fact that our GOF may be non-optimal (however, based on the violin-plot visualizations, the simulated data points very much approximate the observed data.)
+
+```{r echo=T, results='hide'}
+myeff3 <- setEffect(myeff3, outPopSqrt, name = "kudonet", fix = FALSE, test = FALSE)
+ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff3,
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+gofi <- sienaGOF(ansM3, 
+                 IndegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+plot(gofi)
+```
+
+
+
+<br>
+
+Now we have  controlled for (endogenous) network evolution effects, we proceede including selection effects for actor attributes.
+We estimate the effect of actors' (ego and alter) frequency, and the similarity between the two (homophily) on tie formation. Score-type tests indicated that these effects are not 0 (not shown).
+
+```{r echo=T, results='hide'}
+myeff5 <- includeEffects(myeff3, egoX, altX, simX, name = "kudonet", interaction1 = "freq_run")
+
+
+```
+
+
+Last, we add effects on kudo-ties of gender (monadic and dyadic). Score-type tests indicated that these effects are not 0 (not shown).
+
+```{r echo=T, results='hide'}
+myeff6 <- includeEffects(myeff5, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+```
+
+--- 
+
+<br>
+
+## Model the behavioral objective function
+We now add two influence effects to test our hypotheses on the influence of social support and social comparison.
+Because we are now modeling the evolution of both the network and the attribute (running behavior), we will add an additional indicator to evaluate GOF; namely, does the model capture the distribution of actors’ attribute levels over time?
+
+We first add an indegree effect on behavior (freq. and vol.): the higher the number of kudo-ties, the greater the probability of increasing the behavior.
+
+We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior), for sbusequent GOF assesment.
+
+```{r echo=T, results='hide'}
+myeff7 <- includeEffects(myeff6, indeg, name = "freq_run", interaction1 = "kudonet")
+myeff7 <- includeEffects(myeff7, indeg, name = "time_run", interaction1 = "kudonet")
+
+try <- 1
+ans <- siena07(myalgorithm, data = mydata, effects = myeff7,
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ans$tconv.max >= .25){
+    try <- try + 1
+    print(paste("Try:", try, sep=" "))
+    ans <- siena07( myalgorithm, data = mydata, effects = myeff7, prevAns= ans, returnDeps=TRUE)
+    siena.table(ans, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM", try, ".html", sep=""))
+    
+  }else{
+    siena.table(ans, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "final", ".html", sep=""))
+    print(paste("Reached convergence ratio of ", ans$tconv.max, sep = ""))
+    break
+  }
+}
+
+```
+
+<br>
+
+Second, we add the average upward similarity effect. We also include an effect of outdegree on behavior, to rule out possible confounding of the outdegree effect.
+
+```{r echo=T, results='hide'}
+myeff8 <- includeEffects(myeff7, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
+myeff8 <- includeEffects(myeff8, avAttHigher, name = "time_run", interaction1 = "kudonet")
+myeff8 <- includeEffects(myeff8, outdeg, name = "freq_run", interaction1 = "kudonet") 
+myeff8 <- includeEffects(myeff8, outdeg, name = "time_run", interaction1 = "kudonet")
+```
+
+Last, we add covariate effects on behavior dynamics (gender, other activities) and cross-effects between frequency and volume.
+We also tested whether seasonal effects (winter months vs. non-winter months) were at play, but parameter values did not deviate significantly from 0.
+
+
+```{r echo=T, results='hide'}
+myeff9 <- includeEffects(myeff8, effFrom, name = "time_run", interaction1 = "freq_run")
+myeff9 <- includeEffects(myeff9, effFrom, name = "freq_run", interaction1 = "time_run")
+
+myeff9 <- includeEffects(myeff9, effFrom, name = "time_run", interaction1 = "time_other")
+myeff9 <- includeEffects(myeff9, effFrom, name = "freq_run", interaction1 = "freq_other")
+
+myeff9 <- includeEffects(myeff9, effFrom, name = "freq_run", interaction1 = "gender")
+myeff9 <- includeEffects(myeff9, effFrom, name = "time_run", interaction1 = "gender")
+
+try <- 1
+ans <- siena07(myalgorithm, data = mydata, effects = myeff8,
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+siena.table(ans)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ans$tconv.max >= .25){
+    try <- try + 1
+    print(paste("Try:", try, sep=" "))
+    ans <- siena07( myalgorithm, data = mydata, effects = myeff9, prevAns= ans, returnDeps=TRUE)
+    siena.table(ans, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "ansM", try, ".html", sep=""))
+    
+  }else{
+    siena.table(ans, type="html", tstat=T, d=2, sig=T, file = paste("files", "/", "final", ".html", sep=""))
+    print(paste("Reached convergence ratio of ", ans$tconv.max, sep = ""))
+    #final <- ans
+    break
+  }
+}
+
+goffreq <- sienaGOF(ans,
+BehaviorDistribution, levls = 0:7,
+verbose = TRUE, join = TRUE,
+varName = "freq_run")
+
+gofvol <- sienaGOF(ans,
+BehaviorDistribution, levls = 0:7,
+verbose = TRUE, join = TRUE,
+varName = "time_run")
+
+plot(goffreq)
+plot(gofvol)
+```
+
+GOF is adequate for the distribution of running frequency values, but not for the running volume values...
+
+<br>
+
+We save the siena07 object for this club
+```{r echo=T, results='hide'}
+save(ans, file= "club2_results.RData") 
+```
+
+We repeat the procedure for another club. 
+
+
+<br>
+
+now try the meta-analysis
+
+```{r}
+#extract parameter estimates and standard errors
+
+```
+
+
+
+
+
