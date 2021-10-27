@@ -10,7 +10,14 @@ navbar:
     - text: "Descriptives"
       href: des.html
     - text: "Exploring RSiena"
-      href: expl.html
+      href: explore.html
+    - text: "Meta-analysis"
+      href: meta.html
+    - text: "Robustness checks"
+      menu:
+      - text: "Different social influence operationalization"
+      - text: "Different kudos tie classification"
+    - text: "Supplementary material"
   right:
     - icon: fab fa-github
       href: https://github.com/robfranken/Strava

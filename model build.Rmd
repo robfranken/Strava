@@ -123,7 +123,7 @@ ansM1
 
 Okay... the tested effects are not 0; so we include them, and run the model. Subsequently, we assess the model's GOF to additional effects that were not directly modeled: the in- and outdegree distribution and the geodesic distance distribution.
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff2 <- setEffect(myeff1, gwespFF, name = "kudonet", fix = FALSE, test = FALSE)
 myeff2 <- setEffect(myeff2, outActSqrt, name = "kudonet", fix = FALSE, test = FALSE)
 myeff2 <- setEffect(myeff2, inPopSqrt, name = "kudonet", fix = FALSE, test = FALSE)
@@ -171,6 +171,19 @@ plot(gofo)
 plot(gofgeo)
 ```
 
+## {.tabset .tabset-fade}
+
+### Indegree distribution
+```{r eval=F, results='hide'}
+plot(gofi)
+```
+
+### Indegree distribution
+```{r eval=F, results='hide'}
+plot(gofi)
+```
+
+
 ---
 
 <br>
@@ -181,7 +194,7 @@ Let's add effects that model the the indegree distribution more properly.
 Perhaps we need to include the out-isolate effect, the effect of ego having outdegree 0.
 We fix this effect to 0 and score-type test it. 
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff3 <- setEffect(myeff2, outIso, name = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
 ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff3,
                  batch = FALSE, verbose = FALSE, returnDeps = TRUE)
@@ -192,7 +205,7 @@ ansM3
 
 Apparently, this effect is not significantly different from 0 for this club. It might be necessary to add an effect that directly models the relationship between actors' indegree and outdegrees (e.g., outPop, reflecting the tendency of high outdegree actors to receive more kudos). Such effects typically improve GOF on degree distribution (and geodesic distribution, which is all right in our case). 
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff3 <- setEffect(myeff2, outIso, name = "kudonet")
 ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff3,
                  batch = FALSE, verbose = FALSE, returnDeps = TRUE)
@@ -203,7 +216,7 @@ ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff3,
 
 The score-test suggests that we should include the outPopSqrt effects in our model. Using the model with outdegree, reciprocity, clustering, in- and outdegree effect, and an effect controlling for the correlation between in- and outdegrees and rerunning GOF diagnostics suggests that the fit of the indegree distribution improves. However, now, the oudegree distribution fit decreases (not shown). So, we leave out the outPop effect, settling for the fact that our GOF may be non-optimal (however, based on the violin-plot visualizations, the simulated data points very much approximate the observed data.)
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff3 <- setEffect(myeff3, outPopSqrt, name = "kudonet", fix = FALSE, test = FALSE)
 ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff3,
                  batch = FALSE, verbose = FALSE, returnDeps = TRUE)
@@ -223,7 +236,7 @@ plot(gofi)
 Now we have  controlled for (endogenous) network evolution effects, we proceede including selection effects for actor attributes.
 We estimate the effect of actors' (ego and alter) frequency, and the similarity between the two (homophily) on tie formation. Score-type tests indicated that these effects are not 0 (not shown).
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff5 <- includeEffects(myeff3, egoX, altX, simX, name = "kudonet", interaction1 = "freq_run")
 
 
@@ -232,7 +245,7 @@ myeff5 <- includeEffects(myeff3, egoX, altX, simX, name = "kudonet", interaction
 
 Last, we add effects on kudo-ties of gender (monadic and dyadic). Score-type tests indicated that these effects are not 0 (not shown).
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff6 <- includeEffects(myeff5, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
 ```
 
@@ -248,7 +261,7 @@ We first add an indegree effect on behavior (freq. and vol.): the higher the num
 
 We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior), for sbusequent GOF assesment.
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff7 <- includeEffects(myeff6, indeg, name = "freq_run", interaction1 = "kudonet")
 myeff7 <- includeEffects(myeff7, indeg, name = "time_run", interaction1 = "kudonet")
 
@@ -278,7 +291,7 @@ while (TRUE){
 
 Second, we add the average upward similarity effect. We also include an effect of outdegree on behavior, to rule out possible confounding of the outdegree effect.
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff8 <- includeEffects(myeff7, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
 myeff8 <- includeEffects(myeff8, avAttHigher, name = "time_run", interaction1 = "kudonet")
 myeff8 <- includeEffects(myeff8, outdeg, name = "freq_run", interaction1 = "kudonet") 
@@ -289,7 +302,7 @@ Last, we add covariate effects on behavior dynamics (gender, other activities) a
 We also tested whether seasonal effects (winter months vs. non-winter months) were at play, but parameter values did not deviate significantly from 0.
 
 
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 myeff9 <- includeEffects(myeff8, effFrom, name = "time_run", interaction1 = "freq_run")
 myeff9 <- includeEffects(myeff9, effFrom, name = "freq_run", interaction1 = "time_run")
 
@@ -340,7 +353,7 @@ GOF is adequate for the distribution of running frequency values, but not for th
 <br>
 
 We save the siena07 object for this club
-```{r echo=T, results='hide'}
+```{r eval=F, results='hide'}
 save(ans, file= "club2_results.RData") 
 ```
 

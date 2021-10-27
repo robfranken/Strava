@@ -1201,7 +1201,7 @@ Let's now investigate segregation along gender in the friendship network.
 
 ## {.tabset .tabset-fade}
 
-Let's start with describing the total density and intra- (same gender) and intergroup (different gender) densities. We also calculate the Coleman Homophily index for gender, which refelcts gender segregation while taking into account the relative group size of gender categories. We describe these segregation measures for friendship and kudo-networks respectively. 
+Let's start with describing the total density and intra- (same gender) and intergroup (different gender) densities. We also calculate the Coleman Homophily index for gender, which reflects gender segregation while taking into account the relative group size of gender categories. We describe these segregation measures for friendship and kudo-networks respectively. 
 
 ### Club 1
 ```{r}

@@ -15,6 +15,10 @@
 obj_beh <- function (vi, vj) { #relevant effects
   b1*(vi-v_av) + b2*(vi-v_av)^2 + b3*(1 - abs(vi - vj)/r_v - sim_av)
   
+  
+  b4*
+  
+  
   # perhaps we need to include the avAttHigher effect above the avSim effect.
 }
 

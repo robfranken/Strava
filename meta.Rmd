@@ -1,0 +1,482 @@
+---
+title: "Meta-analysis"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+library(RSiena)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+---
+
+We will estimate the SAOM for the remaining 4 clubs, and to summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values, described by @hedges2014 and @bosker2011 (Chapter 3). 
+
+<br>
+
+# Preparation
+Clean the working environment and read in the R-SIENA object list.
+
+```{r, attr.output='style="max-height: 200px;"'}
+# clean the working environment 
+rm (list = ls( ))
+# load in the R-SIENA objects
+load("clubdata_rsiena.Rdata")
+```
+
+<br>
+
+----
+
+# Estimate SAOMs for other clubs
+For each club, we incrementally build the model and assess GOF.
+
+
+## {.tabset .tabset-fade}
+
+### Club 2
+
+### Club 3
+
+### Club 4
+
+First, we model network structure and dynamics in kudos tie formation. 
+
+In this club, the *outIsolate*-effect (leading to now giving kudos to anyone) was rather important: a score-type test indicated that it was not 0 (not shown).
+Selection effects of gender and running (monadic and dyadic) were also score-type tested and fixed to 0.
+
+```{r echo=T, results='hide'}
+mydata <- clubdata_rsiena[[4]] # grab club
+
+myeff <- getEffects(mydata) # define myeff object
+
+# structural network effects
+myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
+myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff1 <- setEffect( myeff1, outIso, name = "kudonet")
+
+# selection effects for kudos ties formation based on running activity (fixed to 0)
+myeff2 <- setEffect( myeff1, egoX, name = "kudonet", interaction1 = "freq_run", fix=TRUE, test=FALSE, initialValue = 0)
+myeff2 <- setEffect( myeff2, altX, name = "kudonet", interaction1 = "freq_run", fix=TRUE, test=FALSE, initialValue = 0)
+myeff2 <- setEffect( myeff2, sameX, name = "kudonet", interaction1 = "freq_run", fix=TRUE, test=FALSE, initialValue = 0)
+
+# and selection based on gender (fixed to 0)
+myeff2 <- setEffect( myeff2, egoX, name = "kudonet", interaction1 = "gender", fix=TRUE, test=FALSE, initialValue = 0)
+myeff2 <- setEffect( myeff2, altX, name = "kudonet", interaction1 = "gender", fix=TRUE, test=FALSE, initialValue = 0)
+myeff2 <- setEffect( myeff2, sameX, name = "kudonet", interaction1 = "gender", fix=TRUE, test=FALSE, initialValue = 0)
+```
+
+<!--- 
+
+@RF: To include the selection on behavior effects:
+myeff2 <- includeEffects(myeff1, egoX, altX, simX, name = "kudonet", interaction1 = "freq_run")
+To include gender-effects:
+myeff2 <- includeEffects(myeff2, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+
+---> 
+
+<br>
+
+We (1) define the algorithm, (2) estimate the model, and (3) assess GOF based on three auxiliary network statistics: otudegree, indegree and geodesic distance distribution. We will run the model as many times as necessary, until we reach a convergence ratio of < .25.
+
+```{r eval=F, results='hide'}
+myalgorithm <- sienaAlgorithmCreate(projname = "test") # set the SAOM algorithm 
+
+try <- 1
+ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff2, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM1$tconv.max >= .25){
+    try <- try + 1
+    print(paste("Model did not converge: ", ansM2$tconv.max, sep = ""))
+    print(paste("Try:", try, sep=" "))
+    ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM1, returnDeps=TRUE)
+    
+  }else{
+    print(paste("Reached overall maximum convergence ratio of ", ansM1$tconv.max, sep = ""))
+    break
+  }
+}
+
+gofi <- sienaGOF(ansM1, 
+                 IndegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+
+gofo <- sienaGOF(ansM1, 
+                 OutdegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+
+GeodesicDistribution <- function (i, data, sims, period, groupName,
+   varName, levls=c(1:5, Inf), cumulative=TRUE, ...) {
+     x <- networkExtraction(i, data, sims, period, groupName, varName)
+     require(sna)
+     a <- sna::geodist(symmetrize(x))$gdist
+     if (cumulative)
+     {
+       gdi <- sapply(levls, function(i){ sum(a<=i) })
+     }
+     else
+     {
+       gdi <- sapply(levls, function(i){ sum(a==i) })
+     }
+     names(gdi) <- as.character(levls)
+     gdi
+}
+
+gofgeo <- sienaGOF(ansM1, 
+                 GeodesicDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+
+goflist <- list(gofi, gofo, gofgeo)
+save(goflist, file= paste("files", "/", "other clubs", "/", "club 4", "/", "gof1.RData", sep=""))
+```
+
+#### {.tabset .tabset-fade}
+
+##### Indegree distribution
+```{r class.source = 'fold-hide'}
+load("files/other clubs/club 4/gof1.RData")
+plot(goflist[[1]])
+```
+
+##### Outdegree distribution
+```{r class.source = 'fold-hide'}
+plot(goflist[[2]])
+```
+
+##### Geodesic distance distribution
+```{r class.source = 'fold-hide'}
+plot(goflist[[3]])
+```
+
+#### {-}
+
+
+GOF is all right!
+
+<br> 
+
+Second, we model dynamics in running behaviors. 
+
+```{r echo=T, results='hide'}
+# covariate effects:
+# interdependency frequency and duration
+myeff3 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "freq_run")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
+# effects from other sports
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "time_other")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
+# gender effects (fixed to 0)
+myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender", fix=T, test=F, initialValue=0)
+myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=T, test=F, initialValue=0)
+
+# influence effects:
+# 1. indegree effect
+myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
+# 2. upward assimilation
+myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
+myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
+
+# fix indegree effects at previous parameter estimate.
+#myeff4 <- setEffect(myeff4, indeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0.4236)
+#myeff4 <- setEffect(myeff4, indeg, name = "time_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0.0317)
+#myeff4 <- setEffect(myeff4, indeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
+#myeff4 <- setEffect(myeff4, indeg, name = "time_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
+
+# outdegree effect (fixed at 0)
+myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
+myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
+
+# rate parameter at fixed value
+myeff4 <- setEffect(myeff4, Rate, name = "freq_run", fix = TRUE, test = FALSE, type = "rate", period = 8, initialValue = 5  )
+```
+
+
+<br> 
+
+We estimate the model and investigate another GOF-diagnostic: the distribution of running behavior variables. We estimate (1) a model with the objective function for running activity comprising the basic shape effects, covariate effects, and *indegree* effect; and (2) a model including the *upward assimilation* and *outdegree* effect. We save the sienaFit-objects of both models for subsequent meta-analyses.
+
+This club faced convergence issues in the last model. We achieved convergence by (1) fixing the outdegree-effect to 0 (score-type test indicated that this effect was 0) and fixing the rate parameter for running frequency dynamics to 5 in period 8 (we aimed at a *t*-ratio for convergence for this parameter of <.2).
+
+#### {.tabset .tabset-fade}
+
+##### The indegree-effect
+```{r eval=F, results='hide'}
+try <- 1
+ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff3, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM2$tconv.max >= .25){
+    try <- try + 1
+    print(paste("Model did not converge: ", ansM2$tconv.max, sep = ""))
+    print(paste("Try:", try, sep=" "))
+    ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM2, returnDeps=TRUE)
+    
+  }else{
+    print(paste("Reached overall maximum convergence ratio of ", ansM2$tconv.max, sep = ""))
+    break
+  }
+}
+
+gofbeh <- sienaGOF(ansM2,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "freq_run")
+
+gofbeh2 <- sienaGOF(ansM2,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "time_run")
+
+goflist2 <- list(gofbeh, gofbeh2)
+save(goflist2, file= paste("files", "/", "other clubs", "/", "club 4", "/", "gof2.RData", sep=""))
+
+# save the sienaFit object
+save(ansM2, file= paste("files", "/", "other clubs", "/", "club 4", "/", "model2.RData", sep=""))
+```
+
+<br>
+
+**Violin plot of running frequency**
+```{r class.source = 'fold-hide'}
+load("files/other clubs/club 4/gof2.RData")
+plot(goflist2[[1]])
+```
+
+**Violin plot of running duration**
+```{r class.source = 'fold-hide'}
+plot(goflist2[[2]])
+```
+
+
+##### The upward assimilation effect
+```{r eval=F, results='hide'}
+try <- 1
+ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff4, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM3$tconv.max >= .25){
+    try <- try + 1
+    print(paste("Model did not converge: ", ansM3$tconv.max, sep = ""))
+    print(paste("Try:", try, sep=" "))
+    ansM3 <- siena07( myalgorithm, data = mydata, effects = myeff4, prevAns= ansM3, returnDeps=TRUE)
+    
+  }else{
+    print(paste("Reached convergence ratio of ", ansM3$tconv.max, sep = ""))
+    break
+  }
+}
+
+gofbeh <- sienaGOF(ansM3,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "freq_run")
+
+gofbeh2 <- sienaGOF(ansM3,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "time_run")
+
+goflist3 <- list(gofbeh, gofbeh2)
+save(goflist3, file= paste("files", "/", "other clubs", "/", "club 4", "/", "gof3.RData", sep=""))
+
+# save the sienaFit object
+save(ansM3, file= paste("files", "/", "other clubs", "/", "club 4", "/", "model3.RData", sep=""))
+```
+
+<br>
+
+**Violin plot of running frequency**
+```{r class.source = 'fold-hide'}
+load("files/other clubs/club 4/gof3.RData")
+plot(goflist3[[1]])
+```
+
+**Violin plot of running duration**
+```{r class.source = 'fold-hide'}
+plot(goflist3[[2]])
+```
+
+### Club 5
+
+## {-}
+
+<br>
+
+----
+
+# Meta-analysis 
+
+We summarize the results over the 5 clubs using Fisher's method for combining independent *p*-values. We perform a double test:
+
+1. For detecting if there are any club-networks with a positive parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or less than zero; with the alternative hypothesis: for at least one club, the value of this parameter is greater than zero.
+2. For detecting if there are any club-networks with a negative parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or greater than zero; with the alternative hypothesis: for at least one club, the value of this parameter is less than zero.
+
+For each of these combined tests, the *p*-value is given. We use for each test the significance level of *α*/2, which yields an overall combined test at significance level *α*. Four different overall results are possible. Indicating the right-sided and left-sided *p*-values by *p<sub>r</sub>* and *p<sub>l</sub>* respectively, these results are:
+
+- *p<sub>r</sub>* $\gt$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
+
+No evidence for any non-zero parameter values.
+
+- *p<sub>r</sub>* $\geq$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
+
+Evidence that some club-networks have a positive parameter value, but no evidence for any negative parameter values.
+
+- *p<sub>r</sub>* $\gt$ *α*/2 & *p<sub>l</sub>* $\leq$ *α*/2:
+
+Evidence that some clubs have a negative parameter value, no evidence for any positive parameter values
+
+- *p<sub>r</sub>* $\leq$ *α*/2 & *p<sub>l</sub>* $\leq$ *α*/2:
+
+Evidence that some clubs have a negative parameter value, and some others have a positive parameter value.
+
+<br>
+
+----
+
+First, we read in the sienaFit-objects of our 5 clubs. We use a function to load the objects under new names. Note: We saved 2 sienaFit-objects for each club.
+Then we make a list of the sienaFit-objects of the 2 model specifications.
+
+```{r}
+# clean the working environment 
+rm (list = ls( ))
+
+loadRData <- function(fileName){
+#loads an RData file, and returns it
+    load(fileName)
+    get(ls()[ls() != "fileName"])
+}
+
+club1_m1 <- loadRData("files/test club 1/model2.RData")
+club1_m2 <- loadRData("files/test club 1/model3.RData")
+club4_m1 <- loadRData("files/other clubs/club 4/model2.RData")
+club4_m2 <- loadRData("files/other clubs/club 4/model3.RData")
+
+m1List <- list(club1_m1, club4_m1)
+m2List <- list(club1_m2, club4_m2)
+```
+
+<!--- 
+
+@RF: just club 1 and 4 now, for testing purposes
+
+---> 
+<br>
+
+We perform the meta-analysis seperately for the 2 model specifications:
+
+- Model 1: objective function for running activity comprising the basic shape effects, covariate effects, and indegree effect
+- Model 2: including the upward assimilation effect and the outdegree effect
+
+## {.tabset .tabset-fade}
+
+### Model 1
+
+We extract the parameter estimates and standard errors.
+
+```{r}
+parameters <- sapply(m1List, function(x){x$theta})
+standers <- sapply(m1List, function(x){x$se}) 
+
+eff.names <-
+   m1List[[1]]$effects[m1List[[1]]$effects$include,'effectName']
+
+#combine parameters and std.errors with effect names
+rownames(parameters) <- eff.names
+rownames(standers) <- eff.names
+
+# print rounded to 3 decimals
+round(parameters,3)
+round(standers,3)
+```
+
+<br>
+
+We use *siena08* to perform Fisher's method for combining independent *p*-values.
+
+```{r results='hide'}
+ans8 <- siena08(m1List, bound=100)
+
+Overalls <- t(sapply(1:57, function(i){c(ans8[[i]]$Tsq, ans8[[i]]$pTsq)}))
+round(Overalls, 3)
+
+efnames <- names(ans8)[1:57]
+efnames <- substring(efnames, 8)
+rownames(Overalls) <- efnames
+round(Overalls[1:57,], 3)
+
+Fishers <- t(sapply( 1:57,
+                     function(i) {
+                       c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1 )
+                       }))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+```
+
+<br>
+
+And we present the Fisher combinations
+```{r}
+round(Fishers,3)
+```
+
+
+### Model 2
+
+## {-}
+
+
+
+<br>
+
+----
+
+
+### References 

@@ -60,7 +60,7 @@ rm (list = ls( ))
 
 We will:
 
-1. Get our data and create an R-SIENA object
+1. Read in our R-SIENA object list
 2. Inspect our data
 3. Define our effects
 4. Define our algorithm

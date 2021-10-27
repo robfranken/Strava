@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Meta-analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Strava Journal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li>
+  <a href="des.html">Descriptives</a>
+</li>
+<li>
+  <a href="explore.html">Exploring RSiena</a>
+</li>
+<li>
+  <a href="meta.html">Meta-analysis</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Robustness checks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Different social influence operationalization</li>
+    <li class="dropdown-header">Different kudos tie classification</li>
+  </ul>
+</li>
+<li class="dropdown-header">Supplementary material</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Meta-analysis</h1>
+<h4 class="date">Last compiled on oktober, 2021</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<p>We will estimate the SAOM for the remaining 4 clubs, and to summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values, described by <span class="citation">Hedges and Olkin (2014)</span> and <span class="citation">Snijders and Bosker (2011)</span> (Chapter 3).</p>
+<p><br></p>
+<div id="preparation" class="section level1">
+<h1>Preparation</h1>
+<p>Clean the working environment and read in the R-SIENA object list.</p>
+<pre class="r test"><code># clean the working environment
+rm(list = ls())
+# load in the R-SIENA objects
+load(&quot;clubdata_rsiena.Rdata&quot;)</code></pre>
+<p><br></p>
+<hr />
+</div>
+<div id="estimate-saoms-for-other-clubs" class="section level1">
+<h1>Estimate SAOMs for other clubs</h1>
+<p>For each club, we incrementally build the model and assess GOF.</p>
+<div id="section" class="section level2 tabset tabset-fade">
+<h2></h2>
+<div id="club-2" class="section level3">
+<h3>Club 2</h3>
+</div>
+<div id="club-3" class="section level3">
+<h3>Club 3</h3>
+</div>
+<div id="club-4" class="section level3">
+<h3>Club 4</h3>
+<p>First, we model network structure and dynamics in kudos tie formation.</p>
+<p>In this club, the <em>outIsolate</em>-effect (leading to now giving kudos to anyone) was rather important: a score-type test indicated that it was not 0 (not shown). Selection effects of gender and running (monadic and dyadic) were also score-type tested and fixed to 0.</p>
+<pre class="r test"><code>mydata &lt;- clubdata_rsiena[[4]]  # grab club
+
+myeff &lt;- getEffects(mydata)  # define myeff object
+
+# structural network effects
+myeff1 &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;)
+myeff1 &lt;- includeEffects(myeff1, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;)
+myeff1 &lt;- setEffect(myeff1, outIso, name = &quot;kudonet&quot;)
+
+# selection effects for kudos ties formation based on running activity (fixed to 0)
+myeff2 &lt;- setEffect(myeff1, egoX, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;, fix = TRUE, test = FALSE, 
+    initialValue = 0)
+myeff2 &lt;- setEffect(myeff2, altX, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;, fix = TRUE, test = FALSE, 
+    initialValue = 0)
+myeff2 &lt;- setEffect(myeff2, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;, fix = TRUE, test = FALSE, 
+    initialValue = 0)
+
+# and selection based on gender (fixed to 0)
+myeff2 &lt;- setEffect(myeff2, egoX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix = TRUE, test = FALSE, 
+    initialValue = 0)
+myeff2 &lt;- setEffect(myeff2, altX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix = TRUE, test = FALSE, 
+    initialValue = 0)
+myeff2 &lt;- setEffect(myeff2, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix = TRUE, test = FALSE, 
+    initialValue = 0)</code></pre>
+<!--- 
+
+@RF: To include the selection on behavior effects:
+myeff2 <- includeEffects(myeff1, egoX, altX, simX, name = "kudonet", interaction1 = "freq_run")
+To include gender-effects:
+myeff2 <- includeEffects(myeff2, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+
+--->
+<p><br></p>
+<p>We (1) define the algorithm, (2) estimate the model, and (3) assess GOF based on three auxiliary network statistics: otudegree, indegree and geodesic distance distribution. We will run the model as many times as necessary, until we reach a convergence ratio of &lt; .25.</p>
+<pre class="r test"><code>myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;) # set the SAOM algorithm 
+
+try &lt;- 1
+ansM1 &lt;- siena07(myalgorithm, data = mydata, effects = myeff2, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM1$tconv.max &gt;= .25){
+    try &lt;- try + 1
+    print(paste(&quot;Model did not converge: &quot;, ansM2$tconv.max, sep = &quot;&quot;))
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM1 &lt;- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM1, returnDeps=TRUE)
+    
+  }else{
+    print(paste(&quot;Reached overall maximum convergence ratio of &quot;, ansM1$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}
+
+gofi &lt;- sienaGOF(ansM1, 
+                 IndegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = &quot;kudonet&quot;)
+
+gofo &lt;- sienaGOF(ansM1, 
+                 OutdegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = &quot;kudonet&quot;)
+
+GeodesicDistribution &lt;- function (i, data, sims, period, groupName,
+   varName, levls=c(1:5, Inf), cumulative=TRUE, ...) {
+     x &lt;- networkExtraction(i, data, sims, period, groupName, varName)
+     require(sna)
+     a &lt;- sna::geodist(symmetrize(x))$gdist
+     if (cumulative)
+     {
+       gdi &lt;- sapply(levls, function(i){ sum(a&lt;=i) })
+     }
+     else
+     {
+       gdi &lt;- sapply(levls, function(i){ sum(a==i) })
+     }
+     names(gdi) &lt;- as.character(levls)
+     gdi
+}
+
+gofgeo &lt;- sienaGOF(ansM1, 
+                 GeodesicDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = &quot;kudonet&quot;)
+
+goflist &lt;- list(gofi, gofo, gofgeo)
+save(goflist, file= paste(&quot;files&quot;, &quot;/&quot;, &quot;other clubs&quot;, &quot;/&quot;, &quot;club 4&quot;, &quot;/&quot;, &quot;gof1.RData&quot;, sep=&quot;&quot;))</code></pre>
+<div id="section-1" class="section level4 tabset tabset-fade">
+<h4></h4>
+<div id="indegree-distribution" class="section level5">
+<h5>Indegree distribution</h5>
+<pre class="r fold-hide"><code>load(&quot;files/other clubs/club 4/gof1.RData&quot;)
+plot(goflist[[1]])</code></pre>
+<pre class="test2"><code>#&gt; Note: some statistics are not plotted because their variance is 0.
+#&gt; This holds for the statistic: 8.</code></pre>
+<p><img src="meta_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="outdegree-distribution" class="section level5">
+<h5>Outdegree distribution</h5>
+<pre class="r fold-hide"><code>plot(goflist[[2]])</code></pre>
+<pre class="test2"><code>#&gt; Note: some statistics are not plotted because their variance is 0.
+#&gt; This holds for the statistics: 7 8.</code></pre>
+<p><img src="meta_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="geodesic-distance-distribution" class="section level5">
+<h5>Geodesic distance distribution</h5>
+<pre class="r fold-hide"><code>plot(goflist[[3]])</code></pre>
+<pre class="test2"><code>#&gt; Note: some statistics are not plotted because their variance is 0.
+#&gt; This holds for the statistic: Inf.</code></pre>
+<p><img src="meta_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
+<div id="section-2" class="section level4 unnumbered">
+<h4></h4>
+<p>GOF is all right!</p>
+<p><br></p>
+<p>Second, we model dynamics in running behaviors.</p>
+<pre class="r test"><code># covariate effects: interdependency frequency and duration
+myeff3 &lt;- includeEffects(myeff2, effFrom, name = &quot;time_run&quot;, interaction1 = &quot;freq_run&quot;)
+myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;time_run&quot;)
+# effects from other sports
+myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;time_run&quot;, interaction1 = &quot;time_other&quot;)
+myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;freq_other&quot;)
+# gender effects (fixed to 0)
+myeff3 &lt;- setEffect(myeff3, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;gender&quot;, fix = T, test = F, initialValue = 0)
+myeff3 &lt;- setEffect(myeff3, effFrom, name = &quot;time_run&quot;, interaction1 = &quot;gender&quot;, fix = T, test = F, initialValue = 0)
+
+# influence effects: 1. indegree effect
+myeff3 &lt;- includeEffects(myeff3, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff3 &lt;- includeEffects(myeff3, indeg, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)
+# 2. upward assimilation
+myeff4 &lt;- includeEffects(myeff3, avAttHigher, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff4 &lt;- includeEffects(myeff4, avAttHigher, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)
+
+# fix indegree effects at previous parameter estimate. myeff4 &lt;- setEffect(myeff4, indeg, name =
+# &#39;freq_run&#39;, interaction1 = &#39;kudonet&#39;, fix=T, test=F, initialValue=0.4236) myeff4 &lt;-
+# setEffect(myeff4, indeg, name = &#39;time_run&#39;, interaction1 = &#39;kudonet&#39;, fix=T, test=F,
+# initialValue=0.0317) myeff4 &lt;- setEffect(myeff4, indeg, name = &#39;freq_run&#39;, interaction1 =
+# &#39;kudonet&#39;, fix=T, test=F, initialValue=0) myeff4 &lt;- setEffect(myeff4, indeg, name = &#39;time_run&#39;,
+# interaction1 = &#39;kudonet&#39;, fix=T, test=F, initialValue=0)
+
+# outdegree effect (fixed at 0)
+myeff4 &lt;- setEffect(myeff4, outdeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;, fix = T, test = F, initialValue = 0)
+myeff4 &lt;- setEffect(myeff4, outdeg, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;, fix = T, test = F, initialValue = 0)
+
+# rate parameter at fixed value
+myeff4 &lt;- setEffect(myeff4, Rate, name = &quot;freq_run&quot;, fix = TRUE, test = FALSE, type = &quot;rate&quot;, period = 8, 
+    initialValue = 5)</code></pre>
+<p><br></p>
+<p>We estimate the model and investigate another GOF-diagnostic: the distribution of running behavior variables. We estimate (1) a model with the objective function for running activity comprising the basic shape effects, covariate effects, and <em>indegree</em> effect; and (2) a model including the <em>upward assimilation</em> and <em>outdegree</em> effect. We save the sienaFit-objects of both models for subsequent meta-analyses.</p>
+<p>This club faced convergence issues in the last model. We achieved convergence by (1) fixing the outdegree-effect to 0 (score-type test indicated that this effect was 0) and fixing the rate parameter for running frequency dynamics to 5 in period 8 (we aimed at a <em>t</em>-ratio for convergence for this parameter of &lt;.2).</p>
+</div>
+<div id="section-3" class="section level4 tabset tabset-fade">
+<h4></h4>
+<div id="the-indegree-effect" class="section level5">
+<h5>The indegree-effect</h5>
+<pre class="r test"><code>try &lt;- 1
+ansM2 &lt;- siena07(myalgorithm, data = mydata, effects = myeff3, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM2$tconv.max &gt;= .25){
+    try &lt;- try + 1
+    print(paste(&quot;Model did not converge: &quot;, ansM2$tconv.max, sep = &quot;&quot;))
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM2 &lt;- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM2, returnDeps=TRUE)
+    
+  }else{
+    print(paste(&quot;Reached overall maximum convergence ratio of &quot;, ansM2$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}
+
+gofbeh &lt;- sienaGOF(ansM2,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = &quot;freq_run&quot;)
+
+gofbeh2 &lt;- sienaGOF(ansM2,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = &quot;time_run&quot;)
+
+goflist2 &lt;- list(gofbeh, gofbeh2)
+save(goflist2, file= paste(&quot;files&quot;, &quot;/&quot;, &quot;other clubs&quot;, &quot;/&quot;, &quot;club 4&quot;, &quot;/&quot;, &quot;gof2.RData&quot;, sep=&quot;&quot;))
+
+# save the sienaFit object
+save(ansM2, file= paste(&quot;files&quot;, &quot;/&quot;, &quot;other clubs&quot;, &quot;/&quot;, &quot;club 4&quot;, &quot;/&quot;, &quot;model2.RData&quot;, sep=&quot;&quot;))</code></pre>
+<p><br></p>
+<p><strong>Violin plot of running frequency</strong></p>
+<pre class="r fold-hide"><code>load(&quot;files/other clubs/club 4/gof2.RData&quot;)
+plot(goflist2[[1]])</code></pre>
+<pre class="test2"><code>#&gt; Note: some statistics are not plotted because their variance is 0.
+#&gt; This holds for the statistic: 5.</code></pre>
+<p><img src="meta_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><strong>Violin plot of running duration</strong></p>
+<pre class="r fold-hide"><code>plot(goflist2[[2]])</code></pre>
+<pre class="test2"><code>#&gt; Note: some statistics are not plotted because their variance is 0.
+#&gt; This holds for the statistic: 7.</code></pre>
+<p><img src="meta_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="the-upward-assimilation-effect" class="section level5">
+<h5>The upward assimilation effect</h5>
+<pre class="r test"><code>try &lt;- 1
+ansM3 &lt;- siena07(myalgorithm, data = mydata, effects = myeff4, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM3$tconv.max &gt;= .25){
+    try &lt;- try + 1
+    print(paste(&quot;Model did not converge: &quot;, ansM3$tconv.max, sep = &quot;&quot;))
+    print(paste(&quot;Try:&quot;, try, sep=&quot; &quot;))
+    ansM3 &lt;- siena07( myalgorithm, data = mydata, effects = myeff4, prevAns= ansM3, returnDeps=TRUE)
+    
+  }else{
+    print(paste(&quot;Reached convergence ratio of &quot;, ansM3$tconv.max, sep = &quot;&quot;))
+    break
+  }
+}
+
+gofbeh &lt;- sienaGOF(ansM3,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = &quot;freq_run&quot;)
+
+gofbeh2 &lt;- sienaGOF(ansM3,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = &quot;time_run&quot;)
+
+goflist3 &lt;- list(gofbeh, gofbeh2)
+save(goflist3, file= paste(&quot;files&quot;, &quot;/&quot;, &quot;other clubs&quot;, &quot;/&quot;, &quot;club 4&quot;, &quot;/&quot;, &quot;gof3.RData&quot;, sep=&quot;&quot;))
+
+# save the sienaFit object
+save(ansM3, file= paste(&quot;files&quot;, &quot;/&quot;, &quot;other clubs&quot;, &quot;/&quot;, &quot;club 4&quot;, &quot;/&quot;, &quot;model3.RData&quot;, sep=&quot;&quot;))</code></pre>
+<p><br></p>
+<p><strong>Violin plot of running frequency</strong></p>
+<pre class="r fold-hide"><code>load(&quot;files/other clubs/club 4/gof3.RData&quot;)
+plot(goflist3[[1]])</code></pre>
+<pre class="test2"><code>#&gt; Note: some statistics are not plotted because their variance is 0.
+#&gt; This holds for the statistic: 5.</code></pre>
+<p><img src="meta_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><strong>Violin plot of running duration</strong></p>
+<pre class="r fold-hide"><code>plot(goflist3[[2]])</code></pre>
+<pre class="test2"><code>#&gt; Note: some statistics are not plotted because their variance is 0.
+#&gt; This holds for the statistic: 7.</code></pre>
+<p><img src="meta_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="club-5" class="section level3">
+<h3>Club 5</h3>
+</div>
+</div>
+<div id="section-4" class="section level2 unnumbered">
+<h2></h2>
+<p><br></p>
+<hr />
+</div>
+</div>
+<div id="meta-analysis" class="section level1">
+<h1>Meta-analysis</h1>
+<p>We summarize the results over the 5 clubs using Fisher’s method for combining independent <em>p</em>-values. We perform a double test:</p>
+<ol style="list-style-type: decimal">
+<li>For detecting if there are any club-networks with a positive parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or less than zero; with the alternative hypothesis: for at least one club, the value of this parameter is greater than zero.</li>
+<li>For detecting if there are any club-networks with a negative parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or greater than zero; with the alternative hypothesis: for at least one club, the value of this parameter is less than zero.</li>
+</ol>
+<p>For each of these combined tests, the <em>p</em>-value is given. We use for each test the significance level of <em>α</em>/2, which yields an overall combined test at significance level <em>α</em>. Four different overall results are possible. Indicating the right-sided and left-sided <em>p</em>-values by <em>p<sub>r</sub></em> and <em>p<sub>l</sub></em> respectively, these results are:</p>
+<ul>
+<li><em>p<sub>r</sub></em> <span class="math inline">\(\gt\)</span> <em>α</em>/2 &amp; <em>p<sub>l</sub></em> <span class="math inline">\(\gt\)</span> <em>α</em>/2:</li>
+</ul>
+<p>No evidence for any non-zero parameter values.</p>
+<ul>
+<li><em>p<sub>r</sub></em> <span class="math inline">\(\geq\)</span> <em>α</em>/2 &amp; <em>p<sub>l</sub></em> <span class="math inline">\(\gt\)</span> <em>α</em>/2:</li>
+</ul>
+<p>Evidence that some club-networks have a positive parameter value, but no evidence for any negative parameter values.</p>
+<ul>
+<li><em>p<sub>r</sub></em> <span class="math inline">\(\gt\)</span> <em>α</em>/2 &amp; <em>p<sub>l</sub></em> <span class="math inline">\(\leq\)</span> <em>α</em>/2:</li>
+</ul>
+<p>Evidence that some clubs have a negative parameter value, no evidence for any positive parameter values</p>
+<ul>
+<li><em>p<sub>r</sub></em> <span class="math inline">\(\leq\)</span> <em>α</em>/2 &amp; <em>p<sub>l</sub></em> <span class="math inline">\(\leq\)</span> <em>α</em>/2:</li>
+</ul>
+<p>Evidence that some clubs have a negative parameter value, and some others have a positive parameter value.</p>
+<p><br></p>
+<hr />
+<p>First, we read in the sienaFit-objects of our 5 clubs. We use a function to load the objects under new names. Note: We saved 2 sienaFit-objects for each club. Then we make a list of the sienaFit-objects of the 2 model specifications.</p>
+<pre class="r test"><code># clean the working environment
+rm(list = ls())
+
+loadRData &lt;- function(fileName) {
+    # loads an RData file, and returns it
+    load(fileName)
+    get(ls()[ls() != &quot;fileName&quot;])
+}
+
+club1_m1 &lt;- loadRData(&quot;files/test club 1/model2.RData&quot;)
+club1_m2 &lt;- loadRData(&quot;files/test club 1/model3.RData&quot;)
+club4_m1 &lt;- loadRData(&quot;files/other clubs/club 4/model2.RData&quot;)
+club4_m2 &lt;- loadRData(&quot;files/other clubs/club 4/model3.RData&quot;)
+
+m1List &lt;- list(club1_m1, club4_m1)
+m2List &lt;- list(club1_m2, club4_m2)</code></pre>
+<!--- 
+
+@RF: just club 1 and 4 now, for testing purposes
+
+--->
+<p><br></p>
+<p>We perform the meta-analysis seperately for the 2 model specifications:</p>
+<ul>
+<li>Model 1: objective function for running activity comprising the basic shape effects, covariate effects, and indegree effect</li>
+<li>Model 2: including the upward assimilation effect and the outdegree effect</li>
+</ul>
+<div id="section-5" class="section level2 tabset tabset-fade">
+<h2></h2>
+<div id="model-1" class="section level3">
+<h3>Model 1</h3>
+<p>We extract the parameter estimates and standard errors.</p>
+<pre class="r test"><code>parameters &lt;- sapply(m1List, function(x) {
+    x$theta
+})
+standers &lt;- sapply(m1List, function(x) {
+    x$se
+})
+
+eff.names &lt;- m1List[[1]]$effects[m1List[[1]]$effects$include, &quot;effectName&quot;]
+
+# combine parameters and std.errors with effect names
+rownames(parameters) &lt;- eff.names
+rownames(standers) &lt;- eff.names
+
+# print rounded to 3 decimals
+round(parameters, 3)</code></pre>
+<pre class="test2"><code>#&gt;                                     [,1]   [,2]
+#&gt; constant kudonet rate (period 1)   1.433  0.942
+#&gt; constant kudonet rate (period 2)   1.098  0.511
+#&gt; constant kudonet rate (period 3)   0.558  1.163
+#&gt; constant kudonet rate (period 4)   0.656  0.680
+#&gt; constant kudonet rate (period 5)   0.324  0.686
+#&gt; constant kudonet rate (period 6)   1.110  1.055
+#&gt; constant kudonet rate (period 7)   0.757  3.568
+#&gt; constant kudonet rate (period 8)   1.773  1.005
+#&gt; constant kudonet rate (period 9)   0.504  2.065
+#&gt; constant kudonet rate (period 10)  2.067  0.643
+#&gt; constant kudonet rate (period 11)  2.394  2.104
+#&gt; outdegree (density)               -6.997  2.266
+#&gt; reciprocity                        5.533  3.029
+#&gt; GWESP I -&gt; K -&gt; J (69)             1.264  1.759
+#&gt; indegree - popularity (sqrt)       0.349 -0.033
+#&gt; outdegree - activity (sqrt)        0.742 -2.073
+#&gt; out-isolate                        0.000  5.415
+#&gt; gender alter                       0.367  0.000
+#&gt; gender ego                        -0.536  0.000
+#&gt; same gender                       -0.344  0.000
+#&gt; freq_run alter                    -0.250  0.000
+#&gt; freq_run ego                      -0.264  0.000
+#&gt; freq_run similarity               -3.851  0.000
+#&gt; rate time_run (period 1)           4.419 10.602
+#&gt; rate time_run (period 2)           3.106  5.157
+#&gt; rate time_run (period 3)           4.200  3.323
+#&gt; rate time_run (period 4)           3.641  5.245
+#&gt; rate time_run (period 5)           5.667 11.281
+#&gt; rate time_run (period 6)           9.237  3.458
+#&gt; rate time_run (period 7)           8.701 12.983
+#&gt; rate time_run (period 8)           3.449  3.416
+#&gt; rate time_run (period 9)           1.377  6.519
+#&gt; rate time_run (period 10)          5.636  4.062
+#&gt; rate time_run (period 11)          2.975  7.830
+#&gt; time_run linear shape             -0.019 -0.685
+#&gt; time_run quadratic shape           0.071  0.032
+#&gt; time_run indegree                  0.017  0.112
+#&gt; time_run: effect from gender      -0.010  0.000
+#&gt; time_run: effect from freq_run    -0.064  0.235
+#&gt; time_run: effect from time_other  -0.004  0.042
+#&gt; rate freq_run (period 1)           3.363  3.234
+#&gt; rate freq_run (period 2)           1.949  2.112
+#&gt; rate freq_run (period 3)           3.027  1.479
+#&gt; rate freq_run (period 4)           2.116  2.939
+#&gt; rate freq_run (period 5)           2.043  3.019
+#&gt; rate freq_run (period 6)           4.580  1.105
+#&gt; rate freq_run (period 7)           3.064  1.118
+#&gt; rate freq_run (period 8)           1.633 10.365
+#&gt; rate freq_run (period 9)           1.701  1.593
+#&gt; rate freq_run (period 10)          2.930  1.115
+#&gt; rate freq_run (period 11)          2.290  2.704
+#&gt; freq_run linear shape             -0.151 -1.137
+#&gt; freq_run quadratic shape          -0.094 -0.409
+#&gt; freq_run indegree                  0.017  0.424
+#&gt; freq_run: effect from gender      -0.067  0.000
+#&gt; freq_run: effect from time_run     0.067  0.308
+#&gt; freq_run: effect from freq_other  -0.017  0.072</code></pre>
+<pre class="r test"><code>round(standers, 3)</code></pre>
+<pre class="test2"><code>#&gt;                                    [,1]   [,2]
+#&gt; constant kudonet rate (period 1)  0.512  0.663
+#&gt; constant kudonet rate (period 2)  0.346  0.398
+#&gt; constant kudonet rate (period 3)  0.229  0.699
+#&gt; constant kudonet rate (period 4)  0.255  0.581
+#&gt; constant kudonet rate (period 5)  0.175  0.483
+#&gt; constant kudonet rate (period 6)  0.365  0.619
+#&gt; constant kudonet rate (period 7)  0.281  2.592
+#&gt; constant kudonet rate (period 8)  0.573  0.632
+#&gt; constant kudonet rate (period 9)  0.206  0.971
+#&gt; constant kudonet rate (period 10) 0.626  0.489
+#&gt; constant kudonet rate (period 11) 0.824  1.421
+#&gt; outdegree (density)               0.845  2.905
+#&gt; reciprocity                       0.597  0.695
+#&gt; GWESP I -&gt; K -&gt; J (69)            0.320  0.578
+#&gt; indegree - popularity (sqrt)      0.285  0.669
+#&gt; outdegree - activity (sqrt)       0.182  1.044
+#&gt; out-isolate                          NA  2.180
+#&gt; gender alter                      0.335     NA
+#&gt; gender ego                        0.386     NA
+#&gt; same gender                       0.300     NA
+#&gt; freq_run alter                    0.135     NA
+#&gt; freq_run ego                      0.173     NA
+#&gt; freq_run similarity               1.358     NA
+#&gt; rate time_run (period 1)          1.462  9.909
+#&gt; rate time_run (period 2)          0.962  5.342
+#&gt; rate time_run (period 3)          1.902  2.010
+#&gt; rate time_run (period 4)          2.065  4.392
+#&gt; rate time_run (period 5)          1.846 15.756
+#&gt; rate time_run (period 6)          2.932  2.833
+#&gt; rate time_run (period 7)          3.921 13.735
+#&gt; rate time_run (period 8)          1.582  2.481
+#&gt; rate time_run (period 9)          0.419  7.006
+#&gt; rate time_run (period 10)         1.963  3.243
+#&gt; rate time_run (period 11)         1.045  4.557
+#&gt; time_run linear shape             0.055  0.235
+#&gt; time_run quadratic shape          0.024  0.094
+#&gt; time_run indegree                 0.015  0.122
+#&gt; time_run: effect from gender      0.085     NA
+#&gt; time_run: effect from freq_run    0.086  0.419
+#&gt; time_run: effect from time_other  0.015  0.032
+#&gt; rate freq_run (period 1)          1.485  3.656
+#&gt; rate freq_run (period 2)          0.624  1.541
+#&gt; rate freq_run (period 3)          1.184  1.241
+#&gt; rate freq_run (period 4)          0.808  9.391
+#&gt; rate freq_run (period 5)          0.763  2.654
+#&gt; rate freq_run (period 6)          2.022  0.743
+#&gt; rate freq_run (period 7)          1.363  0.825
+#&gt; rate freq_run (period 8)          0.563 34.987
+#&gt; rate freq_run (period 9)          0.544  1.239
+#&gt; rate freq_run (period 10)         1.174  0.947
+#&gt; rate freq_run (period 11)         0.835  3.104
+#&gt; freq_run linear shape             0.072  0.374
+#&gt; freq_run quadratic shape          0.034  0.400
+#&gt; freq_run indegree                 0.019  0.179
+#&gt; freq_run: effect from gender      0.114     NA
+#&gt; freq_run: effect from time_run    0.045  0.381
+#&gt; freq_run: effect from freq_other  0.041  0.222</code></pre>
+<p><br></p>
+<p>We use <em>siena08</em> to perform Fisher’s method for combining independent <em>p</em>-values.</p>
+<pre class="r test"><code>ans8 &lt;- siena08(m1List, bound = 100)
+
+Overalls &lt;- t(sapply(1:57, function(i) {
+    c(ans8[[i]]$Tsq, ans8[[i]]$pTsq)
+}))
+round(Overalls, 3)
+
+efnames &lt;- names(ans8)[1:57]
+efnames &lt;- substring(efnames, 8)
+rownames(Overalls) &lt;- efnames
+round(Overalls[1:57, ], 3)
+
+Fishers &lt;- t(sapply(1:57, function(i) {
+    c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1)
+}))
+Fishers &lt;- as.data.frame(Fishers)
+rownames(Fishers) &lt;- efnames
+names(Fishers) &lt;- c(&quot;Fplus&quot;, &quot;Fminus&quot;, &quot;pplus&quot;, &quot;pminus&quot;, &quot;df&quot;)</code></pre>
+<p><br></p>
+<p>And we present the Fisher combinations</p>
+<pre class="r test"><code>round(Fishers, 3)</code></pre>
+<pre class="test2"><code>#&gt;                                     Fplus Fminus pplus pminus df
+#&gt; constant kudonet rate (period 1)   17.021  0.167 0.002  0.997  4
+#&gt; constant kudonet rate (period 2)   18.984  0.211 0.001  0.995  4
+#&gt; constant kudonet rate (period 3)   15.876  0.114 0.003  0.998  4
+#&gt; constant kudonet rate (period 4)   14.806  0.268 0.005  0.992  4
+#&gt; constant kudonet rate (period 5)   12.023  0.226 0.017  0.994  4
+#&gt; constant kudonet rate (period 6)   19.727  0.092 0.001  0.999  4
+#&gt; constant kudonet rate (period 7)   16.242  0.183 0.003  0.996  4
+#&gt; constant kudonet rate (period 8)   19.600  0.117 0.001  0.998  4
+#&gt; constant kudonet rate (period 9)   18.020  0.048 0.001  1.000  4
+#&gt; constant kudonet rate (period 10)  20.017  0.199 0.000  0.995  4
+#&gt; constant kudonet rate (period 11)  17.928  0.147 0.001  0.997  4
+#&gt; outdegree (density)                 3.049 75.077 0.550  0.000  4
+#&gt; reciprocity                       116.182  0.000 0.000  1.000  4
+#&gt; GWESP I -&gt; K -&gt; J (69)             33.840  0.002 0.000  1.000  4
+#&gt; indegree - popularity (sqrt)        5.712  1.700 0.222  0.791  4
+#&gt; outdegree - activity (sqrt)        21.492  7.498 0.000  0.112  4
+#&gt; out-isolate                        10.070  0.013 0.007  0.993  2
+#&gt; gender alter                        3.989  0.293 0.136  0.864  2
+#&gt; gender ego                          0.173  4.984 0.917  0.083  2
+#&gt; same gender                         0.269  4.148 0.874  0.126  2
+#&gt; freq_run alter                      0.064  6.925 0.969  0.031  2
+#&gt; freq_run ego                        0.132  5.508 0.936  0.064  2
+#&gt; freq_run similarity                 0.005 12.169 0.998  0.002  2
+#&gt; rate time_run (period 1)           17.267  0.310 0.002  0.989  4
+#&gt; rate time_run (period 2)           18.350  0.367 0.001  0.985  4
+#&gt; rate time_run (period 3)           14.622  0.128 0.006  0.998  4
+#&gt; rate time_run (period 4)           10.798  0.326 0.029  0.988  4
+#&gt; rate time_run (period 5)           16.561  0.543 0.002  0.969  4
+#&gt; rate time_run (period 6)           18.618  0.237 0.001  0.993  4
+#&gt; rate time_run (period 7)           12.167  0.405 0.016  0.982  4
+#&gt; rate time_run (period 8)           13.398  0.205 0.009  0.995  4
+#&gt; rate time_run (period 9)           18.629  0.388 0.001  0.983  4
+#&gt; rate time_run (period 10)          16.886  0.226 0.002  0.994  4
+#&gt; rate time_run (period 11)          18.536  0.092 0.001  0.999  4
+#&gt; time_run linear shape               0.909 14.700 0.923  0.005  4
+#&gt; time_run quadratic shape           15.060  0.918 0.005  0.922  4
+#&gt; time_run indegree                   7.628  0.658 0.106  0.956  4
+#&gt; time_run: effect from gender        1.210  1.580 0.546  0.454  2
+#&gt; time_run: effect from freq_run      3.013  3.639 0.556  0.457  4
+#&gt; time_run: effect from time_other    5.699  2.026 0.223  0.731  4
+#&gt; rate freq_run (period 1)           12.230  0.441 0.016  0.979  4
+#&gt; rate freq_run (period 2)           18.970  0.180 0.001  0.996  4
+#&gt; rate freq_run (period 3)           14.784  0.259 0.005  0.992  4
+#&gt; rate freq_run (period 4)           12.794  0.956 0.012  0.916  4
+#&gt; rate freq_run (period 5)           15.315  0.281 0.004  0.991  4
+#&gt; rate freq_run (period 6)           14.255  0.165 0.007  0.997  4
+#&gt; rate freq_run (period 7)           13.665  0.208 0.008  0.995  4
+#&gt; rate freq_run (period 8)           14.496  0.971 0.006  0.914  4
+#&gt; rate freq_run (period 9)           18.678  0.211 0.001  0.995  4
+#&gt; rate freq_run (period 10)          14.389  0.267 0.006  0.992  4
+#&gt; rate freq_run (period 11)          14.888  0.432 0.005  0.980  4
+#&gt; freq_run linear shape               0.039 21.529 1.000  0.000  4
+#&gt; freq_run quadratic shape            0.338 15.373 0.987  0.004  4
+#&gt; freq_run indegree                  12.759  0.434 0.013  0.980  4
+#&gt; freq_run: effect from gender        0.654  2.554 0.721  0.279  2
+#&gt; freq_run: effect from time_run      8.426  0.616 0.077  0.961  4
+#&gt; freq_run: effect from freq_other    2.795  3.108 0.593  0.540  4</code></pre>
+</div>
+<div id="model-2" class="section level3">
+<h3>Model 2</h3>
+</div>
+</div>
+<div id="section-6" class="section level2 unnumbered">
+<h2></h2>
+<p><br></p>
+<hr />
+<div id="references" class="section level3 unnumbered">
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-hedges2014">
+<p>Hedges, L. V., and I. Olkin. 2014. <em>Statistical Methods for Meta-Analysis</em>. Academic press.</p>
+</div>
+<div id="ref-bosker2011">
+<p>Snijders, T. A.B., and R. J. Bosker. 2011. <em>Multilevel Analysis: An Introduction to Basic and Advanced Multilevel Modeling</em>. Sage.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1ldGEtYW5hbHlzaXMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRX0NCmxpYnJhcnkoa25pdHIpDQpsaWJyYXJ5KFJTaWVuYSkNCmxpYnJhcnkoZ2dwbG90MikNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KDQotLS0NCg0KV2Ugd2lsbCBlc3RpbWF0ZSB0aGUgU0FPTSBmb3IgdGhlIHJlbWFpbmluZyA0IGNsdWJzLCBhbmQgdG8gc3VtbWFyaXplIHRoZSByZXN1bHRzIG92ZXIgb3VyIGNsdWJzLCB3ZSB3aWxsIHBlcmZvcm0gYSBtZXRhLWFuYWx5c2lzIHVzaW5nIGEgRmlzaGVyLXR5cGUgY29tYmluYXRpb24gb2Ygb25lLXRhaWxlZCBwLXZhbHVlcywgZGVzY3JpYmVkIGJ5IEBoZWRnZXMyMDE0IGFuZCBAYm9za2VyMjAxMSAoQ2hhcHRlciAzKS4gDQoNCjxicj4NCg0KIyBQcmVwYXJhdGlvbg0KQ2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQgYW5kIHJlYWQgaW4gdGhlIFItU0lFTkEgb2JqZWN0IGxpc3QuDQoNCmBgYHtyLCBhdHRyLm91dHB1dD0nc3R5bGU9Im1heC1oZWlnaHQ6IDIwMHB4OyInfQ0KIyBjbGVhbiB0aGUgd29ya2luZyBlbnZpcm9ubWVudCANCnJtIChsaXN0ID0gbHMoICkpDQojIGxvYWQgaW4gdGhlIFItU0lFTkEgb2JqZWN0cw0KbG9hZCgiY2x1YmRhdGFfcnNpZW5hLlJkYXRhIikNCmBgYA0KDQo8YnI+DQoNCi0tLS0NCg0KIyBFc3RpbWF0ZSBTQU9NcyBmb3Igb3RoZXIgY2x1YnMNCkZvciBlYWNoIGNsdWIsIHdlIGluY3JlbWVudGFsbHkgYnVpbGQgdGhlIG1vZGVsIGFuZCBhc3Nlc3MgR09GLg0KDQoNCiMjIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIENsdWIgMg0KDQojIyMgQ2x1YiAzDQoNCiMjIyBDbHViIDQNCg0KRmlyc3QsIHdlIG1vZGVsIG5ldHdvcmsgc3RydWN0dXJlIGFuZCBkeW5hbWljcyBpbiBrdWRvcyB0aWUgZm9ybWF0aW9uLiANCg0KSW4gdGhpcyBjbHViLCB0aGUgKm91dElzb2xhdGUqLWVmZmVjdCAobGVhZGluZyB0byBub3cgZ2l2aW5nIGt1ZG9zIHRvIGFueW9uZSkgd2FzIHJhdGhlciBpbXBvcnRhbnQ6IGEgc2NvcmUtdHlwZSB0ZXN0IGluZGljYXRlZCB0aGF0IGl0IHdhcyBub3QgMCAobm90IHNob3duKS4NClNlbGVjdGlvbiBlZmZlY3RzIG9mIGdlbmRlciBhbmQgcnVubmluZyAobW9uYWRpYyBhbmQgZHlhZGljKSB3ZXJlIGFsc28gc2NvcmUtdHlwZSB0ZXN0ZWQgYW5kIGZpeGVkIHRvIDAuDQoNCmBgYHtyIGVjaG89VCwgcmVzdWx0cz0naGlkZSd9DQpteWRhdGEgPC0gY2x1YmRhdGFfcnNpZW5hW1s0XV0gIyBncmFiIGNsdWINCg0KbXllZmYgPC0gZ2V0RWZmZWN0cyhteWRhdGEpICMgZGVmaW5lIG15ZWZmIG9iamVjdA0KDQojIHN0cnVjdHVyYWwgbmV0d29yayBlZmZlY3RzDQpteWVmZjEgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYsIGd3ZXNwRkYsIG5hbWUgPSAia3Vkb25ldCIpIA0KbXllZmYxIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMSwgb3V0QWN0U3FydCwgaW5Qb3BTcXJ0LCBuYW1lID0gImt1ZG9uZXQiKSANCm15ZWZmMSA8LSBzZXRFZmZlY3QoIG15ZWZmMSwgb3V0SXNvLCBuYW1lID0gImt1ZG9uZXQiKQ0KDQojIHNlbGVjdGlvbiBlZmZlY3RzIGZvciBrdWRvcyB0aWVzIGZvcm1hdGlvbiBiYXNlZCBvbiBydW5uaW5nIGFjdGl2aXR5IChmaXhlZCB0byAwKQ0KbXllZmYyIDwtIHNldEVmZmVjdCggbXllZmYxLCBlZ29YLCBuYW1lID0gImt1ZG9uZXQiLCBpbnRlcmFjdGlvbjEgPSAiZnJlcV9ydW4iLCBmaXg9VFJVRSwgdGVzdD1GQUxTRSwgaW5pdGlhbFZhbHVlID0gMCkNCm15ZWZmMiA8LSBzZXRFZmZlY3QoIG15ZWZmMiwgYWx0WCwgbmFtZSA9ICJrdWRvbmV0IiwgaW50ZXJhY3Rpb24xID0gImZyZXFfcnVuIiwgZml4PVRSVUUsIHRlc3Q9RkFMU0UsIGluaXRpYWxWYWx1ZSA9IDApDQpteWVmZjIgPC0gc2V0RWZmZWN0KCBteWVmZjIsIHNhbWVYLCBuYW1lID0gImt1ZG9uZXQiLCBpbnRlcmFjdGlvbjEgPSAiZnJlcV9ydW4iLCBmaXg9VFJVRSwgdGVzdD1GQUxTRSwgaW5pdGlhbFZhbHVlID0gMCkNCg0KIyBhbmQgc2VsZWN0aW9uIGJhc2VkIG9uIGdlbmRlciAoZml4ZWQgdG8gMCkNCm15ZWZmMiA8LSBzZXRFZmZlY3QoIG15ZWZmMiwgZWdvWCwgbmFtZSA9ICJrdWRvbmV0IiwgaW50ZXJhY3Rpb24xID0gImdlbmRlciIsIGZpeD1UUlVFLCB0ZXN0PUZBTFNFLCBpbml0aWFsVmFsdWUgPSAwKQ0KbXllZmYyIDwtIHNldEVmZmVjdCggbXllZmYyLCBhbHRYLCBuYW1lID0gImt1ZG9uZXQiLCBpbnRlcmFjdGlvbjEgPSAiZ2VuZGVyIiwgZml4PVRSVUUsIHRlc3Q9RkFMU0UsIGluaXRpYWxWYWx1ZSA9IDApDQpteWVmZjIgPC0gc2V0RWZmZWN0KCBteWVmZjIsIHNhbWVYLCBuYW1lID0gImt1ZG9uZXQiLCBpbnRlcmFjdGlvbjEgPSAiZ2VuZGVyIiwgZml4PVRSVUUsIHRlc3Q9RkFMU0UsIGluaXRpYWxWYWx1ZSA9IDApDQpgYGANCg0KPCEtLS0gDQoNCkBSRjogVG8gaW5jbHVkZSB0aGUgc2VsZWN0aW9uIG9uIGJlaGF2aW9yIGVmZmVjdHM6DQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYxLCBlZ29YLCBhbHRYLCBzaW1YLCBuYW1lID0gImt1ZG9uZXQiLCBpbnRlcmFjdGlvbjEgPSAiZnJlcV9ydW4iKQ0KVG8gaW5jbHVkZSBnZW5kZXItZWZmZWN0czoNCm15ZWZmMiA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIGVnb1gsIGFsdFgsIHNhbWVYLCBuYW1lPSJrdWRvbmV0IiwgaW50ZXJhY3Rpb24xID0gImdlbmRlciIgKQ0KDQotLS0+IA0KDQo8YnI+DQoNCldlICgxKSBkZWZpbmUgdGhlIGFsZ29yaXRobSwgKDIpIGVzdGltYXRlIHRoZSBtb2RlbCwgYW5kICgzKSBhc3Nlc3MgR09GIGJhc2VkIG9uIHRocmVlIGF1eGlsaWFyeSBuZXR3b3JrIHN0YXRpc3RpY3M6IG90dWRlZ3JlZSwgaW5kZWdyZWUgYW5kIGdlb2Rlc2ljIGRpc3RhbmNlIGRpc3RyaWJ1dGlvbi4gV2Ugd2lsbCBydW4gdGhlIG1vZGVsIGFzIG1hbnkgdGltZXMgYXMgbmVjZXNzYXJ5LCB1bnRpbCB3ZSByZWFjaCBhIGNvbnZlcmdlbmNlIHJhdGlvIG9mIDwgLjI1Lg0KDQpgYGB7ciBldmFsPUYsIHJlc3VsdHM9J2hpZGUnfQ0KbXlhbGdvcml0aG0gPC0gc2llbmFBbGdvcml0aG1DcmVhdGUocHJvam5hbWUgPSAidGVzdCIpICMgc2V0IHRoZSBTQU9NIGFsZ29yaXRobSANCg0KdHJ5IDwtIDENCmFuc00xIDwtIHNpZW5hMDcobXlhbGdvcml0aG0sIGRhdGEgPSBteWRhdGEsIGVmZmVjdHMgPSBteWVmZjIsICMgZXN0aW1hdGUgdGhlIFNBT00NCiAgICAgICAgICAgICAgICAgYmF0Y2ggPSBGQUxTRSwgdmVyYm9zZSA9IEZBTFNFLCByZXR1cm5EZXBzID0gVFJVRSkNCg0KIyB0aGUgZm9sbG93aW5nIHNjcmlwdCBsZXRzIHRoZSBtb2RlbCByZS1ydW4gdW50aWwgd2UgZ2V0IGEgZ29vZCBjb252ZXJnZW5jZSByYXRpbw0Kd2hpbGUgKFRSVUUpew0KICANCiAgaWYoYW5zTTEkdGNvbnYubWF4ID49IC4yNSl7DQogICAgdHJ5IDwtIHRyeSArIDENCiAgICBwcmludChwYXN0ZSgiTW9kZWwgZGlkIG5vdCBjb252ZXJnZTogIiwgYW5zTTIkdGNvbnYubWF4LCBzZXAgPSAiIikpDQogICAgcHJpbnQocGFzdGUoIlRyeToiLCB0cnksIHNlcD0iICIpKQ0KICAgIGFuc00xIDwtIHNpZW5hMDcoIG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYyLCBwcmV2QW5zPSBhbnNNMSwgcmV0dXJuRGVwcz1UUlVFKQ0KICAgIA0KICB9ZWxzZXsNCiAgICBwcmludChwYXN0ZSgiUmVhY2hlZCBvdmVyYWxsIG1heGltdW0gY29udmVyZ2VuY2UgcmF0aW8gb2YgIiwgYW5zTTEkdGNvbnYubWF4LCBzZXAgPSAiIikpDQogICAgYnJlYWsNCiAgfQ0KfQ0KDQpnb2ZpIDwtIHNpZW5hR09GKGFuc00xLCANCiAgICAgICAgICAgICAgICAgSW5kZWdyZWVEaXN0cmlidXRpb24sIA0KICAgICAgICAgICAgICAgICB2ZXJib3NlID0gVFJVRSwNCiAgICAgICAgICAgICAgICAgam9pbiA9IFRSVUUsIA0KICAgICAgICAgICAgICAgICB2YXJOYW1lID0gImt1ZG9uZXQiKQ0KDQpnb2ZvIDwtIHNpZW5hR09GKGFuc00xLCANCiAgICAgICAgICAgICAgICAgT3V0ZGVncmVlRGlzdHJpYnV0aW9uLCANCiAgICAgICAgICAgICAgICAgdmVyYm9zZSA9IFRSVUUsDQogICAgICAgICAgICAgICAgIGpvaW4gPSBUUlVFLCANCiAgICAgICAgICAgICAgICAgdmFyTmFtZSA9ICJrdWRvbmV0IikNCg0KR2VvZGVzaWNEaXN0cmlidXRpb24gPC0gZnVuY3Rpb24gKGksIGRhdGEsIHNpbXMsIHBlcmlvZCwgZ3JvdXBOYW1lLA0KICAgdmFyTmFtZSwgbGV2bHM9YygxOjUsIEluZiksIGN1bXVsYXRpdmU9VFJVRSwgLi4uKSB7DQogICAgIHggPC0gbmV0d29ya0V4dHJhY3Rpb24oaSwgZGF0YSwgc2ltcywgcGVyaW9kLCBncm91cE5hbWUsIHZhck5hbWUpDQogICAgIHJlcXVpcmUoc25hKQ0KICAgICBhIDwtIHNuYTo6Z2VvZGlzdChzeW1tZXRyaXplKHgpKSRnZGlzdA0KICAgICBpZiAoY3VtdWxhdGl2ZSkNCiAgICAgew0KICAgICAgIGdkaSA8LSBzYXBwbHkobGV2bHMsIGZ1bmN0aW9uKGkpeyBzdW0oYTw9aSkgfSkNCiAgICAgfQ0KICAgICBlbHNlDQogICAgIHsNCiAgICAgICBnZGkgPC0gc2FwcGx5KGxldmxzLCBmdW5jdGlvbihpKXsgc3VtKGE9PWkpIH0pDQogICAgIH0NCiAgICAgbmFtZXMoZ2RpKSA8LSBhcy5jaGFyYWN0ZXIobGV2bHMpDQogICAgIGdkaQ0KfQ0KDQpnb2ZnZW8gPC0gc2llbmFHT0YoYW5zTTEsIA0KICAgICAgICAgICAgICAgICBHZW9kZXNpY0Rpc3RyaWJ1dGlvbiwgDQogICAgICAgICAgICAgICAgIHZlcmJvc2UgPSBUUlVFLA0KICAgICAgICAgICAgICAgICBqb2luID0gVFJVRSwgDQogICAgICAgICAgICAgICAgIHZhck5hbWUgPSAia3Vkb25ldCIpDQoNCmdvZmxpc3QgPC0gbGlzdChnb2ZpLCBnb2ZvLCBnb2ZnZW8pDQpzYXZlKGdvZmxpc3QsIGZpbGU9IHBhc3RlKCJmaWxlcyIsICIvIiwgIm90aGVyIGNsdWJzIiwgIi8iLCAiY2x1YiA0IiwgIi8iLCAiZ29mMS5SRGF0YSIsIHNlcD0iIikpDQpgYGANCg0KIyMjIyB7LnRhYnNldCAudGFic2V0LWZhZGV9DQoNCiMjIyMjIEluZGVncmVlIGRpc3RyaWJ1dGlvbg0KYGBge3IgY2xhc3Muc291cmNlID0gJ2ZvbGQtaGlkZSd9DQpsb2FkKCJmaWxlcy9vdGhlciBjbHVicy9jbHViIDQvZ29mMS5SRGF0YSIpDQpwbG90KGdvZmxpc3RbWzFdXSkNCmBgYA0KDQojIyMjIyBPdXRkZWdyZWUgZGlzdHJpYnV0aW9uDQpgYGB7ciBjbGFzcy5zb3VyY2UgPSAnZm9sZC1oaWRlJ30NCnBsb3QoZ29mbGlzdFtbMl1dKQ0KYGBgDQoNCiMjIyMjIEdlb2Rlc2ljIGRpc3RhbmNlIGRpc3RyaWJ1dGlvbg0KYGBge3IgY2xhc3Muc291cmNlID0gJ2ZvbGQtaGlkZSd9DQpwbG90KGdvZmxpc3RbWzNdXSkNCmBgYA0KDQojIyMjIHstfQ0KDQoNCkdPRiBpcyBhbGwgcmlnaHQhDQoNCjxicj4gDQoNClNlY29uZCwgd2UgbW9kZWwgZHluYW1pY3MgaW4gcnVubmluZyBiZWhhdmlvcnMuIA0KDQpgYGB7ciBlY2hvPVQsIHJlc3VsdHM9J2hpZGUnfQ0KIyBjb3ZhcmlhdGUgZWZmZWN0czoNCiMgaW50ZXJkZXBlbmRlbmN5IGZyZXF1ZW5jeSBhbmQgZHVyYXRpb24NCm15ZWZmMyA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIGVmZkZyb20sIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAiZnJlcV9ydW4iKQ0KbXllZmYzIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMywgZWZmRnJvbSwgbmFtZSA9ICJmcmVxX3J1biIsIGludGVyYWN0aW9uMSA9ICJ0aW1lX3J1biIpDQojIGVmZmVjdHMgZnJvbSBvdGhlciBzcG9ydHMNCm15ZWZmMyA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjMsIGVmZkZyb20sIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAidGltZV9vdGhlciIpDQpteWVmZjMgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYzLCBlZmZGcm9tLCBuYW1lID0gImZyZXFfcnVuIiwgaW50ZXJhY3Rpb24xID0gImZyZXFfb3RoZXIiKQ0KIyBnZW5kZXIgZWZmZWN0cyAoZml4ZWQgdG8gMCkNCm15ZWZmMyA8LSBzZXRFZmZlY3QobXllZmYzLCBlZmZGcm9tLCBuYW1lID0gImZyZXFfcnVuIiwgaW50ZXJhY3Rpb24xID0gImdlbmRlciIsIGZpeD1ULCB0ZXN0PUYsIGluaXRpYWxWYWx1ZT0wKQ0KbXllZmYzIDwtIHNldEVmZmVjdChteWVmZjMsIGVmZkZyb20sIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAiZ2VuZGVyIiwgZml4PVQsIHRlc3Q9RiwgaW5pdGlhbFZhbHVlPTApDQoNCiMgaW5mbHVlbmNlIGVmZmVjdHM6DQojIDEuIGluZGVncmVlIGVmZmVjdA0KbXllZmYzIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMywgaW5kZWcsIG5hbWUgPSAiZnJlcV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpIA0KbXllZmYzIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMywgaW5kZWcsIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpDQojIDIuIHVwd2FyZCBhc3NpbWlsYXRpb24NCm15ZWZmNCA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjMsIGF2QXR0SGlnaGVyLCBuYW1lID0gImZyZXFfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKSANCm15ZWZmNCA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjQsIGF2QXR0SGlnaGVyLCBuYW1lID0gInRpbWVfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKQ0KDQojIGZpeCBpbmRlZ3JlZSBlZmZlY3RzIGF0IHByZXZpb3VzIHBhcmFtZXRlciBlc3RpbWF0ZS4NCiNteWVmZjQgPC0gc2V0RWZmZWN0KG15ZWZmNCwgaW5kZWcsIG5hbWUgPSAiZnJlcV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIsIGZpeD1ULCB0ZXN0PUYsIGluaXRpYWxWYWx1ZT0wLjQyMzYpDQojbXllZmY0IDwtIHNldEVmZmVjdChteWVmZjQsIGluZGVnLCBuYW1lID0gInRpbWVfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiLCBmaXg9VCwgdGVzdD1GLCBpbml0aWFsVmFsdWU9MC4wMzE3KQ0KI215ZWZmNCA8LSBzZXRFZmZlY3QobXllZmY0LCBpbmRlZywgbmFtZSA9ICJmcmVxX3J1biIsIGludGVyYWN0aW9uMSA9ICJrdWRvbmV0IiwgZml4PVQsIHRlc3Q9RiwgaW5pdGlhbFZhbHVlPTApDQojbXllZmY0IDwtIHNldEVmZmVjdChteWVmZjQsIGluZGVnLCBuYW1lID0gInRpbWVfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiLCBmaXg9VCwgdGVzdD1GLCBpbml0aWFsVmFsdWU9MCkNCg0KIyBvdXRkZWdyZWUgZWZmZWN0IChmaXhlZCBhdCAwKQ0KbXllZmY0IDwtIHNldEVmZmVjdChteWVmZjQsIG91dGRlZywgbmFtZSA9ICJmcmVxX3J1biIsIGludGVyYWN0aW9uMSA9ICJrdWRvbmV0IiwgZml4PVQsIHRlc3Q9RiwgaW5pdGlhbFZhbHVlPTApDQpteWVmZjQgPC0gc2V0RWZmZWN0KG15ZWZmNCwgb3V0ZGVnLCBuYW1lID0gInRpbWVfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiLCBmaXg9VCwgdGVzdD1GLCBpbml0aWFsVmFsdWU9MCkNCg0KIyByYXRlIHBhcmFtZXRlciBhdCBmaXhlZCB2YWx1ZQ0KbXllZmY0IDwtIHNldEVmZmVjdChteWVmZjQsIFJhdGUsIG5hbWUgPSAiZnJlcV9ydW4iLCBmaXggPSBUUlVFLCB0ZXN0ID0gRkFMU0UsIHR5cGUgPSAicmF0ZSIsIHBlcmlvZCA9IDgsIGluaXRpYWxWYWx1ZSA9IDUgICkNCmBgYA0KDQoNCjxicj4gDQoNCldlIGVzdGltYXRlIHRoZSBtb2RlbCBhbmQgaW52ZXN0aWdhdGUgYW5vdGhlciBHT0YtZGlhZ25vc3RpYzogdGhlIGRpc3RyaWJ1dGlvbiBvZiBydW5uaW5nIGJlaGF2aW9yIHZhcmlhYmxlcy4gV2UgZXN0aW1hdGUgKDEpIGEgbW9kZWwgd2l0aCB0aGUgb2JqZWN0aXZlIGZ1bmN0aW9uIGZvciBydW5uaW5nIGFjdGl2aXR5IGNvbXByaXNpbmcgdGhlIGJhc2ljIHNoYXBlIGVmZmVjdHMsIGNvdmFyaWF0ZSBlZmZlY3RzLCBhbmQgKmluZGVncmVlKiBlZmZlY3Q7IGFuZCAoMikgYSBtb2RlbCBpbmNsdWRpbmcgdGhlICp1cHdhcmQgYXNzaW1pbGF0aW9uKiBhbmQgKm91dGRlZ3JlZSogZWZmZWN0LiBXZSBzYXZlIHRoZSBzaWVuYUZpdC1vYmplY3RzIG9mIGJvdGggbW9kZWxzIGZvciBzdWJzZXF1ZW50IG1ldGEtYW5hbHlzZXMuDQoNClRoaXMgY2x1YiBmYWNlZCBjb252ZXJnZW5jZSBpc3N1ZXMgaW4gdGhlIGxhc3QgbW9kZWwuIFdlIGFjaGlldmVkIGNvbnZlcmdlbmNlIGJ5ICgxKSBmaXhpbmcgdGhlIG91dGRlZ3JlZS1lZmZlY3QgdG8gMCAoc2NvcmUtdHlwZSB0ZXN0IGluZGljYXRlZCB0aGF0IHRoaXMgZWZmZWN0IHdhcyAwKSBhbmQgZml4aW5nIHRoZSByYXRlIHBhcmFtZXRlciBmb3IgcnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MgdG8gNSBpbiBwZXJpb2QgOCAod2UgYWltZWQgYXQgYSAqdCotcmF0aW8gZm9yIGNvbnZlcmdlbmNlIGZvciB0aGlzIHBhcmFtZXRlciBvZiA8LjIpLg0KDQojIyMjIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIyMgVGhlIGluZGVncmVlLWVmZmVjdA0KYGBge3IgZXZhbD1GLCByZXN1bHRzPSdoaWRlJ30NCnRyeSA8LSAxDQphbnNNMiA8LSBzaWVuYTA3KG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmYzLCAjIGVzdGltYXRlIHRoZSBTQU9NDQogICAgICAgICAgICAgICAgIGJhdGNoID0gRkFMU0UsIHZlcmJvc2UgPSBGQUxTRSwgcmV0dXJuRGVwcyA9IFRSVUUpDQoNCiMgdGhlIGZvbGxvd2luZyBzY3JpcHQgbGV0cyB0aGUgbW9kZWwgcmUtcnVuIHVudGlsIHdlIGdldCBhIGdvb2QgY29udmVyZ2VuY2UgcmF0aW8NCndoaWxlIChUUlVFKXsNCiAgDQogIGlmKGFuc00yJHRjb252Lm1heCA+PSAuMjUpew0KICAgIHRyeSA8LSB0cnkgKyAxDQogICAgcHJpbnQocGFzdGUoIk1vZGVsIGRpZCBub3QgY29udmVyZ2U6ICIsIGFuc00yJHRjb252Lm1heCwgc2VwID0gIiIpKQ0KICAgIHByaW50KHBhc3RlKCJUcnk6IiwgdHJ5LCBzZXA9IiAiKSkNCiAgICBhbnNNMiA8LSBzaWVuYTA3KCBteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmMywgcHJldkFucz0gYW5zTTIsIHJldHVybkRlcHM9VFJVRSkNCiAgICANCiAgfWVsc2V7DQogICAgcHJpbnQocGFzdGUoIlJlYWNoZWQgb3ZlcmFsbCBtYXhpbXVtIGNvbnZlcmdlbmNlIHJhdGlvIG9mICIsIGFuc00yJHRjb252Lm1heCwgc2VwID0gIiIpKQ0KICAgIGJyZWFrDQogIH0NCn0NCg0KZ29mYmVoIDwtIHNpZW5hR09GKGFuc00yLA0KICAgICAgICAgICAgICAgICAgIEJlaGF2aW9yRGlzdHJpYnV0aW9uLA0KICAgICAgICAgICAgICAgICAgIHZlcmJvc2UgPSBUUlVFLA0KICAgICAgICAgICAgICAgICAgIGpvaW4gPSBUUlVFLA0KICAgICAgICAgICAgICAgICAgIHZhck5hbWUgPSAiZnJlcV9ydW4iKQ0KDQpnb2ZiZWgyIDwtIHNpZW5hR09GKGFuc00yLA0KICAgICAgICAgICAgICAgICAgIEJlaGF2aW9yRGlzdHJpYnV0aW9uLA0KICAgICAgICAgICAgICAgICAgIHZlcmJvc2UgPSBUUlVFLA0KICAgICAgICAgICAgICAgICAgIGpvaW4gPSBUUlVFLA0KICAgICAgICAgICAgICAgICAgIHZhck5hbWUgPSAidGltZV9ydW4iKQ0KDQpnb2ZsaXN0MiA8LSBsaXN0KGdvZmJlaCwgZ29mYmVoMikNCnNhdmUoZ29mbGlzdDIsIGZpbGU9IHBhc3RlKCJmaWxlcyIsICIvIiwgIm90aGVyIGNsdWJzIiwgIi8iLCAiY2x1YiA0IiwgIi8iLCAiZ29mMi5SRGF0YSIsIHNlcD0iIikpDQoNCiMgc2F2ZSB0aGUgc2llbmFGaXQgb2JqZWN0DQpzYXZlKGFuc00yLCBmaWxlPSBwYXN0ZSgiZmlsZXMiLCAiLyIsICJvdGhlciBjbHVicyIsICIvIiwgImNsdWIgNCIsICIvIiwgIm1vZGVsMi5SRGF0YSIsIHNlcD0iIikpDQpgYGANCg0KPGJyPg0KDQoqKlZpb2xpbiBwbG90IG9mIHJ1bm5pbmcgZnJlcXVlbmN5KioNCmBgYHtyIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnfQ0KbG9hZCgiZmlsZXMvb3RoZXIgY2x1YnMvY2x1YiA0L2dvZjIuUkRhdGEiKQ0KcGxvdChnb2ZsaXN0MltbMV1dKQ0KYGBgDQoNCioqVmlvbGluIHBsb3Qgb2YgcnVubmluZyBkdXJhdGlvbioqDQpgYGB7ciBjbGFzcy5zb3VyY2UgPSAnZm9sZC1oaWRlJ30NCnBsb3QoZ29mbGlzdDJbWzJdXSkNCmBgYA0KDQoNCiMjIyMjIFRoZSB1cHdhcmQgYXNzaW1pbGF0aW9uIGVmZmVjdA0KYGBge3IgZXZhbD1GLCByZXN1bHRzPSdoaWRlJ30NCnRyeSA8LSAxDQphbnNNMyA8LSBzaWVuYTA3KG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmY0LCAjIGVzdGltYXRlIHRoZSBTQU9NDQogICAgICAgICAgICAgICAgIGJhdGNoID0gRkFMU0UsIHZlcmJvc2UgPSBGQUxTRSwgcmV0dXJuRGVwcyA9IFRSVUUpDQoNCiMgdGhlIGZvbGxvd2luZyBzY3JpcHQgbGV0cyB0aGUgbW9kZWwgcmUtcnVuIHVudGlsIHdlIGdldCBhIGdvb2QgY29udmVyZ2VuY2UgcmF0aW8NCndoaWxlIChUUlVFKXsNCiAgDQogIGlmKGFuc00zJHRjb252Lm1heCA+PSAuMjUpew0KICAgIHRyeSA8LSB0cnkgKyAxDQogICAgcHJpbnQocGFzdGUoIk1vZGVsIGRpZCBub3QgY29udmVyZ2U6ICIsIGFuc00zJHRjb252Lm1heCwgc2VwID0gIiIpKQ0KICAgIHByaW50KHBhc3RlKCJUcnk6IiwgdHJ5LCBzZXA9IiAiKSkNCiAgICBhbnNNMyA8LSBzaWVuYTA3KCBteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmNCwgcHJldkFucz0gYW5zTTMsIHJldHVybkRlcHM9VFJVRSkNCiAgICANCiAgfWVsc2V7DQogICAgcHJpbnQocGFzdGUoIlJlYWNoZWQgY29udmVyZ2VuY2UgcmF0aW8gb2YgIiwgYW5zTTMkdGNvbnYubWF4LCBzZXAgPSAiIikpDQogICAgYnJlYWsNCiAgfQ0KfQ0KDQpnb2ZiZWggPC0gc2llbmFHT0YoYW5zTTMsDQogICAgICAgICAgICAgICAgICAgQmVoYXZpb3JEaXN0cmlidXRpb24sDQogICAgICAgICAgICAgICAgICAgdmVyYm9zZSA9IFRSVUUsDQogICAgICAgICAgICAgICAgICAgam9pbiA9IFRSVUUsDQogICAgICAgICAgICAgICAgICAgdmFyTmFtZSA9ICJmcmVxX3J1biIpDQoNCmdvZmJlaDIgPC0gc2llbmFHT0YoYW5zTTMsDQogICAgICAgICAgICAgICAgICAgQmVoYXZpb3JEaXN0cmlidXRpb24sDQogICAgICAgICAgICAgICAgICAgdmVyYm9zZSA9IFRSVUUsDQogICAgICAgICAgICAgICAgICAgam9pbiA9IFRSVUUsDQogICAgICAgICAgICAgICAgICAgdmFyTmFtZSA9ICJ0aW1lX3J1biIpDQoNCmdvZmxpc3QzIDwtIGxpc3QoZ29mYmVoLCBnb2ZiZWgyKQ0Kc2F2ZShnb2ZsaXN0MywgZmlsZT0gcGFzdGUoImZpbGVzIiwgIi8iLCAib3RoZXIgY2x1YnMiLCAiLyIsICJjbHViIDQiLCAiLyIsICJnb2YzLlJEYXRhIiwgc2VwPSIiKSkNCg0KIyBzYXZlIHRoZSBzaWVuYUZpdCBvYmplY3QNCnNhdmUoYW5zTTMsIGZpbGU9IHBhc3RlKCJmaWxlcyIsICIvIiwgIm90aGVyIGNsdWJzIiwgIi8iLCAiY2x1YiA0IiwgIi8iLCAibW9kZWwzLlJEYXRhIiwgc2VwPSIiKSkNCmBgYA0KDQo8YnI+DQoNCioqVmlvbGluIHBsb3Qgb2YgcnVubmluZyBmcmVxdWVuY3kqKg0KYGBge3IgY2xhc3Muc291cmNlID0gJ2ZvbGQtaGlkZSd9DQpsb2FkKCJmaWxlcy9vdGhlciBjbHVicy9jbHViIDQvZ29mMy5SRGF0YSIpDQpwbG90KGdvZmxpc3QzW1sxXV0pDQpgYGANCg0KKipWaW9saW4gcGxvdCBvZiBydW5uaW5nIGR1cmF0aW9uKioNCmBgYHtyIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnfQ0KcGxvdChnb2ZsaXN0M1tbMl1dKQ0KYGBgDQoNCiMjIyBDbHViIDUNCg0KIyMgey19DQoNCjxicj4NCg0KLS0tLQ0KDQojIE1ldGEtYW5hbHlzaXMgDQoNCldlIHN1bW1hcml6ZSB0aGUgcmVzdWx0cyBvdmVyIHRoZSA1IGNsdWJzIHVzaW5nIEZpc2hlcidzIG1ldGhvZCBmb3IgY29tYmluaW5nIGluZGVwZW5kZW50ICpwKi12YWx1ZXMuIFdlIHBlcmZvcm0gYSBkb3VibGUgdGVzdDoNCg0KMS4gRm9yIGRldGVjdGluZyBpZiB0aGVyZSBhcmUgYW55IGNsdWItbmV0d29ya3Mgd2l0aCBhIHBvc2l0aXZlIHBhcmFtZXRlciB2YWx1ZSwgdGhlIG51bGwgaHlwb3RoZXNpcyB0ZXN0ZWQgaXM6IGZvciBhbGwgY2x1YnMsIHRoZSB2YWx1ZSBvZiB0aGlzIHBhcmFtZXRlciBpcyB6ZXJvIG9yIGxlc3MgdGhhbiB6ZXJvOyB3aXRoIHRoZSBhbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiBmb3IgYXQgbGVhc3Qgb25lIGNsdWIsIHRoZSB2YWx1ZSBvZiB0aGlzIHBhcmFtZXRlciBpcyBncmVhdGVyIHRoYW4gemVyby4NCjIuIEZvciBkZXRlY3RpbmcgaWYgdGhlcmUgYXJlIGFueSBjbHViLW5ldHdvcmtzIHdpdGggYSBuZWdhdGl2ZSBwYXJhbWV0ZXIgdmFsdWUsIHRoZSBudWxsIGh5cG90aGVzaXMgdGVzdGVkIGlzOiBmb3IgYWxsIGNsdWJzLCB0aGUgdmFsdWUgb2YgdGhpcyBwYXJhbWV0ZXIgaXMgemVybyBvciBncmVhdGVyIHRoYW4gemVybzsgd2l0aCB0aGUgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogZm9yIGF0IGxlYXN0IG9uZSBjbHViLCB0aGUgdmFsdWUgb2YgdGhpcyBwYXJhbWV0ZXIgaXMgbGVzcyB0aGFuIHplcm8uDQoNCkZvciBlYWNoIG9mIHRoZXNlIGNvbWJpbmVkIHRlc3RzLCB0aGUgKnAqLXZhbHVlIGlzIGdpdmVuLiBXZSB1c2UgZm9yIGVhY2ggdGVzdCB0aGUgc2lnbmlmaWNhbmNlIGxldmVsIG9mICrOsSovMiwgd2hpY2ggeWllbGRzIGFuIG92ZXJhbGwgY29tYmluZWQgdGVzdCBhdCBzaWduaWZpY2FuY2UgbGV2ZWwgKs6xKi4gRm91ciBkaWZmZXJlbnQgb3ZlcmFsbCByZXN1bHRzIGFyZSBwb3NzaWJsZS4gSW5kaWNhdGluZyB0aGUgcmlnaHQtc2lkZWQgYW5kIGxlZnQtc2lkZWQgKnAqLXZhbHVlcyBieSAqcDxzdWI+cjwvc3ViPiogYW5kICpwPHN1Yj5sPC9zdWI+KiByZXNwZWN0aXZlbHksIHRoZXNlIHJlc3VsdHMgYXJlOg0KDQotICpwPHN1Yj5yPC9zdWI+KiAkXGd0JCAqzrEqLzIgJiAqcDxzdWI+bDwvc3ViPiogJFxndCQgKs6xKi8yOg0KDQpObyBldmlkZW5jZSBmb3IgYW55IG5vbi16ZXJvIHBhcmFtZXRlciB2YWx1ZXMuDQoNCi0gKnA8c3ViPnI8L3N1Yj4qICRcZ2VxJCAqzrEqLzIgJiAqcDxzdWI+bDwvc3ViPiogJFxndCQgKs6xKi8yOg0KDQpFdmlkZW5jZSB0aGF0IHNvbWUgY2x1Yi1uZXR3b3JrcyBoYXZlIGEgcG9zaXRpdmUgcGFyYW1ldGVyIHZhbHVlLCBidXQgbm8gZXZpZGVuY2UgZm9yIGFueSBuZWdhdGl2ZSBwYXJhbWV0ZXIgdmFsdWVzLg0KDQotICpwPHN1Yj5yPC9zdWI+KiAkXGd0JCAqzrEqLzIgJiAqcDxzdWI+bDwvc3ViPiogJFxsZXEkICrOsSovMjoNCg0KRXZpZGVuY2UgdGhhdCBzb21lIGNsdWJzIGhhdmUgYSBuZWdhdGl2ZSBwYXJhbWV0ZXIgdmFsdWUsIG5vIGV2aWRlbmNlIGZvciBhbnkgcG9zaXRpdmUgcGFyYW1ldGVyIHZhbHVlcw0KDQotICpwPHN1Yj5yPC9zdWI+KiAkXGxlcSQgKs6xKi8yICYgKnA8c3ViPmw8L3N1Yj4qICRcbGVxJCAqzrEqLzI6DQoNCkV2aWRlbmNlIHRoYXQgc29tZSBjbHVicyBoYXZlIGEgbmVnYXRpdmUgcGFyYW1ldGVyIHZhbHVlLCBhbmQgc29tZSBvdGhlcnMgaGF2ZSBhIHBvc2l0aXZlIHBhcmFtZXRlciB2YWx1ZS4NCg0KPGJyPg0KDQotLS0tDQoNCkZpcnN0LCB3ZSByZWFkIGluIHRoZSBzaWVuYUZpdC1vYmplY3RzIG9mIG91ciA1IGNsdWJzLiBXZSB1c2UgYSBmdW5jdGlvbiB0byBsb2FkIHRoZSBvYmplY3RzIHVuZGVyIG5ldyBuYW1lcy4gTm90ZTogV2Ugc2F2ZWQgMiBzaWVuYUZpdC1vYmplY3RzIGZvciBlYWNoIGNsdWIuDQpUaGVuIHdlIG1ha2UgYSBsaXN0IG9mIHRoZSBzaWVuYUZpdC1vYmplY3RzIG9mIHRoZSAyIG1vZGVsIHNwZWNpZmljYXRpb25zLg0KDQpgYGB7cn0NCiMgY2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQgDQpybSAobGlzdCA9IGxzKCApKQ0KDQpsb2FkUkRhdGEgPC0gZnVuY3Rpb24oZmlsZU5hbWUpew0KI2xvYWRzIGFuIFJEYXRhIGZpbGUsIGFuZCByZXR1cm5zIGl0DQogICAgbG9hZChmaWxlTmFtZSkNCiAgICBnZXQobHMoKVtscygpICE9ICJmaWxlTmFtZSJdKQ0KfQ0KDQpjbHViMV9tMSA8LSBsb2FkUkRhdGEoImZpbGVzL3Rlc3QgY2x1YiAxL21vZGVsMi5SRGF0YSIpDQpjbHViMV9tMiA8LSBsb2FkUkRhdGEoImZpbGVzL3Rlc3QgY2x1YiAxL21vZGVsMy5SRGF0YSIpDQpjbHViNF9tMSA8LSBsb2FkUkRhdGEoImZpbGVzL290aGVyIGNsdWJzL2NsdWIgNC9tb2RlbDIuUkRhdGEiKQ0KY2x1YjRfbTIgPC0gbG9hZFJEYXRhKCJmaWxlcy9vdGhlciBjbHVicy9jbHViIDQvbW9kZWwzLlJEYXRhIikNCg0KbTFMaXN0IDwtIGxpc3QoY2x1YjFfbTEsIGNsdWI0X20xKQ0KbTJMaXN0IDwtIGxpc3QoY2x1YjFfbTIsIGNsdWI0X20yKQ0KYGBgDQoNCjwhLS0tIA0KDQpAUkY6IGp1c3QgY2x1YiAxIGFuZCA0IG5vdywgZm9yIHRlc3RpbmcgcHVycG9zZXMNCg0KLS0tPiANCjxicj4NCg0KV2UgcGVyZm9ybSB0aGUgbWV0YS1hbmFseXNpcyBzZXBlcmF0ZWx5IGZvciB0aGUgMiBtb2RlbCBzcGVjaWZpY2F0aW9uczoNCg0KLSBNb2RlbCAxOiBvYmplY3RpdmUgZnVuY3Rpb24gZm9yIHJ1bm5pbmcgYWN0aXZpdHkgY29tcHJpc2luZyB0aGUgYmFzaWMgc2hhcGUgZWZmZWN0cywgY292YXJpYXRlIGVmZmVjdHMsIGFuZCBpbmRlZ3JlZSBlZmZlY3QNCi0gTW9kZWwgMjogaW5jbHVkaW5nIHRoZSB1cHdhcmQgYXNzaW1pbGF0aW9uIGVmZmVjdCBhbmQgdGhlIG91dGRlZ3JlZSBlZmZlY3QNCg0KIyMgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgTW9kZWwgMQ0KDQpXZSBleHRyYWN0IHRoZSBwYXJhbWV0ZXIgZXN0aW1hdGVzIGFuZCBzdGFuZGFyZCBlcnJvcnMuDQoNCmBgYHtyfQ0KcGFyYW1ldGVycyA8LSBzYXBwbHkobTFMaXN0LCBmdW5jdGlvbih4KXt4JHRoZXRhfSkNCnN0YW5kZXJzIDwtIHNhcHBseShtMUxpc3QsIGZ1bmN0aW9uKHgpe3gkc2V9KSANCg0KZWZmLm5hbWVzIDwtDQogICBtMUxpc3RbWzFdXSRlZmZlY3RzW20xTGlzdFtbMV1dJGVmZmVjdHMkaW5jbHVkZSwnZWZmZWN0TmFtZSddDQoNCiNjb21iaW5lIHBhcmFtZXRlcnMgYW5kIHN0ZC5lcnJvcnMgd2l0aCBlZmZlY3QgbmFtZXMNCnJvd25hbWVzKHBhcmFtZXRlcnMpIDwtIGVmZi5uYW1lcw0Kcm93bmFtZXMoc3RhbmRlcnMpIDwtIGVmZi5uYW1lcw0KDQojIHByaW50IHJvdW5kZWQgdG8gMyBkZWNpbWFscw0Kcm91bmQocGFyYW1ldGVycywzKQ0Kcm91bmQoc3RhbmRlcnMsMykNCmBgYA0KDQo8YnI+DQoNCldlIHVzZSAqc2llbmEwOCogdG8gcGVyZm9ybSBGaXNoZXIncyBtZXRob2QgZm9yIGNvbWJpbmluZyBpbmRlcGVuZGVudCAqcCotdmFsdWVzLg0KDQpgYGB7ciByZXN1bHRzPSdoaWRlJ30NCmFuczggPC0gc2llbmEwOChtMUxpc3QsIGJvdW5kPTEwMCkNCg0KT3ZlcmFsbHMgPC0gdChzYXBwbHkoMTo1NywgZnVuY3Rpb24oaSl7YyhhbnM4W1tpXV0kVHNxLCBhbnM4W1tpXV0kcFRzcSl9KSkNCnJvdW5kKE92ZXJhbGxzLCAzKQ0KDQplZm5hbWVzIDwtIG5hbWVzKGFuczgpWzE6NTddDQplZm5hbWVzIDwtIHN1YnN0cmluZyhlZm5hbWVzLCA4KQ0Kcm93bmFtZXMoT3ZlcmFsbHMpIDwtIGVmbmFtZXMNCnJvdW5kKE92ZXJhbGxzWzE6NTcsXSwgMykNCg0KRmlzaGVycyA8LSB0KHNhcHBseSggMTo1NywNCiAgICAgICAgICAgICAgICAgICAgIGZ1bmN0aW9uKGkpIHsNCiAgICAgICAgICAgICAgICAgICAgICAgYyhhbnM4W1tpXV0kY2pwbHVzLCBhbnM4W1tpXV0kY2ptaW51cywgYW5zOFtbaV1dJGNqcGx1c3AsIGFuczhbW2ldXSRjam1pbnVzcCwgMiAqIGFuczhbW2ldXSRuMSApDQogICAgICAgICAgICAgICAgICAgICAgIH0pKQ0KRmlzaGVycyA8LSBhcy5kYXRhLmZyYW1lKEZpc2hlcnMpDQpyb3duYW1lcyhGaXNoZXJzKSA8LSBlZm5hbWVzDQpuYW1lcyhGaXNoZXJzKSA8LSBjKCdGcGx1cycsICdGbWludXMnLCAncHBsdXMnLCAncG1pbnVzJywgJ2RmJykNCmBgYA0KDQo8YnI+DQoNCkFuZCB3ZSBwcmVzZW50IHRoZSBGaXNoZXIgY29tYmluYXRpb25zDQpgYGB7cn0NCnJvdW5kKEZpc2hlcnMsMykNCmBgYA0KDQoNCiMjIyBNb2RlbCAyDQoNCiMjIHstfQ0KDQoNCg0KPGJyPg0KDQotLS0tDQoNCg0KIyMjIFJlZmVyZW5jZXMgDQo=</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("meta.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

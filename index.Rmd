@@ -35,14 +35,14 @@ klippy::klippy(position = c('top', 'right'))
 <div class="row" style="padding-top: 30px;">
 <div class="col-sm-6">
 
-# **Strava Journal**
+# **Strava Replication Package**
 ### Rob Franken - Radboud University
 Last compiled on `r format(Sys.time(), '%B, %Y')`
 
 ----
   
   
-This lab journal is created for the Strava paper by @Franken2021. It contains R code.       
+This replication package is created for the Strava paper by @Franken2021. It contains R code.       
 All scripts can be found on [Github](https://github.com/robfranken/Strava)
   
   

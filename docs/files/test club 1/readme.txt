@@ -1,0 +1,2 @@
+model 2 refers to the model with the objective function for behavior dynamics comprising the (basic shape effects and the) indegree effect on behavior.
+model 3 also includes the upward assimilation effect.
