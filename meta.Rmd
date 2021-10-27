@@ -117,7 +117,7 @@ while (TRUE){
   
   if(ansM1$tconv.max >= .25){
     try <- try + 1
-    print(paste("Model did not converge: ", ansM2$tconv.max, sep = ""))
+    print(paste("Model did not converge: ", ansM1$tconv.max, sep = ""))
     print(paste("Try:", try, sep=" "))
     ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM1, returnDeps=TRUE)
     
@@ -206,18 +206,13 @@ myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender",
 myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=T, test=F, initialValue=0)
 
 # influence effects:
+
 # 1. indegree effect
 myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet") 
 myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
 # 2. upward assimilation
 myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
 myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
-
-# fix indegree effects at previous parameter estimate.
-#myeff4 <- setEffect(myeff4, indeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0.4236)
-#myeff4 <- setEffect(myeff4, indeg, name = "time_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0.0317)
-#myeff4 <- setEffect(myeff4, indeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
-#myeff4 <- setEffect(myeff4, indeg, name = "time_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
 
 # outdegree effect (fixed at 0)
 myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
@@ -252,6 +247,7 @@ while (TRUE){
     ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM2, returnDeps=TRUE)
     
   }else{
+    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "other clubs", "/", "club 4", "/", "Model 2", ".html", sep=""))
     print(paste("Reached overall maximum convergence ratio of ", ansM2$tconv.max, sep = ""))
     break
   }
@@ -306,6 +302,7 @@ while (TRUE){
     ansM3 <- siena07( myalgorithm, data = mydata, effects = myeff4, prevAns= ansM3, returnDeps=TRUE)
     
   }else{
+    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "other clubs", "/", "club 4", "/", "Model 3", ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM3$tconv.max, sep = ""))
     break
   }
@@ -343,6 +340,22 @@ plot(goflist3[[1]])
 plot(goflist3[[2]])
 ```
 
+#### {-}
+
+#### Results {.tabset .tabset-fade}
+
+##### The indegree-effect on running
+```{r, echo=F}
+htmltools::includeHTML("files/other clubs/club 4/Model 2.html")
+```
+
+##### The upward assimilation effect
+```{r, echo=F}
+htmltools::includeHTML("files/other clubs/club 4/Model 3.html")
+```
+
+#### {-}
+
 ### Club 5
 
 ## {-}
@@ -364,7 +377,7 @@ For each of these combined tests, the *p*-value is given. We use for each test t
 
 No evidence for any non-zero parameter values.
 
-- *p<sub>r</sub>* $\geq$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
+- *p<sub>r</sub>* $\leq$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
 
 Evidence that some club-networks have a positive parameter value, but no evidence for any negative parameter values.
 
@@ -394,8 +407,9 @@ loadRData <- function(fileName){
 }
 
 club1_m1 <- loadRData("files/test club 1/model2.RData")
-club1_m2 <- loadRData("files/test club 1/model3.RData")
 club4_m1 <- loadRData("files/other clubs/club 4/model2.RData")
+
+club1_m2 <- loadRData("files/test club 1/model3.RData")
 club4_m2 <- loadRData("files/other clubs/club 4/model3.RData")
 
 m1List <- list(club1_m1, club4_m1)
@@ -425,7 +439,7 @@ parameters <- sapply(m1List, function(x){x$theta})
 standers <- sapply(m1List, function(x){x$se}) 
 
 eff.names <-
-   m1List[[1]]$effects[m1List[[1]]$effects$include,'effectName']
+   m1List[[1]]$effects[m1List[[1]]$effects$include,'effectName'] 
 
 #combine parameters and std.errors with effect names
 rownames(parameters) <- eff.names
@@ -439,6 +453,22 @@ round(standers,3)
 <br>
 
 We use *siena08* to perform Fisher's method for combining independent *p*-values.
+
+<!--- 
+
+@RF: 
+
+- cjplus: test statistic for combination of right one-sided Fisher combination test
+- cjplusp: p-value for cjplus
+- cjminus: test statistic for combination of left one-sided Fisher combination test
+- cjminusp: p-value for cjminus
+- df: degrees of freedom
+
+https://search.r-project.org/CRAN/refmans/RSiena/html/siena08.html 
+
+Funnelplot?
+
+---> 
 
 ```{r results='hide'}
 ans8 <- siena08(m1List, bound=100)
@@ -462,11 +492,10 @@ names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
 
 <br>
 
-And we present the Fisher combinations
+And we present the Fisher combinations:
 ```{r}
 round(Fishers,3)
 ```
-
 
 ### Model 2
 

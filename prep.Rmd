@@ -256,13 +256,15 @@ for (i in 1:5) {
   names(club)
   
   # A: network variables
-  kudonet <- sienaDependent(club$kudo) #at least one Kudo
-  kudonet2 <- sienaDependent(club$kudo2) #>1 Kudos
-  kudonet3 <- sienaDependent(club$kudo3) #>2 Kudos
+  kudonet <- sienaDependent(club$kudo, allowOnly = FALSE) #at least one Kudo
+  kudonet2 <- sienaDependent(club$kudo2, allowOnly = FALSE) #>1 Kudos
+  kudonet3 <- sienaDependent(club$kudo3, allowOnly = FALSE) #>2 Kudos
+  
+  # NOTE: in some groups, dependent variables (either the kudos network or running activity variables) only have upward or downward changes. We lift the automatic restriction to  follow this pattern in the simulations, by using 'allowOnly = FALSE'. This must be done for the meta-analysis.
   
   # B: behavioral variables
-  time_run <- sienaDependent(club$time_run, type= "behavior")
-  freq_run <- sienaDependent(club$freq_run, type= "behavior")
+  time_run <- sienaDependent(club$time_run, type= "behavior", allowOnly = FALSE)
+  freq_run <- sienaDependent(club$freq_run, type= "behavior", allowOnly = FALSE)
   
   time_other <- varCovar(club$time_other[,,])
   freq_other <- varCovar(club$freq_other[,,])

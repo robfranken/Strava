@@ -6,7 +6,7 @@ Filename is files/test.txt.
 
 This file contains primary output for SIENA project <<files/test>>.
 
-Date and time: 26/10/2021 14:18:55 
+Date and time: 27/10/2021 18:07:00 
 
 RSiena version 1.2.34 (30 04 2021)
 
@@ -319,10 +319,6 @@ friendship                          0.0     1.0      0.161    Y
 The mean value is subtracted from the centered covariate.
 
 
-
-All network changes are upward for the following periods:
-2 => 3;
-This will be respected in the simulations.
 
 The mean structural dissimilarity value subtracted in the
 balance calculations is         0.1303.

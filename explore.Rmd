@@ -141,6 +141,7 @@ We tested the out-Isolate effect (leading to not awarding kudos) and this effect
 ```{r echo=T, results='hide'}
 myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
 myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
 ```
 
 
@@ -334,32 +335,28 @@ We will save the results in a html-table using the siena.table()-function, in th
 
 ```{r eval= F }
 try <- 1
-
 ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff3, returnDeps=TRUE)
-siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "last.html", sep = ""))
 
 # the following script lets the model re-run until we get a good convergence ratio
 while (TRUE){
   
   if(ansM2$tconv.max >= .25){
     try <- try + 1
+    print(paste("Model did not converge: ", ansM2$tconv.max, sep = ""))
     print(paste("Try:", try, sep=" "))
     ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM2, returnDeps=TRUE)
-    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, paste("files", "/", "test club 1", "/", "ansM2_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "finalM2", ".html", sep=""))
+    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 2", ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM2$tconv.max, sep = ""))
     break
   }
 }
-
-summary(ansM2)
 ```
 
 <br>
  
-This took some time. So, we also save the sienaFit-object to our "Test Club 1"-folder.
+This took some time. We also save the sienaFit-object to our "Test Club 1"-folder.
 
 ```{r eval= F }
 save(ansM2, file= paste("files", "/", "test club 1", "/", "model2.RData", sep=""))
@@ -372,32 +369,29 @@ Now follow the same procedure for the model comprising also the assimilation- (a
 
 ```{r eval= F }
 try <- 1
-
 ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff4, returnDeps=TRUE)
-siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "last.html", sep = ""))
 
 # the following script lets the model re-run until we get a good convergence ratio
 while (TRUE){
   
   if(ansM3$tconv.max >= .25){
     try <- try + 1
+    print(paste("Model did not converge: ", ansM3$tconv.max, sep = ""))
     print(paste("Try:", try, sep=" "))
     ansM3 <- siena07( myalgorithm, data = mydata, effects = myeff4, prevAns= ansM3, returnDeps=TRUE)
-    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "ansM3_", try, ".html", sep=""))
     
   }else{
-    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "finalM3", ".html", sep=""))
+    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 3", ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM3$tconv.max, sep = ""))
     break
   }
 }
 
-summary(ansM3)
 ```
 
 <br>
 
-The model reached a convergence of .26. We find this acceptable. We save the sienaFit-object.
+The model reached a convergence of .255. We find this acceptable. We save the sienaFit-object.
 
 ```{r eval= F }
 save(ansM3, file= paste("files", "/", "test club 1", "/", "model3.RData", sep=""))
@@ -459,12 +453,12 @@ The first table presents the parameter estimates for (1) network structure; (2) 
 
 ### The indegree-effect on running
 ```{r, echo=F}
-htmltools::includeHTML("files/test club 1/final.html")
+htmltools::includeHTML("files/test club 1/Model 2.html")
 ```
 
 ### The upward assimilation effect
 ```{r, echo=F}
-htmltools::includeHTML("files/test club 1/final2.html")
+htmltools::includeHTML("files/test club 1/Model 3.html")
 ```
 
 ## {-}
