@@ -9,7 +9,7 @@ navbar:
       href: prep.html
     - text: "Descriptives"
       href: des.html
-    - text: "Exploring RSiena"
+    - text: "Model selection"
       href: explore.html
     - text: "Meta-analysis"
       href: meta.html

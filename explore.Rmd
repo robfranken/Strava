@@ -1,5 +1,5 @@
 ---
-title: "RSiena: Exploratory analyses "
+title: "SAOM: Model selection"
 date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
 bibliography: references.bib
 output:
@@ -141,18 +141,17 @@ We tested the out-Isolate effect (leading to not awarding kudos) and this effect
 ```{r echo=T, results='hide'}
 myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
 myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
-myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
 ```
 
 
 <br>
 
 ## Selection effects {#sel}
-Second, we include selection effects with respect to behavior. We estimate the effect of actors' (ego and alter) frequency, and the similarity between the two (homophily) on tie formation. Score-type tests indicated that these effects are not 0.
-
+Second, we include a selection effect with respect to behavior. We use the higher-effect to control for aspirational tie-preferences (indicated by a negative parameter estimate).
 
 ```{r echo=T, results='hide'}
-myeff2 <- includeEffects(myeff1, egoX, altX, simX, name = "kudonet", interaction1 = "freq_run")
+myeff2 <- setEffect(myeff1, higher, name = "kudonet", interaction1 = "freq_run")
 ```
 
 
@@ -169,28 +168,13 @@ myeff2 <- includeEffects(myeff2, egoX, altX, sameX, name="kudonet", interaction1
   
 <br> 
   
-We have modeled the kudos tie-formation dynamics. Let's estimate the model and assess the model's GOF to additional effects that were not directly modeled: the in- and outdegree distribution and the geodesic distance distribution. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior), for subsequent GOF assesment. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We save the GOF-diagnostics in a list.
+We have selected a rather simple model to simulate kudos tie-formation dynamics. Let's estimate the model and assess the model's GOF to additional effects that were not directly modeled: the in- and outdegree distribution and the geodesic distance distribution. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior), for subsequent GOF assesment. We save the GOF-diagnostics in a list.
 
 ```{r eval=F, results='hide'}
 myalgorithm <- sienaAlgorithmCreate(projname = "test") # first, set the SAOM algorithm 
 
-try <- 1
-ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff1, # estimate the SAOM
+ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff2, # estimate the SAOM
                  batch = FALSE, verbose = FALSE, returnDeps = TRUE)
-
-# the following script lets the model re-run until we get a good convergence ratio
-while (TRUE){
-  
-  if(ansM1$tconv.max >= .25){
-    try <- try + 1
-    print(paste("Try:", try, sep=" "))
-    ansM1 <- siena07( myalgorithm, data = mydata, effects = myeff2, prevAns= ansM1, returnDeps=TRUE)
-    
-  }else{
-    print(paste("Reached convergence ratio of ", ansM1$tconv.max, sep = ""))
-    break
-  }
-}
 
 # calculate GOF diagnostics
 gofi <- sienaGOF(ansM1, 
@@ -253,7 +237,7 @@ plot(goflist[[3]])
 
 ### {-}
 
-GOF seems all right!
+GOF is acceptable!
 
 <br>
 
@@ -296,7 +280,9 @@ This tests social comparison as assimilation.
 
 We test these effects sequentially:
 so first, we estimate a model with the indegree effect on behavior added to the baseline model;
-second, we add the average attraction to higher alters effect. We also include an effect of outdegree on behavior, to rule out possible confounding of the outdegree effect.
+second, we add the average attraction to higher alters effect. 
+
+We also include an effect of outdegree on behavior, to rule out possible confounding of the outdegree effect. Score-type test indicated that outdegree-effects on behavior were 0. 
 
 
 ```{r echo=T, results='hide'}
@@ -305,8 +291,8 @@ myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudon
 
 myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
 myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
-myeff4 <- includeEffects(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet") 
-myeff4 <- includeEffects(myeff4, outdeg, name = "time_run", interaction1 = "kudonet")
+myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix = TRUE, test = TRUE, initialValue = 0) 
+myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
 ```
 
   
@@ -328,14 +314,14 @@ Seems allright!
   
 # Step 4: Estimate the model
   
-Let's estimate the model with the objective function for running activity comprising the shape effects and the indegree effect on behavior.
+Let's estimate the model with the objective function for running activity comprising the shape effects and the indegree effect on behavior. We use the prevAns-option to use previous model-results as starting values for the estimation.
 
 We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior).
 
 
 ```{r eval= F }
 try <- 1
-ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff3, returnDeps=TRUE)
+ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff3, returnDeps=TRUE, prevAns=ansM1)
 
 # the following script lets the model re-run until we get a good convergence ratio
 while (TRUE){
@@ -356,7 +342,7 @@ while (TRUE){
 
 <br>
  
-This took some time. We also save the sienaFit-object to our "Test Club 1"-folder.
+This took some time. We also save the sienaFit-object to our "Principal club"-folder.
 
 ```{r eval= F }
 save(ansM2, file= paste("files", "/", "test club 1", "/", "model2.RData", sep=""))
@@ -365,11 +351,11 @@ save(ansM2, file= paste("files", "/", "test club 1", "/", "model2.RData", sep=""
 
 <br>
 
-Now follow the same procedure for the model comprising also the assimilation- (and outdegree-) effect. Again, we will run the model as many times as necessary, until we reach convergence. 
+Now follow the same procedure for the model comprising also the assimilation- (and outdegree-) effect. Again, we will run the model as many times as necessary, until we reach convergence. Again, we use prevAns.
 
 ```{r eval= F }
 try <- 1
-ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff4, returnDeps=TRUE)
+ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff4, returnDeps=TRUE, prevAns=ansM2)
 
 # the following script lets the model re-run until we get a good convergence ratio
 while (TRUE){
@@ -391,7 +377,7 @@ while (TRUE){
 
 <br>
 
-The model reached a convergence of .255. We find this acceptable. We save the sienaFit-object.
+We save the sienaFit-object.
 
 ```{r eval= F }
 save(ansM3, file= paste("files", "/", "test club 1", "/", "model3.RData", sep=""))
@@ -437,6 +423,8 @@ plot(goflist2[[2]])
 
 
 GOF is adequate for the distribution of running frequency values, but not for the running duration values...
+
+This may be due to the operationalization of this variable...
 
 
 ----

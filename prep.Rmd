@@ -231,6 +231,8 @@ save(clubdata, file="clubs/clubdata.RData")
 
 The following script creates a list containing R-SIENA objects for all clubs (clubdata_rsiena.RData).
 
+Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We We lift R-SIENA's automatic restriction to  follow this pattern in the simulations, by using '*allowOnly* = FALSE'. This must be done for the subsequent meta-analysis.
+
 ```{r eval=FALSE}
 # clean the working environment 
 rm (list = ls( ))
@@ -259,8 +261,6 @@ for (i in 1:5) {
   kudonet <- sienaDependent(club$kudo, allowOnly = FALSE) #at least one Kudo
   kudonet2 <- sienaDependent(club$kudo2, allowOnly = FALSE) #>1 Kudos
   kudonet3 <- sienaDependent(club$kudo3, allowOnly = FALSE) #>2 Kudos
-  
-  # NOTE: in some groups, dependent variables (either the kudos network or running activity variables) only have upward or downward changes. We lift the automatic restriction to  follow this pattern in the simulations, by using 'allowOnly = FALSE'. This must be done for the meta-analysis.
   
   # B: behavioral variables
   time_run <- sienaDependent(club$time_run, type= "behavior", allowOnly = FALSE)
