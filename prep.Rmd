@@ -231,7 +231,7 @@ save(clubdata, file="clubs/clubdata.RData")
 
 The following script creates a list containing R-SIENA objects for all clubs (clubdata_rsiena.RData).
 
-Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We We lift R-SIENA's automatic restriction to  follow this pattern in the simulations, by using '*allowOnly* = FALSE'. This must be done for the subsequent meta-analysis.
+Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We lift R-SIENA's automatic restriction to  follow this pattern in the simulations, by using '*allowOnly* = FALSE'. This must be done for the subsequent meta-analysis.
 
 ```{r eval=FALSE}
 # clean the working environment 
