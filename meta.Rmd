@@ -677,6 +677,8 @@ plot(goflist[[1]])
 summary(goflist[[1]])
 ```
 
+<br>
+
 MHD is the predicted Mahalanobis distance in the extended model (including the particular effect). Indegree GOF is predicted to increase the most if we include the 3-cycles effect.
 
 <br>
@@ -755,6 +757,8 @@ plot(goflist[[1]])
 summary(goflist[[1]])
 ```
 
+<br> 
+
 Indegree GOF actually decreased. Modelling the relationship between in- and outdegree - through the *outPopSqrt* - may be a solution.
 
 <br>
@@ -765,6 +769,8 @@ Indegree GOF actually decreased. Modelling the relationship between in- and outd
 ```{r class.source = 'fold-hide'}
 plot(goflist[[2]])
 ```
+
+<br>
 
 The fit for the outdegree distribution is now good!
 
@@ -896,7 +902,7 @@ myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet",
 
 We estimate the model and investigate another GOF-diagnostic: the distribution of running behavior variables. We estimate (1) a model with the objective function for running activity comprising the basic shape effects, covariate effects, and *indegree* effect; and (2) a model including the *upward assimilation* and *outdegree* effect. 
 
-We run these models until we reach convergence. We save the sienaFit-objects of both models for subsequent meta-analyses.
+We run these models until we reach convergence. 
 
 #### {.tabset .tabset-fade}
 
@@ -945,7 +951,7 @@ save(ansM2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "model2
 
 **Violin plot of running frequency**
 ```{r class.source = 'fold-hide'}
-load("files/other clubs/club 4/gof2.RData")
+load("files/other clubs/club 3/gof2.RData")
 plot(goflist2[[1]])
 ```
 
@@ -1013,16 +1019,101 @@ plot(goflist3[[1]])
 plot(goflist3[[2]])
 ```
 
+
+<br>
+
+This model configuration seems promising. Let's estimate the model on all waves. This will take a long time. We re-estimate the models until we reach convergence. We save the sienaFit-objects of both models for subsequent meta-analyses.
+
+
+```{r results='hide', class.source = 'fold-hide'}
+mydata <- clubdata_rsiena[[3]] # grab club
+myeff <- getEffects(mydata) # define myeff object
+
+myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
+myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff1 <- includeEffects( myeff1, outIso, name = "kudonet")
+myeff2 <- includeInteraction(myeff2, recip, gwespFF, parameter = 69, name = "kudonet")
+myeff2 <- includeEffects(myeff2, outPopSqrt, name = "kudonet")
+
+myeff3 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "freq_run")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
+myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "time_other")
+myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
+
+myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender", fix=T, test = T, initialValue = 0)
+myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=T, test = T, initialValue = 0)
+
+myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "time_other", fix=T, test=T, initialValue=0)
+myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other", fix=T, test=T, initialValue=0)
+
+myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet") 
+myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
+
+myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
+myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
+
+myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=T, initialValue=0)
+myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix=T, test=T, initialValue=0)
+
+myalgorithm <- sienaAlgorithmCreate(projname = "test") # set the SAOM algorithm 
+
+## Estimate model with indegree effect (M2)
+try <- 1
+
+
+ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff3, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE,)
+
+
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM2$tconv.max >= .25){
+    try <- try + 1
+    print(paste("Model did not converge: ", ansM2$tconv.max, sep = ""))
+    print(paste("Try:", try, sep=" "))
+    ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM2, returnDeps=TRUE)
+    
+  }else{
+    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "other clubs", "/", "club 3", "/", "Model 2 full", ".html", sep=""))
+    print(paste("Reached convergence ratio of ", ansM2$tconv.max, sep = ""))
+    break
+  }
+}
+
+# GOF assessment
+gofbeh <- sienaGOF(ansM2,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "freq_run")
+
+gofbeh2 <- sienaGOF(ansM2,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "time_run")
+
+goflist2 <- list(gofbeh, gofbeh2)
+save(goflist2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "gof2.RData", sep=""))
+
+# save the sienaFit object
+save(ansM2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "model2.RData", sep=""))
+
+
+
+```
+
 #### Results {.tabset .tabset-fade}
 
 ##### The indegree-effect on running
 ```{r, echo=F}
-htmltools::includeHTML("files/other clubs/club 4/Model 2.html")
+htmltools::includeHTML("files/other clubs/club 3/Model 2.html")
 ```
 
 ##### The upward assimilation effect
 ```{r, echo=F}
-htmltools::includeHTML("files/other clubs/club 4/Model 3.html")
+htmltools::includeHTML("files/other clubs/club 3/Model 3.html")
 ```
 
 ### Club 4

@@ -1,6 +1,6 @@
 #################################
 #################################
-#
+
 # Network visualization: 
 # Static and Dynamic networks
 # for the STRAVA paper
