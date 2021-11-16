@@ -1025,7 +1025,7 @@ plot(goflist3[[2]])
 This model configuration seems promising. Let's estimate the model on all waves. This will take a long time. We re-estimate the models until we reach convergence. We save the sienaFit-objects of both models for subsequent meta-analyses.
 
 
-```{r results='hide', class.source = 'fold-hide'}
+```{r eval=F, results='hide', class.source = 'fold-hide'}
 mydata <- clubdata_rsiena[[3]] # grab club
 myeff <- getEffects(mydata) # define myeff object
 

@@ -1,9 +1,8 @@
 name: "Strava Journal"
 exclude: ["clubs", "egos"]
 navbar:
-  title: "Strava Journal"
   left:
-    - text: "Home"
+    - icon: fa-home
       href: index.html
     - text: "Preparation"
       href: prep.html

@@ -20,8 +20,6 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
@@ -82,9 +80,6 @@ h6 {
 }
 .table th:not([align]) {
   text-align: left;
-}
-#rmd-source-code {
-  display: none;
 }
 </style>
 
@@ -267,9 +262,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -292,12 +284,15 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Strava Journal</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="fas fa-home"></span>
+     
+  </a>
 </li>
 <li>
   <a href="prep.html">Preparation</a>
@@ -338,16 +333,6 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-<li role="separator" class="divider"></li>
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
-
 
 
 <h1 class="title toc-ignore">Strava paper</h1>
@@ -361,21 +346,26 @@ $(document).ready(function () {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <hr />
-<div class="row" style="padding-top: 30px;">
-<div class="col-sm-6">
+<div class="columns">
+<div class="column" style="width:50%;">
 <h1 id="strava-replication-package"><strong>Strava Replication Package</strong></h1>
 <h3 id="rob-franken---radboud-university">Rob Franken - Radboud University</h3>
 <p>Last compiled on november, 2021</p>
 <hr />
-<p>This replication package is created for the Strava paper by <span class="citation">Franken, Bekhuis, and Tolsma (n.d.)</span>. It contains R code.<br />
-All scripts can be found on <a href="https://github.com/robfranken/Strava">Github</a></p>
+<p>This website is a supplement to the paper on network influence in Strava by <span class="citation">Franken, Bekhuis, and Tolsma (n.d.)</span>. It contains R code. All scripts can be found on <a href="https://github.com/robfranken/Strava">Github</a></p>
+<p>Use the top menu to navigate to the <a href="https://robfranken.github.io/Strava/prep.html">data preparation</a>, <a href="https://robfranken.github.io/Strava/des.html">descriptive statistics</a>, <a href="https://robfranken.github.io/Strava/explore.html">model selection</a>, <a href="https://robfranken.github.io/Strava/meta.html">meta-analysis</a>, or <a href="https://robfranken.github.io/Strava/sup.html">supplementary material</a>.</p>
+</div><div class="column" style="width:50%;">
+<p><img src="images/logo2.png" /></p>
+</div>
+</div>
+<hr />
+<div id="contact" class="section level2">
+<h2>Contact</h2>
+<p>Questions can be addressed to the first author of the corresponding article, Rob Franken (<a href="mailto:rob.franken@ru.nl" class="email">rob.franken@ru.nl</a>).</p>
 <hr />
 </div>
-<div class="col-sm-6">
-<p><img src="images/logo.png" /> </a></p>
-</div>
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
 <div id="refs" class="references">
 <div id="ref-Franken2021">
 <p>Franken, Rob, Hidde Bekhuis, and Jochem Tolsma. n.d. “Social Network Influences on Sport Behavior: An Actor-Based Approach Using Strava.” <em>Social Networks</em> - (-): –. <a href="-">-</a>.</p>
@@ -383,7 +373,6 @@ All scripts can be found on <a href="https://github.com/robfranken/Strava">Githu
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlN0cmF2YSBwYXBlciINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCmRhdGU6ICJMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgIg0Kb3V0cHV0OiANCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6ICBmYWxzZQ0KICAgIHRvY19mbG9hdDogdHJ1ZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KGtuaXRyKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCg0KLS0tLQ0KDQo8ZGl2IGNsYXNzPSJyb3ciIHN0eWxlPSJwYWRkaW5nLXRvcDogMzBweDsiPg0KPGRpdiBjbGFzcz0iY29sLXNtLTYiPg0KDQojICoqU3RyYXZhIFJlcGxpY2F0aW9uIFBhY2thZ2UqKg0KIyMjIFJvYiBGcmFua2VuIC0gUmFkYm91ZCBVbml2ZXJzaXR5DQpMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgDQoNCi0tLS0NCiAgDQogIA0KVGhpcyByZXBsaWNhdGlvbiBwYWNrYWdlIGlzIGNyZWF0ZWQgZm9yIHRoZSBTdHJhdmEgcGFwZXIgYnkgQEZyYW5rZW4yMDIxLiBJdCBjb250YWlucyBSIGNvZGUuICAgICAgIA0KQWxsIHNjcmlwdHMgY2FuIGJlIGZvdW5kIG9uIFtHaXRodWJdKGh0dHBzOi8vZ2l0aHViLmNvbS9yb2JmcmFua2VuL1N0cmF2YSkNCiAgDQogIA0KLS0tLQ0KDQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImNvbC1zbS02Ij4NCg0KIVtdKGltYWdlcy9sb2dvLnBuZykNCjwvYT4NCjwvZGl2Pg0KDQoNCiMgUmVmZXJlbmNlcw0K</div>
 <style>
 .center {
   text-align: center;
@@ -427,12 +416,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("index.Rmd");
-  window.initializeCodeFolding("show" === "show");
-});
-</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
