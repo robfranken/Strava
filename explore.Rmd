@@ -141,7 +141,7 @@ We tested the out-Isolate effect (leading to not awarding kudos) and this effect
 ```{r echo=T, results='hide'}
 myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
 myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
-myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
+myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
 ```
 
 
@@ -159,7 +159,7 @@ myeff2 <- setEffect(myeff1, higher, name = "kudonet", interaction1 = "freq_run")
   
 ## Covariate effects {#co}
   
-We test effects on tie changes of gender (monadic and dyadic).
+We include effects on tie changes of gender (monadic and dyadic).
 
 ```{r echo=T, results='hide'}
 myeff2 <- includeEffects(myeff2, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
@@ -241,6 +241,25 @@ GOF is acceptable!
 
 <br>
 
+For subsequent meta-analysis, we need to ensure that the model specification for all our club-networks is identical. Some effects were rather important in other clubs. We fix these to 0:
+
+```{r eval=F, results='hide'}
+myeff2 <- setEffect( myeff2, outPopSqrt, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff2 <- setEffect( myeff2, reciAct, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff2 <- includeInteraction(myeff2, recip, gwespFF, parameter = 69, name = "kudonet")
+eff1 <- myeff2[myeff2$include,]$effect1[24]
+eff2 <- myeff2[myeff2$include,]$effect2[24]
+myeff2 <- setEffect(myeff2, unspInt, fix=TRUE, test=FALSE, effect1=eff1, effect2=eff2)
+```
+
+<!--- 
+
+@RF: for some reasons this gives an error when building the site... so set on eval=F
+
+---> 
+
+<br>
+
 ----
 
 We have modeled the dynamics of kudos tie formation. Now let's model dynamics in running behaviors.
@@ -282,7 +301,7 @@ We test these effects sequentially:
 so first, we estimate a model with the indegree effect on behavior added to the baseline model;
 second, we add the average attraction to higher alters effect. 
 
-We also include an effect of outdegree on behavior, to rule out possible confounding of the outdegree effect. Score-type test indicated that outdegree-effects on behavior were 0. 
+We also fixed-and-tested the effect of outdegree on behavior, to rule out possible confounding of the outdegree effect. Score-type test indicated that outdegree-effects on behavior were 0. 
 
 
 ```{r echo=T, results='hide'}
@@ -291,8 +310,8 @@ myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudon
 
 myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
 myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
-myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix = TRUE, test = TRUE, initialValue = 0) 
-myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix = TRUE, test = TRUE, initialValue = 0)
+myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix = TRUE, test = FALSE, initialValue = 0) 
+myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
 ```
 
   

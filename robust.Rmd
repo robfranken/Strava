@@ -86,7 +86,7 @@ mydata <- clubdata_rsiena3[[2]] # grab club
 
 ![](files/robustness/test2.txt){#id .class width=100% height=200px}
 
-Again, only a slight change in network stability. But overall, the average degree has decreased to a greater extent. Let's use this as our operationalization, and let's investigate how this impacts our findings. We use the same model as we did in our main analyses.
+Again, only a slight change in network stability. But overall, the average degree has decreased to a greater extent. Let's use this as our operationalization, and let's investigate how this impacts our findings. We use the same model as we did in our main analyses. Below are the results:
 
 ```{r eval=F, class.source = 'fold-hide'}
 myeff <- getEffects(mydata) # define myeff object
@@ -132,8 +132,8 @@ while (TRUE){
     break
   }
 }
-
-
 ```
 
-
+```{r, echo=F}
+htmltools::includeHTML("files/robustness/3kudoModel.html")
+```

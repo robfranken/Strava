@@ -358,6 +358,15 @@ The fit for the GD distribution is now good!
 
 <br>
 
+We fine-tune the network-part of the model: we include some parameters as fixed to 0 and we exclude 3-cycles, for subsequent meta-analysis:
+
+```{r echo=T, results='hide'}
+myeff2 <- setEffect(myeff2, cycle3, name = "kudonet", include=FALSE)
+myeff2 <- setEffect(myeff2, outPopSqrt, name = "kudonet", fix=TRUE, test=FALSE, initialValue = 0)
+```
+
+<br>
+
 ----
 
 #### {-}
@@ -366,9 +375,9 @@ The fit for the GD distribution is now good!
 Now that we reached adequate GOF for the kudos-network, it is time to model running activity dynamics:
 
 - interdepence between frequency and duration of running.
-- interdependence between running and other sports.
-- gender-effects on behavior change. We seem to have a problem of overfitting. We exlude the gender-effects (the score-type test indicates that they are 0).
-- two influence effects: *indegree* and *upward assimilation*. We control for the outdegree-effect: we fix it and score-type test it.
+- interdependence between running and other sports. We seem to have a problem of overfitting. We exlude the effects of other sports (the score-type test indicates that they are 0).
+- gender-effects on behavior change are also fixed-and-tested: they are not different than 0.
+- two influence effects: *indegree* and *upward assimilation*. We control for the outdegree-effect: we fix it and score-type tested it.
 
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "freq_run")
@@ -596,8 +605,7 @@ We investigate how the model may be extended to obtain a better fit. We do this 
 
 Based on this, we do a foward model-selection and use the score-type test to see which of these effects could improve the model (spoiler: all of them do!). 
 
-We use *sienaGOF* to estimate how the fit (based on Mahalanobis distance) would increase had we included the fixed-and-tested effects (hence, circumventing the need for re-estimating the model with the new effect). 
-
+We use *sienaGOF* to estimate how the fit (based on Mahalanobis distance) would increase had we included the fixed-and-tested effects (hence, circumventing the need for re-estimating the model with the new effect).
 
 ```{r echo=T, results='hide'}
 myeff <- getEffects(mydata) # define myeff object
@@ -859,6 +867,7 @@ plot(goflist[[3]])
 
 GD GOF is still all right.
 
+
 <br>
 
 ----
@@ -870,8 +879,10 @@ Now that we reached adequate GOF for the kudos-network, it is time to model runn
 
 - interdepence between frequency and duration of running.
 - interdependence between running and other sports.
-- gender-effects on behavior change. We seem to have a problem of overfitting. We exlude the gender-effects (the score-type test indicates that they are 0).
+- gender-effects on behavior change.
 - two influence effects: *indegree* and *upward assimilation*. We control for the outdegree-effect: we fix it and score-type test it.
+
+Again, we face convergence issues due to overfitting. We fix effects on behavior change of gender and other sports to 0 (score-type tests tell that these are 0).
 
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "freq_run")
@@ -880,11 +891,11 @@ myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "tim
 myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
 
 # gender effects fixed-and-tested
-myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender", fix=T, test = T, initialValue = 0)
-myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=T, test = T, initialValue = 0)
+myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender", fix=T, test = F, initialValue = 0)
+myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=T, test = F, initialValue = 0)
 # same for 'other sports'
-myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "time_other", fix=T, test=T, initialValue=0)
-myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other", fix=T, test=T, initialValue=0)
+myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "time_other", fix=T, test=F, initialValue=0)
+myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other", fix=T, test=F, initialValue=0)
 
 # influence effects:
 # 1. indegree effect
@@ -895,8 +906,8 @@ myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = 
 myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
 
 # outdegree effect (fixed-and-tested)
-myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=T, initialValue=0)
-myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix=T, test=T, initialValue=0)
+myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
+myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
 ```
 
 
@@ -966,7 +977,6 @@ Acceptable GOF for frequency, not for duration...
 
 ##### The upward assimilation effect
 
-We excluded (and tested) effects on behavior change of other sports activities. These seemed to cause convergence-issues (overfitting), but they were 0.
 
 ```{r eval=F, results='hide'}
 try <- 1
@@ -1027,29 +1037,26 @@ plot(goflist3[[2]])
 
 ----
 
-This model configuration seems promising. Let's estimate the model on all waves. This will take a long time. We re-estimate the models until we reach convergence. We save the sienaFit-objects of both models for subsequent meta-analyses.
+This model configuration seems promising. Let's estimate the model on all waves. This will take a long time! We re-estimate the models until we reach convergence. We save the sienaFit-objects of both models for subsequent meta-analyses.
 
 
 ```{r eval=F, results='hide', class.source = 'fold-hide'}
 mydata <- clubdata_rsiena[[3]] # grab club
 myeff <- getEffects(mydata) # define myeff object
 
-myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet") 
-myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
-myeff1 <- includeEffects( myeff1, outIso, name = "kudonet")
-myeff2 <- includeInteraction(myeff2, recip, gwespFF, parameter = 69, name = "kudonet")
-myeff2 <- includeEffects(myeff2, outPopSqrt, name = "kudonet")
+myeff1 <- includeEffects(myeff, gwespFF, outActSqrt, inPopSqrt, outPopSqrt, outIso, name = "kudonet") 
+myeff1 <- includeInteraction(myeff1, recip, gwespFF, parameter = 69, name = "kudonet")
+myeff1 <- setEffect(myeff1, reciAct, name = "kudonet", fix=TRUE, test=FALSE, initialValue = 0)
+
+myeff2 <- setEffect(myeff1, higher, name = "kudonet", interaction1 = "freq_run")
+myeff2 <- includeEffects(myeff2, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
 
 myeff3 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "freq_run")
 myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
-myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "time_other")
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
-
-myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender", fix=T, test = T, initialValue = 0)
-myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=T, test = T, initialValue = 0)
-
-myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "time_other", fix=T, test=T, initialValue=0)
-myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other", fix=T, test=T, initialValue=0)
+myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "time_other", fix=TRUE, test=FALSE, initialValue = 0)
+myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other", fix=TRUE, test=FALSE, initialValue = 0)
+myeff3 <- setEffect(myeff3, effFrom, name = "freq_run", interaction1 = "gender", fix=TRUE, test = FALSE, initialValue = 0)
+myeff3 <- setEffect(myeff3, effFrom, name = "time_run", interaction1 = "gender", fix=TRUE, test = FALSE, initialValue = 0)
 
 myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet") 
 myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
@@ -1057,18 +1064,16 @@ myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudon
 myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
 myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
 
-myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=T, initialValue=0)
-myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix=T, test=T, initialValue=0)
+myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=TRUE, test=FALSE, initialValue=0)
+myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix=TRUE, test=FALSE, initialValue=0)
 
-myalgorithm <- sienaAlgorithmCreate(projname = "test") # set the SAOM algorithm 
-
-## Estimate model with indegree effect (M2)
+# set the SAOM algorithm 
+myalgorithm <- sienaAlgorithmCreate(projname = "test") 
+## Estimate model with indegree effect
 try <- 1
 
-
 ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff3, # estimate the SAOM
-                 batch = FALSE, verbose = FALSE, returnDeps = TRUE,)
-
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
 
 # the following script lets the model re-run until we get a good convergence ratio
 while (TRUE){
@@ -1100,13 +1105,51 @@ gofbeh2 <- sienaGOF(ansM2,
                    varName = "time_run")
 
 goflist2 <- list(gofbeh, gofbeh2)
-save(goflist2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "gof2.RData", sep=""))
+save(goflist2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "gof2_full.RData", sep=""))
 
 # save the sienaFit object
-save(ansM2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "model2.RData", sep=""))
+save(ansM2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "model2_full.RData", sep=""))
 
+## Estimate the next model including the influence effect:
+try <- 1
 
+ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff4, # estimate the SAOM
+                 batch = FALSE, verbose = FALSE, returnDeps = TRUE)
 
+# the following script lets the model re-run until we get a good convergence ratio
+while (TRUE){
+  
+  if(ansM3$tconv.max >= .25){
+    try <- try + 1
+    print(paste("Model did not converge: ", ansM3$tconv.max, sep = ""))
+    print(paste("Try:", try, sep=" "))
+    ansM3 <- siena07( myalgorithm, data = mydata, effects = myeff4, prevAns= ansM3, returnDeps=TRUE)
+    
+  }else{
+    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "other clubs", "/", "club 3", "/", "Model 3 full", ".html", sep=""))
+    print(paste("Reached convergence ratio of ", ansM3$tconv.max, sep = ""))
+    break
+  }
+}
+
+# GOF assessment
+gofbeh <- sienaGOF(ansM3,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "freq_run")
+
+gofbeh2 <- sienaGOF(ansM3,
+                   BehaviorDistribution,
+                   verbose = TRUE,
+                   join = TRUE,
+                   varName = "time_run")
+
+goflist2 <- list(gofbeh, gofbeh2)
+save(goflist2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "gof3_full.RData", sep=""))
+
+# save the sienaFit object
+save(ansM2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "model3_full.RData", sep=""))
 ```
 
 <br>
@@ -1140,7 +1183,7 @@ myeff1 <- includeEffects(myeff, gwespFF, name = "kudonet")
 myeff1 <- includeEffects(myeff1, outActSqrt, inPopSqrt, name = "kudonet") 
 myeff1 <- setEffect( myeff1, outIso, name = "kudonet")
 
-# selection effect for kudos ties formation based on running activity (fixed to 0)
+# selection effect for kudos ties formation based on running activity
 myeff2 <- setEffect( myeff1, higher, name = "kudonet", interaction1 = "freq_run")
 
 # and selection based on gender (fixed to 0)
@@ -1245,6 +1288,21 @@ plot(goflist[[3]])
 
 
 GOF is all right!
+
+<br>
+
+We fine-tune the network-part of the model: we include some parameters as fixed to 0 for subsequent meta-analysis:
+
+```{r echo=T, results='hide'}
+myeff2 <- setEffect(myeff2, outPopSqrt, name = "kudonet", fix=TRUE, test=FALSE, initialValue = 0)
+myeff2 <- setEffect(myeff2, reciAct, name = "kudonet", fix=TRUE, test=FALSE, initialValue = 0)
+(myeff2 <- includeInteraction(myeff2, recip, gwespFF, parameter = 69, name = "kudonet"))
+(eff1 <- myeff2[myeff2$include,]$effect1[24])
+(eff2 <- myeff2[myeff2$include,]$effect2[24])
+myeff2 <- setEffect(myeff2, unspInt, fix=TRUE, test=FALSE,
+                                    effect1=eff1, effect2=eff2)
+```
+
 
 <br> 
 
