@@ -15,7 +15,9 @@ navbar:
     - text: "Robustness checks"
       menu:
       - text: "Different social influence operationalization"
+        href: avSim.html
       - text: "Different kudos tie classification"
+        href: robust.html
     - text: "Supplementary material"
   right:
     - icon: fab fa-github

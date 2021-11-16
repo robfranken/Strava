@@ -364,6 +364,7 @@ The fit for the GD distribution is now good!
 
 
 Now that we reached adequate GOF for the kudos-network, it is time to model running activity dynamics:
+
 - interdepence between frequency and duration of running.
 - interdependence between running and other sports.
 - gender-effects on behavior change. We seem to have a problem of overfitting. We exlude the gender-effects (the score-type test indicates that they are 0).
@@ -866,6 +867,7 @@ GD GOF is still all right.
 
 
 Now that we reached adequate GOF for the kudos-network, it is time to model running activity dynamics:
+
 - interdepence between frequency and duration of running.
 - interdependence between running and other sports.
 - gender-effects on behavior change. We seem to have a problem of overfitting. We exlude the gender-effects (the score-type test indicates that they are 0).
@@ -1019,8 +1021,11 @@ plot(goflist3[[1]])
 plot(goflist3[[2]])
 ```
 
+#### {-}
 
 <br>
+
+----
 
 This model configuration seems promising. Let's estimate the model on all waves. This will take a long time. We re-estimate the models until we reach convergence. We save the sienaFit-objects of both models for subsequent meta-analyses.
 
@@ -1103,6 +1108,8 @@ save(ansM2, file= paste("files", "/", "other clubs", "/", "club 3", "/", "model2
 
 
 ```
+
+<br>
 
 #### Results {.tabset .tabset-fade}
 

@@ -461,7 +461,7 @@ We do not find a significant kudos indegree effect. We do find a significant upw
 
 ## Next up
 
-We will check whether this model configuration also converges for the other clubs. To summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values.
+We will check whether this model configuration also converges for the [other clubs](https://robfranken.github.io/Strava/meta.html). To summarize the results over our clubs, we will perform a [meta-analysis](https://robfranken.github.io/Strava/meta.html#Meta-analysis) using a Fisher-type combination of one-tailed p-values.
 
 
 ----

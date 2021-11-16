@@ -1,0 +1,80 @@
+---
+title: "Different kudos-tie cut-off"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+library(RSiena)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+<br>
+
+# Different kudos-tie classification
+
+---
+
+In our main analyses, a kudos-tie $X_{ij}^{(h)} = 1$ if actor *i* gave $\ge 1$ kudos to actor *j*; otherwise 0.
+
+We incrementally increased the number of kudos required for $X_{ij}^{(h)} = 1$. We checked how this would affect the network properties of the resulting model (e.g., density, average degree, Jaccard indices). We increased the cut-off value until the kudos network became too unstable (we aimed at an average Jaccard index > .3).
+
+
+We do this for club 2, in which we found an indegree effect on frequency, and where kudos-ties were relatively stable (average Jaccard index over periods = 0.75; see below).
+
+```{r eval=F, class.source = 'fold-hide'}
+load("clubdata_rsiena.Rdata")
+mydata <- clubdata_rsiena[[2]] # grab club
+
+print01Report(mydata, modelname="files/robustness/test")
+```
+
+![](files/robustness/test.txt){#id .class width=100% height=200px}
+
+<br>
+
+First, a kudos-network operationalization where $X_{ij}^{(h)} = 1$ if actor *i* gave$\ > 1$ kudos to actor *j*; otherwise 0, was inspected
+
+```{r eval=F, class.source = 'fold-hide'}
+load("clubdata_rsiena2.Rdata")
+mydata <- clubdata_rsiena2[[2]] # grab club
+
+print01Report(mydata, modelname="files/robustness/test1")
+```
+
+![](files/robustness/test1.txt){#id .class width=100% height=200px}
+
+<br>
+
+Second, a kudos-network operationalization where $X_{ij}^{(h)} = 1$ if actor *i* gave$\ > 2$ kudos to actor *j*; otherwise 0, was inspected
+
+```{r eval=F, class.source = 'fold-hide'}
+load("clubdata_rsiena3.Rdata")
+mydata <- clubdata_rsiena3[[2]] # grab club
+print01Report(mydata, modelname="files/robustness/test2")
+```
+
+![](files/robustness/test2.txt){#id .class width=100% height=200px}
+
+
