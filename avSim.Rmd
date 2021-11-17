@@ -79,7 +79,7 @@ ans_avAttHigher <- siena07(myalgorithm, data = mydata, effects = myeff5,
 <br>
 
 SAOM micro-steps are random events with *n* possible outcomes. Let's denote the probabilities with which actor *i* in a micro-step with respect to behavior attribute(s) may change the attribute by $p_{i} (\beta , x) = (p_{i1}(\beta , x), ... , (p_{in}(\beta , x))$. The Indlekofer-Brandes
-measures are numerical answers to the question, *How strongly do these probabilities depend on each of the effects?*. 
+measures are numerical answers to the question, *How strongly do these probabilities depend on each of the effects?* 
 
 <br>
 
