@@ -254,7 +254,7 @@ myeff2 <- setEffect(myeff2, unspInt, fix=TRUE, test=FALSE, effect1=eff1, effect2
 
 <!--- 
 
-@RF: for some reasons this gives an error when building the site... so set on eval=F
+@RF: for some reasons this gives an error when rendering the site... so set on eval=F
 
 ---> 
 
@@ -454,16 +454,16 @@ This may be due to the operationalization of this variable...
 
 We present the SAOM results for club 1.
 
-The first table presents the parameter estimates for (1) network structure; (2) network dynamics (selection); (3) behavior dynamics comprising shape effects, *indegree effect* on behavior, and covariate effects on behavior change. The second table adds the assimilation- and outdegree-effects on behavior.
+The first table (Model 1) presents the parameter estimates for (1) network structure; (2) network dynamics (selection); (3) behavior dynamics comprising shape effects, *indegree effect* on behavior, and covariate effects on behavior change. The second table (Model 2) adds the assimilation- and outdegree-effects on behavior.
 
 ## {.tabset .tabset-fade}
 
-### The indegree-effect on running
+### Model 1
 ```{r, echo=F}
 htmltools::includeHTML("files/test club 1/Model 2.html")
 ```
 
-### The upward assimilation effect
+### Model 2
 ```{r, echo=F}
 htmltools::includeHTML("files/test club 1/Model 3.html")
 ```
