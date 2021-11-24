@@ -1,0 +1,193 @@
+---
+title: "Influence effects"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: false
+    toc_float: false
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+library(RSiena)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+<br>
+
+---
+
+## The average similarity effect
+
+First, we include the *average similarity* (*avSim*) effect as an operationalization of peer influence. It is defined as: 
+$$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) $$
+In the event of a micro-step with respect to the behavior, ego will choose the micro-step (+1/0/-1) that results in the greatest average similarity score.
+Thus, this effect measures the tendency of individuals to be similar with respect to the behavior to their alters.
+
+This operationalization of peer influence assumes that ego is pulled up on the behavior scale by alters that score higher than themselves on the behavior,  $x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)>z_i \}$, and pulled down by alters that score lower than himself, $x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)<z_i \}$, to a similar extent.
+
+<br>
+
+## The average attraction towards higher alters effect
+
+We expect that peer influence is exercised in particular by alters that score higher on the behavior than ego. We developed a new version of the avSim-effect that reflects this unilateral drive upward (i.e. upward assimilation). It is labeled the *average attraction towards higher* (*avAttHigher*) effect, and is defined as: 
+$$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)>z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,$$
+If we assume a positive parameter estimate for this effect, than ego will - in the event of a micro-step with respect to the behavior - choose the micro-step that results in the greatest average similarity score, with similarity scores replaced by 1 for alters who do not score higher on the behavior than ego. 
+Thus, this effect will draw actors whose alters score higher than themselves upward on the behavior scale, while diminishing their tendency to go downward to the same degree.
+
+<br>
+
+## The average attraction towards higher alters effect
+Analogous to the avAttHigh-effect, is the *average attraction towards lower* (*avAttLower*) effect, where in the calculation of the average similarity score, similarity is replaced by 1 for alters who score higher on the behavior than ego:
+$$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)<z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,$$
+In the case of a positive parameter estimate, ego will assimilate downward to the behavior of his lower-behavior alters. His tendency to go upward is diminished by the same extent.
+
+In the case of similar parameter estimates for avAttHigher and avAttLower, actors are influenced to the same degree by other actors with higher and lower values than themselves respectively. The combination of avAttHigher and avAttLower would in that case be identical to the avSim effect. 
+
+----
+
+<br> 
+
+# Plots 
+
+We illustrate this using ego-alter influence tables.
+
+## {.tabset .tabset-fade}
+
+First, we create an evaluation function for the behavior that includes only relevant effects (i.e., those affected by changes in ego or alter attribute values). 
+
+### avSim
+Linear (b1) + quadratic shape (b2) effect; avSim (b3)
+```{r}
+obj_beh1 <- function (vi, vj) {
+  b1*(vi-v_av) + b2*(vi-v_av)^2 + b3*(1 - abs(vi - vj)/r_v - sim_av)
+}
+```  
+
+### avAttHigher
+Linear (b1) + quadratic shape (b2) effect; avAttHigher (b4)
+```{r}
+obj_beh3 <- function (vi, vj) {
+  b1*(vi-v_av) + b2*(vi-v_av)^2 + b5*(1 - max(vi - vj,0)/r_v - sim_av)
+}
+```  
+
+
+## {-}
+
+
+Second, we create a function to calculate and then plot predicted ego-alter influence:
+
+## {.tabset .tabset-fade}
+
+### avSim
+```{r}
+alterInfluenceTableFunction <- function () {
+  #create the tables
+  ( beh_tab <- outer(vv, vv, obj_beh1) ) #calculate table for the evaluation effect
+  
+  #visualize the utility (or contribution to the objective function) of various decisions conditioned on ego's current behavior and alters' average behavior
+  par( mfrow = c(1,5) )
+  for (j in 1:5) {       #ego's current behavior
+    for (i in 1:5) {     #ego's prospective behavior
+      if (i == 1) {
+        par( mar = c(5,4,3,1), cex = .75)
+        plot( vv, vv, type = "n", 
+              xlab = "Alter Average Score", 
+              ylab =  "Predicted Utility",
+              xlim = c( min(vv) - .5, max(vv) + .5 ),
+              ylim = c( round(min(beh_tab) -2.5,0), round(max(beh_tab) +.5,0) ),
+              main = paste("Ego Current score:", j) )
+        legend( "bottom", c("Increase 1 Step", "No Change", "Decrease 1 Step"), col = c("darkgoldenrod1", "gray50", "cyan3"),
+                lwd = c(3,2,2), lty = c(2,1,3), bty = "n" )
+      }
+      if ( abs (i-j) <= 1 ) {  # change of 0 or 1 steps
+        if ( i > j) {          # prospectively increase
+          points (vv, beh_tab[,i], type = "l", col = "darkgoldenrod1", lwd = 3, lty = 2)
+        }
+        else if ( i == j ) {   # prospectively remains the same
+          points (vv, beh_tab[,i], type = "l", col = "gray50", lwd = 2, lty = 1)
+        }
+        else if ( i < j ) {   # prospectively decrease
+          points (vv, beh_tab[,i], type = "l", col = "cyan3", lwd = 2, lty = 3)
+        }
+      }
+    }
+  }
+}
+```
+
+## {-}
+
+We fill in the values of the parameter estimates and the averages (averages in 'print01Report'-function).
+
+We use a hypothetical scenario, in which avAttHigher equals avAttLower (and their combination equals avSim). Moreover, actor choices are only driven by influence (i.e., we set shape effects to 0):
+
+```{r}
+v_av <- 3
+sim_av <- 0.8
+b1 <- 0  # linear
+b2 <- 0  # quad
+b3 <- 5 # avSim
+b4 <- 5 # avAttHigher
+b5 <- 5 # avAttLower
+vv <- c( 1:5 ) # behavior scores to be considered
+r_v <- max(vv) - min(vv) # range of values
+```
+
+<br>
+
+We use the function to plot predicted utilities based on the above (hypothetical) values: 
+
+## {.tabset .tabset-fade}
+
+### avSim
+```{r eval=F} 
+alterInfluenceTableFunction()
+```
+
+![](images/influence plots/influenceplot_avSim.png)
+
+### avAttHigher
+```{r eval=F} 
+alterInfluenceTableFunction()
+```
+
+![](images/influence plots/influenceplot_avSim.png)
+
+### avAttLower
+```{r eval=F} 
+alterInfluenceTableFunction()
+```
+
+![](images/influence plots/influenceplot_avSim.png)
+
+### avAttHigher + Lower
+```{r eval=F} 
+alterInfluenceTableFunction()
+```
+
+![](images/influence plots/influenceplot_avSim.png)
+
+## {-}
+

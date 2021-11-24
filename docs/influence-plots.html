@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Influence effects</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fas fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li>
+  <a href="des.html">Descriptives</a>
+</li>
+<li>
+  <a href="explore.html">Model selection</a>
+</li>
+<li>
+  <a href="meta.html">Meta-analysis</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Robustness checks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="avSim.html">Different social influence operationalization</a>
+    </li>
+    <li>
+      <a href="robust.html">Different kudos tie classification</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Supplementary material
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influence-plots.html">avSim vs. avAttHigher + avAttLower</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Influence effects</h1>
+<h4 class="date">Last compiled on november, 2021</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<p><br></p>
+<hr />
+<div id="the-average-similarity-effect" class="section level2">
+<h2>The average similarity effect</h2>
+<p>First, we include the <em>average similarity</em> (<em>avSim</em>) effect as an operationalization of peer influence. It is defined as: <span class="math display">\[ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) \]</span> In the event of a micro-step with respect to the behavior, ego will choose the micro-step (+1/0/-1) that results in the greatest average similarity score. Thus, this effect measures the tendency of individuals to be similar with respect to the behavior to their alters.</p>
+<p>This operationalization of peer influence assumes that ego is pulled up on the behavior scale by alters that score higher than themselves on the behavior, <span class="math inline">\(x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)&gt;z_i \}\)</span>, and pulled down by alters that score lower than himself, <span class="math inline">\(x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)&lt;z_i \}\)</span>, to a similar extent.</p>
+<p><br></p>
+</div>
+<div id="the-average-attraction-towards-higher-alters-effect" class="section level2">
+<h2>The average attraction towards higher alters effect</h2>
+<p>We expect that peer influence is exercised in particular by alters that score higher on the behavior than ego. We developed a new version of the avSim-effect that reflects this unilateral drive upward (i.e. upward assimilation). It is labeled the <em>average attraction towards higher</em> (<em>avAttHigher</em>) effect, and is defined as: <span class="math display">\[ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&gt;z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,\]</span> If we assume a positive parameter estimate for this effect, than ego will - in the event of a micro-step with respect to the behavior - choose the micro-step that results in the greatest average similarity score, with similarity scores replaced by 1 for alters who do not score higher on the behavior than ego. Thus, this effect will draw actors whose alters score higher than themselves upward on the behavior scale, while diminishing their tendency to go downward to the same degree.</p>
+<p><br></p>
+</div>
+<div id="the-average-attraction-towards-higher-alters-effect-1" class="section level2">
+<h2>The average attraction towards higher alters effect</h2>
+<p>Analogous to the avAttHigh-effect, is the <em>average attraction towards lower</em> (<em>avAttLower</em>) effect, where in the calculation of the average similarity score, similarity is replaced by 1 for alters who score higher on the behavior than ego: <span class="math display">\[ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&lt;z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,\]</span> In the case of a positive parameter estimate, ego will assimilate downward to the behavior of his lower-behavior alters. His tendency to go upward is diminished by the same extent.</p>
+<p>In the case of similar parameter estimates for avAttHigher and avAttLower, actors are influenced to the same degree by other actors with higher and lower values than themselves respectively. The combination of avAttHigher and avAttLower would in that case be identical to the avSim effect.</p>
+<hr />
+<p><br></p>
+</div>
+<div id="plots" class="section level1">
+<h1>Plots</h1>
+<p>We illustrate this using ego-alter influence tables.</p>
+<div id="section" class="section level2 tabset tabset-fade">
+<h2></h2>
+<p>First, we create an evaluation function for the behavior that includes only relevant effects (i.e., those affected by changes in ego or alter attribute values).</p>
+<div id="avsim" class="section level3">
+<h3>avSim</h3>
+<p>Linear (b1) + quadratic shape (b2) effect; avSim (b3)</p>
+<pre class="r test"><code>obj_beh1 &lt;- function(vi, vj) {
+    b1 * (vi - v_av) + b2 * (vi - v_av)^2 + b3 * (1 - abs(vi - vj)/r_v - sim_av)
+}</code></pre>
+</div>
+</div>
+<div id="section-1" class="section level2 unnumbered">
+<h2></h2>
+<p>Second, we create a function to calculate and then plot predicted ego-alter influence:</p>
+</div>
+<div id="section-2" class="section level2 tabset tabset-fade">
+<h2></h2>
+<div id="avsim-1" class="section level3">
+<h3>avSim</h3>
+<pre class="r test"><code>alterInfluenceTableFunction &lt;- function() {
+    # create the tables
+    (beh_tab &lt;- outer(vv, vv, obj_beh1))  #calculate table for the evaluation effect
+    
+    # visualize the utility (or contribution to the objective function) of various decisions conditioned
+    # on ego&#39;s current behavior and alters&#39; average behavior
+    par(mfrow = c(1, 5))
+    for (j in 1:5) {
+        # ego&#39;s current behavior ego&#39;s prospective behavior
+        for (i in 1:5) {
+            if (i == 1) {
+                par(mar = c(5, 4, 3, 1), cex = 0.75)
+                plot(vv, vv, type = &quot;n&quot;, xlab = &quot;Alter Average Score&quot;, ylab = &quot;Predicted Utility&quot;, xlim = c(min(vv) - 
+                  0.5, max(vv) + 0.5), ylim = c(round(min(beh_tab) - 2.5, 0), round(max(beh_tab) + 0.5, 
+                  0)), main = paste(&quot;Ego Current score:&quot;, j))
+                legend(&quot;bottom&quot;, c(&quot;Increase 1 Step&quot;, &quot;No Change&quot;, &quot;Decrease 1 Step&quot;), col = c(&quot;darkgoldenrod1&quot;, 
+                  &quot;gray50&quot;, &quot;cyan3&quot;), lwd = c(3, 2, 2), lty = c(2, 1, 3), bty = &quot;n&quot;)
+            }
+            if (abs(i - j) &lt;= 1) {
+                # change of 0 or 1 steps prospectively increase
+                if (i &gt; j) {
+                  points(vv, beh_tab[, i], type = &quot;l&quot;, col = &quot;darkgoldenrod1&quot;, lwd = 3, lty = 2)
+                } else if (i == j) {
+                  # prospectively remains the same
+                  points(vv, beh_tab[, i], type = &quot;l&quot;, col = &quot;gray50&quot;, lwd = 2, lty = 1)
+                } else if (i &lt; j) {
+                  # prospectively decrease
+                  points(vv, beh_tab[, i], type = &quot;l&quot;, col = &quot;cyan3&quot;, lwd = 2, lty = 3)
+                }
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div id="section-3" class="section level2 unnumbered">
+<h2></h2>
+<p>We fill in the values of the parameter estimates and the averages (averages in ‘print01Report’-function).</p>
+<p>We use a hypothetical scenario, in which avAttHigher equals avAttLower (and their combination equals avSim). Moreover, actor choices are only driven by influence (i.e., we set shape effects to 0):</p>
+<pre class="r test"><code>v_av &lt;- 3
+sim_av &lt;- 0.8
+b1 &lt;- 0  # linear
+b2 &lt;- 0  # quad
+b3 &lt;- 5  # avSim
+b4 &lt;- 5  # avAttHigher
+b5 &lt;- 5  # avAttLower
+vv &lt;- c(1:5)  # behavior scores to be considered
+r_v &lt;- max(vv) - min(vv)  # range of values</code></pre>
+<p><br></p>
+<p>We use the function to plot predicted utilities based on the above (hypothetical) values:</p>
+</div>
+<div id="section-4" class="section level2 tabset tabset-fade">
+<h2></h2>
+<div id="avsim-2" class="section level3">
+<h3>avSim</h3>
+<pre class="r test"><code>alterInfluenceTableFunction()</code></pre>
+<p><img src="images/influence%20plots/influenceplot_avSim.png" /></p>
+</div>
+<div id="avatthigher" class="section level3">
+<h3>avAttHigher</h3>
+<pre class="r test"><code>alterInfluenceTableFunction()</code></pre>
+<p><img src="images/influence%20plots/influenceplot_avSim.png" /></p>
+</div>
+<div id="avattlower" class="section level3">
+<h3>avAttLower</h3>
+<pre class="r test"><code>alterInfluenceTableFunction()</code></pre>
+<p><img src="images/influence%20plots/influenceplot_avSim.png" /></p>
+</div>
+<div id="avatthigher-lower" class="section level3">
+<h3>avAttHigher + Lower</h3>
+<pre class="r test"><code>alterInfluenceTableFunction()</code></pre>
+<p><img src="images/influence%20plots/influenceplot_avSim.png" /></p>
+</div>
+</div>
+<div id="section-5" class="section level2 unnumbered">
+<h2></h2>
+<div id="avattlower-1" class="section level3">
+<h3>avAttLower</h3>
+<p>Linear (b1) + quadratic shape (b2) effect; avAttLower (b5)</p>
+<pre class="r test"><code>obj_beh3 &lt;- function(vi, vj) {
+    b1 * (vi - v_av) + b2 * (vi - v_av)^2 + b5 * (1 - max(vi - vj, 0)/r_v)
+}</code></pre>
+</div>
+<div id="avatthigher-avattlower" class="section level3">
+<h3>avAttHigher + avAttLower</h3>
+<p>Linear (b1) + quadratic shape (b2) effect; avAttHigher (b4) + avAttLower (b5)</p>
+<pre class="r test"><code>obj_beh4 &lt;- function(vi, vj) {
+    b1 * (vi - v_av) + b2 * (vi - v_av)^2 + b4 * (1 - max(vj - vi, 0)/r_v) + b5 * (1 - max(vi - vj, 0)/r_v)
+}</code></pre>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkluZmx1ZW5jZSBlZmZlY3RzIg0KZGF0ZTogIkxhc3QgY29tcGlsZWQgb24gYHIgZm9ybWF0KFN5cy50aW1lKCksICclQiwgJVknKWAiDQpiaWJsaW9ncmFwaHk6IHJlZmVyZW5jZXMuYmliDQpvdXRwdXQ6DQogIGh0bWxfZG9jdW1lbnQ6DQogICAgY3NzOiB0d2Vha3MuY3NzDQogICAgdG9jOiBmYWxzZQ0KICAgIHRvY19mbG9hdDogZmFsc2UNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRX0NCmxpYnJhcnkoa25pdHIpDQpsaWJyYXJ5KFJTaWVuYSkNCmxpYnJhcnkoZ2dwbG90MikNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KPGJyPg0KDQotLS0NCg0KIyMgVGhlIGF2ZXJhZ2Ugc2ltaWxhcml0eSBlZmZlY3QNCg0KRmlyc3QsIHdlIGluY2x1ZGUgdGhlICphdmVyYWdlIHNpbWlsYXJpdHkqICgqYXZTaW0qKSBlZmZlY3QgYXMgYW4gb3BlcmF0aW9uYWxpemF0aW9uIG9mIHBlZXIgaW5mbHVlbmNlLiBJdCBpcyBkZWZpbmVkIGFzOiANCiQkIHNee2JlaH1fe2l9KHgseikgPSB4XnstMX1fe2krfVxzdW1faiB4X3tpan0oc2ltXnpfe2lqfSAtIFx3aWRlaGF0e3NpbV56fSkgJCQNCkluIHRoZSBldmVudCBvZiBhIG1pY3JvLXN0ZXAgd2l0aCByZXNwZWN0IHRvIHRoZSBiZWhhdmlvciwgZWdvIHdpbGwgY2hvb3NlIHRoZSBtaWNyby1zdGVwICgrMS8wLy0xKSB0aGF0IHJlc3VsdHMgaW4gdGhlIGdyZWF0ZXN0IGF2ZXJhZ2Ugc2ltaWxhcml0eSBzY29yZS4NClRodXMsIHRoaXMgZWZmZWN0IG1lYXN1cmVzIHRoZSB0ZW5kZW5jeSBvZiBpbmRpdmlkdWFscyB0byBiZSBzaW1pbGFyIHdpdGggcmVzcGVjdCB0byB0aGUgYmVoYXZpb3IgdG8gdGhlaXIgYWx0ZXJzLg0KDQpUaGlzIG9wZXJhdGlvbmFsaXphdGlvbiBvZiBwZWVyIGluZmx1ZW5jZSBhc3N1bWVzIHRoYXQgZWdvIGlzIHB1bGxlZCB1cCBvbiB0aGUgYmVoYXZpb3Igc2NhbGUgYnkgYWx0ZXJzIHRoYXQgc2NvcmUgaGlnaGVyIHRoYW4gdGhlbXNlbHZlcyBvbiB0aGUgYmVoYXZpb3IsICAkeF57LTF9X3tpK31cc3VtX2ogeF97aWp9IFwsIEkgXHsgKHpfaik+el9pIFx9JCwgYW5kIHB1bGxlZCBkb3duIGJ5IGFsdGVycyB0aGF0IHNjb3JlIGxvd2VyIHRoYW4gaGltc2VsZiwgJHheey0xfV97aSt9XHN1bV9qIHhfe2lqfSBcLCBJIFx7ICh6X2opPHpfaSBcfSQsIHRvIGEgc2ltaWxhciBleHRlbnQuDQoNCjxicj4NCg0KIyMgVGhlIGF2ZXJhZ2UgYXR0cmFjdGlvbiB0b3dhcmRzIGhpZ2hlciBhbHRlcnMgZWZmZWN0DQoNCldlIGV4cGVjdCB0aGF0IHBlZXIgaW5mbHVlbmNlIGlzIGV4ZXJjaXNlZCBpbiBwYXJ0aWN1bGFyIGJ5IGFsdGVycyB0aGF0IHNjb3JlIGhpZ2hlciBvbiB0aGUgYmVoYXZpb3IgdGhhbiBlZ28uIFdlIGRldmVsb3BlZCBhIG5ldyB2ZXJzaW9uIG9mIHRoZSBhdlNpbS1lZmZlY3QgdGhhdCByZWZsZWN0cyB0aGlzIHVuaWxhdGVyYWwgZHJpdmUgdXB3YXJkIChpLmUuIHVwd2FyZCBhc3NpbWlsYXRpb24pLiBJdCBpcyBsYWJlbGVkIHRoZSAqYXZlcmFnZSBhdHRyYWN0aW9uIHRvd2FyZHMgaGlnaGVyKiAoKmF2QXR0SGlnaGVyKikgZWZmZWN0LCBhbmQgaXMgZGVmaW5lZCBhczogDQokJCBzXntiZWh9X3tpfSh4LHopID0geF57LTF9X3tpK31cc3VtX2ogeF97aWp9IChcLCBJIFx7ICh6X2opPnpfaSBcfSBzaW1eel97aWp9ICsgSSBceyAoel9qICkgXGxlIHpfaSBcfSApXCwkJA0KSWYgd2UgYXNzdW1lIGEgcG9zaXRpdmUgcGFyYW1ldGVyIGVzdGltYXRlIGZvciB0aGlzIGVmZmVjdCwgdGhhbiBlZ28gd2lsbCAtIGluIHRoZSBldmVudCBvZiBhIG1pY3JvLXN0ZXAgd2l0aCByZXNwZWN0IHRvIHRoZSBiZWhhdmlvciAtIGNob29zZSB0aGUgbWljcm8tc3RlcCB0aGF0IHJlc3VsdHMgaW4gdGhlIGdyZWF0ZXN0IGF2ZXJhZ2Ugc2ltaWxhcml0eSBzY29yZSwgd2l0aCBzaW1pbGFyaXR5IHNjb3JlcyByZXBsYWNlZCBieSAxIGZvciBhbHRlcnMgd2hvIGRvIG5vdCBzY29yZSBoaWdoZXIgb24gdGhlIGJlaGF2aW9yIHRoYW4gZWdvLiANClRodXMsIHRoaXMgZWZmZWN0IHdpbGwgZHJhdyBhY3RvcnMgd2hvc2UgYWx0ZXJzIHNjb3JlIGhpZ2hlciB0aGFuIHRoZW1zZWx2ZXMgdXB3YXJkIG9uIHRoZSBiZWhhdmlvciBzY2FsZSwgd2hpbGUgZGltaW5pc2hpbmcgdGhlaXIgdGVuZGVuY3kgdG8gZ28gZG93bndhcmQgdG8gdGhlIHNhbWUgZGVncmVlLg0KDQo8YnI+DQoNCiMjIFRoZSBhdmVyYWdlIGF0dHJhY3Rpb24gdG93YXJkcyBoaWdoZXIgYWx0ZXJzIGVmZmVjdA0KQW5hbG9nb3VzIHRvIHRoZSBhdkF0dEhpZ2gtZWZmZWN0LCBpcyB0aGUgKmF2ZXJhZ2UgYXR0cmFjdGlvbiB0b3dhcmRzIGxvd2VyKiAoKmF2QXR0TG93ZXIqKSBlZmZlY3QsIHdoZXJlIGluIHRoZSBjYWxjdWxhdGlvbiBvZiB0aGUgYXZlcmFnZSBzaW1pbGFyaXR5IHNjb3JlLCBzaW1pbGFyaXR5IGlzIHJlcGxhY2VkIGJ5IDEgZm9yIGFsdGVycyB3aG8gc2NvcmUgaGlnaGVyIG9uIHRoZSBiZWhhdmlvciB0aGFuIGVnbzoNCiQkIHNee2JlaH1fe2l9KHgseikgPSB4XnstMX1fe2krfVxzdW1faiB4X3tpan0gKFwsIEkgXHsgKHpfaik8el9pIFx9IHNpbV56X3tpan0gKyBJIFx7ICh6X2ogKSBcZ2Ugel9pIFx9IClcLCQkDQpJbiB0aGUgY2FzZSBvZiBhIHBvc2l0aXZlIHBhcmFtZXRlciBlc3RpbWF0ZSwgZWdvIHdpbGwgYXNzaW1pbGF0ZSBkb3dud2FyZCB0byB0aGUgYmVoYXZpb3Igb2YgaGlzIGxvd2VyLWJlaGF2aW9yIGFsdGVycy4gSGlzIHRlbmRlbmN5IHRvIGdvIHVwd2FyZCBpcyBkaW1pbmlzaGVkIGJ5IHRoZSBzYW1lIGV4dGVudC4NCg0KSW4gdGhlIGNhc2Ugb2Ygc2ltaWxhciBwYXJhbWV0ZXIgZXN0aW1hdGVzIGZvciBhdkF0dEhpZ2hlciBhbmQgYXZBdHRMb3dlciwgYWN0b3JzIGFyZSBpbmZsdWVuY2VkIHRvIHRoZSBzYW1lIGRlZ3JlZSBieSBvdGhlciBhY3RvcnMgd2l0aCBoaWdoZXIgYW5kIGxvd2VyIHZhbHVlcyB0aGFuIHRoZW1zZWx2ZXMgcmVzcGVjdGl2ZWx5LiBUaGUgY29tYmluYXRpb24gb2YgYXZBdHRIaWdoZXIgYW5kIGF2QXR0TG93ZXIgd291bGQgaW4gdGhhdCBjYXNlIGJlIGlkZW50aWNhbCB0byB0aGUgYXZTaW0gZWZmZWN0LiANCg0KLS0tLQ0KDQo8YnI+IA0KDQojIFBsb3RzIA0KDQpXZSBpbGx1c3RyYXRlIHRoaXMgdXNpbmcgZWdvLWFsdGVyIGluZmx1ZW5jZSB0YWJsZXMuDQoNCiMjIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KRmlyc3QsIHdlIGNyZWF0ZSBhbiBldmFsdWF0aW9uIGZ1bmN0aW9uIGZvciB0aGUgYmVoYXZpb3IgdGhhdCBpbmNsdWRlcyBvbmx5IHJlbGV2YW50IGVmZmVjdHMgKGkuZS4sIHRob3NlIGFmZmVjdGVkIGJ5IGNoYW5nZXMgaW4gZWdvIG9yIGFsdGVyIGF0dHJpYnV0ZSB2YWx1ZXMpLiANCg0KIyMjIGF2U2ltDQpMaW5lYXIgKGIxKSArIHF1YWRyYXRpYyBzaGFwZSAoYjIpIGVmZmVjdDsgYXZTaW0gKGIzKQ0KYGBge3J9DQpvYmpfYmVoMSA8LSBmdW5jdGlvbiAodmksIHZqKSB7DQogIGIxKih2aS12X2F2KSArIGIyKih2aS12X2F2KV4yICsgYjMqKDEgLSBhYnModmkgLSB2aikvcl92IC0gc2ltX2F2KQ0KfQ0KYGBgICANCg0KIyMgey19DQoNCg0KU2Vjb25kLCB3ZSBjcmVhdGUgYSBmdW5jdGlvbiB0byBjYWxjdWxhdGUgYW5kIHRoZW4gcGxvdCBwcmVkaWN0ZWQgZWdvLWFsdGVyIGluZmx1ZW5jZToNCg0KIyMgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgYXZTaW0NCmBgYHtyfQ0KYWx0ZXJJbmZsdWVuY2VUYWJsZUZ1bmN0aW9uIDwtIGZ1bmN0aW9uICgpIHsNCiAgI2NyZWF0ZSB0aGUgdGFibGVzDQogICggYmVoX3RhYiA8LSBvdXRlcih2diwgdnYsIG9ial9iZWgxKSApICNjYWxjdWxhdGUgdGFibGUgZm9yIHRoZSBldmFsdWF0aW9uIGVmZmVjdA0KICANCiAgI3Zpc3VhbGl6ZSB0aGUgdXRpbGl0eSAob3IgY29udHJpYnV0aW9uIHRvIHRoZSBvYmplY3RpdmUgZnVuY3Rpb24pIG9mIHZhcmlvdXMgZGVjaXNpb25zIGNvbmRpdGlvbmVkIG9uIGVnbydzIGN1cnJlbnQgYmVoYXZpb3IgYW5kIGFsdGVycycgYXZlcmFnZSBiZWhhdmlvcg0KICBwYXIoIG1mcm93ID0gYygxLDUpICkNCiAgZm9yIChqIGluIDE6NSkgeyAgICAgICAjZWdvJ3MgY3VycmVudCBiZWhhdmlvcg0KICAgIGZvciAoaSBpbiAxOjUpIHsgICAgICNlZ28ncyBwcm9zcGVjdGl2ZSBiZWhhdmlvcg0KICAgICAgaWYgKGkgPT0gMSkgew0KICAgICAgICBwYXIoIG1hciA9IGMoNSw0LDMsMSksIGNleCA9IC43NSkNCiAgICAgICAgcGxvdCggdnYsIHZ2LCB0eXBlID0gIm4iLCANCiAgICAgICAgICAgICAgeGxhYiA9ICJBbHRlciBBdmVyYWdlIFNjb3JlIiwgDQogICAgICAgICAgICAgIHlsYWIgPSAgIlByZWRpY3RlZCBVdGlsaXR5IiwNCiAgICAgICAgICAgICAgeGxpbSA9IGMoIG1pbih2dikgLSAuNSwgbWF4KHZ2KSArIC41ICksDQogICAgICAgICAgICAgIHlsaW0gPSBjKCByb3VuZChtaW4oYmVoX3RhYikgLTIuNSwwKSwgcm91bmQobWF4KGJlaF90YWIpICsuNSwwKSApLA0KICAgICAgICAgICAgICBtYWluID0gcGFzdGUoIkVnbyBDdXJyZW50IHNjb3JlOiIsIGopICkNCiAgICAgICAgbGVnZW5kKCAiYm90dG9tIiwgYygiSW5jcmVhc2UgMSBTdGVwIiwgIk5vIENoYW5nZSIsICJEZWNyZWFzZSAxIFN0ZXAiKSwgY29sID0gYygiZGFya2dvbGRlbnJvZDEiLCAiZ3JheTUwIiwgImN5YW4zIiksDQogICAgICAgICAgICAgICAgbHdkID0gYygzLDIsMiksIGx0eSA9IGMoMiwxLDMpLCBidHkgPSAibiIgKQ0KICAgICAgfQ0KICAgICAgaWYgKCBhYnMgKGktaikgPD0gMSApIHsgICMgY2hhbmdlIG9mIDAgb3IgMSBzdGVwcw0KICAgICAgICBpZiAoIGkgPiBqKSB7ICAgICAgICAgICMgcHJvc3BlY3RpdmVseSBpbmNyZWFzZQ0KICAgICAgICAgIHBvaW50cyAodnYsIGJlaF90YWJbLGldLCB0eXBlID0gImwiLCBjb2wgPSAiZGFya2dvbGRlbnJvZDEiLCBsd2QgPSAzLCBsdHkgPSAyKQ0KICAgICAgICB9DQogICAgICAgIGVsc2UgaWYgKCBpID09IGogKSB7ICAgIyBwcm9zcGVjdGl2ZWx5IHJlbWFpbnMgdGhlIHNhbWUNCiAgICAgICAgICBwb2ludHMgKHZ2LCBiZWhfdGFiWyxpXSwgdHlwZSA9ICJsIiwgY29sID0gImdyYXk1MCIsIGx3ZCA9IDIsIGx0eSA9IDEpDQogICAgICAgIH0NCiAgICAgICAgZWxzZSBpZiAoIGkgPCBqICkgeyAgICMgcHJvc3BlY3RpdmVseSBkZWNyZWFzZQ0KICAgICAgICAgIHBvaW50cyAodnYsIGJlaF90YWJbLGldLCB0eXBlID0gImwiLCBjb2wgPSAiY3lhbjMiLCBsd2QgPSAyLCBsdHkgPSAzKQ0KICAgICAgICB9DQogICAgICB9DQogICAgfQ0KICB9DQp9DQpgYGANCg0KIyMgey19DQoNCldlIGZpbGwgaW4gdGhlIHZhbHVlcyBvZiB0aGUgcGFyYW1ldGVyIGVzdGltYXRlcyBhbmQgdGhlIGF2ZXJhZ2VzIChhdmVyYWdlcyBpbiAncHJpbnQwMVJlcG9ydCctZnVuY3Rpb24pLg0KDQpXZSB1c2UgYSBoeXBvdGhldGljYWwgc2NlbmFyaW8sIGluIHdoaWNoIGF2QXR0SGlnaGVyIGVxdWFscyBhdkF0dExvd2VyIChhbmQgdGhlaXIgY29tYmluYXRpb24gZXF1YWxzIGF2U2ltKS4gTW9yZW92ZXIsIGFjdG9yIGNob2ljZXMgYXJlIG9ubHkgZHJpdmVuIGJ5IGluZmx1ZW5jZSAoaS5lLiwgd2Ugc2V0IHNoYXBlIGVmZmVjdHMgdG8gMCk6DQoNCmBgYHtyfQ0Kdl9hdiA8LSAzDQpzaW1fYXYgPC0gMC44DQpiMSA8LSAwICAjIGxpbmVhcg0KYjIgPC0gMCAgIyBxdWFkDQpiMyA8LSA1ICMgYXZTaW0NCmI0IDwtIDUgIyBhdkF0dEhpZ2hlcg0KYjUgPC0gNSAjIGF2QXR0TG93ZXINCnZ2IDwtIGMoIDE6NSApICMgYmVoYXZpb3Igc2NvcmVzIHRvIGJlIGNvbnNpZGVyZWQNCnJfdiA8LSBtYXgodnYpIC0gbWluKHZ2KSAjIHJhbmdlIG9mIHZhbHVlcw0KYGBgDQoNCjxicj4NCg0KV2UgdXNlIHRoZSBmdW5jdGlvbiB0byBwbG90IHByZWRpY3RlZCB1dGlsaXRpZXMgYmFzZWQgb24gdGhlIGFib3ZlIChoeXBvdGhldGljYWwpIHZhbHVlczogDQoNCiMjIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIGF2U2ltDQpgYGB7ciBldmFsPUZ9IA0KYWx0ZXJJbmZsdWVuY2VUYWJsZUZ1bmN0aW9uKCkNCmBgYA0KDQohW10oaW1hZ2VzL2luZmx1ZW5jZSBwbG90cy9pbmZsdWVuY2VwbG90X2F2U2ltLnBuZykNCg0KIyMjIGF2QXR0SGlnaGVyDQpgYGB7ciBldmFsPUZ9IA0KYWx0ZXJJbmZsdWVuY2VUYWJsZUZ1bmN0aW9uKCkNCmBgYA0KDQohW10oaW1hZ2VzL2luZmx1ZW5jZSBwbG90cy9pbmZsdWVuY2VwbG90X2F2U2ltLnBuZykNCg0KIyMjIGF2QXR0TG93ZXINCmBgYHtyIGV2YWw9Rn0gDQphbHRlckluZmx1ZW5jZVRhYmxlRnVuY3Rpb24oKQ0KYGBgDQoNCiFbXShpbWFnZXMvaW5mbHVlbmNlIHBsb3RzL2luZmx1ZW5jZXBsb3RfYXZTaW0ucG5nKQ0KDQojIyMgYXZBdHRIaWdoZXIgKyBMb3dlcg0KYGBge3IgZXZhbD1GfSANCmFsdGVySW5mbHVlbmNlVGFibGVGdW5jdGlvbigpDQpgYGANCg0KIVtdKGltYWdlcy9pbmZsdWVuY2UgcGxvdHMvaW5mbHVlbmNlcGxvdF9hdlNpbS5wbmcpDQoNCiMjIHstfQ0KDQoNCg0KDQoNCg0KIyMjIGF2QXR0TG93ZXINCkxpbmVhciAoYjEpICsgcXVhZHJhdGljIHNoYXBlIChiMikgZWZmZWN0OyBhdkF0dExvd2VyIChiNSkNCmBgYHtyfQ0Kb2JqX2JlaDMgPC0gZnVuY3Rpb24gKHZpLCB2aikgew0KICBiMSoodmktdl9hdikgKyBiMioodmktdl9hdileMiArIGI1KigxIC0gbWF4KHZpIC0gdmosMCkvcl92KQ0KfQ0KYGBgICANCg0KIyMjIGF2QXR0SGlnaGVyICsgYXZBdHRMb3dlcg0KTGluZWFyIChiMSkgKyBxdWFkcmF0aWMgc2hhcGUgKGIyKSBlZmZlY3Q7IGF2QXR0SGlnaGVyIChiNCkgKyBhdkF0dExvd2VyIChiNSkNCmBgYHtyfQ0Kb2JqX2JlaDQgPC0gZnVuY3Rpb24gKHZpLCB2aikgew0KICBiMSoodmktdl9hdikgKyBiMioodmktdl9hdileMiArIGI0KigxIC0gbWF4KHZqIC0gdmksMCkvcl92KSArIGI1KigxIC0gbWF4KHZpIC0gdmosMCkvcl92KQ0KfQ0KYGBgICANCg==</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("influence plots.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

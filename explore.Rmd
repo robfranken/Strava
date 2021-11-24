@@ -110,7 +110,6 @@ A text file is printed in the working directory.
 # Step 3: Define effects
 We are going to define our 'myeff' object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting "effectsDocumentation(myeff)". See @rsienamanual for a substantial and mathematical description of all effects.
 
-
 We build increasingly complex models.
 
 We include:
@@ -148,7 +147,10 @@ myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = FALSE,
 <br>
 
 ## Selection effects {#sel}
-Second, we include a selection effect with respect to behavior. We use the higher-effect to control for aspirational tie-preferences (indicated by a negative parameter estimate).
+Second, we include a selection effect with respect to behavior:
+
+- for our 
+We use the higher-effect to control for aspirational tie-preferences (indicated by a negative parameter estimate).
 
 ```{r echo=T, results='hide'}
 myeff2 <- setEffect(myeff1, higher, name = "kudonet", interaction1 = "freq_run")

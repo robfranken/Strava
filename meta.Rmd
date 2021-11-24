@@ -1329,6 +1329,10 @@ myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudon
 myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
 myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
 
+# 3. downward assimilation
+#myeff4 <- includeEffects(myeff4, avAttLower, name = "freq_run", interaction1 = "kudonet") 
+#myeff4 <- includeEffects(myeff4, avAttLower, name = "time_run", interaction1 = "kudonet")
+
 # outdegree effect (tested and fixed at 0)
 myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
 myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix=T, test=F, initialValue=0)
@@ -1611,7 +1615,7 @@ summary(goflist[[2]])
 
 <br>
 
-Outdegree GOF is bad (p=0). MHD is the predicted Mahalanobis distance in the extended model (including the particular effect). We see that the Outdegree-distribution would improve drastically if we include the interaction between reciprocity and transitivity (GWESP).
+Outdegree GOF is bad (p=0). MHD is the predicted Mahalanobis distance in the extended model (including the particular effect). We see that the Outdegree-distribution is predicted to improve drastically if we include the interaction between reciprocity and transitivity (GWESP).
 
 <br>
 
@@ -1700,7 +1704,7 @@ summary(goflist[[3]])
 
 <br>
 
-GD GOF is still bad (p=0).
+GD GOF is still bad (p=0). 
 
 <br>
 

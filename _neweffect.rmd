@@ -44,6 +44,7 @@ networkt2 <- matrix(1, nrow=4, ncol=4)
 
 sport <- c(2,1,3,3)
 
+
 friendship <- sienaDependent(array( c( networkt1, networkt2), dim = c( 4,4,2 ) ) )
 sport <- coCovar(sport)
 mydata <- sienaDataCreate( friendship, sport )
@@ -92,6 +93,7 @@ $$ s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j + p_1)>z_i \} sim
 ego <- 1
 behavior <- "sport"
 alter <- 1
+
 
 fef <- function(ego, behavior, mydata) {
   beh <- mydata$cCovars[[names(mydata$cCovars)==behavior]]
