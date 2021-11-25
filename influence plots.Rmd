@@ -41,7 +41,7 @@ klippy::klippy(position = c('top', 'right'))
 
 First, we include the *average similarity* (*avSim*) effect as an operationalization of peer influence. It is defined as: 
 $$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) $$
-In the event of a micro-step with respect to the behavior, ego will choose the micro-step (+1/0/-1) that results in the greatest average similarity score.
+In the event of a micro-step with respect to the behavior, ego will choose the micro-step (+1/no change/-1) that results in the greatest average similarity score.
 Thus, this effect measures the tendency of individuals to be similar with respect to the behavior to their alters.
 
 This operationalization of peer influence assumes that ego is pulled up on the behavior scale by alters that score higher than themselves on the behavior,  $x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)>z_i \}$, and pulled down by alters that score lower than himself, $x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)<z_i \}$, to a similar extent.
@@ -68,126 +68,185 @@ In the case of similar parameter estimates for avAttHigher and avAttLower, actor
 
 <br> 
 
-# Plots 
+# Plots {.tabset .tabset-fade}
 
-We illustrate this using ego-alter influence tables.
+We illustrate this below.
 
-## {.tabset .tabset-fade}
+First, we define some functions:
 
-First, we create an evaluation function for the behavior that includes only relevant effects (i.e., those affected by changes in ego or alter attribute values). 
-
-### avSim
-Linear (b1) + quadratic shape (b2) effect; avSim (b3)
-```{r}
-obj_beh1 <- function (vi, vj) {
-  b1*(vi-v_av) + b2*(vi-v_av)^2 + b3*(1 - abs(vi - vj)/r_v - sim_av)
+```{r class.source = 'fold-hide'}
+fcentering <- function(actors){
+centered <- actors - mean(actors)
+return(centered)
 }
-```  
 
-### avAttHigher
-Linear (b1) + quadratic shape (b2) effect; avAttHigher (b4)
-```{r}
-obj_beh3 <- function (vi, vj) {
-  b1*(vi-v_av) + b2*(vi-v_av)^2 + b5*(1 - max(vi - vj,0)/r_v - sim_av)
+fsimij <- function(actors){
+#rv <- max(actors) - min(actors)
+rv <- 6
+mat1 <- matrix(actors, nrow=length(actors), ncol=length(actors), byrow=TRUE)
+mat2 <- t(mat1)
+simij <- 1 - ( abs(mat1-mat2) / rv)
+return(simij)
 }
-```  
 
-
-## {-}
-
-
-Second, we create a function to calculate and then plot predicted ego-alter influence:
-
-## {.tabset .tabset-fade}
-
-### avSim
-```{r}
-alterInfluenceTableFunction <- function () {
-  #create the tables
-  ( beh_tab <- outer(vv, vv, obj_beh1) ) #calculate table for the evaluation effect
+favSim <- function(ego, alters) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentering(actors)
+  simij <- fsimij(beh_centered)
+  diag(simij) <- NA
+  msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
+  simij_c <- simij - msimij
   
-  #visualize the utility (or contribution to the objective function) of various decisions conditioned on ego's current behavior and alters' average behavior
-  par( mfrow = c(1,5) )
-  for (j in 1:5) {       #ego's current behavior
-    for (i in 1:5) {     #ego's prospective behavior
-      if (i == 1) {
-        par( mar = c(5,4,3,1), cex = .75)
-        plot( vv, vv, type = "n", 
-              xlab = "Alter Average Score", 
-              ylab =  "Predicted Utility",
-              xlim = c( min(vv) - .5, max(vv) + .5 ),
-              ylim = c( round(min(beh_tab) -2.5,0), round(max(beh_tab) +.5,0) ),
-              main = paste("Ego Current score:", j) )
-        legend( "bottom", c("Increase 1 Step", "No Change", "Decrease 1 Step"), col = c("darkgoldenrod1", "gray50", "cyan3"),
-                lwd = c(3,2,2), lty = c(2,1,3), bty = "n" )
-      }
-      if ( abs (i-j) <= 1 ) {  # change of 0 or 1 steps
-        if ( i > j) {          # prospectively increase
-          points (vv, beh_tab[,i], type = "l", col = "darkgoldenrod1", lwd = 3, lty = 2)
-        }
-        else if ( i == j ) {   # prospectively remains the same
-          points (vv, beh_tab[,i], type = "l", col = "gray50", lwd = 2, lty = 1)
-        }
-        else if ( i < j ) {   # prospectively decrease
-          points (vv, beh_tab[,i], type = "l", col = "cyan3", lwd = 2, lty = 3)
-        }
-      }
-    }
-  }
+  statistic <- sum(simij_c[1,], na.rm = TRUE) / length(alters)
+  
+ 
+  return(statistic)
 }
-```
 
-## {-}
 
-We fill in the values of the parameter estimates and the averages (averages in 'print01Report'-function).
+favSimH <- function(ego, alters) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentering(actors)
+  simij <- fsimij(beh_centered)
+  diag(simij) <- NA
+  #msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
+  #simij_c <- simij - msimij
+  #diag(simij_c) <- NA 
+ simijH <- simij[1,]
+ simijH[simijH <= beh_centered[1]] <- 1
+ statistic <- sum(simijH, na.rm = TRUE) / length(alters)
+  
+ 
+  return(statistic)
+}
 
-We use a hypothetical scenario, in which avAttHigher equals avAttLower (and their combination equals avSim). Moreover, actor choices are only driven by influence (i.e., we set shape effects to 0):
-
-```{r}
-v_av <- 3
-sim_av <- 0.8
-b1 <- 0  # linear
-b2 <- 0  # quad
-b3 <- 5 # avSim
-b4 <- 5 # avAttHigher
-b5 <- 5 # avAttLower
-vv <- c( 1:5 ) # behavior scores to be considered
-r_v <- max(vv) - min(vv) # range of values
+favSimL <- function(ego, alters) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentering(actors)
+  simij <- fsimij(beh_centered)
+  diag(simij) <- NA
+  #msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
+  #simij_c <- simij - msimij
+  #diag(simij_c) <- NA 
+ simijL <- simij[1,]
+ simijL[simijL >= beh_centered[1]] <- 1
+ statistic <- sum(simijL, na.rm = TRUE) / length(alters)
+  
+ 
+  return(statistic)
+}
 ```
 
 <br>
 
-We use the function to plot predicted utilities based on the above (hypothetical) values: 
+We calculate the statistics of the influence effects (avSim, avAttHigher, avAttLower, avAttHigher+Lower), considering both ego's behavior $z_i$ and alters' behavior $z_j$. We assume that ego's alters all have the same behavior. 
 
-## {.tabset .tabset-fade}
+```{r class.source = 'fold-hide', eval=F}
+rv <- 6
+size <- 6
 
-### avSim
-```{r eval=F} 
-alterInfluenceTableFunction()
+# alter behavior 1:6
+alters <- list()
+for (zj in 1:rv) {
+  alters[[zj]] <- rep(zj, size)
+}
+
+# we caclulate avSim statistic, considering z_i and z_j:
+(s_avSim <- array(dim = c(rv,rv)))
+for (zj in 1:rv) {
+  for (zi in 1:rv) {
+    s_avSim[zi,zj] <- favSim(zi, alters[[zj]])
+  }
+} # rows refer to ego's prospective behavior (zi); columns refer to alter average (zj)
+
+# turn it into a dataframe
+df <- data.frame(zi = rep(1:rv, rv),
+                   s = c(s_avSim[,1], s_avSim[,2], s_avSim[,3], s_avSim[,4], s_avSim[,5], s_avSim[,6] ),
+                   zj = as.character(rep(1:rv, each=rv)))
+
+# we do the same for the avAttHigh statistic
+(s_avSimH <- array(dim = c(rv,rv)))
+for (zj in 1:rv) {
+  for (zi in 1:rv) {
+    s_avSimH[zi,zj] <- favSimH(zi, alters[[zj]])
+  }
+} 
+df2 <- data.frame(zi = rep(1:rv, rv),
+                   s = c(s_avSimH[,1], s_avSimH[,2], s_avSimH[,3], s_avSimH[,4], s_avSimH[,5], s_avSimH[,6] ),
+                   zj = as.character(rep(1:rv, each=rv)))
+
+# for avAttLow
+(s_avSimL <- array(dim = c(rv,rv)))
+for (zj in 1:rv) {
+  for (zi in 1:rv) {
+    s_avSimL[zi,zj] <- favSimL(zi, alters[[zj]])
+  }
+} 
+df3 <- data.frame(zi = rep(1:rv, rv),
+                   s = c(s_avSimL[,1], s_avSimL[,2], s_avSimL[,3], s_avSimL[,4], s_avSimL[,5], s_avSimL[,6] ),
+                   zj = as.character(rep(1:rv, each=rv)))
+
+# and for avAttHigh+Low
+(s_avSimHL <- array(dim = c(rv,rv)))
+for (zj in 1:rv) {
+  for (zi in 1:rv) {
+    s_avSimHL[zi,zj] <- favSimH(zi, alters[[zj]]) + favSimL(zi, alters[[zj]])
+  }
+} 
+df4 <- data.frame(zi = rep(1:rv, rv),
+                   s = c(s_avSimHL[,1], s_avSimHL[,2], s_avSimHL[,3], s_avSimHL[,4], s_avSimHL[,5], s_avSimHL[,6] ),
+                  zj = as.character(rep(1:rv, each=rv)))
+ 
+ggplot(data=df, aes(x=zi, y=s)) + 
+  geom_line(aes(colour=zj)) +
+  ylab("avSim statistic") +
+  xlab("ego score z_i") + 
+  scale_colour_hue(name="alter score z_j")
+ggsave("avSim.png", path = "images/influence plots", width = 6, height = 3)
+
+ggplot(data=df2, aes(x=zi, y=s)) + 
+  geom_line(aes(colour=zj)) +
+  ylab("avAttHigher statistic") +
+  xlab("ego score z_i") + 
+  scale_colour_hue(name="alter score z_j")
+ggsave("avSimH.png", path = "images/influence plots", width = 6, height = 3)
+
+ggplot(data=df3, aes(x=zi, y=s)) + 
+  geom_line(aes(colour=zj)) +
+  ylab("avAttLower statistic") +
+  xlab("ego score z_i") + 
+  scale_colour_hue(name="alter score z_j")
+ggsave("avSimL.png", path = "images/influence plots", width = 6, height = 3)
+
+ggplot(data=df4, aes(x=zi, y=s)) + 
+  geom_line(aes(colour=zj)) +
+  ylab("avAttHigher+Lower statistic") +
+  xlab("ego score z_i") + 
+  scale_colour_hue(name="alter score z_j")
+ggsave("avSimHL.png", path = "images/influence plots", width = 6, height = 3)
+
 ```
 
-![](images/influence plots/influenceplot_avSim.png)
+## avSim
+![](images/influence plots/avSim.png)
 
-### avAttHigher
-```{r eval=F} 
-alterInfluenceTableFunction()
-```
+avSim draws ego to the behavior of alters.
 
-![](images/influence plots/influenceplot_avSim.png)
+## avAttHigher
+![](images/influence plots/avSimH.png)
 
-### avAttLower
-```{r eval=F} 
-alterInfluenceTableFunction()
-```
+avAttHigher is a one-sided version of avSim. It refers to the influence from alters that score higher than ego. Ego is pulled up by alters that score higher than himself. 
 
-![](images/influence plots/influenceplot_avSim.png)
+## avAttLower
+![](images/influence plots/avSimL.png)
 
-### avAttHigher + Lower
-```{r eval=F} 
-alterInfluenceTableFunction()
-```
+avAttHigher is a one-sided version of avSim. It refers to the influence from alters that score lower than ego. Ego is pulled down by alters that score lower than himself. 
 
-![](images/influence plots/influenceplot_avSim.png)
 
-## {-}
+## avAttHigher+Lower
+![](images/influence plots/avSimHL.png)
+
+avAttHigher and avAttLower even each other out; and equal avSim (assuming identical parameter values).
+
+# {-}
 
