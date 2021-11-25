@@ -1,0 +1,171 @@
+---
+title: "Strava paper"
+bibliography: references.bib
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+output: 
+  html_document:
+    css: tweaks.css
+    toc:  false
+    toc_float: true
+    number_sections: false
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, results="hold", message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+----  
+
+We will show how the influence statistics in RSiena behave. 
+
+We assume that ego is connected to all alters. 
+
+
+```{r}
+require(RSiena)
+```
+
+## functions
+
+
+### center behavioral variables
+
+```{r}
+
+fcentring <- function(actors){
+centored <- actors - mean(actors)
+return(centored)
+}
+
+```
+
+### calculate the similarity scores
+
+```{r, echo=FALS, fig.cap="dyadic similarity (RSiena manual, p28)"}
+knitr::include_graphics("similarity.png")
+
+```
+
+
+```{r}
+fsimij <- function(actors, min, max){
+#rv <- max(actors) - min(actors)
+rv <- max - min
+mat1 <- matrix(actors, nrow=length(actors), ncol=length(actors), byrow=TRUE)
+mat2 <- t(mat1)
+simij <- 1 - ( abs(mat1-mat2) / rv)
+return(simij)
+}
+```
+
+
+
+```{r}
+fsimij(c(4,5,2), 1, 6)
+```
+
+### avSim
+
+```{r, echo=FALS, fig.cap="avSim (RSiena manual, p174)"}
+knitr::include_graphics("avSim.png")
+
+```
+
+```{r}
+favSim <- function(ego, alters, min, max) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentring(actors) #center behavior scores
+  simij <- fsimij(beh_centered, min, max) #calculate the similarity scores
+  diag(simij) <- NA
+  msimij <- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!! ##only for each dyads once? 
+  simij_c <- simij - msimij #center the similarity scores
+  
+  statistic <- sum(simij_c[1,], na.rm = TRUE) / length(alters) #the actual statistic
+  
+  return(statistic)
+}
+```
+
+```{r}
+favSimH <- function(ego, alters, min, max) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentring(actors)
+  simij <- fsimij(beh_centered, min, max)
+  diag(simij) <- NA
+  #msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
+  #simij_c <- simij - msimij
+  #diag(simij_c) <- NA 
+ simijH <- simij[1,]
+ simijH[simijH <= beh_centered[1]] <- 1
+ statistic <- sum(simijH, na.rm = TRUE) / length(alters)
+  
+ 
+  return(statistic)
+}
+```
+
+```{r}
+favSimL <- function(ego, alters, min, max) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentring(actors)
+  simij <- fsimij(beh_centered, min, max)
+  diag(simij) <- NA
+  #msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
+  #simij_c <- simij - msimij
+  #diag(simij_c) <- NA 
+ simijL <- simij[1,]
+ simijL[simijL >= beh_centered[1]] <- 1
+ statistic <- sum(simijL, na.rm = TRUE) / length(alters)
+  
+ 
+  return(statistic)
+}
+```
+
+
+## make plot of statistic values 
+
+
+
+```{r}
+finluenceplot <- function(alters, min, max, fun) {
+  s <- NA
+  for (i in min:max) {
+    s[i] <- fun(i, alters, min, max)
+  }
+    {
+      plot(y=s, x=min:max, xlab="ego behavioral score", ylab="statistic", ylim=c(-1,1))
+      mtext(paste("alters:", paste0(alters, collapse=",")))
+    }
+}
+```
+
+## examples
+
+```{r}
+finluenceplot(alters=c(3,3,3,3,3,3), min=1, max=6, favSim)
+finluenceplot(alters=c(3,3,3,3,3,3), min=1, max=6, favSimH)
+finluenceplot(alters=c(3,3,3,3,3,3), min=1, max=6, favSimL)
+
+
+```
+
+```{r}
+finluenceplot(alters=c(1,1,1,5,5,5), min=1, max=6, favSim)
+finluenceplot(alters=c(1,1,1,5,5,5), min=1, max=6, favSimH)
+finluenceplot(alters=c(1,1,1,5,5,5), min=1, max=6, favSimL)
+```
