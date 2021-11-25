@@ -75,7 +75,7 @@ return(simij)
 
 
 ```{r}
-fsimij(c(4,5,2), 1, 6)
+fsimij(1:6, 1, 6)
 ```
 
 ### avSim
@@ -91,7 +91,7 @@ favSim <- function(ego, alters, min, max) {
   beh_centered <- fcentring(actors) #center behavior scores
   simij <- fsimij(beh_centered, min, max) #calculate the similarity scores
   diag(simij) <- NA
-  msimij <- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!! ##only for each dyads once? 
+  msimij <- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
   simij_c <- simij - msimij #center the similarity scores
   
   statistic <- sum(simij_c[1,], na.rm = TRUE) / length(alters) #the actual statistic
@@ -101,7 +101,32 @@ favSim <- function(ego, alters, min, max) {
 ```
 
 ```{r}
-favSimH <- function(ego, alters, min, max) {
+favSim2 <- function(ego, alters, min, max) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentring(actors) #center behavior scores
+  simij <- fsimij(beh_centered, min, max) #calculate the similarity scores
+  diag(simij) <- NA
+  #msimij <- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+  simij_c <- simij # - msimij #center the similarity scores
+  
+  statistic <- sum(simij_c[1,], na.rm = TRUE) / length(alters) #the actual statistic
+  
+  return(statistic)
+}
+```
+
+
+
+### avAttHigher
+
+```{r, echo=FALS, fig.cap="avAttHigher (RSiena manual, p176)"}
+knitr::include_graphics("avattH.png")
+
+```
+
+
+```{r}
+favAttHigher <- function(ego, alters, min, max) {
   actors <- c(ego,alters)
   beh_centered <- fcentring(actors)
   simij <- fsimij(beh_centered, min, max)
@@ -110,7 +135,8 @@ favSimH <- function(ego, alters, min, max) {
   #simij_c <- simij - msimij
   #diag(simij_c) <- NA 
  simijH <- simij[1,]
- simijH[simijH <= beh_centered[1]] <- 1
+ simijH[beh_centered <= beh_centered[1]] <- 1
+ simijH[1] <- NA
  statistic <- sum(simijH, na.rm = TRUE) / length(alters)
   
  
@@ -118,23 +144,50 @@ favSimH <- function(ego, alters, min, max) {
 }
 ```
 
+### avAttLower
+
+```{r, echo=FALS, fig.cap="avAttLower (RSiena manual, p176)"}
+knitr::include_graphics("avattl.png")
+
+```
+
 ```{r}
-favSimL <- function(ego, alters, min, max) {
+actors <- c(1,1,1,1,5,5,5)
+favAttLower <- function(ego, alters, min, max) {
   actors <- c(ego,alters)
   beh_centered <- fcentring(actors)
   simij <- fsimij(beh_centered, min, max)
   diag(simij) <- NA
-  #msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
-  #simij_c <- simij - msimij
-  #diag(simij_c) <- NA 
+  
  simijL <- simij[1,]
- simijL[simijL >= beh_centered[1]] <- 1
+ simijL[beh_centered >= beh_centered[1]] <- 1
+ simijL[1] <- NA
  statistic <- sum(simijL, na.rm = TRUE) / length(alters)
   
  
   return(statistic)
 }
 ```
+
+### avAtt
+
+```{r, echo=FALS, fig.cap="avAlt (RSiena manual, p177)"}
+knitr::include_graphics("avAlt.png")
+
+```
+```{r}
+favAtt <- function(ego, alters, ...) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentring(actors)
+  
+  
+ statistic <- beh_centered[1] * sum(beh_centered[-1], na.rm = TRUE) / length(alters)
+  
+ 
+  return(statistic)
+}
+```
+
 
 
 ## make plot of statistic values 
@@ -143,12 +196,13 @@ favSimL <- function(ego, alters, min, max) {
 
 ```{r}
 finluenceplot <- function(alters, min, max, fun) {
+  name <- deparse(substitute(fun))
   s <- NA
   for (i in min:max) {
     s[i] <- fun(i, alters, min, max)
   }
     {
-      plot(y=s, x=min:max, xlab="ego behavioral score", ylab="statistic", ylim=c(-1,1))
+      plot(y=s, x=min:max, xlab="ego behavioral score", ylab=name, ylim=c(-1,1), type="b")
       mtext(paste("alters:", paste0(alters, collapse=",")))
     }
 }
@@ -157,15 +211,23 @@ finluenceplot <- function(alters, min, max, fun) {
 ## examples
 
 ```{r}
-finluenceplot(alters=c(3,3,3,3,3,3), min=1, max=6, favSim)
-finluenceplot(alters=c(3,3,3,3,3,3), min=1, max=6, favSimH)
-finluenceplot(alters=c(3,3,3,3,3,3), min=1, max=6, favSimL)
+alters1 <- c(3,3,3,3,3,3)
+finluenceplot(alters=alters1, min=1, max=6, favSim)
+finluenceplot(alters=alters1, min=1, max=6, favSim2)
+finluenceplot(alters=alters1, min=1, max=6, favAtt)
+finluenceplot(alters=alters1, min=1, max=6, favAttHigher)
+finluenceplot(alters=alters1, min=1, max=6, favAttLower)
 
 
 ```
 
 ```{r}
-finluenceplot(alters=c(1,1,1,5,5,5), min=1, max=6, favSim)
-finluenceplot(alters=c(1,1,1,5,5,5), min=1, max=6, favSimH)
-finluenceplot(alters=c(1,1,1,5,5,5), min=1, max=6, favSimL)
+alters1 <- c(1,1,1,5,5,5)
+finluenceplot(alters=alters1, min=1, max=6, favSim)
+finluenceplot(alters=alters1, min=1, max=6, favSim2)
+finluenceplot(alters=alters1, min=1, max=6, favAtt)
+finluenceplot(alters=alters1, min=1, max=6, favAttHigher)
+finluenceplot(alters=alters1, min=1, max=6, favAttLower)
+
+
 ```
