@@ -37,7 +37,44 @@ klippy::klippy(position = c('top', 'right'))
 
 ---
 
-## The average similarity effect
+We will show how the influence statistics in RSiena behave. 
+We assume that ego is connected to all alters. 
+
+
+## Functions
+
+First, we define some functions:
+
+### Centering behavior variables
+```{r}
+fcentring <- function(actors){
+centored <- actors - mean(actors)
+return(centored)
+}
+```
+
+### Calculating similarity scores
+
+```{r, echo=FALSE, fig.cap="dyadic similarity (RSiena manual, p28)"}
+knitr::include_graphics("similarity.png")
+```
+
+```{r}
+fsimij <- function(actors, min, max){
+#rv <- max(actors) - min(actors)
+rv <- max - min
+mat1 <- matrix(actors, nrow=length(actors), ncol=length(actors), byrow=TRUE)
+mat2 <- t(mat1)
+simij <- 1 - ( abs(mat1-mat2) / rv)
+return(simij)
+}
+```
+
+### The average similarity effect (avSim)
+
+```{r, echo=FALSE, fig.cap="avSim (RSiena manual, p174)"}
+knitr::include_graphics("avSim.png")
+```
 
 First, we include the *average similarity* (*avSim*) effect as an operationalization of peer influence. It is defined as: 
 $$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) $$
