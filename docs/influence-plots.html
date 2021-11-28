@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
@@ -273,6 +276,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -280,6 +346,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -329,18 +405,7 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Supplementary material
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="influence-plots.html">avSim vs. avAttHigher + avAttLower</a>
-    </li>
-  </ul>
-</li>
+<li class="dropdown-header">Supplementary material</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -381,24 +446,21 @@ $(document).ready(function () {
 <p><br></p>
 <hr />
 <p>We will show how the influence statistics in RSiena behave. We assume that ego is connected to all alters.</p>
+<p><br></p>
 <div id="functions" class="section level2">
 <h2>Functions</h2>
 <p>First, we define some functions:</p>
+<p><br></p>
 <div id="centering-behavior-variables" class="section level3">
 <h3>Centering behavior variables</h3>
-<pre class="r test"><code>fcentring &lt;- function(actors) {
-    centored &lt;- actors - mean(actors)
-    return(centored)
+<pre class="r test"><code>fcentering &lt;- function(actors) {
+    centered &lt;- actors - mean(actors)
+    return(centered)
 }</code></pre>
 </div>
 <div id="calculating-similarity-scores" class="section level3">
 <h3>Calculating similarity scores</h3>
-<div class="figure">
-<img src="similarity.png" alt="dyadic similarity (RSiena manual, p28)" width="216" />
-<p class="caption">
-dyadic similarity (RSiena manual, p28)
-</p>
-</div>
+<p><span class="math display">\[ sim^z_{ij} = 1 - \frac{|z_i - z_j|}{r_V} \]</span></p>
 <pre class="r test"><code>fsimij &lt;- function(actors, min, max) {
     # rv &lt;- max(actors) - min(actors)
     rv &lt;- max - min
@@ -410,93 +472,134 @@ dyadic similarity (RSiena manual, p28)
 </div>
 <div id="the-average-similarity-effect-avsim" class="section level3">
 <h3>The average similarity effect (avSim)</h3>
-<div class="figure">
-<img src="avsim.PNG" alt="avSim (RSiena manual, p174)" width="496" />
-<p class="caption">
-avSim (RSiena manual, p174)
-</p>
-</div>
-<p>First, we include the <em>average similarity</em> (<em>avSim</em>) effect as an operationalization of peer influence. It is defined as: <span class="math display">\[ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) \]</span> In the event of a micro-step with respect to the behavior, ego will choose the micro-step (+1/no change/-1) that results in the greatest average similarity score. Thus, this effect measures the tendency of individuals to be similar with respect to the behavior to their alters.</p>
-<p>This operationalization of peer influence assumes that ego is pulled up on the behavior scale by alters that score higher than themselves on the behavior, <span class="math inline">\(x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)&gt;z_i \}\)</span>, and pulled down by alters that score lower than himself, <span class="math inline">\(x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)&lt;z_i \}\)</span>, to a similar extent.</p>
-<p><br></p>
-</div>
-</div>
-<div id="the-average-attraction-towards-higher-alters-effect" class="section level2">
-<h2>The average attraction towards higher alters effect</h2>
-<p>We expect that peer influence is exercised in particular by alters that score higher on the behavior than ego. We developed a new version of the avSim-effect that reflects this unilateral drive upward (i.e. upward assimilation). It is labeled the <em>average attraction towards higher</em> (<em>avAttHigher</em>) effect, and is defined as: <span class="math display">\[ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&gt;z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,\]</span> If we assume a positive parameter estimate for this effect, than ego will - in the event of a micro-step with respect to the behavior - choose the micro-step that results in the greatest average similarity score, with similarity scores replaced by 1 for alters who do not score higher on the behavior than ego. Thus, this effect will draw actors whose alters score higher than themselves upward on the behavior scale, while diminishing their tendency to go downward to the same degree.</p>
-<p><br></p>
-</div>
-<div id="the-average-attraction-towards-higher-alters-effect-1" class="section level2">
-<h2>The average attraction towards higher alters effect</h2>
-<p>Analogous to the avAttHigh-effect, is the <em>average attraction towards lower</em> (<em>avAttLower</em>) effect, where in the calculation of the average similarity score, similarity is replaced by 1 for alters who score higher on the behavior than ego: <span class="math display">\[ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&lt;z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,\]</span> In the case of a positive parameter estimate, ego will assimilate downward to the behavior of his lower-behavior alters. His tendency to go upward is diminished by the same extent.</p>
-<p>In the case of similar parameter estimates for avAttHigher and avAttLower, actors are influenced to the same degree by other actors with higher and lower values than themselves respectively. The combination of avAttHigher and avAttLower would in that case be identical to the avSim effect.</p>
-<hr />
-<p><br></p>
-</div>
-<div id="plots" class="section level1 tabset tabset-fade">
-<h1>Plots</h1>
-<p>We illustrate this below.</p>
-<p>First, we define some functions:</p>
-<pre class="r fold-hide"><code>fcentering &lt;- function(actors) {
-    centered &lt;- actors - mean(actors)
-    return(centered)
-}
-
-fsimij &lt;- function(actors) {
-    # rv &lt;- max(actors) - min(actors)
-    rv &lt;- 6
-    mat1 &lt;- matrix(actors, nrow = length(actors), ncol = length(actors), byrow = TRUE)
-    mat2 &lt;- t(mat1)
-    simij &lt;- 1 - (abs(mat1 - mat2)/rv)
-    return(simij)
-}
-
-favSim &lt;- function(ego, alters) {
-    actors &lt;- c(ego, alters)
-    beh_centered &lt;- fcentering(actors)
-    simij &lt;- fsimij(beh_centered)
+<p><span class="math display">\[ s^{beh}_{i5}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) \]</span></p>
+<pre class="r test"><code>favSim &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+    simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
     diag(simij) &lt;- NA
-    msimij &lt;- mean(simij, na.rm = TRUE)  #only calculate mean on non-diagonal cells??!!
-    simij_c &lt;- simij - msimij
+    msimij &lt;- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+    simij_c &lt;- simij - msimij  #center the similarity scores
     
-    statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)
-    
+    statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
     
     return(statistic)
-}
-
-
-favSimH &lt;- function(ego, alters) {
+}</code></pre>
+<pre class="r test"><code>favSim2 &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+    simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+    diag(simij) &lt;- NA
+    # msimij &lt;- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on
+    # non-diagonal cells??!!
+    simij_c &lt;- simij  # here we do not center the similarity
+    
+    statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+    
+    return(statistic)
+}</code></pre>
+</div>
+<div id="the-average-attraction-towards-higher-effect-avatthigher" class="section level3">
+<h3>The average attraction towards higher effect (avAttHigher)</h3>
+<p><span class="math display">\[ s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&gt;z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,\]</span></p>
+<pre class="r test"><code>favAttHigher &lt;- function(ego, alters, min, max) {
     actors &lt;- c(ego, alters)
     beh_centered &lt;- fcentering(actors)
-    simij &lt;- fsimij(beh_centered)
+    simij &lt;- fsimij(beh_centered, min, max)
     diag(simij) &lt;- NA
-    # msimij &lt;- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!! simij_c &lt;- simij -
-    # msimij diag(simij_c) &lt;- NA
+    
     simijH &lt;- simij[1, ]
-    simijH[simijH &lt;= beh_centered[1]] &lt;- 1
+    simijH[beh_centered &lt;= beh_centered[1]] &lt;- 1
+    simijH[1] &lt;- NA
     statistic &lt;- sum(simijH, na.rm = TRUE)/length(alters)
     
     
     return(statistic)
-}
-
-favSimL &lt;- function(ego, alters) {
+}</code></pre>
+</div>
+<div id="the-average-attraction-towards-higher-alters-effect-avattlower" class="section level3">
+<h3>The average attraction towards higher alters effect (avAttLower)</h3>
+<p><span class="math display">\[ s^{beh}_{i24}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&lt;z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,\]</span></p>
+<pre class="r test"><code>favAttLower &lt;- function(ego, alters, min, max) {
     actors &lt;- c(ego, alters)
     beh_centered &lt;- fcentering(actors)
-    simij &lt;- fsimij(beh_centered)
+    simij &lt;- fsimij(beh_centered, min, max)
     diag(simij) &lt;- NA
-    # msimij &lt;- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!! simij_c &lt;- simij -
-    # msimij diag(simij_c) &lt;- NA
+    
     simijL &lt;- simij[1, ]
-    simijL[simijL &gt;= beh_centered[1]] &lt;- 1
+    simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
+    simijL[1] &lt;- NA
     statistic &lt;- sum(simijL, na.rm = TRUE)/length(alters)
     
     
     return(statistic)
 }</code></pre>
+</div>
+<div id="average-alter-effect-avalt" class="section level3">
+<h3>Average alter effect (avAlt)</h3>
+<p><span class="math display">\[ s^{beh}_{i27}(x,z) = z_i(\textstyle \sum_jx_{ij}z_j)/(\textstyle \sum_jx_{ij}) \]</span></p>
+<pre class="r test"><code>favAlt &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    
+    statistic &lt;- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+    
+    
+    return(statistic)
+}</code></pre>
+</div>
+<div id="average-attraction-mean-alters-avatt" class="section level3">
+<h3>Average attraction mean alters (avAtt)</h3>
+<pre class="r test"><code>fAttMean &lt;- function(ego, alters, min, max, ...) {
+    rv &lt;- max - min
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    
+    statistic &lt;- 1 - abs(beh_centered[1] - (sum(beh_centered[-1], na.rm = TRUE)/length(alters)))/rv  #thus we strive for a highest local similarity score!
+    
+    
+    return(statistic)
+}</code></pre>
+<hr />
 <p><br></p>
-<p>We calculate the statistics of the influence effects (avSim, avAttHigher, avAttLower, avAttHigher+Lower), considering both ego’s behavior <span class="math inline">\(z_i\)</span> and alters’ behavior <span class="math inline">\(z_j\)</span>. We assume that ego’s alters all have the same behavior.</p>
+</div>
+</div>
+<div id="make-plot-of-statistic-values" class="section level2 tabset tabset-fade">
+<h2>Make plot of statistic values</h2>
+<p>Jochem’s functions</p>
+<pre class="r test"><code>finfluenceplot &lt;- function(alters, min, max, fun) {
+    name &lt;- deparse(substitute(fun))
+    s &lt;- NA
+    for (i in min:max) {
+        s[i] &lt;- fun(i, alters, min, max)
+    }
+    {
+        plot(y = s, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(-1, 1), type = &quot;b&quot;)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+    }
+}
+
+finfluenceplot2 &lt;- function(alters, min, max, fun) {
+    s &lt;- NA
+    for (i in min:max) {
+        s[i] &lt;- 0
+        for (j in 1:length(fun)) {
+            s[i] &lt;- s[i] + fun[[j]](i, alters, min, max)
+        }
+    }
+    {
+        name &lt;- deparse(substitute(fun))
+        # name &lt;- stringr::str_remove(as.character(name), &#39;list&#39;)
+        name &lt;- stringr::str_sub(as.character(name), 6, -2)
+        plot(y = s, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+    }
+}</code></pre>
+<div id="example" class="section level3">
+<h3>example</h3>
+<pre class="r test"><code>alters1 &lt;- rep(c(3, 3, 3, 3, 3, 3), 1)
+finluenceplot(alters = alters1, min = 1, max = 6, favSim)</code></pre>
+<p><img src="influence-plots_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r fold-hide"><code>rv &lt;- 6
 size &lt;- 6
 
@@ -517,6 +620,9 @@ for (zj in 1:rv) {
 # turn it into a dataframe
 df &lt;- data.frame(zi = rep(1:rv, rv), s = c(s_avSim[, 1], s_avSim[, 2], s_avSim[, 3], s_avSim[, 4], s_avSim[, 
     5], s_avSim[, 6]), zj = as.character(rep(1:rv, each = rv)))
+
+s_avSim
+
 
 # we do the same for the avAttHigh statistic
 (s_avSimH &lt;- array(dim = c(rv, rv)))
@@ -563,6 +669,8 @@ ggsave(&quot;avSimL.png&quot;, path = &quot;images/influence plots&quot;, width 
 ggplot(data = df4, aes(x = zi, y = s)) + geom_line(aes(colour = zj)) + ylab(&quot;avAttHigher+Lower statistic&quot;) + 
     xlab(&quot;ego score z_i&quot;) + scale_colour_hue(name = &quot;alter score z_j&quot;)
 ggsave(&quot;avSimHL.png&quot;, path = &quot;images/influence plots&quot;, width = 6, height = 3)</code></pre>
+</div>
+</div>
 <div id="avsim" class="section level2">
 <h2>avSim</h2>
 <p><img src="images/influence%20plots/avSim.png" /></p>
@@ -583,12 +691,11 @@ ggsave(&quot;avSimHL.png&quot;, path = &quot;images/influence plots&quot;, width
 <p><img src="images/influence%20plots/avSimHL.png" /></p>
 <p>avAttHigher and avAttLower even each other out; and equal avSim (assuming identical parameter values).</p>
 </div>
-</div>
 <div id="section" class="section level1 unnumbered">
 <h1></h1>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkluZmx1ZW5jZSBlZmZlY3RzIg0KZGF0ZTogIkxhc3QgY29tcGlsZWQgb24gYHIgZm9ybWF0KFN5cy50aW1lKCksICclQiwgJVknKWAiDQpiaWJsaW9ncmFwaHk6IHJlZmVyZW5jZXMuYmliDQpvdXRwdXQ6DQogIGh0bWxfZG9jdW1lbnQ6DQogICAgY3NzOiB0d2Vha3MuY3NzDQogICAgdG9jOiBmYWxzZQ0KICAgIHRvY19mbG9hdDogZmFsc2UNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRX0NCmxpYnJhcnkoa25pdHIpDQpsaWJyYXJ5KFJTaWVuYSkNCmxpYnJhcnkoZ2dwbG90MikNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KPGJyPg0KDQotLS0NCg0KV2Ugd2lsbCBzaG93IGhvdyB0aGUgaW5mbHVlbmNlIHN0YXRpc3RpY3MgaW4gUlNpZW5hIGJlaGF2ZS4gDQpXZSBhc3N1bWUgdGhhdCBlZ28gaXMgY29ubmVjdGVkIHRvIGFsbCBhbHRlcnMuIA0KDQoNCiMjIEZ1bmN0aW9ucw0KDQpGaXJzdCwgd2UgZGVmaW5lIHNvbWUgZnVuY3Rpb25zOg0KDQojIyMgQ2VudGVyaW5nIGJlaGF2aW9yIHZhcmlhYmxlcw0KYGBge3J9DQpmY2VudHJpbmcgPC0gZnVuY3Rpb24oYWN0b3JzKXsNCmNlbnRvcmVkIDwtIGFjdG9ycyAtIG1lYW4oYWN0b3JzKQ0KcmV0dXJuKGNlbnRvcmVkKQ0KfQ0KYGBgDQoNCiMjIyBDYWxjdWxhdGluZyBzaW1pbGFyaXR5IHNjb3Jlcw0KDQpgYGB7ciwgZWNobz1GQUxTRSwgZmlnLmNhcD0iZHlhZGljIHNpbWlsYXJpdHkgKFJTaWVuYSBtYW51YWwsIHAyOCkifQ0Ka25pdHI6OmluY2x1ZGVfZ3JhcGhpY3MoInNpbWlsYXJpdHkucG5nIikNCmBgYA0KDQpgYGB7cn0NCmZzaW1paiA8LSBmdW5jdGlvbihhY3RvcnMsIG1pbiwgbWF4KXsNCiNydiA8LSBtYXgoYWN0b3JzKSAtIG1pbihhY3RvcnMpDQpydiA8LSBtYXggLSBtaW4NCm1hdDEgPC0gbWF0cml4KGFjdG9ycywgbnJvdz1sZW5ndGgoYWN0b3JzKSwgbmNvbD1sZW5ndGgoYWN0b3JzKSwgYnlyb3c9VFJVRSkNCm1hdDIgPC0gdChtYXQxKQ0Kc2ltaWogPC0gMSAtICggYWJzKG1hdDEtbWF0MikgLyBydikNCnJldHVybihzaW1paikNCn0NCmBgYA0KDQojIyMgVGhlIGF2ZXJhZ2Ugc2ltaWxhcml0eSBlZmZlY3QgKGF2U2ltKQ0KDQpgYGB7ciwgZWNobz1GQUxTRSwgZmlnLmNhcD0iYXZTaW0gKFJTaWVuYSBtYW51YWwsIHAxNzQpIn0NCmtuaXRyOjppbmNsdWRlX2dyYXBoaWNzKCJhdlNpbS5wbmciKQ0KYGBgDQoNCkZpcnN0LCB3ZSBpbmNsdWRlIHRoZSAqYXZlcmFnZSBzaW1pbGFyaXR5KiAoKmF2U2ltKikgZWZmZWN0IGFzIGFuIG9wZXJhdGlvbmFsaXphdGlvbiBvZiBwZWVyIGluZmx1ZW5jZS4gSXQgaXMgZGVmaW5lZCBhczogDQokJCBzXntiZWh9X3tpfSh4LHopID0geF57LTF9X3tpK31cc3VtX2ogeF97aWp9KHNpbV56X3tpan0gLSBcd2lkZWhhdHtzaW1een0pICQkDQpJbiB0aGUgZXZlbnQgb2YgYSBtaWNyby1zdGVwIHdpdGggcmVzcGVjdCB0byB0aGUgYmVoYXZpb3IsIGVnbyB3aWxsIGNob29zZSB0aGUgbWljcm8tc3RlcCAoKzEvbm8gY2hhbmdlLy0xKSB0aGF0IHJlc3VsdHMgaW4gdGhlIGdyZWF0ZXN0IGF2ZXJhZ2Ugc2ltaWxhcml0eSBzY29yZS4NClRodXMsIHRoaXMgZWZmZWN0IG1lYXN1cmVzIHRoZSB0ZW5kZW5jeSBvZiBpbmRpdmlkdWFscyB0byBiZSBzaW1pbGFyIHdpdGggcmVzcGVjdCB0byB0aGUgYmVoYXZpb3IgdG8gdGhlaXIgYWx0ZXJzLg0KDQpUaGlzIG9wZXJhdGlvbmFsaXphdGlvbiBvZiBwZWVyIGluZmx1ZW5jZSBhc3N1bWVzIHRoYXQgZWdvIGlzIHB1bGxlZCB1cCBvbiB0aGUgYmVoYXZpb3Igc2NhbGUgYnkgYWx0ZXJzIHRoYXQgc2NvcmUgaGlnaGVyIHRoYW4gdGhlbXNlbHZlcyBvbiB0aGUgYmVoYXZpb3IsICAkeF57LTF9X3tpK31cc3VtX2ogeF97aWp9IFwsIEkgXHsgKHpfaik+el9pIFx9JCwgYW5kIHB1bGxlZCBkb3duIGJ5IGFsdGVycyB0aGF0IHNjb3JlIGxvd2VyIHRoYW4gaGltc2VsZiwgJHheey0xfV97aSt9XHN1bV9qIHhfe2lqfSBcLCBJIFx7ICh6X2opPHpfaSBcfSQsIHRvIGEgc2ltaWxhciBleHRlbnQuDQoNCjxicj4NCg0KIyMgVGhlIGF2ZXJhZ2UgYXR0cmFjdGlvbiB0b3dhcmRzIGhpZ2hlciBhbHRlcnMgZWZmZWN0DQoNCldlIGV4cGVjdCB0aGF0IHBlZXIgaW5mbHVlbmNlIGlzIGV4ZXJjaXNlZCBpbiBwYXJ0aWN1bGFyIGJ5IGFsdGVycyB0aGF0IHNjb3JlIGhpZ2hlciBvbiB0aGUgYmVoYXZpb3IgdGhhbiBlZ28uIFdlIGRldmVsb3BlZCBhIG5ldyB2ZXJzaW9uIG9mIHRoZSBhdlNpbS1lZmZlY3QgdGhhdCByZWZsZWN0cyB0aGlzIHVuaWxhdGVyYWwgZHJpdmUgdXB3YXJkIChpLmUuIHVwd2FyZCBhc3NpbWlsYXRpb24pLiBJdCBpcyBsYWJlbGVkIHRoZSAqYXZlcmFnZSBhdHRyYWN0aW9uIHRvd2FyZHMgaGlnaGVyKiAoKmF2QXR0SGlnaGVyKikgZWZmZWN0LCBhbmQgaXMgZGVmaW5lZCBhczogDQokJCBzXntiZWh9X3tpfSh4LHopID0geF57LTF9X3tpK31cc3VtX2ogeF97aWp9IChcLCBJIFx7ICh6X2opPnpfaSBcfSBzaW1eel97aWp9ICsgSSBceyAoel9qICkgXGxlIHpfaSBcfSApXCwkJA0KSWYgd2UgYXNzdW1lIGEgcG9zaXRpdmUgcGFyYW1ldGVyIGVzdGltYXRlIGZvciB0aGlzIGVmZmVjdCwgdGhhbiBlZ28gd2lsbCAtIGluIHRoZSBldmVudCBvZiBhIG1pY3JvLXN0ZXAgd2l0aCByZXNwZWN0IHRvIHRoZSBiZWhhdmlvciAtIGNob29zZSB0aGUgbWljcm8tc3RlcCB0aGF0IHJlc3VsdHMgaW4gdGhlIGdyZWF0ZXN0IGF2ZXJhZ2Ugc2ltaWxhcml0eSBzY29yZSwgd2l0aCBzaW1pbGFyaXR5IHNjb3JlcyByZXBsYWNlZCBieSAxIGZvciBhbHRlcnMgd2hvIGRvIG5vdCBzY29yZSBoaWdoZXIgb24gdGhlIGJlaGF2aW9yIHRoYW4gZWdvLiANClRodXMsIHRoaXMgZWZmZWN0IHdpbGwgZHJhdyBhY3RvcnMgd2hvc2UgYWx0ZXJzIHNjb3JlIGhpZ2hlciB0aGFuIHRoZW1zZWx2ZXMgdXB3YXJkIG9uIHRoZSBiZWhhdmlvciBzY2FsZSwgd2hpbGUgZGltaW5pc2hpbmcgdGhlaXIgdGVuZGVuY3kgdG8gZ28gZG93bndhcmQgdG8gdGhlIHNhbWUgZGVncmVlLg0KDQo8YnI+DQoNCiMjIFRoZSBhdmVyYWdlIGF0dHJhY3Rpb24gdG93YXJkcyBoaWdoZXIgYWx0ZXJzIGVmZmVjdA0KQW5hbG9nb3VzIHRvIHRoZSBhdkF0dEhpZ2gtZWZmZWN0LCBpcyB0aGUgKmF2ZXJhZ2UgYXR0cmFjdGlvbiB0b3dhcmRzIGxvd2VyKiAoKmF2QXR0TG93ZXIqKSBlZmZlY3QsIHdoZXJlIGluIHRoZSBjYWxjdWxhdGlvbiBvZiB0aGUgYXZlcmFnZSBzaW1pbGFyaXR5IHNjb3JlLCBzaW1pbGFyaXR5IGlzIHJlcGxhY2VkIGJ5IDEgZm9yIGFsdGVycyB3aG8gc2NvcmUgaGlnaGVyIG9uIHRoZSBiZWhhdmlvciB0aGFuIGVnbzoNCiQkIHNee2JlaH1fe2l9KHgseikgPSB4XnstMX1fe2krfVxzdW1faiB4X3tpan0gKFwsIEkgXHsgKHpfaik8el9pIFx9IHNpbV56X3tpan0gKyBJIFx7ICh6X2ogKSBcZ2Ugel9pIFx9IClcLCQkDQpJbiB0aGUgY2FzZSBvZiBhIHBvc2l0aXZlIHBhcmFtZXRlciBlc3RpbWF0ZSwgZWdvIHdpbGwgYXNzaW1pbGF0ZSBkb3dud2FyZCB0byB0aGUgYmVoYXZpb3Igb2YgaGlzIGxvd2VyLWJlaGF2aW9yIGFsdGVycy4gSGlzIHRlbmRlbmN5IHRvIGdvIHVwd2FyZCBpcyBkaW1pbmlzaGVkIGJ5IHRoZSBzYW1lIGV4dGVudC4NCg0KSW4gdGhlIGNhc2Ugb2Ygc2ltaWxhciBwYXJhbWV0ZXIgZXN0aW1hdGVzIGZvciBhdkF0dEhpZ2hlciBhbmQgYXZBdHRMb3dlciwgYWN0b3JzIGFyZSBpbmZsdWVuY2VkIHRvIHRoZSBzYW1lIGRlZ3JlZSBieSBvdGhlciBhY3RvcnMgd2l0aCBoaWdoZXIgYW5kIGxvd2VyIHZhbHVlcyB0aGFuIHRoZW1zZWx2ZXMgcmVzcGVjdGl2ZWx5LiBUaGUgY29tYmluYXRpb24gb2YgYXZBdHRIaWdoZXIgYW5kIGF2QXR0TG93ZXIgd291bGQgaW4gdGhhdCBjYXNlIGJlIGlkZW50aWNhbCB0byB0aGUgYXZTaW0gZWZmZWN0LiANCg0KLS0tLQ0KDQo8YnI+IA0KDQojIFBsb3RzIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KV2UgaWxsdXN0cmF0ZSB0aGlzIGJlbG93Lg0KDQpGaXJzdCwgd2UgZGVmaW5lIHNvbWUgZnVuY3Rpb25zOg0KDQpgYGB7ciBjbGFzcy5zb3VyY2UgPSAnZm9sZC1oaWRlJ30NCmZjZW50ZXJpbmcgPC0gZnVuY3Rpb24oYWN0b3JzKXsNCmNlbnRlcmVkIDwtIGFjdG9ycyAtIG1lYW4oYWN0b3JzKQ0KcmV0dXJuKGNlbnRlcmVkKQ0KfQ0KDQpmc2ltaWogPC0gZnVuY3Rpb24oYWN0b3JzKXsNCiNydiA8LSBtYXgoYWN0b3JzKSAtIG1pbihhY3RvcnMpDQpydiA8LSA2DQptYXQxIDwtIG1hdHJpeChhY3RvcnMsIG5yb3c9bGVuZ3RoKGFjdG9ycyksIG5jb2w9bGVuZ3RoKGFjdG9ycyksIGJ5cm93PVRSVUUpDQptYXQyIDwtIHQobWF0MSkNCnNpbWlqIDwtIDEgLSAoIGFicyhtYXQxLW1hdDIpIC8gcnYpDQpyZXR1cm4oc2ltaWopDQp9DQoNCmZhdlNpbSA8LSBmdW5jdGlvbihlZ28sIGFsdGVycykgew0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKQ0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpDQogIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQpDQogIGRpYWcoc2ltaWopIDwtIE5BDQogIG1zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybT1UUlVFKSAjb25seSBjYWxjdWxhdGUgbWVhbiBvbiBub24tZGlhZ29uYWwgY2VsbHM/PyEhDQogIHNpbWlqX2MgPC0gc2ltaWogLSBtc2ltaWoNCiAgDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpfY1sxLF0sIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKQ0KICANCiANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCg0KDQpmYXZTaW1IIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzKSB7DQogIGFjdG9ycyA8LSBjKGVnbyxhbHRlcnMpDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudGVyaW5nKGFjdG9ycykNCiAgc2ltaWogPC0gZnNpbWlqKGJlaF9jZW50ZXJlZCkNCiAgZGlhZyhzaW1paikgPC0gTkENCiAgI21zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybT1UUlVFKSAjb25seSBjYWxjdWxhdGUgbWVhbiBvbiBub24tZGlhZ29uYWwgY2VsbHM/PyEhDQogICNzaW1pal9jIDwtIHNpbWlqIC0gbXNpbWlqDQogICNkaWFnKHNpbWlqX2MpIDwtIE5BIA0KIHNpbWlqSCA8LSBzaW1palsxLF0NCiBzaW1pakhbc2ltaWpIIDw9IGJlaF9jZW50ZXJlZFsxXV0gPC0gMQ0KIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpILCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykNCiAgDQogDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZhdlNpbUwgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkKQ0KICBkaWFnKHNpbWlqKSA8LSBOQQ0KICAjbXNpbWlqIDwtIG1lYW4oc2ltaWosIG5hLnJtPVRSVUUpICNvbmx5IGNhbGN1bGF0ZSBtZWFuIG9uIG5vbi1kaWFnb25hbCBjZWxscz8/ISENCiAgI3NpbWlqX2MgPC0gc2ltaWogLSBtc2ltaWoNCiAgI2RpYWcoc2ltaWpfYykgPC0gTkEgDQogc2ltaWpMIDwtIHNpbWlqWzEsXQ0KIHNpbWlqTFtzaW1pakwgPj0gYmVoX2NlbnRlcmVkWzFdXSA8LSAxDQogc3RhdGlzdGljIDwtIHN1bShzaW1pakwsIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKQ0KICANCiANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCmBgYA0KDQo8YnI+DQoNCldlIGNhbGN1bGF0ZSB0aGUgc3RhdGlzdGljcyBvZiB0aGUgaW5mbHVlbmNlIGVmZmVjdHMgKGF2U2ltLCBhdkF0dEhpZ2hlciwgYXZBdHRMb3dlciwgYXZBdHRIaWdoZXIrTG93ZXIpLCBjb25zaWRlcmluZyBib3RoIGVnbydzIGJlaGF2aW9yICR6X2kkIGFuZCBhbHRlcnMnIGJlaGF2aW9yICR6X2okLiBXZSBhc3N1bWUgdGhhdCBlZ28ncyBhbHRlcnMgYWxsIGhhdmUgdGhlIHNhbWUgYmVoYXZpb3IuIA0KDQpgYGB7ciBjbGFzcy5zb3VyY2UgPSAnZm9sZC1oaWRlJywgZXZhbD1GfQ0KcnYgPC0gNg0Kc2l6ZSA8LSA2DQoNCiMgYWx0ZXIgYmVoYXZpb3IgMTo2DQphbHRlcnMgPC0gbGlzdCgpDQpmb3IgKHpqIGluIDE6cnYpIHsNCiAgYWx0ZXJzW1t6al1dIDwtIHJlcCh6aiwgc2l6ZSkNCn0NCg0KIyB3ZSBjYWNsdWxhdGUgYXZTaW0gc3RhdGlzdGljLCBjb25zaWRlcmluZyB6X2kgYW5kIHpfajoNCihzX2F2U2ltIDwtIGFycmF5KGRpbSA9IGMocnYscnYpKSkNCmZvciAoemogaW4gMTpydikgew0KICBmb3IgKHppIGluIDE6cnYpIHsNCiAgICBzX2F2U2ltW3ppLHpqXSA8LSBmYXZTaW0oemksIGFsdGVyc1tbempdXSkNCiAgfQ0KfSAjIHJvd3MgcmVmZXIgdG8gZWdvJ3MgcHJvc3BlY3RpdmUgYmVoYXZpb3IgKHppKTsgY29sdW1ucyByZWZlciB0byBhbHRlciBhdmVyYWdlICh6aikNCg0KIyB0dXJuIGl0IGludG8gYSBkYXRhZnJhbWUNCmRmIDwtIGRhdGEuZnJhbWUoemkgPSByZXAoMTpydiwgcnYpLA0KICAgICAgICAgICAgICAgICAgIHMgPSBjKHNfYXZTaW1bLDFdLCBzX2F2U2ltWywyXSwgc19hdlNpbVssM10sIHNfYXZTaW1bLDRdLCBzX2F2U2ltWyw1XSwgc19hdlNpbVssNl0gKSwNCiAgICAgICAgICAgICAgICAgICB6aiA9IGFzLmNoYXJhY3RlcihyZXAoMTpydiwgZWFjaD1ydikpKQ0KDQojIHdlIGRvIHRoZSBzYW1lIGZvciB0aGUgYXZBdHRIaWdoIHN0YXRpc3RpYw0KKHNfYXZTaW1IIDwtIGFycmF5KGRpbSA9IGMocnYscnYpKSkNCmZvciAoemogaW4gMTpydikgew0KICBmb3IgKHppIGluIDE6cnYpIHsNCiAgICBzX2F2U2ltSFt6aSx6al0gPC0gZmF2U2ltSCh6aSwgYWx0ZXJzW1t6al1dKQ0KICB9DQp9IA0KZGYyIDwtIGRhdGEuZnJhbWUoemkgPSByZXAoMTpydiwgcnYpLA0KICAgICAgICAgICAgICAgICAgIHMgPSBjKHNfYXZTaW1IWywxXSwgc19hdlNpbUhbLDJdLCBzX2F2U2ltSFssM10sIHNfYXZTaW1IWyw0XSwgc19hdlNpbUhbLDVdLCBzX2F2U2ltSFssNl0gKSwNCiAgICAgICAgICAgICAgICAgICB6aiA9IGFzLmNoYXJhY3RlcihyZXAoMTpydiwgZWFjaD1ydikpKQ0KDQojIGZvciBhdkF0dExvdw0KKHNfYXZTaW1MIDwtIGFycmF5KGRpbSA9IGMocnYscnYpKSkNCmZvciAoemogaW4gMTpydikgew0KICBmb3IgKHppIGluIDE6cnYpIHsNCiAgICBzX2F2U2ltTFt6aSx6al0gPC0gZmF2U2ltTCh6aSwgYWx0ZXJzW1t6al1dKQ0KICB9DQp9IA0KZGYzIDwtIGRhdGEuZnJhbWUoemkgPSByZXAoMTpydiwgcnYpLA0KICAgICAgICAgICAgICAgICAgIHMgPSBjKHNfYXZTaW1MWywxXSwgc19hdlNpbUxbLDJdLCBzX2F2U2ltTFssM10sIHNfYXZTaW1MWyw0XSwgc19hdlNpbUxbLDVdLCBzX2F2U2ltTFssNl0gKSwNCiAgICAgICAgICAgICAgICAgICB6aiA9IGFzLmNoYXJhY3RlcihyZXAoMTpydiwgZWFjaD1ydikpKQ0KDQojIGFuZCBmb3IgYXZBdHRIaWdoK0xvdw0KKHNfYXZTaW1ITCA8LSBhcnJheShkaW0gPSBjKHJ2LHJ2KSkpDQpmb3IgKHpqIGluIDE6cnYpIHsNCiAgZm9yICh6aSBpbiAxOnJ2KSB7DQogICAgc19hdlNpbUhMW3ppLHpqXSA8LSBmYXZTaW1IKHppLCBhbHRlcnNbW3pqXV0pICsgZmF2U2ltTCh6aSwgYWx0ZXJzW1t6al1dKQ0KICB9DQp9IA0KZGY0IDwtIGRhdGEuZnJhbWUoemkgPSByZXAoMTpydiwgcnYpLA0KICAgICAgICAgICAgICAgICAgIHMgPSBjKHNfYXZTaW1ITFssMV0sIHNfYXZTaW1ITFssMl0sIHNfYXZTaW1ITFssM10sIHNfYXZTaW1ITFssNF0sIHNfYXZTaW1ITFssNV0sIHNfYXZTaW1ITFssNl0gKSwNCiAgICAgICAgICAgICAgICAgIHpqID0gYXMuY2hhcmFjdGVyKHJlcCgxOnJ2LCBlYWNoPXJ2KSkpDQogDQpnZ3Bsb3QoZGF0YT1kZiwgYWVzKHg9emksIHk9cykpICsgDQogIGdlb21fbGluZShhZXMoY29sb3VyPXpqKSkgKw0KICB5bGFiKCJhdlNpbSBzdGF0aXN0aWMiKSArDQogIHhsYWIoImVnbyBzY29yZSB6X2kiKSArIA0KICBzY2FsZV9jb2xvdXJfaHVlKG5hbWU9ImFsdGVyIHNjb3JlIHpfaiIpDQpnZ3NhdmUoImF2U2ltLnBuZyIsIHBhdGggPSAiaW1hZ2VzL2luZmx1ZW5jZSBwbG90cyIsIHdpZHRoID0gNiwgaGVpZ2h0ID0gMykNCg0KZ2dwbG90KGRhdGE9ZGYyLCBhZXMoeD16aSwgeT1zKSkgKyANCiAgZ2VvbV9saW5lKGFlcyhjb2xvdXI9emopKSArDQogIHlsYWIoImF2QXR0SGlnaGVyIHN0YXRpc3RpYyIpICsNCiAgeGxhYigiZWdvIHNjb3JlIHpfaSIpICsgDQogIHNjYWxlX2NvbG91cl9odWUobmFtZT0iYWx0ZXIgc2NvcmUgel9qIikNCmdnc2F2ZSgiYXZTaW1ILnBuZyIsIHBhdGggPSAiaW1hZ2VzL2luZmx1ZW5jZSBwbG90cyIsIHdpZHRoID0gNiwgaGVpZ2h0ID0gMykNCg0KZ2dwbG90KGRhdGE9ZGYzLCBhZXMoeD16aSwgeT1zKSkgKyANCiAgZ2VvbV9saW5lKGFlcyhjb2xvdXI9emopKSArDQogIHlsYWIoImF2QXR0TG93ZXIgc3RhdGlzdGljIikgKw0KICB4bGFiKCJlZ28gc2NvcmUgel9pIikgKyANCiAgc2NhbGVfY29sb3VyX2h1ZShuYW1lPSJhbHRlciBzY29yZSB6X2oiKQ0KZ2dzYXZlKCJhdlNpbUwucG5nIiwgcGF0aCA9ICJpbWFnZXMvaW5mbHVlbmNlIHBsb3RzIiwgd2lkdGggPSA2LCBoZWlnaHQgPSAzKQ0KDQpnZ3Bsb3QoZGF0YT1kZjQsIGFlcyh4PXppLCB5PXMpKSArIA0KICBnZW9tX2xpbmUoYWVzKGNvbG91cj16aikpICsNCiAgeWxhYigiYXZBdHRIaWdoZXIrTG93ZXIgc3RhdGlzdGljIikgKw0KICB4bGFiKCJlZ28gc2NvcmUgel9pIikgKyANCiAgc2NhbGVfY29sb3VyX2h1ZShuYW1lPSJhbHRlciBzY29yZSB6X2oiKQ0KZ2dzYXZlKCJhdlNpbUhMLnBuZyIsIHBhdGggPSAiaW1hZ2VzL2luZmx1ZW5jZSBwbG90cyIsIHdpZHRoID0gNiwgaGVpZ2h0ID0gMykNCg0KYGBgDQoNCiMjIGF2U2ltDQohW10oaW1hZ2VzL2luZmx1ZW5jZSBwbG90cy9hdlNpbS5wbmcpDQoNCmF2U2ltIGRyYXdzIGVnbyB0byB0aGUgYmVoYXZpb3Igb2YgYWx0ZXJzLg0KDQojIyBhdkF0dEhpZ2hlcg0KIVtdKGltYWdlcy9pbmZsdWVuY2UgcGxvdHMvYXZTaW1ILnBuZykNCg0KYXZBdHRIaWdoZXIgaXMgYSBvbmUtc2lkZWQgdmVyc2lvbiBvZiBhdlNpbS4gSXQgcmVmZXJzIHRvIHRoZSBpbmZsdWVuY2UgZnJvbSBhbHRlcnMgdGhhdCBzY29yZSBoaWdoZXIgdGhhbiBlZ28uIEVnbyBpcyBwdWxsZWQgdXAgYnkgYWx0ZXJzIHRoYXQgc2NvcmUgaGlnaGVyIHRoYW4gaGltc2VsZi4gDQoNCiMjIGF2QXR0TG93ZXINCiFbXShpbWFnZXMvaW5mbHVlbmNlIHBsb3RzL2F2U2ltTC5wbmcpDQoNCmF2QXR0SGlnaGVyIGlzIGEgb25lLXNpZGVkIHZlcnNpb24gb2YgYXZTaW0uIEl0IHJlZmVycyB0byB0aGUgaW5mbHVlbmNlIGZyb20gYWx0ZXJzIHRoYXQgc2NvcmUgbG93ZXIgdGhhbiBlZ28uIEVnbyBpcyBwdWxsZWQgZG93biBieSBhbHRlcnMgdGhhdCBzY29yZSBsb3dlciB0aGFuIGhpbXNlbGYuIA0KDQoNCiMjIGF2QXR0SGlnaGVyK0xvd2VyDQohW10oaW1hZ2VzL2luZmx1ZW5jZSBwbG90cy9hdlNpbUhMLnBuZykNCg0KYXZBdHRIaWdoZXIgYW5kIGF2QXR0TG93ZXIgZXZlbiBlYWNoIG90aGVyIG91dDsgYW5kIGVxdWFsIGF2U2ltIChhc3N1bWluZyBpZGVudGljYWwgcGFyYW1ldGVyIHZhbHVlcykuDQoNCiMgey19DQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkluZmx1ZW5jZSBlZmZlY3RzIg0KZGF0ZTogIkxhc3QgY29tcGlsZWQgb24gYHIgZm9ybWF0KFN5cy50aW1lKCksICclQiwgJVknKWAiDQpiaWJsaW9ncmFwaHk6IHJlZmVyZW5jZXMuYmliDQpvdXRwdXQ6DQogIGh0bWxfZG9jdW1lbnQ6DQogICAgY3NzOiB0d2Vha3MuY3NzDQogICAgdG9jOiB0cnVlDQogICAgdG9jX2Zsb2F0OiB0cnVlDQogICAgY29sbGFwc2VkOiBmYWxzZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICB0b2NfZGVwdGg6IDENCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KGtuaXRyKQ0KbGlicmFyeShSU2llbmEpDQpsaWJyYXJ5KGdncGxvdDIpDQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQpvcHRzX2NodW5rJHNldCh0aWR5Lm9wdHM9bGlzdCh3aWR0aC5jdXRvZmY9MTAwKSx0aWR5PVRSVUUsIHdhcm5pbmcgPSBGQUxTRSwgbWVzc2FnZSA9IEZBTFNFLGNvbW1lbnQgPSAiIz4iLCBjYWNoZT1UUlVFLCBjbGFzcy5zb3VyY2U9YygidGVzdCIpLCBjbGFzcy5vdXRwdXQ9YygidGVzdDIiKSkNCm9wdGlvbnMod2lkdGggPSAxMDApDQpyZ2w6OnNldHVwS25pdHIoKQ0KDQpjb2xvcml6ZSA8LSBmdW5jdGlvbih4LCBjb2xvcikge3NwcmludGYoIjxzcGFuIHN0eWxlPSdjb2xvcjogJXM7Jz4lczwvc3Bhbj4iLCBjb2xvciwgeCkgfQ0KDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCjxicj4NCg0KLS0tDQoNCldlIHdpbGwgc2hvdyBob3cgdGhlIGluZmx1ZW5jZSBzdGF0aXN0aWNzIGluIFJTaWVuYSBiZWhhdmUuIA0KV2UgYXNzdW1lIHRoYXQgZWdvIGlzIGNvbm5lY3RlZCB0byBhbGwgYWx0ZXJzLiANCg0KPGJyPg0KDQojIyBGdW5jdGlvbnMNCg0KRmlyc3QsIHdlIGRlZmluZSBzb21lIGZ1bmN0aW9uczoNCg0KPGJyPg0KDQojIyMgQ2VudGVyaW5nIGJlaGF2aW9yIHZhcmlhYmxlcw0KYGBge3J9DQpmY2VudGVyaW5nIDwtIGZ1bmN0aW9uKGFjdG9ycyl7DQpjZW50ZXJlZCA8LSBhY3RvcnMgLSBtZWFuKGFjdG9ycykNCnJldHVybihjZW50ZXJlZCkNCn0NCmBgYA0KDQojIyMgQ2FsY3VsYXRpbmcgc2ltaWxhcml0eSBzY29yZXMNCg0KJCQgc2ltXnpfe2lqfSA9IDEgLSBcZnJhY3t8el9pIC0gel9qfH17cl9WfSAkJA0KYGBge3J9DQpmc2ltaWogPC0gZnVuY3Rpb24oYWN0b3JzLCBtaW4sIG1heCl7DQojcnYgPC0gbWF4KGFjdG9ycykgLSBtaW4oYWN0b3JzKQ0KcnYgPC0gbWF4IC0gbWluDQptYXQxIDwtIG1hdHJpeChhY3RvcnMsIG5yb3c9bGVuZ3RoKGFjdG9ycyksIG5jb2w9bGVuZ3RoKGFjdG9ycyksIGJ5cm93PVRSVUUpDQptYXQyIDwtIHQobWF0MSkNCnNpbWlqIDwtIDEgLSAoIGFicyhtYXQxLW1hdDIpIC8gcnYpDQpyZXR1cm4oc2ltaWopDQp9DQpgYGANCg0KIyMjIFRoZSBhdmVyYWdlIHNpbWlsYXJpdHkgZWZmZWN0IChhdlNpbSkNCg0KJCQgc157YmVofV97aTV9KHgseikgPSB4XnstMX1fe2krfVxzdW1faiB4X3tpan0oc2ltXnpfe2lqfSAtIFx3aWRlaGF0e3NpbV56fSkgJCQNCmBgYHtyfQ0KZmF2U2ltIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCkgew0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKSAjZGVmaW5lIHRoZSBuZXR3b3JrDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudGVyaW5nKGFjdG9ycykgI2NlbnRlciBiZWhhdmlvciBzY29yZXMNCiAgc2ltaWogPC0gZnNpbWlqKGJlaF9jZW50ZXJlZCwgbWluLCBtYXgpICNjYWxjdWxhdGUgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQogIGRpYWcoc2ltaWopIDwtIE5BDQogIG1zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybT1UUlVFKSAjY2FsY3VsYXRlIHRoZSBtZWFuIHNpbWlsYXJpdHkgc2NvcmUuIG9ubHkgY2FsY3VsYXRlIG1lYW4gb24gbm9uLWRpYWdvbmFsIGNlbGxzPz8hIQ0KICBzaW1pal9jIDwtIHNpbWlqIC0gbXNpbWlqICNjZW50ZXIgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQogIA0KICBzdGF0aXN0aWMgPC0gc3VtKHNpbWlqX2NbMSxdLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQogIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KYGBgDQoNCmBgYHtyfQ0KZmF2U2ltMiA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykgI2RlZmluZSB0aGUgbmV0d29yaw0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpICNjZW50ZXIgYmVoYXZpb3Igc2NvcmVzDQogIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KSAjY2FsY3VsYXRlIHRoZSBzaW1pbGFyaXR5IHNjb3Jlcw0KICBkaWFnKHNpbWlqKSA8LSBOQQ0KICAjbXNpbWlqIDwtIG1lYW4oc2ltaWosIG5hLnJtPVRSVUUpICNjYWxjdWxhdGUgdGhlIG1lYW4gc2ltaWxhcml0eSBzY29yZS4gb25seSBjYWxjdWxhdGUgbWVhbiBvbiBub24tZGlhZ29uYWwgY2VsbHM/PyEhDQogIHNpbWlqX2MgPC0gc2ltaWogIyBoZXJlIHdlIGRvIG5vdCBjZW50ZXIgdGhlIHNpbWlsYXJpdHkNCiAgDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpfY1sxLF0sIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKSAjdGhlIGFjdHVhbCBzdGF0aXN0aWMNCiAgDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQpgYGANCg0KIyMjIFRoZSBhdmVyYWdlIGF0dHJhY3Rpb24gdG93YXJkcyBoaWdoZXIgZWZmZWN0IChhdkF0dEhpZ2hlcikNCg0KJCQgc157YmVofV97aTIzfSh4LHopID0geF57LTF9X3tpK31cc3VtX2ogeF97aWp9IChcLCBJIFx7ICh6X2opPnpfaSBcfSBzaW1eel97aWp9ICsgSSBceyAoel9qICkgXGxlIHpfaSBcfSApXCwkJA0KYGBge3J9DQpmYXZBdHRIaWdoZXIgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIG1pbiwgbWF4KSB7DQogIGFjdG9ycyA8LSBjKGVnbyxhbHRlcnMpDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudGVyaW5nKGFjdG9ycykNCiAgc2ltaWogPC0gZnNpbWlqKGJlaF9jZW50ZXJlZCwgbWluLCBtYXgpDQogIGRpYWcoc2ltaWopIDwtIE5BDQogIA0KICBzaW1pakggPC0gc2ltaWpbMSxdDQogIHNpbWlqSFtiZWhfY2VudGVyZWQgPD0gYmVoX2NlbnRlcmVkWzFdXSA8LSAxDQogIHNpbWlqSFsxXSA8LSBOQQ0KICBzdGF0aXN0aWMgPC0gc3VtKHNpbWlqSCwgbmEucm0gPSBUUlVFKSAvIGxlbmd0aChhbHRlcnMpDQogIA0KIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KYGBgDQoNCiMjIyBUaGUgYXZlcmFnZSBhdHRyYWN0aW9uIHRvd2FyZHMgaGlnaGVyIGFsdGVycyBlZmZlY3QgKGF2QXR0TG93ZXIpDQoNCiQkIHNee2JlaH1fe2kyNH0oeCx6KSA9IHheey0xfV97aSt9XHN1bV9qIHhfe2lqfSAoXCwgSSBceyAoel9qKTx6X2kgXH0gc2ltXnpfe2lqfSArIEkgXHsgKHpfaiApIFxnZSB6X2kgXH0gKVwsJCQNCmBgYHtyfQ0KZmF2QXR0TG93ZXIgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIG1pbiwgbWF4KSB7DQogIGFjdG9ycyA8LSBjKGVnbyxhbHRlcnMpDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudGVyaW5nKGFjdG9ycykNCiAgc2ltaWogPC0gZnNpbWlqKGJlaF9jZW50ZXJlZCwgbWluLCBtYXgpDQogIGRpYWcoc2ltaWopIDwtIE5BDQogIA0KICBzaW1pakwgPC0gc2ltaWpbMSxdDQogIHNpbWlqTFtiZWhfY2VudGVyZWQgPj0gYmVoX2NlbnRlcmVkWzFdXSA8LSAxDQogIHNpbWlqTFsxXSA8LSBOQQ0KICBzdGF0aXN0aWMgPC0gc3VtKHNpbWlqTCwgbmEucm0gPSBUUlVFKSAvIGxlbmd0aChhbHRlcnMpDQogIA0KIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KYGBgDQoNCiMjIyBBdmVyYWdlIGFsdGVyIGVmZmVjdCAoYXZBbHQpDQoNCiQkIHNee2JlaH1fe2kyN30oeCx6KSA9IHpfaShcdGV4dHN0eWxlIFxzdW1fanhfe2lqfXpfaikvKFx0ZXh0c3R5bGUgXHN1bV9qeF97aWp9KSAkJCANCg0KYGBge3J9DQpmYXZBbHQgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIC4uLikgew0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKQ0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpDQogIA0KICBzdGF0aXN0aWMgPC0gYmVoX2NlbnRlcmVkWzFdICogKHN1bShiZWhfY2VudGVyZWRbLTFdLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykpDQogIA0KIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KYGBgDQoNCiMjIyBBdmVyYWdlIGF0dHJhY3Rpb24gbWVhbiBhbHRlcnMgKGF2QXR0KQ0KDQpgYGB7cn0NCmZBdHRNZWFuIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCwgLi4uKSB7DQogIHJ2IDwtIG1heCAtIG1pbg0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKQ0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpDQogIA0KICBzdGF0aXN0aWMgPC0gMSAtICBhYnMoYmVoX2NlbnRlcmVkWzFdIC0gKHN1bShiZWhfY2VudGVyZWRbLTFdLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykpKS9ydiAjdGh1cyB3ZSBzdHJpdmUgZm9yIGEgaGlnaGVzdCBsb2NhbCBzaW1pbGFyaXR5IHNjb3JlIQ0KICANCiANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCmBgYA0KDQotLS0tDQoNCjxicj4gDQoNCiMjIE1ha2UgcGxvdCBvZiBzdGF0aXN0aWMgdmFsdWVzIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KSm9jaGVtJ3MgZnVuY3Rpb25zDQoNCmBgYHtyfQ0KZmluZmx1ZW5jZXBsb3QgPC0gZnVuY3Rpb24oYWx0ZXJzLCBtaW4sIG1heCwgZnVuKSB7DQogIG5hbWUgPC0gZGVwYXJzZShzdWJzdGl0dXRlKGZ1bikpDQogIHMgPC0gTkENCiAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICBzW2ldIDwtIGZ1bihpLCBhbHRlcnMsIG1pbiwgbWF4KQ0KICB9DQogICAgew0KICAgICAgcGxvdCh5PXMsIHg9bWluOm1heCwgeGxhYj0iZWdvIGJlaGF2aW9yYWwgc2NvcmUiLCB5bGFiPW5hbWUsIHlsaW09YygtMSwxKSwgdHlwZT0iYiIpDQogICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlPSIsIikpKQ0KICAgIH0NCn0NCg0KZmluZmx1ZW5jZXBsb3QyIDwtIGZ1bmN0aW9uKGFsdGVycywgbWluLCBtYXgsIGZ1bikgew0KICBzIDwtIE5BDQogIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgc1tpXSA8LSAwDQogICAgZm9yIChqIGluIDE6bGVuZ3RoKGZ1bikpIHsNCiAgICAgIHNbaV0gPC0gc1tpXSArIGZ1bltbal1dKGksIGFsdGVycywgbWluLCBtYXgpICAgICAgDQogICAgfQ0KICB9DQogICAgew0KICAgICAgbmFtZSA8LSBkZXBhcnNlKHN1YnN0aXR1dGUoZnVuKSkNCiAgICAgICNuYW1lIDwtIHN0cmluZ3I6OnN0cl9yZW1vdmUoYXMuY2hhcmFjdGVyKG5hbWUpLCAibGlzdCIpDQogICAgICBuYW1lIDwtIHN0cmluZ3I6OnN0cl9zdWIoYXMuY2hhcmFjdGVyKG5hbWUpLCA2LCAtMikNCiAgICAgIHBsb3QoeT1zLCB4PW1pbjptYXgsIHhsYWI9ImVnbyBiZWhhdmlvcmFsIHNjb3JlIiwgeWxhYj1uYW1lLCB0eXBlPSJiIikNCiAgICAgIG10ZXh0KHBhc3RlKCJhbHRlcnM6IiwgcGFzdGUwKGFsdGVycywgY29sbGFwc2U9IiwiKSkpDQogICAgfQ0KfQ0KYGBgDQoNCiMjIyBleGFtcGxlDQoNCmBgYHtyfQ0KYWx0ZXJzMSA8LSByZXAoYygzLDMsMywzLDMsMyksMSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgZmF2U2ltKQ0KDQpgYGANCg0KDQoNCmBgYHtyIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnLCBldmFsPUZ9DQpydiA8LSA2DQpzaXplIDwtIDYNCg0KIyBhbHRlciBiZWhhdmlvciAxOjYNCmFsdGVycyA8LSBsaXN0KCkNCmZvciAoemogaW4gMTpydikgew0KICBhbHRlcnNbW3pqXV0gPC0gcmVwKHpqLCBzaXplKQ0KfQ0KDQojIHdlIGNhY2x1bGF0ZSBhdlNpbSBzdGF0aXN0aWMsIGNvbnNpZGVyaW5nIHpfaSBhbmQgel9qOg0KKHNfYXZTaW0gPC0gYXJyYXkoZGltID0gYyhydixydikpKQ0KZm9yICh6aiBpbiAxOnJ2KSB7DQogIGZvciAoemkgaW4gMTpydikgew0KICAgIHNfYXZTaW1bemksempdIDwtIGZhdlNpbSh6aSwgYWx0ZXJzW1t6al1dKQ0KICB9DQp9ICMgcm93cyByZWZlciB0byBlZ28ncyBwcm9zcGVjdGl2ZSBiZWhhdmlvciAoemkpOyBjb2x1bW5zIHJlZmVyIHRvIGFsdGVyIGF2ZXJhZ2UgKHpqKQ0KDQojIHR1cm4gaXQgaW50byBhIGRhdGFmcmFtZQ0KZGYgPC0gZGF0YS5mcmFtZSh6aSA9IHJlcCgxOnJ2LCBydiksDQogICAgICAgICAgICAgICAgICAgcyA9IGMoc19hdlNpbVssMV0sIHNfYXZTaW1bLDJdLCBzX2F2U2ltWywzXSwgc19hdlNpbVssNF0sIHNfYXZTaW1bLDVdLCBzX2F2U2ltWyw2XSApLA0KICAgICAgICAgICAgICAgICAgIHpqID0gYXMuY2hhcmFjdGVyKHJlcCgxOnJ2LCBlYWNoPXJ2KSkpDQoNCnNfYXZTaW0NCg0KDQojIHdlIGRvIHRoZSBzYW1lIGZvciB0aGUgYXZBdHRIaWdoIHN0YXRpc3RpYw0KKHNfYXZTaW1IIDwtIGFycmF5KGRpbSA9IGMocnYscnYpKSkNCmZvciAoemogaW4gMTpydikgew0KICBmb3IgKHppIGluIDE6cnYpIHsNCiAgICBzX2F2U2ltSFt6aSx6al0gPC0gZmF2U2ltSCh6aSwgYWx0ZXJzW1t6al1dKQ0KICB9DQp9IA0KZGYyIDwtIGRhdGEuZnJhbWUoemkgPSByZXAoMTpydiwgcnYpLA0KICAgICAgICAgICAgICAgICAgIHMgPSBjKHNfYXZTaW1IWywxXSwgc19hdlNpbUhbLDJdLCBzX2F2U2ltSFssM10sIHNfYXZTaW1IWyw0XSwgc19hdlNpbUhbLDVdLCBzX2F2U2ltSFssNl0gKSwNCiAgICAgICAgICAgICAgICAgICB6aiA9IGFzLmNoYXJhY3RlcihyZXAoMTpydiwgZWFjaD1ydikpKQ0KDQojIGZvciBhdkF0dExvdw0KKHNfYXZTaW1MIDwtIGFycmF5KGRpbSA9IGMocnYscnYpKSkNCmZvciAoemogaW4gMTpydikgew0KICBmb3IgKHppIGluIDE6cnYpIHsNCiAgICBzX2F2U2ltTFt6aSx6al0gPC0gZmF2U2ltTCh6aSwgYWx0ZXJzW1t6al1dKQ0KICB9DQp9IA0KZGYzIDwtIGRhdGEuZnJhbWUoemkgPSByZXAoMTpydiwgcnYpLA0KICAgICAgICAgICAgICAgICAgIHMgPSBjKHNfYXZTaW1MWywxXSwgc19hdlNpbUxbLDJdLCBzX2F2U2ltTFssM10sIHNfYXZTaW1MWyw0XSwgc19hdlNpbUxbLDVdLCBzX2F2U2ltTFssNl0gKSwNCiAgICAgICAgICAgICAgICAgICB6aiA9IGFzLmNoYXJhY3RlcihyZXAoMTpydiwgZWFjaD1ydikpKQ0KDQojIGFuZCBmb3IgYXZBdHRIaWdoK0xvdw0KKHNfYXZTaW1ITCA8LSBhcnJheShkaW0gPSBjKHJ2LHJ2KSkpDQpmb3IgKHpqIGluIDE6cnYpIHsNCiAgZm9yICh6aSBpbiAxOnJ2KSB7DQogICAgc19hdlNpbUhMW3ppLHpqXSA8LSBmYXZTaW1IKHppLCBhbHRlcnNbW3pqXV0pICsgZmF2U2ltTCh6aSwgYWx0ZXJzW1t6al1dKQ0KICB9DQp9IA0KZGY0IDwtIGRhdGEuZnJhbWUoemkgPSByZXAoMTpydiwgcnYpLA0KICAgICAgICAgICAgICAgICAgIHMgPSBjKHNfYXZTaW1ITFssMV0sIHNfYXZTaW1ITFssMl0sIHNfYXZTaW1ITFssM10sIHNfYXZTaW1ITFssNF0sIHNfYXZTaW1ITFssNV0sIHNfYXZTaW1ITFssNl0gKSwNCiAgICAgICAgICAgICAgICAgIHpqID0gYXMuY2hhcmFjdGVyKHJlcCgxOnJ2LCBlYWNoPXJ2KSkpDQogDQpnZ3Bsb3QoZGF0YT1kZiwgYWVzKHg9emksIHk9cykpICsgDQogIGdlb21fbGluZShhZXMoY29sb3VyPXpqKSkgKw0KICB5bGFiKCJhdlNpbSBzdGF0aXN0aWMiKSArDQogIHhsYWIoImVnbyBzY29yZSB6X2kiKSArIA0KICBzY2FsZV9jb2xvdXJfaHVlKG5hbWU9ImFsdGVyIHNjb3JlIHpfaiIpDQpnZ3NhdmUoImF2U2ltLnBuZyIsIHBhdGggPSAiaW1hZ2VzL2luZmx1ZW5jZSBwbG90cyIsIHdpZHRoID0gNiwgaGVpZ2h0ID0gMykNCg0KZ2dwbG90KGRhdGE9ZGYyLCBhZXMoeD16aSwgeT1zKSkgKyANCiAgZ2VvbV9saW5lKGFlcyhjb2xvdXI9emopKSArDQogIHlsYWIoImF2QXR0SGlnaGVyIHN0YXRpc3RpYyIpICsNCiAgeGxhYigiZWdvIHNjb3JlIHpfaSIpICsgDQogIHNjYWxlX2NvbG91cl9odWUobmFtZT0iYWx0ZXIgc2NvcmUgel9qIikNCmdnc2F2ZSgiYXZTaW1ILnBuZyIsIHBhdGggPSAiaW1hZ2VzL2luZmx1ZW5jZSBwbG90cyIsIHdpZHRoID0gNiwgaGVpZ2h0ID0gMykNCg0KZ2dwbG90KGRhdGE9ZGYzLCBhZXMoeD16aSwgeT1zKSkgKyANCiAgZ2VvbV9saW5lKGFlcyhjb2xvdXI9emopKSArDQogIHlsYWIoImF2QXR0TG93ZXIgc3RhdGlzdGljIikgKw0KICB4bGFiKCJlZ28gc2NvcmUgel9pIikgKyANCiAgc2NhbGVfY29sb3VyX2h1ZShuYW1lPSJhbHRlciBzY29yZSB6X2oiKQ0KZ2dzYXZlKCJhdlNpbUwucG5nIiwgcGF0aCA9ICJpbWFnZXMvaW5mbHVlbmNlIHBsb3RzIiwgd2lkdGggPSA2LCBoZWlnaHQgPSAzKQ0KDQpnZ3Bsb3QoZGF0YT1kZjQsIGFlcyh4PXppLCB5PXMpKSArIA0KICBnZW9tX2xpbmUoYWVzKGNvbG91cj16aikpICsNCiAgeWxhYigiYXZBdHRIaWdoZXIrTG93ZXIgc3RhdGlzdGljIikgKw0KICB4bGFiKCJlZ28gc2NvcmUgel9pIikgKyANCiAgc2NhbGVfY29sb3VyX2h1ZShuYW1lPSJhbHRlciBzY29yZSB6X2oiKQ0KZ2dzYXZlKCJhdlNpbUhMLnBuZyIsIHBhdGggPSAiaW1hZ2VzL2luZmx1ZW5jZSBwbG90cyIsIHdpZHRoID0gNiwgaGVpZ2h0ID0gMykNCg0KYGBgDQoNCiMjIGF2U2ltDQohW10oaW1hZ2VzL2luZmx1ZW5jZSBwbG90cy9hdlNpbS5wbmcpDQoNCmF2U2ltIGRyYXdzIGVnbyB0byB0aGUgYmVoYXZpb3Igb2YgYWx0ZXJzLg0KDQojIyBhdkF0dEhpZ2hlcg0KIVtdKGltYWdlcy9pbmZsdWVuY2UgcGxvdHMvYXZTaW1ILnBuZykNCg0KYXZBdHRIaWdoZXIgaXMgYSBvbmUtc2lkZWQgdmVyc2lvbiBvZiBhdlNpbS4gSXQgcmVmZXJzIHRvIHRoZSBpbmZsdWVuY2UgZnJvbSBhbHRlcnMgdGhhdCBzY29yZSBoaWdoZXIgdGhhbiBlZ28uIEVnbyBpcyBwdWxsZWQgdXAgYnkgYWx0ZXJzIHRoYXQgc2NvcmUgaGlnaGVyIHRoYW4gaGltc2VsZi4gDQoNCiMjIGF2QXR0TG93ZXINCiFbXShpbWFnZXMvaW5mbHVlbmNlIHBsb3RzL2F2U2ltTC5wbmcpDQoNCmF2QXR0SGlnaGVyIGlzIGEgb25lLXNpZGVkIHZlcnNpb24gb2YgYXZTaW0uIEl0IHJlZmVycyB0byB0aGUgaW5mbHVlbmNlIGZyb20gYWx0ZXJzIHRoYXQgc2NvcmUgbG93ZXIgdGhhbiBlZ28uIEVnbyBpcyBwdWxsZWQgZG93biBieSBhbHRlcnMgdGhhdCBzY29yZSBsb3dlciB0aGFuIGhpbXNlbGYuIA0KDQoNCiMjIGF2QXR0SGlnaGVyK0xvd2VyDQohW10oaW1hZ2VzL2luZmx1ZW5jZSBwbG90cy9hdlNpbUhMLnBuZykNCg0KYXZBdHRIaWdoZXIgYW5kIGF2QXR0TG93ZXIgZXZlbiBlYWNoIG90aGVyIG91dDsgYW5kIGVxdWFsIGF2U2ltIChhc3N1bWluZyBpZGVudGljYWwgcGFyYW1ldGVyIHZhbHVlcykuDQoNCiMgey19DQoNCg==</div>
 <style>
 .center {
   text-align: center;
@@ -601,6 +708,8 @@ ggsave(&quot;avSimHL.png&quot;, path = &quot;images/influence plots&quot;, width
 <p class="center">Copyright &copy; 2021 Rob Franken</p>
 
 
+</div>
+</div>
 
 </div>
 
@@ -639,6 +748,32 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

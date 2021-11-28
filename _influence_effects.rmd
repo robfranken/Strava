@@ -73,6 +73,34 @@ return(simij)
 fsimij(1:6, 1, 6)
 ```
 
+### linear
+
+```{r}
+flinear <- function(ego, alters, ...) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentring(actors) #center behavior scores
+  
+  statistic <- beh_centered[1] #the actual statistic
+  
+  return(statistic)
+}
+```
+
+### quad
+
+```{r}
+fquad <- function(ego, alters, ...) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentring(actors) #center behavior scores
+  
+  statistic <- (beh_centered[1])^2 #the actual statistic
+  
+  return(statistic)
+}
+```
+
+
+
 ### avSim
 
 ```{r, echo=FALS, fig.cap="avSim (RSiena manual, p174)"}
@@ -144,7 +172,6 @@ knitr::include_graphics("avattl.png")
 ```
 
 ```{r}
-actors <- c(1,1,1,1,5,5,5)
 favAttLower <- function(ego, alters, min, max) {
   actors <- c(ego,alters)
   beh_centered <- fcentring(actors)
@@ -199,75 +226,94 @@ fAttMean <- function(ego, alters, min, max, ...) {
 ## make plot of statistic values 
 
 ```{r}
-finluenceplot <- function(alters, min, max, fun) {
-  name <- deparse(substitute(fun))
-  s <- NA
-  for (i in min:max) {
-    s[i] <- fun(i, alters, min, max)
-  }
-    {
-      plot(y=s, x=min:max, xlab="ego behavioral score", ylab=name, ylim=c(-1,1), type="b")
-      mtext(paste("alters:", paste0(alters, collapse=",")))
-    }
-}
-```
-
-
-```{r}
-finluenceplot2 <- function(alters, min, max, fun) {
+finluenceplot <- function(alters, min, max, fun, params, results=TRUE, plot=TRUE) {
+  #check correct number of parameters are given
+   if (length(fun) != length(params)) stop("Please provide one (and only one) parameter for each of the behavioral effects!")
+  
+  #calculuate value of evaluation function
   s <- NA
   for (i in min:max) {
     s[i] <- 0
     for (j in 1:length(fun)) {
-      s[i] <- s[i] + fun[[j]](i, alters, min, max)      
+      s[i] <- s[i] + params[j]*fun[[j]](i, alters, min, max)      
     }
   }
-    {
+  
+  #calculate the probabilities  
+  p <- NA
+  for (i in min:max) {
+    p[i] <- exp(s[i]) / (sum(exp(s)))
+  }
+  
+  #calculate the probability ratio  
+  r <- NA
+  for (i in min:max) {
+    r[i] <- p[i] / p[1]
+  }
+  
+  #some simple plots
+  if (plot) { 
       name <- deparse(substitute(fun))
-      #name <- stringr::str_remove(as.character(name), "list")
       name <- stringr::str_sub(as.character(name), 6, -2)
+      par(mfrow=c(3,1))
       plot(y=s, x=min:max, xlab="ego behavioral score", ylab=name, type="b")
+      mtext("EVALUATION", line=1)
       mtext(paste("alters:", paste0(alters, collapse=",")))
-    }
+      plot(y=p, x=min:max, xlab="ego behavioral score", ylab=name, ylim=c(0,1), type="b")
+      mtext("PROBABILITIES", line=1)
+      mtext(paste("alters:", paste0(alters, collapse=",")))
+      plot(y=r, x=min:max, xlab="ego behavioral score", ylab=name, type="b")
+      mtext("RATIOS", line=1)
+      mtext(paste("alters:", paste0(alters, collapse=",")))
+  }
+  
+  #return results for more fancy plotting
+  if (results) {
+    x <- min:max
+    df <- data.frame(x, s, p, r)
+    return(df)
+  }
+  
 }
 ```
+
 
 
 
 ## examples
 
 ```{r}
-alters1 <- rep(c(3,3,3,3,3,3),1)
-finluenceplot(alters=alters1, min=1, max=6, favSim)
-finluenceplot(alters=alters1, min=1, max=6, favSim2)
-finluenceplot(alters=alters1, min=1, max=6, favAlt)
-finluenceplot(alters=alters1, min=1, max=6, fAttMean)
-finluenceplot(alters=alters1, min=1, max=6, favAttHigher)
-finluenceplot(alters=alters1, min=1, max=6, favAttLower)
-finluenceplot2(alters=alters1, min=1, max=6, list(favAttLower, favAttHigher))
-finluenceplot2(alters=alters1, min=1, max=6, list(fAttMean, favAttHigher))
+alters1 <- rep(c(3,3,3,3,3,3),4)
+finluenceplot(alters=alters1, min=1, max=6, list(flinear, fquad), params=c(.1,-1))
+finluenceplot(alters=alters1, min=1, max=6, list(favSim), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(favAlt), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(fAttMean), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(favAttHigher), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(favAttLower), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(1,1))
+finluenceplot(alters=alters1, min=1, max=6, list(fAttMean, favAttHigher), params=c(1,1))
 ```
 
 ```{r}
 alters1 <- rep(c(1,2,2,4,4,5), 1)
-finluenceplot(alters=alters1, min=1, max=6, favSim)
-finluenceplot(alters=alters1, min=1, max=6, favSim2)
-finluenceplot(alters=alters1, min=1, max=6, favAlt)
-finluenceplot(alters=alters1, min=1, max=6, fAttMean)
-finluenceplot(alters=alters1, min=1, max=6, favAttHigher)
-finluenceplot(alters=alters1, min=1, max=6, favAttLower)
-finluenceplot2(alters=alters1, min=1, max=6, list(favAttLower, favAttHigher))
-finluenceplot2(alters=alters1, min=1, max=6, list(fAttMean, favAttHigher))
+finluenceplot(alters=alters1, min=1, max=6, list(favSim), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(favAlt), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(fAttMean), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(1,0))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(0,1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(1,1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(1,-1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(-1,1))
 ```
 
 ```{r}
 alters1 <- rep(c(1,1,1,5,5,5), 1)
-finluenceplot(alters=alters1, min=1, max=6, favSim)
-finluenceplot(alters=alters1, min=1, max=6, favSim2)
-finluenceplot(alters=alters1, min=1, max=6, favAlt)
-finluenceplot(alters=alters1, min=1, max=6, fAttMean)
-finluenceplot(alters=alters1, min=1, max=6, favAttHigher)
-finluenceplot(alters=alters1, min=1, max=6, favAttLower)
-finluenceplot2(alters=alters1, min=1, max=6, list(favAttLower, favAttHigher))
-finluenceplot2(alters=alters1, min=1, max=6, list(fAttMean, favAttHigher))
+finluenceplot(alters=alters1, min=1, max=6, list(favSim), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(favAlt), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, list(fAttMean), params=c(1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(1,0))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(0,1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(1,1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(1,-1))
+finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher), params=c(-1,1))
 ```
