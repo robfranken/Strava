@@ -19,9 +19,6 @@ navbar:
       - text: "Different kudos tie classification"
         href: robust.html
     - text: "Supplementary material"
-      menu:
-      - text: "avSim vs. avAttHigher + avAttLower"
-        href: influence-plots.html
   right:
     - icon: fab fa-github
       href: https://github.com/robfranken/Strava

@@ -5,8 +5,8 @@ bibliography: references.bib
 output:
   html_document:
     css: tweaks.css
-    toc: false
-    toc_float: false
+    toc: true
+    toc_float: true
     collapsed: false
     number_sections: false
     toc_depth: 1
@@ -37,109 +37,191 @@ klippy::klippy(position = c('top', 'right'))
 
 ---
 
-## The average similarity effect
-
-First, we include the *average similarity* (*avSim*) effect as an operationalization of peer influence. It is defined as: 
-$$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) $$
-In the event of a micro-step with respect to the behavior, ego will choose the micro-step (+1/no change/-1) that results in the greatest average similarity score.
-Thus, this effect measures the tendency of individuals to be similar with respect to the behavior to their alters.
-
-This operationalization of peer influence assumes that ego is pulled up on the behavior scale by alters that score higher than themselves on the behavior,  $x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)>z_i \}$, and pulled down by alters that score lower than himself, $x^{-1}_{i+}\sum_j x_{ij} \, I \{ (z_j)<z_i \}$, to a similar extent.
+We will show how the influence statistics in RSiena behave. 
+We assume that ego is connected to all alters. 
 
 <br>
 
-## The average attraction towards higher alters effect
-
-We expect that peer influence is exercised in particular by alters that score higher on the behavior than ego. We developed a new version of the avSim-effect that reflects this unilateral drive upward (i.e. upward assimilation). It is labeled the *average attraction towards higher* (*avAttHigher*) effect, and is defined as: 
-$$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)>z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,$$
-If we assume a positive parameter estimate for this effect, than ego will - in the event of a micro-step with respect to the behavior - choose the micro-step that results in the greatest average similarity score, with similarity scores replaced by 1 for alters who do not score higher on the behavior than ego. 
-Thus, this effect will draw actors whose alters score higher than themselves upward on the behavior scale, while diminishing their tendency to go downward to the same degree.
-
-<br>
-
-## The average attraction towards higher alters effect
-Analogous to the avAttHigh-effect, is the *average attraction towards lower* (*avAttLower*) effect, where in the calculation of the average similarity score, similarity is replaced by 1 for alters who score higher on the behavior than ego:
-$$ s^{beh}_{i}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)<z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,$$
-In the case of a positive parameter estimate, ego will assimilate downward to the behavior of his lower-behavior alters. His tendency to go upward is diminished by the same extent.
-
-In the case of similar parameter estimates for avAttHigher and avAttLower, actors are influenced to the same degree by other actors with higher and lower values than themselves respectively. The combination of avAttHigher and avAttLower would in that case be identical to the avSim effect. 
-
-----
-
-<br> 
-
-# Plots {.tabset .tabset-fade}
-
-We illustrate this below.
+## Functions
 
 First, we define some functions:
 
-```{r class.source = 'fold-hide'}
+<br>
+
+### Centering behavior variables
+```{r}
 fcentering <- function(actors){
 centered <- actors - mean(actors)
 return(centered)
 }
+```
 
-fsimij <- function(actors){
+### Calculating similarity scores
+
+$$ sim^z_{ij} = 1 - \frac{|z_i - z_j|}{r_V} $$
+```{r}
+fsimij <- function(actors, min, max){
 #rv <- max(actors) - min(actors)
-rv <- 6
+rv <- max - min
 mat1 <- matrix(actors, nrow=length(actors), ncol=length(actors), byrow=TRUE)
 mat2 <- t(mat1)
 simij <- 1 - ( abs(mat1-mat2) / rv)
 return(simij)
 }
+```
 
-favSim <- function(ego, alters) {
-  actors <- c(ego,alters)
-  beh_centered <- fcentering(actors)
-  simij <- fsimij(beh_centered)
+### The average similarity effect (avSim)
+
+$$ s^{beh}_{i5}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) $$
+```{r}
+favSim <- function(ego, alters, min, max) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentering(actors) #center behavior scores
+  simij <- fsimij(beh_centered, min, max) #calculate the similarity scores
   diag(simij) <- NA
-  msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
-  simij_c <- simij - msimij
+  msimij <- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+  simij_c <- simij - msimij #center the similarity scores
   
-  statistic <- sum(simij_c[1,], na.rm = TRUE) / length(alters)
+  statistic <- sum(simij_c[1,], na.rm = TRUE) / length(alters) #the actual statistic
   
- 
   return(statistic)
 }
+```
 
-
-favSimH <- function(ego, alters) {
-  actors <- c(ego,alters)
-  beh_centered <- fcentering(actors)
-  simij <- fsimij(beh_centered)
+```{r}
+favSim2 <- function(ego, alters, min, max) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentering(actors) #center behavior scores
+  simij <- fsimij(beh_centered, min, max) #calculate the similarity scores
   diag(simij) <- NA
-  #msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
-  #simij_c <- simij - msimij
-  #diag(simij_c) <- NA 
- simijH <- simij[1,]
- simijH[simijH <= beh_centered[1]] <- 1
- statistic <- sum(simijH, na.rm = TRUE) / length(alters)
+  #msimij <- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+  simij_c <- simij # here we do not center the similarity
   
- 
+  statistic <- sum(simij_c[1,], na.rm = TRUE) / length(alters) #the actual statistic
+  
   return(statistic)
 }
+```
 
-favSimL <- function(ego, alters) {
+### The average attraction towards higher effect (avAttHigher)
+
+$$ s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)>z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,$$
+```{r}
+favAttHigher <- function(ego, alters, min, max) {
   actors <- c(ego,alters)
   beh_centered <- fcentering(actors)
-  simij <- fsimij(beh_centered)
+  simij <- fsimij(beh_centered, min, max)
   diag(simij) <- NA
-  #msimij <- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
-  #simij_c <- simij - msimij
-  #diag(simij_c) <- NA 
- simijL <- simij[1,]
- simijL[simijL >= beh_centered[1]] <- 1
- statistic <- sum(simijL, na.rm = TRUE) / length(alters)
+  
+  simijH <- simij[1,]
+  simijH[beh_centered <= beh_centered[1]] <- 1
+  simijH[1] <- NA
+  statistic <- sum(simijH, na.rm = TRUE) / length(alters)
   
  
   return(statistic)
 }
 ```
 
-<br>
+### The average attraction towards higher alters effect (avAttLower)
 
-We calculate the statistics of the influence effects (avSim, avAttHigher, avAttLower, avAttHigher+Lower), considering both ego's behavior $z_i$ and alters' behavior $z_j$. We assume that ego's alters all have the same behavior. 
+$$ s^{beh}_{i24}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)<z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,$$
+```{r}
+favAttLower <- function(ego, alters, min, max) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentering(actors)
+  simij <- fsimij(beh_centered, min, max)
+  diag(simij) <- NA
+  
+  simijL <- simij[1,]
+  simijL[beh_centered >= beh_centered[1]] <- 1
+  simijL[1] <- NA
+  statistic <- sum(simijL, na.rm = TRUE) / length(alters)
+  
+ 
+  return(statistic)
+}
+```
+
+### Average alter effect (avAlt)
+
+$$ s^{beh}_{i27}(x,z) = z_i(\textstyle \sum_jx_{ij}z_j)/(\textstyle \sum_jx_{ij}) $$ 
+
+```{r}
+favAlt <- function(ego, alters, ...) {
+  actors <- c(ego,alters)
+  beh_centered <- fcentering(actors)
+  
+  statistic <- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE) / length(alters))
+  
+ 
+  return(statistic)
+}
+```
+
+### Average attraction mean alters (avAtt)
+
+```{r}
+fAttMean <- function(ego, alters, min, max, ...) {
+  rv <- max - min
+  actors <- c(ego,alters)
+  beh_centered <- fcentering(actors)
+  
+  statistic <- 1 -  abs(beh_centered[1] - (sum(beh_centered[-1], na.rm = TRUE) / length(alters)))/rv #thus we strive for a highest local similarity score!
+  
+ 
+  return(statistic)
+}
+```
+
+----
+
+<br> 
+
+## Make plot of statistic values {.tabset .tabset-fade}
+
+Jochem's functions
+
+```{r}
+finfluenceplot <- function(alters, min, max, fun) {
+  name <- deparse(substitute(fun))
+  s <- NA
+  for (i in min:max) {
+    s[i] <- fun(i, alters, min, max)
+  }
+    {
+      plot(y=s, x=min:max, xlab="ego behavioral score", ylab=name, ylim=c(-1,1), type="b")
+      mtext(paste("alters:", paste0(alters, collapse=",")))
+    }
+}
+
+finfluenceplot2 <- function(alters, min, max, fun) {
+  s <- NA
+  for (i in min:max) {
+    s[i] <- 0
+    for (j in 1:length(fun)) {
+      s[i] <- s[i] + fun[[j]](i, alters, min, max)      
+    }
+  }
+    {
+      name <- deparse(substitute(fun))
+      #name <- stringr::str_remove(as.character(name), "list")
+      name <- stringr::str_sub(as.character(name), 6, -2)
+      plot(y=s, x=min:max, xlab="ego behavioral score", ylab=name, type="b")
+      mtext(paste("alters:", paste0(alters, collapse=",")))
+    }
+}
+```
+
+### example
+
+```{r}
+alters1 <- rep(c(3,3,3,3,3,3),1)
+finluenceplot(alters=alters1, min=1, max=6, favSim)
+
+```
+
+
 
 ```{r class.source = 'fold-hide', eval=F}
 rv <- 6
@@ -163,6 +245,9 @@ for (zj in 1:rv) {
 df <- data.frame(zi = rep(1:rv, rv),
                    s = c(s_avSim[,1], s_avSim[,2], s_avSim[,3], s_avSim[,4], s_avSim[,5], s_avSim[,6] ),
                    zj = as.character(rep(1:rv, each=rv)))
+
+s_avSim
+
 
 # we do the same for the avAttHigh statistic
 (s_avSimH <- array(dim = c(rv,rv)))
