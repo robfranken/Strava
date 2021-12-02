@@ -1596,7 +1596,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
 
 # development mean over time
 plot_mean_freq
@@ -1754,7 +1754,8 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+
 
 # development mean over time
 plot_mean_freq
@@ -1911,7 +1912,8 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+
 
 # development mean over time
 plot_mean_freq
@@ -2068,7 +2070,8 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+
 
 # development mean over time
 plot_mean_freq
@@ -2225,7 +2228,8 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black")
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+
 
 # development mean over time
 plot_mean_freq

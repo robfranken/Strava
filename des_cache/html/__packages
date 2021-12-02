@@ -1,9 +1,9 @@
 base
 knitr
 RSiena
+ggplot2
 igraph
 tidyverse
-ggplot2
 tibble
 tidyr
 readr

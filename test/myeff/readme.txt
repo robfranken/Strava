@@ -1,0 +1,1 @@
+myeff_clubi is a list containing myeff objects for 6 model specifications

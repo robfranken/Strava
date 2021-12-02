@@ -1,0 +1,4 @@
+I adjusted the clubdata object: specifically, the operationalization of running duration and kudos-ties were altered.
+The old clubdata object was changed to clubdata_old
+
+similar for clubdata_rsiena.

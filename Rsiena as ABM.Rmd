@@ -1,0 +1,262 @@
+---
+title: "Simulation"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: false
+    toc_float: false
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE}
+library(knitr)
+library(RSiena)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+----
+
+## Simulate data
+
+We use RSiena to simulate a stochastic actor-oriented model as an agent-based model.
+
+We load the required packages:
+
+```{r echo=F}
+library(sna)
+library(network)
+library(RSiena)
+library(ggplot2)
+```
+
+We use the Van de Bunt's Freshman dataset at timepoint 3 and 4 (n=32) as our starting network.
+We remove missings (set to 0).
+
+```{r}
+tmp3[is.na(tmp3)] <- 0 # remove missing
+tmp4[is.na(tmp4)] <- 0 
+mynet <- sienaDependent(array(c(tmp3, tmp4), dim=c(32, 32, 2)))
+```
+
+We create a discrete starting behavior attribute 1-5
+
+```{r}
+mybeh1 <- sample(5, 32, replace=T)
+mybeh2 <- sample(5, 32, replace=T)
+mybeh.1 <- matrix(c(mybeh1,mybeh2), 32,2)
+mybeh <- sienaDependent( mybeh.1, type = "behavior")
+```
+
+And we create a RSiena object:
+
+```{r}
+mydata <- sienaDataCreate(mynet,mybeh)
+```
+
+## Set effects
+
+We include and fix effects on network formation;
+```{r}
+myeff <- getEffects(mydata)
+myeff <- includeEffects(myeff, transTrip, transRecTrip )
+myeff <- setEffect(myeff, recip, include=TRUE, fix=TRUE, initialValue = 1.1383 ) # structural effects
+myeff <- setEffect(myeff, egoX, interaction1 = "mybeh" ,include=TRUE, fix=TRUE,initialValue = -.5 ) # social selection effects
+myeff <- setEffect(myeff,  altX, interaction1 = "mybeh", include=TRUE, fix=TRUE,initialValue = .25 )
+myeff <- setEffect(myeff, simX, interaction1 = "mybeh", include=TRUE, fix=TRUE,initialValue = .5 ) # homophily 
+```
+
+## Estimation
+
+We define our algorithm and estimate our first model.
+```{r eval=FALSE}
+myalgorithm <- sienaAlgorithmCreate(projname = "fake")
+ans <- siena07(myalgorithm, data=mydata, effects=myeff)
+```
+
+## Simulation
+We use the parameter values of this model to estimate simulations.
+We create a new myeff object that is identical to the previous; we set the initial value for each effect equal to the observed coefficient and fix each effect at this value.
+
+```{r}
+simeff <- myeff
+simeff$initialValue[simeff$include==T] <- ans$theta
+simeff$fix[simeff$include==T] <- TRUE
+```
+
+We add-and-fix the avSim effect (+5)
+```{r}
+simeff1<- setEffect(simeff, avSim, name="mybeh", interaction1 = "mynet",include=TRUE, fix=TRUE,initialValue = 5 )
+```
+
+To compare the avSim effect with our newly developed influence operationalizations, we create other effect-objects:
+
+```{r}
+simeff2 <- setEffect(simeff, avAttHigher, name="mybeh", interaction1 = "mynet",include=TRUE, fix=TRUE,initialValue = 5 )
+simeff3 <- setEffect(simeff, avAttLower, name="mybeh", interaction1 = "mynet",include=TRUE, fix=TRUE,initialValue = 5 )
+simeff4 <- setEffect(simeff3, avAttHigher, name="mybeh", interaction1 = "mynet",include=TRUE, fix=TRUE,initialValue = 5 )
+```
+
+We carry out the simulation for our 4 models, with some additional arguments to the algorithm:
+
+```{r}
+nIter <- 100 # Number of iterations (i.e., number of independent simulation runs)
+simalgo <- sienaAlgorithmCreate(projname='simulation',
+                                         nsub=0,     # No phase 2 iterations (because parameter values are fixed)
+                                         n3=nIter,   # Number of iterations 
+                                         simOnly=T,  # Skips calculation of the covariance matrix
+                                         seed=1102)  # Set seed?
+
+simans1 <- siena07(simalgo, data=mydata, effects=simeff1, 
+                  returnDeps=T,   # this actually returns the simulated networks and behavior
+                  returnChains=T) # and the micro-steps
+
+simans2 <- siena07(simalgo, data=mydata, effects=simeff2, 
+                  returnDeps=T,   
+                  returnChains=T) 
+
+simans3 <- siena07(simalgo, data=mydata, effects=simeff3, 
+                  returnDeps=T,   
+                  returnChains=T) 
+
+simans4 <- siena07(simalgo, data=mydata, effects=simeff4, 
+                  returnDeps=T,   
+                  returnChains=T) 
+
+```
+
+# Influence tables {.tabset .tabset-fade}
+
+With influence tables, we plot the part of the objective function that corresponds to influence effects.
+
+```{r}
+source('http://www.stats.ox.ac.uk/~snijders/siena/InfluenceTables.r')
+```
+
+## avSim
+
+Calculate the social influence table:
+
+```{r}
+name <- "mybeh"
+zname <- "mynet"
+levls <- 1:5
+zselect <- influenceMatrix(simans1, mydata,zname,  name, levls)
+zselect <- influenceTable(simans1, mydata,zname,  name, levls)
+```
+
+And plot it:
+
+```{r eval=F}
+sp <- ggplot(zselect, aes(zego, select, group=alter, colour=alter))
+sp + geom_point() + geom_smooth(size=1.2, span=3) +
+scale_colour_hue() +scale_x_continuous(breaks=levls) +
+theme(legend.key=element_blank())+labs(x=paste(name),
+                                       y=paste('evaluation function'),
+                                       title=paste('Influence effect',zname,'on',name),
+                                       colour=paste(name,'\nalter')) +
+theme_grey(base_size=20, base_family="") +
+theme(legend.key.width=unit(1, "cm")) +
+theme(plot.title=element_text(hjust=0.5))
+
+```
+## avAttHigh
+
+Calculate the social influence table:
+
+```{r}
+name <- "mybeh"
+zname <- "mynet"
+levls <- 1:5
+zselect <- influenceMatrix(simans2, mydata,zname,  name, levls)
+zselect <- influenceTable(simans2, mydata,zname,  name, levls)
+```
+
+And plot it:
+
+```{r eval=F}
+sp <- ggplot(zselect, aes(zego, select, group=alter, colour=alter))
+sp + geom_point() + geom_smooth(size=1.2, span=3) +
+scale_colour_hue() +scale_x_continuous(breaks=levls) +
+theme(legend.key=element_blank())+labs(x=paste(name),
+                                       y=paste('evaluation function'),
+                                       title=paste('Influence effect',zname,'on',name),
+                                       colour=paste(name,'\nalter')) +
+theme_grey(base_size=20, base_family="") +
+theme(legend.key.width=unit(1, "cm")) +
+theme(plot.title=element_text(hjust=0.5))
+```
+
+## avAttLow
+
+Calculate the social influence table:
+
+```{r}
+name <- "mybeh"
+zname <- "mynet"
+levls <- 1:5
+zselect <- influenceMatrix(simans3, mydata,zname,  name, levls)
+zselect <- influenceTable(simans3, mydata,zname,  name, levls)
+```
+
+And plot it:
+
+```{r eval=F}
+sp <- ggplot(zselect, aes(zego, select, group=alter, colour=alter))
+sp + geom_point() + geom_smooth(size=1.2, span=3) +
+scale_colour_hue() +scale_x_continuous(breaks=levls) +
+theme(legend.key=element_blank())+labs(x=paste(name),
+                                       y=paste('evaluation function'),
+                                       title=paste('Influence effect',zname,'on',name),
+                                       colour=paste(name,'\nalter')) +
+theme_grey(base_size=20, base_family="") +
+theme(legend.key.width=unit(1, "cm")) +
+theme(plot.title=element_text(hjust=0.5))
+```
+
+## avAttHigh + Low
+
+Calculate the social influence table:
+
+```{r}
+name <- "mybeh"
+zname <- "mynet"
+levls <- 1:5
+(zselect <- influenceMatrix(simans4, mydata,zname,  name, levls))
+(zselect <- influenceTable(simans4, mydata,zname,  name, levls))
+```
+
+And plot it:
+
+```{r eval=F}
+sp <- ggplot(zselect, aes(zego, select, group=alter, colour=alter))
+sp + geom_point() + geom_smooth(size=1.2, span=3) +
+scale_colour_hue() +scale_x_continuous(breaks=levls) +
+theme(legend.key=element_blank())+labs(x=paste(name),
+                                       y=paste('evaluation function'),
+                                       title=paste('Influence effect',zname,'on',name),
+                                       colour=paste(name,'\nalter')) +
+theme_grey(base_size=20, base_family="") +
+theme(legend.key.width=unit(1, "cm")) +
+theme(plot.title=element_text(hjust=0.5))
+```
+
+# {-}

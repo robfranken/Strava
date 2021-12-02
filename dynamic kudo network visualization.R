@@ -29,66 +29,109 @@ load("clubdata.Rdata")
 # first, a static network visualization (using the 'igraph'-package)
 library(igraph)
 
-# let's take small network (club 4, n=13)
-club <- clubdata[[4]]
+# let's take 2  networks 
+club <- clubdata[[1]]
+club2 <- clubdata[[5]]
 
 # and take the kudo network at t1
-knet1 <- RSiena::coDyadCovar(data.matrix(club$kudo[,,1])) 
+knet <- RSiena::coDyadCovar(data.matrix(club$kudo[,,1])) 
+# for club 2 we take only the first 30 actors
+knet2 <- RSiena::coDyadCovar(club2$kudo[1:30,1:30,1])
 
 # turn it into an igraph object
-G <- igraph::graph_from_adjacency_matrix(knet1, mode = "directed", diag = FALSE) 
+G <- igraph::graph_from_adjacency_matrix(knet, mode = "directed", diag = FALSE) 
+G2 <- igraph::graph_from_adjacency_matrix(knet2, mode = "directed", diag = FALSE)
 
 # plot it
 plot(G)
+plot(G2)
 
-# let's alter vertice attributes: for now, sex (male vs. not male)
+# let's alter vertice attributes: let's make node size represent the behavior (ic frequency)
+V(G)$size <- 4 + club$freq_run[,,1] * 2
+V(G2)$size <- 4 + club2$freq_run[1:30,1,1] * 2
+
 V(G)$color <- ifelse(club$male == 1, "orange", "lightsteelblue2") # vertice color indicating sex (male vs. not male)
-plot(G)
+V(G2)$color <- ifelse(club2$male[1:30] == 1, "orange", "lightsteelblue2") # vertice color indicating sex (male vs. not male)
+
+V(G)$shape <- ifelse(club$freq_run[,,1]==0, "square", "circle" )
+V(G2)$shape <- ifelse(club2$freq_run[1:30,1,1]==0, "square", "circle" )
+plot(G2)
 
 # we make a network layout: we use a force-directed layout algorithm (eg, Fruchterman-Reingold, Kamada Kawai, Graphopt)
 # we save the layout in object l (this allows us to get the exact same layout every time; which is helpful for plotting the time evolution of a graph).
 #l <- layout_with_fr(G)
 l <- layout_with_kk(G)
+l2 <- layout_with_kk(G2)
 #l <- layout_with_graphopt(G)
 
 # and we alter some plotting parameters
-dev.off()
-plot(G,
-     
-     main = "Kudo network of Strava club (N=13) at T1",
-     sub = "Note: Tie exists if at least one kudo was awarded by actor i to actor j)",
-     
-     # === vertex
-     vertex.frame.color ="black",          
-     vertex.shape=vertex_attr(G)$shape, # adjustable                   
-     vertex.size=vertex_attr(G)$size,   # adjustable
-     vertex.size2=NA,                            
-     
-     # === vertex label
-     vertex.label=NA,                             
-     vertex.label.family="Times",              
-     vertex.label.font=2,                     
-     vertex.label.cex=1,                           
-     vertex.label.dist=0,                        
-     vertex.label.degree=0 ,                      
-     
-     # === Edge
-     edge.color="grey",                           
-     edge.width=1,                               
-     edge.arrow.size=.3,                      
-     edge.arrow.width=2,                         
-     edge.lty="solid",                             
-     edge.curved=.2,
-     
-     # === Layout
-     layout = l
-     )
-
-# add a legend
-legend(x=-.5, y=-1.1, c("Male", "Not male"), pch=21,
-       col="#777777", pt.bg=c("orange", "lightsteelblue2"), pt.cex=2, cex=1, bty="n", ncol=1)
-
-
+{
+  dev.off()
+  par(mfrow=c(1,2))
+  
+  plot(G,
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.shape=vertex_attr(G)$shape, # adjustable                   
+       vertex.size=vertex_attr(G)$size,   # adjustable
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="grey",                           
+       edge.width=1.5,                               
+       edge.arrow.size=.5,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=.2,
+       
+       # === Layout
+       layout = l
+  )
+  
+  text(-.3, 1.2, "Strava club A (N=30)", adj = 0, cex = 1.5)
+  
+  plot(G2,
+       # === vertex
+       vertex.frame.color ="black",          
+       vertex.shape=vertex_attr(G2)$shape, # adjustable                   
+       vertex.size=vertex_attr(G2)$size,   # adjustable
+       vertex.size2=NA,                            
+       
+       # === vertex label
+       vertex.label=NA,                             
+       vertex.label.family="Times",              
+       vertex.label.font=2,                     
+       vertex.label.cex=1,                           
+       vertex.label.dist=0,                        
+       vertex.label.degree=0 ,                      
+       
+       # === Edge
+       edge.color="grey",                           
+       edge.width=1.5,                               
+       edge.arrow.size=.5,                      
+       edge.arrow.width=1,                         
+       edge.lty="solid",                             
+       edge.curved=.2,
+       
+       # === Layout
+       layout = l2
+  )
+  text(-.3, 1.2, "Strava club B (N=77)", adj = 0, cex = 1.5)
+  text(-.6, 1.1, "Only the first 30 actors of the network are shown.", adj = 0, cex = 1.2)
+  
+  # add a legend
+  legend(x=-1.5, y=-.5, c("Male", "Not male"), pch=21,
+         col="#777777", pt.bg=c("orange", "lightsteelblue2"), pt.cex=3.5, cex=1.5, bty="n", ncol=1)
+  
+}
 ##########################################
 ##########################################
 
@@ -99,14 +142,19 @@ library(ndtv)
 library(network)
 
 # to create and animate the kudo network dynamically, we need to first load in our kudo network "snap shots" over time
+# we also include running behavior as a dynamic actor attribute
 knet <- list()
 t = 12
 
 for ( i in 1:t ) {
         net <- as.network(club$kudo[,,i])
+#       set.vertex.attribute(net, "freq_run", club$freq_run[,,i])
         knet[[i]] <- net 
 }
 
+summary(knet)
+plot
+  
 # check the structure of this object
 length(knet) # 12 networks
 is.network(knet[[1]]) # it is really a network
@@ -123,7 +171,7 @@ plot(knetDyn) # this plots all edges that were ever present
 plot (network.extract(knetDyn, at=1)) # this plots the edges at time 2 (and not 1!)
 
 # let's generate a quick animation of the dynamic kudo network
-render.d3movie(knetDyn)
+render.d3movie(knetDyn, usearrows = T, output.mode = 'htmlWidget')
 ?render.d3movie
 # to embed this animation (Markdown), use the parameter output.mode='inline'
 
