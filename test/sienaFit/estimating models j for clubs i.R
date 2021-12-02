@@ -1,20 +1,18 @@
+# with the following script, we estimate, for each club i, all models j
+# we rerun the models until adequate convergence is reached.
+# we store the sienaFit objects in a list, which we save later on.
+
 require(RSiena)
 
 # clean the working environment 
 rm (list = ls( ))
 
-
 # we set the no. of clubs and models to estimate
-c=2 #clubs
-m=2 #models (indeg, avAlt, avAttHigher, avAttLower, avAttHigher+Lower, avSim)
+c=5 #clubs
+m=6 #models (indeg, avAlt, avAttHigher, avAttLower, avAttHigher+Lower, avSim)
 
 # set the algorithm; perhaps tweak a bit?
 myalgorithm <- sienaAlgorithmCreate(projname = "test")
-
-
-# with the following script, we estimate, for each club i, all models j
-# we rerun the models until adequate convergence is reached.
-# we store the sienaFit objects in a list, which we save later on.
 
 
 #####
@@ -55,21 +53,10 @@ for (i in 1:c) { # for every club
   }
   # and save the list with RSiena fit objects
   save(sienaFit, file=paste("test", "/", "sienaFit", "/", "sienaFit_club", i, ".RData", sep = ""))
-  print(paste("All models are estimated for club ", i, "! Model results are stored in sienaFit_club", i, ".RData", sep=""))
-  while (TRUE){
-    if(i<c){
-      print(paste("Continuing with club ", i+1, sep=""))
-    }else{
-      print("Estimation finished!")
-      break
-    }
-  }
-
+  print(paste("All models are estimated for club ", i, ". Model results are stored in sienaFit_club", i, ".RData", sep=""))
+  print("")
+  ifelse(i<c, print(paste("Continuing with club ", i+1, sep="")), print("Estimation finished!"))
+  
 }
 
-
-
-
-
-###
 

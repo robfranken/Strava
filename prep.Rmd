@@ -123,51 +123,100 @@ for (i in (1: length(club_str))) {
     kudo_w12 <- kudo_w12[,2:ncol(kudo_w12)]
   }
   kudos <- array( c(kudo_w1,kudo_w2,kudo_w3,kudo_w4,kudo_w5,kudo_w6,kudo_w7,kudo_w8,kudo_w9,kudo_w10,kudo_w11,kudo_w12),
-                  dim = c( size, size, n_waves)) #Kudo matrix
+                  dim = c( size, size, n_waves)) #Kudos matrix
   
-  # we operationalize kudo-relationships in different ways: in an ordered fashion
-  # rsiena will set constraints between the networks
-  kudo_data <- ifelse(kudos > 0, 1, 0) #if at least 1 Kudo is send, tie exists
-  kudo_data2 <- ifelse(kudos > 1, 1, 0) #at least 2 Kudos
-  kudo_data3 <- ifelse(kudos > 2, 1, 0) #at least 3 Kudos
-  #for now, these order cut-offs were quite arbitrarily chosen; can be extended, or be applied with other categories.
+ # we operationalize kudo-relationships in different ways: we increase the cut-off for kudos-ties to exist
+  # let's first investigate the number of kudos send between actors in the network
+  #kudos %>% # absolute
+  #  table() 
+  #kudos %>% # proportionate         
+  #  table() %>%
+  #  prop.table() %>%
+  #  round(3)
+  #kudos %>% # cumulative proportions         
+  #  table() %>%
+  #  prop.table() %>%
+  #  round(3) %>%
+  #  cumsum()
   
+  kudo_data <- ifelse(kudos > 0, 1, 0)  #if at least 1 Kudo is send, tie exists
+  kudo_data3 <- ifelse(kudos > 2, 1, 0)  #at least 3 Kudos
+  kudo_data5 <- ifelse(kudos > 4, 1, 0)  #at least 5 Kudos
+  kudo_data7 <- ifelse(kudos > 6, 1, 0)  #at least 7 Kudos
+  # ...
   
-  # running time (in (half) hours per week)
-  time_run <- array( c( clubdata[, 'time_run_1.2019'], clubdata[, 'time_run_2.2019'], clubdata[, 'time_run_3.2019'], clubdata[, 'time_run_4.2019'], clubdata[, 'time_run_5.2019'], clubdata[, 'time_run_6.2019'], clubdata[, 'time_run_7.2019'], clubdata[, 'time_run_8.2019'], clubdata[, 'time_run_9.2019'], clubdata[, 'time_run_10.2019'], clubdata[, 'time_run_11.2019'], clubdata[, 'time_run_12.2019']),
-                     dim = c( size, 1, n_waves ) ) # minutes per month
-  time_run_h <- time_run / 60 # hours per month
-  time_run_30 <- time_run_h *2 # half hours
-  time <- ceiling(time_run_30/4) # per week
-  time_run_temp <- ifelse(time > 7, 7, time ) # cap off at 3.5 hours per week
+  # running time (in hours per week)
+  time_run <- array(c(clubdata[, "time_run_1.2019"], clubdata[, "time_run_2.2019"], clubdata[, "time_run_3.2019"], 
+                      clubdata[, "time_run_4.2019"], clubdata[, "time_run_5.2019"], clubdata[, "time_run_6.2019"], 
+                      clubdata[, "time_run_7.2019"], clubdata[, "time_run_8.2019"], clubdata[, "time_run_9.2019"], 
+                      clubdata[, "time_run_10.2019"], clubdata[, "time_run_11.2019"], clubdata[, "time_run_12.2019"]), 
+                    dim = c(size, 1, n_waves))  # minutes per month
+  time_run_h <- time_run/60  # hours per month
+  #time_run_30 <- time_run_h * 2  # half hours
+  time <- ceiling(time_run_h/4)  # per week
+
+  # provide some descriptives
+  #time %>% # absolute
+  #  table() 
+  #time %>% # proportionate 
+  #  table() %>%
+  #  prop.table() %>%
+  #  round(3)
+  #cumprop <- time %>% # cumulative proportions
+  #  table() %>%
+  #  prop.table() %>%
+  #  round(3) %>%
+  #  cumsum()
+  #print(cumprop)
+  #1-cumprop # the percentage of all values that is higher than the particular value
   
+  # our idea was to cap running time of at 7+ hours per week.
+  # this resulted in rather smooth (right-skewed) distribution of values for most clubs
+  # except for club 5, where 7+ hours category was highly populated over time. 
+  # We added 2 extra categories (capped of at 9+ hours); this resulted in a rather smooth distribution for this club. 
+
+  if (club_id == "clubid5") {
+    time_run_temp <- ifelse(time > 9, 9, time)
+  } else {
+    time_run_temp <- ifelse(time > 7, 7, time)
+  }
   
   # running frequency (times per week)
-  freq_run <- array( c( clubdata[, 'X.run_1.2019'], clubdata[, 'X.run_2.2019'], clubdata[, 'X.run_3.2019'], clubdata[, 'X.run_4.2019'], clubdata[, 'X.run_5.2019'], clubdata[, 'X.run_6.2019'], clubdata[, 'X.run_7.2019'], clubdata[, 'X.run_8.2019'], clubdata[, 'X.run_9.2019'], clubdata[, 'X.run_10.2019'], clubdata[, 'X.run_11.2019'], clubdata[, 'X.run_12.2019']),
-                     dim = c( size, 1, n_waves ) ) # frequencies per month
-  frequencies <- ceiling(freq_run/4) # per week
-  freq_run_temp <- ifelse(frequencies > 7, 7, frequencies) # cap off at 7 times per week
+  freq_run <- array(c(clubdata[, "X.run_1.2019"], clubdata[, "X.run_2.2019"], clubdata[, "X.run_3.2019"], 
+                      clubdata[, "X.run_4.2019"], clubdata[, "X.run_5.2019"], clubdata[, "X.run_6.2019"], clubdata[, 
+                                                                                                                   "X.run_7.2019"], clubdata[, "X.run_8.2019"], clubdata[, "X.run_9.2019"], clubdata[, "X.run_10.2019"], 
+                      clubdata[, "X.run_11.2019"], clubdata[, "X.run_12.2019"]), dim = c(size, 1, n_waves))  # frequencies per month
+  frequencies <- ceiling(freq_run/4)  # per week
+  freq_run_temp <- ifelse(frequencies > 7, 7, frequencies)  # cap off at 7 times per week
   
-  
-  # now that we have running data, let's load other activity data (e.g., cycling, swimming)
-  # time
-  time_ride <- array( c( clubdata[, 'time_ride_1.2019'], clubdata[, 'time_ride_2.2019'], clubdata[, 'time_ride_3.2019'], clubdata[, 'time_ride_4.2019'], clubdata[, 'time_ride_5.2019'], clubdata[, 'time_ride_6.2019'], clubdata[, 'time_ride_7.2019'], clubdata[, 'time_ride_8.2019'], clubdata[, 'time_ride_9.2019'], clubdata[, 'time_ride_10.2019'], clubdata[, 'time_ride_11.2019'], clubdata[, 'time_ride_12.2019']),
-                      dim = c( size, 1, n_waves ) )
-  time_other <- array( c( clubdata[, 'time_other_1.2019'], clubdata[, 'time_other_2.2019'], clubdata[, 'time_other_3.2019'], clubdata[, 'time_other_4.2019'], clubdata[, 'time_other_5.2019'], clubdata[, 'time_other_6.2019'], clubdata[, 'time_other_7.2019'], clubdata[, 'time_other_8.2019'], clubdata[, 'time_other_9.2019'], clubdata[, 'time_other_10.2019'], clubdata[, 'time_other_11.2019'], clubdata[, 'time_other_12.2019']),
-                       dim = c( size, 1, n_waves ) )
-  
-  time_other <- time_ride + time_other # minutes per month
-  time_other_h <- time_other / 60 # hours per month
-  time_other_h <- time_other_h *2  # half hours
-  time <- ceiling(time_other_h/4) #per week
-  time_other_temp <- ifelse(time > 7, 7, time ) # cap off at 3.5 hours per week
-  
+  # now that we have running data, let's load other activity data (e.g., cycling, swimming) time
+  time_ride <- array(c(clubdata[, "time_ride_1.2019"], clubdata[, "time_ride_2.2019"], clubdata[, "time_ride_3.2019"], 
+                       clubdata[, "time_ride_4.2019"], clubdata[, "time_ride_5.2019"], clubdata[, "time_ride_6.2019"], 
+                       clubdata[, "time_ride_7.2019"], clubdata[, "time_ride_8.2019"], clubdata[, "time_ride_9.2019"], 
+                       clubdata[, "time_ride_10.2019"], clubdata[, "time_ride_11.2019"], clubdata[, "time_ride_12.2019"]), 
+                     dim = c(size, 1, n_waves))
+  time_other <- array(c(clubdata[, "time_other_1.2019"], clubdata[, "time_other_2.2019"], clubdata[, "time_other_3.2019"], 
+                        clubdata[, "time_other_4.2019"], clubdata[, "time_other_5.2019"], clubdata[, "time_other_6.2019"], 
+                        clubdata[, "time_other_7.2019"], clubdata[, "time_other_8.2019"], clubdata[,"time_other_12.2019"]), 
+                      dim = c(size, 1, n_waves))
+                      
+  time_other <- time_ride + time_other  # minutes per month
+  time_other_h <- time_other/60  # hours per month
+  #time_other_h <- time_other_h * 2  # half hours
+  time <- ceiling(time_other_h/4)  #per week
+  time_other_temp <- ifelse(time > 7, 7, time)  # cap off at 7 hours per week
+  table(time_other_temp)
   
   # frequency
-  freq_ride <- array( c( clubdata[, 'X.ride_1.2019'], clubdata[, 'X.ride_2.2019'], clubdata[, 'X.ride_3.2019'], clubdata[, 'X.ride_4.2019'], clubdata[, 'X.ride_5.2019'], clubdata[, 'X.ride_6.2019'], clubdata[, 'X.ride_7.2019'], clubdata[, 'X.ride_8.2019'], clubdata[, 'X.ride_9.2019'], clubdata[, 'X.ride_10.2019'], clubdata[, 'X.ride_11.2019'], clubdata[, 'X.ride_12.2019']),
-                      dim = c( size, 1, n_waves ) )
-  freq_other <- array( c( clubdata[, 'X.other_1.2019'], clubdata[, 'X.other_2.2019'], clubdata[, 'X.other_3.2019'], clubdata[, 'X.other_4.2019'], clubdata[, 'X.other_5.2019'], clubdata[, 'X.other_6.2019'], clubdata[, 'X.other_7.2019'], clubdata[, 'X.other_8.2019'], clubdata[, 'X.other_9.2019'], clubdata[, 'X.other_10.2019'], clubdata[, 'X.other_11.2019'], clubdata[, 'X.other_12.2019']),
-                       dim = c( size, 1, n_waves ) )
+  freq_ride <- array(c(clubdata[, "X.ride_1.2019"], clubdata[, "X.ride_2.2019"], clubdata[, "X.ride_3.2019"], 
+                       clubdata[, "X.ride_4.2019"], clubdata[, "X.ride_5.2019"], clubdata[, "X.ride_6.2019"], clubdata[, 
+                                                                                                                       "X.ride_7.2019"], clubdata[, "X.ride_8.2019"], clubdata[, "X.ride_9.2019"], clubdata[, "X.ride_10.2019"], 
+                       clubdata[, "X.ride_11.2019"], clubdata[, "X.ride_12.2019"]), dim = c(size, 1, n_waves))
+  freq_other <- array(c(clubdata[, "X.other_1.2019"], clubdata[, "X.other_2.2019"], clubdata[, "X.other_3.2019"], 
+                        clubdata[, "X.other_4.2019"], clubdata[, "X.other_5.2019"], clubdata[, "X.other_6.2019"], clubdata[, 
+                                                                                                                           "X.other_7.2019"], clubdata[, "X.other_8.2019"], clubdata[, "X.other_9.2019"], clubdata[, 
+                                                                                                                                                                                                                   "X.other_10.2019"], clubdata[, "X.other_11.2019"], clubdata[, "X.other_12.2019"]), dim = c(size, 
+                                                                                                                                                                                                                                                                                                              1, n_waves))
   
   freq_other <- freq_ride + freq_other
   frequencies <- ceiling(freq_other/4)
@@ -179,12 +228,11 @@ for (i in (1: length(club_str))) {
   winter <- matrix(winter,nrow = size,ncol = n_waves, byrow = TRUE)
   
   # create a list containing all the read club data for the current club
-  club <- list("friendship" = friend_data, 
-               "kudo" = kudo_data, "kudo2" = kudo_data2, "kudo3" = kudo_data3,
-               "freq_run" = freq_run_temp, "time_run" = time_run_temp, "freq_other" = freq_other_temp, "time_other" = time_other_temp, "winter" = winter, "male" = male, "female" = female, "other" = other, "netsize" = size,
-               "persist" = persist)
+  club <- list(friendship = friend_data, kudo = kudo_data, kudo3 = kudo_data3, kudo5 = kudo_data5, kudo7 = kudo_data7, 
+               freq_run = freq_run_temp, time_run = time_run_temp, freq_other = freq_other_temp, time_other = time_other_temp, 
+               winter = winter, male = male, female = female, other = other, netsize = size)
   
-  # save 
+  # save
   
   save(club, file=paste("clubs/", "club", club_id, ".RData", sep = ""))
   
@@ -195,32 +243,28 @@ for (i in (1: length(club_str))) {
 
 # Now that we have saved the clubdata for all clubs, let's combine them in one list
 
-# first clean the working directory
-rm (list = ls( ))
+# first clean the working directory, except our club string; we still need that one.
+rm(list = setdiff(ls(), "club_str"))
+
+# We use a function to load the objects under new names.
+loadRData <- function(fileName){
+  #loads an RData file, and returns it
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
 
 # load in the separate club-objects
-{
-  load("clubs/clubid1.RData")
-  club1 <- club
-  
-  load("clubs/clubid2.RData")
-  club2 <- club
-  
-  load("clubs/clubid3.RData")
-  club3 <- club
-  
-  load("clubs/clubid4.RData")
-  club4 <- club
-  
-  load("clubs/clubid5.RData")
-  club5 <- club
-}
+club1 <- loadRData(paste("clubs", "/", "club", club_str[1], ".RData", sep=""))
+club2 <- loadRData(paste("clubs", "/", "club", club_str[2], ".RData", sep=""))
+club3 <- loadRData(paste("clubs", "/", "club", club_str[3], ".RData", sep=""))
+club4 <- loadRData(paste("clubs", "/", "club", club_str[4], ".RData", sep=""))
+club5 <- loadRData(paste("clubs", "/", "club", club_str[5], ".RData", sep=""))
 
 # and make a list containing all the clubdata
 clubdata <- list(club1, club2, club3, club4, club5)
 
 # save the output
-save(clubdata, file="clubs/clubdata.RData")
+save(clubdata, file = "clubs/clubdata.RData")
 
 
 ``` 
@@ -246,11 +290,9 @@ str(clubdata) # inspect structure
 ####################################################
 
 
-{
+
   clubdata_rsiena <- list()
-  clubdata_rsiena2 <- list() # here we take as a cut-off value for kudos-ties 2 kudos from   i to j
-  clubdata_rsiena3 <- list() # and here 3
-}
+
 
 for (i in 1:5) { 
   club <- clubdata[[i]]
@@ -259,8 +301,6 @@ for (i in 1:5) {
   
   # A: network variables
   kudonet <- sienaDependent(club$kudo, allowOnly = FALSE) #at least one Kudo
-  kudonet2 <- sienaDependent(club$kudo2, allowOnly = FALSE) #>1 Kudos
-  kudonet3 <- sienaDependent(club$kudo3, allowOnly = FALSE) #>2 Kudos
   
   # B: behavioral variables
   time_run <- sienaDependent(club$time_run, type= "behavior", allowOnly = FALSE)
@@ -280,13 +320,10 @@ for (i in 1:5) {
   
   # now combine the dependent and independent variables in a data object
   mydata <- sienaDataCreate(kudonet, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
-  mydata2 <- sienaDataCreate(kudonet2, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
-  mydata3 <- sienaDataCreate(kudonet3, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
 
   # this finishes the data specification
   clubdata_rsiena[[i]] <- mydata 
-  clubdata_rsiena2[[i]] <- mydata2 
-  clubdata_rsiena3[[i]] <- mydata3
+
 } 
 
 # add netsize
@@ -299,11 +336,9 @@ for (i in 1:5) {
 }
 
 # save the output
-{
-  save(clubdata_rsiena, file="clubs/clubdata_rsiena.RData")
-  save(clubdata_rsiena2, file="clubs/clubdata_rsiena2.RData")
-  save(clubdata_rsiena3, file="clubs/clubdata_rsiena3.RData")
-}
+
+save(clubdata_rsiena, file="clubs/clubdata_rsiena.RData")
+
 ```
 
 
