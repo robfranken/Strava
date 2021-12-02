@@ -5,10 +5,10 @@ rm (list = ls( ))
 
 
 # we set the no. of clubs and models to estimate
-c=5 #clubs
-m=6 #models (indeg, avAlt, avAttHigher, avAttLower, avAttHigher+Lower, avSim)
+c=2 #clubs
+m=2 #models (indeg, avAlt, avAttHigher, avAttLower, avAttHigher+Lower, avSim)
 
-# set the algorithm in advance.
+# set the algorithm; perhaps tweak a bit?
 myalgorithm <- sienaAlgorithmCreate(projname = "test")
 
 
@@ -21,7 +21,7 @@ myalgorithm <- sienaAlgorithmCreate(projname = "test")
 
 
 for (i in 1:c) { # for every club
-  
+
   # we load the RSiena object
   load(file=paste("test", "/", "mydata", "/", "mydata_club", i, ".RData", sep = "")) 
   
@@ -33,23 +33,43 @@ for (i in 1:c) { # for every club
   
   # for club i we run models j in 1:m
   for (j in 1:m) {
-    
+ 
     # we estimate the model
-    sienaFit[[j]] <- siena07(myalgorithm, data = mydata, effects = myeff[[j]], returnDeps=TRUE) 
+    try <- 1
+    print(paste("Estimating model ", j, " for club ", i, sep=""))
+    sienaFit[[j]] <- siena07(myalgorithm, data = mydata, effects = myeff[[j]], returnDeps=TRUE) # store it in the list
     
     # re-run until we reach adequate convergence
     while (TRUE){
       if(sienaFit[[j]]$tconv.max >= .25){
-        sienaFit[[j]] <- siena07( myalgorithm, data = mydata, effects = myeff, prevAns= sienaFit[[j]], returnDeps=TRUE)
+        try <- try + 1
+        print(paste("Model did not converge adequately (", sienaFit[[j]]$tconv.max, "); ", "Repeat the estimation (", "try ", try, ")", sep = ""))
+        sienaFit[[j]] <- siena07( myalgorithm, data = mydata, effects = myeff[[j]], prevAns= sienaFit[[j]], returnDeps=TRUE)
       }else{
+        print(paste("Reached overall maximum convergence ratio of: ", sienaFit[[j]]$tconv.max, sep = ""))
+        print("")
         break
       }
     }
+    
   }
   # and save the list with RSiena fit objects
   save(sienaFit, file=paste("test", "/", "sienaFit", "/", "sienaFit_club", i, ".RData", sep = ""))
+  print(paste("All models are estimated for club ", i, "! Model results are stored in sienaFit_club", i, ".RData", sep=""))
+  while (TRUE){
+    if(i<c){
+      print(paste("Continuing with club ", i+1, sep=""))
+    }else{
+      print("Estimation finished!")
+      break
+    }
+  }
 
 }
-    
 
+
+
+
+
+###
 

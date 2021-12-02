@@ -46,7 +46,7 @@
     myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "myeff_club1", ".RData", sep = ""))
-    
+
   }
   
   #########################################################################################################################
