@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Different influence measure</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li>
+  <a href="des.html">Descriptives</a>
+</li>
+<li>
+  <a href="explore.html">Model selection</a>
+</li>
+<li>
+  <a href="meta.html">Meta-analysis</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Robustness checks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="avSim.html">Different social influence operationalization</a>
+    </li>
+    <li>
+      <a href="robust.html">Different kudos tie classification</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown-header">Supplementary material</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Different influence measure</h1>
+<h4 class="date">Last compiled on November, 2021</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<p><br></p>
+<div id="different-social-influence-operationalization" class="section level1">
+<h1>Different social influence operationalization</h1>
+<hr />
+<p>We estimate our model with instead of the <em>avAttHigher</em>-effect, the <em>average similarity</em> effect (avSim) as an alternative operationalization of peer-influence. We use the relative importance concept as describde by <span class="citation">Indlekofer and Brandes (2013)</span>. We use the ‘sienaRI()’-function to calculate the <em>relative importance of effects</em> in SAOM.</p>
+<p>We use club 1 (N=30).</p>
+<pre class="r test"><code>load(&quot;clubdata_rsiena.Rdata&quot;)
+mydata &lt;- clubdata_rsiena[[1]]</code></pre>
+<p>We define the effects-object:</p>
+<pre class="r test"><code>myeff &lt;- getEffects(mydata)
+myeff1 &lt;- includeEffects(myeff, gwespFF, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;)
+myeff2 &lt;- setEffect(myeff1, higher, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;)
+myeff2 &lt;- includeEffects(myeff2, egoX, altX, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;)
+myeff3 &lt;- includeEffects(myeff2, effFrom, name = &quot;time_run&quot;, interaction1 = &quot;freq_run&quot;)
+myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;time_run&quot;)
+myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;time_run&quot;, interaction1 = &quot;time_other&quot;)
+myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;freq_other&quot;)
+myeff3 &lt;- includeEffects(myeff3, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff3 &lt;- includeEffects(myeff3, indeg, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff4 &lt;- includeEffects(myeff3, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff4 &lt;- includeEffects(myeff3, avSim, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff5 &lt;- includeEffects(myeff3, avAttHigher, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)
+myeff5 &lt;- includeEffects(myeff5, avAttHigher, name = &quot;time_run&quot;, interaction1 = &quot;kudonet&quot;)</code></pre>
+<p><br></p>
+<p>Define the algorithm and estimate both model (one run for now).</p>
+<pre class="r test"><code>myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;)
+ans_avSim &lt;- siena07(myalgorithm, data = mydata, effects = myeff4, batch = FALSE, verbose = FALSE, returnDeps = TRUE)
+ans_avAttHigher &lt;- siena07(myalgorithm, data = mydata, effects = myeff5, batch = FALSE, verbose = FALSE,
+    returnDeps = TRUE)</code></pre>
+<p><br></p>
+<p>SAOM micro-steps are random events with <em>n</em> possible outcomes. Let’s denote the probabilities with which actor <em>i</em> in a micro-step with respect to behavior attribute(s) may change the attribute by <span class="math inline">\(p_{i} (\beta , x) = (p_{i1}(\beta , x), ... , (p_{in}(\beta , x))\)</span>. The Indlekofer-Brandes measures are numerical answers to the question, <em>How strongly do these probabilities depend on each of the effects?</em></p>
+<p><br></p>
+<hr />
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-indlekofer2013" class="csl-entry">
+Indlekofer, Natalie, and Ulrik Brandes. 2013. <span>“Relative Importance of Effects in Stochastic Actor-Oriented Models.”</span> <em>Network Science</em> 1 (3): 278–304. <a href="https://doi:10.1017/nws.2013.21">doi:10.1017/nws.2013.21</a>.
+</div>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkRpZmZlcmVudCBpbmZsdWVuY2UgbWVhc3VyZSINCmRhdGU6ICJMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgIg0KYmlibGlvZ3JhcGh5OiByZWZlcmVuY2VzLmJpYg0Kb3V0cHV0Og0KICBodG1sX2RvY3VtZW50Og0KICAgIGNzczogdHdlYWtzLmNzcw0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICB0b2NfZGVwdGg6IDENCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KGtuaXRyKQ0KbGlicmFyeShSU2llbmEpDQpsaWJyYXJ5KGdncGxvdDIpDQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQpvcHRzX2NodW5rJHNldCh0aWR5Lm9wdHM9bGlzdCh3aWR0aC5jdXRvZmY9MTAwKSx0aWR5PVRSVUUsIHdhcm5pbmcgPSBGQUxTRSwgbWVzc2FnZSA9IEZBTFNFLGNvbW1lbnQgPSAiIz4iLCBjYWNoZT1UUlVFLCBjbGFzcy5zb3VyY2U9YygidGVzdCIpLCBjbGFzcy5vdXRwdXQ9YygidGVzdDIiKSkNCm9wdGlvbnMod2lkdGggPSAxMDApDQpyZ2w6OnNldHVwS25pdHIoKQ0KDQpjb2xvcml6ZSA8LSBmdW5jdGlvbih4LCBjb2xvcikge3NwcmludGYoIjxzcGFuIHN0eWxlPSdjb2xvcjogJXM7Jz4lczwvc3Bhbj4iLCBjb2xvciwgeCkgfQ0KDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCjxicj4NCg0KIyBEaWZmZXJlbnQgc29jaWFsIGluZmx1ZW5jZSBvcGVyYXRpb25hbGl6YXRpb24NCg0KLS0tDQoNCldlIGVzdGltYXRlIG91ciBtb2RlbCB3aXRoIGluc3RlYWQgb2YgdGhlICphdkF0dEhpZ2hlciotZWZmZWN0LCB0aGUgKmF2ZXJhZ2Ugc2ltaWxhcml0eSogZWZmZWN0IChhdlNpbSkgYXMgYW4gYWx0ZXJuYXRpdmUgb3BlcmF0aW9uYWxpemF0aW9uIG9mIHBlZXItaW5mbHVlbmNlLiBXZSB1c2UgdGhlIHJlbGF0aXZlIGltcG9ydGFuY2UgY29uY2VwdCBhcyBkZXNjcmliZGUgYnkgQGluZGxla29mZXIyMDEzLiBXZSB1c2UgdGhlICdzaWVuYVJJKCknLWZ1bmN0aW9uIHRvIGNhbGN1bGF0ZSB0aGUgKnJlbGF0aXZlIGltcG9ydGFuY2Ugb2YgZWZmZWN0cyogaW4gU0FPTS4NCg0KV2UgdXNlIGNsdWIgMSAoTj0zMCkuDQoNCmBgYHtyfQ0KbG9hZCgiY2x1YmRhdGFfcnNpZW5hLlJkYXRhIikgDQpteWRhdGEgPC0gY2x1YmRhdGFfcnNpZW5hW1sxXV0gDQpgYGANCg0KV2UgZGVmaW5lIHRoZSBlZmZlY3RzLW9iamVjdDoNCg0KYGBge3IgcmVzdWx0cz0naGlkZSd9DQpteWVmZiA8LSBnZXRFZmZlY3RzKG15ZGF0YSkNCm15ZWZmMSA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZiwgZ3dlc3BGRiwgb3V0QWN0U3FydCwgaW5Qb3BTcXJ0LCBuYW1lID0gImt1ZG9uZXQiKSANCm15ZWZmMiA8LSBzZXRFZmZlY3QobXllZmYxLCBoaWdoZXIsIG5hbWUgPSAia3Vkb25ldCIsIGludGVyYWN0aW9uMSA9ICJmcmVxX3J1biIpDQpteWVmZjIgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYyLCBlZ29YLCBhbHRYLCBzYW1lWCwgbmFtZT0ia3Vkb25ldCIsIGludGVyYWN0aW9uMSA9ICJnZW5kZXIiICkNCm15ZWZmMyA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjIsIGVmZkZyb20sIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAiZnJlcV9ydW4iKQ0KbXllZmYzIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMywgZWZmRnJvbSwgbmFtZSA9ICJmcmVxX3J1biIsIGludGVyYWN0aW9uMSA9ICJ0aW1lX3J1biIpDQpteWVmZjMgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYzLCBlZmZGcm9tLCBuYW1lID0gInRpbWVfcnVuIiwgaW50ZXJhY3Rpb24xID0gInRpbWVfb3RoZXIiKQ0KbXllZmYzIDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMywgZWZmRnJvbSwgbmFtZSA9ICJmcmVxX3J1biIsIGludGVyYWN0aW9uMSA9ICJmcmVxX290aGVyIikNCm15ZWZmMyA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjMsIGluZGVnLCBuYW1lID0gImZyZXFfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKSANCm15ZWZmMyA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjMsIGluZGVnLCBuYW1lID0gInRpbWVfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKQ0KbXllZmY0IDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmMywgYXZTaW0sIG5hbWUgPSAiZnJlcV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpDQpteWVmZjQgPC0gaW5jbHVkZUVmZmVjdHMobXllZmYzLCBhdlNpbSwgbmFtZSA9ICJ0aW1lX3J1biIsIGludGVyYWN0aW9uMSA9ICJrdWRvbmV0IikNCm15ZWZmNSA8LSBpbmNsdWRlRWZmZWN0cyhteWVmZjMsIGF2QXR0SGlnaGVyLCBuYW1lID0gImZyZXFfcnVuIiwgaW50ZXJhY3Rpb24xID0gImt1ZG9uZXQiKQ0KbXllZmY1IDwtIGluY2x1ZGVFZmZlY3RzKG15ZWZmNSwgYXZBdHRIaWdoZXIsIG5hbWUgPSAidGltZV9ydW4iLCBpbnRlcmFjdGlvbjEgPSAia3Vkb25ldCIpDQpgYGANCg0KPGJyPiANCg0KRGVmaW5lIHRoZSBhbGdvcml0aG0gYW5kIGVzdGltYXRlIGJvdGggbW9kZWwgKG9uZSBydW4gZm9yIG5vdykuDQoNCmBgYHtyIGV2YWw9RiwgcmVzdWx0cz0naGlkZSd9DQpteWFsZ29yaXRobSA8LSBzaWVuYUFsZ29yaXRobUNyZWF0ZShwcm9qbmFtZSA9ICJ0ZXN0IikgDQphbnNfYXZTaW0gPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YSA9IG15ZGF0YSwgZWZmZWN0cyA9IG15ZWZmNCwNCiAgICAgICAgICAgICAgICAgYmF0Y2ggPSBGQUxTRSwgdmVyYm9zZSA9IEZBTFNFLCByZXR1cm5EZXBzID0gVFJVRSkNCmFuc19hdkF0dEhpZ2hlciA8LSBzaWVuYTA3KG15YWxnb3JpdGhtLCBkYXRhID0gbXlkYXRhLCBlZmZlY3RzID0gbXllZmY1LA0KICAgICAgICAgICAgICAgICBiYXRjaCA9IEZBTFNFLCB2ZXJib3NlID0gRkFMU0UsIHJldHVybkRlcHMgPSBUUlVFKQ0KYGBgDQoNCjxicj4NCg0KU0FPTSBtaWNyby1zdGVwcyBhcmUgcmFuZG9tIGV2ZW50cyB3aXRoICpuKiBwb3NzaWJsZSBvdXRjb21lcy4gTGV0J3MgZGVub3RlIHRoZSBwcm9iYWJpbGl0aWVzIHdpdGggd2hpY2ggYWN0b3IgKmkqIGluIGEgbWljcm8tc3RlcCB3aXRoIHJlc3BlY3QgdG8gYmVoYXZpb3IgYXR0cmlidXRlKHMpIG1heSBjaGFuZ2UgdGhlIGF0dHJpYnV0ZSBieSAkcF97aX0gKFxiZXRhICwgeCkgPSAocF97aTF9KFxiZXRhICwgeCksIC4uLiAsIChwX3tpbn0oXGJldGEgLCB4KSkkLiBUaGUgSW5kbGVrb2Zlci1CcmFuZGVzDQptZWFzdXJlcyBhcmUgbnVtZXJpY2FsIGFuc3dlcnMgdG8gdGhlIHF1ZXN0aW9uLCAqSG93IHN0cm9uZ2x5IGRvIHRoZXNlIHByb2JhYmlsaXRpZXMgZGVwZW5kIG9uIGVhY2ggb2YgdGhlIGVmZmVjdHM/KiANCg0KPGJyPg0KDQotLS0tDQoNCiMjIFJlZmVyZW5jZXMNCg0KDQo=</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("avSim.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

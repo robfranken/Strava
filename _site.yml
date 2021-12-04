@@ -1,5 +1,5 @@
 name: "Strava Journal"
-exclude: ["clubs", "egos"]
+exclude: ["clubs", "egos", "test"]
 navbar:
   left:
     - icon: fa-home
