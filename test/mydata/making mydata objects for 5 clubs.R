@@ -1,6 +1,6 @@
 # we make RSiena objects for each club; with only one behavior attribute (running frequency)
 # we save them
-
+library(RSiena)
 rm (list = ls( ))
 
 #load rsiena object for this club (mydata)

@@ -356,3 +356,54 @@ finluenceplot(alters=alters1, min=1, max=6, fun=list(favAttLower, favAttHigher),
 
 ```
 
+## Results model strava
+
+```{r}
+alters1 <- rep(c(2, 2, 2, 5, 5, 5))
+alters2 <- rep(c(3.5, 3.5, 3.5, 3.5, 3.5, 3.5))
+``` 
+
+```{r}
+# club1
+finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-0.15, -0.002, 2.0027, 6.0905))
+
+
+finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-0.15, -0.002, 2.0027, 6.0905))
+
+# club2
+finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-0.24, 0.0075, 3.3213, 5.0047))
+
+
+finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-0.24, 0.0075, 3.3213, 5.0047))
+
+
+# club3
+finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-0.2085, 0.021, 3.7703, 2.1283))
+
+
+finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-0.2085, 0.021, 3.7703, 2.1283))
+
+
+# club4
+finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-1.3313, 0.0192, 2.5493, 4.4952))
+
+
+finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(-1.3313, 0.0192, 2.5493, 4.4952))
+
+
+# club5
+finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(0.1021, 0.0743, 1.1736, 8.5486))
+
+
+finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher,
+    favAttLower), params = c(0.1021, 0.0743, 1.1736, 8.5486))
+```
