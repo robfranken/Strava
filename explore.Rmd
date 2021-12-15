@@ -72,11 +72,11 @@ Below, we will follow these steps for club 1 (N=30). We will do the same procedu
 
 # Step 1: Data
 
-We read in the R-SIENA objects list (*clubdata_rsiena.RData*) and we grab club 1 (N=30). For now we take as our network variable the kudos-network in which awarding/receiving *at least* 1 Kudo constitutes an *i,j* tie. 
+We read in the R-SIENA objects list (*clubdata_rsiena.RData*) and we grab club 1 (N=30). For now we take as our network variable the kudos-network in which awarding/receiving *at least* 1 kudos constitutes an *i,j* tie. 
 
-- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7 times per week), and running duration (in half hours per week, capped at 7).
+- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7+ times per week); running duration will be investigated later on.
 
-- We included activity in other sports (e.g., cycling and swimming) as a time-varying covariate.
+- We included activity (frequency) in other sports (e.g., cycling and swimming) as a time-varying covariate.
 
 - And we also included gender (men vs. women and others), and winter as constant and varying covariates, respectively.
 
@@ -149,7 +149,6 @@ myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = FALSE,
 ## Selection effects {#sel}
 Second, we include a selection effect with respect to behavior:
 
-- for our 
 We use the higher-effect to control for aspirational tie-preferences (indicated by a negative parameter estimate).
 
 ```{r echo=T, results='hide'}
@@ -173,7 +172,8 @@ myeff2 <- includeEffects(myeff2, egoX, altX, sameX, name="kudonet", interaction1
 We have selected a rather simple model to simulate kudos tie-formation dynamics. Let's estimate the model and assess the model's GOF to additional effects that were not directly modeled: the in- and outdegree distribution and the geodesic distance distribution. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior), for subsequent GOF assesment. We save the GOF-diagnostics in a list.
 
 ```{r eval=F, results='hide'}
-myalgorithm <- sienaAlgorithmCreate(projname = "test") # first, set the SAOM algorithm 
+myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+ # first, set the SAOM algorithm 
 
 ansM1 <- siena07(myalgorithm, data = mydata, effects = myeff2, # estimate the SAOM
                  batch = FALSE, verbose = FALSE, returnDeps = TRUE)
@@ -269,21 +269,13 @@ We have modeled the dynamics of kudos tie formation. Now let's model dynamics in
 ## Covariate effects
 We start with effects on behavior changes of other variables.
 
-- the interdependence between frequency and volume
-- the interdependence between running and other sports
+- the interdependence between running and other sports (frequency)
 - gender on behavior
 - winter on behavior (we exclude this effect, as it was not significantly different from 0)
   
 ```{r echo=T, results='hide'}
-myeff3 <- includeEffects(myeff2, effFrom, name = "time_run", interaction1 = "freq_run")
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "time_run")
-
-myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "time_other")
-myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "freq_other")
-
+myeff3 <- includeEffects(myeff2, effFrom, name = "freq_run", interaction1 = "freq_other")
 myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gender")
-myeff3 <- includeEffects(myeff3, effFrom, name = "time_run", interaction1 = "gender")
-
 ```
   
 <br>
@@ -296,24 +288,21 @@ Last, we include two influence effects to test our hypotheses on the influence o
 1. The indegree effect on behavior.
 This tests the social support explanation: the higher the indegree (our operationalization of received support), the greater the probability of increasing the behavior. 
 
-2. The average attraction towards higher alters effect
-This tests social comparison as assimilation.
+2. The average attraction towards higher (and lower) effect.
+This test the extent to which ego is pulled up (or drawn down) on the behavior scale by alters that score higher (or lower).
 
 We test these effects sequentially:
 so first, we estimate a model with the indegree effect on behavior added to the baseline model;
-second, we add the average attraction to higher alters effect. 
+Second, we add the average attraction higher (lower) effect.
 
-We also fixed-and-tested the effect of outdegree on behavior, to rule out possible confounding of the outdegree effect. Score-type test indicated that outdegree-effects on behavior were 0. 
+We also fixed-and-tested the effect of outdegree on behavior, to rule out possible confounding of the outdegree effect. Score-type test indicated that outdegree-effects on behavior were 0 (not shown). 
 
 
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet") 
-myeff3 <- includeEffects(myeff3, indeg, name = "time_run", interaction1 = "kudonet")
 
 myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
-myeff4 <- includeEffects(myeff4, avAttHigher, name = "time_run", interaction1 = "kudonet")
-myeff4 <- setEffect(myeff4, outdeg, name = "freq_run", interaction1 = "kudonet", fix = TRUE, test = FALSE, initialValue = 0) 
-myeff4 <- setEffect(myeff4, outdeg, name = "time_run", interaction1 = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff4 <- includeEffects(myeff4, avAttLower, name = "freq_run", interaction1 = "kudonet") 
 ```
 
   
@@ -349,12 +338,16 @@ while (TRUE){
   
   if(ansM2$tconv.max >= .25){
     try <- try + 1
+     if (try>30) {
+          print(paste("Now it lasted to long!") 
+          break      
+        }
     print(paste("Model did not converge: ", ansM2$tconv.max, sep = ""))
     print(paste("Try:", try, sep=" "))
     ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM2, returnDeps=TRUE)
     
   }else{
-    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 2", ".html", sep=""))
+    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 1", ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM2$tconv.max, sep = ""))
     break
   }
@@ -363,16 +356,16 @@ while (TRUE){
 
 <br>
  
-This took some time. We also save the sienaFit-object to our "Principal club"-folder.
+We also save the sienaFit-object to our "Principal club"-folder.
 
 ```{r eval= F }
-save(ansM2, file= paste("files", "/", "test club 1", "/", "model2.RData", sep=""))
+save(ansM2, file= paste("files", "/", "test club 1", "/", "model1.RData", sep=""))
 ```
 
 
 <br>
 
-Now follow the same procedure for the model comprising also the assimilation- (and outdegree-) effect. Again, we will run the model as many times as necessary, until we reach convergence. Again, we use prevAns.
+Now follow the same procedure for the model comprising also the assimilation-effects. Again, we will run the model as many times as necessary, until we reach convergence. Again, we use prevAns.
 
 ```{r eval= F }
 try <- 1
@@ -383,12 +376,16 @@ while (TRUE){
   
   if(ansM3$tconv.max >= .25){
     try <- try + 1
+    if (try>30) {
+          print(paste("Now it lasted to long!") 
+          break      
+        }
     print(paste("Model did not converge: ", ansM3$tconv.max, sep = ""))
     print(paste("Try:", try, sep=" "))
     ansM3 <- siena07( myalgorithm, data = mydata, effects = myeff4, prevAns= ansM3, returnDeps=TRUE)
     
   }else{
-    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 3", ".html", sep=""))
+    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 2", ".html", sep=""))
     print(paste("Reached convergence ratio of ", ansM3$tconv.max, sep = ""))
     break
   }
@@ -401,7 +398,7 @@ while (TRUE){
 We save the sienaFit-object.
 
 ```{r eval= F }
-save(ansM3, file= paste("files", "/", "test club 1", "/", "model3.RData", sep=""))
+save(ansM3, file= paste("files", "/", "test club 1", "/", "model2.RData", sep=""))
 
 ```
 
@@ -415,37 +412,16 @@ gofbeh <- sienaGOF(ansM3,
                    verbose = TRUE,
                    join = TRUE,
                    varName = "freq_run")
-
-gofbeh2 <- sienaGOF(ansM3,
-                   BehaviorDistribution,
-                   verbose = TRUE,
-                   join = TRUE,
-                   varName = "time_run")
-
-goflist2 <- list(gofbeh, gofbeh2)
-save(goflist2, file= paste("files", "/", "test club 1", "/", "gof2.RData", sep=""))
 ```
 
-### {.tabset .tabset-fade}
 
-#### Running frequency distribution
 ```{r class.source = 'fold-hide'}
 load("files/test club 1/gof2.RData")
 plot(goflist2[[1]])
 ```
 
-#### Running duration distribution
-```{r class.source = 'fold-hide'}
-plot(goflist2[[2]])
-```
 
-### {-}
-
-
-
-GOF is adequate for the distribution of running frequency values, but not for the running duration values...
-
-This may be due to the operationalization of this variable...
+GOF is adequate for the distribution of running frequency values.
 
 
 ----
@@ -456,25 +432,25 @@ This may be due to the operationalization of this variable...
 
 We present the SAOM results for club 1.
 
-The first table (Model 1) presents the parameter estimates for (1) network structure; (2) network dynamics (selection); (3) behavior dynamics comprising shape effects, *indegree effect* on behavior, and covariate effects on behavior change. The second table (Model 2) adds the assimilation- and outdegree-effects on behavior.
+The first table (Model 1) presents the parameter estimates for (1) network structure; (2) network dynamics (selection); (3) behavior dynamics comprising shape effects, *indegree effect* on behavior, and covariate effects on behavior change. The second table (Model 2) adds the assimilation effects on behavior.
 
 ## {.tabset .tabset-fade}
 
 ### Model 1
 ```{r, echo=F}
-htmltools::includeHTML("files/test club 1/Model 2.html")
+htmltools::includeHTML("files/test club 1/Model 1.html")
 ```
 
 ### Model 2
 ```{r, echo=F}
-htmltools::includeHTML("files/test club 1/Model 3.html")
+htmltools::includeHTML("files/test club 1/Model 2.html")
 ```
 
 ## {-}
 
 ----
 
-We do not find a significant kudos indegree effect. We do find a significant upward assimilation effect for running frequency. 
+We do not find a significant kudos indegree effect. We do find that actors are influenced by the behavior of kudos (out-) ties, but they are mostly pulled down (avAttLower)
 
 <br>
 

@@ -12,12 +12,9 @@ navbar:
       href: explore.html
     - text: "Meta-analysis"
       href: meta.html
-    - text: "Robustness checks"
-      menu:
+    - menu:
       - text: "Different social influence operationalization"
-        href: avSim.html
       - text: "Different kudos tie classification"
-        href: robust.html
     - text: "Supplementary material"
   right:
     - icon: fab fa-github

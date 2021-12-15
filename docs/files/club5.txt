@@ -6,9 +6,9 @@ Filename is files/club5.txt.
 
 This file contains primary output for SIENA project <<files/club5>>.
 
-Date and time: 28/04/2021 15:38:34 
+Date and time: 09/12/2021 12:10:28 
 
-RSiena version 1.2.33 (19 03 2021)
+RSiena version 1.2.34 (30 04 2021)
 
 
 @1
@@ -19,7 +19,7 @@ Data input.
 77 actors,
 1 dependent network variables,
 0 dependent bipartite variables,
-3 dependent discrete behavior variables,
+2 dependent discrete behavior variables,
 0 dependent continuous behavior variables,
 1 constant actor covariates,
 3 exogenous changing actor covariates,
@@ -267,34 +267,28 @@ No missing data for observation 12.
 
 
 
-
 @2
 Reading dependent actor variables.
 ----------------------------------
 
 1st dependent actor variable named time_run.
-Maximum and minimum rounded values are 0 and 7.
+Maximum and minimum rounded values are 0 and 9.
 
 2nd dependent actor variable named freq_run.
 Maximum and minimum rounded values are 0 and 7.
 
-3rd dependent actor variable named persist.
-Maximum and minimum rounded values are 0 and 3.
 
-
-A total of 3 dependent actor variables.
+A total of 2 dependent actor variables.
 
 Number of missing cases per observation:
  observation         1         2         3         4         5         6         7         8         9        10        11        12		overall
 time_run             0         0         0         0         0         0         0         0         0         0         0         0         0	  ( 0.0 %)
 freq_run             0         0         0         0         0         0         0         0         0         0         0         0         0	  ( 0.0 %)
-persist              0         0         0         0         0         0         0         0         0         0         0         0         0	  ( 0.0 %)
 
 Means per observation:
  observation         1         2         3         4         5         6         7         8         9        10        11        12		overall
-time_run           4.442     4.039     4.636     4.403     4.779     4.247     4.338     4.481     4.766     4.597     4.532     4.338     4.466
+time_run           3.143     2.870     3.481     3.013     3.286     2.974     3.130     3.610     3.675     3.026     3.234     3.117     3.213
 freq_run           3.208     2.753     3.351     3.234     3.636     3.221     3.234     3.558     3.519     3.364     3.312     3.156     3.295
-persist            2.143     2.026     2.208     2.195     2.325     2.130     2.143     2.234     2.299     2.312     2.221     2.143     2.198
 
 @2
 Reading constant actor covariates.
@@ -335,18 +329,18 @@ Information about changing covariates:
 
                minimum  maximum	  mean  centered 
 time_other                                 Y 
-	period   1     0.0     7.0      1.104 
-	period   2     0.0     7.0      1.429 
-	period   3     0.0     7.0      1.610 
-	period   4     0.0     7.0      1.935 
-	period   5     0.0     7.0      1.922 
-	period   6     0.0     7.0      2.052 
-	period   7     0.0     7.0      2.390 
-	period   8     0.0     7.0      2.156 
-	period   9     0.0     7.0      1.623 
-	period  10     0.0     7.0      1.312 
-	period  11     0.0     7.0      1.286 
-Overall                            1.711 
+	period   1     0.0     7.0      0.805 
+	period   2     0.0     7.0      0.948 
+	period   3     0.0     7.0      1.143 
+	period   4     0.0     7.0      1.351 
+	period   5     0.0     7.0      1.325 
+	period   6     0.0     7.0      1.494 
+	period   7     0.0     7.0      1.584 
+	period   8     0.0     7.0      1.494 
+	period   9     0.0     7.0      1.065 
+	period  10     0.0     7.0      0.935 
+	period  11     0.0     7.0      0.909 
+Overall                            1.187 
 
 freq_other                                 Y 
 	period   1     0.0     7.0      0.740 
@@ -405,10 +399,9 @@ For the similarity variable calculated from each actor covariate,
 the mean is subtracted.
 These means are:
 Similarity gender                   :       0.5557 
-Similarity time_run                 :       0.5844 
+Similarity time_run                 :       0.7033 
 Similarity freq_run                 :       0.6298 
-Similarity persist                  :       0.6365 
-Similarity time_other               :       0.6638 
+Similarity time_other               :       0.7618 
 Similarity freq_other               :       0.7974 
 Similarity winter                   :       1.0000 
 
@@ -500,13 +493,15 @@ Dependent actor variable 2: time_run
 values               1     2     3     4     5     6     7     8     9    10    11    12
                 ------------------------------------------------------------------------
   0                 15    10    11     8     9    12    11     9     8     5     7     9
-  1                  1     7     6     6     7     6     8     6     4     8     9     6
-  2                  6    12     4     5     2     4     6    10     8     7     8     6
-  3                  5     5     3     9     5    10     4     5     6     7     3    11
-  4                  7     6     7    11     4     4     9     4     5     9     3     6
-  5                  5     7     4     4     8     7     1     5     5     3     9     4
-  6                  5     4     8     6     8     6     5     3     3     6     8     6
-  7                 33    26    34    28    34    28    33    35    38    32    30    29
+  1                  7    19    10    11     9    10    14    16    12    15    17    12
+  2                 12    11    10    20     9    14    13     9    11    16     6    17
+  3                 10    11    12    10    16    13     6     8     8     9    17    10
+  4                 13     6     8     9    13     8    12     3     9    12     6     5
+  5                  7     8     8     8    10    10     9    13     8    13     9    10
+  6                  5     7     4     7     5     4     4     6     9     4     8     8
+  7                  3     1     9     1     3     3     1     4     5     2     5     2
+  8                  2     2     2     1     2     2     4     2     3     1     1     4
+  9                  3     2     3     2     1     1     3     7     4     0     1     0
 No missings
 Dependent actor variable 3: freq_run
                                            Observations
@@ -521,15 +516,6 @@ values               1     2     3     4     5     6     7     8     9    10    
   6                  6     3     3     5     8     9     3     9     6     8     7     9
   7                  9     8    11    11    12     9    12    15    13     7     9     8
 No missings
-Dependent actor variable 4: persist
-                                           Observations
-values               1     2     3     4     5     6     7     8     9    10    11    12
-                ------------------------------------------------------------------------
-  0                 15    10    11     8     9    12    11     9     8     5     7     9
-  1                  5    15    10    10     8    10    11     8    10    12    14    12
-  2                 11    15     8    18     9    11    11    16    10    14    11    15
-  3                 46    37    48    41    51    44    44    44    49    46    45    41
-No missings
 
 
 
@@ -538,19 +524,19 @@ Changes
        
 Dependent actor variable 2: time_run
  periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
-  1  =>  2            26    12      39         0                   51    20    71
-  2  =>  3            10    26      41         0                   17    63    80
-  3  =>  4            19    11      47         0                   42    24    66
-  4  =>  5            12    20      45         0                   15    44    59
-  5  =>  6            24     8      45         0                   54    13    67
-  6  =>  7            16    23      38         0                   40    47    87
-  7  =>  8            16    17      44         0                   29    40    69
-  8  =>  9             9    19      49         0                   15    37    52
-  9  => 10            20    19      38         0                   43    30    73
- 10  => 11            19    20      38         0                   41    36    77
- 11  => 12            23    18      36         0                   44    29    73
+  1  =>  2            30    21      26         0                   47    26    73
+  2  =>  3             9    36      32         0                   15    62    77
+  3  =>  4            31    17      29         0                   65    29    94
+  4  =>  5            13    25      39         0                   18    39    57
+  5  =>  6            26    10      41         0                   36    12    48
+  6  =>  7            17    27      33         0                   28    40    68
+  7  =>  8             9    32      36         0                   16    53    69
+  8  =>  9            20    27      30         0                   30    35    65
+  9  => 10            35    17      25         0                   73    23    96
+ 10  => 11            20    32      25         0                   30    46    76
+ 11  => 12            28    21      28         0                   36    27    63
 
-For this variable, the standard initial behavioral tendency parameter is  -0.0037
+For this variable, the standard initial behavioral tendency parameter is  -0.0012
 Dependent actor variable 3: freq_run
  periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
   1  =>  2            33    10      34         0                   47    12    59
@@ -566,20 +552,5 @@ Dependent actor variable 3: freq_run
  11  => 12            22    20      35         0                   35    23    58
 
 For this variable, the standard initial behavioral tendency parameter is  -0.0028
-Dependent actor variable 4: persist
- periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
-  1  =>  2            17     7      53         0                   18     9    27
-  2  =>  3             7    16      54         0                    7    21    28
-  3  =>  4            10     8      59         0                   13    12    25
-  4  =>  5             7    13      57         0                    7    17    24
-  5  =>  6            15     3      59         0                   19     4    23
-  6  =>  7            11    15      51         0                   18    19    37
-  7  =>  8            11    14      52         0                   12    19    31
-  8  =>  9             8    12      57         0                    9    14    23
-  9  => 10            11    14      52         0                   14    15    29
- 10  => 11            16    11      50         0                   19    12    31
- 11  => 12            12    10      55         0                   16    10    26
-
-For this variable, the standard initial behavioral tendency parameter is   0.0000
 
 Initialisation of project <<files/club5>> executed succesfully.

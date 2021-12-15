@@ -38,14 +38,13 @@ klippy::klippy(position = c('top', 'right'))
 
 ---
 
-We will use the RSiena object to describe the friendship and kudo networks, constant covariates and behavioral variables. 
+We will use the RSiena objects of clubs to describe the friendship and kudo networks, constant covariates and behavioral variables. 
 
 <br>
 
 # Preparation
 
 Clean the working environment and load in the club and ego data.
-
 
 ```{r, attr.output='style="max-height: 200px;"'}
 # clean the working environment 
@@ -56,6 +55,7 @@ load("clubdata_rsiena.RData")
 load("clubdata.RData")
 ```
 
+<br>
 
 We install and load the packages we need later on.
 
@@ -293,9 +293,9 @@ fMoran.I <- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = "tw
 We cover the following:
 
 * club characteristics
-* network structure in Friendship and Kudo networks
+* network structure in Friendship and Kudos networks
 * gender composition / segregation
-* behavior: activity level (frequency and volume) and correlation
+* behavior: activity level (frequency and duration) and correlation
 * spatial network autocorrelation: behavioral similarity in networks
 
 ----
@@ -356,12 +356,13 @@ print01Report(df, modelname="files/club5")
 Some club characteristics. We show the size of the network (the number of actors) for each club and the number of active members currently (18-1-2021) on Strava, by adding to *www.strava.com/clubs/...* the original club id. 
 
 ```{r}
+# attrieve from the clubdata the number of actors in each network
 netsize <- c( 
   length(clubdata_rsiena[[1]]$nodeSets$Actors), 
   length(clubdata_rsiena[[2]]$nodeSets$Actors), 
   length(clubdata_rsiena[[3]]$nodeSets$Actors), 
   length(clubdata_rsiena[[4]]$nodeSets$Actors), 
-  length(clubdata_rsiena[[5]]$nodeSets$Actors)) # attrieve from the clubdata the number of actors in each network
+  length(clubdata_rsiena[[5]]$nodeSets$Actors)) 
 
 clubsize <- c(66, 127, 373, 15, 169) # find the number of members currently on Strava
 
@@ -423,7 +424,7 @@ hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of indegree
 ```
 
 ### Club 4
-```{r }
+```{r}
 df <- clubdata_rsiena[[4]] # grab club 
 fnet <- df$dycCovars$friendship # take friendship network
 
@@ -761,13 +762,13 @@ Also transitivity is more prominent than would be expected solely based on chanc
 ----
 
 
-# Kudo network
+# Kudos network
 
-Now let's describe the Kudo network, which we view as a dependent behavioral variable. 
+Now let's describe the Kudos network.
 
 ## 1. Node-level {.tabset .tabset-fade}
 
-Starting, again, with indegrees and outdegrees: who receives and gives Kudos? We take from the RSiena object the Kudo network for each club, subset the first wave, and turn it into an *igraph* object. 
+Starting, again, with indegrees and outdegrees: who receives and gives Kudos? We take from the RSiena object the Kudos network for each club, subset the first wave, and turn it into an *igraph* object. 
 
 ### Club 1
 ```{r}
@@ -983,7 +984,7 @@ abline(v=dyadcount$mut, col="red", lwd=3)}
 ```
 
 ### Club 5
-```{r }
+```{r}
 # make igraph object for the club, at wave 1
 df <- clubdata_rsiena[[5]] # grab club 
 knet <- df$depvars$kudonet # take Kudo network
@@ -1028,10 +1029,11 @@ Conclusion: Kudos tend to be reciprocated, like friendships!
 ## {.tabset .tabset-fade}
 
 Let's investigate the gender composition of the club.
-We must retrieve gender from the object (note that we use the clubdata object, not the rsiena object). Then we make a categorical gender variable and plot it.
+We must retrieve gender from the object (note that we use the clubdata object, not the RSiena object). Then we make a categorical gender variable and plot it.
 
 ### Club 1
 ```{r class.source = 'fold-hide'}
+load("clubdata.RData")
 df <- clubdata[[1]] # grab club 
 
 # retrieve node-attribute gender from object
@@ -1188,7 +1190,7 @@ df %>%
 
 ## {-}
 
-We can see that in all clubs men are overrepresented. 
+We can see that in all clubs men are the majority. 
 
 ----
 
@@ -1204,7 +1206,7 @@ Let's now investigate segregation along gender in the friendship network.
 Let's start with describing the total density and intra- (same gender) and intergroup (different gender) densities. We also calculate the Coleman Homophily index for gender, which reflects gender segregation while taking into account the relative group size of gender categories. We describe these segregation measures for friendship and kudo-networks respectively. 
 
 ### Club 1
-```{r}
+```{r }
 df <- clubdata_rsiena[[1]] # grab club 
 df2 <- clubdata[[1]]
 
@@ -1430,9 +1432,9 @@ knitr::kable(desmat, digits=2, "html", caption="Gender segregation in friendship
 
 ## {-}
 
-Density in friendships is not much higher within-gender than between-genders, though this ratio differs per club (and in some clubs between-gender friendships are more common). The same pattern holds for Kudo-relationships. 
+Density in friendships is not much higher within-gender than between-genders, though this ratio differs per club (and in some clubs between-gender friendships are more common). The same pattern holds for Kudos-relationships. 
 
-Coleman's Homophily indices vary across clubs. In some clubs there is slight gender segregation (or same-gender preference) in friendship ties (values higher than 0, but rather close to 0), though in others members tend to befriend others outside their own gender (values lower than 0). Overall, tendencies towards segregation (or avoidance thereof) are pronounced to greater extent in the Kudo-relationships than in the friendships. 
+Coleman's Homophily indices vary across clubs. In some clubs there is slight gender segregation (or same-gender preference) in friendship ties (values higher than 0, but rather close to 0), though in others members tend to befriend others outside their own gender (values lower than 0). Overall, tendencies towards segregation (or avoidance thereof) are pronounced to greater extent in the Kudos-relationships than in friendships. 
 
 ----
 
@@ -1442,8 +1444,7 @@ Coleman's Homophily indices vary across clubs. In some clubs there is slight gen
 
 ## 1. Running {.tabset .tabset-fade}
 
-We will describe the running activities of the club-members, in terms of times per week (0 - 7) and half hours per week (capped of at 3.5 hours). First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
-
+We will describe the running activities of the club-members, in terms of times per week (0 - 7) and hours per week (capped of at 7+ hours). First, we make a histogram of all (aggregated) observations within clubs over time. Then we will plot the development of the mean over time (with error bars reflecting 95% confidence intervals), seperately for men and women.  
 
 
 ### Club 1
@@ -1584,7 +1585,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Weekly running duration in half hours", x="Month") +
+    labs(y = "weekly running duration in hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -1596,7 +1597,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
 
 # development mean over time
 plot_mean_freq
@@ -1742,7 +1743,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Weekly running duration in half hours", x="Month") +
+    labs(y = "weekly running duration in hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -1754,7 +1755,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
 
 
 # development mean over time
@@ -1900,7 +1901,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Weekly running duration in half hours", x="Month") +
+    labs(y = "weekly running duration in hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -1912,7 +1913,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
 
 
 # development mean over time
@@ -2058,7 +2059,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Weekly running duration in half hours", x="Month") +
+    labs(y = "weekly running duration in hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -2070,7 +2071,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
 
 
 # development mean over time
@@ -2216,7 +2217,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Weekly running duration in half hours", x="Month") +
+    labs(y = "weekly running duration in hours", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -2228,7 +2229,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
 # histogram (assuming independent observations)
 hist(df$depvars$freq_run, main = "Histogram of Running Frequency", xlab = "Times per week", ylab = "count", col = "grey", border= "black")
 
-hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Half hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
+hist(df$depvars$time_run, main = "Histogram of Running Volume", xlab = "Hours per week", ylab = "count", col = "grey", border= "black", breaks = (max(df2$time_run)-min(df2$time_run)+1))
 
 
 # development mean over time
@@ -2381,7 +2382,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Other volume per month", x="Month") +
+    labs(y = "Other volume per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -2537,7 +2538,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Other volume per month", x="Month") +
+    labs(y = "Other volume per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -2693,7 +2694,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Other volume per month", x="Month") +
+    labs(y = "Other volume per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -2849,7 +2850,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Other volume per month", x="Month") +
+    labs(y = "Other volume per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -3005,7 +3006,7 @@ plot_mean_freq <- ggplot(plot.data, aes(month, mean_freq, group = class, colour 
                       width = 0.4)) +
     theme_bw(base_family="serif", base_size=16) +
     scale_colour_manual(values=c("#000000", "#E69F00", "#56B4E9")) +
-    labs(y = "Other volume per month", x="Month") +
+    labs(y = "Other volume per week", x="Month") +
     scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
     ylim(0,7) +
     theme(axis.text.x = element_text(family="serif", size = 10, angle = 45, hjust = 1), 
@@ -3180,7 +3181,7 @@ There seems to be 'sufficient' within-person variability in running behavior, at
 
 # Correlation between frequency and volume
 
-Let's plot the relation between frequency in times per week and volume in half hours per week. We also calculate Kendall's tau-b, i.e. a non-parametric measure of correlation on ranks (cf. @khamis).
+Let's plot the relation between frequency in times per week and volume in hours per week. We also calculate Kendall's tau-b, i.e. a non-parametric measure of correlation on ranks (cf. @khamis).
 
 ## {.tabset .tabset-fade}
 
@@ -3194,11 +3195,11 @@ c <- cor.test(df$x, df$y, method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and (half) hours",
-     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
-     xlab = "half hours per week", ylab = "sessions per week",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 7",
+     xlab = "Hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
-  text(x = .5, y = 5, "Kendall's tau-b =")
+  text(x = 1.7, y = 5, round(c$estimate, digits=2)) +
+  text(x = .7, y = 5, "Kendall's tau-b =")
 
 ```
 
@@ -3211,11 +3212,11 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
-  text(x = .5, y = 5, "Kendall's tau-b =")
+  text(x = 1.7, y = 5, round(c$estimate, digits=2)) +
+  text(x = .7, y = 5, "Kendall's tau-b =")
 ```
 
 ### Club 3
@@ -3227,11 +3228,11 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
-  text(x = .5, y = 5, "Kendall's tau-b =")
+  text(x = 1.7, y = 5, round(c$estimate, digits=2)) +
+  text(x = .7, y = 5, "Kendall's tau-b =")
 ```
 
 ### Club 4
@@ -3243,11 +3244,11 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
   text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
-  text(x = .5, y = 5, "Kendall's tau-b =")
+  text(x = .7, y = 5, "Kendall's tau-b =")
 ```
 
 ### Club 5
@@ -3259,11 +3260,11 @@ c <- cor.test(df$x,df$y,method="kendall")
 
 plot(df, type="b", 
      main = "Relation between weekly running variables: frequency and hours",
-     sub = "Note: running frequency capped with a maximum of 7, half hours with a maximum of 7",
+     sub = "Note: running frequency capped with a maximum of 7, hours with a maximum of 7",
      xlab = "hours per week", ylab = "sessions per week",
      col="blue", lwd=c(1,rep(6,10000))) + 
-  text(x = 1.5, y = 5, round(c$estimate, digits=2)) +
-  text(x = .5, y = 5, "Kendall's tau-b =")
+  text(x = 2, y = 7, round(c$estimate, digits=2)) +
+  text(x = .7, y = 7, "Kendall's tau-b =")
 ```
 
 ## {-}
@@ -3279,7 +3280,7 @@ Although frequency and duration are strongly related, there is some invariance.
 # Network autocorrelation
 
 ## {.tabset .tabset-fade}
-We have now covered the sport activity levels of our club-athletes, and the extent to which friendship- and Kudo-associations are segregated along gender. Last, we will explore if friendship- and Kudo-associations are also segregated along activity levels. Or in other words: do people with similar activity levels tend to socialize to a greater extent - by befriending one another and by exchanging Kudos - even when taking into account the opportunity structures for 'interacting' with (dis)similar others? 
+We have now covered the sport activity levels of our club-athletes, and the extent to which friendship- and kudos-associations are segregated along gender. Last, we will explore if friendship- and kudos-ties are also segregated along activity levels. Or in other words: do people with similar activity levels tend to socialize to a greater extent - by befriending one another and by exchanging kudos - even when taking into account the opportunity structures for 'interacting' with (dis)similar others? 
 
 We use Moran's I spatial autocorrelation measure for this, which is the correlation between the behavioral score of actor *i* and the (total/mean) behavioral score of alters *j* to whom *i* is connected **directly**. We also calculated Moran's I by including the behavioral scores of the actors *h* to whom *i* is indirectly tied, and used the negative exponential function as described by @chen2013 as a distance-decay function for assigning weights.
 
@@ -3367,7 +3368,7 @@ v_mat[4,3] <- k_vol2$sd
 v_mat[4,4] <- k_vol2$p.value
 
 colnames(f_mat) <- colnames(v_mat) <- c("observed", "expected", "sd", "p-value")
-rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudo-ties", "direct and indirect kudo-ties (distance-decay)")
+rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudos ties", "direct and indirect kudos ties (distance-decay)")
 
 knitr::kable(f_mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
@@ -3460,7 +3461,7 @@ v_mat[4,3] <- k_vol2$sd
 v_mat[4,4] <- k_vol2$p.value
 
 colnames(f_mat) <- colnames(v_mat) <- c("observed", "expected", "sd", "p-value")
-rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudo-ties", "direct and indirect kudo-ties (distance-decay)")
+rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudos ties", "direct and indirect kudos ties (distance-decay)")
 
 knitr::kable(f_mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
@@ -3553,7 +3554,7 @@ v_mat[4,3] <- k_vol2$sd
 v_mat[4,4] <- k_vol2$p.value
 
 colnames(f_mat) <- colnames(v_mat) <- c("observed", "expected", "sd", "p-value")
-rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudo-ties", "direct and indirect kudo-ties (distance-decay)")
+rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudos ties", "direct and indirect kudos ties (distance-decay)")
 
 knitr::kable(f_mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
@@ -3648,7 +3649,7 @@ v_mat[4,3] <- k_vol2$sd
 v_mat[4,4] <- k_vol2$p.value
 
 colnames(f_mat) <- colnames(v_mat) <- c("observed", "expected", "sd", "p-value")
-rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudo-ties", "direct and indirect kudo-ties (distance-decay)")
+rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and indirect friends (distance-decay)", "direct kudos ties", "direct and indirect kudos ties (distance-decay)")
 
 knitr::kable(f_mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
@@ -3742,7 +3743,7 @@ v_mat[4,3] <- k_vol2$sd
 v_mat[4,4] <- k_vol2$p.value
 
 colnames(f_mat) <- colnames(v_mat) <- c("observed", "expected", "sd", "p-value")
-rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and undirect friends (distance-decay)", "direct kudo-ties", "direct and indirect kudo-ties (distance-decay)")
+rownames(f_mat) <- rownames(v_mat) <- c("direct friends", "direct and undirect friends (distance-decay)", "direct kudos ties", "direct and indirect kudos ties (distance-decay)")
 
 knitr::kable(f_mat, digits=2, "html", caption="Moran's I statistic for spatial autocorrelation based on geodistances and weekly running frequency") %>% 
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
@@ -3756,7 +3757,7 @@ knitr::kable(v_mat, digits=2, "html", caption="Moran's I statistic for spatial a
 
 Here, the Moran's I statistic tests whether club members that are *closer to one another* (i.e., having a shorter geodesic/path length), are more a similar with respect to their behavior, under the null hypothesis that behavior is 'randomly distributed' among the club members.
 
-We observe that, indeed, friends that are closer to one another are more alike, and especially "strong tie" friends (indicated by the strongly significant Moran's I statistics on the Kudo networks). Autocorrelation was even stronger without the distance-decay function, which suggests that especially close alters (with path length one) are similar. 
+We observe that, indeed, friends that are closer to one another are more alike, and especially kudos-ties! Autocorrelation was stronger without the distance-decay function, which suggests that especially close alters (with path length one) are similar. 
 
 ----
 
