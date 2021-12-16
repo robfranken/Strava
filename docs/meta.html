@@ -381,26 +381,54 @@ div.tocify {
 <li>
   <a href="prep.html">Preparation</a>
 </li>
-<li>
-  <a href="des.html">Descriptives</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="explore.html">Model selection</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="others.html">Clubs 2-5</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="meta.html">Meta-analysis</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Influence effects
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Different social influence operationalization</li>
-    <li class="dropdown-header">Different kudos tie classification</li>
+    <li>
+      <a href="influence_effects_JT_RF.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 3: Ego-alter influence plot</a>
+    </li>
   </ul>
 </li>
-<li class="dropdown-header">Supplementary material</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -439,100 +467,6 @@ div.tocify {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <hr />
-<p>We also built increasingly complex models for the remaining 4 clubs. We started by modeling network structure and dynamics in kudos tie formation, using a rather simple model specification. If this did not produce adequate GOF, we assessed how the model may be extended, by a theory-guided exploration. We performed a forward model-selection procedure and use score-type tests to see which effect could improve the model. We use <em>sienaGOF</em> to estimate how the fit (based on Mahalanobis distance) would increase had we included the fixed-and-tested effects (hence, circumventing the need for re-estimating the model with the new effect). This resulted in slightly different model-specification for kudos-tie formation dynamics for each club.</p>
-<p>If adequate GOF was produced, we started modeling running activity dynamics, and investigated how well our model was able to reproduce the distribution of running behavior values of our panel data.</p>
-<p>Down below, we create the final effect-objects for each club. Note: for subsequent meta-analysis, we needed to ensure that the model specification for all our club-networks is identical. In some clubs, some effects were rather important; in clubs where this was not the case, we fixed these to 0.</p>
-<div id="preparation" class="section level1">
-<h1>Preparation</h1>
-<p>Clean the working environment and read in the R-SIENA object list.</p>
-<pre class="r test"><code># clean the working environment
-rm(list = ls())
-# load in the R-SIENA objects
-load(&quot;clubdata_rsiena.Rdata&quot;)</code></pre>
-</div>
-<div id="effect-objects" class="section level1 tabset tabset-fade">
-<h1>Effect objects</h1>
-<div id="club-2" class="section level2">
-<h2>Club 2</h2>
-</div>
-<div id="club-3" class="section level2">
-<h2>Club 3</h2>
-</div>
-<div id="club-4" class="section level2">
-<h2>Club 4</h2>
-</div>
-<div id="club-5" class="section level2">
-<h2>Club 5</h2>
-</div>
-</div>
-<div id="section" class="section level1 unnumbered">
-<h1></h1>
-<hr />
-<p><br></p>
-</div>
-<div id="results" class="section level1 tabset tabset-fade">
-<h1>Results</h1>
-<p>We estimated the models for each club:</p>
-<ul>
-<li>Model 1: the baseline model + indegree effect</li>
-<li>Model 2: we add the average attraction higher and lower effects.</li>
-</ul>
-<p>We altered the algorithm with the following parameters: <em>nsub</em>=5, <em>n3</em>=5000 (see <span class="citation">Ripley et al. (2021)</span>, 6.3.3).</p>
-<p>Down below, we present the results:</p>
-<div id="club-2-1" class="section level2 tabset tabset-fade">
-<h2>Club 2</h2>
-<div id="model-1" class="section level3">
-<h3>Model 1</h3>
-</div>
-<div id="model-2" class="section level3">
-<h3>Model 2</h3>
-</div>
-</div>
-<div id="section-1" class="section level2 unnumbered">
-<h2></h2>
-</div>
-<div id="club-3-1" class="section level2 tabset tabset-fade">
-<h2>Club 3</h2>
-<div id="model-1-1" class="section level3">
-<h3>Model 1</h3>
-</div>
-<div id="model-2-1" class="section level3">
-<h3>Model 2</h3>
-</div>
-</div>
-<div id="section-2" class="section level2 unnumbered">
-<h2></h2>
-</div>
-<div id="club-4-1" class="section level2 tabset tabset-fade">
-<h2>Club 4</h2>
-<div id="model-1-2" class="section level3">
-<h3>Model 1</h3>
-</div>
-<div id="model-2-2" class="section level3">
-<h3>Model 2</h3>
-</div>
-</div>
-<div id="section-3" class="section level2 unnumbered">
-<h2></h2>
-</div>
-<div id="club-5-1" class="section level2 tabset tabset-fade">
-<h2>Club 5</h2>
-<div id="model-1-3" class="section level3">
-<h3>Model 1</h3>
-</div>
-<div id="model-2-3" class="section level3">
-<h3>Model 2</h3>
-</div>
-</div>
-<div id="section-4" class="section level2 unnumbered">
-<h2></h2>
-</div>
-</div>
-<div id="section-5" class="section level1 unnumbered">
-<h1></h1>
-<hr />
-<p><br></p>
-</div>
 <div id="meta-analysis" class="section level1">
 <h1>Meta-analysis</h1>
 <p>To summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values, described by <span class="citation">Hedges and Olkin (2014)</span> and <span class="citation">Snijders and Bosker (2011)</span> (Chapter 3).</p>
@@ -568,9 +502,6 @@ load(&quot;clubdata_rsiena.Rdata&quot;)</code></pre>
 <div id="ref-hedges2014">
 <p>Hedges, L. V., and I. Olkin. 2014. <em>Statistical Methods for Meta-Analysis</em>. Academic press.</p>
 </div>
-<div id="ref-rsienamanual">
-<p>Ripley, R. M., T. A. B. Snijders, Z. Boda, A. Vörös, and P. &amp; Preciado. 2021. “Manual for Rsiena.” <em>University of Oxford, Department of Statistics, Nuffield College</em> - (-): –. <a href="http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf">http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf</a>.</p>
-</div>
 <div id="ref-bosker2011">
 <p>Snijders, T. A.B., and R. J. Bosker. 2011. <em>Multilevel Analysis: An Introduction to Basic and Advanced Multilevel Modeling</em>. Sage.</p>
 </div>
@@ -578,7 +509,7 @@ load(&quot;clubdata_rsiena.Rdata&quot;)</code></pre>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1ldGEtYW5hbHlzaXMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRX0NCmxpYnJhcnkoa25pdHIpDQpsaWJyYXJ5KFJTaWVuYSkNCmxpYnJhcnkoZ2dwbG90MikNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KDQotLS0NCg0KV2UgYWxzbyBidWlsdCBpbmNyZWFzaW5nbHkgY29tcGxleCBtb2RlbHMgZm9yIHRoZSByZW1haW5pbmcgNCBjbHVicy4gV2Ugc3RhcnRlZCBieSBtb2RlbGluZyBuZXR3b3JrIHN0cnVjdHVyZSBhbmQgZHluYW1pY3MgaW4ga3Vkb3MgdGllIGZvcm1hdGlvbiwgdXNpbmcgYSByYXRoZXIgc2ltcGxlIG1vZGVsIHNwZWNpZmljYXRpb24uIElmIHRoaXMgZGlkIG5vdCBwcm9kdWNlIGFkZXF1YXRlIEdPRiwgd2UgYXNzZXNzZWQgaG93IHRoZSBtb2RlbCBtYXkgYmUgZXh0ZW5kZWQsIGJ5IGEgdGhlb3J5LWd1aWRlZCBleHBsb3JhdGlvbi4gV2UgcGVyZm9ybWVkIGEgZm9yd2FyZCBtb2RlbC1zZWxlY3Rpb24gcHJvY2VkdXJlIGFuZCB1c2Ugc2NvcmUtdHlwZSB0ZXN0cyB0byBzZWUgd2hpY2ggZWZmZWN0IGNvdWxkIGltcHJvdmUgdGhlIG1vZGVsLiBXZSB1c2UgKnNpZW5hR09GKiB0byBlc3RpbWF0ZSBob3cgdGhlIGZpdCAoYmFzZWQgb24gTWFoYWxhbm9iaXMgZGlzdGFuY2UpIHdvdWxkIGluY3JlYXNlIGhhZCB3ZSBpbmNsdWRlZCB0aGUgZml4ZWQtYW5kLXRlc3RlZCBlZmZlY3RzIChoZW5jZSwgY2lyY3VtdmVudGluZyB0aGUgbmVlZCBmb3IgcmUtZXN0aW1hdGluZyB0aGUgbW9kZWwgd2l0aCB0aGUgbmV3IGVmZmVjdCkuIFRoaXMgcmVzdWx0ZWQgaW4gc2xpZ2h0bHkgZGlmZmVyZW50IG1vZGVsLXNwZWNpZmljYXRpb24gZm9yIGt1ZG9zLXRpZSBmb3JtYXRpb24gZHluYW1pY3MgZm9yIGVhY2ggY2x1Yi4NCg0KSWYgYWRlcXVhdGUgR09GIHdhcyBwcm9kdWNlZCwgd2Ugc3RhcnRlZCBtb2RlbGluZyBydW5uaW5nIGFjdGl2aXR5IGR5bmFtaWNzLCBhbmQgaW52ZXN0aWdhdGVkIGhvdyB3ZWxsIG91ciBtb2RlbCB3YXMgYWJsZSB0byByZXByb2R1Y2UgdGhlIGRpc3RyaWJ1dGlvbiBvZiBydW5uaW5nIGJlaGF2aW9yIHZhbHVlcyBvZiBvdXIgcGFuZWwgZGF0YS4gDQoNCkRvd24gYmVsb3csIHdlIGNyZWF0ZSB0aGUgZmluYWwgZWZmZWN0LW9iamVjdHMgZm9yIGVhY2ggY2x1Yi4gDQpOb3RlOiBmb3Igc3Vic2VxdWVudCBtZXRhLWFuYWx5c2lzLCB3ZSBuZWVkZWQgdG8gZW5zdXJlIHRoYXQgdGhlIG1vZGVsIHNwZWNpZmljYXRpb24gZm9yIGFsbCBvdXIgY2x1Yi1uZXR3b3JrcyBpcyBpZGVudGljYWwuIEluIHNvbWUgY2x1YnMsIHNvbWUgZWZmZWN0cyB3ZXJlIHJhdGhlciBpbXBvcnRhbnQ7IGluIGNsdWJzIHdoZXJlIHRoaXMgd2FzIG5vdCB0aGUgY2FzZSwgd2UgZml4ZWQgdGhlc2UgdG8gMC4NCg0KDQojIFByZXBhcmF0aW9uDQpDbGVhbiB0aGUgd29ya2luZyBlbnZpcm9ubWVudCBhbmQgcmVhZCBpbiB0aGUgUi1TSUVOQSBvYmplY3QgbGlzdC4NCg0KYGBge3IsIGF0dHIub3V0cHV0PSdzdHlsZT0ibWF4LWhlaWdodDogMjAwcHg7Iid9DQojIGNsZWFuIHRoZSB3b3JraW5nIGVudmlyb25tZW50IA0Kcm0gKGxpc3QgPSBscyggKSkNCiMgbG9hZCBpbiB0aGUgUi1TSUVOQSBvYmplY3RzDQpsb2FkKCJjbHViZGF0YV9yc2llbmEuUmRhdGEiKQ0KYGBgDQoNCiMgRWZmZWN0IG9iamVjdHMgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyBDbHViIDINCg0KIyMgQ2x1YiAzDQoNCiMjIENsdWIgNA0KDQojIyBDbHViIDUNCg0KIyB7LX0NCg0KLS0tLQ0KDQo8YnI+DQoNCiMgUmVzdWx0cyB7LnRhYnNldCAudGFic2V0LWZhZGV9DQoNCg0KV2UgZXN0aW1hdGVkIHRoZSBtb2RlbHMgZm9yIGVhY2ggY2x1YjoNCg0KLSBNb2RlbCAxOiB0aGUgYmFzZWxpbmUgbW9kZWwgKyBpbmRlZ3JlZSBlZmZlY3QNCi0gTW9kZWwgMjogd2UgYWRkIHRoZSBhdmVyYWdlIGF0dHJhY3Rpb24gaGlnaGVyIGFuZCBsb3dlciBlZmZlY3RzLg0KDQpXZSBhbHRlcmVkIHRoZSBhbGdvcml0aG0gd2l0aCB0aGUgZm9sbG93aW5nIHBhcmFtZXRlcnM6ICpuc3ViKj01LCAqbjMqPTUwMDAgKHNlZSBAcnNpZW5hbWFudWFsLCA2LjMuMykuDQoNCkRvd24gYmVsb3csIHdlIHByZXNlbnQgdGhlIHJlc3VsdHM6DQoNCg0KIyMgQ2x1YiAyIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIE1vZGVsIDENCg0KIyMjIE1vZGVsIDINCg0KIyMgey19DQoNCiMjIENsdWIgMyB7LnRhYnNldCAudGFic2V0LWZhZGV9DQoNCiMjIyBNb2RlbCAxDQoNCiMjIyBNb2RlbCAyDQoNCiMjIHstfQ0KDQojIyBDbHViIDQgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgTW9kZWwgMQ0KDQojIyMgTW9kZWwgMg0KDQojIyB7LX0NCg0KIyMgQ2x1YiA1IHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIE1vZGVsIDENCg0KIyMjIE1vZGVsIDINCg0KIyMgey19DQoNCiMgey19DQoNCi0tLS0NCg0KPGJyPg0KDQojIE1ldGEtYW5hbHlzaXMgDQoNClRvIHN1bW1hcml6ZSB0aGUgcmVzdWx0cyBvdmVyIG91ciBjbHVicywgd2Ugd2lsbCBwZXJmb3JtIGEgbWV0YS1hbmFseXNpcyB1c2luZyBhIEZpc2hlci10eXBlIGNvbWJpbmF0aW9uIG9mIG9uZS10YWlsZWQgcC12YWx1ZXMsIGRlc2NyaWJlZCBieSBAaGVkZ2VzMjAxNCBhbmQgQGJvc2tlcjIwMTEgKENoYXB0ZXIgMykuIA0KDQpXZSBwZXJmb3JtIGEgZG91YmxlIHRlc3Q6DQoNCjEuIEZvciBkZXRlY3RpbmcgaWYgdGhlcmUgYXJlIGFueSBjbHViLW5ldHdvcmtzIHdpdGggYSBwb3NpdGl2ZSBwYXJhbWV0ZXIgdmFsdWUsIHRoZSBudWxsIGh5cG90aGVzaXMgdGVzdGVkIGlzOiBmb3IgYWxsIGNsdWJzLCB0aGUgdmFsdWUgb2YgdGhpcyBwYXJhbWV0ZXIgaXMgemVybyBvciBsZXNzIHRoYW4gemVybzsgd2l0aCB0aGUgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogZm9yIGF0IGxlYXN0IG9uZSBjbHViLCB0aGUgdmFsdWUgb2YgdGhpcyBwYXJhbWV0ZXIgaXMgZ3JlYXRlciB0aGFuIHplcm8uDQoyLiBGb3IgZGV0ZWN0aW5nIGlmIHRoZXJlIGFyZSBhbnkgY2x1Yi1uZXR3b3JrcyB3aXRoIGEgbmVnYXRpdmUgcGFyYW1ldGVyIHZhbHVlLCB0aGUgbnVsbCBoeXBvdGhlc2lzIHRlc3RlZCBpczogZm9yIGFsbCBjbHVicywgdGhlIHZhbHVlIG9mIHRoaXMgcGFyYW1ldGVyIGlzIHplcm8gb3IgZ3JlYXRlciB0aGFuIHplcm87IHdpdGggdGhlIGFsdGVybmF0aXZlIGh5cG90aGVzaXM6IGZvciBhdCBsZWFzdCBvbmUgY2x1YiwgdGhlIHZhbHVlIG9mIHRoaXMgcGFyYW1ldGVyIGlzIGxlc3MgdGhhbiB6ZXJvLg0KDQpGb3IgZWFjaCBvZiB0aGVzZSBjb21iaW5lZCB0ZXN0cywgdGhlICpwKi12YWx1ZSBpcyBnaXZlbi4gV2UgdXNlIGZvciBlYWNoIHRlc3QgdGhlIHNpZ25pZmljYW5jZSBsZXZlbCBvZiAqzrEqLzIsIHdoaWNoIHlpZWxkcyBhbiBvdmVyYWxsIGNvbWJpbmVkIHRlc3QgYXQgc2lnbmlmaWNhbmNlIGxldmVsICrOsSouIEZvdXIgZGlmZmVyZW50IG92ZXJhbGwgcmVzdWx0cyBhcmUgcG9zc2libGUuIEluZGljYXRpbmcgdGhlIHJpZ2h0LXNpZGVkIGFuZCBsZWZ0LXNpZGVkICpwKi12YWx1ZXMgYnkgKnA8c3ViPnI8L3N1Yj4qIGFuZCAqcDxzdWI+bDwvc3ViPiogcmVzcGVjdGl2ZWx5LCB0aGVzZSByZXN1bHRzIGFyZToNCg0KLSAqcDxzdWI+cjwvc3ViPiogJFxndCQgKs6xKi8yICYgKnA8c3ViPmw8L3N1Yj4qICRcZ3QkICrOsSovMjoNCg0KTm8gZXZpZGVuY2UgZm9yIGFueSBub24temVybyBwYXJhbWV0ZXIgdmFsdWVzLg0KDQotICpwPHN1Yj5yPC9zdWI+KiAkXGxlcSQgKs6xKi8yICYgKnA8c3ViPmw8L3N1Yj4qICRcZ3QkICrOsSovMjoNCg0KRXZpZGVuY2UgdGhhdCBzb21lIGNsdWItbmV0d29ya3MgaGF2ZSBhIHBvc2l0aXZlIHBhcmFtZXRlciB2YWx1ZSwgYnV0IG5vIGV2aWRlbmNlIGZvciBhbnkgbmVnYXRpdmUgcGFyYW1ldGVyIHZhbHVlcy4NCg0KLSAqcDxzdWI+cjwvc3ViPiogJFxndCQgKs6xKi8yICYgKnA8c3ViPmw8L3N1Yj4qICRcbGVxJCAqzrEqLzI6DQoNCkV2aWRlbmNlIHRoYXQgc29tZSBjbHVicyBoYXZlIGEgbmVnYXRpdmUgcGFyYW1ldGVyIHZhbHVlLCBubyBldmlkZW5jZSBmb3IgYW55IHBvc2l0aXZlIHBhcmFtZXRlciB2YWx1ZXMNCg0KLSAqcDxzdWI+cjwvc3ViPiogJFxsZXEkICrOsSovMiAmICpwPHN1Yj5sPC9zdWI+KiAkXGxlcSQgKs6xKi8yOg0KDQpFdmlkZW5jZSB0aGF0IHNvbWUgY2x1YnMgaGF2ZSBhIG5lZ2F0aXZlIHBhcmFtZXRlciB2YWx1ZSwgYW5kIHNvbWUgb3RoZXJzIGhhdmUgYSBwb3NpdGl2ZSBwYXJhbWV0ZXIgdmFsdWUuDQoNCjxicj4NCg0KLS0tLQ0KDQoNCjxicj4NCg0KLS0tLQ0KDQoNCiMjIyBSZWZlcmVuY2VzIA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1ldGEtYW5hbHlzaXMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCmBgYHtyLCBnbG9iYWxzZXR0aW5ncywgZWNobz1GQUxTRSwgd2FybmluZz1GQUxTRX0NCmxpYnJhcnkoa25pdHIpDQpsaWJyYXJ5KFJTaWVuYSkNCmxpYnJhcnkoZ2dwbG90MikNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KDQotLS0tDQoNCiMgTWV0YS1hbmFseXNpcyANCg0KVG8gc3VtbWFyaXplIHRoZSByZXN1bHRzIG92ZXIgb3VyIGNsdWJzLCB3ZSB3aWxsIHBlcmZvcm0gYSBtZXRhLWFuYWx5c2lzIHVzaW5nIGEgRmlzaGVyLXR5cGUgY29tYmluYXRpb24gb2Ygb25lLXRhaWxlZCBwLXZhbHVlcywgZGVzY3JpYmVkIGJ5IEBoZWRnZXMyMDE0IGFuZCBAYm9za2VyMjAxMSAoQ2hhcHRlciAzKS4gDQoNCldlIHBlcmZvcm0gYSBkb3VibGUgdGVzdDoNCg0KMS4gRm9yIGRldGVjdGluZyBpZiB0aGVyZSBhcmUgYW55IGNsdWItbmV0d29ya3Mgd2l0aCBhIHBvc2l0aXZlIHBhcmFtZXRlciB2YWx1ZSwgdGhlIG51bGwgaHlwb3RoZXNpcyB0ZXN0ZWQgaXM6IGZvciBhbGwgY2x1YnMsIHRoZSB2YWx1ZSBvZiB0aGlzIHBhcmFtZXRlciBpcyB6ZXJvIG9yIGxlc3MgdGhhbiB6ZXJvOyB3aXRoIHRoZSBhbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOiBmb3IgYXQgbGVhc3Qgb25lIGNsdWIsIHRoZSB2YWx1ZSBvZiB0aGlzIHBhcmFtZXRlciBpcyBncmVhdGVyIHRoYW4gemVyby4NCjIuIEZvciBkZXRlY3RpbmcgaWYgdGhlcmUgYXJlIGFueSBjbHViLW5ldHdvcmtzIHdpdGggYSBuZWdhdGl2ZSBwYXJhbWV0ZXIgdmFsdWUsIHRoZSBudWxsIGh5cG90aGVzaXMgdGVzdGVkIGlzOiBmb3IgYWxsIGNsdWJzLCB0aGUgdmFsdWUgb2YgdGhpcyBwYXJhbWV0ZXIgaXMgemVybyBvciBncmVhdGVyIHRoYW4gemVybzsgd2l0aCB0aGUgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogZm9yIGF0IGxlYXN0IG9uZSBjbHViLCB0aGUgdmFsdWUgb2YgdGhpcyBwYXJhbWV0ZXIgaXMgbGVzcyB0aGFuIHplcm8uDQoNCkZvciBlYWNoIG9mIHRoZXNlIGNvbWJpbmVkIHRlc3RzLCB0aGUgKnAqLXZhbHVlIGlzIGdpdmVuLiBXZSB1c2UgZm9yIGVhY2ggdGVzdCB0aGUgc2lnbmlmaWNhbmNlIGxldmVsIG9mICrOsSovMiwgd2hpY2ggeWllbGRzIGFuIG92ZXJhbGwgY29tYmluZWQgdGVzdCBhdCBzaWduaWZpY2FuY2UgbGV2ZWwgKs6xKi4gRm91ciBkaWZmZXJlbnQgb3ZlcmFsbCByZXN1bHRzIGFyZSBwb3NzaWJsZS4gSW5kaWNhdGluZyB0aGUgcmlnaHQtc2lkZWQgYW5kIGxlZnQtc2lkZWQgKnAqLXZhbHVlcyBieSAqcDxzdWI+cjwvc3ViPiogYW5kICpwPHN1Yj5sPC9zdWI+KiByZXNwZWN0aXZlbHksIHRoZXNlIHJlc3VsdHMgYXJlOg0KDQotICpwPHN1Yj5yPC9zdWI+KiAkXGd0JCAqzrEqLzIgJiAqcDxzdWI+bDwvc3ViPiogJFxndCQgKs6xKi8yOg0KDQpObyBldmlkZW5jZSBmb3IgYW55IG5vbi16ZXJvIHBhcmFtZXRlciB2YWx1ZXMuDQoNCi0gKnA8c3ViPnI8L3N1Yj4qICRcbGVxJCAqzrEqLzIgJiAqcDxzdWI+bDwvc3ViPiogJFxndCQgKs6xKi8yOg0KDQpFdmlkZW5jZSB0aGF0IHNvbWUgY2x1Yi1uZXR3b3JrcyBoYXZlIGEgcG9zaXRpdmUgcGFyYW1ldGVyIHZhbHVlLCBidXQgbm8gZXZpZGVuY2UgZm9yIGFueSBuZWdhdGl2ZSBwYXJhbWV0ZXIgdmFsdWVzLg0KDQotICpwPHN1Yj5yPC9zdWI+KiAkXGd0JCAqzrEqLzIgJiAqcDxzdWI+bDwvc3ViPiogJFxsZXEkICrOsSovMjoNCg0KRXZpZGVuY2UgdGhhdCBzb21lIGNsdWJzIGhhdmUgYSBuZWdhdGl2ZSBwYXJhbWV0ZXIgdmFsdWUsIG5vIGV2aWRlbmNlIGZvciBhbnkgcG9zaXRpdmUgcGFyYW1ldGVyIHZhbHVlcw0KDQotICpwPHN1Yj5yPC9zdWI+KiAkXGxlcSQgKs6xKi8yICYgKnA8c3ViPmw8L3N1Yj4qICRcbGVxJCAqzrEqLzI6DQoNCkV2aWRlbmNlIHRoYXQgc29tZSBjbHVicyBoYXZlIGEgbmVnYXRpdmUgcGFyYW1ldGVyIHZhbHVlLCBhbmQgc29tZSBvdGhlcnMgaGF2ZSBhIHBvc2l0aXZlIHBhcmFtZXRlciB2YWx1ZS4NCg0KPGJyPg0KDQotLS0tDQoNCg0KPGJyPg0KDQotLS0tDQoNCg0KIyMjIFJlZmVyZW5jZXMgDQo=</div>
 <style>
 .center {
   text-align: center;

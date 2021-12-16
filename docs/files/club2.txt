@@ -6,7 +6,7 @@ Filename is files/club2.txt.
 
 This file contains primary output for SIENA project <<files/club2>>.
 
-Date and time: 09/12/2021 12:10:23 
+Date and time: 16/12/2021 10:31:09 
 
 RSiena version 1.2.34 (30 04 2021)
 
@@ -19,7 +19,7 @@ Data input.
 62 actors,
 1 dependent network variables,
 0 dependent bipartite variables,
-2 dependent discrete behavior variables,
+1 dependent discrete behavior variables,
 0 dependent continuous behavior variables,
 1 constant actor covariates,
 3 exogenous changing actor covariates,
@@ -266,28 +266,22 @@ No missing data for observation 12.
 
 
 
-
 @2
 Reading dependent actor variables.
 ----------------------------------
 
-1st dependent actor variable named time_run.
-Maximum and minimum rounded values are 0 and 7.
-
-2nd dependent actor variable named freq_run.
+1st dependent actor variable named freq_run.
 Maximum and minimum rounded values are 0 and 7.
 
 
-A total of 2 dependent actor variables.
+A total of 1 dependent actor variable.
 
 Number of missing cases per observation:
  observation         1         2         3         4         5         6         7         8         9        10        11        12		overall
-time_run             0         0         0         0         0         0         0         0         0         0         0         0         0	  ( 0.0 %)
 freq_run             0         0         0         0         0         0         0         0         0         0         0         0         0	  ( 0.0 %)
 
 Means per observation:
  observation         1         2         3         4         5         6         7         8         9        10        11        12		overall
-time_run           2.952     2.823     2.661     2.742     2.903     2.774     2.710     2.903     3.000     2.984     2.645     3.129     2.852
 freq_run           3.000     2.726     2.565     2.742     2.839     2.677     2.548     2.903     2.952     2.839     2.774     2.903     2.789
 
 @2
@@ -399,7 +393,6 @@ For the similarity variable calculated from each actor covariate,
 the mean is subtracted.
 These means are:
 Similarity gender                   :       0.6023 
-Similarity time_run                 :       0.6538 
 Similarity freq_run                 :       0.6663 
 Similarity time_other               :       0.6398 
 Similarity freq_other               :       0.7183 
@@ -484,24 +477,12 @@ outdegree (density)                               -0.7659
 Dependent discrete actor variables:
 -----------------------------------
 
+freq_run 
+
 
 @3
-Marginal distributions
-                      
-Dependent actor variable 2: time_run
-                                           Observations
-values               1     2     3     4     5     6     7     8     9    10    11    12
-                ------------------------------------------------------------------------
-  0                  7    13    12    11    12    12     9     8     9    13    12    11
-  1                 11    10    13    10     8     7    11     8    10     5     6     7
-  2                 13     8     7     8     8    11    12    14     6    10    14     5
-  3                  9     4     8    10    10     9    11    12    14     6     9    13
-  4                  8    15     8    10     8    10     7     6     7    15    11     9
-  5                  5     1     6     6     5     6     2     6     6     2     3     4
-  6                  1     5     4     5     8     3     8     2     6     5     5     9
-  7                  8     6     4     2     3     4     2     6     4     6     2     4
-No missings
-Dependent actor variable 3: freq_run
+Marginal distribution
+                     
                                            Observations
 values               1     2     3     4     5     6     7     8     9    10    11    12
                 ------------------------------------------------------------------------
@@ -520,22 +501,6 @@ No missings
 @3
 Changes
        
-Dependent actor variable 2: time_run
- periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
-  1  =>  2            24    11      27         0                   26    18    44
-  2  =>  3            18    15      29         0                   30    20    50
-  3  =>  4            17    20      25         0                   25    30    55
-  4  =>  5            12    18      32         0                   17    27    44
-  5  =>  6            16    11      35         0                   21    13    34
-  6  =>  7            20    17      25         0                   31    27    58
-  7  =>  8            14    23      25         0                   25    37    62
-  8  =>  9            21    22      19         0                   28    34    62
-  9  => 10            17    18      27         0                   29    28    57
- 10  => 11            27    14      21         0                   41    20    61
- 11  => 12             8    28      26         0                   12    42    54
-
-For this variable, the standard initial behavioral tendency parameter is   0.0099
-Dependent actor variable 3: freq_run
  periods    actors:  down   up   constant  missing  ;   steps:   down    up  total
   1  =>  2            25    10      27         0                   31    14    45
   2  =>  3            16    13      33         0                   25    15    40

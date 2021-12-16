@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Replicating Figure</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fas fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="others.html">Clubs 2-5</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="meta.html">Meta-analysis</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Influence effects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influence_effects_JT_RF.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 3: Ego-alter influence plot</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Replicating Figure</h1>
+<h4 class="date">Last compiled on december, 2021</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<p>This script replicates Figure 3 of the manuscript (Ego-alter influence plots).</p>
+<p>Clean the working environment</p>
+<pre class="r test"><code># clean the working environment
+rm(list = ls())</code></pre>
+<p><br></p>
+<p>Define some functions</p>
+<pre class="r test"><code>{
+    
+    fcentring &lt;- function(actors) {
+        centored &lt;- actors - mean(actors)
+        return(centored)
+    }
+    
+    
+    fsimij &lt;- function(actors, min, max) {
+        # rv &lt;- max(actors) - min(actors)
+        rv &lt;- max - min
+        mat1 &lt;- matrix(actors, nrow = length(actors), ncol = length(actors), byrow = TRUE)
+        mat2 &lt;- t(mat1)
+        simij &lt;- 1 - (abs(mat1 - mat2)/rv)
+        return(simij)
+    }
+    
+    flinear &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        
+        statistic &lt;- beh_centered[1]  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    fquad &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        
+        statistic &lt;- (beh_centered[1])^2  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    
+    favSim &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+        diag(simij) &lt;- NA
+        msimij &lt;- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+        simij_c &lt;- simij - msimij  #center the similarity scores
+        
+        statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    favSim2 &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+        diag(simij) &lt;- NA
+        # msimij &lt;- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on
+        # non-diagonal cells??!!
+        simij_c &lt;- simij  # - msimij #center the similarity scores
+        
+        statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    favAttHigher &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        simij &lt;- fsimij(beh_centered, min, max)
+        diag(simij) &lt;- NA
+        # msimij &lt;- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!! simij_c &lt;- simij -
+        # msimij diag(simij_c) &lt;- NA
+        simijH &lt;- simij[1, ]
+        simijH[beh_centered &lt;= beh_centered[1]] &lt;- 1
+        simijH[1] &lt;- NA
+        statistic &lt;- sum(simijH, na.rm = TRUE)/length(alters)
+        
+        return(statistic)
+    }
+    
+    favAttLower &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        simij &lt;- fsimij(beh_centered, min, max)
+        diag(simij) &lt;- NA
+        
+        simijL &lt;- simij[1, ]
+        simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
+        simijL[1] &lt;- NA
+        statistic &lt;- sum(simijL, na.rm = TRUE)/length(alters)
+        
+        
+        return(statistic)
+    }
+    
+    favAlt &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        
+        
+        statistic &lt;- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+        
+        
+        return(statistic)
+    }
+    
+    fAttMean &lt;- function(ego, alters, min, max, ...) {
+        rv &lt;- max - min
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        
+        statistic &lt;- 1 - abs(beh_centered[1] - (sum(beh_centered[-1], na.rm = TRUE)/length(alters)))/rv  #thus we strive for a highest local similarity score!
+        
+        
+        return(statistic)
+    }
+    
+    finluenceplot &lt;- function(alters, min, max, fun, params, results = TRUE, plot = TRUE) {
+        # check correct number of parameters are given
+        if (length(fun) != length(params)) 
+            stop(&quot;Please provide one (and only one) parameter for each of the behavioral effects!&quot;)
+        
+        # calculuate value of evaluation function
+        s &lt;- NA
+        for (i in min:max) {
+            s[i] &lt;- 0
+            for (j in 1:length(fun)) {
+                s[i] &lt;- s[i] + params[j] * fun[[j]](i, alters, min, max)
+            }
+        }
+        
+        # calculate the probabilities
+        p &lt;- NA
+        for (i in min:max) {
+            p[i] &lt;- exp(s[i])/sum(exp(s))
+        }
+        
+        # calculate the probabilities of choice set
+        p2 &lt;- NA
+        for (i in min:max) {
+            if (i == min) {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i + 1]))
+            } else if (i == max) {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]))
+            } else {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]) + exp(s[i + 1]))
+            }
+        }
+        
+        # calculate the probability ratio
+        r &lt;- NA
+        for (i in min:max) {
+            r[i] &lt;- p[i]/p[1]
+        }
+        
+        # some simple plots
+        if (plot) {
+            name &lt;- deparse(substitute(fun))
+            name &lt;- stringr::str_sub(as.character(name), 6, -2)
+            par(mfrow = c(2, 2))
+            plot(y = s, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+            mtext(&quot;EVALUATION&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = p, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+            mtext(&quot;PROBABILITIES&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = p2, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+            mtext(&quot;PROBABILITIES choice set&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = r, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+            mtext(&quot;RATIOS&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        }
+        
+        # return results for more fancy plotting
+        if (results) {
+            x &lt;- min:max
+            df &lt;- data.frame(x, s, p, p2, r)
+            return(df)
+        }
+        
+    }
+}</code></pre>
+<p><br></p>
+<p>We consider different scenarios, where ego’s alters have different running frequency values.</p>
+<pre class="r test"><code>alters1 &lt;- rep(c(2), 6)
+alters2 &lt;- rep(c(5), 6)
+alters3 &lt;- rep(c(2, 2, 2, 5, 5, 5))
+alters4 &lt;- rep(c(1, 2, 3, 4, 5, 6, 7))</code></pre>
+<p><br></p>
+<p>Our club estimates:</p>
+<pre class="r test"><code>club1 &lt;- c(-0.15, -0.002, 2.0027, 6.0905)
+club2 &lt;- c(-0.24, 0.0075, 3.3213, 5.0047)
+club3 &lt;- c(-0.2085, 0.021, 3.7703, 2.1283)
+club4 &lt;- c(-1.3313, 0.0192, 2.5493, 4.4952)
+club5 &lt;- c(0.1021, 0.0743, 1.1736, 8.5486)</code></pre>
+<p><br></p>
+<pre class="r test"><code># scenario 1 club1
+p1 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot1 &lt;- rbind(p1, p2, p3, p4, p5)
+plot1$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot1$scenario &lt;- paste(&quot;A) Behavior alters:&quot;, paste0(alters1, collapse = &quot;, &quot;))
+
+# scenario 2 club1
+p1 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot2 &lt;- rbind(p1, p2, p3, p4, p5)
+plot2$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot2$scenario &lt;- paste(&quot;B) Behavior alters:&quot;, paste0(alters2, collapse = &quot;, &quot;))
+
+# scenario 3 club1
+p1 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot3 &lt;- rbind(p1, p2, p3, p4, p5)
+plot3$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot3$scenario &lt;- paste(&quot;C) Behavior alters:&quot;, paste0(alters3, collapse = &quot;, &quot;))
+
+# scenario 4 club1
+p1 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot4 &lt;- rbind(p1, p2, p3, p4, p5)
+plot4$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot4$scenario &lt;- paste(&quot;D) Behavior alters:&quot;, paste0(alters4, collapse = &quot;, &quot;))</code></pre>
+<p><br></p>
+<p>We create a nice multipanel plot of the different scenarios:</p>
+<pre class="r fold-hide"><code>multiplot &lt;- rbind(plot1,plot2,plot3,plot4)
+
+ggplot(data = multiplot, aes(x, s, group=Club, color=Club)) +
+  geom_line(size=1) +
+  geom_point(aes(shape=Club), size = 3) +
+  labs(title = &quot;Influence effects on running frequency&quot;, 
+       subtitle = &quot;Evaluation of prospective behavior: \nbased on shape effects and the average attraction towards higher and lower effects&quot;,
+       caption = &quot;y-axis represents the evaluation function statistic; x-axis represents different values for ego’s prospective running frequency. \nLines represent the predicted ‘attractiveness’ of different values of ego’s prospective running frequency, \nunder different scenarios with different values for the behavior of ego’s alters (as shown in the top of the panel: A-D). \n Behavior dynamics presented here would be compounded if the objective function contains more effects.&quot;,
+       x = &quot;Ego&#39;s propsective running frequency&quot;, 
+       y = &quot;Evaluation function&quot;) +
+  scale_y_continuous(breaks = seq(0, 10, by = 2.5)) +
+  scale_x_continuous(breaks = seq(1, 7, by = 1)) +
+  scale_shape_manual(values=c(rep(19, 5))) +
+  scale_colour_manual(values=c(&quot;#E69F00&quot;, &quot;#56B4E9&quot;, &quot;#000000&quot;, &quot;#009E73&quot;, &quot;#F0E442&quot;)) +
+  facet_wrap(~scenario) +
+  
+    theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = &quot;bold&quot;),    
+    plot.subtitle = element_text(hjust = 0.5),  
+    plot.caption = element_text(size=8)
+  
+
+  )</code></pre>
+<p><img src="figure3_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlJlcGxpY2F0aW5nIEZpZ3VyZSAiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBkZWNlbWJlciwgMjAyMSINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IGZhbHNlDQogICAgdG9jX2Zsb2F0OiBmYWxzZQ0KICAgIGNvbGxhcHNlZDogZmFsc2UNCiAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlDQogICAgdG9jX2RlcHRoOiAxDQogICAgY29kZV9mb2xkaW5nOiBzaG93DQogICAgY29kZV9kb3dubG9hZDogeWVzDQotLS0NCg0KDQoNCg0KDQoNCjwhLS1odG1sX3ByZXNlcnZlLS0+PHNjcmlwdD4NCiAgYWRkQ2xhc3NLbGlwcHlUbygicHJlLnIsIHByZS5tYXJrZG93biIpOw0KICBhZGRLbGlwcHkoJ3JpZ2h0JywgJ3RvcCcsICdhdXRvJywgJzEnLCAnQ29weSBjb2RlJywgJ0NvcGllZCEnKTsNCjwvc2NyaXB0PjwhLS0vaHRtbF9wcmVzZXJ2ZS0tPg0KDQotLS0NCg0KDQpUaGlzIHNjcmlwdCByZXBsaWNhdGVzIEZpZ3VyZSAzIG9mIHRoZSBtYW51c2NyaXB0IChFZ28tYWx0ZXIgaW5mbHVlbmNlIHBsb3RzKS4NCg0KQ2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQNCg0KDQpgYGB7LnIgLnRlc3R9DQojIGNsZWFuIHRoZSB3b3JraW5nIGVudmlyb25tZW50DQpybShsaXN0ID0gbHMoKSkNCmBgYA0KDQo8YnI+DQoNCkRlZmluZSBzb21lIGZ1bmN0aW9ucw0KDQoNCmBgYHsuciAudGVzdH0NCnsNCiAgICANCiAgICBmY2VudHJpbmcgPC0gZnVuY3Rpb24oYWN0b3JzKSB7DQogICAgICAgIGNlbnRvcmVkIDwtIGFjdG9ycyAtIG1lYW4oYWN0b3JzKQ0KICAgICAgICByZXR1cm4oY2VudG9yZWQpDQogICAgfQ0KICAgIA0KICAgIA0KICAgIGZzaW1paiA8LSBmdW5jdGlvbihhY3RvcnMsIG1pbiwgbWF4KSB7DQogICAgICAgICMgcnYgPC0gbWF4KGFjdG9ycykgLSBtaW4oYWN0b3JzKQ0KICAgICAgICBydiA8LSBtYXggLSBtaW4NCiAgICAgICAgbWF0MSA8LSBtYXRyaXgoYWN0b3JzLCBucm93ID0gbGVuZ3RoKGFjdG9ycyksIG5jb2wgPSBsZW5ndGgoYWN0b3JzKSwgYnlyb3cgPSBUUlVFKQ0KICAgICAgICBtYXQyIDwtIHQobWF0MSkNCiAgICAgICAgc2ltaWogPC0gMSAtIChhYnMobWF0MSAtIG1hdDIpL3J2KQ0KICAgICAgICByZXR1cm4oc2ltaWopDQogICAgfQ0KICAgIA0KICAgIGZsaW5lYXIgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIC4uLikgew0KICAgICAgICBhY3RvcnMgPC0gYyhlZ28sIGFsdGVycykgICNkZWZpbmUgdGhlIG5ldHdvcmsNCiAgICAgICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpICAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KICAgICAgICANCiAgICAgICAgc3RhdGlzdGljIDwtIGJlaF9jZW50ZXJlZFsxXSAgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQogICAgICAgIA0KICAgICAgICByZXR1cm4oc3RhdGlzdGljKQ0KICAgIH0NCiAgICANCiAgICBmcXVhZCA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgLi4uKSB7DQogICAgICAgIGFjdG9ycyA8LSBjKGVnbywgYWx0ZXJzKSAgI2RlZmluZSB0aGUgbmV0d29yaw0KICAgICAgICBiZWhfY2VudGVyZWQgPC0gZmNlbnRyaW5nKGFjdG9ycykgICNjZW50ZXIgYmVoYXZpb3Igc2NvcmVzDQogICAgICAgIA0KICAgICAgICBzdGF0aXN0aWMgPC0gKGJlaF9jZW50ZXJlZFsxXSleMiAgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQogICAgICAgIA0KICAgICAgICByZXR1cm4oc3RhdGlzdGljKQ0KICAgIH0NCiAgICANCiAgICANCiAgICBmYXZTaW0gPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIG1pbiwgbWF4KSB7DQogICAgICAgIGFjdG9ycyA8LSBjKGVnbywgYWx0ZXJzKSAgI2RlZmluZSB0aGUgbmV0d29yaw0KICAgICAgICBiZWhfY2VudGVyZWQgPC0gZmNlbnRyaW5nKGFjdG9ycykgICNjZW50ZXIgYmVoYXZpb3Igc2NvcmVzDQogICAgICAgIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KSAgI2NhbGN1bGF0ZSB0aGUgc2ltaWxhcml0eSBzY29yZXMNCiAgICAgICAgZGlhZyhzaW1paikgPC0gTkENCiAgICAgICAgbXNpbWlqIDwtIG1lYW4oc2ltaWosIG5hLnJtID0gVFJVRSkgICNjYWxjdWxhdGUgdGhlIG1lYW4gc2ltaWxhcml0eSBzY29yZS4gb25seSBjYWxjdWxhdGUgbWVhbiBvbiBub24tZGlhZ29uYWwgY2VsbHM/PyEhDQogICAgICAgIHNpbWlqX2MgPC0gc2ltaWogLSBtc2ltaWogICNjZW50ZXIgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQogICAgICAgIA0KICAgICAgICBzdGF0aXN0aWMgPC0gc3VtKHNpbWlqX2NbMSwgXSwgbmEucm0gPSBUUlVFKS9sZW5ndGgoYWx0ZXJzKSAgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQogICAgICAgIA0KICAgICAgICByZXR1cm4oc3RhdGlzdGljKQ0KICAgIH0NCiAgICANCiAgICBmYXZTaW0yIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCkgew0KICAgICAgICBhY3RvcnMgPC0gYyhlZ28sIGFsdGVycykgICNkZWZpbmUgdGhlIG5ldHdvcmsNCiAgICAgICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpICAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KICAgICAgICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkgICNjYWxjdWxhdGUgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQogICAgICAgIGRpYWcoc2ltaWopIDwtIE5BDQogICAgICAgICMgbXNpbWlqIDwtIG1lYW4oc2ltaWosIG5hLnJtPVRSVUUpICNjYWxjdWxhdGUgdGhlIG1lYW4gc2ltaWxhcml0eSBzY29yZS4gb25seSBjYWxjdWxhdGUgbWVhbiBvbg0KICAgICAgICAjIG5vbi1kaWFnb25hbCBjZWxscz8/ISENCiAgICAgICAgc2ltaWpfYyA8LSBzaW1paiAgIyAtIG1zaW1paiAjY2VudGVyIHRoZSBzaW1pbGFyaXR5IHNjb3Jlcw0KICAgICAgICANCiAgICAgICAgc3RhdGlzdGljIDwtIHN1bShzaW1pal9jWzEsIF0sIG5hLnJtID0gVFJVRSkvbGVuZ3RoKGFsdGVycykgICN0aGUgYWN0dWFsIHN0YXRpc3RpYw0KICAgICAgICANCiAgICAgICAgcmV0dXJuKHN0YXRpc3RpYykNCiAgICB9DQogICAgDQogICAgZmF2QXR0SGlnaGVyIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCkgew0KICAgICAgICBhY3RvcnMgPC0gYyhlZ28sIGFsdGVycykNCiAgICAgICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpDQogICAgICAgIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KQ0KICAgICAgICBkaWFnKHNpbWlqKSA8LSBOQQ0KICAgICAgICAjIG1zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybT1UUlVFKSAjb25seSBjYWxjdWxhdGUgbWVhbiBvbiBub24tZGlhZ29uYWwgY2VsbHM/PyEhIHNpbWlqX2MgPC0gc2ltaWogLQ0KICAgICAgICAjIG1zaW1paiBkaWFnKHNpbWlqX2MpIDwtIE5BDQogICAgICAgIHNpbWlqSCA8LSBzaW1palsxLCBdDQogICAgICAgIHNpbWlqSFtiZWhfY2VudGVyZWQgPD0gYmVoX2NlbnRlcmVkWzFdXSA8LSAxDQogICAgICAgIHNpbWlqSFsxXSA8LSBOQQ0KICAgICAgICBzdGF0aXN0aWMgPC0gc3VtKHNpbWlqSCwgbmEucm0gPSBUUlVFKS9sZW5ndGgoYWx0ZXJzKQ0KICAgICAgICANCiAgICAgICAgcmV0dXJuKHN0YXRpc3RpYykNCiAgICB9DQogICAgDQogICAgZmF2QXR0TG93ZXIgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIG1pbiwgbWF4KSB7DQogICAgICAgIGFjdG9ycyA8LSBjKGVnbywgYWx0ZXJzKQ0KICAgICAgICBiZWhfY2VudGVyZWQgPC0gZmNlbnRyaW5nKGFjdG9ycykNCiAgICAgICAgc2ltaWogPC0gZnNpbWlqKGJlaF9jZW50ZXJlZCwgbWluLCBtYXgpDQogICAgICAgIGRpYWcoc2ltaWopIDwtIE5BDQogICAgICAgIA0KICAgICAgICBzaW1pakwgPC0gc2ltaWpbMSwgXQ0KICAgICAgICBzaW1pakxbYmVoX2NlbnRlcmVkID49IGJlaF9jZW50ZXJlZFsxXV0gPC0gMQ0KICAgICAgICBzaW1pakxbMV0gPC0gTkENCiAgICAgICAgc3RhdGlzdGljIDwtIHN1bShzaW1pakwsIG5hLnJtID0gVFJVRSkvbGVuZ3RoKGFsdGVycykNCiAgICAgICAgDQogICAgICAgIA0KICAgICAgICByZXR1cm4oc3RhdGlzdGljKQ0KICAgIH0NCiAgICANCiAgICBmYXZBbHQgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIC4uLikgew0KICAgICAgICBhY3RvcnMgPC0gYyhlZ28sIGFsdGVycykNCiAgICAgICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpDQogICAgICAgIA0KICAgICAgICANCiAgICAgICAgc3RhdGlzdGljIDwtIGJlaF9jZW50ZXJlZFsxXSAqIChzdW0oYmVoX2NlbnRlcmVkWy0xXSwgbmEucm0gPSBUUlVFKS9sZW5ndGgoYWx0ZXJzKSkNCiAgICAgICAgDQogICAgICAgIA0KICAgICAgICByZXR1cm4oc3RhdGlzdGljKQ0KICAgIH0NCiAgICANCiAgICBmQXR0TWVhbiA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgsIC4uLikgew0KICAgICAgICBydiA8LSBtYXggLSBtaW4NCiAgICAgICAgYWN0b3JzIDwtIGMoZWdvLCBhbHRlcnMpDQogICAgICAgIGJlaF9jZW50ZXJlZCA8LSBmY2VudHJpbmcoYWN0b3JzKQ0KICAgICAgICANCiAgICAgICAgc3RhdGlzdGljIDwtIDEgLSBhYnMoYmVoX2NlbnRlcmVkWzFdIC0gKHN1bShiZWhfY2VudGVyZWRbLTFdLCBuYS5ybSA9IFRSVUUpL2xlbmd0aChhbHRlcnMpKSkvcnYgICN0aHVzIHdlIHN0cml2ZSBmb3IgYSBoaWdoZXN0IGxvY2FsIHNpbWlsYXJpdHkgc2NvcmUhDQogICAgICAgIA0KICAgICAgICANCiAgICAgICAgcmV0dXJuKHN0YXRpc3RpYykNCiAgICB9DQogICAgDQogICAgZmlubHVlbmNlcGxvdCA8LSBmdW5jdGlvbihhbHRlcnMsIG1pbiwgbWF4LCBmdW4sIHBhcmFtcywgcmVzdWx0cyA9IFRSVUUsIHBsb3QgPSBUUlVFKSB7DQogICAgICAgICMgY2hlY2sgY29ycmVjdCBudW1iZXIgb2YgcGFyYW1ldGVycyBhcmUgZ2l2ZW4NCiAgICAgICAgaWYgKGxlbmd0aChmdW4pICE9IGxlbmd0aChwYXJhbXMpKSANCiAgICAgICAgICAgIHN0b3AoIlBsZWFzZSBwcm92aWRlIG9uZSAoYW5kIG9ubHkgb25lKSBwYXJhbWV0ZXIgZm9yIGVhY2ggb2YgdGhlIGJlaGF2aW9yYWwgZWZmZWN0cyEiKQ0KICAgICAgICANCiAgICAgICAgIyBjYWxjdWx1YXRlIHZhbHVlIG9mIGV2YWx1YXRpb24gZnVuY3Rpb24NCiAgICAgICAgcyA8LSBOQQ0KICAgICAgICBmb3IgKGkgaW4gbWluOm1heCkgew0KICAgICAgICAgICAgc1tpXSA8LSAwDQogICAgICAgICAgICBmb3IgKGogaW4gMTpsZW5ndGgoZnVuKSkgew0KICAgICAgICAgICAgICAgIHNbaV0gPC0gc1tpXSArIHBhcmFtc1tqXSAqIGZ1bltbal1dKGksIGFsdGVycywgbWluLCBtYXgpDQogICAgICAgICAgICB9DQogICAgICAgIH0NCiAgICAgICAgDQogICAgICAgICMgY2FsY3VsYXRlIHRoZSBwcm9iYWJpbGl0aWVzDQogICAgICAgIHAgPC0gTkENCiAgICAgICAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICAgICAgICAgIHBbaV0gPC0gZXhwKHNbaV0pL3N1bShleHAocykpDQogICAgICAgIH0NCiAgICAgICAgDQogICAgICAgICMgY2FsY3VsYXRlIHRoZSBwcm9iYWJpbGl0aWVzIG9mIGNob2ljZSBzZXQNCiAgICAgICAgcDIgPC0gTkENCiAgICAgICAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICAgICAgICAgIGlmIChpID09IG1pbikgew0KICAgICAgICAgICAgICAgIHAyW2ldIDwtIGV4cChzW2ldKS9zdW0oZXhwKHNbaV0pICsgZXhwKHNbaSArIDFdKSkNCiAgICAgICAgICAgIH0gZWxzZSBpZiAoaSA9PSBtYXgpIHsNCiAgICAgICAgICAgICAgICBwMltpXSA8LSBleHAoc1tpXSkvc3VtKGV4cChzW2ldKSArIGV4cChzW2kgLSAxXSkpDQogICAgICAgICAgICB9IGVsc2Ugew0KICAgICAgICAgICAgICAgIHAyW2ldIDwtIGV4cChzW2ldKS9zdW0oZXhwKHNbaV0pICsgZXhwKHNbaSAtIDFdKSArIGV4cChzW2kgKyAxXSkpDQogICAgICAgICAgICB9DQogICAgICAgIH0NCiAgICAgICAgDQogICAgICAgICMgY2FsY3VsYXRlIHRoZSBwcm9iYWJpbGl0eSByYXRpbw0KICAgICAgICByIDwtIE5BDQogICAgICAgIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgICAgICAgICByW2ldIDwtIHBbaV0vcFsxXQ0KICAgICAgICB9DQogICAgICAgIA0KICAgICAgICAjIHNvbWUgc2ltcGxlIHBsb3RzDQogICAgICAgIGlmIChwbG90KSB7DQogICAgICAgICAgICBuYW1lIDwtIGRlcGFyc2Uoc3Vic3RpdHV0ZShmdW4pKQ0KICAgICAgICAgICAgbmFtZSA8LSBzdHJpbmdyOjpzdHJfc3ViKGFzLmNoYXJhY3RlcihuYW1lKSwgNiwgLTIpDQogICAgICAgICAgICBwYXIobWZyb3cgPSBjKDIsIDIpKQ0KICAgICAgICAgICAgcGxvdCh5ID0gcywgeCA9IG1pbjptYXgsIHhsYWIgPSAiZWdvIGJlaGF2aW9yYWwgc2NvcmUiLCB5bGFiID0gbmFtZSwgdHlwZSA9ICJiIikNCiAgICAgICAgICAgIG10ZXh0KCJFVkFMVUFUSU9OIiwgbGluZSA9IDEpDQogICAgICAgICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlID0gIiwiKSkpDQogICAgICAgICAgICBwbG90KHkgPSBwLCB4ID0gbWluOm1heCwgeGxhYiA9ICJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWIgPSBuYW1lLCB5bGltID0gYygwLCAxKSwgdHlwZSA9ICJiIikNCiAgICAgICAgICAgIG10ZXh0KCJQUk9CQUJJTElUSUVTIiwgbGluZSA9IDEpDQogICAgICAgICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlID0gIiwiKSkpDQogICAgICAgICAgICBwbG90KHkgPSBwMiwgeCA9IG1pbjptYXgsIHhsYWIgPSAiZWdvIGJlaGF2aW9yYWwgc2NvcmUiLCB5bGFiID0gbmFtZSwgeWxpbSA9IGMoMCwgMSksIHR5cGUgPSAiYiIpDQogICAgICAgICAgICBtdGV4dCgiUFJPQkFCSUxJVElFUyBjaG9pY2Ugc2V0IiwgbGluZSA9IDEpDQogICAgICAgICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlID0gIiwiKSkpDQogICAgICAgICAgICBwbG90KHkgPSByLCB4ID0gbWluOm1heCwgeGxhYiA9ICJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWIgPSBuYW1lLCB0eXBlID0gImIiKQ0KICAgICAgICAgICAgbXRleHQoIlJBVElPUyIsIGxpbmUgPSAxKQ0KICAgICAgICAgICAgbXRleHQocGFzdGUoImFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzLCBjb2xsYXBzZSA9ICIsIikpKQ0KICAgICAgICB9DQogICAgICAgIA0KICAgICAgICAjIHJldHVybiByZXN1bHRzIGZvciBtb3JlIGZhbmN5IHBsb3R0aW5nDQogICAgICAgIGlmIChyZXN1bHRzKSB7DQogICAgICAgICAgICB4IDwtIG1pbjptYXgNCiAgICAgICAgICAgIGRmIDwtIGRhdGEuZnJhbWUoeCwgcywgcCwgcDIsIHIpDQogICAgICAgICAgICByZXR1cm4oZGYpDQogICAgICAgIH0NCiAgICAgICAgDQogICAgfQ0KfQ0KYGBgDQoNCg0KPGJyPg0KDQpXZSBjb25zaWRlciBkaWZmZXJlbnQgc2NlbmFyaW9zLCB3aGVyZSBlZ2/igJlzIGFsdGVycyBoYXZlIGRpZmZlcmVudCBydW5uaW5nIGZyZXF1ZW5jeSB2YWx1ZXMuDQoNCg0KYGBgey5yIC50ZXN0fQ0KYWx0ZXJzMSA8LSByZXAoYygyKSwgNikNCmFsdGVyczIgPC0gcmVwKGMoNSksIDYpDQphbHRlcnMzIDwtIHJlcChjKDIsIDIsIDIsIDUsIDUsIDUpKQ0KYWx0ZXJzNCA8LSByZXAoYygxLCAyLCAzLCA0LCA1LCA2LCA3KSkNCmBgYA0KDQo8YnI+DQoNCk91ciBjbHViIGVzdGltYXRlczoNCg0KDQpgYGB7LnIgLnRlc3R9DQpjbHViMSA8LSBjKC0wLjE1LCAtMC4wMDIsIDIuMDAyNywgNi4wOTA1KQ0KY2x1YjIgPC0gYygtMC4yNCwgMC4wMDc1LCAzLjMyMTMsIDUuMDA0NykNCmNsdWIzIDwtIGMoLTAuMjA4NSwgMC4wMjEsIDMuNzcwMywgMi4xMjgzKQ0KY2x1YjQgPC0gYygtMS4zMzEzLCAwLjAxOTIsIDIuNTQ5MywgNC40OTUyKQ0KY2x1YjUgPC0gYygwLjEwMjEsIDAuMDc0MywgMS4xNzM2LCA4LjU0ODYpDQpgYGANCg0KPGJyPg0KDQoNCmBgYHsuciAudGVzdH0NCiMgc2NlbmFyaW8gMSBjbHViMQ0KcDEgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMxLCBtaW4gPSAxLCBtYXggPSA3LCByZXN1bHRzID0gVCwgcGxvdCA9IEYsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIA0KICAgIGZhdkF0dEhpZ2hlciwgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjbHViMSkNCiMgY2x1YjINCnAyIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMSwgbWluID0gMSwgbWF4ID0gNywgcmVzdWx0cyA9IFQsIHBsb3QgPSBGLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCANCiAgICBmYXZBdHRIaWdoZXIsIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gY2x1YjIpDQojIGNsdWIgMw0KcDMgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMxLCBtaW4gPSAxLCBtYXggPSA3LCByZXN1bHRzID0gVCwgcGxvdCA9IEYsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIA0KICAgIGZhdkF0dEhpZ2hlciwgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjbHViMykNCiMgY2x1YiA0DQpwNCA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczEsIG1pbiA9IDEsIG1heCA9IDcsIHJlc3VsdHMgPSBULCBwbG90ID0gRiwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgDQogICAgZmF2QXR0SGlnaGVyLCBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGNsdWI0KQ0KIyBjbHViIDUNCnA1IDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMSwgbWluID0gMSwgbWF4ID0gNywgcmVzdWx0cyA9IFQsIHBsb3QgPSBGLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCANCiAgICBmYXZBdHRIaWdoZXIsIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gY2x1YjUpDQoNCnBsb3QxIDwtIHJiaW5kKHAxLCBwMiwgcDMsIHA0LCBwNSkNCnBsb3QxJENsdWIgPC0gYXMuY2hhcmFjdGVyKHNvcnQocmVwKDE6NSwgNykpKQ0KcGxvdDEkc2NlbmFyaW8gPC0gcGFzdGUoIkEpIEJlaGF2aW9yIGFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzMSwgY29sbGFwc2UgPSAiLCAiKSkNCg0KIyBzY2VuYXJpbyAyIGNsdWIxDQpwMSA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczIsIG1pbiA9IDEsIG1heCA9IDcsIHJlc3VsdHMgPSBULCBwbG90ID0gRiwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgDQogICAgZmF2QXR0SGlnaGVyLCBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGNsdWIxKQ0KIyBjbHViMg0KcDIgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMyLCBtaW4gPSAxLCBtYXggPSA3LCByZXN1bHRzID0gVCwgcGxvdCA9IEYsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIA0KICAgIGZhdkF0dEhpZ2hlciwgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjbHViMikNCiMgY2x1YiAzDQpwMyA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczIsIG1pbiA9IDEsIG1heCA9IDcsIHJlc3VsdHMgPSBULCBwbG90ID0gRiwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgDQogICAgZmF2QXR0SGlnaGVyLCBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGNsdWIzKQ0KIyBjbHViIDQNCnA0IDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMiwgbWluID0gMSwgbWF4ID0gNywgcmVzdWx0cyA9IFQsIHBsb3QgPSBGLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCANCiAgICBmYXZBdHRIaWdoZXIsIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gY2x1YjQpDQojIGNsdWIgNQ0KcDUgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMyLCBtaW4gPSAxLCBtYXggPSA3LCByZXN1bHRzID0gVCwgcGxvdCA9IEYsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIA0KICAgIGZhdkF0dEhpZ2hlciwgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjbHViNSkNCg0KcGxvdDIgPC0gcmJpbmQocDEsIHAyLCBwMywgcDQsIHA1KQ0KcGxvdDIkQ2x1YiA8LSBhcy5jaGFyYWN0ZXIoc29ydChyZXAoMTo1LCA3KSkpDQpwbG90MiRzY2VuYXJpbyA8LSBwYXN0ZSgiQikgQmVoYXZpb3IgYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMyLCBjb2xsYXBzZSA9ICIsICIpKQ0KDQojIHNjZW5hcmlvIDMgY2x1YjENCnAxIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMywgbWluID0gMSwgbWF4ID0gNywgcmVzdWx0cyA9IFQsIHBsb3QgPSBGLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCANCiAgICBmYXZBdHRIaWdoZXIsIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gY2x1YjEpDQojIGNsdWIyDQpwMiA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczMsIG1pbiA9IDEsIG1heCA9IDcsIHJlc3VsdHMgPSBULCBwbG90ID0gRiwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgDQogICAgZmF2QXR0SGlnaGVyLCBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGNsdWIyKQ0KIyBjbHViIDMNCnAzIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMywgbWluID0gMSwgbWF4ID0gNywgcmVzdWx0cyA9IFQsIHBsb3QgPSBGLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCANCiAgICBmYXZBdHRIaWdoZXIsIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gY2x1YjMpDQojIGNsdWIgNA0KcDQgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMzLCBtaW4gPSAxLCBtYXggPSA3LCByZXN1bHRzID0gVCwgcGxvdCA9IEYsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIA0KICAgIGZhdkF0dEhpZ2hlciwgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjbHViNCkNCiMgY2x1YiA1DQpwNSA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczMsIG1pbiA9IDEsIG1heCA9IDcsIHJlc3VsdHMgPSBULCBwbG90ID0gRiwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgDQogICAgZmF2QXR0SGlnaGVyLCBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGNsdWI1KQ0KDQpwbG90MyA8LSByYmluZChwMSwgcDIsIHAzLCBwNCwgcDUpDQpwbG90MyRDbHViIDwtIGFzLmNoYXJhY3Rlcihzb3J0KHJlcCgxOjUsIDcpKSkNCnBsb3QzJHNjZW5hcmlvIDwtIHBhc3RlKCJDKSBCZWhhdmlvciBhbHRlcnM6IiwgcGFzdGUwKGFsdGVyczMsIGNvbGxhcHNlID0gIiwgIikpDQoNCiMgc2NlbmFyaW8gNCBjbHViMQ0KcDEgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnM0LCBtaW4gPSAxLCBtYXggPSA3LCByZXN1bHRzID0gVCwgcGxvdCA9IEYsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIA0KICAgIGZhdkF0dEhpZ2hlciwgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjbHViMSkNCiMgY2x1YjINCnAyIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzNCwgbWluID0gMSwgbWF4ID0gNywgcmVzdWx0cyA9IFQsIHBsb3QgPSBGLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCANCiAgICBmYXZBdHRIaWdoZXIsIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gY2x1YjIpDQojIGNsdWIgMw0KcDMgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnM0LCBtaW4gPSAxLCBtYXggPSA3LCByZXN1bHRzID0gVCwgcGxvdCA9IEYsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIA0KICAgIGZhdkF0dEhpZ2hlciwgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjbHViMykNCiMgY2x1YiA0DQpwNCA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczQsIG1pbiA9IDEsIG1heCA9IDcsIHJlc3VsdHMgPSBULCBwbG90ID0gRiwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgDQogICAgZmF2QXR0SGlnaGVyLCBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGNsdWI0KQ0KIyBjbHViIDUNCnA1IDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzNCwgbWluID0gMSwgbWF4ID0gNywgcmVzdWx0cyA9IFQsIHBsb3QgPSBGLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCANCiAgICBmYXZBdHRIaWdoZXIsIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gY2x1YjUpDQoNCnBsb3Q0IDwtIHJiaW5kKHAxLCBwMiwgcDMsIHA0LCBwNSkNCnBsb3Q0JENsdWIgPC0gYXMuY2hhcmFjdGVyKHNvcnQocmVwKDE6NSwgNykpKQ0KcGxvdDQkc2NlbmFyaW8gPC0gcGFzdGUoIkQpIEJlaGF2aW9yIGFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzNCwgY29sbGFwc2UgPSAiLCAiKSkNCmBgYA0KDQo8YnI+IA0KDQpXZSBjcmVhdGUgYSBuaWNlIG11bHRpcGFuZWwgcGxvdCBvZiB0aGUgZGlmZmVyZW50IHNjZW5hcmlvczoNCg0KDQpgYGB7LnIgLmZvbGQtaGlkZX0NCm11bHRpcGxvdCA8LSByYmluZChwbG90MSxwbG90MixwbG90MyxwbG90NCkNCg0KZ2dwbG90KGRhdGEgPSBtdWx0aXBsb3QsIGFlcyh4LCBzLCBncm91cD1DbHViLCBjb2xvcj1DbHViKSkgKw0KICBnZW9tX2xpbmUoc2l6ZT0xKSArDQogIGdlb21fcG9pbnQoYWVzKHNoYXBlPUNsdWIpLCBzaXplID0gMykgKw0KICBsYWJzKHRpdGxlID0gIkluZmx1ZW5jZSBlZmZlY3RzIG9uIHJ1bm5pbmcgZnJlcXVlbmN5IiwgDQogICAgICAgc3VidGl0bGUgPSAiRXZhbHVhdGlvbiBvZiBwcm9zcGVjdGl2ZSBiZWhhdmlvcjogXG5iYXNlZCBvbiBzaGFwZSBlZmZlY3RzIGFuZCB0aGUgYXZlcmFnZSBhdHRyYWN0aW9uIHRvd2FyZHMgaGlnaGVyIGFuZCBsb3dlciBlZmZlY3RzIiwNCiAgICAgICBjYXB0aW9uID0gInktYXhpcyByZXByZXNlbnRzIHRoZSBldmFsdWF0aW9uIGZ1bmN0aW9uIHN0YXRpc3RpYzsgeC1heGlzIHJlcHJlc2VudHMgZGlmZmVyZW50IHZhbHVlcyBmb3IgZWdv4oCZcyBwcm9zcGVjdGl2ZSBydW5uaW5nIGZyZXF1ZW5jeS4gXG5MaW5lcyByZXByZXNlbnQgdGhlIHByZWRpY3RlZCDigJhhdHRyYWN0aXZlbmVzc+KAmSBvZiBkaWZmZXJlbnQgdmFsdWVzIG9mIGVnb+KAmXMgcHJvc3BlY3RpdmUgcnVubmluZyBmcmVxdWVuY3ksIFxudW5kZXIgZGlmZmVyZW50IHNjZW5hcmlvcyB3aXRoIGRpZmZlcmVudCB2YWx1ZXMgZm9yIHRoZSBiZWhhdmlvciBvZiBlZ2/igJlzIGFsdGVycyAoYXMgc2hvd24gaW4gdGhlIHRvcCBvZiB0aGUgcGFuZWw6IEEtRCkuIFxuIEJlaGF2aW9yIGR5bmFtaWNzIHByZXNlbnRlZCBoZXJlIHdvdWxkIGJlIGNvbXBvdW5kZWQgaWYgdGhlIG9iamVjdGl2ZSBmdW5jdGlvbiBjb250YWlucyBtb3JlIGVmZmVjdHMuIiwNCiAgICAgICB4ID0gIkVnbydzIHByb3BzZWN0aXZlIHJ1bm5pbmcgZnJlcXVlbmN5IiwgDQogICAgICAgeSA9ICJFdmFsdWF0aW9uIGZ1bmN0aW9uIikgKw0KICBzY2FsZV95X2NvbnRpbnVvdXMoYnJlYWtzID0gc2VxKDAsIDEwLCBieSA9IDIuNSkpICsNCiAgc2NhbGVfeF9jb250aW51b3VzKGJyZWFrcyA9IHNlcSgxLCA3LCBieSA9IDEpKSArDQogIHNjYWxlX3NoYXBlX21hbnVhbCh2YWx1ZXM9YyhyZXAoMTksIDUpKSkgKw0KICBzY2FsZV9jb2xvdXJfbWFudWFsKHZhbHVlcz1jKCIjRTY5RjAwIiwgIiM1NkI0RTkiLCAiIzAwMDAwMCIsICIjMDA5RTczIiwgIiNGMEU0NDIiKSkgKw0KICBmYWNldF93cmFwKH5zY2VuYXJpbykgKw0KICANCiAgICB0aGVtZSgNCiAgICBwbG90LnRpdGxlID0gZWxlbWVudF90ZXh0KGhqdXN0ID0gMC41LCBzaXplID0gMTQsIGZhY2UgPSAiYm9sZCIpLCAgICANCiAgICBwbG90LnN1YnRpdGxlID0gZWxlbWVudF90ZXh0KGhqdXN0ID0gMC41KSwgIA0KICAgIHBsb3QuY2FwdGlvbiA9IGVsZW1lbnRfdGV4dChzaXplPTgpDQogIA0KDQogICkNCmBgYA0KDQo8aW1nIHNyYz0iZmlndXJlM19maWxlcy9maWd1cmUtaHRtbC91bm5hbWVkLWNodW5rLTYtMS5wbmciIHdpZHRoPSI2NzIiIC8+DQo=</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("figure3.knit.md");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

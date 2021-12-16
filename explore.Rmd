@@ -63,7 +63,7 @@ We will:
 4. Define our algorithm
 5. And estimate the SAOM
 
-Below, we will follow these steps for club 1 (N=30). We will do the same procedure for the other clubs (see <a href="https://robfranken.github.io/Strava/meta.html" target="_blank"><b>here</b></a>). 
+Below, we will follow these steps for club 1 (N=30). Here, we focus on running frequency. We did the same procedure for the other clubs.
 
 <br>
 
@@ -72,18 +72,18 @@ Below, we will follow these steps for club 1 (N=30). We will do the same procedu
 
 # Step 1: Data
 
-We read in the R-SIENA objects list (*clubdata_rsiena.RData*) and we grab club 1 (N=30). For now we take as our network variable the kudos-network in which awarding/receiving *at least* 1 kudos constitutes an *i,j* tie. 
+We read in the R-SIENA objects list (*clubdata_rsiena_freq.RData*) and we grab club 1 (N=30). We take as our network variable the kudos-network in which awarding/receiving *at least* 1 kudos constitutes an *i,j* tie. 
 
-- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7+ times per week); running duration will be investigated later on.
+- Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7+ times per week).
 
 - We included activity (frequency) in other sports (e.g., cycling and swimming) as a time-varying covariate.
 
-- And we also included gender (men vs. women and others), and winter as constant and varying covariates, respectively.
+- And we also included gender (men vs. women and others) as constant covariate.
 
 
 ```{r}
-load("clubdata_rsiena.Rdata") # load rsiena object list
-mydata <- clubdata_rsiena[[1]] # grab club 1
+load("clubdata_rsiena_freq.Rdata") # load rsiena object list
+mydata <- clubdata_rsiena_freq[[1]] # grab club 1
 ```
 
 <br>
@@ -269,9 +269,8 @@ We have modeled the dynamics of kudos tie formation. Now let's model dynamics in
 ## Covariate effects
 We start with effects on behavior changes of other variables.
 
-- the interdependence between running and other sports (frequency)
+- the interdependence between running frequency and other sports frequency.
 - gender on behavior
-- winter on behavior (we exclude this effect, as it was not significantly different from 0)
   
 ```{r echo=T, results='hide'}
 myeff3 <- includeEffects(myeff2, effFrom, name = "freq_run", interaction1 = "freq_other")
@@ -283,137 +282,107 @@ myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gen
 ----
   
 ## Influence effects {#inf}
-Last, we include two influence effects to test our hypotheses on the influence of social support and social comparison processes respectively:
-  
-1. The indegree effect on behavior.
-This tests the social support explanation: the higher the indegree (our operationalization of received support), the greater the probability of increasing the behavior. 
+Last, we include effects of network position (indegree) and alter behaviors (average alter/similarity, etc.) on behavior change.
+We make, for each club, 5 model specifications. We save these effect objects in a list.
 
-2. The average attraction towards higher (and lower) effect.
-This test the extent to which ego is pulled up (or drawn down) on the behavior scale by alters that score higher (or lower).
-
-We test these effects sequentially:
-so first, we estimate a model with the indegree effect on behavior added to the baseline model;
-Second, we add the average attraction higher (lower) effect.
+- Model 1: base model + indegree effect on running
+- Model 2: Model 1 + average alter effect
+- Model 3: Model 1 + average attraction higher
+- Model 4: Model 1 + average attraction lower
+- Model 5: Model 1 + average attraction higher + lower
+- Model 6: Model 1 + average similarity effect
 
 We also fixed-and-tested the effect of outdegree on behavior, to rule out possible confounding of the outdegree effect. Score-type test indicated that outdegree-effects on behavior were 0 (not shown). 
 
 
 ```{r echo=T, results='hide'}
-myeff3 <- includeEffects(myeff3, indeg, name = "freq_run", interaction1 = "kudonet") 
+myeff0 <- myeff3                                                                            # model 0: base
+myeff1 <- includeEffects(myeff0, indeg, name = "freq_run", interaction1 = "kudonet")        # model 1: indegree
+myeff2 <- includeEffects(myeff1, avAlt, name = "freq_run", interaction1 = "kudonet")        # model 2: avAlt
+myeff3 <- includeEffects(myeff1, avAttHigher, name = "freq_run", interaction1 = "kudonet")  # model 3: avAttHigher
+myeff4 <- includeEffects(myeff1, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 4: avAttLower
+myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
+myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
 
-myeff4 <- includeEffects(myeff3, avAttHigher, name = "freq_run", interaction1 = "kudonet") 
-myeff4 <- includeEffects(myeff4, avAttLower, name = "freq_run", interaction1 = "kudonet") 
+myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
 ```
 
   
 <br>
-  
-Now check which effects are included in the myeff objects.
-
-```{r class.source = 'fold-hide' }
-options(width = 100) # ignore (this is for the html formatting)
-print(myeff3)
-print(myeff4)
-```
-
-<br>
-
-Seems allright!
   
 ----
   
 # Step 4: Estimate the model
   
-Let's estimate the model with the objective function for running activity comprising the shape effects and the indegree effect on behavior. We use the prevAns-option to use previous model-results as starting values for the estimation.
-
-We will save the results in a html-table using the siena.table()-function, in the 'files'-folder in our working directory. We will run the model as many times as necessary, until we reach a convergence ratio of < .25. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior).
-
+Let's estimate these models. We rerun the models until adequate convergence is reached.
+We store the sienaFit objects of these models in a list, which we save later on. We use 'returnDeps=TRUE' for keeping the simulated data (networks and behavior).
 
 ```{r eval= F }
-try <- 1
-ansM2 <- siena07(myalgorithm, data = mydata, effects = myeff3, returnDeps=TRUE, prevAns=ansM1)
+m=6 # models to estimate (indeg, avAlt, avAttHigher, avAttLower, avAttHigher+Lower, avSim)
 
-# the following script lets the model re-run until we get a good convergence ratio
-while (TRUE){
-  
-  if(ansM2$tconv.max >= .25){
-    try <- try + 1
-     if (try>30) {
-          print(paste("Now it lasted to long!") 
-          break      
-        }
-    print(paste("Model did not converge: ", ansM2$tconv.max, sep = ""))
-    print(paste("Try:", try, sep=" "))
-    ansM2 <- siena07( myalgorithm, data = mydata, effects = myeff3, prevAns= ansM2, returnDeps=TRUE)
-    
-  }else{
-    siena.table(ansM2, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 1", ".html", sep=""))
-    print(paste("Reached convergence ratio of ", ansM2$tconv.max, sep = ""))
-    break
-  }
-}
-```
+# tweak the algorithm
+myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
 
-<br>
+# siena07( myalgorithm, data = mydata, effects = myeff[[j]], prevAns= sienaFit[[j]], returnDeps=TRUE, useCluster=TRUE, nbrNodes=10, initC=TRUE, batch=TRUE)
+
+# we make a list for storing the RSiena fit objects
+sienaFit <- list()
+
+# for club i (here, 1) we run models j in 1:m
+i = 1
+for (j in 1:m) {
  
-We also save the sienaFit-object to our "Principal club"-folder.
-
-```{r eval= F }
-save(ansM2, file= paste("files", "/", "test club 1", "/", "model1.RData", sep=""))
-```
-
-
-<br>
-
-Now follow the same procedure for the model comprising also the assimilation-effects. Again, we will run the model as many times as necessary, until we reach convergence. Again, we use prevAns.
-
-```{r eval= F }
+# we estimate the model
 try <- 1
-ansM3 <- siena07(myalgorithm, data = mydata, effects = myeff4, returnDeps=TRUE, prevAns=ansM2)
-
-# the following script lets the model re-run until we get a good convergence ratio
-while (TRUE){
-  
-  if(ansM3$tconv.max >= .25){
-    try <- try + 1
-    if (try>30) {
+print(paste("Estimating model ", j, " for club 1", sep=""))
+sienaFit[[j]] <- siena07(myalgorithm, data = mydata, effects = myeff[[j]], returnDeps=TRUE,
+                             useCluster=TRUE, nbrNodes=10, initC=TRUE, batch=TRUE) # store it in the list
+    
+    # re-run until we reach adequate convergence 
+    while (TRUE){
+      if(sienaFit[[j]]$tconv.max >= .25){
+        try <- try + 1
+        if (try>30) {
           print(paste("Now it lasted to long!") 
           break      
         }
-    print(paste("Model did not converge: ", ansM3$tconv.max, sep = ""))
-    print(paste("Try:", try, sep=" "))
-    ansM3 <- siena07( myalgorithm, data = mydata, effects = myeff4, prevAns= ansM3, returnDeps=TRUE)
+        print(paste("Model did not converge adequately (", sienaFit[[j]]$tconv.max, "); ", "Repeat the estimation (", "try ", try, ")", sep = ""))
+        sienaFit[[j]] <- siena07( myalgorithm, data = mydata, effects = myeff[[j]], prevAns= sienaFit[[j]], returnDeps=TRUE, useCluster=TRUE, nbrNodes=10, initC=TRUE, batch=TRUE)
+      }else{
+        print(paste("Reached overall maximum convergence ratio of: ", sienaFit[[j]]$tconv.max, sep = ""))
+        print("")
+        break
+      }
+    }
     
-  }else{
-    siena.table(ansM3, type="html", tstat=T, d=3, sig=T, file = paste("files", "/", "test club 1", "/", "Model 2", ".html", sep=""))
-    print(paste("Reached convergence ratio of ", ansM3$tconv.max, sep = ""))
-    break
   }
+  # and save the list with RSiena fit objects
+  save(sienaFit, file=paste("test", "/", "sienaFit", "/", "sienaFit_club", i, ".RData", sep = ""))
+  print(paste("All models are estimated for club ", i, ". Model results are stored in sienaFit_club", i, ".RData", sep=""))
+
 }
 
+sienaFit_clubL <- list()
+
+for (i in 1:5) {
+  temp.space <- new.env()
+  bar <- load(paste("test/sienaFit/sienaFit_club", i, ".RData", sep=""), temp.space)
+  sienaFit_clubL[[i]] <- get(bar, temp.space)
+  rm(temp.space)
+}
+
+
+lapply(sienaFit_clubL, '[[', 5)
+map(sienaFit_clubL, 6)
+
+
 ```
 
-<br>
 
-We save the sienaFit-object.
-
-```{r eval= F }
-save(ansM3, file= paste("files", "/", "test club 1", "/", "model2.RData", sep=""))
-
-```
 
 <br> 
 
-Because we are now modeling the evolution of both the network and the attribute (running activity), we will add an additional indicator to evaluate GOF; namely, does the model capture the distribution of actors’ attribute levels over time?
-
-```{r eval=F, results='hide'}
-gofbeh <- sienaGOF(ansM3,
-                   BehaviorDistribution,
-                   verbose = TRUE,
-                   join = TRUE,
-                   varName = "freq_run")
-```
-
+Because we are now modeling the evolution of both the network and the attribute (running freq.), we will add an additional indicator to evaluate GOF; namely, does the model capture the distribution of actors’ attribute levels over time?
 
 ```{r class.source = 'fold-hide'}
 load("files/test club 1/gof2.RData")
@@ -422,37 +391,6 @@ plot(goflist2[[1]])
 
 
 GOF is adequate for the distribution of running frequency values.
-
-
-----
-
-<br>
-
-# Step 5: Results {#result}
-
-We present the SAOM results for club 1.
-
-The first table (Model 1) presents the parameter estimates for (1) network structure; (2) network dynamics (selection); (3) behavior dynamics comprising shape effects, *indegree effect* on behavior, and covariate effects on behavior change. The second table (Model 2) adds the assimilation effects on behavior.
-
-## {.tabset .tabset-fade}
-
-### Model 1
-```{r, echo=F}
-htmltools::includeHTML("files/test club 1/Model 1.html")
-```
-
-### Model 2
-```{r, echo=F}
-htmltools::includeHTML("files/test club 1/Model 2.html")
-```
-
-## {-}
-
-----
-
-We do not find a significant kudos indegree effect. We do find that actors are influenced by the behavior of kudos (out-) ties, but they are mostly pulled down (avAttLower)
-
-<br>
 
 ----
 

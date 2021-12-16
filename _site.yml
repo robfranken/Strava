@@ -7,15 +7,26 @@ navbar:
     - text: "Preparation"
       href: prep.html
     - text: "Descriptives"
-      href: des.html
+      menu: 
+      - text: "Procedure"
+        href: des.html
+      - text: "Table 1: Descriptives"
+        href: destab.html
     - text: "Model selection"
-      href: explore.html
+      menu:
+      - text: "Club 1"
+        href: explore.html
+      - text: "Clubs 2-5"
+        href: others.html
     - text: "Meta-analysis"
       href: meta.html
-    - menu:
-      - text: "Different social influence operationalization"
-      - text: "Different kudos tie classification"
-    - text: "Supplementary material"
+    - text: "Influence effects"
+      menu:
+      - text: "Different influence operationalizations"
+        href: influence_effects_JT_RF.html
+      - text: "Figure 3: Ego-alter influence plot"
+        href: figure3.html
+        
   right:
     - icon: fab fa-github
       href: https://github.com/robfranken/Strava

@@ -40,9 +40,9 @@ klippy::klippy(position = c('top', 'right'))
 
 In the following scripts a list containing the (anonymized) data of all clubs is made (clubdata.RData).
 
-* Our primary network variable is the Kudos-network. A tie i -> j exists if ego i award at least 1 Kudos to alter j. We also make alternative operationalizations for the kudos network, with different cut-off values for the number of kudos required for a tie to be present. 
+* Our primary network variable is the Kudos-network. A tie i -> j exists if ego i award at least 1 Kudos to alter j.
 
-* For the behavioral data we include information on the *frequency* (i.e., in times per week) and *duration* (i.e., in hours per week) of running activities. We included activity (frequency and duration) in other sports (e.g., cycling and swimming) as a time-varying covariate.
+* For the behavioral data we include information on the *frequency* (i.e., in times per week) and *volume* (i.e., in hours per week) of running activities. We included activity (frequency and volume) in other sports (e.g., cycling and swimming) as a time-varying covariate.
 
 
 ```{r clubs, eval=FALSE}
@@ -123,27 +123,9 @@ for (i in (1: length(club_str))) {
   }
   kudos <- array( c(kudo_w1,kudo_w2,kudo_w3,kudo_w4,kudo_w5,kudo_w6,kudo_w7,kudo_w8,kudo_w9,kudo_w10,kudo_w11,kudo_w12),
                   dim = c( size, size, n_waves)) #Kudos matrix
-  
- # we operationalize kudo-relationships in different ways: we increase the cut-off for kudos-ties to exist
-  # let's first investigate the number of kudos send between actors in the network
-  #kudos %>% # absolute
-  #  table() 
-  #kudos %>% # proportionate         
-  #  table() %>%
-  #  prop.table() %>%
-  #  round(3)
-  #kudos %>% # cumulative proportions         
-  #  table() %>%
-  #  prop.table() %>%
-  #  round(3) %>%
-  #  cumsum()
-  
+
   kudo_data <- ifelse(kudos > 0, 1, 0)  #if at least 1 Kudo is send, tie exists
-  kudo_data3 <- ifelse(kudos > 2, 1, 0)  #at least 3 Kudos
-  kudo_data5 <- ifelse(kudos > 4, 1, 0)  #at least 5 Kudos
-  kudo_data7 <- ifelse(kudos > 6, 1, 0)  #at least 7 Kudos
-  # ...
-  
+
   # running time (in hours per week)
   time_run <- array(c(clubdata[, "time_run_1.2019"], clubdata[, "time_run_2.2019"], clubdata[, "time_run_3.2019"], 
                       clubdata[, "time_run_4.2019"], clubdata[, "time_run_5.2019"], clubdata[, "time_run_6.2019"], 
@@ -227,7 +209,7 @@ for (i in (1: length(club_str))) {
   winter <- matrix(winter,nrow = size,ncol = n_waves, byrow = TRUE)
   
   # create a list containing all the read club data for the current club
-  club <- list(friendship = friend_data, kudo = kudo_data, kudo3 = kudo_data3, kudo5 = kudo_data5, kudo7 = kudo_data7, 
+  club <- list(friendship = friend_data, kudo = kudo_data, 
                freq_run = freq_run_temp, time_run = time_run_temp, freq_other = freq_other_temp, time_other = time_other_temp, 
                winter = winter, male = male, female = female, other = other, netsize = size)
   
@@ -272,9 +254,10 @@ save(clubdata, file = "clubs/clubdata.RData")
 
 # clubdata_rsiena.RData
 
-The following script creates a list containing R-SIENA objects for all clubs (clubdata_rsiena.RData). We also make objects with network variables with different cut-off values (e.g., clubdata_rsiena3.RData, where 3 kudos are required for a tie to exist).
+The following script creates a list containing RSiena objects for all clubs. 
+We create a list containing RSiena objects with running frequency as the behavior variable (clubdata_rsiena_freq.RData) and running volume (clubdata_rsiena_vol.RData). 
 
-Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We lift R-SIENA's automatic restriction to  follow this pattern in the simulations, by using '*allowOnly* = FALSE'. This must be done for the subsequent meta-analysis.
+Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We lift RSiena's automatic restriction to  follow this pattern in the simulations, by using '*allowOnly* = FALSE'. This must be done for the subsequent meta-analysis.
 
 ```{r eval=FALSE}
 # clean the working environment 
@@ -290,10 +273,8 @@ str(clubdata) # inspect structure
 
 
 require(RSiena)
-clubdata_rsiena <- list()
-clubdata_rsiena3 <- list()
-clubdata_rsiena5 <- list()
-clubdata_rsiena7 <- list()
+clubdata_rsiena_freq <- list()
+clubdata_rsiena_vol <- list()
 
 
 for (i in 1:5) { 
@@ -303,9 +284,6 @@ for (i in 1:5) {
   
   # A: network variables
   kudonet <- sienaDependent(club$kudo, allowOnly = FALSE)  #at least one Kudo
-  kudonet3 <- sienaDependent(club$kudo3, allowOnly = FALSE)  #>2 Kudos
-  kudonet5 <- sienaDependent(club$kudo3, allowOnly = FALSE)  #>4 Kudos
-  kudonet7 <- sienaDependent(club$kudo3, allowOnly = FALSE)  #>6 Kudos
   
   # B: behavioral variables
   time_run <- sienaDependent(club$time_run, type= "behavior", allowOnly = FALSE)
@@ -324,29 +302,20 @@ for (i in 1:5) {
   gender <- coCovar(gender)
   
   # now combine the dependent and independent variables in a data object
-  mydata <- sienaDataCreate(kudonet, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
-  mydata3 <- sienaDataCreate(kudonet3, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
-  mydata5 <- sienaDataCreate(kudonet5, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
-  mydata7 <- sienaDataCreate(kudonet7, friendship, time_run, freq_run, time_other, freq_other, gender, winter)
+  mydata <- sienaDataCreate(kudonet, friendship, freq_run, time_other, freq_other, gender, winter)
+  mydata2 <- sienaDataCreate(kudonet, friendship, time_run, time_other, freq_other, gender, winter)
 
   # this finishes the data specification
-  clubdata_rsiena[[i]] <- mydata
-  clubdata_rsiena3[[i]] <- mydata3
-  clubdata_rsiena5[[i]] <- mydata5
-  clubdata_rsiena7[[i]] <- mydata7
-
+  clubdata_rsiena_freq[[i]] <- mydata
+  clubdata_rsiena_vol[[i]] <- mydata2
 } 
 
 # save the output
-save(clubdata_rsiena, file = "clubs/clubdata_rsiena.RData")
-save(clubdata_rsiena3, file = "clubs/clubdata_rsiena3.RData")
-save(clubdata_rsiena5, file = "clubs/clubdata_rsiena5.RData")
-save(clubdata_rsiena7, file = "clubs/clubdata_rsiena7.RData")
-
+save(clubdata_rsiena_freq, file = "clubs/clubdata_rsiena_freq.RData")
+save(clubdata_rsiena_vol, file = "clubs/clubdata_rsiena_vol.RData")
 ```
 
 
 
 ---
 
-## References

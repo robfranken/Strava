@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Replicating Figure</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fas fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="others.html">Clubs 2-5</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="meta.html">Meta-analysis</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Influence effects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influence_effects_JT_RF.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 3: Ego-alter influence plot</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Replicating Figure</h1>
+<h4 class="date">Last compiled on december, 2021</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<p>This script replicates Figure 3 of the manuscript (Ego-alter influence plots).</p>
+<p>Clean the working environment</p>
+<pre class="r test"><code># clean the working environment
+rm(list = ls())</code></pre>
+<p><br></p>
+<p>Define some functions</p>
+<pre class="r test"><code>{
+    
+    fcentring &lt;- function(actors) {
+        centored &lt;- actors - mean(actors)
+        return(centored)
+    }
+    
+    
+    fsimij &lt;- function(actors, min, max) {
+        # rv &lt;- max(actors) - min(actors)
+        rv &lt;- max - min
+        mat1 &lt;- matrix(actors, nrow = length(actors), ncol = length(actors), byrow = TRUE)
+        mat2 &lt;- t(mat1)
+        simij &lt;- 1 - (abs(mat1 - mat2)/rv)
+        return(simij)
+    }
+    
+    flinear &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        
+        statistic &lt;- beh_centered[1]  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    fquad &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        
+        statistic &lt;- (beh_centered[1])^2  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    
+    favSim &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+        diag(simij) &lt;- NA
+        msimij &lt;- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+        simij_c &lt;- simij - msimij  #center the similarity scores
+        
+        statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    favSim2 &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+        diag(simij) &lt;- NA
+        # msimij &lt;- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on
+        # non-diagonal cells??!!
+        simij_c &lt;- simij  # - msimij #center the similarity scores
+        
+        statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+        
+        return(statistic)
+    }
+    
+    favAttHigher &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        simij &lt;- fsimij(beh_centered, min, max)
+        diag(simij) &lt;- NA
+        # msimij &lt;- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!! simij_c &lt;- simij -
+        # msimij diag(simij_c) &lt;- NA
+        simijH &lt;- simij[1, ]
+        simijH[beh_centered &lt;= beh_centered[1]] &lt;- 1
+        simijH[1] &lt;- NA
+        statistic &lt;- sum(simijH, na.rm = TRUE)/length(alters)
+        
+        return(statistic)
+    }
+    
+    favAttLower &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        simij &lt;- fsimij(beh_centered, min, max)
+        diag(simij) &lt;- NA
+        
+        simijL &lt;- simij[1, ]
+        simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
+        simijL[1] &lt;- NA
+        statistic &lt;- sum(simijL, na.rm = TRUE)/length(alters)
+        
+        
+        return(statistic)
+    }
+    
+    favAlt &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        
+        
+        statistic &lt;- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+        
+        
+        return(statistic)
+    }
+    
+    fAttMean &lt;- function(ego, alters, min, max, ...) {
+        rv &lt;- max - min
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        
+        statistic &lt;- 1 - abs(beh_centered[1] - (sum(beh_centered[-1], na.rm = TRUE)/length(alters)))/rv  #thus we strive for a highest local similarity score!
+        
+        
+        return(statistic)
+    }
+    
+    finluenceplot &lt;- function(alters, min, max, fun, params, results = TRUE, plot = TRUE) {
+        # check correct number of parameters are given
+        if (length(fun) != length(params)) 
+            stop(&quot;Please provide one (and only one) parameter for each of the behavioral effects!&quot;)
+        
+        # calculuate value of evaluation function
+        s &lt;- NA
+        for (i in min:max) {
+            s[i] &lt;- 0
+            for (j in 1:length(fun)) {
+                s[i] &lt;- s[i] + params[j] * fun[[j]](i, alters, min, max)
+            }
+        }
+        
+        # calculate the probabilities
+        p &lt;- NA
+        for (i in min:max) {
+            p[i] &lt;- exp(s[i])/sum(exp(s))
+        }
+        
+        # calculate the probabilities of choice set
+        p2 &lt;- NA
+        for (i in min:max) {
+            if (i == min) {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i + 1]))
+            } else if (i == max) {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]))
+            } else {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]) + exp(s[i + 1]))
+            }
+        }
+        
+        # calculate the probability ratio
+        r &lt;- NA
+        for (i in min:max) {
+            r[i] &lt;- p[i]/p[1]
+        }
+        
+        # some simple plots
+        if (plot) {
+            name &lt;- deparse(substitute(fun))
+            name &lt;- stringr::str_sub(as.character(name), 6, -2)
+            par(mfrow = c(2, 2))
+            plot(y = s, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+            mtext(&quot;EVALUATION&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = p, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+            mtext(&quot;PROBABILITIES&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = p2, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+            mtext(&quot;PROBABILITIES choice set&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = r, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+            mtext(&quot;RATIOS&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        }
+        
+        # return results for more fancy plotting
+        if (results) {
+            x &lt;- min:max
+            df &lt;- data.frame(x, s, p, p2, r)
+            return(df)
+        }
+        
+    }
+}</code></pre>
+<p><br></p>
+<p>We consider different scenarios, where ego’s alters have different running frequency values.</p>
+<pre class="r test"><code>alters1 &lt;- rep(c(2), 6)
+alters2 &lt;- rep(c(5), 6)
+alters3 &lt;- rep(c(2, 2, 2, 5, 5, 5))
+alters4 &lt;- rep(c(1, 2, 3, 4, 5, 6, 7))</code></pre>
+<p><br></p>
+<p>Our club estimates:</p>
+<pre class="r test"><code>club1 &lt;- c(-0.15, -0.002, 2.0027, 6.0905)
+club2 &lt;- c(-0.24, 0.0075, 3.3213, 5.0047)
+club3 &lt;- c(-0.2085, 0.021, 3.7703, 2.1283)
+club4 &lt;- c(-1.3313, 0.0192, 2.5493, 4.4952)
+club5 &lt;- c(0.1021, 0.0743, 1.1736, 8.5486)</code></pre>
+<p><br></p>
+<pre class="r test"><code># scenario 1 club1
+p1 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot1 &lt;- rbind(p1, p2, p3, p4, p5)
+plot1$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot1$scenario &lt;- paste(&quot;A) Behavior alters:&quot;, paste0(alters1, collapse = &quot;, &quot;))
+
+# scenario 2 club1
+p1 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot2 &lt;- rbind(p1, p2, p3, p4, p5)
+plot2$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot2$scenario &lt;- paste(&quot;B) Behavior alters:&quot;, paste0(alters2, collapse = &quot;, &quot;))
+
+# scenario 3 club1
+p1 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot3 &lt;- rbind(p1, p2, p3, p4, p5)
+plot3$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot3$scenario &lt;- paste(&quot;C) Behavior alters:&quot;, paste0(alters3, collapse = &quot;, &quot;))
+
+# scenario 4 club1
+p1 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club1)
+# club2
+p2 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club2)
+# club 3
+p3 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club3)
+# club 4
+p4 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club4)
+# club 5
+p5 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad, 
+    favAttHigher, favAttLower), params = club5)
+
+plot4 &lt;- rbind(p1, p2, p3, p4, p5)
+plot4$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot4$scenario &lt;- paste(&quot;D) Behavior alters:&quot;, paste0(alters4, collapse = &quot;, &quot;))</code></pre>
+<p><br></p>
+<p>We create a nice multipanel plot of the different scenarios:</p>
+<pre class="r fold-hide"><code>multiplot &lt;- rbind(plot1,plot2,plot3,plot4)
+
+ggplot(data = multiplot, aes(x, s, group=Club, color=Club)) +
+  geom_line(size=1) +
+  geom_point(aes(shape=Club), size = 3) +
+  labs(title = &quot;Influence effects on running frequency&quot;, 
+       subtitle = &quot;Evaluation of prospective behavior: \nbased on shape effects and the average attraction towards higher and lower effects&quot;,
+       caption = &quot;Notes: The y-axis represents the evaluation function statistic; the x-axis represents different values for ego’s prospective running frequency. \nLines represent the predicted ‘attractiveness’ of different values of ego’s prospective running frequency, \nPanels A-D represent different scenarios with different values for the behavior of ego’s alters. \nBehavior dynamics presented here would be compounded had the objective function contained more effects (e.g., indegree, gender).&quot;,
+       x = &quot;Ego&#39;s propsective running frequency&quot;, 
+       y = &quot;Evaluation function&quot;) +
+  scale_y_continuous(breaks = seq(0, 10, by = 2.5)) +
+  scale_x_continuous(breaks = seq(1, 7, by = 1)) +
+  scale_shape_manual(values=c(rep(19, 5))) +
+  scale_colour_manual(values=c(&quot;#E69F00&quot;, &quot;#56B4E9&quot;, &quot;#000000&quot;, &quot;#009E73&quot;, &quot;#F0E442&quot;)) +
+  facet_wrap(~scenario) +
+  
+    theme(
+    plot.title = element_text(hjust = 0.5, size = 18, face = &quot;bold&quot;),    
+    plot.subtitle = element_text(hjust = 0.5, size=14),  
+    plot.caption = element_text(size=10, hjust=0)
+  
+
+  )</code></pre>
+<p><img src="figure3_files/figure-html/fig3-1.png" width="960" /></p>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlJlcGxpY2F0aW5nIEZpZ3VyZSAiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCg0KICAgIGNzczogdHdlYWtzLmNzcw0KICAgIHRvYzogZmFsc2UNCiAgICB0b2NfZmxvYXQ6IGZhbHNlDQogICAgY29sbGFwc2VkOiBmYWxzZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICB0b2NfZGVwdGg6IDENCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQoNCg0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KGtuaXRyKQ0KDQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUpDQpvcHRzX2NodW5rJHNldCh0aWR5Lm9wdHM9bGlzdCh3aWR0aC5jdXRvZmY9MTAwKSx0aWR5PVRSVUUsIHdhcm5pbmcgPSBGQUxTRSwgbWVzc2FnZSA9IEZBTFNFLGNvbW1lbnQgPSAiIz4iLCBjYWNoZT1UUlVFLCBjbGFzcy5zb3VyY2U9YygidGVzdCIpLCBjbGFzcy5vdXRwdXQ9YygidGVzdDIiKSkNCm9wdGlvbnMod2lkdGggPSAxMDApDQpyZ2w6OnNldHVwS25pdHIoKQ0KDQoNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQotLS0NCg0KDQpUaGlzIHNjcmlwdCByZXBsaWNhdGVzIEZpZ3VyZSAzIG9mIHRoZSBtYW51c2NyaXB0IChFZ28tYWx0ZXIgaW5mbHVlbmNlIHBsb3RzKS4NCg0KQ2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQNCg0KYGBge3IsIHdhcm5pbmc9RkFMU0V9DQojIGNsZWFuIHRoZSB3b3JraW5nIGVudmlyb25tZW50IA0Kcm0gKGxpc3QgPSBscyggKSkNCmBgYA0KDQo8YnI+DQoNCkRlZmluZSBzb21lIGZ1bmN0aW9ucw0KDQpgYGB7ciBldmFsPVR9DQp7DQoNCmZjZW50cmluZyA8LSBmdW5jdGlvbihhY3RvcnMpew0KICBjZW50b3JlZCA8LSBhY3RvcnMgLSBtZWFuKGFjdG9ycykNCiAgcmV0dXJuKGNlbnRvcmVkKQ0KfQ0KDQoNCmZzaW1paiA8LSBmdW5jdGlvbihhY3RvcnMsIG1pbiwgbWF4KXsNCiAgI3J2IDwtIG1heChhY3RvcnMpIC0gbWluKGFjdG9ycykNCiAgcnYgPC0gbWF4IC0gbWluDQogIG1hdDEgPC0gbWF0cml4KGFjdG9ycywgbnJvdz1sZW5ndGgoYWN0b3JzKSwgbmNvbD1sZW5ndGgoYWN0b3JzKSwgYnlyb3c9VFJVRSkNCiAgbWF0MiA8LSB0KG1hdDEpDQogIHNpbWlqIDwtIDEgLSAoIGFicyhtYXQxLW1hdDIpIC8gcnYpDQogIHJldHVybihzaW1paikNCn0NCg0KZmxpbmVhciA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgLi4uKSB7DQogIGFjdG9ycyA8LSBjKGVnbyxhbHRlcnMpICNkZWZpbmUgdGhlIG5ldHdvcmsNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpICNjZW50ZXIgYmVoYXZpb3Igc2NvcmVzDQogIA0KICBzdGF0aXN0aWMgPC0gYmVoX2NlbnRlcmVkWzFdICN0aGUgYWN0dWFsIHN0YXRpc3RpYw0KICANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCg0KZnF1YWQgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIC4uLikgew0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKSAjZGVmaW5lIHRoZSBuZXR3b3JrDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudHJpbmcoYWN0b3JzKSAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KICANCiAgc3RhdGlzdGljIDwtIChiZWhfY2VudGVyZWRbMV0pXjIgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQogIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KDQoNCmZhdlNpbSA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykgI2RlZmluZSB0aGUgbmV0d29yaw0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRyaW5nKGFjdG9ycykgI2NlbnRlciBiZWhhdmlvciBzY29yZXMNCiAgc2ltaWogPC0gZnNpbWlqKGJlaF9jZW50ZXJlZCwgbWluLCBtYXgpICNjYWxjdWxhdGUgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQogIGRpYWcoc2ltaWopIDwtIE5BDQogIG1zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybT1UUlVFKSAjY2FsY3VsYXRlIHRoZSBtZWFuIHNpbWlsYXJpdHkgc2NvcmUuIG9ubHkgY2FsY3VsYXRlIG1lYW4gb24gbm9uLWRpYWdvbmFsIGNlbGxzPz8hIQ0KICBzaW1pal9jIDwtIHNpbWlqIC0gbXNpbWlqICNjZW50ZXIgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQogIA0KICBzdGF0aXN0aWMgPC0gc3VtKHNpbWlqX2NbMSxdLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQogIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KDQpmYXZTaW0yIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCkgew0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKSAjZGVmaW5lIHRoZSBuZXR3b3JrDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudHJpbmcoYWN0b3JzKSAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkgI2NhbGN1bGF0ZSB0aGUgc2ltaWxhcml0eSBzY29yZXMNCiAgZGlhZyhzaW1paikgPC0gTkENCiAgI21zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybT1UUlVFKSAjY2FsY3VsYXRlIHRoZSBtZWFuIHNpbWlsYXJpdHkgc2NvcmUuIG9ubHkgY2FsY3VsYXRlIG1lYW4gb24gbm9uLWRpYWdvbmFsIGNlbGxzPz8hIQ0KICBzaW1pal9jIDwtIHNpbWlqICMgLSBtc2ltaWogI2NlbnRlciB0aGUgc2ltaWxhcml0eSBzY29yZXMNCiAgDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpfY1sxLF0sIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKSAjdGhlIGFjdHVhbCBzdGF0aXN0aWMNCiAgDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZhdkF0dEhpZ2hlciA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpDQogIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KQ0KICBkaWFnKHNpbWlqKSA8LSBOQQ0KICAjbXNpbWlqIDwtIG1lYW4oc2ltaWosIG5hLnJtPVRSVUUpICNvbmx5IGNhbGN1bGF0ZSBtZWFuIG9uIG5vbi1kaWFnb25hbCBjZWxscz8/ISENCiAgI3NpbWlqX2MgPC0gc2ltaWogLSBtc2ltaWoNCiAgI2RpYWcoc2ltaWpfYykgPC0gTkEgDQogIHNpbWlqSCA8LSBzaW1palsxLF0NCiAgc2ltaWpIW2JlaF9jZW50ZXJlZCA8PSBiZWhfY2VudGVyZWRbMV1dIDwtIDENCiAgc2ltaWpIWzFdIDwtIE5BDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpILCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykNCg0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KDQpmYXZBdHRMb3dlciA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpDQogIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KQ0KICBkaWFnKHNpbWlqKSA8LSBOQQ0KICANCiAgc2ltaWpMIDwtIHNpbWlqWzEsXQ0KICBzaW1pakxbYmVoX2NlbnRlcmVkID49IGJlaF9jZW50ZXJlZFsxXV0gPC0gMQ0KICBzaW1pakxbMV0gPC0gTkENCiAgc3RhdGlzdGljIDwtIHN1bShzaW1pakwsIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKQ0KICANCiAgDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZhdkFsdCA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgLi4uKSB7DQogIGFjdG9ycyA8LSBjKGVnbyxhbHRlcnMpDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudHJpbmcoYWN0b3JzKQ0KICANCiAgDQogIHN0YXRpc3RpYyA8LSBiZWhfY2VudGVyZWRbMV0gKiAoc3VtKGJlaF9jZW50ZXJlZFstMV0sIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKSkNCiAgDQogIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KDQpmQXR0TWVhbiA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgsIC4uLikgew0KICBydiA8LSBtYXggLSBtaW4NCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50cmluZyhhY3RvcnMpDQogIA0KICBzdGF0aXN0aWMgPC0gMSAtICBhYnMoYmVoX2NlbnRlcmVkWzFdIC0gKHN1bShiZWhfY2VudGVyZWRbLTFdLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykpKS9ydiAjdGh1cyB3ZSBzdHJpdmUgZm9yIGEgaGlnaGVzdCBsb2NhbCBzaW1pbGFyaXR5IHNjb3JlIQ0KICANCiAgDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZpbmx1ZW5jZXBsb3QgPC0gZnVuY3Rpb24oYWx0ZXJzLCBtaW4sIG1heCwgZnVuLCBwYXJhbXMsIHJlc3VsdHM9VFJVRSwgcGxvdD1UUlVFKSB7DQogICNjaGVjayBjb3JyZWN0IG51bWJlciBvZiBwYXJhbWV0ZXJzIGFyZSBnaXZlbg0KICBpZiAobGVuZ3RoKGZ1bikgIT0gbGVuZ3RoKHBhcmFtcykpIHN0b3AoIlBsZWFzZSBwcm92aWRlIG9uZSAoYW5kIG9ubHkgb25lKSBwYXJhbWV0ZXIgZm9yIGVhY2ggb2YgdGhlIGJlaGF2aW9yYWwgZWZmZWN0cyEiKQ0KICANCiAgI2NhbGN1bHVhdGUgdmFsdWUgb2YgZXZhbHVhdGlvbiBmdW5jdGlvbg0KICBzIDwtIE5BDQogIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgc1tpXSA8LSAwDQogICAgZm9yIChqIGluIDE6bGVuZ3RoKGZ1bikpIHsNCiAgICAgIHNbaV0gPC0gc1tpXSArIHBhcmFtc1tqXSpmdW5bW2pdXShpLCBhbHRlcnMsIG1pbiwgbWF4KSAgICAgIA0KICAgIH0NCiAgfQ0KICANCiAgI2NhbGN1bGF0ZSB0aGUgcHJvYmFiaWxpdGllcyAgDQogIHAgPC0gTkENCiAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICBwW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAocykpDQogIH0NCiAgDQogICNjYWxjdWxhdGUgdGhlIHByb2JhYmlsaXRpZXMgb2YgY2hvaWNlIHNldCAgDQogIHAyIDwtIE5BDQogIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgaWYgKGk9PW1pbikgeyANCiAgICAgIHAyW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAoc1tpXSkgKyBleHAoc1tpICsgMV0pKSANCiAgICB9IGVsc2UgaWYgKGk9PW1heCkgeyANCiAgICAgIHAyW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAoc1tpXSkgKyBleHAoc1tpIC0gMV0pKQ0KICAgIH0gZWxzZSB7DQogICAgICBwMltpXSA8LSBleHAoc1tpXSkgLyBzdW0oZXhwKHNbaV0pICsgZXhwKHNbaSAtIDFdKSArIGV4cChzW2kgKyAxXSkpDQogICAgfQ0KICB9DQogIA0KICAjY2FsY3VsYXRlIHRoZSBwcm9iYWJpbGl0eSByYXRpbyAgDQogIHIgPC0gTkENCiAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICByW2ldIDwtIHBbaV0gLyBwWzFdDQogIH0NCiAgDQogICNzb21lIHNpbXBsZSBwbG90cw0KICBpZiAocGxvdCkgeyANCiAgICBuYW1lIDwtIGRlcGFyc2Uoc3Vic3RpdHV0ZShmdW4pKQ0KICAgIG5hbWUgPC0gc3RyaW5ncjo6c3RyX3N1Yihhcy5jaGFyYWN0ZXIobmFtZSksIDYsIC0yKQ0KICAgIHBhcihtZnJvdz1jKDIsMikpDQogICAgcGxvdCh5PXMsIHg9bWluOm1heCwgeGxhYj0iZWdvIGJlaGF2aW9yYWwgc2NvcmUiLCB5bGFiPW5hbWUsIHR5cGU9ImIiKQ0KICAgIG10ZXh0KCJFVkFMVUFUSU9OIiwgbGluZT0xKQ0KICAgIG10ZXh0KHBhc3RlKCJhbHRlcnM6IiwgcGFzdGUwKGFsdGVycywgY29sbGFwc2U9IiwiKSkpDQogICAgcGxvdCh5PXAsIHg9bWluOm1heCwgeGxhYj0iZWdvIGJlaGF2aW9yYWwgc2NvcmUiLCB5bGFiPW5hbWUsIHlsaW09YygwLDEpLCB0eXBlPSJiIikNCiAgICBtdGV4dCgiUFJPQkFCSUxJVElFUyIsIGxpbmU9MSkNCiAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlPSIsIikpKQ0KICAgIHBsb3QoeT1wMiwgeD1taW46bWF4LCB4bGFiPSJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWI9bmFtZSwgeWxpbT1jKDAsMSksIHR5cGU9ImIiKQ0KICAgIG10ZXh0KCJQUk9CQUJJTElUSUVTIGNob2ljZSBzZXQiLCBsaW5lPTEpDQogICAgbXRleHQocGFzdGUoImFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzLCBjb2xsYXBzZT0iLCIpKSkNCiAgICBwbG90KHk9ciwgeD1taW46bWF4LCB4bGFiPSJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWI9bmFtZSwgdHlwZT0iYiIpDQogICAgbXRleHQoIlJBVElPUyIsIGxpbmU9MSkNCiAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlPSIsIikpKQ0KICB9DQogIA0KICAjcmV0dXJuIHJlc3VsdHMgZm9yIG1vcmUgZmFuY3kgcGxvdHRpbmcNCiAgaWYgKHJlc3VsdHMpIHsNCiAgICB4IDwtIG1pbjptYXgNCiAgICBkZiA8LSBkYXRhLmZyYW1lKHgsIHMsIHAscDIsIHIpDQogICAgcmV0dXJuKGRmKQ0KICB9DQogIA0KfQ0KfQ0KYGBgDQoNCg0KPGJyPg0KDQpXZSBjb25zaWRlciBkaWZmZXJlbnQgc2NlbmFyaW9zLCB3aGVyZSBlZ2/igJlzIGFsdGVycyBoYXZlIGRpZmZlcmVudCBydW5uaW5nIGZyZXF1ZW5jeSB2YWx1ZXMuDQoNCmBgYHtyfQ0KYWx0ZXJzMSA8LSByZXAoYygyKSwgNikNCmFsdGVyczIgPC0gcmVwKGMoNSksIDYpDQphbHRlcnMzIDwtIHJlcChjKDIsIDIsIDIsIDUsIDUsIDUpKQ0KYWx0ZXJzNCA8LSByZXAoYygxLCAyLCAzLCA0LCA1LCA2LCA3KSkNCmBgYA0KDQo8YnI+DQoNCk91ciBjbHViIGVzdGltYXRlczoNCg0KYGBge3J9DQpjbHViMSA8LSBjKC0wLjE1LCAtMC4wMDIsIDIuMDAyNywgNi4wOTA1KQ0KY2x1YjIgPC0gYygtMC4yNCwgMC4wMDc1LCAzLjMyMTMsIDUuMDA0NykNCmNsdWIzIDwtIGMoLTAuMjA4NSwgMC4wMjEsIDMuNzcwMywgMi4xMjgzKQ0KY2x1YjQgPC0gYygtMS4zMzEzLCAwLjAxOTIsIDIuNTQ5MywgNC40OTUyKQ0KY2x1YjUgPC0gYygwLjEwMjEsIDAuMDc0MywgMS4xNzM2LCA4LjU0ODYpDQpgYGANCg0KPGJyPg0KDQpgYGB7cn0NCiMgc2NlbmFyaW8gMQ0KIyBjbHViMQ0KcDEgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMxLCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWIxKQ0KIyBjbHViMg0KcDIgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMxLCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWIyKQ0KIyBjbHViIDMNCnAzIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMSwgDQogICAgICAgICAgICAgICAgICAgICAgbWluID0gMSwgbWF4ID0gNywgDQogICAgICAgICAgICAgICAgICAgICAgcmVzdWx0cyA9IFQsIHBsb3Q9RiwNCiAgICAgICAgICAgICAgICAgICAgICBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsZmF2QXR0TG93ZXIpLCANCiAgICAgICAgICAgICAgICAgICAgICBwYXJhbXMgPSBjbHViMykNCiMgY2x1YiA0DQpwNCA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczEsIA0KICAgICAgICAgICAgICAgICAgICAgIG1pbiA9IDEsIG1heCA9IDcsIA0KICAgICAgICAgICAgICAgICAgICAgIHJlc3VsdHMgPSBULCBwbG90PUYsDQogICAgICAgICAgICAgICAgICAgICAgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLGZhdkF0dExvd2VyKSwgDQogICAgICAgICAgICAgICAgICAgICAgcGFyYW1zID0gY2x1YjQpDQojIGNsdWIgNQ0KcDUgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMxLCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWI1KQ0KDQpwbG90MSA8LSByYmluZChwMSwgcDIsIHAzLCBwNCwgcDUpDQpwbG90MSRDbHViIDwtIGFzLmNoYXJhY3Rlcihzb3J0KHJlcCgxOjUsNykpKQ0KcGxvdDEkc2NlbmFyaW8gPC0gcGFzdGUoIkEpIEJlaGF2aW9yIGFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzMSwgY29sbGFwc2U9IiwgIiApKQ0KDQojIHNjZW5hcmlvIDINCiMgY2x1YjENCnAxIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMiwgDQogICAgICAgICAgICAgICAgICAgICAgbWluID0gMSwgbWF4ID0gNywgDQogICAgICAgICAgICAgICAgICAgICAgcmVzdWx0cyA9IFQsIHBsb3Q9RiwNCiAgICAgICAgICAgICAgICAgICAgICBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsZmF2QXR0TG93ZXIpLCANCiAgICAgICAgICAgICAgICAgICAgICBwYXJhbXMgPSBjbHViMSkNCiMgY2x1YjINCnAyIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMiwgDQogICAgICAgICAgICAgICAgICAgICAgbWluID0gMSwgbWF4ID0gNywgDQogICAgICAgICAgICAgICAgICAgICAgcmVzdWx0cyA9IFQsIHBsb3Q9RiwNCiAgICAgICAgICAgICAgICAgICAgICBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsZmF2QXR0TG93ZXIpLCANCiAgICAgICAgICAgICAgICAgICAgICBwYXJhbXMgPSBjbHViMikNCiMgY2x1YiAzDQpwMyA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczIsIA0KICAgICAgICAgICAgICAgICAgICAgIG1pbiA9IDEsIG1heCA9IDcsIA0KICAgICAgICAgICAgICAgICAgICAgIHJlc3VsdHMgPSBULCBwbG90PUYsDQogICAgICAgICAgICAgICAgICAgICAgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLGZhdkF0dExvd2VyKSwgDQogICAgICAgICAgICAgICAgICAgICAgcGFyYW1zID0gY2x1YjMpDQojIGNsdWIgNA0KcDQgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMyLCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWI0KQ0KIyBjbHViIDUNCnA1IDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMiwgDQogICAgICAgICAgICAgICAgICAgICAgbWluID0gMSwgbWF4ID0gNywgDQogICAgICAgICAgICAgICAgICAgICAgcmVzdWx0cyA9IFQsIHBsb3Q9RiwNCiAgICAgICAgICAgICAgICAgICAgICBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsZmF2QXR0TG93ZXIpLCANCiAgICAgICAgICAgICAgICAgICAgICBwYXJhbXMgPSBjbHViNSkNCg0KcGxvdDIgPC0gcmJpbmQocDEsIHAyLCBwMywgcDQsIHA1KQ0KcGxvdDIkQ2x1YiA8LSBhcy5jaGFyYWN0ZXIoc29ydChyZXAoMTo1LDcpKSkNCnBsb3QyJHNjZW5hcmlvIDwtIHBhc3RlKCJCKSBCZWhhdmlvciBhbHRlcnM6IiwgcGFzdGUwKGFsdGVyczIsIGNvbGxhcHNlPSIsICIgKSkNCg0KIyBzY2VuYXJpbyAzDQojIGNsdWIxDQpwMSA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczMsIA0KICAgICAgICAgICAgICAgICAgICAgIG1pbiA9IDEsIG1heCA9IDcsIA0KICAgICAgICAgICAgICAgICAgICAgIHJlc3VsdHMgPSBULCBwbG90PUYsDQogICAgICAgICAgICAgICAgICAgICAgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLGZhdkF0dExvd2VyKSwgDQogICAgICAgICAgICAgICAgICAgICAgcGFyYW1zID0gY2x1YjEpDQojIGNsdWIyDQpwMiA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczMsIA0KICAgICAgICAgICAgICAgICAgICAgIG1pbiA9IDEsIG1heCA9IDcsIA0KICAgICAgICAgICAgICAgICAgICAgIHJlc3VsdHMgPSBULCBwbG90PUYsDQogICAgICAgICAgICAgICAgICAgICAgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLGZhdkF0dExvd2VyKSwgDQogICAgICAgICAgICAgICAgICAgICAgcGFyYW1zID0gY2x1YjIpDQojIGNsdWIgMw0KcDMgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMzLCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWIzKQ0KIyBjbHViIDQNCnA0IDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMywgDQogICAgICAgICAgICAgICAgICAgICAgbWluID0gMSwgbWF4ID0gNywgDQogICAgICAgICAgICAgICAgICAgICAgcmVzdWx0cyA9IFQsIHBsb3Q9RiwNCiAgICAgICAgICAgICAgICAgICAgICBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsZmF2QXR0TG93ZXIpLCANCiAgICAgICAgICAgICAgICAgICAgICBwYXJhbXMgPSBjbHViNCkNCiMgY2x1YiA1DQpwNSA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczMsIA0KICAgICAgICAgICAgICAgICAgICAgIG1pbiA9IDEsIG1heCA9IDcsIA0KICAgICAgICAgICAgICAgICAgICAgIHJlc3VsdHMgPSBULCBwbG90PUYsDQogICAgICAgICAgICAgICAgICAgICAgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLGZhdkF0dExvd2VyKSwgDQogICAgICAgICAgICAgICAgICAgICAgcGFyYW1zID0gY2x1YjUpDQoNCnBsb3QzIDwtIHJiaW5kKHAxLCBwMiwgcDMsIHA0LCBwNSkNCnBsb3QzJENsdWIgPC0gYXMuY2hhcmFjdGVyKHNvcnQocmVwKDE6NSw3KSkpDQpwbG90MyRzY2VuYXJpbyA8LSBwYXN0ZSgiQykgQmVoYXZpb3IgYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMzLCBjb2xsYXBzZT0iLCAiICkpDQoNCiMgc2NlbmFyaW8gNA0KIyBjbHViMQ0KcDEgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnM0LCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWIxKQ0KIyBjbHViMg0KcDIgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnM0LCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWIyKQ0KIyBjbHViIDMNCnAzIDwtIGZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzNCwgDQogICAgICAgICAgICAgICAgICAgICAgbWluID0gMSwgbWF4ID0gNywgDQogICAgICAgICAgICAgICAgICAgICAgcmVzdWx0cyA9IFQsIHBsb3Q9RiwNCiAgICAgICAgICAgICAgICAgICAgICBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsZmF2QXR0TG93ZXIpLCANCiAgICAgICAgICAgICAgICAgICAgICBwYXJhbXMgPSBjbHViMykNCiMgY2x1YiA0DQpwNCA8LSBmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczQsIA0KICAgICAgICAgICAgICAgICAgICAgIG1pbiA9IDEsIG1heCA9IDcsIA0KICAgICAgICAgICAgICAgICAgICAgIHJlc3VsdHMgPSBULCBwbG90PUYsDQogICAgICAgICAgICAgICAgICAgICAgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLGZhdkF0dExvd2VyKSwgDQogICAgICAgICAgICAgICAgICAgICAgcGFyYW1zID0gY2x1YjQpDQojIGNsdWIgNQ0KcDUgPC0gZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnM0LCANCiAgICAgICAgICAgICAgICAgICAgICBtaW4gPSAxLCBtYXggPSA3LCANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHRzID0gVCwgcGxvdD1GLA0KICAgICAgICAgICAgICAgICAgICAgIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlcixmYXZBdHRMb3dlciksIA0KICAgICAgICAgICAgICAgICAgICAgIHBhcmFtcyA9IGNsdWI1KQ0KDQpwbG90NCA8LSByYmluZChwMSwgcDIsIHAzLCBwNCwgcDUpDQpwbG90NCRDbHViIDwtIGFzLmNoYXJhY3Rlcihzb3J0KHJlcCgxOjUsNykpKQ0KcGxvdDQkc2NlbmFyaW8gPC0gcGFzdGUoIkQpIEJlaGF2aW9yIGFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzNCwgY29sbGFwc2U9IiwgIiApKQ0KYGBgDQoNCjxicj4gDQoNCldlIGNyZWF0ZSBhIG5pY2UgbXVsdGlwYW5lbCBwbG90IG9mIHRoZSBkaWZmZXJlbnQgc2NlbmFyaW9zOg0KDQoNCmBgYHtyIGZpZzMsIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnLCBmaWcud2lkdGg9MTAsIGZpZy5oZWlnaHQ9OH0NCg0KbXVsdGlwbG90IDwtIHJiaW5kKHBsb3QxLHBsb3QyLHBsb3QzLHBsb3Q0KQ0KDQpnZ3Bsb3QoZGF0YSA9IG11bHRpcGxvdCwgYWVzKHgsIHMsIGdyb3VwPUNsdWIsIGNvbG9yPUNsdWIpKSArDQogIGdlb21fbGluZShzaXplPTEpICsNCiAgZ2VvbV9wb2ludChhZXMoc2hhcGU9Q2x1YiksIHNpemUgPSAzKSArDQogIGxhYnModGl0bGUgPSAiSW5mbHVlbmNlIGVmZmVjdHMgb24gcnVubmluZyBmcmVxdWVuY3kiLCANCiAgICAgICBzdWJ0aXRsZSA9ICJFdmFsdWF0aW9uIG9mIHByb3NwZWN0aXZlIGJlaGF2aW9yOiBcbmJhc2VkIG9uIHNoYXBlIGVmZmVjdHMgYW5kIHRoZSBhdmVyYWdlIGF0dHJhY3Rpb24gdG93YXJkcyBoaWdoZXIgYW5kIGxvd2VyIGVmZmVjdHMiLA0KICAgICAgIGNhcHRpb24gPSAiTm90ZXM6IFRoZSB5LWF4aXMgcmVwcmVzZW50cyB0aGUgZXZhbHVhdGlvbiBmdW5jdGlvbiBzdGF0aXN0aWM7IHRoZSB4LWF4aXMgcmVwcmVzZW50cyBkaWZmZXJlbnQgdmFsdWVzIGZvciBlZ2/igJlzIHByb3NwZWN0aXZlIHJ1bm5pbmcgZnJlcXVlbmN5LiBcbkxpbmVzIHJlcHJlc2VudCB0aGUgcHJlZGljdGVkIOKAmGF0dHJhY3RpdmVuZXNz4oCZIG9mIGRpZmZlcmVudCB2YWx1ZXMgb2YgZWdv4oCZcyBwcm9zcGVjdGl2ZSBydW5uaW5nIGZyZXF1ZW5jeSwgXG5QYW5lbHMgQS1EIHJlcHJlc2VudCBkaWZmZXJlbnQgc2NlbmFyaW9zIHdpdGggZGlmZmVyZW50IHZhbHVlcyBmb3IgdGhlIGJlaGF2aW9yIG9mIGVnb+KAmXMgYWx0ZXJzLiBcbkJlaGF2aW9yIGR5bmFtaWNzIHByZXNlbnRlZCBoZXJlIHdvdWxkIGJlIGNvbXBvdW5kZWQgaGFkIHRoZSBvYmplY3RpdmUgZnVuY3Rpb24gY29udGFpbmVkIG1vcmUgZWZmZWN0cyAoZS5nLiwgaW5kZWdyZWUsIGdlbmRlcikuIiwNCiAgICAgICB4ID0gIkVnbydzIHByb3BzZWN0aXZlIHJ1bm5pbmcgZnJlcXVlbmN5IiwgDQogICAgICAgeSA9ICJFdmFsdWF0aW9uIGZ1bmN0aW9uIikgKw0KICBzY2FsZV95X2NvbnRpbnVvdXMoYnJlYWtzID0gc2VxKDAsIDEwLCBieSA9IDIuNSkpICsNCiAgc2NhbGVfeF9jb250aW51b3VzKGJyZWFrcyA9IHNlcSgxLCA3LCBieSA9IDEpKSArDQogIHNjYWxlX3NoYXBlX21hbnVhbCh2YWx1ZXM9YyhyZXAoMTksIDUpKSkgKw0KICBzY2FsZV9jb2xvdXJfbWFudWFsKHZhbHVlcz1jKCIjRTY5RjAwIiwgIiM1NkI0RTkiLCAiIzAwMDAwMCIsICIjMDA5RTczIiwgIiNGMEU0NDIiKSkgKw0KICBmYWNldF93cmFwKH5zY2VuYXJpbykgKw0KICANCiAgICB0aGVtZSgNCiAgICBwbG90LnRpdGxlID0gZWxlbWVudF90ZXh0KGhqdXN0ID0gMC41LCBzaXplID0gMTgsIGZhY2UgPSAiYm9sZCIpLCAgICANCiAgICBwbG90LnN1YnRpdGxlID0gZWxlbWVudF90ZXh0KGhqdXN0ID0gMC41LCBzaXplPTE0KSwgIA0KICAgIHBsb3QuY2FwdGlvbiA9IGVsZW1lbnRfdGV4dChzaXplPTEwLCBoanVzdD0wKQ0KICANCg0KICApDQpgYGANCg==</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("figure3.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
