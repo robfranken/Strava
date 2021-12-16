@@ -1,5 +1,5 @@
 ---
-title: "Replicating Figure "
+title: "Replicating Figure 3"
 date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
 bibliography: references.bib
 output:
