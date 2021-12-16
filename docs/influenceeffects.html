@@ -346,7 +346,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="influence_effects_JT_RF.html">Different influence operationalizations</a>
+      <a href="influenceeffects.html">Different influence operationalizations</a>
     </li>
     <li>
       <a href="figure3.html">Figure 3: Ego-alter influence plot</a>
@@ -592,22 +592,22 @@ $(document).ready(function () {
 <pre class="r test"><code>alters1 &lt;- rep(c(3, 3, 3, 3, 3, 3), 4)
 
 finluenceplot(alters = alters1, min = 1, max = 6, list(flinear, fquad), params = c(0.1, -1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(favSim), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(favAlt), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(fAttMean), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(favAttHigher), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-5.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-5.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(favAttLower), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-6.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-6.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(1, 
     1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-7.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-7.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(fAttMean, favAttHigher), params = c(1, 1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-10-8.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-10-8.png" width="672" /></p>
 <pre class="test2"><code>#&gt;   x       s            p         p2           r
 #&gt; 1 1 -3.8784 0.0111755430 0.05412573  1.00000000
 #&gt; 2 2 -1.0176 0.1952982210 0.26152200 17.47550175
@@ -666,33 +666,33 @@ finluenceplot(alters = alters1, min = 1, max = 6, list(flinear, fquad), params =
 #&gt; 6 6 1.4 0.1320048 0.4501660 1.221403</code></pre>
 <pre class="r test"><code>alters1 &lt;- rep(c(1, 1, 1, 6, 6, 6), 40)
 finluenceplot(alters = alters1, min = 1, max = 6, list(favSim), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(favAlt), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(fAttMean), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-3.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-3.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(1, 
     0))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-4.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-4.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(0, 
     1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-5.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-5.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(1, 
     3))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-6.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-6.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(1, 
     -1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-7.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-7.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(-1, 
     1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-8.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-8.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(flinear, favAttLower, favAttHigher), params = c(1, 
     -1, 1))
 finluenceplot(alters = alters1, min = 1, max = 6, fun = list(flinear, favAttLower, favAttHigher), params = c(1, 
     -1, 1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-9.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-9.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(flinear), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-11-10.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-11-10.png" width="672" /></p>
 <pre class="test2"><code>#&gt;   x           s         p        p2 r
 #&gt; 1 1 0.002074689 0.1666667 0.5000000 1
 #&gt; 2 2 0.002074689 0.1666667 0.3333333 1
@@ -772,26 +772,26 @@ finluenceplot(alters = alters1, min = 1, max = 6, fun = list(flinear, favAttLowe
 #&gt; 6 6  2.4896266 0.632197481 0.7302420 145.365769</code></pre>
 <pre class="r test"><code>alters1 &lt;- rep(c(1, 2, 2), 100)
 finluenceplot(alters = alters1, min = 1, max = 6, list(favSim), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(favAlt), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, list(fAttMean), params = c(1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(1, 
     0))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-4.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-4.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(0, 
     1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-5.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-5.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(1, 
     1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-6.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-6.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(1, 
     -1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-7.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-7.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters1, min = 1, max = 6, fun = list(favAttLower, favAttHigher), params = c(-1, 
     1))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-12-8.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-12-8.png" width="672" /></p>
 <pre class="test2"><code>#&gt;   x           s         p        p2         r
 #&gt; 1 1 -0.04385382 0.2112416 0.4834501 1.0000000
 #&gt; 2 2  0.02236988 0.2257045 0.3628788 1.0684657
@@ -857,38 +857,38 @@ alters2 &lt;- rep(c(3.5, 3.5, 3.5, 3.5, 3.5, 3.5))</code></pre>
 <pre class="r test"><code># club1
 finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-0.15, -0.002, 2.0027, 6.0905))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-0.15, -0.002, 2.0027, 6.0905))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
 <pre class="r test"><code># club2
 finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-0.24, 0.0075, 3.3213, 5.0047))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-0.24, 0.0075, 3.3213, 5.0047))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-4.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-4.png" width="672" /></p>
 <pre class="r test"><code># club3
 finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-0.2085, 0.021, 3.7703, 2.1283))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-5.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-5.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-0.2085, 0.021, 3.7703, 2.1283))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-6.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-6.png" width="672" /></p>
 <pre class="r test"><code># club4
 finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-1.3313, 0.0192, 2.5493, 4.4952))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-7.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-7.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(-1.3313, 0.0192, 2.5493, 4.4952))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-8.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-8.png" width="672" /></p>
 <pre class="r test"><code># club5
 finluenceplot(alters = alters1, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(0.1021, 0.0743, 1.1736, 8.5486))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-9.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-9.png" width="672" /></p>
 <pre class="r test"><code>finluenceplot(alters = alters2, min = 1, max = 6, results = FALSE, fun = list(flinear, fquad, favAttHigher, 
     favAttLower), params = c(0.1021, 0.0743, 1.1736, 8.5486))</code></pre>
-<p><img src="influence_effects_JT_RF_files/figure-html/unnamed-chunk-14-10.png" width="672" /></p>
+<p><img src="influenceeffects_files/figure-html/unnamed-chunk-14-10.png" width="672" /></p>
 </div>
 
 <div id="rmd-source-code">LS0tDQp0aXRsZTogIlN0cmF2YSBwYXBlciINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCmRhdGU6ICJMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgIg0Kb3V0cHV0OiANCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6ICBmYWxzZQ0KICAgIHRvY19mbG9hdDogdHJ1ZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KGtuaXRyKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIHJlc3VsdHM9ImhvbGQiLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KLS0tLSAgDQoNCg0KV2Ugd2lsbCBzaG93IGhvdyB0aGUgaW5mbHVlbmNlIHN0YXRpc3RpY3MgaW4gUlNpZW5hIGJlaGF2ZS4gDQpXZSBhc3N1bWUgdGhhdCBlZ28gaXMgY29ubmVjdGVkIHRvIGFsbCBhbHRlcnMuIA0KDQo8YnI+DQoNCiMjIEZ1bmN0aW9ucw0KDQpGaXJzdCwgd2UgZGVmaW5lIHNvbWUgZnVuY3Rpb25zOg0KDQo8YnI+DQoNCiMjIyBDZW50ZXJpbmcgYmVoYXZpb3IgdmFyaWFibGVzDQpgYGB7cn0NCmZjZW50ZXJpbmcgPC0gZnVuY3Rpb24oYWN0b3JzKXsNCmNlbnRlcmVkIDwtIGFjdG9ycyAtIG1lYW4oYWN0b3JzKQ0KcmV0dXJuKGNlbnRlcmVkKQ0KfQ0KYGBgDQoNCjxicj4gDQoNCiMjIyBDYWxjdWxhdGluZyBzaW1pbGFyaXR5IHNjb3Jlcw0KDQokJCBzaW1eel97aWp9ID0gMSAtIFxmcmFje3x6X2kgLSB6X2p8fXtyX1Z9ICQkDQpgYGB7cn0NCmZzaW1paiA8LSBmdW5jdGlvbihhY3RvcnMsIG1pbiwgbWF4KXsNCiNydiA8LSBtYXgoYWN0b3JzKSAtIG1pbihhY3RvcnMpDQpydiA8LSBtYXggLSBtaW4NCm1hdDEgPC0gbWF0cml4KGFjdG9ycywgbnJvdz1sZW5ndGgoYWN0b3JzKSwgbmNvbD1sZW5ndGgoYWN0b3JzKSwgYnlyb3c9VFJVRSkNCm1hdDIgPC0gdChtYXQxKQ0Kc2ltaWogPC0gMSAtICggYWJzKG1hdDEtbWF0MikgLyBydikNCnJldHVybihzaW1paikNCn0NCmBgYA0KDQo8YnI+IA0KDQoNCiMjIyBUaGUgYXZlcmFnZSBzaW1pbGFyaXR5IGVmZmVjdCAoYXZTaW0pDQoNCiQkIHNee2JlaH1fe2k1fSh4LHopID0geF57LTF9X3tpK31cc3VtX2ogeF97aWp9KHNpbV56X3tpan0gLSBcd2lkZWhhdHtzaW1een0pICQkDQpgYGB7cn0NCmZhdlNpbSA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykgI2RlZmluZSB0aGUgbmV0d29yaw0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpICNjZW50ZXIgYmVoYXZpb3Igc2NvcmVzDQogIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KSAjY2FsY3VsYXRlIHRoZSBzaW1pbGFyaXR5IHNjb3Jlcw0KICBkaWFnKHNpbWlqKSA8LSBOQQ0KICBtc2ltaWogPC0gbWVhbihzaW1paiwgbmEucm09VFJVRSkgI2NhbGN1bGF0ZSB0aGUgbWVhbiBzaW1pbGFyaXR5IHNjb3JlLiBvbmx5IGNhbGN1bGF0ZSBtZWFuIG9uIG5vbi1kaWFnb25hbCBjZWxscz8/ISENCiAgc2ltaWpfYyA8LSBzaW1paiAtIG1zaW1paiAjY2VudGVyIHRoZSBzaW1pbGFyaXR5IHNjb3Jlcw0KICANCiAgc3RhdGlzdGljIDwtIHN1bShzaW1pal9jWzEsXSwgbmEucm0gPSBUUlVFKSAvIGxlbmd0aChhbHRlcnMpICN0aGUgYWN0dWFsIHN0YXRpc3RpYw0KICANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCmBgYA0KYGBge3J9DQpmYXZTaW0yIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCkgew0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKSAjZGVmaW5lIHRoZSBuZXR3b3JrDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudHJpbmcoYWN0b3JzKSAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkgI2NhbGN1bGF0ZSB0aGUgc2ltaWxhcml0eSBzY29yZXMNCiAgZGlhZyhzaW1paikgPC0gTkENCiAgI21zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybT1UUlVFKSAjY2FsY3VsYXRlIHRoZSBtZWFuIHNpbWlsYXJpdHkgc2NvcmUuIG9ubHkgY2FsY3VsYXRlIG1lYW4gb24gbm9uLWRpYWdvbmFsIGNlbGxzPz8hIQ0KICBzaW1pal9jIDwtIHNpbWlqICMgLSBtc2ltaWogI2NlbnRlciB0aGUgc2ltaWxhcml0eSBzY29yZXMNCiAgDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpfY1sxLF0sIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKSAjdGhlIGFjdHVhbCBzdGF0aXN0aWMNCiAgDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQpgYGANCg0KPGJyPiANCg0KDQojIyMgVGhlIGF2ZXJhZ2UgYXR0cmFjdGlvbiB0b3dhcmRzIGhpZ2hlciBlZmZlY3QgKGF2QXR0SGlnaGVyKQ0KDQokJCBzXntiZWh9X3tpMjN9KHgseikgPSB4XnstMX1fe2krfVxzdW1faiB4X3tpan0gKFwsIEkgXHsgKHpfaik+el9pIFx9IHNpbV56X3tpan0gKyBJIFx7ICh6X2ogKSBcbGUgel9pIFx9IClcLCQkDQpgYGB7cn0NCmZhdkF0dEhpZ2hlciA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkNCiAgZGlhZyhzaW1paikgPC0gTkENCiAgDQogIHNpbWlqSCA8LSBzaW1palsxLF0NCiAgc2ltaWpIW2JlaF9jZW50ZXJlZCA8PSBiZWhfY2VudGVyZWRbMV1dIDwtIDENCiAgc2ltaWpIWzFdIDwtIE5BDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpILCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykNCiAgDQogDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQpgYGANCg0KPGJyPiANCg0KIyMjIFRoZSBhdmVyYWdlIGF0dHJhY3Rpb24gdG93YXJkcyBoaWdoZXIgYWx0ZXJzIGVmZmVjdCAoYXZBdHRMb3dlcikNCg0KJCQgc157YmVofV97aTI0fSh4LHopID0geF57LTF9X3tpK31cc3VtX2ogeF97aWp9IChcLCBJIFx7ICh6X2opPHpfaSBcfSBzaW1eel97aWp9ICsgSSBceyAoel9qICkgXGdlIHpfaSBcfSApXCwkJA0KYGBge3J9DQpmYXZBdHRMb3dlciA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkNCiAgZGlhZyhzaW1paikgPC0gTkENCiAgDQogIHNpbWlqTCA8LSBzaW1palsxLF0NCiAgc2ltaWpMW2JlaF9jZW50ZXJlZCA+PSBiZWhfY2VudGVyZWRbMV1dIDwtIDENCiAgc2ltaWpMWzFdIDwtIE5BDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpMLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykNCiAgDQogDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQpgYGANCg0KPGJyPiANCg0KDQojIyMgQXZlcmFnZSBhbHRlciBlZmZlY3QgKGF2QWx0KQ0KDQokJCBzXntiZWh9X3tpMjd9KHgseikgPSB6X2koXHRleHRzdHlsZSBcc3VtX2p4X3tpan16X2opLyhcdGV4dHN0eWxlIFxzdW1fanhfe2lqfSkgJCQgDQoNCmBgYHtyfQ0KZmF2QWx0IDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCAuLi4pIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KICANCiAgc3RhdGlzdGljIDwtIGJlaF9jZW50ZXJlZFsxXSAqIChzdW0oYmVoX2NlbnRlcmVkWy0xXSwgbmEucm0gPSBUUlVFKSAvIGxlbmd0aChhbHRlcnMpKQ0KICANCiANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCmBgYA0KDQo8YnI+IA0KDQoNCiMjIyBBdmVyYWdlIGF0dHJhY3Rpb24gbWVhbiAoQXR0TWVhbikNCg0KV2UgYXJlIGF0dHJhY3RlZCB0byB0aGUgbWVhbiBvZiBvdXIgYWx0ZXJzISANCg0KKGJlaGF2ZXMgYXBwcm94aW1hdGVseSBzaW1pbGFyIHRvIGF2QWx0LCBkaWZmZXJlbnQgc2hhcGUuKQ0KDQokJCBzXntiZWh9X3tpfSh4LHopID0gMSAtIFxmcmFje1xsdmVydCh6X2kgLSB4XnstMX1fe2krfVxzdW1faiB4X3tpan16X2opXHJ2ZXJ0fXtyX1p9ICAkJA0KDQpgYGB7cn0NCmZBdHRNZWFuIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCwgLi4uKSB7DQogIHJ2IDwtIG1heCAtIG1pbg0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKQ0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRyaW5nKGFjdG9ycykNCiAgDQogIHN0YXRpc3RpYyA8LSAxIC0gIGFicyhiZWhfY2VudGVyZWRbMV0gLSAoc3VtKGJlaF9jZW50ZXJlZFstMV0sIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKSkpL3J2ICN0aHVzIHdlIHN0cml2ZSBmb3IgYSBoaWdoZXN0IGxvY2FsIHNpbWlsYXJpdHkgc2NvcmUhDQogIA0KIA0KICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KYGBgDQoNCjxicj4NCg0KIyMgTWFrZSBwbG90IG9mIHN0YXRpc3RpYyB2YWx1ZXMgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQpgYGB7cn0NCg0KZmlubHVlbmNlcGxvdCA8LSBmdW5jdGlvbihhbHRlcnMsIG1pbiwgbWF4LCBmdW4sIHBhcmFtcywgcmVzdWx0cz1UUlVFLCBwbG90PVRSVUUpIHsNCiAgI2NoZWNrIGNvcnJlY3QgbnVtYmVyIG9mIHBhcmFtZXRlcnMgYXJlIGdpdmVuDQogICBpZiAobGVuZ3RoKGZ1bikgIT0gbGVuZ3RoKHBhcmFtcykpIHN0b3AoIlBsZWFzZSBwcm92aWRlIG9uZSAoYW5kIG9ubHkgb25lKSBwYXJhbWV0ZXIgZm9yIGVhY2ggb2YgdGhlIGJlaGF2aW9yYWwgZWZmZWN0cyEiKQ0KICANCiAgI2NhbGN1bHVhdGUgdmFsdWUgb2YgZXZhbHVhdGlvbiBmdW5jdGlvbg0KICBzIDwtIE5BDQogIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgc1tpXSA8LSAwDQogICAgZm9yIChqIGluIDE6bGVuZ3RoKGZ1bikpIHsNCiAgICAgIHNbaV0gPC0gc1tpXSArIHBhcmFtc1tqXSpmdW5bW2pdXShpLCBhbHRlcnMsIG1pbiwgbWF4KSAgICAgIA0KICAgIH0NCiAgfQ0KICANCiAgI2NhbGN1bGF0ZSB0aGUgcHJvYmFiaWxpdGllcyAgDQogIHAgPC0gTkENCiAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICBwW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAocykpDQogIH0NCiAgDQogICNjYWxjdWxhdGUgdGhlIHByb2JhYmlsaXRpZXMgb2YgY2hvaWNlIHNldCAgDQogIHAyIDwtIE5BDQogIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgaWYgKGk9PW1pbikgeyANCiAgICAgIHAyW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAoc1tpXSkgKyBleHAoc1tpICsgMV0pKSANCiAgICB9IGVsc2UgaWYgKGk9PW1heCkgeyANCiAgICAgIHAyW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAoc1tpXSkgKyBleHAoc1tpIC0gMV0pKQ0KICAgIH0gZWxzZSB7DQogICAgICBwMltpXSA8LSBleHAoc1tpXSkgLyBzdW0oZXhwKHNbaV0pICsgZXhwKHNbaSAtIDFdKSArIGV4cChzW2kgKyAxXSkpDQogICAgfQ0KICB9DQogIA0KICAjY2FsY3VsYXRlIHRoZSBwcm9iYWJpbGl0eSByYXRpbyAgDQogIHIgPC0gTkENCiAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICByW2ldIDwtIHBbaV0gLyBwWzFdDQogIH0NCiAgDQogICNzb21lIHNpbXBsZSBwbG90cw0KICBpZiAocGxvdCkgeyANCiAgICAgIG5hbWUgPC0gZGVwYXJzZShzdWJzdGl0dXRlKGZ1bikpDQogICAgICBuYW1lIDwtIHN0cmluZ3I6OnN0cl9zdWIoYXMuY2hhcmFjdGVyKG5hbWUpLCA2LCAtMikNCiAgICAgIHBhcihtZnJvdz1jKDIsMikpDQogICAgICBwbG90KHk9cywgeD1taW46bWF4LCB4bGFiPSJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWI9bmFtZSwgdHlwZT0iYiIpDQogICAgICBtdGV4dCgiRVZBTFVBVElPTiIsIGxpbmU9MSkNCiAgICAgIG10ZXh0KHBhc3RlKCJhbHRlcnM6IiwgcGFzdGUwKGFsdGVycywgY29sbGFwc2U9IiwiKSkpDQogICAgICBwbG90KHk9cCwgeD1taW46bWF4LCB4bGFiPSJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWI9bmFtZSwgeWxpbT1jKDAsMSksIHR5cGU9ImIiKQ0KICAgICAgbXRleHQoIlBST0JBQklMSVRJRVMiLCBsaW5lPTEpDQogICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlPSIsIikpKQ0KICAgICAgcGxvdCh5PXAyLCB4PW1pbjptYXgsIHhsYWI9ImVnbyBiZWhhdmlvcmFsIHNjb3JlIiwgeWxhYj1uYW1lLCB5bGltPWMoMCwxKSwgdHlwZT0iYiIpDQogICAgICBtdGV4dCgiUFJPQkFCSUxJVElFU19jaG9pY2Vfc2V0IiwgbGluZT0xKQ0KICAgICAgbXRleHQocGFzdGUoImFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzLCBjb2xsYXBzZT0iLCIpKSkNCiAgICAgIHBsb3QoeT1yLCB4PW1pbjptYXgsIHhsYWI9ImVnbyBiZWhhdmlvcmFsIHNjb3JlIiwgeWxhYj1uYW1lLCB0eXBlPSJiIikNCiAgICAgIG10ZXh0KCJSQVRJT1MiLCBsaW5lPTEpDQogICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlPSIsIikpKQ0KICB9DQogIA0KICAjcmV0dXJuIHJlc3VsdHMgZm9yIG1vcmUgZmFuY3kgcGxvdHRpbmcNCiAgaWYgKHJlc3VsdHMpIHsNCiAgICB4IDwtIG1pbjptYXgNCiAgICBkZiA8LSBkYXRhLmZyYW1lKHgsIHMsIHAscDIsIHIpDQogICAgcmV0dXJuKGRmKQ0KICB9DQogIA0KfQ0KYGBgDQoNCjxicj4NCg0KIyMgRXhhbXBsZXMNCg0KYGBge3J9DQphbHRlcnMxIDwtIHJlcChjKDMsMywzLDMsMywzKSw0KQ0KDQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMxLCBtaW49MSwgbWF4PTYsIGxpc3QoZmxpbmVhciwgZnF1YWQpLCBwYXJhbXM9YyguMSwtMSkpDQoNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZTaW0pLCBwYXJhbXM9YygxKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZBbHQpLCBwYXJhbXM9YygxKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmQXR0TWVhbiksIHBhcmFtcz1jKDEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBsaXN0KGZhdkF0dEhpZ2hlciksIHBhcmFtcz1jKDEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBsaXN0KGZhdkF0dExvd2VyKSwgcGFyYW1zPWMoMSkpDQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMxLCBtaW49MSwgbWF4PTYsIGZ1bj1saXN0KGZhdkF0dExvd2VyLCBmYXZBdHRIaWdoZXIpLCBwYXJhbXM9YygxLDEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBsaXN0KGZBdHRNZWFuLCBmYXZBdHRIaWdoZXIpLCBwYXJhbXM9YygxLDEpKQ0KDQoNCmBgYA0KDQpgYGB7cn0NCmFsdGVyczEgPC0gcmVwKGMoMSwxLDEsNiw2LDYpLCA0MCkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZTaW0pLCBwYXJhbXM9YygxKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZBbHQpLCBwYXJhbXM9YygxKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmQXR0TWVhbiksIHBhcmFtcz1jKDEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBmdW49bGlzdChmYXZBdHRMb3dlciwgZmF2QXR0SGlnaGVyKSwgcGFyYW1zPWMoMSwwKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgZnVuPWxpc3QoZmF2QXR0TG93ZXIsIGZhdkF0dEhpZ2hlciksIHBhcmFtcz1jKDAsMSkpDQoNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgZnVuPWxpc3QoZmF2QXR0TG93ZXIsIGZhdkF0dEhpZ2hlciksIHBhcmFtcz1jKDEsMykpDQoNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgZnVuPWxpc3QoZmF2QXR0TG93ZXIsIGZhdkF0dEhpZ2hlciksIHBhcmFtcz1jKDEsLTEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBmdW49bGlzdChmYXZBdHRMb3dlciwgZmF2QXR0SGlnaGVyKSwgcGFyYW1zPWMoLTEsMSkpDQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMxLCBtaW49MSwgbWF4PTYsIGZ1bj1saXN0KGZsaW5lYXIsIGZhdkF0dExvd2VyLCBmYXZBdHRIaWdoZXIpLCBwYXJhbXM9YygxLC0xLDEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBmdW49bGlzdChmbGluZWFyLCBmYXZBdHRMb3dlciwgZmF2QXR0SGlnaGVyKSwgcGFyYW1zPWMoMSwtMSwxKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgZnVuPWxpc3QoZmxpbmVhciksIHBhcmFtcz1jKDEpKQ0KDQpgYGANCg0KDQpgYGB7cn0NCg0KYWx0ZXJzMSA8LSByZXAoYygxLDIsMiksIDEwMCkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZTaW0pLCBwYXJhbXM9YygxKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZBbHQpLCBwYXJhbXM9YygxKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmQXR0TWVhbiksIHBhcmFtcz1jKDEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBmdW49bGlzdChmYXZBdHRMb3dlciwgZmF2QXR0SGlnaGVyKSwgcGFyYW1zPWMoMSwwKSkNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgZnVuPWxpc3QoZmF2QXR0TG93ZXIsIGZhdkF0dEhpZ2hlciksIHBhcmFtcz1jKDAsMSkpDQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMxLCBtaW49MSwgbWF4PTYsIGZ1bj1saXN0KGZhdkF0dExvd2VyLCBmYXZBdHRIaWdoZXIpLCBwYXJhbXM9YygxLDEpKQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBmdW49bGlzdChmYXZBdHRMb3dlciwgZmF2QXR0SGlnaGVyKSwgcGFyYW1zPWMoMSwtMSkpDQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMxLCBtaW49MSwgbWF4PTYsIGZ1bj1saXN0KGZhdkF0dExvd2VyLCBmYXZBdHRIaWdoZXIpLCBwYXJhbXM9YygtMSwxKSkNCg0KYGBgDQoNCjxicj4NCg0KIyMgUmVzdWx0cyBtb2RlbCBzdHJhdmENCg0KYGBge3J9DQphbHRlcnMxIDwtIHJlcChjKDIsIDIsIDIsIDUsIDUsIDUpKQ0KYWx0ZXJzMiA8LSByZXAoYygzLjUsIDMuNSwgMy41LCAzLjUsIDMuNSwgMy41KSkNCmBgYCANCg0KYGBge3J9DQojIGNsdWIxDQpmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczEsIG1pbiA9IDEsIG1heCA9IDYsIHJlc3VsdHMgPSBGQUxTRSwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLA0KICAgIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gYygtMC4xNSwgLTAuMDAyLCAyLjAwMjcsIDYuMDkwNSkpDQoNCg0KZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMyLCBtaW4gPSAxLCBtYXggPSA2LCByZXN1bHRzID0gRkFMU0UsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlciwNCiAgICBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGMoLTAuMTUsIC0wLjAwMiwgMi4wMDI3LCA2LjA5MDUpKQ0KDQojIGNsdWIyDQpmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczEsIG1pbiA9IDEsIG1heCA9IDYsIHJlc3VsdHMgPSBGQUxTRSwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLA0KICAgIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gYygtMC4yNCwgMC4wMDc1LCAzLjMyMTMsIDUuMDA0NykpDQoNCg0KZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMyLCBtaW4gPSAxLCBtYXggPSA2LCByZXN1bHRzID0gRkFMU0UsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlciwNCiAgICBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGMoLTAuMjQsIDAuMDA3NSwgMy4zMjEzLCA1LjAwNDcpKQ0KDQoNCiMgY2x1YjMNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMSwgbWluID0gMSwgbWF4ID0gNiwgcmVzdWx0cyA9IEZBTFNFLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsDQogICAgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjKC0wLjIwODUsIDAuMDIxLCAzLjc3MDMsIDIuMTI4MykpDQoNCg0KZmlubHVlbmNlcGxvdChhbHRlcnMgPSBhbHRlcnMyLCBtaW4gPSAxLCBtYXggPSA2LCByZXN1bHRzID0gRkFMU0UsIGZ1biA9IGxpc3QoZmxpbmVhciwgZnF1YWQsIGZhdkF0dEhpZ2hlciwNCiAgICBmYXZBdHRMb3dlciksIHBhcmFtcyA9IGMoLTAuMjA4NSwgMC4wMjEsIDMuNzcwMywgMi4xMjgzKSkNCg0KDQojIGNsdWI0DQpmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczEsIG1pbiA9IDEsIG1heCA9IDYsIHJlc3VsdHMgPSBGQUxTRSwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLA0KICAgIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gYygtMS4zMzEzLCAwLjAxOTIsIDIuNTQ5MywgNC40OTUyKSkNCg0KDQpmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczIsIG1pbiA9IDEsIG1heCA9IDYsIHJlc3VsdHMgPSBGQUxTRSwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLA0KICAgIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gYygtMS4zMzEzLCAwLjAxOTIsIDIuNTQ5MywgNC40OTUyKSkNCg0KDQojIGNsdWI1DQpmaW5sdWVuY2VwbG90KGFsdGVycyA9IGFsdGVyczEsIG1pbiA9IDEsIG1heCA9IDYsIHJlc3VsdHMgPSBGQUxTRSwgZnVuID0gbGlzdChmbGluZWFyLCBmcXVhZCwgZmF2QXR0SGlnaGVyLA0KICAgIGZhdkF0dExvd2VyKSwgcGFyYW1zID0gYygwLjEwMjEsIDAuMDc0MywgMS4xNzM2LCA4LjU0ODYpKQ0KDQoNCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzID0gYWx0ZXJzMiwgbWluID0gMSwgbWF4ID0gNiwgcmVzdWx0cyA9IEZBTFNFLCBmdW4gPSBsaXN0KGZsaW5lYXIsIGZxdWFkLCBmYXZBdHRIaWdoZXIsDQogICAgZmF2QXR0TG93ZXIpLCBwYXJhbXMgPSBjKDAuMTAyMSwgMC4wNzQzLCAxLjE3MzYsIDguNTQ4NikpDQpgYGANCg==</div>
@@ -937,7 +937,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("influence_effects_JT_RF.Rmd");
+  window.initializeSourceEmbed("influenceeffects.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

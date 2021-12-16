@@ -23,7 +23,7 @@ navbar:
     - text: "Influence effects"
       menu:
       - text: "Different influence operationalizations"
-        href: influence_effects_JT_RF.html
+        href: influenceeffects.html
       - text: "Figure 3: Ego-alter influence plot"
         href: figure3.html
         
