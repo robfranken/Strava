@@ -418,7 +418,7 @@ We create a nice multipanel plot of the different scenarios:
 
 multiplot <- rbind(plot1,plot2,plot3,plot4)
 
-ggplot(data = multiplot, aes(x, s, group=Club, color=Club)) +
+p<-ggplot(data = multiplot, aes(x, s, group=Club, color=Club)) +
   geom_line(size=1) +
   geom_point(aes(shape=Club), size = 3) +
   labs(title = "Influence effects on running frequency", 
@@ -439,4 +439,8 @@ ggplot(data = multiplot, aes(x, s, group=Club, color=Club)) +
   
 
   )
+
 ```
+
+
+
