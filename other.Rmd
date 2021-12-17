@@ -52,14 +52,14 @@ Clean the working environment and read in the RSiena object list.
 # clean the working environment 
 rm (list = ls( ))
 # load in the R-SIENA objects
-load("clubdata_rsiena.Rdata")
+load("clubdata_rsiena_freq.Rdata")
 ```
 
 <br>
 
 # Effect objects {.tabset .tabset-fade}
 
-We make, for each club, 5 model specifications: 
+We make, for each club, 6 model specifications: 
 
 - Model 1: base model + indegree effect on running
 - Model 2: Model 1 + average alter effect
@@ -72,7 +72,7 @@ We save these model specifications in a list for each club.
 
 ## Club 2
 ```{r echo=T, results='hide'}
-myeff <- getEffects(clubdata_rsiena[[2]])
+myeff <- getEffects(clubdata_rsiena_freq[[2]])
 
 # base model
 myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -97,7 +97,7 @@ myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudon
 
 ## Club 3
 ```{r echo=T, results='hide'}
-myeff <- getEffects(clubdata_rsiena[[3]])
+myeff <- getEffects(clubdata_rsiena_freq[[3]])
 
 # base model
 myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -122,7 +122,7 @@ myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudon
 
 ## Club 4
 ```{r echo=T, results='hide'}
-myeff <- getEffects(clubdata_rsiena[[4]])
+myeff <- getEffects(clubdata_rsiena_freq[[4]])
 
 # base model
 myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -152,7 +152,7 @@ myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudon
 
 ## Club 5
 ```{r echo=T, results='hide'}
-myeff <- getEffects(clubdata_rsiena[[5]])
+myeff <- getEffects(clubdata_rsiena_freq[[5]])
 
 # base model
 myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 

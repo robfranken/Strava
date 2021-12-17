@@ -283,7 +283,7 @@ myeff3 <- includeEffects(myeff3, effFrom, name = "freq_run", interaction1 = "gen
   
 ## Influence effects {#inf}
 Last, we include effects of network position (indegree) and alter behaviors (average alter/similarity, etc.) on behavior change.
-We make, for each club, 5 model specifications. We save these effect objects in a list.
+We make, for each club, 6 model specifications. We save these effect objects in a list.
 
 - Model 1: base model + indegree effect on running
 - Model 2: Model 1 + average alter effect
@@ -396,7 +396,7 @@ GOF is adequate for the distribution of running frequency values.
 
 ## Next up
 
-We will check whether this model configuration also converges for the [other clubs](https://robfranken.github.io/Strava/meta.html). To summarize the results over our clubs, we will perform a [meta-analysis](https://robfranken.github.io/Strava/meta.html#Meta-analysis) using a Fisher-type combination of one-tailed p-values.
+We will check whether this model configuration also converges for the [other clubs](https://robfranken.github.io/Strava/other.html). To summarize the results over our clubs, we will perform a [meta-analysis](https://robfranken.github.io/Strava/meta.html) using a Fisher-type combination of one-tailed p-values.
 
 
 ----

@@ -17,9 +17,13 @@ navbar:
       - text: "Club 1"
         href: explore.html
       - text: "Clubs 2-5"
-        href: others.html
+        href: other.html
     - text: "Meta-analysis"
-      href: meta.html
+      menu:
+      - text: "Running frequency models"
+        href: meta.html
+      - text: "Running volume models"
+        href: vol_meta.html
     - text: "Influence effects"
       menu:
       - text: "Different influence operationalizations"

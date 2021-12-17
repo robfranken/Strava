@@ -1,12 +1,9 @@
 base
 knitr
 RSiena
-ggplot2
-statnet.common
-network
-sna
 igraph
 tidyverse
+ggplot2
 tibble
 tidyr
 readr
@@ -16,3 +13,6 @@ stringr
 forcats
 moments
 kableExtra
+network
+statnet.common
+sna

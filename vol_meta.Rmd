@@ -36,42 +36,20 @@ klippy::klippy(position = c('top', 'right'))
 
 ----
 
-# Meta-analysis 
+# Running duration models
 
-We estimated all models with running frequency as the dependent behavior variable. To summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values, described by @hedges2014 and @bosker2011 (Chapter 3). We also performed this meta-analysis on models with running volume as the dependent variable (find the script [here](https://robfranken.github.io/Strava/vol_meta.html)) 
+Down below, we estimate the same models with running volume as the dependent variable:
 
-We perform a double test:
-
-1. For detecting if there are any club-networks with a positive parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or less than zero; with the alternative hypothesis: for at least one club, the value of this parameter is greater than zero.
-2. For detecting if there are any club-networks with a negative parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or greater than zero; with the alternative hypothesis: for at least one club, the value of this parameter is less than zero.
-
-For each of these combined tests, the *p*-value is given. We use for each test the significance level of *α*/2, which yields an overall combined test at significance level *α*. Four different overall results are possible. Indicating the right-sided and left-sided *p*-values by *p<sub>r</sub>* and *p<sub>l</sub>* respectively, these results are:
-
-- *p<sub>r</sub>* $\gt$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
-
-No evidence for any non-zero parameter values.
-
-- *p<sub>r</sub>* $\leq$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
-
-Evidence that some club-networks have a positive parameter value, but no evidence for any negative parameter values.
-
-- *p<sub>r</sub>* $\gt$ *α*/2 & *p<sub>l</sub>* $\leq$ *α*/2:
-
-Evidence that some clubs have a negative parameter value, no evidence for any positive parameter values
-
-- *p<sub>r</sub>* $\leq$ *α*/2 & *p<sub>l</sub>* $\leq$ *α*/2:
-
-Evidence that some clubs have a negative parameter value, and some others have a positive parameter value.
 
 <br>
+
+Again, to summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values.
+
 
 ----
 
 <br>
 
-First, we read in the sienaFit-objects of our 5 clubs. We estimated for each club 6 models, and we listed these models for each club. 
-
-We use a function to load the objects under new names. We list models 1-6 across clubs for subsequent meta-analysis.
 
 ```{r eval=F}
 # clean the working environment 
@@ -213,4 +191,3 @@ round(Fishers,3)
 ----
 
 
-### References 
