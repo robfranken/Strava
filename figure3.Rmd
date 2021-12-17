@@ -6,8 +6,8 @@ output:
   html_document:
 
     css: tweaks.css
-    toc: false
-    toc_float: false
+    toc: true
+    toc_float: true
     collapsed: false
     number_sections: false
     toc_depth: 1
@@ -42,6 +42,8 @@ klippy::klippy(position = c('top', 'right'))
 
 
 This script replicates Figure 3 of the manuscript (Ego-alter influence plots).
+
+# Preparation
 
 Clean the working environment
 
@@ -411,6 +413,8 @@ plot4$scenario <- paste("D) Behavior alters:", paste0(alters4, collapse=", " ))
 
 <br> 
 
+# Plot
+
 We create a nice multipanel plot of the different scenarios:
 
 
@@ -418,7 +422,7 @@ We create a nice multipanel plot of the different scenarios:
 
 multiplot <- rbind(plot1,plot2,plot3,plot4)
 
-p<-ggplot(data = multiplot, aes(x, s, group=Club, color=Club)) +
+ggplot(data = multiplot, aes(x, s, group=Club, color=Club)) +
   geom_line(size=1) +
   geom_point(aes(shape=Club), size = 3) +
   labs(title = "Influence effects on running frequency", 
