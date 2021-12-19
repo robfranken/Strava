@@ -33,7 +33,7 @@ navbar:
     - text: "Other"
       menu:
       - text: "Duisterbelt '21 presentation"
-        href: Duisterbelt.html
+        href: duisterbelt.html
 
   right:
     - icon: fab fa-github
