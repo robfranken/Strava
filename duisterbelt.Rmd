@@ -845,11 +845,13 @@ knitr::kable(df2[36:nrow(df2), ], digits=3, "html", caption="Meta-analysis of pa
     
     - This may be important for social network interventions aimed at promoting sports participation!
     
+    <br>
+    
 * Asymmetrical assimilation upward/downward in behaviors where high values are inherently desirable ...
 
   + *Academic performance?* 
   
-    - Prior studies used average similarity as influence operationalization [e.g., Kretschmer at al., -@kretschmer2018; Rambaran et al., -@rambaran2017; Shin and Ryan, -@shin2014].
+    - Prior studies used average similarity as influence operationalization [e.g., Kretschmer et al., -@kretschmer2018; Rambaran et al., -@rambaran2017; Shin and Ryan, -@shin2014].
     
     - Or average alter effect [Gremmen et al., -@gremmen2017].
   
