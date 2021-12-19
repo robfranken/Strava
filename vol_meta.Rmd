@@ -36,7 +36,7 @@ klippy::klippy(position = c('top', 'right'))
 
 ----
 
-# Running duration models
+#  Meta-analysis of running volume models
 
 Down below, we estimate the same models with running volume as the dependent variable:
 

@@ -30,7 +30,11 @@ navbar:
         href: influenceeffects.html
       - text: "Figure 3: Ego-alter influence plot"
         href: figure3.html
-        
+    - text: "Other"
+      menu:
+      - text: "Duisterbelt '21 presentation"
+        href: Duisterbelt.html
+
   right:
     - icon: fab fa-github
       href: https://github.com/robfranken/Strava

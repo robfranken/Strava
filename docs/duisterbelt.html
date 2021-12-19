@@ -1,0 +1,6030 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Duisterbelt ’21</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fas fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="other.html">Clubs 2-5</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Meta-analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="meta.html">Running frequency models</a>
+    </li>
+    <li>
+      <a href="vol_meta.html">Running volume models</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Influence effects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influenceeffects.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 3: Ego-alter influence plot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Duisterbelt.html">Duisterbelt '21 presentation</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Duisterbelt ’21</h1>
+<h4 class="date">Last compiled on december, 2021</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<p><br></p>
+<p><br></p>
+<p style="font-size:32pt; font-style:italic">
+Social network influence on sport behavior:
+</p>
+<p style="font-size:32pt; font-style:italic">
+an actor-based approach using Strava
+</p>
+<p><br></p>
+<p>Rob Franken (<a href="mailto:rob.franken@ru.nl" class="email">rob.franken@ru.nl</a>)</p>
+<p>PhD student at Sociology department, Radboud University Nijmegen / ICS</p>
+<p>Supervision by Jochem Tolsma and Hidde Bekhuis</p>
+<p><br></p>
+<p><img src="images/logo2.png" /></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<hr />
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<ul>
+<li><p>Social networks are known to influence various aspects of health!</p></li>
+<li><p>Currently, the question of (how) social networks affect <strong>sport participation</strong> remains rather unexplored:</p>
+<ul>
+<li><p>Prior studies mostly operationalized social networks as individual-level measures of no. of ties and attributes of these ties (e.g., perceived support).</p></li>
+<li><p>Prior SAOM studies on sports and physical activity (PA) focussed on <strong>friendship networks among children in school classes</strong> <span class="citation">(e.g., De la Haye et al., 2011; Fujimoto et al., 2018; Simpkins et al., 2013; Shoham et al., 2012)</span>.</p></li>
+<li><p>Current (SAOM) studies on the networks-PA link used <strong>self-report measures</strong> of sport/physical activity.</p></li>
+</ul></li>
+</ul>
+<p><br></p>
+</div>
+<div id="social-media" class="section level1">
+<h1>Social media</h1>
+<ul>
+<li><p>Alongside the emergence of traditional social media platforms (e.g., Facebook), <strong>online fitness community platforms</strong> (OFCs, e.g., Strava ) rose to prominence.</p></li>
+<li><p>Increasing levels of public participation in OFCs has created a new population of subjects …</p>
+<ul>
+<li><p>… whose real social (online) interactions are recorded</p></li>
+<li><p>… whose health behaviors are accurately tracked (through self-tracking with GPS-enabled devices).</p></li>
+</ul></li>
+<li><p>OFCs as novel tools for investigating social dynamics in sports!</p></li>
+</ul>
+<p><img src="images/presentation/gps.png" alt="self-tracking" width="35%"/></p>
+<p><br></p>
+</div>
+<div id="strava" class="section level1">
+<h1>Strava</h1>
+<ul>
+<li><p>Web-based platform/mobile app used by recreational/professional athletes (mainly in running and cycling).</p></li>
+<li><p>Strava maps the route, logs the pace, and uploads activity posts onto the app (generally, automatically) with subsequent analysis.</p></li>
+<li><p>Strava uses a ‘following’-system. Activity posts appear on personal feeds (log) and in followers’ feed.</p></li>
+<li><p>Friends can interact by giving <em>kudos</em> (virtual thumbs-up) and (short) written comments.</p></li>
+</ul>
+<p><img src="images/presentation/activity.png" alt="activity post" width="75%"/></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+<div id="data-from-clubs" class="section level1">
+<h1>Data from CLUBS</h1>
+<p>We focus on Strava <em>clubs</em> (N=5): accessible communities (like FB-groups) which enable individuals to form connections, join up and workout together, interact with one another, and compete on the leaderboard.</p>
+<p><img src="images/presentation/leaderboard.png" alt="leaderboard" width="75%"/></p>
+<p>We focus on virtual extension of (official) Dutch running clubs …</p>
+<ul>
+<li><p>diverse with respect to size (largest: n=165; smallest: n=13), geographical location, organizational setting, and audience (e.g., amateurs, elites, seniors):</p>
+<ul>
+<li><p>ruling out unmeasured confounders at the club-level;</p></li>
+<li><p>circumventing the potential risk of oversampling of highly active users.</p></li>
+</ul></li>
+</ul>
+<p>A focus on clubs …</p>
+<ul>
+<li><p>raises the potential concern that we underestimate <em>mechanisms</em>…</p></li>
+<li><p>but not <em>effects</em>: clubs represent <strong>complete networks</strong>, thus ensuring that we can model selection and influence adequately.</p></li>
+<li><p>We use data on the <strong>kudos network</strong> (who gives kudos to whom?) and on <strong>sport activity attributes</strong> over 12 waves.</p></li>
+<li><p>Given the high sensitivity of our data, we aggregated data for each user to a one month period:</p>
+<ul>
+<li><p>Frequency with which running activities were posted to the Strava club as a proxy for the number of running sessions per month. <em>Running frequency</em> was converted to times per week (0-7+).</p></li>
+<li><p>We aggregated the total volume of running activities per month. We converted <em>running volume</em> to hours per week (0-7+).</p></li>
+</ul></li>
+</ul>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+<div id="kudos-network" class="section level1">
+<h1>Kudos network</h1>
+<ul>
+<li><p>Kudos: lightweight one-click feedback action serving as a social cue of affect, support or admiration/aspiration.</p></li>
+<li><p>Kudos: event data or social states?</p>
+<ul>
+<li><p>In the case of our clubs (i.e., virtual extension of offline clubs), we expect concordance between offline (unobserved) relationships and kudos ties.</p></li>
+<li><p>Kudos as online proxies of offline relationships.</p></li>
+<li><p>Kudos ties are stable (see <a href="https://robfranken.github.io/Strava/destab.html#Table">descriptives</a>)!</p></li>
+</ul></li>
+<li><p><em>1 or more</em> kudos sent/received required for a tie to exist ? …</p>
+<ul>
+<li><p>Higher cut-off value for no. of kudos required for a tie?</p></li>
+<li><p>Multiple ordered networks?</p></li>
+</ul>
+<p>Brings great complexity: behavior (here, running frequency, proxied by no. of posts) limits potential no. of in-ties would we opt for a higher cut-off!</p></li>
+</ul>
+<hr />
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+<div id="theory-hypotheses" class="section level1">
+<h1>Theory &amp; hypotheses</h1>
+<p>Two prominent theoretical arguments made in the literature <span class="citation">(see Zhang et al., 2016)</span> and used in programs/interventions:</p>
+<ol style="list-style-type: decimal">
+<li><p>Network partners may provide various types of social support that promote sport participation (cf. Centola 2010).</p></li>
+<li><p>The training habits of network partners may serve as goals to strive for (cf. Shakya et al. 2015).</p></li>
+</ol>
+<p><br></p>
+<p>We test these mechanisms using SAOMs and our Strava data:</p>
+<ol style="list-style-type: decimal">
+<li><p>The receipt of kudos (no. of in-ties) affects change in sport behavior (<em>social support expectation</em>)</p></li>
+<li><p>Sport activities of peers (whom ego gives kudos) influence ego’s sport activity, which we operationalize as assimilation (<em>social comparison expectation</em>).</p></li>
+</ol>
+<p>… while controlling for multiple factors that may affect whom to interact with and factors influencing sport activity (e.g., gender, seasonal effect, shared club contexts).</p>
+<hr />
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+<div id="model-selection" class="section level1">
+<h1>Model selection</h1>
+<div id="kudos-tie-formation-dynamics" class="section level2 tabset tabset-fade">
+<h2>1. Kudos tie formation dynamics</h2>
+<div id="structural-effects" class="section level3">
+<h3>Structural effects</h3>
+<ul>
+<li>In all clubs: <em>Outdegree</em>, <em>reciprocity</em>, <em>transitivity (GWESP)</em></li>
+<li>In some clubs: <em>out-isolate</em>, interaction <em>recip.</em> x <em>GWESP</em>.</li>
+</ul>
+</div>
+<div id="degree-related-effects" class="section level3">
+<h3>Degree-related effects</h3>
+<ul>
+<li>In all clubs: <em>indegree-popularity</em> (sqrt.), <em>outdegree-activity</em> (sqrt.)</li>
+<li>In some clubs: <em>reciprocal degree-related activity</em>, <em>outdegree-popularity</em> (sqrt.)</li>
+</ul>
+</div>
+<div id="selection-effects" class="section level3">
+<h3>Selection effects</h3>
+<ul>
+<li>In all clubs: <em>higher</em> effect (preferential attachment to alters compared to whom ego scores lower on the behavior, in the case of a negative sign)</li>
+<li><em>Gender</em> (ego-, alter-, same-effects)</li>
+</ul>
+<p>Friendships (constant dyadic covariate) was important for kudos tie formation, but it explained similar observed network structures as our included structural effects (e.g., reciprocity, transitivity).</p>
+</div>
+</div>
+<div id="section" class="section level2 unnumbered">
+<h2></h2>
+<p><br></p>
+</div>
+<div id="running-activity-dynamics" class="section level2 tabset tabset-fade">
+<h2>2. Running activity dynamics</h2>
+<pre class="r fold-hide"><code>fcentering &lt;- function(actors) {
+    centered &lt;- actors - mean(actors)
+    return(centered)
+}
+
+fsimij &lt;- function(actors, min, max) {
+    # rv &lt;- max(actors) - min(actors)
+    rv &lt;- max - min
+    mat1 &lt;- matrix(actors, nrow = length(actors), ncol = length(actors), byrow = TRUE)
+    mat2 &lt;- t(mat1)
+    simij &lt;- 1 - (abs(mat1 - mat2)/rv)
+    return(simij)
+}
+
+flinear &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+    
+    statistic &lt;- beh_centered[1]  #the actual statistic
+    
+    return(statistic)
+}
+
+fquad &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+    
+    statistic &lt;- (beh_centered[1])^2  #the actual statistic
+    
+    return(statistic)
+}
+
+favSim &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+    simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+    diag(simij) &lt;- NA
+    msimij &lt;- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+    simij_c &lt;- simij - msimij  #center the similarity scores
+    
+    statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+    
+    return(statistic)
+}
+
+favAttHigher &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    simij &lt;- fsimij(beh_centered, min, max)
+    diag(simij) &lt;- NA
+    
+    simijH &lt;- simij[1, ]
+    simijH[beh_centered &lt;= beh_centered[1]] &lt;- 1
+    simijH[1] &lt;- NA
+    statistic &lt;- sum(simijH, na.rm = TRUE)/length(alters)
+    
+    
+    return(statistic)
+}
+
+
+favAttLower &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    simij &lt;- fsimij(beh_centered, min, max)
+    diag(simij) &lt;- NA
+    
+    simijL &lt;- simij[1, ]
+    simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
+    simijL[1] &lt;- NA
+    statistic &lt;- sum(simijL, na.rm = TRUE)/length(alters)
+    
+    
+    return(statistic)
+}
+
+favAlt &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    
+    statistic &lt;- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+    
+    
+    return(statistic)
+}
+
+fAttMean &lt;- function(ego, alters, min, max, ...) {
+    rv &lt;- max - min
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    
+    statistic &lt;- 1 - abs(beh_centered[1] - (sum(beh_centered[-1], na.rm = TRUE)/length(alters)))/rv  #thus we strive for a highest local similarity score!
+    
+    
+    return(statistic)
+}
+
+finluenceplot &lt;- function(alters, min, max, fun, params, results = TRUE, plot = TRUE) {
+    # check correct number of parameters are given
+    if (length(fun) != length(params)) 
+        stop(&quot;Please provide one (and only one) parameter for each of the behavioral effects!&quot;)
+    
+    # calculuate value of evaluation function
+    s &lt;- NA
+    for (i in min:max) {
+        s[i] &lt;- 0
+        for (j in 1:length(fun)) {
+            s[i] &lt;- s[i] + params[j] * fun[[j]](i, alters, min, max)
+        }
+    }
+    
+    # calculate the probabilities
+    p &lt;- NA
+    for (i in min:max) {
+        p[i] &lt;- exp(s[i])/sum(exp(s))
+    }
+    
+    # calculate the probabilities of choice set
+    p2 &lt;- NA
+    for (i in min:max) {
+        if (i == min) {
+            p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i + 1]))
+        } else if (i == max) {
+            p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]))
+        } else {
+            p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]) + exp(s[i + 1]))
+        }
+    }
+    
+    # calculate the probability ratio
+    r &lt;- NA
+    for (i in min:max) {
+        r[i] &lt;- p[i]/p[1]
+    }
+    
+    # some simple plots
+    if (plot) {
+        name &lt;- deparse(substitute(fun))
+        name &lt;- stringr::str_sub(as.character(name), 6, -2)
+        par(mfrow = c(2, 2))
+        plot(y = s, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+        mtext(&quot;EVALUATION&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        plot(y = p, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+        mtext(&quot;PROBABILITIES&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        plot(y = p2, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+        mtext(&quot;PROBABILITIES_choice_set&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        plot(y = r, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+        mtext(&quot;RATIOS&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+    }
+    
+    # return results for more fancy plotting
+    if (results) {
+        x &lt;- min:max
+        df &lt;- data.frame(x, s, p, p2, r)
+        return(df)
+    }
+    
+}
+
+## Example scenarios
+
+alters1 &lt;- rep(c(3, 3, 3, 3, 3, 3), 1)
+alters2 &lt;- rep(c(1, 1, 1, 5, 5, 5), 1)</code></pre>
+<div id="shape-effects" class="section level3">
+<h3>Shape effects</h3>
+<p>Linear and quadratic shape effects…</p>
+</div>
+<div id="covariates" class="section level3">
+<h3>Covariates</h3>
+<ul>
+<li><p>Gender</p></li>
+<li><p>Activities (frequency, volume) in other sports (e.g., swimming and cycling).</p>
+<ul>
+<li>additional controls were explored, but were not important: winter months, years active on Strava.</li>
+</ul></li>
+</ul>
+</div>
+<div id="indegree-effect" class="section level3">
+<h3>Indegree effect</h3>
+<p>Social support expectation: the number of in-ties (our operationalization of received support) increases the probability of increasing running frequency (times per week) or volume (hours per week).</p>
+<p><br></p>
+</div>
+<div id="social-influence" class="section level3 tabset tabset-fade">
+<h3>Social influence</h3>
+<p>Multiple ways to model social influence.</p>
+<ol style="list-style-type: decimal">
+<li><p>Is ego influenced by average or total of alter (similarity) scores? <strong>Average</strong></p></li>
+<li><p>Common operationalization is (average) alter or similarity effect:</p></li>
+</ol>
+<p>Potential problematic assumption of symmetry:</p>
+<div id="average-alter-effect" class="section level4">
+<h4>Average alter effect</h4>
+<p><strong>Scenario 1</strong>: ego has 6 alters, all of whom run 3 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avAlt1-1.png" width="672" /></p>
+<p><strong>Scenario 2</strong>: ego has 6 alters, 3 of whom run 1 time, and 3 of whom run 5 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avAlt2-1.png" width="672" /></p>
+<p>Positive influence of alters that score higher than ego and negative influence of alters that score lower than ego even each other out (scenario 1 = scenario 2).</p>
+</div>
+<div id="average-similarity-effect" class="section level4">
+<h4>Average similarity effect</h4>
+<p><strong>Scenario 1</strong>: ego has 6 alters, all of whom run 3 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avSim1-1.png" width="672" /></p>
+<p><strong>Scenario 2</strong>: ego has 6 alters, 3 of whom run 1 time, and 3 of whom run 5 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avSim2-1.png" width="672" /></p>
+<p>Moving up on the behavior scale by 1-unit increases upward similarity, but downward similarity decreases to the same extent (ego has no clue what to do!).</p>
+</div>
+</div>
+<div id="section-1" class="section level3 unnumbered">
+<h3></h3>
+</div>
+</div>
+<div id="section-2" class="section level2 unnumbered">
+<h2></h2>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+</div>
+<div id="new-influence-effects" class="section level1 tabset tabset-fade">
+<h1>New influence effects!</h1>
+<p>Assumption: influence of alters that score higher may be different than that of alters that score lower!</p>
+<div id="average-attraction-towards-higher-effect" class="section level2">
+<h2>Average attraction towards higher effect</h2>
+<p>One-sided variant of average similarity effect; similarity is replaced by 1 for those who do not score higher than ego:</p>
+<p><span class="math display">\[ s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&gt;z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,\]</span></p>
+<p><strong>Scenario 1</strong>: ego has 6 alters, all of whom run 3 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avAttH1-1.png" width="672" /></p>
+<p><strong>Scenario 2</strong>: ego has 6 alters, 3 of whom run 1 time, and 3 of whom run 5 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avAttH2-1.png" width="672" /></p>
+</div>
+<div id="average-attraction-towards-lower-effect" class="section level2">
+<h2>Average attraction towards lower effect</h2>
+<p>One-sided variant of average similarity effect; similarity is replaced by 1 for those who do not score lower than ego:</p>
+<p><span class="math display">\[ s^{beh}_{i24}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&lt;z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,\]</span></p>
+<p><strong>Scenario 1</strong>: ego has 6 alters, all of whom run 3 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avAttL1-1.png" width="672" /></p>
+<p><strong>Scenario 2</strong>: ego has 6 alters, 3 of whom run 1 time, and 3 of whom run 5 times per week.</p>
+<p><img src="duisterbelt_files/figure-html/avAttL2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="section-3" class="section level1 unnumbered">
+<h1></h1>
+<p>In the case where these one-sided influence effects have similar parameter estimates, they are similar to average similarity effect.</p>
+<hr />
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+<div id="analytical-strategy" class="section level1">
+<h1>Analytical strategy</h1>
+<ul>
+<li><p>Stratified analyses by club</p></li>
+<li><p>Seperate models for running frequency and running volume</p></li>
+<li><p>6 models per club:</p>
+<ul>
+<li>Model 1: base model + indegree effect on running</li>
+<li>Model 2: Model 1 + average alter effect</li>
+<li>Model 3: Model 1 + average attraction higher</li>
+<li>Model 4: Model 1 + average attraction lower</li>
+<li>Model 5: Model 1 + average attraction higher + lower</li>
+<li>Model 6: Model 1 + average similarity effect</li>
+</ul></li>
+<li><p>Summarize results over 5 clubs using meta-analysis method in RSiena; using a Fisher-type combination of one-tailed <em>p</em>-values to test whether there was evidence in at least one of the clubs of a paremeter being positive or negative.</p></li>
+<li><p>We ensured dat our data fitted the SAOM by performing GOF-test (outdegree, indegree, geodesic distance distribution; distribution of behavior values)</p></li>
+</ul>
+<hr />
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+<div id="results" class="section level1 tabset tabset-fade">
+<h1>Results</h1>
+<div id="model-1-indeg" class="section level2 tabset tabset-fade">
+<h2>Model 1 (indeg)</h2>
+<div id="kudos-tie-formation-dynamics-1" class="section level3">
+<h3>Kudos tie formation dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of kudos tie formation across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+outdegree (density)
+</td>
+<td style="text-align:left;">
+-6.263 (0.744)
+</td>
+<td style="text-align:left;">
+-6.8 (0.361)
+</td>
+<td style="text-align:left;">
+-4.719 (0.15)
+</td>
+<td style="text-align:left;">
+3.68 (2.335)
+</td>
+<td style="text-align:left;">
+-4.013 (0.156)
+</td>
+<td style="text-align:right;">
+2109.625
+</td>
+<td style="text-align:right;">
+5.713
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reciprocity
+</td>
+<td style="text-align:left;">
+5.099 (0.458)
+</td>
+<td style="text-align:left;">
+4.695 (0.253)
+</td>
+<td style="text-align:left;">
+4.563 (0.137)
+</td>
+<td style="text-align:left;">
+3.037 (0.593)
+</td>
+<td style="text-align:left;">
+3.939 (0.173)
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+2153.258
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+1.105 (0.284)
+</td>
+<td style="text-align:left;">
+0.974 (0.12)
+</td>
+<td style="text-align:left;">
+1.273 (0.076)
+</td>
+<td style="text-align:left;">
+1.687 (0.538)
+</td>
+<td style="text-align:left;">
+1.758 (0.096)
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+741.745
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+indegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0.217 (0.254)
+</td>
+<td style="text-align:left;">
+0.176 (0.042)
+</td>
+<td style="text-align:left;">
+0.689 (0.058)
+</td>
+<td style="text-align:left;">
+-0.49 (0.715)
+</td>
+<td style="text-align:left;">
+-0.097 (0.031)
+</td>
+<td style="text-align:right;">
+17.600
+</td>
+<td style="text-align:right;">
+174.837
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.506 (0.049)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+112.927
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - activity (sqrt)
+</td>
+<td style="text-align:left;">
+0.613 (0.152)
+</td>
+<td style="text-align:left;">
+0.753 (0.088)
+</td>
+<td style="text-align:left;">
+0.24 (0.02)
+</td>
+<td style="text-align:left;">
+-2.044 (0.83)
+</td>
+<td style="text-align:left;">
+0.064 (0.019)
+</td>
+<td style="text-align:right;">
+9.951
+</td>
+<td style="text-align:right;">
+261.163
+</td>
+<td style="text-align:right;">
+0.445
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rec.degree^(1/1) - activity
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.088 (0.014)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+43.131
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+out-isolate
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.746 (0.324)
+</td>
+<td style="text-align:left;">
+2.844 (0.117)
+</td>
+<td style="text-align:left;">
+5.717 (1.539)
+</td>
+<td style="text-align:left;">
+0.932 (0.205)
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:right;">
+648.339
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender alter
+</td>
+<td style="text-align:left;">
+0.35 (0.305)
+</td>
+<td style="text-align:left;">
+0.17 (0.07)
+</td>
+<td style="text-align:left;">
+-0.147 (0.062)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.149 (0.048)
+</td>
+<td style="text-align:right;">
+9.817
+</td>
+<td style="text-align:right;">
+27.834
+</td>
+<td style="text-align:right;">
+0.278
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender ego
+</td>
+<td style="text-align:left;">
+-0.534 (0.358)
+</td>
+<td style="text-align:left;">
+0.088 (0.07)
+</td>
+<td style="text-align:left;">
+-0.15 (0.064)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.151 (0.049)
+</td>
+<td style="text-align:right;">
+28.820
+</td>
+<td style="text-align:right;">
+4.631
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.796
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+same gender
+</td>
+<td style="text-align:left;">
+-0.32 (0.277)
+</td>
+<td style="text-align:left;">
+0.197 (0.066)
+</td>
+<td style="text-align:left;">
+0.074 (0.06)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.084 (0.047)
+</td>
+<td style="text-align:right;">
+4.477
+</td>
+<td style="text-align:right;">
+24.535
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+higher freq_run
+</td>
+<td style="text-align:left;">
+0.382 (0.465)
+</td>
+<td style="text-align:left;">
+-0.058 (0.066)
+</td>
+<td style="text-align:left;">
+0.033 (0.068)
+</td>
+<td style="text-align:left;">
+-0.746 (0.837)
+</td>
+<td style="text-align:left;">
+-0.13 (0.062)
+</td>
+<td style="text-align:right;">
+15.938
+</td>
+<td style="text-align:right;">
+6.349
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+0.785
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+int. reciprocity x GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.871 (0.157)
+</td>
+<td style="text-align:left;">
+-1.754 (0.111)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-1.278 (0.102)
+</td>
+<td style="text-align:right;">
+454.820
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on kudos tie formation to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div id="running-frequency-dynamics" class="section level3">
+<h3>Running frequency dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of running frequency dynamics across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+freq_run linear shape
+</td>
+<td style="text-align:left;">
+-0.171 (0.07)
+</td>
+<td style="text-align:left;">
+-0.257 (0.07)
+</td>
+<td style="text-align:left;">
+-0.163 (0.031)
+</td>
+<td style="text-align:left;">
+-1.322 (0.298)
+</td>
+<td style="text-align:left;">
+-0.078 (0.043)
+</td>
+<td style="text-align:right;">
+90.940
+</td>
+<td style="text-align:right;">
+0.091
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run quadratic shape
+</td>
+<td style="text-align:left;">
+-0.058 (0.022)
+</td>
+<td style="text-align:left;">
+-0.002 (0.013)
+</td>
+<td style="text-align:left;">
+-0.005 (0.009)
+</td>
+<td style="text-align:left;">
+-0.125 (0.096)
+</td>
+<td style="text-align:left;">
+0.015 (0.009)
+</td>
+<td style="text-align:right;">
+19.975
+</td>
+<td style="text-align:right;">
+8.271
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+<td style="text-align:right;">
+0.602
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run indegree
+</td>
+<td style="text-align:left;">
+0.026 (0.018)
+</td>
+<td style="text-align:left;">
+0.015 (0.006)
+</td>
+<td style="text-align:left;">
+0.008 (0.009)
+</td>
+<td style="text-align:left;">
+0.471 (0.16)
+</td>
+<td style="text-align:left;">
+0.008 (0.004)
+</td>
+<td style="text-align:right;">
+0.633
+</td>
+<td style="text-align:right;">
+39.957
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from gender
+</td>
+<td style="text-align:left;">
+-0.063 (0.112)
+</td>
+<td style="text-align:left;">
+0.039 (0.09)
+</td>
+<td style="text-align:left;">
+-0.163 (0.058)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.113 (0.063)
+</td>
+<td style="text-align:right;">
+21.901
+</td>
+<td style="text-align:right;">
+2.948
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+0.938
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from freq_other
+</td>
+<td style="text-align:left;">
+-0.025 (0.041)
+</td>
+<td style="text-align:left;">
+0.017 (0.019)
+</td>
+<td style="text-align:left;">
+0.025 (0.015)
+</td>
+<td style="text-align:left;">
+0.045 (0.135)
+</td>
+<td style="text-align:left;">
+0.049 (0.018)
+</td>
+<td style="text-align:right;">
+4.055
+</td>
+<td style="text-align:right;">
+23.628
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div id="model-2-avalt" class="section level2 tabset tabset-fade">
+<h2>Model 2 (avAlt)</h2>
+<div id="kudos-tie-formation-dynamics-2" class="section level3">
+<h3>Kudos tie formation dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of kudos tie formation across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+outdegree (density)
+</td>
+<td style="text-align:left;">
+-6.258 (0.726)
+</td>
+<td style="text-align:left;">
+-6.849 (0.357)
+</td>
+<td style="text-align:left;">
+-4.72 (0.155)
+</td>
+<td style="text-align:left;">
+3.689 (2.336)
+</td>
+<td style="text-align:left;">
+-4.009 (0.159)
+</td>
+<td style="text-align:right;">
+2033.968
+</td>
+<td style="text-align:right;">
+5.723
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.838
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reciprocity
+</td>
+<td style="text-align:left;">
+5.097 (0.461)
+</td>
+<td style="text-align:left;">
+4.733 (0.248)
+</td>
+<td style="text-align:left;">
+4.567 (0.141)
+</td>
+<td style="text-align:left;">
+3.024 (0.577)
+</td>
+<td style="text-align:left;">
+3.93 (0.173)
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+2118.443
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+1.101 (0.278)
+</td>
+<td style="text-align:left;">
+0.981 (0.123)
+</td>
+<td style="text-align:left;">
+1.274 (0.075)
+</td>
+<td style="text-align:left;">
+1.683 (0.53)
+</td>
+<td style="text-align:left;">
+1.75 (0.1)
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+714.578
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+indegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0.213 (0.246)
+</td>
+<td style="text-align:left;">
+0.177 (0.042)
+</td>
+<td style="text-align:left;">
+0.69 (0.06)
+</td>
+<td style="text-align:left;">
+-0.485 (0.735)
+</td>
+<td style="text-align:left;">
+-0.095 (0.031)
+</td>
+<td style="text-align:right;">
+16.500
+</td>
+<td style="text-align:right;">
+163.540
+</td>
+<td style="text-align:right;">
+0.086
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.508 (0.05)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+110.022
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - activity (sqrt)
+</td>
+<td style="text-align:left;">
+0.617 (0.151)
+</td>
+<td style="text-align:left;">
+0.762 (0.087)
+</td>
+<td style="text-align:left;">
+0.24 (0.021)
+</td>
+<td style="text-align:left;">
+-2.049 (0.819)
+</td>
+<td style="text-align:left;">
+0.064 (0.019)
+</td>
+<td style="text-align:right;">
+10.171
+</td>
+<td style="text-align:right;">
+255.240
+</td>
+<td style="text-align:right;">
+0.426
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rec.degree^(1/1) - activity
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.089 (0.014)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+45.111
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+out-isolate
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.738 (0.319)
+</td>
+<td style="text-align:left;">
+2.844 (0.123)
+</td>
+<td style="text-align:left;">
+5.731 (1.523)
+</td>
+<td style="text-align:left;">
+0.94 (0.207)
+</td>
+<td style="text-align:right;">
+0.021
+</td>
+<td style="text-align:right;">
+595.078
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender alter
+</td>
+<td style="text-align:left;">
+0.349 (0.308)
+</td>
+<td style="text-align:left;">
+0.17 (0.07)
+</td>
+<td style="text-align:left;">
+-0.147 (0.062)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.148 (0.048)
+</td>
+<td style="text-align:right;">
+9.862
+</td>
+<td style="text-align:right;">
+27.820
+</td>
+<td style="text-align:right;">
+0.275
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender ego
+</td>
+<td style="text-align:left;">
+-0.531 (0.344)
+</td>
+<td style="text-align:left;">
+0.088 (0.07)
+</td>
+<td style="text-align:left;">
+-0.15 (0.064)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.152 (0.05)
+</td>
+<td style="text-align:right;">
+28.590
+</td>
+<td style="text-align:right;">
+4.693
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.790
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+same gender
+</td>
+<td style="text-align:left;">
+-0.32 (0.276)
+</td>
+<td style="text-align:left;">
+0.198 (0.066)
+</td>
+<td style="text-align:left;">
+0.074 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.085 (0.045)
+</td>
+<td style="text-align:right;">
+4.497
+</td>
+<td style="text-align:right;">
+24.705
+</td>
+<td style="text-align:right;">
+0.810
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+higher freq_run
+</td>
+<td style="text-align:left;">
+0.371 (0.48)
+</td>
+<td style="text-align:left;">
+-0.057 (0.065)
+</td>
+<td style="text-align:left;">
+0.033 (0.068)
+</td>
+<td style="text-align:left;">
+-0.736 (0.84)
+</td>
+<td style="text-align:left;">
+-0.13 (0.062)
+</td>
+<td style="text-align:right;">
+15.990
+</td>
+<td style="text-align:right;">
+6.221
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+0.796
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+int. reciprocity x GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.881 (0.156)
+</td>
+<td style="text-align:left;">
+-1.753 (0.115)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-1.272 (0.102)
+</td>
+<td style="text-align:right;">
+440.066
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on kudos tie formation to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div id="running-frequency-dynamics-1" class="section level3">
+<h3>Running frequency dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of running frequency dynamics across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+freq_run linear shape
+</td>
+<td style="text-align:left;">
+-0.178 (0.073)
+</td>
+<td style="text-align:left;">
+-0.245 (0.083)
+</td>
+<td style="text-align:left;">
+-0.163 (0.033)
+</td>
+<td style="text-align:left;">
+-1.335 (0.304)
+</td>
+<td style="text-align:left;">
+-0.177 (0.052)
+</td>
+<td style="text-align:right;">
+92.039
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run quadratic shape
+</td>
+<td style="text-align:left;">
+-0.059 (0.023)
+</td>
+<td style="text-align:left;">
+-0.002 (0.013)
+</td>
+<td style="text-align:left;">
+-0.005 (0.009)
+</td>
+<td style="text-align:left;">
+-0.122 (0.096)
+</td>
+<td style="text-align:left;">
+-0.006 (0.011)
+</td>
+<td style="text-align:right;">
+21.875
+</td>
+<td style="text-align:right;">
+2.818
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+0.985
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run indegree
+</td>
+<td style="text-align:left;">
+0.025 (0.019)
+</td>
+<td style="text-align:left;">
+0.015 (0.006)
+</td>
+<td style="text-align:left;">
+0.008 (0.01)
+</td>
+<td style="text-align:left;">
+0.445 (0.164)
+</td>
+<td style="text-align:left;">
+0.007 (0.004)
+</td>
+<td style="text-align:right;">
+0.773
+</td>
+<td style="text-align:right;">
+36.954
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run average alter
+</td>
+<td style="text-align:left;">
+0.037 (0.095)
+</td>
+<td style="text-align:left;">
+-0.019 (0.076)
+</td>
+<td style="text-align:left;">
+0.005 (0.078)
+</td>
+<td style="text-align:left;">
+0.103 (0.207)
+</td>
+<td style="text-align:left;">
+0.203 (0.054)
+</td>
+<td style="text-align:right;">
+4.705
+</td>
+<td style="text-align:right;">
+25.892
+</td>
+<td style="text-align:right;">
+0.910
+</td>
+<td style="text-align:right;">
+0.004
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from gender
+</td>
+<td style="text-align:left;">
+-0.06 (0.112)
+</td>
+<td style="text-align:left;">
+0.034 (0.091)
+</td>
+<td style="text-align:left;">
+-0.163 (0.058)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.055 (0.066)
+</td>
+<td style="text-align:right;">
+18.387
+</td>
+<td style="text-align:right;">
+3.249
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+0.918
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from freq_other
+</td>
+<td style="text-align:left;">
+-0.029 (0.042)
+</td>
+<td style="text-align:left;">
+0.017 (0.02)
+</td>
+<td style="text-align:left;">
+0.025 (0.015)
+</td>
+<td style="text-align:left;">
+0.056 (0.136)
+</td>
+<td style="text-align:left;">
+0.052 (0.019)
+</td>
+<td style="text-align:right;">
+4.180
+</td>
+<td style="text-align:right;">
+23.576
+</td>
+<td style="text-align:right;">
+0.939
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div id="model-3-avatthigher" class="section level2 tabset tabset-fade">
+<h2>Model 3 (avAttHigher)</h2>
+<div id="kudos-tie-formation-dynamics-3" class="section level3">
+<h3>Kudos tie formation dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of kudos tie formation across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+outdegree (density)
+</td>
+<td style="text-align:left;">
+-6.256 (0.73)
+</td>
+<td style="text-align:left;">
+-6.837 (0.38)
+</td>
+<td style="text-align:left;">
+-4.721 (0.153)
+</td>
+<td style="text-align:left;">
+3.796 (2.411)
+</td>
+<td style="text-align:left;">
+-4.016 (0.161)
+</td>
+<td style="text-align:right;">
+1999.197
+</td>
+<td style="text-align:right;">
+5.705
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reciprocity
+</td>
+<td style="text-align:left;">
+5.073 (0.45)
+</td>
+<td style="text-align:left;">
+4.709 (0.255)
+</td>
+<td style="text-align:left;">
+4.563 (0.142)
+</td>
+<td style="text-align:left;">
+3.02 (0.586)
+</td>
+<td style="text-align:left;">
+3.945 (0.183)
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+2029.918
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+1.099 (0.28)
+</td>
+<td style="text-align:left;">
+0.972 (0.12)
+</td>
+<td style="text-align:left;">
+1.271 (0.075)
+</td>
+<td style="text-align:left;">
+1.681 (0.534)
+</td>
+<td style="text-align:left;">
+1.758 (0.099)
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+724.062
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+indegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0.217 (0.249)
+</td>
+<td style="text-align:left;">
+0.178 (0.04)
+</td>
+<td style="text-align:left;">
+0.69 (0.06)
+</td>
+<td style="text-align:left;">
+-0.497 (0.754)
+</td>
+<td style="text-align:left;">
+-0.096 (0.031)
+</td>
+<td style="text-align:right;">
+17.068
+</td>
+<td style="text-align:right;">
+168.988
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.507 (0.05)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+109.682
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - activity (sqrt)
+</td>
+<td style="text-align:left;">
+0.615 (0.15)
+</td>
+<td style="text-align:left;">
+0.762 (0.092)
+</td>
+<td style="text-align:left;">
+0.24 (0.021)
+</td>
+<td style="text-align:left;">
+-2.077 (0.845)
+</td>
+<td style="text-align:left;">
+0.064 (0.019)
+</td>
+<td style="text-align:right;">
+9.921
+</td>
+<td style="text-align:right;">
+251.804
+</td>
+<td style="text-align:right;">
+0.447
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rec.degree^(1/1) - activity
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.089 (0.015)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+41.150
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+out-isolate
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.74 (0.325)
+</td>
+<td style="text-align:left;">
+2.844 (0.119)
+</td>
+<td style="text-align:left;">
+5.792 (1.561)
+</td>
+<td style="text-align:left;">
+0.933 (0.205)
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+627.696
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender alter
+</td>
+<td style="text-align:left;">
+0.348 (0.309)
+</td>
+<td style="text-align:left;">
+0.171 (0.071)
+</td>
+<td style="text-align:left;">
+-0.147 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.148 (0.048)
+</td>
+<td style="text-align:right;">
+9.954
+</td>
+<td style="text-align:right;">
+27.473
+</td>
+<td style="text-align:right;">
+0.268
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender ego
+</td>
+<td style="text-align:left;">
+-0.531 (0.345)
+</td>
+<td style="text-align:left;">
+0.086 (0.07)
+</td>
+<td style="text-align:left;">
+-0.148 (0.063)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.152 (0.049)
+</td>
+<td style="text-align:right;">
+29.012
+</td>
+<td style="text-align:right;">
+4.577
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.802
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+same gender
+</td>
+<td style="text-align:left;">
+-0.319 (0.272)
+</td>
+<td style="text-align:left;">
+0.198 (0.067)
+</td>
+<td style="text-align:left;">
+0.074 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.084 (0.046)
+</td>
+<td style="text-align:right;">
+4.533
+</td>
+<td style="text-align:right;">
+24.481
+</td>
+<td style="text-align:right;">
+0.806
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+higher freq_run
+</td>
+<td style="text-align:left;">
+0.376 (0.477)
+</td>
+<td style="text-align:left;">
+-0.057 (0.066)
+</td>
+<td style="text-align:left;">
+0.035 (0.069)
+</td>
+<td style="text-align:left;">
+-0.76 (0.872)
+</td>
+<td style="text-align:left;">
+-0.131 (0.062)
+</td>
+<td style="text-align:right;">
+15.944
+</td>
+<td style="text-align:right;">
+6.346
+</td>
+<td style="text-align:right;">
+0.101
+</td>
+<td style="text-align:right;">
+0.785
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+int. reciprocity x GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.866 (0.156)
+</td>
+<td style="text-align:left;">
+-1.751 (0.115)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-1.281 (0.107)
+</td>
+<td style="text-align:right;">
+423.036
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on kudos tie formation to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div id="running-frequency-dynamics-2" class="section level3">
+<h3>Running frequency dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of running frequency dynamics across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+freq_run linear shape
+</td>
+<td style="text-align:left;">
+-0.28 (0.084)
+</td>
+<td style="text-align:left;">
+-0.528 (0.119)
+</td>
+<td style="text-align:left;">
+-0.258 (0.045)
+</td>
+<td style="text-align:left;">
+-1.505 (0.313)
+</td>
+<td style="text-align:left;">
+-0.25 (0.071)
+</td>
+<td style="text-align:right;">
+123.093
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run quadratic shape
+</td>
+<td style="text-align:left;">
+-0.034 (0.024)
+</td>
+<td style="text-align:left;">
+0.035 (0.018)
+</td>
+<td style="text-align:left;">
+0.014 (0.011)
+</td>
+<td style="text-align:left;">
+-0.022 (0.101)
+</td>
+<td style="text-align:left;">
+0.035 (0.011)
+</td>
+<td style="text-align:right;">
+7.053
+</td>
+<td style="text-align:right;">
+27.586
+</td>
+<td style="text-align:right;">
+0.720
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run average attraction higher
+</td>
+<td style="text-align:left;">
+3.891 (1.684)
+</td>
+<td style="text-align:left;">
+4.897 (1.606)
+</td>
+<td style="text-align:left;">
+4.808 (1.739)
+</td>
+<td style="text-align:left;">
+4.83 (2.466)
+</td>
+<td style="text-align:left;">
+3.785 (1.231)
+</td>
+<td style="text-align:right;">
+0.082
+</td>
+<td style="text-align:right;">
+55.466
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run indegree
+</td>
+<td style="text-align:left;">
+-0.001 (0.022)
+</td>
+<td style="text-align:left;">
+0.007 (0.006)
+</td>
+<td style="text-align:left;">
+-0.023 (0.015)
+</td>
+<td style="text-align:left;">
+0.324 (0.165)
+</td>
+<td style="text-align:left;">
+-0.001 (0.005)
+</td>
+<td style="text-align:right;">
+8.787
+</td>
+<td style="text-align:right;">
+14.382
+</td>
+<td style="text-align:right;">
+0.552
+</td>
+<td style="text-align:right;">
+0.156
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from gender
+</td>
+<td style="text-align:left;">
+-0.014 (0.113)
+</td>
+<td style="text-align:left;">
+0.029 (0.089)
+</td>
+<td style="text-align:left;">
+-0.135 (0.06)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.048 (0.067)
+</td>
+<td style="text-align:right;">
+14.254
+</td>
+<td style="text-align:right;">
+3.739
+</td>
+<td style="text-align:right;">
+0.075
+</td>
+<td style="text-align:right;">
+0.880
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from freq_other
+</td>
+<td style="text-align:left;">
+-0.055 (0.044)
+</td>
+<td style="text-align:left;">
+0.006 (0.02)
+</td>
+<td style="text-align:left;">
+0.024 (0.015)
+</td>
+<td style="text-align:left;">
+0.049 (0.137)
+</td>
+<td style="text-align:left;">
+0.048 (0.018)
+</td>
+<td style="text-align:right;">
+6.513
+</td>
+<td style="text-align:right;">
+20.684
+</td>
+<td style="text-align:right;">
+0.771
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div id="model-4-avattlower" class="section level2 tabset tabset-fade">
+<h2>Model 4 (avAttLower</h2>
+<div id="kudos-tie-formation-dynamics-4" class="section level3">
+<h3>Kudos tie formation dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of kudos tie formation across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+outdegree (density)
+</td>
+<td style="text-align:left;">
+-6.258 (0.75)
+</td>
+<td style="text-align:left;">
+-6.857 (0.365)
+</td>
+<td style="text-align:left;">
+-4.721 (0.152)
+</td>
+<td style="text-align:left;">
+3.698 (2.349)
+</td>
+<td style="text-align:left;">
+-4.014 (0.158)
+</td>
+<td style="text-align:right;">
+2063.129
+</td>
+<td style="text-align:right;">
+5.704
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reciprocity
+</td>
+<td style="text-align:left;">
+5.091 (0.453)
+</td>
+<td style="text-align:left;">
+4.725 (0.256)
+</td>
+<td style="text-align:left;">
+4.565 (0.142)
+</td>
+<td style="text-align:left;">
+3.049 (0.59)
+</td>
+<td style="text-align:left;">
+3.942 (0.177)
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+2055.800
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+1.102 (0.286)
+</td>
+<td style="text-align:left;">
+0.982 (0.123)
+</td>
+<td style="text-align:left;">
+1.273 (0.076)
+</td>
+<td style="text-align:left;">
+1.681 (0.532)
+</td>
+<td style="text-align:left;">
+1.758 (0.099)
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+713.861
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+indegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0.215 (0.254)
+</td>
+<td style="text-align:left;">
+0.176 (0.042)
+</td>
+<td style="text-align:left;">
+0.691 (0.061)
+</td>
+<td style="text-align:left;">
+-0.502 (0.75)
+</td>
+<td style="text-align:left;">
+-0.098 (0.032)
+</td>
+<td style="text-align:right;">
+17.067
+</td>
+<td style="text-align:right;">
+163.631
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.509 (0.051)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+104.259
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - activity (sqrt)
+</td>
+<td style="text-align:left;">
+0.616 (0.153)
+</td>
+<td style="text-align:left;">
+0.764 (0.088)
+</td>
+<td style="text-align:left;">
+0.24 (0.02)
+</td>
+<td style="text-align:left;">
+-2.037 (0.834)
+</td>
+<td style="text-align:left;">
+0.065 (0.019)
+</td>
+<td style="text-align:right;">
+9.844
+</td>
+<td style="text-align:right;">
+264.557
+</td>
+<td style="text-align:right;">
+0.454
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rec.degree^(1/1) - activity
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.09 (0.014)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+44.933
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+out-isolate
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.717 (0.33)
+</td>
+<td style="text-align:left;">
+2.846 (0.117)
+</td>
+<td style="text-align:left;">
+5.718 (1.506)
+</td>
+<td style="text-align:left;">
+0.927 (0.208)
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+650.633
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender alter
+</td>
+<td style="text-align:left;">
+0.345 (0.31)
+</td>
+<td style="text-align:left;">
+0.171 (0.069)
+</td>
+<td style="text-align:left;">
+-0.147 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.149 (0.047)
+</td>
+<td style="text-align:right;">
+9.853
+</td>
+<td style="text-align:right;">
+28.363
+</td>
+<td style="text-align:right;">
+0.275
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender ego
+</td>
+<td style="text-align:left;">
+-0.526 (0.354)
+</td>
+<td style="text-align:left;">
+0.088 (0.071)
+</td>
+<td style="text-align:left;">
+-0.149 (0.064)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.152 (0.049)
+</td>
+<td style="text-align:right;">
+28.698
+</td>
+<td style="text-align:right;">
+4.621
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.797
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+same gender
+</td>
+<td style="text-align:left;">
+-0.319 (0.277)
+</td>
+<td style="text-align:left;">
+0.199 (0.066)
+</td>
+<td style="text-align:left;">
+0.076 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.084 (0.045)
+</td>
+<td style="text-align:right;">
+4.451
+</td>
+<td style="text-align:right;">
+25.034
+</td>
+<td style="text-align:right;">
+0.814
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+higher freq_run
+</td>
+<td style="text-align:left;">
+0.376 (0.513)
+</td>
+<td style="text-align:left;">
+-0.058 (0.068)
+</td>
+<td style="text-align:left;">
+0.032 (0.067)
+</td>
+<td style="text-align:left;">
+-0.776 (0.889)
+</td>
+<td style="text-align:left;">
+-0.133 (0.063)
+</td>
+<td style="text-align:right;">
+15.915
+</td>
+<td style="text-align:right;">
+6.119
+</td>
+<td style="text-align:right;">
+0.102
+</td>
+<td style="text-align:right;">
+0.805
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+int. reciprocity x GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.872 (0.158)
+</td>
+<td style="text-align:left;">
+-1.75 (0.116)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-1.278 (0.104)
+</td>
+<td style="text-align:right;">
+426.634
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on kudos tie formation to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div id="running-frequency-dynamics-3" class="section level3">
+<h3>Running frequency dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of running frequency dynamics across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+freq_run linear shape
+</td>
+<td style="text-align:left;">
+-0.084 (0.074)
+</td>
+<td style="text-align:left;">
+0.093 (0.145)
+</td>
+<td style="text-align:left;">
+-0.111 (0.038)
+</td>
+<td style="text-align:left;">
+-1.222 (0.304)
+</td>
+<td style="text-align:left;">
+0.182 (0.07)
+</td>
+<td style="text-align:right;">
+38.049
+</td>
+<td style="text-align:right;">
+13.617
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.191
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run quadratic shape
+</td>
+<td style="text-align:left;">
+-0.007 (0.027)
+</td>
+<td style="text-align:left;">
+0.091 (0.037)
+</td>
+<td style="text-align:left;">
+0.014 (0.012)
+</td>
+<td style="text-align:left;">
+0.02 (0.111)
+</td>
+<td style="text-align:left;">
+0.074 (0.016)
+</td>
+<td style="text-align:right;">
+3.278
+</td>
+<td style="text-align:right;">
+44.091
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run average attraction lower
+</td>
+<td style="text-align:left;">
+7.434 (2.592)
+</td>
+<td style="text-align:left;">
+9.132 (3.416)
+</td>
+<td style="text-align:left;">
+3.94 (1.866)
+</td>
+<td style="text-align:left;">
+7.632 (4.073)
+</td>
+<td style="text-align:left;">
+9.598 (2.109)
+</td>
+<td style="text-align:right;">
+0.109
+</td>
+<td style="text-align:right;">
+64.285
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run indegree
+</td>
+<td style="text-align:left;">
+0.083 (0.029)
+</td>
+<td style="text-align:left;">
+0.022 (0.007)
+</td>
+<td style="text-align:left;">
+0.036 (0.017)
+</td>
+<td style="text-align:left;">
+0.591 (0.194)
+</td>
+<td style="text-align:left;">
+0.028 (0.006)
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+73.539
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from gender
+</td>
+<td style="text-align:left;">
+-0.174 (0.124)
+</td>
+<td style="text-align:left;">
+0.048 (0.093)
+</td>
+<td style="text-align:left;">
+-0.17 (0.059)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.081 (0.067)
+</td>
+<td style="text-align:right;">
+22.462
+</td>
+<td style="text-align:right;">
+2.816
+</td>
+<td style="text-align:right;">
+0.004
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from freq_other
+</td>
+<td style="text-align:left;">
+-0.026 (0.042)
+</td>
+<td style="text-align:left;">
+0.024 (0.02)
+</td>
+<td style="text-align:left;">
+0.026 (0.015)
+</td>
+<td style="text-align:left;">
+0.109 (0.157)
+</td>
+<td style="text-align:left;">
+0.034 (0.02)
+</td>
+<td style="text-align:right;">
+3.609
+</td>
+<td style="text-align:right;">
+19.939
+</td>
+<td style="text-align:right;">
+0.963
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div id="model-5-avatthigherlower" class="section level2 tabset tabset-fade">
+<h2>Model 5 (avAttHigher+Lower</h2>
+<div id="kudos-tie-formation-dynamics-5" class="section level3">
+<h3>Kudos tie formation dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of kudos tie formation across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+outdegree (density)
+</td>
+<td style="text-align:left;">
+-6.277 (0.756)
+</td>
+<td style="text-align:left;">
+-6.87 (0.375)
+</td>
+<td style="text-align:left;">
+-4.72 (0.151)
+</td>
+<td style="text-align:left;">
+3.679 (2.364)
+</td>
+<td style="text-align:left;">
+-4.008 (0.156)
+</td>
+<td style="text-align:right;">
+2077.978
+</td>
+<td style="text-align:right;">
+5.635
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.845
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reciprocity
+</td>
+<td style="text-align:left;">
+5.094 (0.454)
+</td>
+<td style="text-align:left;">
+4.727 (0.257)
+</td>
+<td style="text-align:left;">
+4.563 (0.138)
+</td>
+<td style="text-align:left;">
+3.039 (0.591)
+</td>
+<td style="text-align:left;">
+3.935 (0.172)
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+2147.833
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+1.101 (0.283)
+</td>
+<td style="text-align:left;">
+0.983 (0.12)
+</td>
+<td style="text-align:left;">
+1.272 (0.076)
+</td>
+<td style="text-align:left;">
+1.676 (0.514)
+</td>
+<td style="text-align:left;">
+1.753 (0.095)
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+747.094
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+indegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0.222 (0.257)
+</td>
+<td style="text-align:left;">
+0.176 (0.041)
+</td>
+<td style="text-align:left;">
+0.69 (0.061)
+</td>
+<td style="text-align:left;">
+-0.502 (0.73)
+</td>
+<td style="text-align:left;">
+-0.097 (0.031)
+</td>
+<td style="text-align:right;">
+17.368
+</td>
+<td style="text-align:right;">
+161.263
+</td>
+<td style="text-align:right;">
+0.067
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.507 (0.05)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+108.505
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - activity (sqrt)
+</td>
+<td style="text-align:left;">
+0.614 (0.154)
+</td>
+<td style="text-align:left;">
+0.767 (0.091)
+</td>
+<td style="text-align:left;">
+0.24 (0.021)
+</td>
+<td style="text-align:left;">
+-2.025 (0.827)
+</td>
+<td style="text-align:left;">
+0.065 (0.019)
+</td>
+<td style="text-align:right;">
+9.877
+</td>
+<td style="text-align:right;">
+256.440
+</td>
+<td style="text-align:right;">
+0.451
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rec.degree^(1/1) - activity
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.09 (0.015)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+42.022
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+out-isolate
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.705 (0.323)
+</td>
+<td style="text-align:left;">
+2.845 (0.122)
+</td>
+<td style="text-align:left;">
+5.718 (1.514)
+</td>
+<td style="text-align:left;">
+0.937 (0.201)
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:right;">
+606.860
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender alter
+</td>
+<td style="text-align:left;">
+0.349 (0.306)
+</td>
+<td style="text-align:left;">
+0.172 (0.071)
+</td>
+<td style="text-align:left;">
+-0.147 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.149 (0.047)
+</td>
+<td style="text-align:right;">
+9.974
+</td>
+<td style="text-align:right;">
+28.127
+</td>
+<td style="text-align:right;">
+0.267
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender ego
+</td>
+<td style="text-align:left;">
+-0.529 (0.352)
+</td>
+<td style="text-align:left;">
+0.088 (0.07)
+</td>
+<td style="text-align:left;">
+-0.15 (0.064)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.152 (0.049)
+</td>
+<td style="text-align:right;">
+28.758
+</td>
+<td style="text-align:right;">
+4.708
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.788
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+same gender
+</td>
+<td style="text-align:left;">
+-0.321 (0.273)
+</td>
+<td style="text-align:left;">
+0.199 (0.067)
+</td>
+<td style="text-align:left;">
+0.073 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.085 (0.046)
+</td>
+<td style="text-align:right;">
+4.547
+</td>
+<td style="text-align:right;">
+24.655
+</td>
+<td style="text-align:right;">
+0.805
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+higher freq_run
+</td>
+<td style="text-align:left;">
+0.396 (0.502)
+</td>
+<td style="text-align:left;">
+-0.058 (0.065)
+</td>
+<td style="text-align:left;">
+0.035 (0.069)
+</td>
+<td style="text-align:left;">
+-0.773 (0.886)
+</td>
+<td style="text-align:left;">
+-0.133 (0.062)
+</td>
+<td style="text-align:right;">
+16.165
+</td>
+<td style="text-align:right;">
+6.321
+</td>
+<td style="text-align:right;">
+0.095
+</td>
+<td style="text-align:right;">
+0.788
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+int. reciprocity x GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.868 (0.158)
+</td>
+<td style="text-align:left;">
+-1.752 (0.113)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-1.274 (0.101)
+</td>
+<td style="text-align:right;">
+448.609
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on kudos tie formation to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div id="running-frequency-dynamics-4" class="section level3">
+<h3>Running frequency dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of running frequency dynamics across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+freq_run linear shape
+</td>
+<td style="text-align:left;">
+-0.151 (0.096)
+</td>
+<td style="text-align:left;">
+-0.24 (0.29)
+</td>
+<td style="text-align:left;">
+-0.208 (0.072)
+</td>
+<td style="text-align:left;">
+-1.331 (0.365)
+</td>
+<td style="text-align:left;">
+0.102 (0.127)
+</td>
+<td style="text-align:right;">
+39.787
+</td>
+<td style="text-align:right;">
+3.693
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.960
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run quadratic shape
+</td>
+<td style="text-align:left;">
+-0.002 (0.027)
+</td>
+<td style="text-align:left;">
+0.075 (0.039)
+</td>
+<td style="text-align:left;">
+0.021 (0.012)
+</td>
+<td style="text-align:left;">
+0.019 (0.113)
+</td>
+<td style="text-align:left;">
+0.074 (0.015)
+</td>
+<td style="text-align:right;">
+2.790
+</td>
+<td style="text-align:right;">
+45.516
+</td>
+<td style="text-align:right;">
+0.986
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run average attraction higher
+</td>
+<td style="text-align:left;">
+2.003 (1.81)
+</td>
+<td style="text-align:left;">
+3.321 (2.265)
+</td>
+<td style="text-align:left;">
+3.77 (2.204)
+</td>
+<td style="text-align:left;">
+2.549 (4.354)
+</td>
+<td style="text-align:left;">
+1.174 (1.557)
+</td>
+<td style="text-align:right;">
+1.691
+</td>
+<td style="text-align:right;">
+21.095
+</td>
+<td style="text-align:right;">
+0.998
+</td>
+<td style="text-align:right;">
+0.020
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run average attraction lower
+</td>
+<td style="text-align:left;">
+6.091 (2.69)
+</td>
+<td style="text-align:left;">
+5.005 (4.647)
+</td>
+<td style="text-align:left;">
+2.128 (2.295)
+</td>
+<td style="text-align:left;">
+4.495 (6.737)
+</td>
+<td style="text-align:left;">
+8.549 (2.511)
+</td>
+<td style="text-align:right;">
+1.299
+</td>
+<td style="text-align:right;">
+35.048
+</td>
+<td style="text-align:right;">
+0.999
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run indegree
+</td>
+<td style="text-align:left;">
+0.058 (0.035)
+</td>
+<td style="text-align:left;">
+0.013 (0.009)
+</td>
+<td style="text-align:left;">
+-0.001 (0.03)
+</td>
+<td style="text-align:left;">
+0.453 (0.292)
+</td>
+<td style="text-align:left;">
+0.023 (0.01)
+</td>
+<td style="text-align:right;">
+1.845
+</td>
+<td style="text-align:right;">
+28.043
+</td>
+<td style="text-align:right;">
+0.997
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from gender
+</td>
+<td style="text-align:left;">
+-0.129 (0.124)
+</td>
+<td style="text-align:left;">
+0.036 (0.091)
+</td>
+<td style="text-align:left;">
+-0.144 (0.06)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.062 (0.071)
+</td>
+<td style="text-align:right;">
+17.455
+</td>
+<td style="text-align:right;">
+2.902
+</td>
+<td style="text-align:right;">
+0.026
+</td>
+<td style="text-align:right;">
+0.940
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from freq_other
+</td>
+<td style="text-align:left;">
+-0.041 (0.045)
+</td>
+<td style="text-align:left;">
+0.013 (0.021)
+</td>
+<td style="text-align:left;">
+0.025 (0.016)
+</td>
+<td style="text-align:left;">
+0.087 (0.152)
+</td>
+<td style="text-align:left;">
+0.034 (0.02)
+</td>
+<td style="text-align:right;">
+4.930
+</td>
+<td style="text-align:right;">
+17.535
+</td>
+<td style="text-align:right;">
+0.896
+</td>
+<td style="text-align:right;">
+0.063
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div id="model-6-avsim" class="section level2 tabset tabset-fade">
+<h2>Model 6 (avSim)</h2>
+<div id="kudos-tie-formation-dynamics-6" class="section level3">
+<h3>Kudos tie formation dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of kudos tie formation across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+outdegree (density)
+</td>
+<td style="text-align:left;">
+-6.256 (0.728)
+</td>
+<td style="text-align:left;">
+-6.85 (0.358)
+</td>
+<td style="text-align:left;">
+-4.723 (0.156)
+</td>
+<td style="text-align:left;">
+3.716 (2.367)
+</td>
+<td style="text-align:left;">
+-4.012 (0.16)
+</td>
+<td style="text-align:right;">
+2020.839
+</td>
+<td style="text-align:right;">
+5.686
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.841
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reciprocity
+</td>
+<td style="text-align:left;">
+5.091 (0.461)
+</td>
+<td style="text-align:left;">
+4.715 (0.254)
+</td>
+<td style="text-align:left;">
+4.562 (0.138)
+</td>
+<td style="text-align:left;">
+3.024 (0.583)
+</td>
+<td style="text-align:left;">
+3.941 (0.174)
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+2131.392
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+1.111 (0.284)
+</td>
+<td style="text-align:left;">
+0.976 (0.119)
+</td>
+<td style="text-align:left;">
+1.271 (0.074)
+</td>
+<td style="text-align:left;">
+1.674 (0.519)
+</td>
+<td style="text-align:left;">
+1.755 (0.098)
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+740.502
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+indegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0.211 (0.246)
+</td>
+<td style="text-align:left;">
+0.178 (0.04)
+</td>
+<td style="text-align:left;">
+0.691 (0.061)
+</td>
+<td style="text-align:left;">
+-0.494 (0.731)
+</td>
+<td style="text-align:left;">
+-0.096 (0.032)
+</td>
+<td style="text-align:right;">
+16.575
+</td>
+<td style="text-align:right;">
+162.628
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - popularity (sqrt)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.507 (0.05)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+110.174
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outdegree - activity (sqrt)
+</td>
+<td style="text-align:left;">
+0.61 (0.151)
+</td>
+<td style="text-align:left;">
+0.764 (0.088)
+</td>
+<td style="text-align:left;">
+0.241 (0.021)
+</td>
+<td style="text-align:left;">
+-2.046 (0.83)
+</td>
+<td style="text-align:left;">
+0.064 (0.019)
+</td>
+<td style="text-align:right;">
+9.963
+</td>
+<td style="text-align:right;">
+259.673
+</td>
+<td style="text-align:right;">
+0.444
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rec.degree^(1/1) - activity
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.09 (0.014)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:right;">
+44.121
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+out-isolate
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.728 (0.308)
+</td>
+<td style="text-align:left;">
+2.843 (0.121)
+</td>
+<td style="text-align:left;">
+5.748 (1.544)
+</td>
+<td style="text-align:left;">
+0.938 (0.202)
+</td>
+<td style="text-align:right;">
+0.018
+</td>
+<td style="text-align:right;">
+618.364
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender alter
+</td>
+<td style="text-align:left;">
+0.349 (0.303)
+</td>
+<td style="text-align:left;">
+0.171 (0.071)
+</td>
+<td style="text-align:left;">
+-0.147 (0.062)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.148 (0.049)
+</td>
+<td style="text-align:right;">
+9.842
+</td>
+<td style="text-align:right;">
+27.260
+</td>
+<td style="text-align:right;">
+0.276
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender ego
+</td>
+<td style="text-align:left;">
+-0.528 (0.347)
+</td>
+<td style="text-align:left;">
+0.088 (0.07)
+</td>
+<td style="text-align:left;">
+-0.15 (0.064)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.152 (0.049)
+</td>
+<td style="text-align:right;">
+28.967
+</td>
+<td style="text-align:right;">
+4.664
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.793
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+same gender
+</td>
+<td style="text-align:left;">
+-0.32 (0.271)
+</td>
+<td style="text-align:left;">
+0.199 (0.065)
+</td>
+<td style="text-align:left;">
+0.074 (0.061)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+0.084 (0.046)
+</td>
+<td style="text-align:right;">
+4.560
+</td>
+<td style="text-align:right;">
+24.907
+</td>
+<td style="text-align:right;">
+0.803
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+higher freq_run
+</td>
+<td style="text-align:left;">
+0.4 (0.487)
+</td>
+<td style="text-align:left;">
+-0.057 (0.067)
+</td>
+<td style="text-align:left;">
+0.035 (0.071)
+</td>
+<td style="text-align:left;">
+-0.757 (0.867)
+</td>
+<td style="text-align:left;">
+-0.132 (0.063)
+</td>
+<td style="text-align:right;">
+15.852
+</td>
+<td style="text-align:right;">
+6.395
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+0.781
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+int. reciprocity x GWESP I -&gt; K -&gt; J (69)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.867 (0.158)
+</td>
+<td style="text-align:left;">
+-1.75 (0.115)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-1.278 (0.102)
+</td>
+<td style="text-align:right;">
+436.624
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on kudos tie formation to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div id="running-frequency-dynamics-5" class="section level3">
+<h3>Running frequency dynamics</h3>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
+<caption>
+Meta-analysis of parameter estimates for the objective function of running frequency dynamics across 5 Strava clubs
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Club 1 (N=30)
+</th>
+<th style="text-align:left;">
+Club 2 (N=62)
+</th>
+<th style="text-align:left;">
+Club 3 (N=162)
+</th>
+<th style="text-align:left;">
+Club 4 (N=13)
+</th>
+<th style="text-align:left;">
+Club 5 (N=77)
+</th>
+<th style="text-align:right;">
+Fminus
+</th>
+<th style="text-align:right;">
+Fplus
+</th>
+<th style="text-align:right;">
+pminus
+</th>
+<th style="text-align:right;">
+pplus
+</th>
+<th style="text-align:right;">
+df
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+freq_run linear shape
+</td>
+<td style="text-align:left;">
+-0.222 (0.074)
+</td>
+<td style="text-align:left;">
+-0.314 (0.075)
+</td>
+<td style="text-align:left;">
+-0.182 (0.033)
+</td>
+<td style="text-align:left;">
+-1.371 (0.292)
+</td>
+<td style="text-align:left;">
+-0.141 (0.047)
+</td>
+<td style="text-align:right;">
+112.130
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run quadratic shape
+</td>
+<td style="text-align:left;">
+-0.008 (0.026)
+</td>
+<td style="text-align:left;">
+0.067 (0.024)
+</td>
+<td style="text-align:left;">
+0.022 (0.012)
+</td>
+<td style="text-align:left;">
+0.015 (0.109)
+</td>
+<td style="text-align:left;">
+0.059 (0.013)
+</td>
+<td style="text-align:right;">
+3.185
+</td>
+<td style="text-align:right;">
+45.869
+</td>
+<td style="text-align:right;">
+0.977
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run average similarity
+</td>
+<td style="text-align:left;">
+3.627 (1.157)
+</td>
+<td style="text-align:left;">
+3.842 (1.129)
+</td>
+<td style="text-align:left;">
+2.97 (0.948)
+</td>
+<td style="text-align:left;">
+3.314 (1.576)
+</td>
+<td style="text-align:left;">
+3.835 (0.842)
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+77.993
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run indegree
+</td>
+<td style="text-align:left;">
+0.027 (0.019)
+</td>
+<td style="text-align:left;">
+0.011 (0.006)
+</td>
+<td style="text-align:left;">
+0.01 (0.009)
+</td>
+<td style="text-align:left;">
+0.407 (0.153)
+</td>
+<td style="text-align:left;">
+0.007 (0.004)
+</td>
+<td style="text-align:right;">
+0.618
+</td>
+<td style="text-align:right;">
+33.929
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from gender
+</td>
+<td style="text-align:left;">
+-0.073 (0.113)
+</td>
+<td style="text-align:left;">
+0.034 (0.09)
+</td>
+<td style="text-align:left;">
+-0.149 (0.059)
+</td>
+<td style="text-align:left;">
+0 (NA)
+</td>
+<td style="text-align:left;">
+-0.03 (0.065)
+</td>
+<td style="text-align:right;">
+16.270
+</td>
+<td style="text-align:right;">
+3.469
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.902
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+freq_run: effect from freq_other
+</td>
+<td style="text-align:left;">
+-0.053 (0.042)
+</td>
+<td style="text-align:left;">
+0.011 (0.02)
+</td>
+<td style="text-align:left;">
+0.025 (0.015)
+</td>
+<td style="text-align:left;">
+0.082 (0.144)
+</td>
+<td style="text-align:left;">
+0.041 (0.019)
+</td>
+<td style="text-align:right;">
+6.027
+</td>
+<td style="text-align:right;">
+19.599
+</td>
+<td style="text-align:right;">
+0.813
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15. Rate parameters not shown; see <a href="https://robfranken.github.io/Strava/meta.html">here</a> for full model results. Reference category for gender = males; the effect thus refers to the effect for females (and other categories and missings).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>b</sup> We fixed gender effects on running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div id="section-4" class="section level2 unnumbered">
+<h2></h2>
+</div>
+</div>
+<div id="section-5" class="section level1 unnumbered">
+<h1></h1>
+<p><br></p>
+<div id="thus" class="section level3">
+<h3>Thus …</h3>
+<ul>
+<li><p>We find indication that receiving kudos (i.e., having more kudos in-ties) spurs running activity levels.</p></li>
+<li><p>We find evidence that actors assimilate to the behavior of alters;</p>
+<ul>
+<li><p>Some indication that actors are pulled down to the behavior of lower-behavior alters more strongly then they are pulled up by higher-behavior alters…</p></li>
+<li><p>But parameter estimates for avAttHigher and avAttLower do not significantly differ…</p></li>
+<li><p>avSim seems best!</p></li>
+</ul></li>
+<li><p>Findings are robust with running volume as behavior variable.</p></li>
+</ul>
+<hr />
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+</div>
+<div id="plot" class="section level1">
+<h1>Plot</h1>
+<p><img src="images/presentation/plot.png" alt="activity post" width="125%"/></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<ul>
+<li><p>We extend previous SAOM studies by (1) focusing on adults and (2) using objective activity measures (frequency &amp; volume);</p></li>
+<li><p>Positive indegree effect on sports is consistent with previous studies concerning social support and sports <span class="citation">(e.g., Sheridan et al.  2014)</span>.</p></li>
+<li><p>In accordance with prior SAOM studies, we found evidence for peer influence in sports:</p>
+<ul>
+<li><p>We integrated the idea of asymmetrical influence: attraction towards higher vs. lower.</p></li>
+<li><p>We assimilate to the mean… some indication that lower-behavior alters are more influential than higher-behavior alters…</p>
+<ul>
+<li>This may be important for social network interventions aimed at promoting sports participation!</li>
+</ul></li>
+</ul></li>
+<li><p>Asymmetrical assimilation upward/downward in behaviors where high values are inherently desirable …</p>
+<ul>
+<li><p><em>Academic performance?</em></p>
+<ul>
+<li><p>Prior studies used average similarity as influence operationalization <span class="citation">(e.g., Kretschmer at al., <span class="citeproc-not-found" data-reference-id="kretschmer2018"><strong>???</strong></span>; Rambaran et al., 2017; Shin and Ryan, 2014)</span>.</p></li>
+<li><p>Or average alter effect <span class="citation">(Gremmen et al., 2017)</span>.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br> <br></p>
+<hr />
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-delahaye2011">
+<p>De la Haye, K., G. Robins, P. Mohr, and C. Wilson. 2011. “How Physical Activity Shapes, and Is Shaped by, Adolescent Friendships.” <em>Social Science &amp; Medicine</em> 73 (5): 719–28. <a href="https://doi.org/10.1016/j.socscimed.2011.06.023">https://doi.org/10.1016/j.socscimed.2011.06.023</a>.</p>
+</div>
+<div id="ref-fujimoto2018">
+<p>Fujimoto, K., T. A. B. Snijders, and T. W. Valente. 2018. “Multivariate Dynamics of One-Mode and Two-Mode Networks: Explaining Similarity in Sports Participation Among Friends.” <em>Network Science</em> 6 (3): 370–95. <a href="https://doi.org/10.1017/nws.2018.11">https://doi.org/10.1017/nws.2018.11</a>.</p>
+</div>
+<div id="ref-gremmen2017">
+<p>Gremmen, M. C., J. K. Dijkstra, C. Steglich, and R. Veenstra. 2017. “First Selection, Then Influence: Developmental Differences in Friendship Dynamics Regarding Academic Achievement.” <em>Developmental Psychology</em> 53 (7): 1356–70. <a href="https://doi.org/10.1037/dev0000314">https://doi.org/10.1037/dev0000314</a>.</p>
+</div>
+<div id="ref-rambaran2017">
+<p>Rambaran, J. A., A. Hopmeyer, D. Schwartz, C. Steglich, D. Badaly, and R. Veenstra. 2017. “Academic Functioning and Peer Influences: A Short-Term Longitudinal Study of Network–Behavior Dynamics in Middle Adolescence.” <em>Child Development</em> 88 (2): 523–43. <a href="https://doi.org/10.1111/cdev.12611">https://doi.org/10.1111/cdev.12611</a>.</p>
+</div>
+<div id="ref-sheridan2014">
+<p>Sheridan, D., P. Coffee, and D. Lavallee. 2014. “A Systematic Review of Social Support in Youth Sport.” <em>International Review of Sport and Exercise Psychology</em> 7 (1): 198–228. <a href="https://doi.org/10.1080/1750984X.2014.931999">https://doi.org/10.1080/1750984X.2014.931999</a>.</p>
+</div>
+<div id="ref-shin2014">
+<p>Shin, H., and A. Ryan. 2014. “Early Adolescent Friendships and Academic Adjustment: Examining Selection and Influence Processes with Longitudinal Social Network Analysis.” <em>Developmental Psychology</em> 50: 251–60. <a href="https://doi.org/10.1037/a003792">https://doi.org/10.1037/a003792</a>.</p>
+</div>
+<div id="ref-shoham2012">
+<p>Shoham, D. A., L. Tong, P. J. Lamberson, A. H. Auchincloss, J. Zhang, L. Dugas, J. S. Kaufman, R. S. Cooper, and A. Luke. 2012. “An Actor-Based Model of Social Network Influence on Adolescent Body Size, Screen Time, and Playing Sports.” <em>PLOS ONE</em> 7 (6). <a href="https://doi.org/10.1371/journal.pone.003979">https://doi.org/10.1371/journal.pone.003979</a>.</p>
+</div>
+<div id="ref-simpkins2013">
+<p>Simpkins, S. D., D. R. Schaefer, C. D. Price, and A. E. Vest. 2013. “Adolescent Friendships, Bmi, and Physical Activity: Untangling Selection and Influence Through Longitudinal Social Network Analysis.” <em>Journal of Research on Adolescence</em> 23 (3). <a href="https://doi.org/10.1111/j.1532-7795.2012.00836.x">https://doi.org/10.1111/j.1532-7795.2012.00836.x</a>.</p>
+</div>
+<div id="ref-zhang2016">
+<p>Zhang, J., D. Brackbill, S. Yang, J. Becker, N. Herbert, and D. Centola. 2016. “Adolescent Friendships, Bmi, and Physical Activity: Untangling Selection and Influence Through Longitudinal Social Network Analysis.” <em>Preventive Medicine Reports</em>, no. 4: 453–58. <a href="https://doi.org/10.1016/j.pmedr.2016.08.008">https://doi.org/10.1016/j.pmedr.2016.08.008</a>.</p>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkR1aXN0ZXJiZWx0ICcyMSINCmRhdGU6ICJMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgIg0KYmlibGlvZ3JhcGh5OiByZWZlcmVuY2VzX3ByZXNlbnRhdGlvbi5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCg0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlPUZBTFNFfQ0KbGlicmFyeShrbml0cikNCmxpYnJhcnkoa2FibGVFeHRyYSkNCmxpYnJhcnkoZHBseXIpDQoNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCg0KDQpjb2xvcml6ZSA8LSBmdW5jdGlvbih4LCBjb2xvcikge3NwcmludGYoIjxzcGFuIHN0eWxlPSdjb2xvcjogJXM7Jz4lczwvc3Bhbj4iLCBjb2xvciwgeCkgfQ0KDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCi0tLS0NCg0KDQo8YnI+DQoNCjxicj4NCg0KDQo8cCBzdHlsZT0iZm9udC1zaXplOjMycHQ7IGZvbnQtc3R5bGU6aXRhbGljIj4NCiAgICBTb2NpYWwgbmV0d29yayBpbmZsdWVuY2Ugb24gc3BvcnQgYmVoYXZpb3I6DQo8L3A+DQoNCjxwIHN0eWxlPSJmb250LXNpemU6MzJwdDsgZm9udC1zdHlsZTppdGFsaWMiPg0KICAgIGFuIGFjdG9yLWJhc2VkIGFwcHJvYWNoIHVzaW5nIFN0cmF2YQ0KPC9wPg0KDQo8YnI+DQoNClJvYiBGcmFua2VuIChyb2IuZnJhbmtlbkBydS5ubCkgDQoNClBoRCBzdHVkZW50IGF0IFNvY2lvbG9neSBkZXBhcnRtZW50LCBSYWRib3VkIFVuaXZlcnNpdHkgTmlqbWVnZW4gLyBJQ1MNCg0KU3VwZXJ2aXNpb24gYnkgSm9jaGVtIFRvbHNtYSBhbmQgSGlkZGUgQmVraHVpcw0KDQo8YnI+DQoNCiFbXShpbWFnZXMvbG9nbzIucG5nKQ0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQotLS0tDQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KIyBCYWNrZ3JvdW5kIA0KDQoqIFNvY2lhbCBuZXR3b3JrcyBhcmUga25vd24gdG8gaW5mbHVlbmNlIHZhcmlvdXMgYXNwZWN0cyBvZiBoZWFsdGghIA0KDQoqIEN1cnJlbnRseSwgdGhlIHF1ZXN0aW9uIG9mIChob3cpIHNvY2lhbCBuZXR3b3JrcyBhZmZlY3QgKipzcG9ydCBwYXJ0aWNpcGF0aW9uKiogcmVtYWlucyByYXRoZXIgdW5leHBsb3JlZDoNCg0KICArIFByaW9yIHN0dWRpZXMgbW9zdGx5IG9wZXJhdGlvbmFsaXplZCBzb2NpYWwgbmV0d29ya3MgYXMgaW5kaXZpZHVhbC1sZXZlbCBtZWFzdXJlcyBvZiBuby4gb2YgdGllcyBhbmQgYXR0cmlidXRlcyBvZiB0aGVzZSB0aWVzIChlLmcuLCBwZXJjZWl2ZWQgc3VwcG9ydCkuDQoNCiAgKyBQcmlvciBTQU9NIHN0dWRpZXMgb24gc3BvcnRzIGFuZCBwaHlzaWNhbCBhY3Rpdml0eSAoUEEpIGZvY3Vzc2VkIG9uICoqZnJpZW5kc2hpcCBuZXR3b3JrcyBhbW9uZyBjaGlsZHJlbiBpbiBzY2hvb2wgY2xhc3NlcyoqIFtlLmcuLCBEZSBsYSBIYXllIGV0IGFsLiwgLUBkZWxhaGF5ZTIwMTE7IEZ1amltb3RvIGV0IGFsLiwgLUBmdWppbW90bzIwMTg7IFNpbXBraW5zIGV0IGFsLiwgLUBzaW1wa2luczIwMTM7IFNob2hhbSBldCBhbC4sIC1Ac2hvaGFtMjAxMl0uDQogIA0KICArIEN1cnJlbnQgKFNBT00pIHN0dWRpZXMgb24gdGhlIG5ldHdvcmtzLVBBIGxpbmsgdXNlZCAqKnNlbGYtcmVwb3J0IG1lYXN1cmVzKiogb2Ygc3BvcnQvcGh5c2ljYWwgYWN0aXZpdHkuDQogIA0KPGJyPg0KDQojIFNvY2lhbCBtZWRpYQ0KDQoqIEFsb25nc2lkZSB0aGUgZW1lcmdlbmNlIG9mIHRyYWRpdGlvbmFsIHNvY2lhbCBtZWRpYSBwbGF0Zm9ybXMgKGUuZy4sIEZhY2Vib29rKSwgKipvbmxpbmUgZml0bmVzcyBjb21tdW5pdHkgcGxhdGZvcm1zKiogKE9GQ3MsIGUuZy4sIFN0cmF2YSApIHJvc2UgdG8gcHJvbWluZW5jZS4NCg0KKiBJbmNyZWFzaW5nIGxldmVscyBvZiBwdWJsaWMgcGFydGljaXBhdGlvbiBpbiBPRkNzIGhhcyBjcmVhdGVkIGEgbmV3IHBvcHVsYXRpb24gb2Ygc3ViamVjdHMgLi4uDQoNCiAgKyAuLi4gd2hvc2UgcmVhbCBzb2NpYWwgKG9ubGluZSkgaW50ZXJhY3Rpb25zIGFyZSByZWNvcmRlZA0KICANCiAgKyAuLi4gIHdob3NlIGhlYWx0aCBiZWhhdmlvcnMgYXJlIGFjY3VyYXRlbHkgdHJhY2tlZCAodGhyb3VnaCBzZWxmLXRyYWNraW5nIHdpdGggR1BTLWVuYWJsZWQgZGV2aWNlcykuDQogIA0KICANCg0KKiBPRkNzIGFzIG5vdmVsIHRvb2xzIGZvciBpbnZlc3RpZ2F0aW5nIHNvY2lhbCBkeW5hbWljcyBpbiBzcG9ydHMhDQogIA0KPGltZyBzcmM9ImltYWdlcy9wcmVzZW50YXRpb24vZ3BzLnBuZyIgYWx0PSJzZWxmLXRyYWNraW5nIiB3aWR0aD0iMzUlIi8+DQoNCg0KPGJyPg0KDQojIFN0cmF2YQ0KDQoqIFdlYi1iYXNlZCBwbGF0Zm9ybS9tb2JpbGUgYXBwIHVzZWQgYnkgcmVjcmVhdGlvbmFsL3Byb2Zlc3Npb25hbCBhdGhsZXRlcyAobWFpbmx5IGluIHJ1bm5pbmcgYW5kIGN5Y2xpbmcpLg0KDQoqIFN0cmF2YSBtYXBzIHRoZSByb3V0ZSwgbG9ncyB0aGUgcGFjZSwgYW5kIHVwbG9hZHMgYWN0aXZpdHkgcG9zdHMgb250byB0aGUgYXBwIChnZW5lcmFsbHksIGF1dG9tYXRpY2FsbHkpIHdpdGggc3Vic2VxdWVudCBhbmFseXNpcy4gDQoNCiogU3RyYXZhIHVzZXMgYSAnZm9sbG93aW5nJy1zeXN0ZW0uIEFjdGl2aXR5IHBvc3RzIGFwcGVhciBvbiBwZXJzb25hbCBmZWVkcyAobG9nKSBhbmQgaW4gZm9sbG93ZXJzJyBmZWVkLg0KDQoqIEZyaWVuZHMgY2FuIGludGVyYWN0IGJ5IGdpdmluZyAqa3Vkb3MqICh2aXJ0dWFsIHRodW1icy11cCkgYW5kIChzaG9ydCkgd3JpdHRlbiBjb21tZW50cy4NCg0KPGltZyBzcmM9ImltYWdlcy9wcmVzZW50YXRpb24vYWN0aXZpdHkucG5nIiBhbHQ9ImFjdGl2aXR5IHBvc3QiIHdpZHRoPSI3NSUiLz4NCg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCiMgRGF0YSBmcm9tIENMVUJTDQoNCldlIGZvY3VzIG9uIFN0cmF2YSAqY2x1YnMqIChOPTUpOiBhY2Nlc3NpYmxlIGNvbW11bml0aWVzIChsaWtlIEZCLWdyb3Vwcykgd2hpY2ggZW5hYmxlIGluZGl2aWR1YWxzIHRvIGZvcm0gY29ubmVjdGlvbnMsIGpvaW4gdXAgYW5kIHdvcmtvdXQgdG9nZXRoZXIsIGludGVyYWN0IHdpdGggb25lIGFub3RoZXIsIGFuZCBjb21wZXRlIG9uIHRoZSBsZWFkZXJib2FyZC4NCg0KPGltZyBzcmM9ImltYWdlcy9wcmVzZW50YXRpb24vbGVhZGVyYm9hcmQucG5nIiBhbHQ9ImxlYWRlcmJvYXJkIiB3aWR0aD0iNzUlIi8+DQoNCldlIGZvY3VzIG9uIHZpcnR1YWwgZXh0ZW5zaW9uIG9mIChvZmZpY2lhbCkgRHV0Y2ggcnVubmluZyBjbHVicyAuLi4NCg0KKiBkaXZlcnNlIHdpdGggcmVzcGVjdCB0byBzaXplIChsYXJnZXN0OiBuPTE2NTsgc21hbGxlc3Q6IG49MTMpLCBnZW9ncmFwaGljYWwgbG9jYXRpb24sIG9yZ2FuaXphdGlvbmFsIHNldHRpbmcsIGFuZCBhdWRpZW5jZSAoZS5nLiwgYW1hdGV1cnMsIGVsaXRlcywgc2VuaW9ycyk6DQoNCiAgKyBydWxpbmcgb3V0IHVubWVhc3VyZWQgY29uZm91bmRlcnMgYXQgdGhlIGNsdWItbGV2ZWw7DQogIA0KICArIGNpcmN1bXZlbnRpbmcgdGhlIHBvdGVudGlhbCByaXNrIG9mIG92ZXJzYW1wbGluZyBvZiBoaWdobHkgYWN0aXZlIHVzZXJzLg0KICANCg0KQSBmb2N1cyBvbiBjbHVicyAuLi4NCg0KKiByYWlzZXMgdGhlIHBvdGVudGlhbCBjb25jZXJuIHRoYXQgd2UgdW5kZXJlc3RpbWF0ZSAqbWVjaGFuaXNtcyouLi4NCg0KKiBidXQgbm90ICplZmZlY3RzKjogY2x1YnMgcmVwcmVzZW50ICoqY29tcGxldGUgbmV0d29ya3MqKiwgdGh1cyBlbnN1cmluZyB0aGF0IHdlIGNhbiBtb2RlbCBzZWxlY3Rpb24gYW5kIGluZmx1ZW5jZSBhZGVxdWF0ZWx5Lg0KDQogIA0KKiBXZSB1c2UgZGF0YSBvbiB0aGUgKiprdWRvcyBuZXR3b3JrKiogKHdobyBnaXZlcyBrdWRvcyB0byB3aG9tPykgYW5kIG9uICoqc3BvcnQgYWN0aXZpdHkgYXR0cmlidXRlcyoqIG92ZXIgMTIgd2F2ZXMuDQoNCiogR2l2ZW4gdGhlIGhpZ2ggc2Vuc2l0aXZpdHkgb2Ygb3VyIGRhdGEsIHdlIGFnZ3JlZ2F0ZWQgZGF0YSBmb3IgZWFjaCB1c2VyIHRvIGEgb25lIG1vbnRoIHBlcmlvZDoNCg0KICArIEZyZXF1ZW5jeSB3aXRoIHdoaWNoIHJ1bm5pbmcgYWN0aXZpdGllcyB3ZXJlIHBvc3RlZCB0byB0aGUgU3RyYXZhIGNsdWIgYXMgYSBwcm94eSBmb3IgdGhlIG51bWJlciBvZiBydW5uaW5nIHNlc3Npb25zIHBlciBtb250aC4gKlJ1bm5pbmcgZnJlcXVlbmN5KiB3YXMgY29udmVydGVkIHRvIHRpbWVzIHBlciB3ZWVrICgwLTcrKS4gDQogIA0KICArIFdlIGFnZ3JlZ2F0ZWQgdGhlIHRvdGFsIHZvbHVtZSBvZiBydW5uaW5nIGFjdGl2aXRpZXMgcGVyIG1vbnRoLiBXZSBjb252ZXJ0ZWQgKnJ1bm5pbmcgdm9sdW1lKiB0byBob3VycyBwZXIgd2VlayAoMC03KykuDQogICAgDQoNCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQojIEt1ZG9zIG5ldHdvcmsNCg0KKiBLdWRvczogbGlnaHR3ZWlnaHQgb25lLWNsaWNrIGZlZWRiYWNrIGFjdGlvbiBzZXJ2aW5nIGFzIGEgc29jaWFsIGN1ZSBvZiBhZmZlY3QsIHN1cHBvcnQgb3IgYWRtaXJhdGlvbi9hc3BpcmF0aW9uLg0KDQoqIEt1ZG9zOiBldmVudCBkYXRhIG9yIHNvY2lhbCBzdGF0ZXM/DQoNCiAgKyBJbiB0aGUgY2FzZSBvZiBvdXIgY2x1YnMgKGkuZS4sIHZpcnR1YWwgZXh0ZW5zaW9uIG9mIG9mZmxpbmUgY2x1YnMpLCB3ZSBleHBlY3QgY29uY29yZGFuY2UgYmV0d2VlbiBvZmZsaW5lICh1bm9ic2VydmVkKSByZWxhdGlvbnNoaXBzICBhbmQga3Vkb3MgdGllcy4NCiAgDQogICsgS3Vkb3MgYXMgb25saW5lIHByb3hpZXMgb2Ygb2ZmbGluZSByZWxhdGlvbnNoaXBzLg0KICANCiAgKyBLdWRvcyB0aWVzIGFyZSBzdGFibGUgKHNlZSBbZGVzY3JpcHRpdmVzXShodHRwczovL3JvYmZyYW5rZW4uZ2l0aHViLmlvL1N0cmF2YS9kZXN0YWIuaHRtbCNUYWJsZSkpIQ0KDQoqICoxIG9yIG1vcmUqIGt1ZG9zIHNlbnQvcmVjZWl2ZWQgcmVxdWlyZWQgZm9yIGEgdGllIHRvIGV4aXN0ID8gLi4uDQoNCiAgKyBIaWdoZXIgY3V0LW9mZiB2YWx1ZSBmb3Igbm8uIG9mIGt1ZG9zIHJlcXVpcmVkIGZvciBhIHRpZT8NCiAgDQogICsgTXVsdGlwbGUgb3JkZXJlZCBuZXR3b3Jrcz8NCiAgDQogIEJyaW5ncyBncmVhdCBjb21wbGV4aXR5OiBiZWhhdmlvciAoaGVyZSwgcnVubmluZyBmcmVxdWVuY3ksIHByb3hpZWQgYnkgbm8uIG9mIHBvc3RzKSBsaW1pdHMgcG90ZW50aWFsIG5vLiBvZiBpbi10aWVzIHdvdWxkIHdlIG9wdCBmb3IgYSBoaWdoZXIgY3V0LW9mZiEgDQoNCg0KLS0tLQ0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KDQojIFRoZW9yeSAmIGh5cG90aGVzZXMNCg0KVHdvIHByb21pbmVudCB0aGVvcmV0aWNhbCBhcmd1bWVudHMgbWFkZSBpbiB0aGUgbGl0ZXJhdHVyZSBbc2VlIFpoYW5nIGV0IGFsLiwgLUB6aGFuZzIwMTZdIGFuZCB1c2VkIGluIHByb2dyYW1zL2ludGVydmVudGlvbnM6IA0KDQoxLiBOZXR3b3JrIHBhcnRuZXJzIG1heSBwcm92aWRlIHZhcmlvdXMgdHlwZXMgb2Ygc29jaWFsIHN1cHBvcnQgdGhhdCBwcm9tb3RlIHNwb3J0IHBhcnRpY2lwYXRpb24gKGNmLiBDZW50b2xhIDIwMTApLg0KDQoyLiBUaGUgdHJhaW5pbmcgaGFiaXRzIG9mIG5ldHdvcmsgcGFydG5lcnMgbWF5IHNlcnZlIGFzIGdvYWxzIHRvIHN0cml2ZSBmb3IgKGNmLiBTaGFreWEgZXQgYWwuIDIwMTUpLiANCg0KPGJyPg0KDQpXZSB0ZXN0IHRoZXNlIG1lY2hhbmlzbXMgdXNpbmcgU0FPTXMgYW5kIG91ciBTdHJhdmEgZGF0YToNCg0KMS4gVGhlIHJlY2VpcHQgb2Yga3Vkb3MgKG5vLiBvZiBpbi10aWVzKSBhZmZlY3RzIGNoYW5nZSBpbiBzcG9ydCBiZWhhdmlvciAoKnNvY2lhbCBzdXBwb3J0IGV4cGVjdGF0aW9uKikNCg0KMi4gU3BvcnQgYWN0aXZpdGllcyBvZiBwZWVycyAod2hvbSBlZ28gZ2l2ZXMga3Vkb3MpIGluZmx1ZW5jZSBlZ28ncyBzcG9ydCBhY3Rpdml0eSwgd2hpY2ggd2Ugb3BlcmF0aW9uYWxpemUgYXMgYXNzaW1pbGF0aW9uICgqc29jaWFsIGNvbXBhcmlzb24gZXhwZWN0YXRpb24qKS4NCg0KLi4uIHdoaWxlIGNvbnRyb2xsaW5nIGZvciBtdWx0aXBsZSBmYWN0b3JzIHRoYXQgbWF5IGFmZmVjdCB3aG9tIHRvIGludGVyYWN0IHdpdGggYW5kIGZhY3RvcnMgaW5mbHVlbmNpbmcgc3BvcnQgYWN0aXZpdHkgKGUuZy4sIGdlbmRlciwgc2Vhc29uYWwgZWZmZWN0LCBzaGFyZWQgY2x1YiBjb250ZXh0cykuDQoNCi0tLS0NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KDQoNCiMgTW9kZWwgc2VsZWN0aW9uIA0KDQojIyAxLiBLdWRvcyB0aWUgZm9ybWF0aW9uIGR5bmFtaWNzIHsudGFic2V0IC50YWJzZXQtZmFkZX0gDQoNCiMjIyBTdHJ1Y3R1cmFsIGVmZmVjdHMNCg0KKiBJbiBhbGwgY2x1YnM6ICpPdXRkZWdyZWUqLCAqcmVjaXByb2NpdHkqLCAqdHJhbnNpdGl2aXR5IChHV0VTUCkqDQoqIEluIHNvbWUgY2x1YnM6ICpvdXQtaXNvbGF0ZSosIGludGVyYWN0aW9uICpyZWNpcC4qIHggKkdXRVNQKi4NCg0KIyMjIERlZ3JlZS1yZWxhdGVkIGVmZmVjdHMNCg0KKiBJbiBhbGwgY2x1YnM6ICppbmRlZ3JlZS1wb3B1bGFyaXR5KiAoc3FydC4pLCAqb3V0ZGVncmVlLWFjdGl2aXR5KiAoc3FydC4pDQoqIEluIHNvbWUgY2x1YnM6ICpyZWNpcHJvY2FsIGRlZ3JlZS1yZWxhdGVkIGFjdGl2aXR5KiwgKm91dGRlZ3JlZS1wb3B1bGFyaXR5KiAoc3FydC4pDQoNCiMjIyBTZWxlY3Rpb24gZWZmZWN0cw0KKiBJbiBhbGwgY2x1YnM6ICpoaWdoZXIqIGVmZmVjdCAocHJlZmVyZW50aWFsIGF0dGFjaG1lbnQgdG8gYWx0ZXJzIGNvbXBhcmVkIHRvIHdob20gZWdvIHNjb3JlcyBsb3dlciBvbiB0aGUgYmVoYXZpb3IsIGluIHRoZSBjYXNlIG9mIGEgbmVnYXRpdmUgc2lnbikNCiogKkdlbmRlciogKGVnby0sIGFsdGVyLSwgc2FtZS1lZmZlY3RzKQ0KDQpGcmllbmRzaGlwcyAoY29uc3RhbnQgZHlhZGljIGNvdmFyaWF0ZSkgd2FzIGltcG9ydGFudCBmb3Iga3Vkb3MgdGllIGZvcm1hdGlvbiwgYnV0IGl0IGV4cGxhaW5lZCBzaW1pbGFyIG9ic2VydmVkIG5ldHdvcmsgc3RydWN0dXJlcyBhcyBvdXIgaW5jbHVkZWQgc3RydWN0dXJhbCBlZmZlY3RzIChlLmcuLCByZWNpcHJvY2l0eSwgdHJhbnNpdGl2aXR5KS4NCg0KDQojIyB7LX0gDQoNCjxicj4NCg0KIyMgMi4gUnVubmluZyBhY3Rpdml0eSBkeW5hbWljcyB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KDQpgYGB7ciBmdW5jdGlvbnMsIGNsYXNzLnNvdXJjZSA9ICdmb2xkLWhpZGUnfQ0KZmNlbnRlcmluZyA8LSBmdW5jdGlvbihhY3RvcnMpew0KY2VudGVyZWQgPC0gYWN0b3JzIC0gbWVhbihhY3RvcnMpDQpyZXR1cm4oY2VudGVyZWQpDQp9DQoNCmZzaW1paiA8LSBmdW5jdGlvbihhY3RvcnMsIG1pbiwgbWF4KXsNCiNydiA8LSBtYXgoYWN0b3JzKSAtIG1pbihhY3RvcnMpDQpydiA8LSBtYXggLSBtaW4NCm1hdDEgPC0gbWF0cml4KGFjdG9ycywgbnJvdz1sZW5ndGgoYWN0b3JzKSwgbmNvbD1sZW5ndGgoYWN0b3JzKSwgYnlyb3c9VFJVRSkNCm1hdDIgPC0gdChtYXQxKQ0Kc2ltaWogPC0gMSAtICggYWJzKG1hdDEtbWF0MikgLyBydikNCnJldHVybihzaW1paikNCn0NCg0KZmxpbmVhciA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgLi4uKSB7DQogIGFjdG9ycyA8LSBjKGVnbyxhbHRlcnMpICNkZWZpbmUgdGhlIG5ldHdvcmsNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKSAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KICANCiAgc3RhdGlzdGljIDwtIGJlaF9jZW50ZXJlZFsxXSAjdGhlIGFjdHVhbCBzdGF0aXN0aWMNCiAgDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZxdWFkIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCAuLi4pIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykgI2RlZmluZSB0aGUgbmV0d29yaw0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpICNjZW50ZXIgYmVoYXZpb3Igc2NvcmVzDQogIA0KICBzdGF0aXN0aWMgPC0gKGJlaF9jZW50ZXJlZFsxXSleMiAjdGhlIGFjdHVhbCBzdGF0aXN0aWMNCiAgDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZhdlNpbSA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykgI2RlZmluZSB0aGUgbmV0d29yaw0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpICNjZW50ZXIgYmVoYXZpb3Igc2NvcmVzDQogIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KSAjY2FsY3VsYXRlIHRoZSBzaW1pbGFyaXR5IHNjb3Jlcw0KICBkaWFnKHNpbWlqKSA8LSBOQQ0KICBtc2ltaWogPC0gbWVhbihzaW1paiwgbmEucm09VFJVRSkgI2NhbGN1bGF0ZSB0aGUgbWVhbiBzaW1pbGFyaXR5IHNjb3JlLiBvbmx5IGNhbGN1bGF0ZSBtZWFuIG9uIG5vbi1kaWFnb25hbCBjZWxscz8/ISENCiAgc2ltaWpfYyA8LSBzaW1paiAtIG1zaW1paiAjY2VudGVyIHRoZSBzaW1pbGFyaXR5IHNjb3Jlcw0KICANCiAgc3RhdGlzdGljIDwtIHN1bShzaW1pal9jWzEsXSwgbmEucm0gPSBUUlVFKSAvIGxlbmd0aChhbHRlcnMpICN0aGUgYWN0dWFsIHN0YXRpc3RpYw0KICANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCg0KZmF2QXR0SGlnaGVyIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCkgew0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKQ0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpDQogIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KQ0KICBkaWFnKHNpbWlqKSA8LSBOQQ0KICANCiAgc2ltaWpIIDwtIHNpbWlqWzEsXQ0KICBzaW1pakhbYmVoX2NlbnRlcmVkIDw9IGJlaF9jZW50ZXJlZFsxXV0gPC0gMQ0KICBzaW1pakhbMV0gPC0gTkENCiAgc3RhdGlzdGljIDwtIHN1bShzaW1pakgsIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKQ0KICANCiANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCg0KDQpmYXZBdHRMb3dlciA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgYWN0b3JzIDwtIGMoZWdvLGFsdGVycykNCiAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkNCiAgZGlhZyhzaW1paikgPC0gTkENCiAgDQogIHNpbWlqTCA8LSBzaW1palsxLF0NCiAgc2ltaWpMW2JlaF9jZW50ZXJlZCA+PSBiZWhfY2VudGVyZWRbMV1dIDwtIDENCiAgc2ltaWpMWzFdIDwtIE5BDQogIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpMLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykNCiAgDQogDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZhdkFsdCA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgLi4uKSB7DQogIGFjdG9ycyA8LSBjKGVnbyxhbHRlcnMpDQogIGJlaF9jZW50ZXJlZCA8LSBmY2VudGVyaW5nKGFjdG9ycykNCiAgDQogIHN0YXRpc3RpYyA8LSBiZWhfY2VudGVyZWRbMV0gKiAoc3VtKGJlaF9jZW50ZXJlZFstMV0sIG5hLnJtID0gVFJVRSkgLyBsZW5ndGgoYWx0ZXJzKSkNCiAgDQogDQogIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZBdHRNZWFuIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCwgLi4uKSB7DQogIHJ2IDwtIG1heCAtIG1pbg0KICBhY3RvcnMgPC0gYyhlZ28sYWx0ZXJzKQ0KICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpDQogIA0KICBzdGF0aXN0aWMgPC0gMSAtICBhYnMoYmVoX2NlbnRlcmVkWzFdIC0gKHN1bShiZWhfY2VudGVyZWRbLTFdLCBuYS5ybSA9IFRSVUUpIC8gbGVuZ3RoKGFsdGVycykpKS9ydiAjdGh1cyB3ZSBzdHJpdmUgZm9yIGEgaGlnaGVzdCBsb2NhbCBzaW1pbGFyaXR5IHNjb3JlIQ0KICANCiANCiAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCg0KZmlubHVlbmNlcGxvdCA8LSBmdW5jdGlvbihhbHRlcnMsIG1pbiwgbWF4LCBmdW4sIHBhcmFtcywgcmVzdWx0cz1UUlVFLCBwbG90PVRSVUUpIHsNCiAgI2NoZWNrIGNvcnJlY3QgbnVtYmVyIG9mIHBhcmFtZXRlcnMgYXJlIGdpdmVuDQogICBpZiAobGVuZ3RoKGZ1bikgIT0gbGVuZ3RoKHBhcmFtcykpIHN0b3AoIlBsZWFzZSBwcm92aWRlIG9uZSAoYW5kIG9ubHkgb25lKSBwYXJhbWV0ZXIgZm9yIGVhY2ggb2YgdGhlIGJlaGF2aW9yYWwgZWZmZWN0cyEiKQ0KICANCiAgI2NhbGN1bHVhdGUgdmFsdWUgb2YgZXZhbHVhdGlvbiBmdW5jdGlvbg0KICBzIDwtIE5BDQogIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgc1tpXSA8LSAwDQogICAgZm9yIChqIGluIDE6bGVuZ3RoKGZ1bikpIHsNCiAgICAgIHNbaV0gPC0gc1tpXSArIHBhcmFtc1tqXSpmdW5bW2pdXShpLCBhbHRlcnMsIG1pbiwgbWF4KSAgICAgIA0KICAgIH0NCiAgfQ0KICANCiAgI2NhbGN1bGF0ZSB0aGUgcHJvYmFiaWxpdGllcyAgDQogIHAgPC0gTkENCiAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICBwW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAocykpDQogIH0NCiAgDQogICNjYWxjdWxhdGUgdGhlIHByb2JhYmlsaXRpZXMgb2YgY2hvaWNlIHNldCAgDQogIHAyIDwtIE5BDQogIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgaWYgKGk9PW1pbikgeyANCiAgICAgIHAyW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAoc1tpXSkgKyBleHAoc1tpICsgMV0pKSANCiAgICB9IGVsc2UgaWYgKGk9PW1heCkgeyANCiAgICAgIHAyW2ldIDwtIGV4cChzW2ldKSAvIHN1bShleHAoc1tpXSkgKyBleHAoc1tpIC0gMV0pKQ0KICAgIH0gZWxzZSB7DQogICAgICBwMltpXSA8LSBleHAoc1tpXSkgLyBzdW0oZXhwKHNbaV0pICsgZXhwKHNbaSAtIDFdKSArIGV4cChzW2kgKyAxXSkpDQogICAgfQ0KICB9DQogIA0KICAjY2FsY3VsYXRlIHRoZSBwcm9iYWJpbGl0eSByYXRpbyAgDQogIHIgPC0gTkENCiAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICByW2ldIDwtIHBbaV0gLyBwWzFdDQogIH0NCiAgDQogICNzb21lIHNpbXBsZSBwbG90cw0KICBpZiAocGxvdCkgeyANCiAgICAgIG5hbWUgPC0gZGVwYXJzZShzdWJzdGl0dXRlKGZ1bikpDQogICAgICBuYW1lIDwtIHN0cmluZ3I6OnN0cl9zdWIoYXMuY2hhcmFjdGVyKG5hbWUpLCA2LCAtMikNCiAgICAgIHBhcihtZnJvdz1jKDIsMikpDQogICAgICBwbG90KHk9cywgeD1taW46bWF4LCB4bGFiPSJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWI9bmFtZSwgdHlwZT0iYiIpDQogICAgICBtdGV4dCgiRVZBTFVBVElPTiIsIGxpbmU9MSkNCiAgICAgIG10ZXh0KHBhc3RlKCJhbHRlcnM6IiwgcGFzdGUwKGFsdGVycywgY29sbGFwc2U9IiwiKSkpDQogICAgICBwbG90KHk9cCwgeD1taW46bWF4LCB4bGFiPSJlZ28gYmVoYXZpb3JhbCBzY29yZSIsIHlsYWI9bmFtZSwgeWxpbT1jKDAsMSksIHR5cGU9ImIiKQ0KICAgICAgbXRleHQoIlBST0JBQklMSVRJRVMiLCBsaW5lPTEpDQogICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlPSIsIikpKQ0KICAgICAgcGxvdCh5PXAyLCB4PW1pbjptYXgsIHhsYWI9ImVnbyBiZWhhdmlvcmFsIHNjb3JlIiwgeWxhYj1uYW1lLCB5bGltPWMoMCwxKSwgdHlwZT0iYiIpDQogICAgICBtdGV4dCgiUFJPQkFCSUxJVElFU19jaG9pY2Vfc2V0IiwgbGluZT0xKQ0KICAgICAgbXRleHQocGFzdGUoImFsdGVyczoiLCBwYXN0ZTAoYWx0ZXJzLCBjb2xsYXBzZT0iLCIpKSkNCiAgICAgIHBsb3QoeT1yLCB4PW1pbjptYXgsIHhsYWI9ImVnbyBiZWhhdmlvcmFsIHNjb3JlIiwgeWxhYj1uYW1lLCB0eXBlPSJiIikNCiAgICAgIG10ZXh0KCJSQVRJT1MiLCBsaW5lPTEpDQogICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlPSIsIikpKQ0KICB9DQogIA0KICAjcmV0dXJuIHJlc3VsdHMgZm9yIG1vcmUgZmFuY3kgcGxvdHRpbmcNCiAgaWYgKHJlc3VsdHMpIHsNCiAgICB4IDwtIG1pbjptYXgNCiAgICBkZiA8LSBkYXRhLmZyYW1lKHgsIHMsIHAscDIsIHIpDQogICAgcmV0dXJuKGRmKQ0KICB9DQogIA0KfQ0KDQojIyBFeGFtcGxlIHNjZW5hcmlvcw0KDQphbHRlcnMxIDwtIHJlcChjKDMsMywzLDMsMywzKSwxKQ0KYWx0ZXJzMiA8LSByZXAoYygxLDEsMSw1LDUsNSksMSkNCmBgYA0KDQojIyMgU2hhcGUgZWZmZWN0cw0KDQpMaW5lYXIgYW5kIHF1YWRyYXRpYyBzaGFwZSBlZmZlY3RzLi4uDQoNCiMjIyBDb3ZhcmlhdGVzDQoNCiogR2VuZGVyDQoNCiogQWN0aXZpdGllcyAoZnJlcXVlbmN5LCB2b2x1bWUpIGluIG90aGVyIHNwb3J0cyAoZS5nLiwgc3dpbW1pbmcgYW5kIGN5Y2xpbmcpLg0KDQogICsgYWRkaXRpb25hbCBjb250cm9scyB3ZXJlIGV4cGxvcmVkLCBidXQgd2VyZSBub3QgaW1wb3J0YW50OiB3aW50ZXIgbW9udGhzLCB5ZWFycyBhY3RpdmUgb24gU3RyYXZhLg0KDQojIyMgSW5kZWdyZWUgZWZmZWN0DQoNClNvY2lhbCBzdXBwb3J0IGV4cGVjdGF0aW9uOiB0aGUgbnVtYmVyIG9mIGluLXRpZXMgKG91ciBvcGVyYXRpb25hbGl6YXRpb24gb2YgcmVjZWl2ZWQgc3VwcG9ydCkgaW5jcmVhc2VzIHRoZSBwcm9iYWJpbGl0eSBvZiBpbmNyZWFzaW5nIHJ1bm5pbmcgZnJlcXVlbmN5ICh0aW1lcyBwZXIgd2Vlaykgb3Igdm9sdW1lIChob3VycyBwZXIgd2VlaykuDQoNCjxicj4NCg0KIyMjIFNvY2lhbCBpbmZsdWVuY2Ugey50YWJzZXQgLnRhYnNldC1mYWRlfSANCg0KTXVsdGlwbGUgd2F5cyB0byBtb2RlbCBzb2NpYWwgaW5mbHVlbmNlLg0KDQoxLiBJcyBlZ28gaW5mbHVlbmNlZCBieSBhdmVyYWdlIG9yIHRvdGFsIG9mIGFsdGVyIChzaW1pbGFyaXR5KSBzY29yZXM/ICoqQXZlcmFnZSoqDQoNCjIuIENvbW1vbiBvcGVyYXRpb25hbGl6YXRpb24gaXMgKGF2ZXJhZ2UpIGFsdGVyIG9yIHNpbWlsYXJpdHkgZWZmZWN0Og0KDQpQb3RlbnRpYWwgcHJvYmxlbWF0aWMgYXNzdW1wdGlvbiBvZiBzeW1tZXRyeToNCg0KIyMjIyBBdmVyYWdlIGFsdGVyIGVmZmVjdA0KDQoqKlNjZW5hcmlvIDEqKjogZWdvIGhhcyA2IGFsdGVycywgYWxsIG9mIHdob20gcnVuIDMgdGltZXMgcGVyIHdlZWsuDQoNCmBgYHtyIGF2QWx0MSwgZWNobz1GQUxTRX0NCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZBbHQpLCBwYXJhbXM9YygxKSwgcmVzdWx0cz1GKQ0KDQpgYGANCg0KKipTY2VuYXJpbyAyKio6IGVnbyBoYXMgNiBhbHRlcnMsIDMgb2Ygd2hvbSBydW4gMSB0aW1lLCBhbmQgMyBvZiB3aG9tIHJ1biA1IHRpbWVzIHBlciB3ZWVrLg0KDQoNCmBgYHtyIGF2QWx0MiwgZWNobz1GQUxTRX0NCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczIsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZBbHQpLCBwYXJhbXM9YygxKSwgcmVzdWx0cz1GKQ0KDQpgYGANCg0KUG9zaXRpdmUgaW5mbHVlbmNlIG9mIGFsdGVycyB0aGF0IHNjb3JlIGhpZ2hlciB0aGFuIGVnbyBhbmQgbmVnYXRpdmUgaW5mbHVlbmNlIG9mIGFsdGVycyB0aGF0IHNjb3JlIGxvd2VyIHRoYW4gZWdvIGV2ZW4gZWFjaCBvdGhlciBvdXQgKHNjZW5hcmlvIDEgPSBzY2VuYXJpbyAyKS4gDQoNCg0KIyMjIyBBdmVyYWdlIHNpbWlsYXJpdHkgZWZmZWN0DQoNCioqU2NlbmFyaW8gMSoqOiBlZ28gaGFzIDYgYWx0ZXJzLCBhbGwgb2Ygd2hvbSBydW4gMyB0aW1lcyBwZXIgd2Vlay4NCg0KYGBge3IgYXZTaW0xLCBlY2hvPUZBTFNFfQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMSwgbWluPTEsIG1heD02LCBsaXN0KGZhdlNpbSksIHBhcmFtcz1jKDEpLCByZXN1bHRzPUZBTFNFKQ0KDQpgYGANCg0KKipTY2VuYXJpbyAyKio6IGVnbyBoYXMgNiBhbHRlcnMsIDMgb2Ygd2hvbSBydW4gMSB0aW1lLCBhbmQgMyBvZiB3aG9tIHJ1biA1IHRpbWVzIHBlciB3ZWVrLg0KDQpgYGB7ciBhdlNpbTIsIGVjaG89RkFMU0V9DQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMyLCBtaW49MSwgbWF4PTYsIGxpc3QoZmF2U2ltKSwgcGFyYW1zPWMoMSksIHJlc3VsdHM9RkFMU0UpDQoNCmBgYA0KDQpNb3ZpbmcgdXAgb24gdGhlIGJlaGF2aW9yIHNjYWxlIGJ5IDEtdW5pdCBpbmNyZWFzZXMgdXB3YXJkIHNpbWlsYXJpdHksIGJ1dCBkb3dud2FyZCBzaW1pbGFyaXR5IGRlY3JlYXNlcyB0byB0aGUgc2FtZSBleHRlbnQgKGVnbyBoYXMgbm8gY2x1ZSB3aGF0IHRvIGRvISkuDQoNCiMjIyB7LX0NCg0KIyMgey19IA0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCiMgTmV3IGluZmx1ZW5jZSBlZmZlY3RzISB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KDQpBc3N1bXB0aW9uOiBpbmZsdWVuY2Ugb2YgYWx0ZXJzIHRoYXQgc2NvcmUgaGlnaGVyIG1heSBiZSBkaWZmZXJlbnQgdGhhbiB0aGF0IG9mIGFsdGVycyB0aGF0IHNjb3JlIGxvd2VyIQ0KDQoNCiMjIEF2ZXJhZ2UgYXR0cmFjdGlvbiB0b3dhcmRzIGhpZ2hlciBlZmZlY3QNCg0KT25lLXNpZGVkIHZhcmlhbnQgb2YgYXZlcmFnZSBzaW1pbGFyaXR5IGVmZmVjdDsgc2ltaWxhcml0eSBpcyByZXBsYWNlZCBieSAxIGZvciB0aG9zZSB3aG8gZG8gbm90IHNjb3JlIGhpZ2hlciB0aGFuIGVnbzoNCg0KJCQgc157YmVofV97aTIzfSh4LHopID0geF57LTF9X3tpK31cc3VtX2ogeF97aWp9IChcLCBJIFx7ICh6X2opPnpfaSBcfSBzaW1eel97aWp9ICsgSSBceyAoel9qICkgXGxlIHpfaSBcfSApXCwkJA0KDQoqKlNjZW5hcmlvIDEqKjogZWdvIGhhcyA2IGFsdGVycywgYWxsIG9mIHdob20gcnVuIDMgdGltZXMgcGVyIHdlZWsuDQoNCmBgYHtyIGF2QXR0SDEsIGVjaG89RkFMU0V9DQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMxLCBtaW49MSwgbWF4PTYsIGxpc3QoZmF2QXR0SGlnaGVyKSwgcGFyYW1zPWMoMSksIHJlc3VsdHM9RkFMU0UpDQoNCmBgYA0KDQoqKlNjZW5hcmlvIDIqKjogZWdvIGhhcyA2IGFsdGVycywgMyBvZiB3aG9tIHJ1biAxIHRpbWUsIGFuZCAzIG9mIHdob20gcnVuIDUgdGltZXMgcGVyIHdlZWsuDQoNCmBgYHtyIGF2QXR0SDIsIGVjaG89RkFMU0V9DQpmaW5sdWVuY2VwbG90KGFsdGVycz1hbHRlcnMyLCBtaW49MSwgbWF4PTYsIGxpc3QoZmF2QXR0SGlnaGVyKSwgcGFyYW1zPWMoMSksIHJlc3VsdHM9RkFMU0UpDQoNCmBgYA0KDQojIyBBdmVyYWdlIGF0dHJhY3Rpb24gdG93YXJkcyBsb3dlciBlZmZlY3QNCg0KT25lLXNpZGVkIHZhcmlhbnQgb2YgYXZlcmFnZSBzaW1pbGFyaXR5IGVmZmVjdDsgc2ltaWxhcml0eSBpcyByZXBsYWNlZCBieSAxIGZvciB0aG9zZSB3aG8gZG8gbm90IHNjb3JlIGxvd2VyIHRoYW4gZWdvOg0KDQokJCBzXntiZWh9X3tpMjR9KHgseikgPSB4XnstMX1fe2krfVxzdW1faiB4X3tpan0gKFwsIEkgXHsgKHpfaik8el9pIFx9IHNpbV56X3tpan0gKyBJIFx7ICh6X2ogKSBcZ2Ugel9pIFx9IClcLCQkDQoNCioqU2NlbmFyaW8gMSoqOiBlZ28gaGFzIDYgYWx0ZXJzLCBhbGwgb2Ygd2hvbSBydW4gMyB0aW1lcyBwZXIgd2Vlay4NCg0KYGBge3IgYXZBdHRMMSwgZWNobz1GQUxTRX0NCmZpbmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVyczEsIG1pbj0xLCBtYXg9NiwgbGlzdChmYXZBdHRMb3dlciksIHBhcmFtcz1jKDEpLCByZXN1bHRzPUZBTFNFKQ0KDQpgYGANCg0KKipTY2VuYXJpbyAyKio6IGVnbyBoYXMgNiBhbHRlcnMsIDMgb2Ygd2hvbSBydW4gMSB0aW1lLCBhbmQgMyBvZiB3aG9tIHJ1biA1IHRpbWVzIHBlciB3ZWVrLg0KDQpgYGB7ciBhdkF0dEwyLCBlY2hvPUZBTFNFfQ0KZmlubHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzMiwgbWluPTEsIG1heD02LCBsaXN0KGZhdkF0dExvd2VyKSwgcGFyYW1zPWMoMSksIHJlc3VsdHM9RkFMU0UpDQoNCmBgYA0KDQojIHstfQ0KDQpJbiB0aGUgY2FzZSB3aGVyZSB0aGVzZSBvbmUtc2lkZWQgaW5mbHVlbmNlIGVmZmVjdHMgaGF2ZSBzaW1pbGFyIHBhcmFtZXRlciBlc3RpbWF0ZXMsIHRoZXkgYXJlIHNpbWlsYXIgdG8gYXZlcmFnZSBzaW1pbGFyaXR5IGVmZmVjdC4NCg0KDQotLS0tDQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQoNCiMgQW5hbHl0aWNhbCBzdHJhdGVneQ0KDQoqIFN0cmF0aWZpZWQgYW5hbHlzZXMgYnkgY2x1Yg0KDQoqIFNlcGVyYXRlIG1vZGVscyBmb3IgcnVubmluZyBmcmVxdWVuY3kgYW5kIHJ1bm5pbmcgdm9sdW1lDQoNCiogNiBtb2RlbHMgcGVyIGNsdWI6DQoNCiAgKyBNb2RlbCAxOiBiYXNlIG1vZGVsICsgaW5kZWdyZWUgZWZmZWN0IG9uIHJ1bm5pbmcNCiAgKyBNb2RlbCAyOiBNb2RlbCAxICsgYXZlcmFnZSBhbHRlciBlZmZlY3QNCiAgKyBNb2RlbCAzOiBNb2RlbCAxICsgYXZlcmFnZSBhdHRyYWN0aW9uIGhpZ2hlcg0KICArIE1vZGVsIDQ6IE1vZGVsIDEgKyBhdmVyYWdlIGF0dHJhY3Rpb24gbG93ZXINCiAgKyBNb2RlbCA1OiBNb2RlbCAxICsgYXZlcmFnZSBhdHRyYWN0aW9uIGhpZ2hlciArIGxvd2VyDQogICsgTW9kZWwgNjogTW9kZWwgMSArIGF2ZXJhZ2Ugc2ltaWxhcml0eSBlZmZlY3QNCg0KKiBTdW1tYXJpemUgcmVzdWx0cyBvdmVyIDUgY2x1YnMgdXNpbmcgbWV0YS1hbmFseXNpcyBtZXRob2QgaW4gUlNpZW5hOyB1c2luZyBhIEZpc2hlci10eXBlIGNvbWJpbmF0aW9uIG9mIG9uZS10YWlsZWQgKnAqLXZhbHVlcyB0byB0ZXN0IHdoZXRoZXIgdGhlcmUgd2FzIGV2aWRlbmNlIGluIGF0IGxlYXN0IG9uZSBvZiB0aGUgY2x1YnMgb2YgYSBwYXJlbWV0ZXIgYmVpbmcgcG9zaXRpdmUgb3IgbmVnYXRpdmUuIA0KDQoqIFdlIGVuc3VyZWQgZGF0IG91ciBkYXRhIGZpdHRlZCB0aGUgU0FPTSBieSBwZXJmb3JtaW5nIEdPRi10ZXN0IChvdXRkZWdyZWUsIGluZGVncmVlLCBnZW9kZXNpYyBkaXN0YW5jZSBkaXN0cmlidXRpb247IGRpc3RyaWJ1dGlvbiBvZiBiZWhhdmlvciB2YWx1ZXMpDQoNCi0tLS0NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KIyBSZXN1bHRzIHsudGFic2V0IC50YWJzZXQtZmFkZX0gDQoNCiMjIE1vZGVsIDEgKGluZGVnKSB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KDQojIyMgS3Vkb3MgdGllIGZvcm1hdGlvbiBkeW5hbWljcw0KYGBge3IgZWNobz1GfQ0KbG9hZCgidGVzdC9zaWVuYUZpdC9tZXRhLWFuYWx5c2lzL21ldGFfZnJlcV9tMS5SRGF0YSIpDQoNCmtuaXRyOjprYWJsZShkZjJbMTI6MjQsIF0sIGRpZ2l0cz0zLCAiaHRtbCIsIGNhcHRpb249Ik1ldGEtYW5hbHlzaXMgb2YgcGFyYW1ldGVyIGVzdGltYXRlcyBmb3IgdGhlIG9iamVjdGl2ZSBmdW5jdGlvbiBvZiBrdWRvcyB0aWUgZm9ybWF0aW9uIGFjcm9zcyA1IFN0cmF2YSBjbHVicyIpICU+JSANCiAga2FibGVFeHRyYTo6a2FibGVfc3R5bGluZyhib290c3RyYXBfb3B0aW9ucyA9IGMoInN0cmlwZWQiLCAiaG92ZXIiKSkgJT4lDQogIGZvb3Rub3RlKGdlbmVyYWwgPSAiRXN0aW1hdGVzIGFyZSBnaXZlbiB3aXRoIHN0YW5kYXJkIGVycm9ycyBpbiBwYXJlbnRoZXNlcy4gQWxsIGNvbnZlcmdlbmNlIHQgcmF0aW9zIDwuMTA7IG92ZXJhbGwgbWF4aW11bSBjb252ZXJnZW5jZSByYXRpbyA8LjE1LiBSYXRlIHBhcmFtZXRlcnMgbm90IHNob3duOyBzZWUgW2hlcmVdKGh0dHBzOi8vcm9iZnJhbmtlbi5naXRodWIuaW8vU3RyYXZhL21ldGEuaHRtbCkgZm9yIGZ1bGwgbW9kZWwgcmVzdWx0cy4gUmVmZXJlbmNlIGNhdGVnb3J5IGZvciBnZW5kZXIgPSBtYWxlczsgdGhlIGVmZmVjdCB0aHVzIHJlZmVycyB0byB0aGUgZWZmZWN0IGZvciBmZW1hbGVzIChhbmQgb3RoZXIgY2F0ZWdvcmllcyBhbmQgbWlzc2luZ3MpLiIsDQogICAgICAgICAgIGFscGhhYmV0ICA9IGMoIlNvbWUgc3RydWN0dXJhbCBuZXR3b3JrIGVmZmVjdHMgd2VyZSByYXRoZXIgaW1wb3J0YW50IGZvciBzb21lIGNsdWJzLCBidXQgbm90IGZvciBvdGhlcnM7IGZvciB0aGUgbGF0dGVyLCB3ZSBmaXhlZCB0aGVzZSBlZmZlY3RzIHRvIDAgKFNFPU5BKS4iLCAiV2UgZml4ZWQgZ2VuZGVyIGVmZmVjdHMgb24ga3Vkb3MgdGllIGZvcm1hdGlvbiB0byAwIGluIGNsdWIgNC4gVmFyaWF0aW9uIGJldHdlZW4gdGhlIGdlbmRlcnMgd2FzIG5vdCBzdWZmaWNpZW50IGZvciBtb2RlbCBjb252ZXJnZW5jZS4gU2NvcmXigJN0eXBlIHRlc3RzIGluZGljYXRlZCB0aGF0IGdlbmRlciBlZmZlY3RzIHdlcmUgbm90IHNpZ25pZmljYW50LiIsICJUaGUgRmlzaGVyIFRlc3QgY29tYmluZXMgaW5kZXBlbmRlbnQgcOKAk3ZhbHVlcyB0byB0ZXN0IHdoZXRoZXIgdGhlcmUgaXMgZXZpZGVuY2UgaW4gYXQgbGVhc3Qgb25lIG9mIHRoZSBjbHVicyBvZiBhIHBhcmFtZXRlciBiZWluZyBwb3NpdGl2ZSBvciBuZWdhdGl2ZS4iKSkNCg0KYGBgDQoNCiMjIyBSdW5uaW5nIGZyZXF1ZW5jeSBkeW5hbWljcw0KYGBge3IgZWNobz1GfQ0KbG9hZCgidGVzdC9zaWVuYUZpdC9tZXRhLWFuYWx5c2lzL21ldGFfZnJlcV9tMS5SRGF0YSIpDQoNCmtuaXRyOjprYWJsZShkZjJbMzY6bnJvdyhkZjIpLCBdLCBkaWdpdHM9MywgImh0bWwiLCBjYXB0aW9uPSJNZXRhLWFuYWx5c2lzIG9mIHBhcmFtZXRlciBlc3RpbWF0ZXMgZm9yIHRoZSBvYmplY3RpdmUgZnVuY3Rpb24gb2YgcnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MgYWNyb3NzIDUgU3RyYXZhIGNsdWJzIikgJT4lIA0KICBrYWJsZUV4dHJhOjprYWJsZV9zdHlsaW5nKGJvb3RzdHJhcF9vcHRpb25zID0gYygic3RyaXBlZCIsICJob3ZlciIpKSAlPiUNCiAgZm9vdG5vdGUoZ2VuZXJhbCA9ICJFc3RpbWF0ZXMgYXJlIGdpdmVuIHdpdGggc3RhbmRhcmQgZXJyb3JzIGluIHBhcmVudGhlc2VzLiBBbGwgY29udmVyZ2VuY2UgdCByYXRpb3MgPC4xMDsgb3ZlcmFsbCBtYXhpbXVtIGNvbnZlcmdlbmNlIHJhdGlvIDwuMTUuIFJhdGUgcGFyYW1ldGVycyBub3Qgc2hvd247IHNlZSBbaGVyZV0oaHR0cHM6Ly9yb2JmcmFua2VuLmdpdGh1Yi5pby9TdHJhdmEvbWV0YS5odG1sKSBmb3IgZnVsbCBtb2RlbCByZXN1bHRzLiBSZWZlcmVuY2UgY2F0ZWdvcnkgZm9yIGdlbmRlciA9IG1hbGVzOyB0aGUgZWZmZWN0IHRodXMgcmVmZXJzIHRvIHRoZSBlZmZlY3QgZm9yIGZlbWFsZXMgKGFuZCBvdGhlciBjYXRlZ29yaWVzIGFuZCBtaXNzaW5ncykuIiwNCiAgICAgICAgICAgYWxwaGFiZXQgID0gYygiU29tZSBzdHJ1Y3R1cmFsIG5ldHdvcmsgZWZmZWN0cyB3ZXJlIHJhdGhlciBpbXBvcnRhbnQgZm9yIHNvbWUgY2x1YnMsIGJ1dCBub3QgZm9yIG90aGVyczsgZm9yIHRoZSBsYXR0ZXIsIHdlIGZpeGVkIHRoZXNlIGVmZmVjdHMgdG8gMCAoU0U9TkEpLiIsICJXZSBmaXhlZCBnZW5kZXIgZWZmZWN0cyBvbiBydW5uaW5nIGZyZXF1ZW5jeSBkeW5hbWljcyB0byAwIGluIGNsdWIgNC4gVmFyaWF0aW9uIGJldHdlZW4gdGhlIGdlbmRlcnMgd2FzIG5vdCBzdWZmaWNpZW50IGZvciBtb2RlbCBjb252ZXJnZW5jZS4gU2NvcmXigJN0eXBlIHRlc3RzIGluZGljYXRlZCB0aGF0IGdlbmRlciBlZmZlY3RzIHdlcmUgbm90IHNpZ25pZmljYW50LiIsICJUaGUgRmlzaGVyIFRlc3QgY29tYmluZXMgaW5kZXBlbmRlbnQgcOKAk3ZhbHVlcyB0byB0ZXN0IHdoZXRoZXIgdGhlcmUgaXMgZXZpZGVuY2UgaW4gYXQgbGVhc3Qgb25lIG9mIHRoZSBjbHVicyBvZiBhIHBhcmFtZXRlciBiZWluZyBwb3NpdGl2ZSBvciBuZWdhdGl2ZS4iKSkNCg0KYGBgDQoNCiMjIE1vZGVsIDIgKGF2QWx0KSB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KIyMjIEt1ZG9zIHRpZSBmb3JtYXRpb24gZHluYW1pY3MNCmBgYHtyIGVjaG89Rn0NCmxvYWQoInRlc3Qvc2llbmFGaXQvbWV0YS1hbmFseXNpcy9tZXRhX2ZyZXFfbTIuUkRhdGEiKQ0KDQprbml0cjo6a2FibGUoZGYyWzEyOjI0LCBdLCBkaWdpdHM9MywgImh0bWwiLCBjYXB0aW9uPSJNZXRhLWFuYWx5c2lzIG9mIHBhcmFtZXRlciBlc3RpbWF0ZXMgZm9yIHRoZSBvYmplY3RpdmUgZnVuY3Rpb24gb2Yga3Vkb3MgdGllIGZvcm1hdGlvbiBhY3Jvc3MgNSBTdHJhdmEgY2x1YnMiKSAlPiUgDQogIGthYmxlRXh0cmE6OmthYmxlX3N0eWxpbmcoYm9vdHN0cmFwX29wdGlvbnMgPSBjKCJzdHJpcGVkIiwgImhvdmVyIikpICU+JQ0KICBmb290bm90ZShnZW5lcmFsID0gIkVzdGltYXRlcyBhcmUgZ2l2ZW4gd2l0aCBzdGFuZGFyZCBlcnJvcnMgaW4gcGFyZW50aGVzZXMuIEFsbCBjb252ZXJnZW5jZSB0IHJhdGlvcyA8LjEwOyBvdmVyYWxsIG1heGltdW0gY29udmVyZ2VuY2UgcmF0aW8gPC4xNS4gUmF0ZSBwYXJhbWV0ZXJzIG5vdCBzaG93bjsgc2VlIFtoZXJlXShodHRwczovL3JvYmZyYW5rZW4uZ2l0aHViLmlvL1N0cmF2YS9tZXRhLmh0bWwpIGZvciBmdWxsIG1vZGVsIHJlc3VsdHMuIFJlZmVyZW5jZSBjYXRlZ29yeSBmb3IgZ2VuZGVyID0gbWFsZXM7IHRoZSBlZmZlY3QgdGh1cyByZWZlcnMgdG8gdGhlIGVmZmVjdCBmb3IgZmVtYWxlcyAoYW5kIG90aGVyIGNhdGVnb3JpZXMgYW5kIG1pc3NpbmdzKS4iLA0KICAgICAgICAgICBhbHBoYWJldCAgPSBjKCJTb21lIHN0cnVjdHVyYWwgbmV0d29yayBlZmZlY3RzIHdlcmUgcmF0aGVyIGltcG9ydGFudCBmb3Igc29tZSBjbHVicywgYnV0IG5vdCBmb3Igb3RoZXJzOyBmb3IgdGhlIGxhdHRlciwgd2UgZml4ZWQgdGhlc2UgZWZmZWN0cyB0byAwIChTRT1OQSkuIiwgIldlIGZpeGVkIGdlbmRlciBlZmZlY3RzIG9uIGt1ZG9zIHRpZSBmb3JtYXRpb24gdG8gMCBpbiBjbHViIDQuIFZhcmlhdGlvbiBiZXR3ZWVuIHRoZSBnZW5kZXJzIHdhcyBub3Qgc3VmZmljaWVudCBmb3IgbW9kZWwgY29udmVyZ2VuY2UuIFNjb3Jl4oCTdHlwZSB0ZXN0cyBpbmRpY2F0ZWQgdGhhdCBnZW5kZXIgZWZmZWN0cyB3ZXJlIG5vdCBzaWduaWZpY2FudC4iLCAiVGhlIEZpc2hlciBUZXN0IGNvbWJpbmVzIGluZGVwZW5kZW50IHDigJN2YWx1ZXMgdG8gdGVzdCB3aGV0aGVyIHRoZXJlIGlzIGV2aWRlbmNlIGluIGF0IGxlYXN0IG9uZSBvZiB0aGUgY2x1YnMgb2YgYSBwYXJhbWV0ZXIgYmVpbmcgcG9zaXRpdmUgb3IgbmVnYXRpdmUuIikpDQoNCmBgYA0KDQojIyMgUnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MNCmBgYHtyIGVjaG89Rn0NCmxvYWQoInRlc3Qvc2llbmFGaXQvbWV0YS1hbmFseXNpcy9tZXRhX2ZyZXFfbTIuUkRhdGEiKQ0KDQprbml0cjo6a2FibGUoZGYyWzM2Om5yb3coZGYyKSwgXSwgZGlnaXRzPTMsICJodG1sIiwgY2FwdGlvbj0iTWV0YS1hbmFseXNpcyBvZiBwYXJhbWV0ZXIgZXN0aW1hdGVzIGZvciB0aGUgb2JqZWN0aXZlIGZ1bmN0aW9uIG9mIHJ1bm5pbmcgZnJlcXVlbmN5IGR5bmFtaWNzIGFjcm9zcyA1IFN0cmF2YSBjbHVicyIpICU+JSANCiAga2FibGVFeHRyYTo6a2FibGVfc3R5bGluZyhib290c3RyYXBfb3B0aW9ucyA9IGMoInN0cmlwZWQiLCAiaG92ZXIiKSkgJT4lDQogIGZvb3Rub3RlKGdlbmVyYWwgPSAiRXN0aW1hdGVzIGFyZSBnaXZlbiB3aXRoIHN0YW5kYXJkIGVycm9ycyBpbiBwYXJlbnRoZXNlcy4gQWxsIGNvbnZlcmdlbmNlIHQgcmF0aW9zIDwuMTA7IG92ZXJhbGwgbWF4aW11bSBjb252ZXJnZW5jZSByYXRpbyA8LjE1LiBSYXRlIHBhcmFtZXRlcnMgbm90IHNob3duOyBzZWUgW2hlcmVdKGh0dHBzOi8vcm9iZnJhbmtlbi5naXRodWIuaW8vU3RyYXZhL21ldGEuaHRtbCkgZm9yIGZ1bGwgbW9kZWwgcmVzdWx0cy4gUmVmZXJlbmNlIGNhdGVnb3J5IGZvciBnZW5kZXIgPSBtYWxlczsgdGhlIGVmZmVjdCB0aHVzIHJlZmVycyB0byB0aGUgZWZmZWN0IGZvciBmZW1hbGVzIChhbmQgb3RoZXIgY2F0ZWdvcmllcyBhbmQgbWlzc2luZ3MpLiIsDQogICAgICAgICAgIGFscGhhYmV0ICA9IGMoIlNvbWUgc3RydWN0dXJhbCBuZXR3b3JrIGVmZmVjdHMgd2VyZSByYXRoZXIgaW1wb3J0YW50IGZvciBzb21lIGNsdWJzLCBidXQgbm90IGZvciBvdGhlcnM7IGZvciB0aGUgbGF0dGVyLCB3ZSBmaXhlZCB0aGVzZSBlZmZlY3RzIHRvIDAgKFNFPU5BKS4iLCAiV2UgZml4ZWQgZ2VuZGVyIGVmZmVjdHMgb24gcnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MgdG8gMCBpbiBjbHViIDQuIFZhcmlhdGlvbiBiZXR3ZWVuIHRoZSBnZW5kZXJzIHdhcyBub3Qgc3VmZmljaWVudCBmb3IgbW9kZWwgY29udmVyZ2VuY2UuIFNjb3Jl4oCTdHlwZSB0ZXN0cyBpbmRpY2F0ZWQgdGhhdCBnZW5kZXIgZWZmZWN0cyB3ZXJlIG5vdCBzaWduaWZpY2FudC4iLCAiVGhlIEZpc2hlciBUZXN0IGNvbWJpbmVzIGluZGVwZW5kZW50IHDigJN2YWx1ZXMgdG8gdGVzdCB3aGV0aGVyIHRoZXJlIGlzIGV2aWRlbmNlIGluIGF0IGxlYXN0IG9uZSBvZiB0aGUgY2x1YnMgb2YgYSBwYXJhbWV0ZXIgYmVpbmcgcG9zaXRpdmUgb3IgbmVnYXRpdmUuIikpDQoNCmBgYA0KDQojIyBNb2RlbCAzIChhdkF0dEhpZ2hlcikgey50YWJzZXQgLnRhYnNldC1mYWRlfSANCiMjIyBLdWRvcyB0aWUgZm9ybWF0aW9uIGR5bmFtaWNzDQpgYGB7ciBlY2hvPUZ9DQpsb2FkKCJ0ZXN0L3NpZW5hRml0L21ldGEtYW5hbHlzaXMvbWV0YV9mcmVxX20zLlJEYXRhIikNCg0Ka25pdHI6OmthYmxlKGRmMlsxMjoyNCwgXSwgZGlnaXRzPTMsICJodG1sIiwgY2FwdGlvbj0iTWV0YS1hbmFseXNpcyBvZiBwYXJhbWV0ZXIgZXN0aW1hdGVzIGZvciB0aGUgb2JqZWN0aXZlIGZ1bmN0aW9uIG9mIGt1ZG9zIHRpZSBmb3JtYXRpb24gYWNyb3NzIDUgU3RyYXZhIGNsdWJzIikgJT4lIA0KICBrYWJsZUV4dHJhOjprYWJsZV9zdHlsaW5nKGJvb3RzdHJhcF9vcHRpb25zID0gYygic3RyaXBlZCIsICJob3ZlciIpKSAlPiUNCiAgZm9vdG5vdGUoZ2VuZXJhbCA9ICJFc3RpbWF0ZXMgYXJlIGdpdmVuIHdpdGggc3RhbmRhcmQgZXJyb3JzIGluIHBhcmVudGhlc2VzLiBBbGwgY29udmVyZ2VuY2UgdCByYXRpb3MgPC4xMDsgb3ZlcmFsbCBtYXhpbXVtIGNvbnZlcmdlbmNlIHJhdGlvIDwuMTUuIFJhdGUgcGFyYW1ldGVycyBub3Qgc2hvd247IHNlZSBbaGVyZV0oaHR0cHM6Ly9yb2JmcmFua2VuLmdpdGh1Yi5pby9TdHJhdmEvbWV0YS5odG1sKSBmb3IgZnVsbCBtb2RlbCByZXN1bHRzLiBSZWZlcmVuY2UgY2F0ZWdvcnkgZm9yIGdlbmRlciA9IG1hbGVzOyB0aGUgZWZmZWN0IHRodXMgcmVmZXJzIHRvIHRoZSBlZmZlY3QgZm9yIGZlbWFsZXMgKGFuZCBvdGhlciBjYXRlZ29yaWVzIGFuZCBtaXNzaW5ncykuIiwNCiAgICAgICAgICAgYWxwaGFiZXQgID0gYygiU29tZSBzdHJ1Y3R1cmFsIG5ldHdvcmsgZWZmZWN0cyB3ZXJlIHJhdGhlciBpbXBvcnRhbnQgZm9yIHNvbWUgY2x1YnMsIGJ1dCBub3QgZm9yIG90aGVyczsgZm9yIHRoZSBsYXR0ZXIsIHdlIGZpeGVkIHRoZXNlIGVmZmVjdHMgdG8gMCAoU0U9TkEpLiIsICJXZSBmaXhlZCBnZW5kZXIgZWZmZWN0cyBvbiBrdWRvcyB0aWUgZm9ybWF0aW9uIHRvIDAgaW4gY2x1YiA0LiBWYXJpYXRpb24gYmV0d2VlbiB0aGUgZ2VuZGVycyB3YXMgbm90IHN1ZmZpY2llbnQgZm9yIG1vZGVsIGNvbnZlcmdlbmNlLiBTY29yZeKAk3R5cGUgdGVzdHMgaW5kaWNhdGVkIHRoYXQgZ2VuZGVyIGVmZmVjdHMgd2VyZSBub3Qgc2lnbmlmaWNhbnQuIiwgIlRoZSBGaXNoZXIgVGVzdCBjb21iaW5lcyBpbmRlcGVuZGVudCBw4oCTdmFsdWVzIHRvIHRlc3Qgd2hldGhlciB0aGVyZSBpcyBldmlkZW5jZSBpbiBhdCBsZWFzdCBvbmUgb2YgdGhlIGNsdWJzIG9mIGEgcGFyYW1ldGVyIGJlaW5nIHBvc2l0aXZlIG9yIG5lZ2F0aXZlLiIpKQ0KDQpgYGANCg0KIyMjIFJ1bm5pbmcgZnJlcXVlbmN5IGR5bmFtaWNzDQpgYGB7ciBlY2hvPUZ9DQpsb2FkKCJ0ZXN0L3NpZW5hRml0L21ldGEtYW5hbHlzaXMvbWV0YV9mcmVxX20zLlJEYXRhIikNCg0Ka25pdHI6OmthYmxlKGRmMlszNjpucm93KGRmMiksIF0sIGRpZ2l0cz0zLCAiaHRtbCIsIGNhcHRpb249Ik1ldGEtYW5hbHlzaXMgb2YgcGFyYW1ldGVyIGVzdGltYXRlcyBmb3IgdGhlIG9iamVjdGl2ZSBmdW5jdGlvbiBvZiBydW5uaW5nIGZyZXF1ZW5jeSBkeW5hbWljcyBhY3Jvc3MgNSBTdHJhdmEgY2x1YnMiKSAlPiUgDQogIGthYmxlRXh0cmE6OmthYmxlX3N0eWxpbmcoYm9vdHN0cmFwX29wdGlvbnMgPSBjKCJzdHJpcGVkIiwgImhvdmVyIikpICU+JQ0KICBmb290bm90ZShnZW5lcmFsID0gIkVzdGltYXRlcyBhcmUgZ2l2ZW4gd2l0aCBzdGFuZGFyZCBlcnJvcnMgaW4gcGFyZW50aGVzZXMuIEFsbCBjb252ZXJnZW5jZSB0IHJhdGlvcyA8LjEwOyBvdmVyYWxsIG1heGltdW0gY29udmVyZ2VuY2UgcmF0aW8gPC4xNS4gUmF0ZSBwYXJhbWV0ZXJzIG5vdCBzaG93bjsgc2VlIFtoZXJlXShodHRwczovL3JvYmZyYW5rZW4uZ2l0aHViLmlvL1N0cmF2YS9tZXRhLmh0bWwpIGZvciBmdWxsIG1vZGVsIHJlc3VsdHMuIFJlZmVyZW5jZSBjYXRlZ29yeSBmb3IgZ2VuZGVyID0gbWFsZXM7IHRoZSBlZmZlY3QgdGh1cyByZWZlcnMgdG8gdGhlIGVmZmVjdCBmb3IgZmVtYWxlcyAoYW5kIG90aGVyIGNhdGVnb3JpZXMgYW5kIG1pc3NpbmdzKS4iLA0KICAgICAgICAgICBhbHBoYWJldCAgPSBjKCJTb21lIHN0cnVjdHVyYWwgbmV0d29yayBlZmZlY3RzIHdlcmUgcmF0aGVyIGltcG9ydGFudCBmb3Igc29tZSBjbHVicywgYnV0IG5vdCBmb3Igb3RoZXJzOyBmb3IgdGhlIGxhdHRlciwgd2UgZml4ZWQgdGhlc2UgZWZmZWN0cyB0byAwIChTRT1OQSkuIiwgIldlIGZpeGVkIGdlbmRlciBlZmZlY3RzIG9uIHJ1bm5pbmcgZnJlcXVlbmN5IGR5bmFtaWNzIHRvIDAgaW4gY2x1YiA0LiBWYXJpYXRpb24gYmV0d2VlbiB0aGUgZ2VuZGVycyB3YXMgbm90IHN1ZmZpY2llbnQgZm9yIG1vZGVsIGNvbnZlcmdlbmNlLiBTY29yZeKAk3R5cGUgdGVzdHMgaW5kaWNhdGVkIHRoYXQgZ2VuZGVyIGVmZmVjdHMgd2VyZSBub3Qgc2lnbmlmaWNhbnQuIiwgIlRoZSBGaXNoZXIgVGVzdCBjb21iaW5lcyBpbmRlcGVuZGVudCBw4oCTdmFsdWVzIHRvIHRlc3Qgd2hldGhlciB0aGVyZSBpcyBldmlkZW5jZSBpbiBhdCBsZWFzdCBvbmUgb2YgdGhlIGNsdWJzIG9mIGEgcGFyYW1ldGVyIGJlaW5nIHBvc2l0aXZlIG9yIG5lZ2F0aXZlLiIpKQ0KDQpgYGANCg0KIyMgTW9kZWwgNCAoYXZBdHRMb3dlciB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KIyMjIEt1ZG9zIHRpZSBmb3JtYXRpb24gZHluYW1pY3MNCmBgYHtyIGVjaG89Rn0NCmxvYWQoInRlc3Qvc2llbmFGaXQvbWV0YS1hbmFseXNpcy9tZXRhX2ZyZXFfbTQuUkRhdGEiKQ0KDQprbml0cjo6a2FibGUoZGYyWzEyOjI0LCBdLCBkaWdpdHM9MywgImh0bWwiLCBjYXB0aW9uPSJNZXRhLWFuYWx5c2lzIG9mIHBhcmFtZXRlciBlc3RpbWF0ZXMgZm9yIHRoZSBvYmplY3RpdmUgZnVuY3Rpb24gb2Yga3Vkb3MgdGllIGZvcm1hdGlvbiBhY3Jvc3MgNSBTdHJhdmEgY2x1YnMiKSAlPiUgDQogIGthYmxlRXh0cmE6OmthYmxlX3N0eWxpbmcoYm9vdHN0cmFwX29wdGlvbnMgPSBjKCJzdHJpcGVkIiwgImhvdmVyIikpICU+JQ0KICBmb290bm90ZShnZW5lcmFsID0gIkVzdGltYXRlcyBhcmUgZ2l2ZW4gd2l0aCBzdGFuZGFyZCBlcnJvcnMgaW4gcGFyZW50aGVzZXMuIEFsbCBjb252ZXJnZW5jZSB0IHJhdGlvcyA8LjEwOyBvdmVyYWxsIG1heGltdW0gY29udmVyZ2VuY2UgcmF0aW8gPC4xNS4gUmF0ZSBwYXJhbWV0ZXJzIG5vdCBzaG93bjsgc2VlIFtoZXJlXShodHRwczovL3JvYmZyYW5rZW4uZ2l0aHViLmlvL1N0cmF2YS9tZXRhLmh0bWwpIGZvciBmdWxsIG1vZGVsIHJlc3VsdHMuIFJlZmVyZW5jZSBjYXRlZ29yeSBmb3IgZ2VuZGVyID0gbWFsZXM7IHRoZSBlZmZlY3QgdGh1cyByZWZlcnMgdG8gdGhlIGVmZmVjdCBmb3IgZmVtYWxlcyAoYW5kIG90aGVyIGNhdGVnb3JpZXMgYW5kIG1pc3NpbmdzKS4iLA0KICAgICAgICAgICBhbHBoYWJldCAgPSBjKCJTb21lIHN0cnVjdHVyYWwgbmV0d29yayBlZmZlY3RzIHdlcmUgcmF0aGVyIGltcG9ydGFudCBmb3Igc29tZSBjbHVicywgYnV0IG5vdCBmb3Igb3RoZXJzOyBmb3IgdGhlIGxhdHRlciwgd2UgZml4ZWQgdGhlc2UgZWZmZWN0cyB0byAwIChTRT1OQSkuIiwgIldlIGZpeGVkIGdlbmRlciBlZmZlY3RzIG9uIGt1ZG9zIHRpZSBmb3JtYXRpb24gdG8gMCBpbiBjbHViIDQuIFZhcmlhdGlvbiBiZXR3ZWVuIHRoZSBnZW5kZXJzIHdhcyBub3Qgc3VmZmljaWVudCBmb3IgbW9kZWwgY29udmVyZ2VuY2UuIFNjb3Jl4oCTdHlwZSB0ZXN0cyBpbmRpY2F0ZWQgdGhhdCBnZW5kZXIgZWZmZWN0cyB3ZXJlIG5vdCBzaWduaWZpY2FudC4iLCAiVGhlIEZpc2hlciBUZXN0IGNvbWJpbmVzIGluZGVwZW5kZW50IHDigJN2YWx1ZXMgdG8gdGVzdCB3aGV0aGVyIHRoZXJlIGlzIGV2aWRlbmNlIGluIGF0IGxlYXN0IG9uZSBvZiB0aGUgY2x1YnMgb2YgYSBwYXJhbWV0ZXIgYmVpbmcgcG9zaXRpdmUgb3IgbmVnYXRpdmUuIikpDQoNCmBgYA0KDQojIyMgUnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MNCmBgYHtyIGVjaG89Rn0NCmxvYWQoInRlc3Qvc2llbmFGaXQvbWV0YS1hbmFseXNpcy9tZXRhX2ZyZXFfbTQuUkRhdGEiKQ0KDQprbml0cjo6a2FibGUoZGYyWzM2Om5yb3coZGYyKSwgXSwgZGlnaXRzPTMsICJodG1sIiwgY2FwdGlvbj0iTWV0YS1hbmFseXNpcyBvZiBwYXJhbWV0ZXIgZXN0aW1hdGVzIGZvciB0aGUgb2JqZWN0aXZlIGZ1bmN0aW9uIG9mIHJ1bm5pbmcgZnJlcXVlbmN5IGR5bmFtaWNzIGFjcm9zcyA1IFN0cmF2YSBjbHVicyIpICU+JSANCiAga2FibGVFeHRyYTo6a2FibGVfc3R5bGluZyhib290c3RyYXBfb3B0aW9ucyA9IGMoInN0cmlwZWQiLCAiaG92ZXIiKSkgJT4lDQogIGZvb3Rub3RlKGdlbmVyYWwgPSAiRXN0aW1hdGVzIGFyZSBnaXZlbiB3aXRoIHN0YW5kYXJkIGVycm9ycyBpbiBwYXJlbnRoZXNlcy4gQWxsIGNvbnZlcmdlbmNlIHQgcmF0aW9zIDwuMTA7IG92ZXJhbGwgbWF4aW11bSBjb252ZXJnZW5jZSByYXRpbyA8LjE1LiBSYXRlIHBhcmFtZXRlcnMgbm90IHNob3duOyBzZWUgW2hlcmVdKGh0dHBzOi8vcm9iZnJhbmtlbi5naXRodWIuaW8vU3RyYXZhL21ldGEuaHRtbCkgZm9yIGZ1bGwgbW9kZWwgcmVzdWx0cy4gUmVmZXJlbmNlIGNhdGVnb3J5IGZvciBnZW5kZXIgPSBtYWxlczsgdGhlIGVmZmVjdCB0aHVzIHJlZmVycyB0byB0aGUgZWZmZWN0IGZvciBmZW1hbGVzIChhbmQgb3RoZXIgY2F0ZWdvcmllcyBhbmQgbWlzc2luZ3MpLiIsDQogICAgICAgICAgIGFscGhhYmV0ICA9IGMoIlNvbWUgc3RydWN0dXJhbCBuZXR3b3JrIGVmZmVjdHMgd2VyZSByYXRoZXIgaW1wb3J0YW50IGZvciBzb21lIGNsdWJzLCBidXQgbm90IGZvciBvdGhlcnM7IGZvciB0aGUgbGF0dGVyLCB3ZSBmaXhlZCB0aGVzZSBlZmZlY3RzIHRvIDAgKFNFPU5BKS4iLCAiV2UgZml4ZWQgZ2VuZGVyIGVmZmVjdHMgb24gcnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MgdG8gMCBpbiBjbHViIDQuIFZhcmlhdGlvbiBiZXR3ZWVuIHRoZSBnZW5kZXJzIHdhcyBub3Qgc3VmZmljaWVudCBmb3IgbW9kZWwgY29udmVyZ2VuY2UuIFNjb3Jl4oCTdHlwZSB0ZXN0cyBpbmRpY2F0ZWQgdGhhdCBnZW5kZXIgZWZmZWN0cyB3ZXJlIG5vdCBzaWduaWZpY2FudC4iLCAiVGhlIEZpc2hlciBUZXN0IGNvbWJpbmVzIGluZGVwZW5kZW50IHDigJN2YWx1ZXMgdG8gdGVzdCB3aGV0aGVyIHRoZXJlIGlzIGV2aWRlbmNlIGluIGF0IGxlYXN0IG9uZSBvZiB0aGUgY2x1YnMgb2YgYSBwYXJhbWV0ZXIgYmVpbmcgcG9zaXRpdmUgb3IgbmVnYXRpdmUuIikpDQoNCmBgYA0KDQojIyBNb2RlbCA1IChhdkF0dEhpZ2hlcitMb3dlcnsudGFic2V0IC50YWJzZXQtZmFkZX0gDQojIyMgS3Vkb3MgdGllIGZvcm1hdGlvbiBkeW5hbWljcw0KYGBge3IgZWNobz1GfQ0KbG9hZCgidGVzdC9zaWVuYUZpdC9tZXRhLWFuYWx5c2lzL21ldGFfZnJlcV9tNS5SRGF0YSIpDQoNCmtuaXRyOjprYWJsZShkZjJbMTI6MjQsIF0sIGRpZ2l0cz0zLCAiaHRtbCIsIGNhcHRpb249Ik1ldGEtYW5hbHlzaXMgb2YgcGFyYW1ldGVyIGVzdGltYXRlcyBmb3IgdGhlIG9iamVjdGl2ZSBmdW5jdGlvbiBvZiBrdWRvcyB0aWUgZm9ybWF0aW9uIGFjcm9zcyA1IFN0cmF2YSBjbHVicyIpICU+JSANCiAga2FibGVFeHRyYTo6a2FibGVfc3R5bGluZyhib290c3RyYXBfb3B0aW9ucyA9IGMoInN0cmlwZWQiLCAiaG92ZXIiKSkgJT4lDQogIGZvb3Rub3RlKGdlbmVyYWwgPSAiRXN0aW1hdGVzIGFyZSBnaXZlbiB3aXRoIHN0YW5kYXJkIGVycm9ycyBpbiBwYXJlbnRoZXNlcy4gQWxsIGNvbnZlcmdlbmNlIHQgcmF0aW9zIDwuMTA7IG92ZXJhbGwgbWF4aW11bSBjb252ZXJnZW5jZSByYXRpbyA8LjE1LiBSYXRlIHBhcmFtZXRlcnMgbm90IHNob3duOyBzZWUgW2hlcmVdKGh0dHBzOi8vcm9iZnJhbmtlbi5naXRodWIuaW8vU3RyYXZhL21ldGEuaHRtbCkgZm9yIGZ1bGwgbW9kZWwgcmVzdWx0cy4gUmVmZXJlbmNlIGNhdGVnb3J5IGZvciBnZW5kZXIgPSBtYWxlczsgdGhlIGVmZmVjdCB0aHVzIHJlZmVycyB0byB0aGUgZWZmZWN0IGZvciBmZW1hbGVzIChhbmQgb3RoZXIgY2F0ZWdvcmllcyBhbmQgbWlzc2luZ3MpLiIsDQogICAgICAgICAgIGFscGhhYmV0ICA9IGMoIlNvbWUgc3RydWN0dXJhbCBuZXR3b3JrIGVmZmVjdHMgd2VyZSByYXRoZXIgaW1wb3J0YW50IGZvciBzb21lIGNsdWJzLCBidXQgbm90IGZvciBvdGhlcnM7IGZvciB0aGUgbGF0dGVyLCB3ZSBmaXhlZCB0aGVzZSBlZmZlY3RzIHRvIDAgKFNFPU5BKS4iLCAiV2UgZml4ZWQgZ2VuZGVyIGVmZmVjdHMgb24ga3Vkb3MgdGllIGZvcm1hdGlvbiB0byAwIGluIGNsdWIgNC4gVmFyaWF0aW9uIGJldHdlZW4gdGhlIGdlbmRlcnMgd2FzIG5vdCBzdWZmaWNpZW50IGZvciBtb2RlbCBjb252ZXJnZW5jZS4gU2NvcmXigJN0eXBlIHRlc3RzIGluZGljYXRlZCB0aGF0IGdlbmRlciBlZmZlY3RzIHdlcmUgbm90IHNpZ25pZmljYW50LiIsICJUaGUgRmlzaGVyIFRlc3QgY29tYmluZXMgaW5kZXBlbmRlbnQgcOKAk3ZhbHVlcyB0byB0ZXN0IHdoZXRoZXIgdGhlcmUgaXMgZXZpZGVuY2UgaW4gYXQgbGVhc3Qgb25lIG9mIHRoZSBjbHVicyBvZiBhIHBhcmFtZXRlciBiZWluZyBwb3NpdGl2ZSBvciBuZWdhdGl2ZS4iKSkNCg0KYGBgDQoNCiMjIyBSdW5uaW5nIGZyZXF1ZW5jeSBkeW5hbWljcw0KYGBge3IgZWNobz1GfQ0KbG9hZCgidGVzdC9zaWVuYUZpdC9tZXRhLWFuYWx5c2lzL21ldGFfZnJlcV9tNS5SRGF0YSIpDQoNCmtuaXRyOjprYWJsZShkZjJbMzY6bnJvdyhkZjIpLCBdLCBkaWdpdHM9MywgImh0bWwiLCBjYXB0aW9uPSJNZXRhLWFuYWx5c2lzIG9mIHBhcmFtZXRlciBlc3RpbWF0ZXMgZm9yIHRoZSBvYmplY3RpdmUgZnVuY3Rpb24gb2YgcnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MgYWNyb3NzIDUgU3RyYXZhIGNsdWJzIikgJT4lIA0KICBrYWJsZUV4dHJhOjprYWJsZV9zdHlsaW5nKGJvb3RzdHJhcF9vcHRpb25zID0gYygic3RyaXBlZCIsICJob3ZlciIpKSAlPiUNCiAgZm9vdG5vdGUoZ2VuZXJhbCA9ICJFc3RpbWF0ZXMgYXJlIGdpdmVuIHdpdGggc3RhbmRhcmQgZXJyb3JzIGluIHBhcmVudGhlc2VzLiBBbGwgY29udmVyZ2VuY2UgdCByYXRpb3MgPC4xMDsgb3ZlcmFsbCBtYXhpbXVtIGNvbnZlcmdlbmNlIHJhdGlvIDwuMTUuIFJhdGUgcGFyYW1ldGVycyBub3Qgc2hvd247IHNlZSBbaGVyZV0oaHR0cHM6Ly9yb2JmcmFua2VuLmdpdGh1Yi5pby9TdHJhdmEvbWV0YS5odG1sKSBmb3IgZnVsbCBtb2RlbCByZXN1bHRzLiBSZWZlcmVuY2UgY2F0ZWdvcnkgZm9yIGdlbmRlciA9IG1hbGVzOyB0aGUgZWZmZWN0IHRodXMgcmVmZXJzIHRvIHRoZSBlZmZlY3QgZm9yIGZlbWFsZXMgKGFuZCBvdGhlciBjYXRlZ29yaWVzIGFuZCBtaXNzaW5ncykuIiwNCiAgICAgICAgICAgYWxwaGFiZXQgID0gYygiU29tZSBzdHJ1Y3R1cmFsIG5ldHdvcmsgZWZmZWN0cyB3ZXJlIHJhdGhlciBpbXBvcnRhbnQgZm9yIHNvbWUgY2x1YnMsIGJ1dCBub3QgZm9yIG90aGVyczsgZm9yIHRoZSBsYXR0ZXIsIHdlIGZpeGVkIHRoZXNlIGVmZmVjdHMgdG8gMCAoU0U9TkEpLiIsICJXZSBmaXhlZCBnZW5kZXIgZWZmZWN0cyBvbiBydW5uaW5nIGZyZXF1ZW5jeSBkeW5hbWljcyB0byAwIGluIGNsdWIgNC4gVmFyaWF0aW9uIGJldHdlZW4gdGhlIGdlbmRlcnMgd2FzIG5vdCBzdWZmaWNpZW50IGZvciBtb2RlbCBjb252ZXJnZW5jZS4gU2NvcmXigJN0eXBlIHRlc3RzIGluZGljYXRlZCB0aGF0IGdlbmRlciBlZmZlY3RzIHdlcmUgbm90IHNpZ25pZmljYW50LiIsICJUaGUgRmlzaGVyIFRlc3QgY29tYmluZXMgaW5kZXBlbmRlbnQgcOKAk3ZhbHVlcyB0byB0ZXN0IHdoZXRoZXIgdGhlcmUgaXMgZXZpZGVuY2UgaW4gYXQgbGVhc3Qgb25lIG9mIHRoZSBjbHVicyBvZiBhIHBhcmFtZXRlciBiZWluZyBwb3NpdGl2ZSBvciBuZWdhdGl2ZS4iKSkNCg0KYGBgDQoNCiMjIE1vZGVsIDYgKGF2U2ltKSB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KIyMjIEt1ZG9zIHRpZSBmb3JtYXRpb24gZHluYW1pY3MNCmBgYHtyIGVjaG89Rn0NCmxvYWQoInRlc3Qvc2llbmFGaXQvbWV0YS1hbmFseXNpcy9tZXRhX2ZyZXFfbTYuUkRhdGEiKQ0KDQprbml0cjo6a2FibGUoZGYyWzEyOjI0LCBdLCBkaWdpdHM9MywgImh0bWwiLCBjYXB0aW9uPSJNZXRhLWFuYWx5c2lzIG9mIHBhcmFtZXRlciBlc3RpbWF0ZXMgZm9yIHRoZSBvYmplY3RpdmUgZnVuY3Rpb24gb2Yga3Vkb3MgdGllIGZvcm1hdGlvbiBhY3Jvc3MgNSBTdHJhdmEgY2x1YnMiKSAlPiUgDQogIGthYmxlRXh0cmE6OmthYmxlX3N0eWxpbmcoYm9vdHN0cmFwX29wdGlvbnMgPSBjKCJzdHJpcGVkIiwgImhvdmVyIikpICU+JQ0KICBmb290bm90ZShnZW5lcmFsID0gIkVzdGltYXRlcyBhcmUgZ2l2ZW4gd2l0aCBzdGFuZGFyZCBlcnJvcnMgaW4gcGFyZW50aGVzZXMuIEFsbCBjb252ZXJnZW5jZSB0IHJhdGlvcyA8LjEwOyBvdmVyYWxsIG1heGltdW0gY29udmVyZ2VuY2UgcmF0aW8gPC4xNS4gUmF0ZSBwYXJhbWV0ZXJzIG5vdCBzaG93bjsgc2VlIFtoZXJlXShodHRwczovL3JvYmZyYW5rZW4uZ2l0aHViLmlvL1N0cmF2YS9tZXRhLmh0bWwpIGZvciBmdWxsIG1vZGVsIHJlc3VsdHMuIFJlZmVyZW5jZSBjYXRlZ29yeSBmb3IgZ2VuZGVyID0gbWFsZXM7IHRoZSBlZmZlY3QgdGh1cyByZWZlcnMgdG8gdGhlIGVmZmVjdCBmb3IgZmVtYWxlcyAoYW5kIG90aGVyIGNhdGVnb3JpZXMgYW5kIG1pc3NpbmdzKS4iLA0KICAgICAgICAgICBhbHBoYWJldCAgPSBjKCJTb21lIHN0cnVjdHVyYWwgbmV0d29yayBlZmZlY3RzIHdlcmUgcmF0aGVyIGltcG9ydGFudCBmb3Igc29tZSBjbHVicywgYnV0IG5vdCBmb3Igb3RoZXJzOyBmb3IgdGhlIGxhdHRlciwgd2UgZml4ZWQgdGhlc2UgZWZmZWN0cyB0byAwIChTRT1OQSkuIiwgIldlIGZpeGVkIGdlbmRlciBlZmZlY3RzIG9uIGt1ZG9zIHRpZSBmb3JtYXRpb24gdG8gMCBpbiBjbHViIDQuIFZhcmlhdGlvbiBiZXR3ZWVuIHRoZSBnZW5kZXJzIHdhcyBub3Qgc3VmZmljaWVudCBmb3IgbW9kZWwgY29udmVyZ2VuY2UuIFNjb3Jl4oCTdHlwZSB0ZXN0cyBpbmRpY2F0ZWQgdGhhdCBnZW5kZXIgZWZmZWN0cyB3ZXJlIG5vdCBzaWduaWZpY2FudC4iLCAiVGhlIEZpc2hlciBUZXN0IGNvbWJpbmVzIGluZGVwZW5kZW50IHDigJN2YWx1ZXMgdG8gdGVzdCB3aGV0aGVyIHRoZXJlIGlzIGV2aWRlbmNlIGluIGF0IGxlYXN0IG9uZSBvZiB0aGUgY2x1YnMgb2YgYSBwYXJhbWV0ZXIgYmVpbmcgcG9zaXRpdmUgb3IgbmVnYXRpdmUuIikpDQoNCmBgYA0KDQojIyMgUnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MNCmBgYHtyIGVjaG89Rn0NCmxvYWQoInRlc3Qvc2llbmFGaXQvbWV0YS1hbmFseXNpcy9tZXRhX2ZyZXFfbTYuUkRhdGEiKQ0KDQprbml0cjo6a2FibGUoZGYyWzM2Om5yb3coZGYyKSwgXSwgZGlnaXRzPTMsICJodG1sIiwgY2FwdGlvbj0iTWV0YS1hbmFseXNpcyBvZiBwYXJhbWV0ZXIgZXN0aW1hdGVzIGZvciB0aGUgb2JqZWN0aXZlIGZ1bmN0aW9uIG9mIHJ1bm5pbmcgZnJlcXVlbmN5IGR5bmFtaWNzIGFjcm9zcyA1IFN0cmF2YSBjbHVicyIpICU+JSANCiAga2FibGVFeHRyYTo6a2FibGVfc3R5bGluZyhib290c3RyYXBfb3B0aW9ucyA9IGMoInN0cmlwZWQiLCAiaG92ZXIiKSkgJT4lDQogIGZvb3Rub3RlKGdlbmVyYWwgPSAiRXN0aW1hdGVzIGFyZSBnaXZlbiB3aXRoIHN0YW5kYXJkIGVycm9ycyBpbiBwYXJlbnRoZXNlcy4gQWxsIGNvbnZlcmdlbmNlIHQgcmF0aW9zIDwuMTA7IG92ZXJhbGwgbWF4aW11bSBjb252ZXJnZW5jZSByYXRpbyA8LjE1LiBSYXRlIHBhcmFtZXRlcnMgbm90IHNob3duOyBzZWUgW2hlcmVdKGh0dHBzOi8vcm9iZnJhbmtlbi5naXRodWIuaW8vU3RyYXZhL21ldGEuaHRtbCkgZm9yIGZ1bGwgbW9kZWwgcmVzdWx0cy4gUmVmZXJlbmNlIGNhdGVnb3J5IGZvciBnZW5kZXIgPSBtYWxlczsgdGhlIGVmZmVjdCB0aHVzIHJlZmVycyB0byB0aGUgZWZmZWN0IGZvciBmZW1hbGVzIChhbmQgb3RoZXIgY2F0ZWdvcmllcyBhbmQgbWlzc2luZ3MpLiIsDQogICAgICAgICAgIGFscGhhYmV0ICA9IGMoIlNvbWUgc3RydWN0dXJhbCBuZXR3b3JrIGVmZmVjdHMgd2VyZSByYXRoZXIgaW1wb3J0YW50IGZvciBzb21lIGNsdWJzLCBidXQgbm90IGZvciBvdGhlcnM7IGZvciB0aGUgbGF0dGVyLCB3ZSBmaXhlZCB0aGVzZSBlZmZlY3RzIHRvIDAgKFNFPU5BKS4iLCAiV2UgZml4ZWQgZ2VuZGVyIGVmZmVjdHMgb24gcnVubmluZyBmcmVxdWVuY3kgZHluYW1pY3MgdG8gMCBpbiBjbHViIDQuIFZhcmlhdGlvbiBiZXR3ZWVuIHRoZSBnZW5kZXJzIHdhcyBub3Qgc3VmZmljaWVudCBmb3IgbW9kZWwgY29udmVyZ2VuY2UuIFNjb3Jl4oCTdHlwZSB0ZXN0cyBpbmRpY2F0ZWQgdGhhdCBnZW5kZXIgZWZmZWN0cyB3ZXJlIG5vdCBzaWduaWZpY2FudC4iLCAiVGhlIEZpc2hlciBUZXN0IGNvbWJpbmVzIGluZGVwZW5kZW50IHDigJN2YWx1ZXMgdG8gdGVzdCB3aGV0aGVyIHRoZXJlIGlzIGV2aWRlbmNlIGluIGF0IGxlYXN0IG9uZSBvZiB0aGUgY2x1YnMgb2YgYSBwYXJhbWV0ZXIgYmVpbmcgcG9zaXRpdmUgb3IgbmVnYXRpdmUuIikpDQoNCmBgYA0KDQojIyB7LX0NCg0KIyB7LX0NCg0KPGJyPg0KDQojIyMgVGh1cyAuLi4NCg0KKiBXZSBmaW5kIGluZGljYXRpb24gdGhhdCByZWNlaXZpbmcga3Vkb3MgKGkuZS4sIGhhdmluZyBtb3JlIGt1ZG9zIGluLXRpZXMpIHNwdXJzIHJ1bm5pbmcgYWN0aXZpdHkgbGV2ZWxzLg0KDQoqIFdlIGZpbmQgZXZpZGVuY2UgdGhhdCBhY3RvcnMgYXNzaW1pbGF0ZSB0byB0aGUgYmVoYXZpb3Igb2YgYWx0ZXJzOw0KDQogICsgU29tZSBpbmRpY2F0aW9uIHRoYXQgYWN0b3JzIGFyZSBwdWxsZWQgZG93biB0byB0aGUgYmVoYXZpb3Igb2YgbG93ZXItYmVoYXZpb3IgYWx0ZXJzIG1vcmUgc3Ryb25nbHkgdGhlbiB0aGV5IGFyZSBwdWxsZWQgdXAgYnkgaGlnaGVyLWJlaGF2aW9yIGFsdGVycy4uLg0KICANCiAgKyBCdXQgcGFyYW1ldGVyIGVzdGltYXRlcyBmb3IgYXZBdHRIaWdoZXIgYW5kIGF2QXR0TG93ZXIgZG8gbm90IHNpZ25pZmljYW50bHkgZGlmZmVyLi4uDQogIA0KICArIGF2U2ltIHNlZW1zIGJlc3QhDQogIA0KKiBGaW5kaW5ncyBhcmUgcm9idXN0IHdpdGggcnVubmluZyB2b2x1bWUgYXMgYmVoYXZpb3IgdmFyaWFibGUuDQogIA0KLS0tLQ0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQoNCg0KIyBQbG90DQoNCjxpbWcgc3JjPSJpbWFnZXMvcHJlc2VudGF0aW9uL3Bsb3QucG5nIiBhbHQ9ImFjdGl2aXR5IHBvc3QiIHdpZHRoPSIxMjUlIi8+DQoNCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KPGJyPg0KDQo8YnI+DQoNCjxicj4NCg0KDQojIENvbmNsdXNpb24NCg0KKiBXZSBleHRlbmQgcHJldmlvdXMgU0FPTSBzdHVkaWVzIGJ5ICgxKSBmb2N1c2luZyBvbiBhZHVsdHMgYW5kICgyKSB1c2luZyBvYmplY3RpdmUgYWN0aXZpdHkgbWVhc3VyZXMgKGZyZXF1ZW5jeSAmIHZvbHVtZSk7DQoNCiogUG9zaXRpdmUgaW5kZWdyZWUgZWZmZWN0IG9uIHNwb3J0cyBpcyBjb25zaXN0ZW50IHdpdGggcHJldmlvdXMgc3R1ZGllcyBjb25jZXJuaW5nIHNvY2lhbCBzdXBwb3J0IGFuZCBzcG9ydHMgW2UuZy4sIFNoZXJpZGFuIGV0IGFsLiAtQHNoZXJpZGFuMjAxNF0uDQoNCiogSW4gYWNjb3JkYW5jZSB3aXRoIHByaW9yIFNBT00gc3R1ZGllcywgd2UgZm91bmQgZXZpZGVuY2UgZm9yIHBlZXIgaW5mbHVlbmNlIGluIHNwb3J0czoNCg0KICArIFdlIGludGVncmF0ZWQgdGhlIGlkZWEgb2YgYXN5bW1ldHJpY2FsIGluZmx1ZW5jZTogYXR0cmFjdGlvbiB0b3dhcmRzIGhpZ2hlciB2cy4gbG93ZXIuDQogIA0KICArIFdlIGFzc2ltaWxhdGUgdG8gdGhlIG1lYW4uLi4gc29tZSBpbmRpY2F0aW9uIHRoYXQgbG93ZXItYmVoYXZpb3IgYWx0ZXJzIGFyZSBtb3JlIGluZmx1ZW50aWFsIHRoYW4gaGlnaGVyLWJlaGF2aW9yIGFsdGVycy4uLiANCiAgICANCiAgICAtIFRoaXMgbWF5IGJlIGltcG9ydGFudCBmb3Igc29jaWFsIG5ldHdvcmsgaW50ZXJ2ZW50aW9ucyBhaW1lZCBhdCBwcm9tb3Rpbmcgc3BvcnRzIHBhcnRpY2lwYXRpb24hDQogICAgDQoqIEFzeW1tZXRyaWNhbCBhc3NpbWlsYXRpb24gdXB3YXJkL2Rvd253YXJkIGluIGJlaGF2aW9ycyB3aGVyZSBoaWdoIHZhbHVlcyBhcmUgaW5oZXJlbnRseSBkZXNpcmFibGUgLi4uDQoNCiAgKyAqQWNhZGVtaWMgcGVyZm9ybWFuY2U/KiANCiAgDQogICAgLSBQcmlvciBzdHVkaWVzIHVzZWQgYXZlcmFnZSBzaW1pbGFyaXR5IGFzIGluZmx1ZW5jZSBvcGVyYXRpb25hbGl6YXRpb24gW2UuZy4sIEtyZXRzY2htZXIgYXQgYWwuLCAtQGtyZXRzY2htZXIyMDE4OyBSYW1iYXJhbiBldCBhbC4sIC1AcmFtYmFyYW4yMDE3OyBTaGluIGFuZCBSeWFuLCAtQHNoaW4yMDE0XS4NCiAgICANCiAgICAtIE9yIGF2ZXJhZ2UgYWx0ZXIgZWZmZWN0IFtHcmVtbWVuIGV0IGFsLiwgLUBncmVtbWVuMjAxN10uDQogIA0KICAgIA0KICAgIA0KPGJyPg0KPGJyPg0KICANCg0KLS0tLQ0KDQojIFJlZmVyZW5jZXMNCg0K</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("duisterbelt.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
