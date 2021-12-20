@@ -475,6 +475,10 @@ Potential problematic assumption of symmetry:
 
 #### Average alter effect
 
+$$ s^{beh}_{i27}(x,z) = z_i(\textstyle \sum_jx_{ij}z_j)/(\textstyle \sum_jx_{ij}) $$ 
+
+ <br>
+
 **Scenario 1**: ego has 6 alters, all of whom run 3 times per week.
 
 ```{r avAlt1, echo=FALSE}
@@ -494,6 +498,10 @@ Positive influence of alters that score higher than ego and negative influence o
 
 
 #### Average similarity effect
+
+$$ s^{beh}_{i5}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) $$
+
+<br>
 
 **Scenario 1**: ego has 6 alters, all of whom run 3 times per week.
 
