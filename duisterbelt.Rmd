@@ -716,7 +716,7 @@ knitr::kable(df2[36:nrow(df2), ], digits=3, "html", caption="Meta-analysis of pa
 
 ```
 
-## Model 4 (avAttLower {.tabset .tabset-fade} 
+## Model 4 (avAttLower) {.tabset .tabset-fade} 
 ### Kudos tie formation dynamics
 ```{r echo=F}
 load("test/sienaFit/meta-analysis/meta_freq_m4.RData")
@@ -739,7 +739,7 @@ knitr::kable(df2[36:nrow(df2), ], digits=3, "html", caption="Meta-analysis of pa
 
 ```
 
-## Model 5 (avAttHigher+Lower{.tabset .tabset-fade} 
+## Model 5 (avAttHigher+Lower){.tabset .tabset-fade} 
 ### Kudos tie formation dynamics
 ```{r echo=F}
 load("test/sienaFit/meta-analysis/meta_freq_m5.RData")
