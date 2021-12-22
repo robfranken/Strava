@@ -75,7 +75,7 @@ First, we read in the sienaFit-objects of our 5 clubs. We estimated for each clu
 
 We use a function to load the objects under new names. We list models 1-6 across clubs for subsequent meta-analysis.
 
-```{get data, eval=F}
+```{r get data, eval=F}
 # clean the working environment 
 rm (list = ls( ))
 
@@ -86,7 +86,7 @@ loadRData <- function(fileName){
 }
 
 # large lists, takes a lot of time to load
-# in case you don't have enough memory space for all RSiena lists, leave club 3 for now.
+# in case of limited memory space, exclude club 3 for now.
 club1 <-  loadRData("test/sienaFit/sienaFit_club1.RData")
 club2 <-  loadRData("test/sienaFit/sienaFit_club2.RData")
 club4 <-  loadRData("test/sienaFit/sienaFit_club4.RData")
@@ -101,21 +101,21 @@ m5List <- list(club1[[5]], club2[[5]], club4[[5]], club5[[5]])
 m6List <- list(club1[[6]], club2[[6]], club4[[6]], club5[[6]])
 
 # remove the excess data, and add club 3's rsiena objects.
-#rm(list = setdiff(ls(), c("m1List", "m2List", "m3List", "m4List", "m5List", "m6List"))
-#club3 <-  loadRData("test/sienaFit/sienaFit_club3.RData")
+rm(club1, club2, club4, club5)
+club3 <-  loadRData("test/sienaFit/sienaFit_club3.RData")
 # when facing facing storage capacity issues, check the capacity:
 #memory.limit()
 # we increase the limit
 #memory.limit(size=56000)
 
 # add to the lists
-#m1List[[5]] <- club3[[1]]
-#m2List[[5]] <- club3[[2]]
-#m3List[[5]] <- club3[[3]]
-#m4List[[5]] <- club3[[4]]
-#m5List[[5]] <- club3[[5]]
-#m6List[[5]] <- club3[[6]]
-#rm(club3)
+m1List[[5]] <- club3[[1]]
+m2List[[5]] <- club3[[2]]
+m3List[[5]] <- club3[[3]]
+m4List[[5]] <- club3[[4]]
+m5List[[5]] <- club3[[5]]
+m6List[[5]] <- club3[[6]]
+rm(club3)
 
 ```
 

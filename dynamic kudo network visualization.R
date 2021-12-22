@@ -30,13 +30,14 @@ load("clubdata.Rdata")
 # here, we make a plot of kudos-network and node size based on behavior attribute
 # at two time points, t1 and t2; two snapshots, which the SAOM models as a continuous-time process. 
 
-t1 <- 5
-t2 <- 6
 
+t1 <- 11
+t2 <- 12
+c <- 1
 library(igraph)
 
 # club 1
-club <- clubdata[[1]]
+club <- clubdata[[c]]
 knet1 <- RSiena::coDyadCovar(data.matrix(club$kudo[,,t1])) # t1 net
 knet2 <- RSiena::coDyadCovar(data.matrix(club$kudo[,,t2])) # t2 net
 
@@ -45,8 +46,8 @@ G1 <- igraph::graph_from_adjacency_matrix(knet1, mode = "directed", diag = FALSE
 G2 <- igraph::graph_from_adjacency_matrix(knet2, mode = "directed", diag = FALSE) 
 
 # node size reflects behavior attribute: run freq.
-V(G1)$size <- 6 + club$freq_run[,,t1] * 2
-V(G2)$size <- 6 + club$freq_run[,,t2] * 2
+V(G1)$size <- 4 + club$freq_run[,,t1] * 2
+V(G2)$size <- 4 + club$freq_run[,,t2] * 2
 
 V(G1)$color <- ifelse(club$freq_run[,,t1]==0, "lightsteelblue2", "orange" ) # inactives are blue
 V(G2)$color <- ifelse(club$freq_run[,,t2]==0, "lightsteelblue2", "orange" )
@@ -54,7 +55,7 @@ V(G2)$color <- ifelse(club$freq_run[,,t2]==0, "lightsteelblue2", "orange" )
 # make a network layout, using a force-directed layout algorithm
 # store it in object l; and we use these same layout for both network plots. 
 l <- layout_with_kk(G1)
-
+{
 # plot the network at t1 and t2
 dev.off()
 par(mfrow=c(1,2))
@@ -81,7 +82,7 @@ par(mfrow=c(1,2))
        edge.color="grey",                           
        edge.width=1.5,                               
        edge.arrow.size=.5,                      
-       edge.arrow.width=1,                         
+       edge.arrow.width=1.5,                         
        edge.lty="solid",                             
        edge.curved=.2,
        
@@ -90,7 +91,7 @@ par(mfrow=c(1,2))
   )
 } 
 
-text(-.3, 1.3, "time = 1", adj = 0, cex = 1.5)
+text(-.3, 1.3, "time = 1", adj = 0, cex = 2)
 # notes
 text(-.9, -1.2, "Note: Node size based on running frequency.", adj = 0, cex = 1)
 
@@ -115,7 +116,7 @@ text(-.9, -1.2, "Note: Node size based on running frequency.", adj = 0, cex = 1)
        edge.color="grey",                           
        edge.width=1.5,                               
        edge.arrow.size=.5,                      
-       edge.arrow.width=1,                         
+       edge.arrow.width=1.5,                         
        edge.lty="solid",                             
        edge.curved=.2,
        
@@ -123,10 +124,12 @@ text(-.9, -1.2, "Note: Node size based on running frequency.", adj = 0, cex = 1)
        layout = l
   )
 }
-text(-.3, 1.3, "time = 2", adj = 0, cex = 1.5)
+text(-.3, 1.3, "time = 2", adj = 0, cex = 2)
 # add a legend
-legend(x=-1.99, y=-.5, c("Active", "Inactive"), pch=21,
-       col="#777777", pt.bg=c("orange", "lightsteelblue2"), pt.cex=3, cex=1.25, bty="n", ncol=1)
+legend(x=-1.6, y=1.1, c("Active", "Inactive"), pch=21,
+       col="#777777", pt.bg=c("orange", "lightsteelblue2"), pt.cex=4.5, cex=2, bty="n", ncol=1)
+}
+
 
 #################################
 #################################

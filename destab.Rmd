@@ -64,7 +64,7 @@ library(igraph)
 
 <br>
 
-Define some functions
+Define some functions:
 
 ```{r eval=T}
 # density: observed relations divided by possible relations
@@ -252,7 +252,7 @@ fMoran.I <- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = "tw
 
 <br>
 
-For network measures, mean values over time are given with standard deviations in parentheses. For behavioral attributes, means and standard deviations at baseline (t1: December) are given. Degrees reflect kudos ties, with awarding 1 or more kudos constituting the presence of a tie.
+Replicate the descriptives table:
 
 ```{r eval=T}
 # Table
