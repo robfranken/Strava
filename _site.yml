@@ -12,6 +12,8 @@ navbar:
         href: des.html
       - text: "Table 1: Descriptives"
         href: destab.html
+      - text: "Figure 5: Development of the mean running"
+        href: desfig.html
     - text: "Model selection"
       menu:
       - text: "Club 1"
@@ -24,16 +26,16 @@ navbar:
         href: meta.html
       - text: "Running volume models"
         href: vol_meta.html
+    - text: "GOF"
+      menu: 
+      - text: "Running frequency models"
+      - text: "Running volume"
     - text: "Influence effects"
       menu:
       - text: "Different influence operationalizations"
         href: influenceeffects.html
       - text: "Figure 3: Ego-alter influence plot"
         href: figure3.html
-    - text: "Other"
-      menu:
-      - text: "Duisterbelt '21 presentation"
-        href: duisterbelt.html
 
   right:
     - icon: fab fa-github

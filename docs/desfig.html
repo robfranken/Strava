@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Replicating Table 1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fas fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+    <li>
+      <a href="desfig.html">Figure 5: Development of the mean running</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="other.html">Clubs 2-5</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Meta-analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="meta.html">Running frequency models</a>
+    </li>
+    <li>
+      <a href="vol_meta.html">Running volume models</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    GOF
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Running frequency models</li>
+    <li class="dropdown-header">Running volume</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Influence effects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influenceeffects.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 3: Ego-alter influence plot</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Replicating Table 1</h1>
+<h4 class="date">Last compiled on januari, 2022</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<p>This script replicates Figure 5 (Development of the mean of running attributes).</p>
+<p><br></p>
+<div id="preparation" class="section level1">
+<h1>Preparation</h1>
+<p>Clean the working environment, load in the club data, load some packages.</p>
+<pre class="r test"><code># clean the working environment
+rm(list = ls())
+
+# packages
+library(dplyr)
+library(moments)
+library(ggplot2)
+
+load(&quot;clubdata.RData&quot;)</code></pre>
+</div>
+<div id="plot" class="section level1">
+<h1>Plot</h1>
+<pre class="r test"><code># data males (mean run freq./vol. and mean freq./vol. other activities: cycling swimming)
+mean_freq &lt;- mean_vol &lt;- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    mean_freq[t,i] &lt;- mean(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)])
+    mean_vol[t,i] &lt;- mean(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)])
+  }
+}
+
+sd_freq &lt;- sd_vol &lt;- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    sd_freq[t,i] &lt;- sd(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)])
+    sd_vol[t,i] &lt;- sd(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)])
+  }
+}
+
+se_freq &lt;- se_vol &lt;- matrix(NA, nrow=12, ncol=5) 
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    se_freq[t,i] &lt;- sd_freq[t,i]/sqrt(sum(clubdata[[i]]$male==1))
+    se_vol[t,i] &lt;- sd_vol[t,i]/sqrt(sum(clubdata[[i]]$male==1))
+  }
+}
+
+data_male &lt;- data.frame(
+  mean = as.vector(c(mean_freq, mean_vol)),
+  sd = as.vector(c(sd_freq, sd_vol)),
+  se =  as.vector(c(se_freq, se_vol)),
+  club = as.character(sort(replicate(12, c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 3 (N=165)&quot;, &quot;Club 4 (N=14)&quot;, &quot;Club 5 (N=77)&quot;)))),
+  time = rep(c(1:12)),
+  Attribute = c(rep(&quot;Frequency&quot;, 12*5), rep(&quot;Volume&quot;, 12*5)),
+  Group = &quot;Male&quot;)
+
+
+# data females and others
+mean_freq &lt;- matrix(NA, nrow=12, ncol=5)
+mean_vol &lt;- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    mean_freq[t,i] &lt;- mean(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)])
+    mean_vol[t,i] &lt;- mean(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)])
+  }
+}
+
+sd_freq &lt;- matrix(NA, nrow=12, ncol=5)
+sd_vol &lt;- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    sd_freq[t,i] &lt;- sd(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)])
+    sd_vol[t,i] &lt;- sd(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)])
+  }
+}
+
+se_freq &lt;- matrix(NA, nrow=12, ncol=5)  
+se_vol &lt;- matrix(NA, nrow=12, ncol=5)  
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    se_freq[t,i] &lt;- sd_freq[t,i]/sqrt(sum(!clubdata[[1]]$male==1))
+    se_vol[t,i] &lt;- sd_vol[t,i]/sqrt(sum(!clubdata[[1]]$male==1))
+  }
+}
+
+data_female &lt;- data.frame(
+  mean = as.vector(c(mean_freq, mean_vol)),
+  sd = as.vector(c(sd_freq, sd_vol)),
+  se =  as.vector(c(se_freq, se_vol)),
+  club = as.character(sort(replicate(12, c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 3 (N=165)&quot;, &quot;Club 4 (N=14)&quot;, &quot;Club 5 (N=77)&quot;)))),
+  time = rep(c(1:12)),
+  Attribute = c(rep(&quot;Frequency&quot;, 12*5), rep(&quot;Volume&quot;, 12*5)),
+  Group = &quot;Female and others&quot;
+)
+
+plot &lt;- rbind(data_male, data_female) #, data_all)
+
+pd &lt;- position_dodge(width = .8) # dodge between points to prevent overlap of CIs
+
+plot$Group &lt;- factor(plot$Group,
+                     levels = c(&quot;Male&quot;, &quot;Female and others&quot;))
+
+ggplot(plot, aes(x=time, y=mean, colour=Group, #shape = Attribute,
+                 group=Group)) +
+  #group=interaction(Group, Attribute))) + 
+  geom_point(size = 1.5, position = pd) + 
+  geom_line(size = .75, position = pd) +
+  geom_errorbar(aes(time, mean, ymin = mean - se, ymax = mean + se), 
+                width = 0.6, position = pd) +
+  labs(title=&quot;Development of running activity attribute means over time&quot;, 
+       subtitle=&quot;Disaggregated by running measure (frequency and volume), club and gender&quot;) +
+  scale_colour_manual(values=c(&quot;#56B4E9&quot;, &quot;#E69F00&quot;)) +
+  labs(x = &quot;&quot;, y = &quot;Hours per week        Times per week&quot;) +
+  scale_y_continuous(breaks = seq(0, 5, by = 1)) +
+  scale_x_discrete(limits=c(&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;)) +
+  facet_grid(Attribute~club) +
+  theme(axis.text.x = element_text(size = 8, angle = 70, vjust = -.2, hjust=-.1), 
+        legend.position = &quot;top&quot;,
+        legend.box.just = &quot;right&quot;,
+        legend.direction = &quot;horizontal&quot;,
+        legend.background = element_rect(fill=&quot;lightgray&quot;, size=.5, linetype=&quot;dotted&quot;),
+        legend.title = element_text(face = &quot;bold&quot;),
+        #legend.background = element_rect(fill =&quot;gray90&quot;, size=.5),
+        strip.text.y = element_blank())</code></pre>
+<p><img src="desfig_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlJlcGxpY2F0aW5nIFRhYmxlIDEiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQoNCg0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0KbGlicmFyeShrbml0cikNCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KDQoNCi0tLQ0KDQpUaGlzIHNjcmlwdCByZXBsaWNhdGVzIEZpZ3VyZSA1IChEZXZlbG9wbWVudCBvZiB0aGUgbWVhbiBvZiBydW5uaW5nIGF0dHJpYnV0ZXMpLg0KDQo8YnI+DQoNCiMgUHJlcGFyYXRpb24NCg0KDQoNCkNsZWFuIHRoZSB3b3JraW5nIGVudmlyb25tZW50LCBsb2FkIGluIHRoZSBjbHViIGRhdGEsIGxvYWQgc29tZSBwYWNrYWdlcy4NCg0KYGBge3IsIHdhcm5pbmc9RkFMU0V9DQojIGNsZWFuIHRoZSB3b3JraW5nIGVudmlyb25tZW50IA0Kcm0gKGxpc3QgPSBscyggKSkNCg0KI3BhY2thZ2VzDQpsaWJyYXJ5KGRwbHlyKQ0KbGlicmFyeShtb21lbnRzKQ0KbGlicmFyeShnZ3Bsb3QyKQ0KDQpsb2FkKCJjbHViZGF0YS5SRGF0YSIpDQoNCmBgYA0KDQojIFBsb3QNCg0KYGBge3J9DQoNCiMgZGF0YSBtYWxlcyAobWVhbiBydW4gZnJlcS4vdm9sLiBhbmQgbWVhbiBmcmVxLi92b2wuIG90aGVyIGFjdGl2aXRpZXM6IGN5Y2xpbmcgc3dpbW1pbmcpDQptZWFuX2ZyZXEgPC0gbWVhbl92b2wgPC0gbWF0cml4KE5BLCBucm93PTEyLCBuY29sPTUpDQpmb3IgKCBpIGluIDE6NSkgew0KICBmb3IgKCB0IGluIDE6MTIpIHsNCiAgICBtZWFuX2ZyZXFbdCxpXSA8LSBtZWFuKGNsdWJkYXRhW1tpXV0kZnJlcV9ydW5bLCx0XVt3aGljaChjbHViZGF0YVtbaV1dJG1hbGU9PTEpXSkNCiAgICBtZWFuX3ZvbFt0LGldIDwtIG1lYW4oY2x1YmRhdGFbW2ldXSR0aW1lX3J1blssLHRdW3doaWNoKGNsdWJkYXRhW1tpXV0kbWFsZT09MSldKQ0KICB9DQp9DQoNCnNkX2ZyZXEgPC0gc2Rfdm9sIDwtIG1hdHJpeChOQSwgbnJvdz0xMiwgbmNvbD01KQ0KZm9yICggaSBpbiAxOjUpIHsNCiAgZm9yICggdCBpbiAxOjEyKSB7DQogICAgc2RfZnJlcVt0LGldIDwtIHNkKGNsdWJkYXRhW1tpXV0kZnJlcV9ydW5bLCx0XVt3aGljaChjbHViZGF0YVtbaV1dJG1hbGU9PTEpXSkNCiAgICBzZF92b2xbdCxpXSA8LSBzZChjbHViZGF0YVtbaV1dJHRpbWVfcnVuWywsdF1bd2hpY2goY2x1YmRhdGFbW2ldXSRtYWxlPT0xKV0pDQogIH0NCn0NCg0Kc2VfZnJlcSA8LSBzZV92b2wgPC0gbWF0cml4KE5BLCBucm93PTEyLCBuY29sPTUpIA0KZm9yICggaSBpbiAxOjUpIHsNCiAgZm9yICggdCBpbiAxOjEyKSB7DQogICAgc2VfZnJlcVt0LGldIDwtIHNkX2ZyZXFbdCxpXS9zcXJ0KHN1bShjbHViZGF0YVtbaV1dJG1hbGU9PTEpKQ0KICAgIHNlX3ZvbFt0LGldIDwtIHNkX3ZvbFt0LGldL3NxcnQoc3VtKGNsdWJkYXRhW1tpXV0kbWFsZT09MSkpDQogIH0NCn0NCg0KZGF0YV9tYWxlIDwtIGRhdGEuZnJhbWUoDQogIG1lYW4gPSBhcy52ZWN0b3IoYyhtZWFuX2ZyZXEsIG1lYW5fdm9sKSksDQogIHNkID0gYXMudmVjdG9yKGMoc2RfZnJlcSwgc2Rfdm9sKSksDQogIHNlID0gIGFzLnZlY3RvcihjKHNlX2ZyZXEsIHNlX3ZvbCkpLA0KICBjbHViID0gYXMuY2hhcmFjdGVyKHNvcnQocmVwbGljYXRlKDEyLCBjKCJDbHViIDEgKE49MzApIiwgIkNsdWIgMiAoTj02MikiLCAiQ2x1YiAzIChOPTE2NSkiLCAiQ2x1YiA0IChOPTE0KSIsICJDbHViIDUgKE49NzcpIikpKSksDQogIHRpbWUgPSByZXAoYygxOjEyKSksDQogIEF0dHJpYnV0ZSA9IGMocmVwKCJGcmVxdWVuY3kiLCAxMio1KSwgcmVwKCJWb2x1bWUiLCAxMio1KSksDQogIEdyb3VwID0gIk1hbGUiKQ0KDQoNCiMgZGF0YSBmZW1hbGVzIGFuZCBvdGhlcnMNCm1lYW5fZnJlcSA8LSBtYXRyaXgoTkEsIG5yb3c9MTIsIG5jb2w9NSkNCm1lYW5fdm9sIDwtIG1hdHJpeChOQSwgbnJvdz0xMiwgbmNvbD01KQ0KZm9yICggaSBpbiAxOjUpIHsNCiAgZm9yICggdCBpbiAxOjEyKSB7DQogICAgbWVhbl9mcmVxW3QsaV0gPC0gbWVhbihjbHViZGF0YVtbaV1dJGZyZXFfcnVuWywsdF1bd2hpY2goIWNsdWJkYXRhW1tpXV0kbWFsZT09MSldKQ0KICAgIG1lYW5fdm9sW3QsaV0gPC0gbWVhbihjbHViZGF0YVtbaV1dJHRpbWVfcnVuWywsdF1bd2hpY2goIWNsdWJkYXRhW1tpXV0kbWFsZT09MSldKQ0KICB9DQp9DQoNCnNkX2ZyZXEgPC0gbWF0cml4KE5BLCBucm93PTEyLCBuY29sPTUpDQpzZF92b2wgPC0gbWF0cml4KE5BLCBucm93PTEyLCBuY29sPTUpDQpmb3IgKCBpIGluIDE6NSkgew0KICBmb3IgKCB0IGluIDE6MTIpIHsNCiAgICBzZF9mcmVxW3QsaV0gPC0gc2QoY2x1YmRhdGFbW2ldXSRmcmVxX3J1blssLHRdW3doaWNoKCFjbHViZGF0YVtbaV1dJG1hbGU9PTEpXSkNCiAgICBzZF92b2xbdCxpXSA8LSBzZChjbHViZGF0YVtbaV1dJHRpbWVfcnVuWywsdF1bd2hpY2goIWNsdWJkYXRhW1tpXV0kbWFsZT09MSldKQ0KICB9DQp9DQoNCnNlX2ZyZXEgPC0gbWF0cml4KE5BLCBucm93PTEyLCBuY29sPTUpICANCnNlX3ZvbCA8LSBtYXRyaXgoTkEsIG5yb3c9MTIsIG5jb2w9NSkgIA0KZm9yICggaSBpbiAxOjUpIHsNCiAgZm9yICggdCBpbiAxOjEyKSB7DQogICAgc2VfZnJlcVt0LGldIDwtIHNkX2ZyZXFbdCxpXS9zcXJ0KHN1bSghY2x1YmRhdGFbWzFdXSRtYWxlPT0xKSkNCiAgICBzZV92b2xbdCxpXSA8LSBzZF92b2xbdCxpXS9zcXJ0KHN1bSghY2x1YmRhdGFbWzFdXSRtYWxlPT0xKSkNCiAgfQ0KfQ0KDQpkYXRhX2ZlbWFsZSA8LSBkYXRhLmZyYW1lKA0KICBtZWFuID0gYXMudmVjdG9yKGMobWVhbl9mcmVxLCBtZWFuX3ZvbCkpLA0KICBzZCA9IGFzLnZlY3RvcihjKHNkX2ZyZXEsIHNkX3ZvbCkpLA0KICBzZSA9ICBhcy52ZWN0b3IoYyhzZV9mcmVxLCBzZV92b2wpKSwNCiAgY2x1YiA9IGFzLmNoYXJhY3Rlcihzb3J0KHJlcGxpY2F0ZSgxMiwgYygiQ2x1YiAxIChOPTMwKSIsICJDbHViIDIgKE49NjIpIiwgIkNsdWIgMyAoTj0xNjUpIiwgIkNsdWIgNCAoTj0xNCkiLCAiQ2x1YiA1IChOPTc3KSIpKSkpLA0KICB0aW1lID0gcmVwKGMoMToxMikpLA0KICBBdHRyaWJ1dGUgPSBjKHJlcCgiRnJlcXVlbmN5IiwgMTIqNSksIHJlcCgiVm9sdW1lIiwgMTIqNSkpLA0KICBHcm91cCA9ICJGZW1hbGUgYW5kIG90aGVycyINCikNCg0KcGxvdCA8LSByYmluZChkYXRhX21hbGUsIGRhdGFfZmVtYWxlKSAjLCBkYXRhX2FsbCkNCg0KcGQgPC0gcG9zaXRpb25fZG9kZ2Uod2lkdGggPSAuOCkgIyBkb2RnZSBiZXR3ZWVuIHBvaW50cyB0byBwcmV2ZW50IG92ZXJsYXAgb2YgQ0lzDQoNCnBsb3QkR3JvdXAgPC0gZmFjdG9yKHBsb3QkR3JvdXAsDQogICAgICAgICAgICAgICAgICAgICBsZXZlbHMgPSBjKCJNYWxlIiwgIkZlbWFsZSBhbmQgb3RoZXJzIikpDQoNCmdncGxvdChwbG90LCBhZXMoeD10aW1lLCB5PW1lYW4sIGNvbG91cj1Hcm91cCwgI3NoYXBlID0gQXR0cmlidXRlLA0KICAgICAgICAgICAgICAgICBncm91cD1Hcm91cCkpICsNCiAgI2dyb3VwPWludGVyYWN0aW9uKEdyb3VwLCBBdHRyaWJ1dGUpKSkgKyANCiAgZ2VvbV9wb2ludChzaXplID0gMS41LCBwb3NpdGlvbiA9IHBkKSArIA0KICBnZW9tX2xpbmUoc2l6ZSA9IC43NSwgcG9zaXRpb24gPSBwZCkgKw0KICBnZW9tX2Vycm9yYmFyKGFlcyh0aW1lLCBtZWFuLCB5bWluID0gbWVhbiAtIHNlLCB5bWF4ID0gbWVhbiArIHNlKSwgDQogICAgICAgICAgICAgICAgd2lkdGggPSAwLjYsIHBvc2l0aW9uID0gcGQpICsNCiAgbGFicyh0aXRsZT0iRGV2ZWxvcG1lbnQgb2YgcnVubmluZyBhY3Rpdml0eSBhdHRyaWJ1dGUgbWVhbnMgb3ZlciB0aW1lIiwgDQogICAgICAgc3VidGl0bGU9IkRpc2FnZ3JlZ2F0ZWQgYnkgcnVubmluZyBtZWFzdXJlIChmcmVxdWVuY3kgYW5kIHZvbHVtZSksIGNsdWIgYW5kIGdlbmRlciIpICsNCiAgc2NhbGVfY29sb3VyX21hbnVhbCh2YWx1ZXM9YygiIzU2QjRFOSIsICIjRTY5RjAwIikpICsNCiAgbGFicyh4ID0gIiIsIHkgPSAiSG91cnMgcGVyIHdlZWsgICAgICAgIFRpbWVzIHBlciB3ZWVrIikgKw0KICBzY2FsZV95X2NvbnRpbnVvdXMoYnJlYWtzID0gc2VxKDAsIDUsIGJ5ID0gMSkpICsNCiAgc2NhbGVfeF9kaXNjcmV0ZShsaW1pdHM9YygiSmFuIiwgIkZlYiIsICJNYXIiLCAiQXByIiwgIk1heSIsICJKdW4iLCAiSnVsIiwgIkF1ZyIsICJTZXAiLCAiT2N0IiwgIk5vdiIsICJEZWMiKSkgKw0KICBmYWNldF9ncmlkKEF0dHJpYnV0ZX5jbHViKSArDQogIHRoZW1lKGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KHNpemUgPSA4LCBhbmdsZSA9IDcwLCB2anVzdCA9IC0uMiwgaGp1c3Q9LS4xKSwgDQogICAgICAgIGxlZ2VuZC5wb3NpdGlvbiA9ICJ0b3AiLA0KICAgICAgICBsZWdlbmQuYm94Lmp1c3QgPSAicmlnaHQiLA0KICAgICAgICBsZWdlbmQuZGlyZWN0aW9uID0gImhvcml6b250YWwiLA0KICAgICAgICBsZWdlbmQuYmFja2dyb3VuZCA9IGVsZW1lbnRfcmVjdChmaWxsPSJsaWdodGdyYXkiLCBzaXplPS41LCBsaW5ldHlwZT0iZG90dGVkIiksDQogICAgICAgIGxlZ2VuZC50aXRsZSA9IGVsZW1lbnRfdGV4dChmYWNlID0gImJvbGQiKSwNCiAgICAgICAgI2xlZ2VuZC5iYWNrZ3JvdW5kID0gZWxlbWVudF9yZWN0KGZpbGwgPSJncmF5OTAiLCBzaXplPS41KSwNCiAgICAgICAgc3RyaXAudGV4dC55ID0gZWxlbWVudF9ibGFuaygpKQ0KYGBgDQoNCg0KDQoNCg0K</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("desfig.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

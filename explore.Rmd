@@ -384,6 +384,12 @@ map(sienaFit_clubL, 6)
 
 Because we are now modeling the evolution of both the network and the attribute (running freq.), we will add an additional indicator to evaluate GOF; namely, does the model capture the distribution of actors’ attribute levels over time?
 
+<!--- 
+
+@RF: add script: load in the model (m5), and estimate GOF stats; save and plot.
+
+---> 
+
 ```{r class.source = 'fold-hide'}
 load("files/test club 1/gof2.RData")
 plot(goflist2[[1]])
