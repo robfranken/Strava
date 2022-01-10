@@ -7,9 +7,9 @@ graphics
 stats
 knitr
 RSiena
+ggplot2
 igraph
 tidyverse
-ggplot2
 tibble
 tidyr
 readr
@@ -22,3 +22,5 @@ kableExtra
 network
 statnet.common
 sna
+lemon
+ggtext

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Relative importance</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fas fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+    <li>
+      <a href="desfig.html">Figure 5: Development of the mean running</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="other.html">Clubs 2-5</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Meta-analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="meta.html">Running frequency models</a>
+    </li>
+    <li>
+      <a href="vol_meta.html">Running volume models</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    GOF
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GOF1.html">Running frequency models</a>
+    </li>
+    <li class="dropdown-header">Running volume</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Influence effects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influenceeffects.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 6: Ego-alter influence plot</a>
+    </li>
+    <li>
+      <a href="RI.html">Figure 7: Relative importance of effects</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Relative importance</h1>
+<h4 class="date">Last compiled on januari, 2022</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<div id="relative-importance" class="section level1">
+<h1>Relative importance</h1>
+<p>Here, we calculate the expected relative importance of our effect of interest only <span class="citation">(for more information, see Indlekofer and Brandes, 2013)</span>. We present only a perspective of RI (a) aggregated over all actors and (b) at time-point 1.</p>
+<p>The following scripts reproduces the pie charts presented in the manuscript (Figure 7):</p>
+<pre class="r test"><code># We use a function to load the objects under new names.
+loadRData &lt;- function(fileName){
+  #loads an RData file, and returns it
+  load(fileName)
+  get(ls()[ls() != &quot;fileName&quot;])
+}
+
+# get the RSiena object lists for both models (frequency and volume)
+mydata_freq &lt;- loadRData(&quot;clubdata_rsiena_freq.RData&quot;)
+mydata_vol &lt;- loadRData(&quot;clubdata_rsiena_vol.RData&quot;)
+
+# we calculate RI of effects pertaining to running activity dynamics (both frequency and volume) across clubs
+
+
+# we make a list, in which we store RI-objects for each club
+RI_list &lt;- list()
+
+for (i in 1:5) { # for each club
+
+  #get sienaFit list 
+  ansL &lt;- loadRData(paste0(&quot;test/sienaFit/sienaFit_club&quot;, i, &quot;.RData&quot;))
+
+  #take model 5 (avAttH, avAttL, indegree...)
+  ans &lt;- ansL[[5]]
+  
+  # get only parameters for the evaluation function
+  theta.eval &lt;- ans$theta[ans$effects$type[ans$effects$include]==&quot;eval&quot;]
+  myeff.eval &lt;- ans$effects[ans$effects$type[ans$effects$include]==&quot;eval&quot;,]
+  
+  # only effects we are interested in
+  myeff.eval.beh &lt;- myeff.eval[c(1, 16:18), ] # note: also include outdegree (or another effect pertaining to network dynamics); apparently this is needed...
+  theta.eval.beh &lt;- theta.eval[c(1, 16:18)] # also want to include linear/quad shape? then do 14:18
+  
+  # algorithm used
+  myalgo &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, nsub=5, n3=5000 )
+  
+  # use sienaRI()
+  RI &lt;- sienaRI(
+    data = mydata_freq[[i]],
+    theta = theta.eval.beh,
+    algorithm = myalgo,
+    effects = myeff.eval.beh
+  )
+  
+  # extract RI for the behavior dynamics
+  RI_beh &lt;- RI[[2]]
+  
+  # take the statistics for time t
+  t = 1
+  RI_freq &lt;- RI_beh$expectedRI[[t]]
+  
+  # and repeat the same procedure for volume
+  ansL &lt;- loadRData(paste0(&quot;test/sienaFit/volume/sienaFit_club&quot;, i, &quot;.RData&quot;))
+  ans &lt;- ansL[[5]]
+  theta.eval &lt;- ans$theta[ans$effects$type[ans$effects$include]==&quot;eval&quot;]
+  myeff.eval &lt;- ans$effects[ans$effects$type[ans$effects$include]==&quot;eval&quot;,]
+  myeff.eval.beh &lt;- myeff.eval[c(1, 16:18), ]
+  theta.eval.beh &lt;- theta.eval[c(1, 16:18)]
+  RI &lt;- sienaRI(
+    data = mydata_vol[[i]],
+    theta = theta.eval.beh,
+    algorithm = myalgo,
+    effects = myeff.eval.beh
+  )
+  RI_beh &lt;- RI[[2]]
+  RI_vol &lt;- RI_beh$expectedRI[[t]]
+  
+  # combine 
+  RIc &lt;- c(RI_freq, RI_vol)
+  
+  # put in the list
+  RI_list[[i]] &lt;- RIc
+}
+
+# we make a dataframe for plotting multiple pie charts
+df_plot &lt;- data.frame(
+  ri = unlist(RI_list),
+  eff = substring(RI[[2]]$effectNames, 15),
+  y = rep(c(&quot;Frequency&quot;, &quot;Volume&quot;), 5, each=3),
+  club = rep(c(&quot;Club 1&quot;, &quot;Club 2&quot;, &quot;Club 3&quot;, &quot;Club 4&quot;, &quot;Club 5&quot;), 1, each = 6)
+
+)
+
+
+# reorder effect for plot
+df_plot$eff &lt;- factor(df_plot$eff,
+                     levels = c(&quot;indegree&quot;, &quot;average attraction higher&quot;, &quot;average attraction lower&quot;))
+# nice colors
+color &lt;- brewer.pal(3, &quot;Set2&quot;)
+
+ggplot(df_plot, aes(x=&quot;&quot;, y=ri, fill=eff)) +
+  geom_bar(width = 1, size = 1, color = &quot;white&quot;, stat = &quot;identity&quot;) +
+  coord_polar(&quot;y&quot;) +
+  geom_text(aes(label = paste0(round(100*ri), &quot;%&quot;)), 
+            position = position_stack(vjust = 0.5)) +
+  labs(x = NULL, y = NULL, fill = &quot;Effects&quot;, 
+       title = &quot;&lt;b&gt;&lt;span style = &#39;font-size:16pt&#39;&gt;Relative Importance (&lt;i&gt;RI&lt;/i&gt;) of indegree and attraction higher/lower effects&lt;/span&gt;&quot;,
+       caption = &quot;&lt;span style = &#39;font-size:10pt&#39;&gt;&lt;i&gt;Note&lt;/i&gt;: percentages indicate the extent to which effects determine whether actors make changes in their running attributes (i.e., frequency and volume).
+       Percentages indicate the importance of model parameters relative to one another. They should not be interpreted as absolute explained variance. Patterns presented here would change, would we include other effects (e.g., basic shape effects, covariate effects). 
+       The pattern of relative importances of effects was consistent across time; here, we present t=1.&quot;) +
+  guides(fill = guide_legend()) +
+  scale_fill_manual(values = color) +
+  facet_grid(y~club, switch = &quot;y&quot;) +
+  theme_classic() +
+    theme(axis.line = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      legend.title = element_blank(),
+      
+      plot.title = element_textbox_simple(
+        padding = margin(5.5, 5.5, 5.5, 5.5),
+        margin = margin(0, 0, 5.5, 0),
+        fill = &quot;lightsteelblue2&quot;,
+        lineheight=1),
+      
+      strip.text.x = element_textbox(
+        size = 9,
+        color = &quot;white&quot;, fill = &quot;#5D729D&quot;, box.color = &quot;#4A618C&quot;,
+        halign = 0.5, linetype = 1, r = unit(5, &quot;pt&quot;), width = unit(1, &quot;npc&quot;),
+        padding = margin(2, 0, 1, 0), margin = margin(3, 3, 3, 3)
+      ),
+      
+      strip.text.y = element_textbox_simple(
+        size=12,
+        face=&quot;bold.italic&quot;,
+        vjust=1),
+      
+      strip.background = element_blank(),
+      
+      plot.caption = element_textbox_simple(
+        padding = margin(2, 2, 2, 2),
+        margin = margin(0, 0, 2, 0),
+        fill = &quot;lightsteelblue2&quot;,
+        lineheight=1,
+        vjust=1.5,
+        r = grid::unit(8, &quot;pt&quot;)))</code></pre>
+<p><img src="ri.jpg" /></p>
+<hr />
+<div id="references" class="section level3 unnumbered">
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-indlekofer2013">
+<p>Indlekofer, Natalie, and Ulrik Brandes. 2013. “Relative Importance of Effects in Stochastic Actor-Oriented Models.” <em>Network Science</em> 1 (3): 278–304. <a href="doi:10.1017/nws.2013.21">doi:10.1017/nws.2013.21</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlJlbGF0aXZlIGltcG9ydGFuY2UiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IG5vDQogICAgdG9jX2Zsb2F0OiBubw0KICAgIGNvbGxhcHNlZDogZmFsc2UNCiAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlDQogICAgdG9jX2RlcHRoOiAxDQogICAgY29kZV9mb2xkaW5nOiBzaG93DQogICAgY29kZV9kb3dubG9hZDogeWVzDQotLS0NCg0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlPUZBTFNFfQ0KbGlicmFyeShrbml0cikNCmxpYnJhcnkoUlNpZW5hKQ0KbGlicmFyeShSQ29sb3JCcmV3ZXIpDQpsaWJyYXJ5KGdncGxvdDIpDQpsaWJyYXJ5KGdndGV4dCkNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCmNvbG9yaXplIDwtIGZ1bmN0aW9uKHgsIGNvbG9yKSB7c3ByaW50ZigiPHNwYW4gc3R5bGU9J2NvbG9yOiAlczsnPiVzPC9zcGFuPiIsIGNvbG9yLCB4KSB9DQoNCmBgYA0KDQpgYGB7ciBrbGlwcHksIGVjaG89RkFMU0UsIGluY2x1ZGU9VFJVRX0NCmtsaXBweTo6a2xpcHB5KHBvc2l0aW9uID0gYygndG9wJywgJ3JpZ2h0JykpDQoja2xpcHB5OjprbGlwcHkoY29sb3IgPSAnZGFya3JlZCcpDQoja2xpcHB5OjprbGlwcHkodG9vbHRpcF9tZXNzYWdlID0gJ0NsaWNrIHRvIGNvcHknLCB0b29sdGlwX3N1Y2Nlc3MgPSAnRG9uZScpDQpgYGANCg0KDQotLS0tDQoNCiMgUmVsYXRpdmUgaW1wb3J0YW5jZQ0KDQpIZXJlLCB3ZSBjYWxjdWxhdGUgdGhlIGV4cGVjdGVkIHJlbGF0aXZlIGltcG9ydGFuY2Ugb2Ygb3VyIGVmZmVjdCBvZiBpbnRlcmVzdCBvbmx5IFtmb3IgbW9yZSBpbmZvcm1hdGlvbiwgc2VlIEluZGxla29mZXIgYW5kIEJyYW5kZXMsIC1AaW5kbGVrb2ZlcjIwMTNdLiBXZSBwcmVzZW50IG9ubHkgYSBwZXJzcGVjdGl2ZSBvZiBSSSAoYSkgYWdncmVnYXRlZCBvdmVyIGFsbCBhY3RvcnMgYW5kIChiKSBhdCB0aW1lLXBvaW50IDEuIA0KDQoNClRoZSBmb2xsb3dpbmcgc2NyaXB0cyByZXByb2R1Y2VzIHRoZSBwaWUgY2hhcnRzIHByZXNlbnRlZCBpbiB0aGUgbWFudXNjcmlwdCAoRmlndXJlIDcpOg0KDQpgYGB7ciBldmFsPUZ9DQojIFdlIHVzZSBhIGZ1bmN0aW9uIHRvIGxvYWQgdGhlIG9iamVjdHMgdW5kZXIgbmV3IG5hbWVzLg0KbG9hZFJEYXRhIDwtIGZ1bmN0aW9uKGZpbGVOYW1lKXsNCiAgI2xvYWRzIGFuIFJEYXRhIGZpbGUsIGFuZCByZXR1cm5zIGl0DQogIGxvYWQoZmlsZU5hbWUpDQogIGdldChscygpW2xzKCkgIT0gImZpbGVOYW1lIl0pDQp9DQoNCiMgZ2V0IHRoZSBSU2llbmEgb2JqZWN0IGxpc3RzIGZvciBib3RoIG1vZGVscyAoZnJlcXVlbmN5IGFuZCB2b2x1bWUpDQpteWRhdGFfZnJlcSA8LSBsb2FkUkRhdGEoImNsdWJkYXRhX3JzaWVuYV9mcmVxLlJEYXRhIikNCm15ZGF0YV92b2wgPC0gbG9hZFJEYXRhKCJjbHViZGF0YV9yc2llbmFfdm9sLlJEYXRhIikNCg0KIyB3ZSBjYWxjdWxhdGUgUkkgb2YgZWZmZWN0cyBwZXJ0YWluaW5nIHRvIHJ1bm5pbmcgYWN0aXZpdHkgZHluYW1pY3MgKGJvdGggZnJlcXVlbmN5IGFuZCB2b2x1bWUpIGFjcm9zcyBjbHVicw0KDQoNCiMgd2UgbWFrZSBhIGxpc3QsIGluIHdoaWNoIHdlIHN0b3JlIFJJLW9iamVjdHMgZm9yIGVhY2ggY2x1Yg0KUklfbGlzdCA8LSBsaXN0KCkNCg0KZm9yIChpIGluIDE6NSkgeyAjIGZvciBlYWNoIGNsdWINCg0KICAjZ2V0IHNpZW5hRml0IGxpc3QgDQogIGFuc0wgPC0gbG9hZFJEYXRhKHBhc3RlMCgidGVzdC9zaWVuYUZpdC9zaWVuYUZpdF9jbHViIiwgaSwgIi5SRGF0YSIpKQ0KDQogICN0YWtlIG1vZGVsIDUgKGF2QXR0SCwgYXZBdHRMLCBpbmRlZ3JlZS4uLikNCiAgYW5zIDwtIGFuc0xbWzVdXQ0KICANCiAgIyBnZXQgb25seSBwYXJhbWV0ZXJzIGZvciB0aGUgZXZhbHVhdGlvbiBmdW5jdGlvbg0KICB0aGV0YS5ldmFsIDwtIGFucyR0aGV0YVthbnMkZWZmZWN0cyR0eXBlW2FucyRlZmZlY3RzJGluY2x1ZGVdPT0iZXZhbCJdDQogIG15ZWZmLmV2YWwgPC0gYW5zJGVmZmVjdHNbYW5zJGVmZmVjdHMkdHlwZVthbnMkZWZmZWN0cyRpbmNsdWRlXT09ImV2YWwiLF0NCiAgDQogICMgb25seSBlZmZlY3RzIHdlIGFyZSBpbnRlcmVzdGVkIGluDQogIG15ZWZmLmV2YWwuYmVoIDwtIG15ZWZmLmV2YWxbYygxLCAxNjoxOCksIF0gIyBub3RlOiBhbHNvIGluY2x1ZGUgb3V0ZGVncmVlIChvciBhbm90aGVyIGVmZmVjdCBwZXJ0YWluaW5nIHRvIG5ldHdvcmsgZHluYW1pY3MpOyBhcHBhcmVudGx5IHRoaXMgaXMgbmVlZGVkLi4uDQogIHRoZXRhLmV2YWwuYmVoIDwtIHRoZXRhLmV2YWxbYygxLCAxNjoxOCldICMgYWxzbyB3YW50IHRvIGluY2x1ZGUgbGluZWFyL3F1YWQgc2hhcGU/IHRoZW4gZG8gMTQ6MTgNCiAgDQogICMgYWxnb3JpdGhtIHVzZWQNCiAgbXlhbGdvIDwtIHNpZW5hQWxnb3JpdGhtQ3JlYXRlKHByb2puYW1lID0gInRlc3QiLCBuc3ViPTUsIG4zPTUwMDAgKQ0KICANCiAgIyB1c2Ugc2llbmFSSSgpDQogIFJJIDwtIHNpZW5hUkkoDQogICAgZGF0YSA9IG15ZGF0YV9mcmVxW1tpXV0sDQogICAgdGhldGEgPSB0aGV0YS5ldmFsLmJlaCwNCiAgICBhbGdvcml0aG0gPSBteWFsZ28sDQogICAgZWZmZWN0cyA9IG15ZWZmLmV2YWwuYmVoDQogICkNCiAgDQogICMgZXh0cmFjdCBSSSBmb3IgdGhlIGJlaGF2aW9yIGR5bmFtaWNzDQogIFJJX2JlaCA8LSBSSVtbMl1dDQogIA0KICAjIHRha2UgdGhlIHN0YXRpc3RpY3MgZm9yIHRpbWUgdA0KICB0ID0gMQ0KICBSSV9mcmVxIDwtIFJJX2JlaCRleHBlY3RlZFJJW1t0XV0NCiAgDQogICMgYW5kIHJlcGVhdCB0aGUgc2FtZSBwcm9jZWR1cmUgZm9yIHZvbHVtZQ0KICBhbnNMIDwtIGxvYWRSRGF0YShwYXN0ZTAoInRlc3Qvc2llbmFGaXQvdm9sdW1lL3NpZW5hRml0X2NsdWIiLCBpLCAiLlJEYXRhIikpDQogIGFucyA8LSBhbnNMW1s1XV0NCiAgdGhldGEuZXZhbCA8LSBhbnMkdGhldGFbYW5zJGVmZmVjdHMkdHlwZVthbnMkZWZmZWN0cyRpbmNsdWRlXT09ImV2YWwiXQ0KICBteWVmZi5ldmFsIDwtIGFucyRlZmZlY3RzW2FucyRlZmZlY3RzJHR5cGVbYW5zJGVmZmVjdHMkaW5jbHVkZV09PSJldmFsIixdDQogIG15ZWZmLmV2YWwuYmVoIDwtIG15ZWZmLmV2YWxbYygxLCAxNjoxOCksIF0NCiAgdGhldGEuZXZhbC5iZWggPC0gdGhldGEuZXZhbFtjKDEsIDE2OjE4KV0NCiAgUkkgPC0gc2llbmFSSSgNCiAgICBkYXRhID0gbXlkYXRhX3ZvbFtbaV1dLA0KICAgIHRoZXRhID0gdGhldGEuZXZhbC5iZWgsDQogICAgYWxnb3JpdGhtID0gbXlhbGdvLA0KICAgIGVmZmVjdHMgPSBteWVmZi5ldmFsLmJlaA0KICApDQogIFJJX2JlaCA8LSBSSVtbMl1dDQogIFJJX3ZvbCA8LSBSSV9iZWgkZXhwZWN0ZWRSSVtbdF1dDQogIA0KICAjIGNvbWJpbmUgDQogIFJJYyA8LSBjKFJJX2ZyZXEsIFJJX3ZvbCkNCiAgDQogICMgcHV0IGluIHRoZSBsaXN0DQogIFJJX2xpc3RbW2ldXSA8LSBSSWMNCn0NCg0KIyB3ZSBtYWtlIGEgZGF0YWZyYW1lIGZvciBwbG90dGluZyBtdWx0aXBsZSBwaWUgY2hhcnRzDQpkZl9wbG90IDwtIGRhdGEuZnJhbWUoDQogIHJpID0gdW5saXN0KFJJX2xpc3QpLA0KICBlZmYgPSBzdWJzdHJpbmcoUklbWzJdXSRlZmZlY3ROYW1lcywgMTUpLA0KICB5ID0gcmVwKGMoIkZyZXF1ZW5jeSIsICJWb2x1bWUiKSwgNSwgZWFjaD0zKSwNCiAgY2x1YiA9IHJlcChjKCJDbHViIDEiLCAiQ2x1YiAyIiwgIkNsdWIgMyIsICJDbHViIDQiLCAiQ2x1YiA1IiksIDEsIGVhY2ggPSA2KQ0KDQopDQoNCg0KIyByZW9yZGVyIGVmZmVjdCBmb3IgcGxvdA0KZGZfcGxvdCRlZmYgPC0gZmFjdG9yKGRmX3Bsb3QkZWZmLA0KICAgICAgICAgICAgICAgICAgICAgbGV2ZWxzID0gYygiaW5kZWdyZWUiLCAiYXZlcmFnZSBhdHRyYWN0aW9uIGhpZ2hlciIsICJhdmVyYWdlIGF0dHJhY3Rpb24gbG93ZXIiKSkNCiMgbmljZSBjb2xvcnMNCmNvbG9yIDwtIGJyZXdlci5wYWwoMywgIlNldDIiKQ0KDQpnZ3Bsb3QoZGZfcGxvdCwgYWVzKHg9IiIsIHk9cmksIGZpbGw9ZWZmKSkgKw0KICBnZW9tX2Jhcih3aWR0aCA9IDEsIHNpemUgPSAxLCBjb2xvciA9ICJ3aGl0ZSIsIHN0YXQgPSAiaWRlbnRpdHkiKSArDQogIGNvb3JkX3BvbGFyKCJ5IikgKw0KICBnZW9tX3RleHQoYWVzKGxhYmVsID0gcGFzdGUwKHJvdW5kKDEwMCpyaSksICIlIikpLCANCiAgICAgICAgICAgIHBvc2l0aW9uID0gcG9zaXRpb25fc3RhY2sodmp1c3QgPSAwLjUpKSArDQogIGxhYnMoeCA9IE5VTEwsIHkgPSBOVUxMLCBmaWxsID0gIkVmZmVjdHMiLCANCiAgICAgICB0aXRsZSA9ICI8Yj48c3BhbiBzdHlsZSA9ICdmb250LXNpemU6MTZwdCc+UmVsYXRpdmUgSW1wb3J0YW5jZSAoPGk+Ukk8L2k+KSBvZiBpbmRlZ3JlZSBhbmQgYXR0cmFjdGlvbiBoaWdoZXIvbG93ZXIgZWZmZWN0czwvc3Bhbj4iLA0KICAgICAgIGNhcHRpb24gPSAiPHNwYW4gc3R5bGUgPSAnZm9udC1zaXplOjEwcHQnPjxpPk5vdGU8L2k+OiBwZXJjZW50YWdlcyBpbmRpY2F0ZSB0aGUgZXh0ZW50IHRvIHdoaWNoIGVmZmVjdHMgZGV0ZXJtaW5lIHdoZXRoZXIgYWN0b3JzIG1ha2UgY2hhbmdlcyBpbiB0aGVpciBydW5uaW5nIGF0dHJpYnV0ZXMgKGkuZS4sIGZyZXF1ZW5jeSBhbmQgdm9sdW1lKS4NCiAgICAgICBQZXJjZW50YWdlcyBpbmRpY2F0ZSB0aGUgaW1wb3J0YW5jZSBvZiBtb2RlbCBwYXJhbWV0ZXJzIHJlbGF0aXZlIHRvIG9uZSBhbm90aGVyLiBUaGV5IHNob3VsZCBub3QgYmUgaW50ZXJwcmV0ZWQgYXMgYWJzb2x1dGUgZXhwbGFpbmVkIHZhcmlhbmNlLiBQYXR0ZXJucyBwcmVzZW50ZWQgaGVyZSB3b3VsZCBjaGFuZ2UsIHdvdWxkIHdlIGluY2x1ZGUgb3RoZXIgZWZmZWN0cyAoZS5nLiwgYmFzaWMgc2hhcGUgZWZmZWN0cywgY292YXJpYXRlIGVmZmVjdHMpLiANCiAgICAgICBUaGUgcGF0dGVybiBvZiByZWxhdGl2ZSBpbXBvcnRhbmNlcyBvZiBlZmZlY3RzIHdhcyBjb25zaXN0ZW50IGFjcm9zcyB0aW1lOyBoZXJlLCB3ZSBwcmVzZW50IHQ9MS4iKSArDQogIGd1aWRlcyhmaWxsID0gZ3VpZGVfbGVnZW5kKCkpICsNCiAgc2NhbGVfZmlsbF9tYW51YWwodmFsdWVzID0gY29sb3IpICsNCiAgZmFjZXRfZ3JpZCh5fmNsdWIsIHN3aXRjaCA9ICJ5IikgKw0KICB0aGVtZV9jbGFzc2ljKCkgKw0KICAgIHRoZW1lKGF4aXMubGluZSA9IGVsZW1lbnRfYmxhbmsoKSwNCiAgICAgIGF4aXMudGV4dCA9IGVsZW1lbnRfYmxhbmsoKSwNCiAgICAgIGF4aXMudGlja3MgPSBlbGVtZW50X2JsYW5rKCksDQogICAgICBsZWdlbmQudGl0bGUgPSBlbGVtZW50X2JsYW5rKCksDQogICAgICANCiAgICAgIHBsb3QudGl0bGUgPSBlbGVtZW50X3RleHRib3hfc2ltcGxlKA0KICAgICAgICBwYWRkaW5nID0gbWFyZ2luKDUuNSwgNS41LCA1LjUsIDUuNSksDQogICAgICAgIG1hcmdpbiA9IG1hcmdpbigwLCAwLCA1LjUsIDApLA0KICAgICAgICBmaWxsID0gImxpZ2h0c3RlZWxibHVlMiIsDQogICAgICAgIGxpbmVoZWlnaHQ9MSksDQogICAgICANCiAgICAgIHN0cmlwLnRleHQueCA9IGVsZW1lbnRfdGV4dGJveCgNCiAgICAgICAgc2l6ZSA9IDksDQogICAgICAgIGNvbG9yID0gIndoaXRlIiwgZmlsbCA9ICIjNUQ3MjlEIiwgYm94LmNvbG9yID0gIiM0QTYxOEMiLA0KICAgICAgICBoYWxpZ24gPSAwLjUsIGxpbmV0eXBlID0gMSwgciA9IHVuaXQoNSwgInB0IiksIHdpZHRoID0gdW5pdCgxLCAibnBjIiksDQogICAgICAgIHBhZGRpbmcgPSBtYXJnaW4oMiwgMCwgMSwgMCksIG1hcmdpbiA9IG1hcmdpbigzLCAzLCAzLCAzKQ0KICAgICAgKSwNCiAgICAgIA0KICAgICAgc3RyaXAudGV4dC55ID0gZWxlbWVudF90ZXh0Ym94X3NpbXBsZSgNCiAgICAgICAgc2l6ZT0xMiwNCiAgICAgICAgZmFjZT0iYm9sZC5pdGFsaWMiLA0KICAgICAgICB2anVzdD0xKSwNCiAgICAgIA0KICAgICAgc3RyaXAuYmFja2dyb3VuZCA9IGVsZW1lbnRfYmxhbmsoKSwNCiAgICAgIA0KICAgICAgcGxvdC5jYXB0aW9uID0gZWxlbWVudF90ZXh0Ym94X3NpbXBsZSgNCiAgICAgICAgcGFkZGluZyA9IG1hcmdpbigyLCAyLCAyLCAyKSwNCiAgICAgICAgbWFyZ2luID0gbWFyZ2luKDAsIDAsIDIsIDApLA0KICAgICAgICBmaWxsID0gImxpZ2h0c3RlZWxibHVlMiIsDQogICAgICAgIGxpbmVoZWlnaHQ9MSwNCiAgICAgICAgdmp1c3Q9MS41LA0KICAgICAgICByID0gZ3JpZDo6dW5pdCg4LCAicHQiKSkpDQpgYGANCg0KIVtdKHJpLmpwZykNCg0KLS0tLQ0KDQoNCiMjIyBSZWZlcmVuY2VzIA0K</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("RI.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

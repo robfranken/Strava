@@ -1,0 +1,200 @@
+---
+title: "Relative importance"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: no
+    toc_float: no
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(RSiena)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+----
+
+# Goodness-of-fit
+
+Here, we present violin plots representing how well our simulations capture the distribution of running frequency values across clubs [see Lospinoso and Snijders, -@Lospinoso2019 and chapter 5.13 of RSiena manual]. For GOF-plots for models with running volume as the behavior variable, see [here](https://robfranken.github.io/Strava/GOF2.html)) 
+
+
+----
+
+<br>
+
+We read in the sienaFit-objects of our 5 clubs (frequency as behavior variable); we take model 5 (our main model), and we calculate GOF (outdegree, indegree, geodesic distance, behavior distribution).
+
+```{r eval=F}
+# clean the working environment 
+rm (list = ls( ))
+
+loadRData <- function(fileName){
+  #loads an RData file, and returns it
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
+
+# large lists, takes a lot of time to load
+# when facing facing storage capacity issues, check the capacity:
+#memory.limit()
+# we increase the limit
+#memory.limit(size=56000)
+
+club1 <-  loadRData("test/sienaFit/sienaFit_club1.RData")
+club2 <-  loadRData("test/sienaFit/sienaFit_club2.RData")
+club3 <-  loadRData("test/sienaFit/sienaFit_club3.RData")
+club4 <-  loadRData("test/sienaFit/sienaFit_club4.RData")
+club5 <-  loadRData("test/sienaFit/sienaFit_club5.RData")
+
+# list main model (5)
+list <- list(club1[[5]], club2[[5]],  club3[[5]], club4[[5]], club5[[5]])
+
+# remove the excess data
+rm(club1, club2, club3, club4, club5)
+```
+
+The following script to produces the violin plots. 
+
+```{r, eval=F}
+# function for geodesic distance distribution
+GeodesicDistribution <- function (i, data, sims, period, groupName,
+   varName, levls=c(1:5, Inf), cumulative=TRUE, ...) {
+     x <- networkExtraction(i, data, sims, period, groupName, varName)
+     require(sna)
+     a <- sna::geodist(symmetrize(x))$gdist
+     if (cumulative)
+     {
+       gdi <- sapply(levls, function(i){ sum(a<=i) })
+     }
+     else
+     {
+       gdi <- sapply(levls, function(i){ sum(a==i) })
+     }
+     names(gdi) <- as.character(levls)
+     gdi
+}
+
+for (i in 1:5) {
+  # calculate GOF diagnostics
+  gofi <- sienaGOF(list[[i]], #i
+                 IndegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+  gofo <- sienaGOF(list[[i]], 
+                 OutdegreeDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+  gofgeo <- sienaGOF(list[[i]], 
+                 GeodesicDistribution, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+  goft <- sienaGOF(list[[i]], 
+                 TriadCensus, 
+                 verbose = TRUE,
+                 join = TRUE, 
+                 varName = "kudonet")
+  gofbeh <- sienaGOF(list[[i]],
+                   BehaviorDistribution, levls=0:7,
+                   verbose=TRUE, join=TRUE,
+                   varName="freq_run")
+
+  # put statistic in list
+  goflist <- list (gofi, gofo, gofgeo, goft, gofbeh)
+  # save list
+  save(goflist, file = paste0("test/GOF/GOF_club", i, ".RData"))
+}
+
+
+```
+
+<br>
+
+# Violin plot {.tabset .tabset-fade}
+
+We show violin plots per club:
+
+## Club 1
+
+```{r class.source = 'fold-hide'}
+load("test/GOF/GOF_club1.RData")
+plot(goflist[[1]])
+plot(goflist[[2]])
+plot(goflist[[3]])
+plot(goflist[[4]])
+plot(goflist[[5]])
+```
+
+## Club 2
+
+```{r class.source = 'fold-hide'}
+load("test/GOF/GOF_club2.RData")
+plot(goflist[[1]])
+plot(goflist[[2]])
+plot(goflist[[3]])
+plot(goflist[[4]])
+plot(goflist[[5]])
+```
+
+## Club 3
+
+```{r class.source = 'fold-hide'}
+load("test/GOF/GOF_club3.RData")
+plot(goflist[[1]])
+plot(goflist[[2]])
+plot(goflist[[3]])
+plot(goflist[[4]])
+plot(goflist[[5]])
+```
+
+## Club 4
+
+```{r class.source = 'fold-hide'}
+load("test/GOF/GOF_club4.RData")
+plot(goflist[[1]])
+plot(goflist[[2]])
+plot(goflist[[3]])
+plot(goflist[[4]])
+plot(goflist[[5]])
+```
+
+## Club 5
+
+```{r class.source = 'fold-hide'}
+load("test/GOF/GOF_club5.RData")
+plot(goflist[[1]])
+plot(goflist[[2]])
+plot(goflist[[3]])
+plot(goflist[[4]])
+plot(goflist[[5]])
+```
+
+
+----
+
+
+### References 

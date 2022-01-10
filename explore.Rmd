@@ -215,14 +215,14 @@ gofgeo <- sienaGOF(ansM1,
                  varName = "kudonet")
 
 goflist <- list(gofi, gofo, gofgeo)
-save(goflist, file= paste("files", "/", "test club 1", "/", "gof1.RData", sep=""))
+save(goflist, file= paste("files", "/", "test club 1", "/", "gof.RData", sep=""))
 ```
 
 ### {.tabset .tabset-fade}
 
 #### Indegree distribution
 ```{r class.source = 'fold-hide'}
-load("files/test club 1/gof1.RData")
+load("files/test club 1/gof.RData")
 plot(goflist[[1]])
 ```
 
@@ -321,7 +321,7 @@ We store the sienaFit objects of these models in a list, which we save later on.
 m=6 # models to estimate (indeg, avAlt, avAttHigher, avAttLower, avAttHigher+Lower, avSim)
 
 # tweak the algorithm
-myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=3 )
 
 # siena07( myalgorithm, data = mydata, effects = myeff[[j]], prevAns= sienaFit[[j]], returnDeps=TRUE, useCluster=TRUE, nbrNodes=10, initC=TRUE, batch=TRUE)
 
@@ -384,15 +384,18 @@ map(sienaFit_clubL, 6)
 
 Because we are now modeling the evolution of both the network and the attribute (running freq.), we will add an additional indicator to evaluate GOF; namely, does the model capture the distribution of actors’ attribute levels over time?
 
-<!--- 
 
-@RF: add script: load in the model (m5), and estimate GOF stats; save and plot.
-
----> 
+```{r}
+gofbeh <- sienaGOF(sienaFit[[5]],
+                   BehaviorDistribution, levls = 0:7,
+                   verbose=TRUE, join=TRUE,
+                   varName="freq_run")
+save(gofbeh, file= paste("files", "/", "test club 1", "/", "gofbeh.RData", sep=""))
+```
 
 ```{r class.source = 'fold-hide'}
-load("files/test club 1/gof2.RData")
-plot(goflist2[[1]])
+load("files/test club 1/gofbeh.RData")
+plot(gofbeh)
 ```
 
 

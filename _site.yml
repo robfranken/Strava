@@ -29,13 +29,16 @@ navbar:
     - text: "GOF"
       menu: 
       - text: "Running frequency models"
+        href: GOF1.html
       - text: "Running volume"
     - text: "Influence effects"
       menu:
       - text: "Different influence operationalizations"
         href: influenceeffects.html
-      - text: "Figure 3: Ego-alter influence plot"
+      - text: "Figure 6: Ego-alter influence plot"
         href: figure3.html
+      - text: "Figure 7: Relative importance of effects"
+        href: RI.html
 
   right:
     - icon: fab fa-github

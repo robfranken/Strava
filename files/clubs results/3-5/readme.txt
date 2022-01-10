@@ -1,1 +1,0 @@
-here I included the avAttHigher effect as created by Tom Snijders.

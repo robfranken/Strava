@@ -67,7 +67,7 @@ We make, for each club, 6 model specifications:
 - Model 2: Model 1 + average alter effect
 - Model 3: Model 1 + average attraction higher
 - Model 4: Model 1 + average attraction lower
-- Model 5: Model 1 + average attraction higher + lower
+- Model 5: Model 1 + average attraction higher + lower (main model used in the manuscript)
 - Model 6: Model 1 + average similarity effect
 
 We save these model specifications in a list for each club.
