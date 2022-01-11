@@ -121,7 +121,7 @@ for (i in 1:5) {
   gofbeh <- sienaGOF(list[[i]],
                    BehaviorDistribution, levls=0:7,
                    verbose=TRUE, join=TRUE,
-                   varName="freq_run")
+                   varName="time b_run")
 
   # put statistic in list
   goflist <- list (gofi, gofo, gofgeo, goft, gofbeh)
@@ -140,7 +140,7 @@ We show violin plots per club:
 
 ## Club 1
 
-```{r class.source = 'fold-hide', eval=F}
+```{r class.source = 'fold-hide'}
 load("test/GOF/volume/GOF_club1.RData")
 plot(goflist[[1]])
 plot(goflist[[2]])
@@ -151,7 +151,7 @@ plot(goflist[[5]])
 
 ## Club 2
 
-```{r class.source = 'fold-hide', eval=F}
+```{r class.source = 'fold-hide'}
 load("test/GOF/volume/GOF_club2.RData")
 plot(goflist[[1]])
 plot(goflist[[2]])
@@ -162,7 +162,7 @@ plot(goflist[[5]])
 
 ## Club 3
 
-```{r class.source = 'fold-hide', eval=F}
+```{r class.source = 'fold-hide'}
 load("test/GOF/volume/GOF_club3.RData")
 plot(goflist[[1]])
 plot(goflist[[2]])
@@ -173,7 +173,7 @@ plot(goflist[[5]])
 
 ## Club 4
 
-```{r class.source = 'fold-hide', eval=F}
+```{r class.source = 'fold-hide'}
 load("test/GOF/volume/GOF_club4.RData")
 plot(goflist[[1]])
 plot(goflist[[2]])
@@ -184,7 +184,7 @@ plot(goflist[[5]])
 
 ## Club 5
 
-```{r class.source = 'fold-hide', eval=F}
+```{r class.source = 'fold-hide'}
 load("test/GOF/volume/GOF_club5.RData")
 plot(goflist[[1]])
 plot(goflist[[2]])
@@ -192,7 +192,6 @@ plot(goflist[[3]])
 plot(goflist[[4]])
 plot(goflist[[5]])
 ```
-
 
 ----
 

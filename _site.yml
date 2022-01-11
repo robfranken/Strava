@@ -31,6 +31,7 @@ navbar:
       - text: "Running frequency models"
         href: GOF1.html
       - text: "Running volume"
+        href: GOF2.html
     - text: "Influence effects"
       menu:
       - text: "Different influence operationalizations"
