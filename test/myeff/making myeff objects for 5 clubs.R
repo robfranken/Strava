@@ -2,7 +2,6 @@
 # for subsequent meta-analysis, we needed to ensure that the model specification for all our club-networks is identical. 
 # in some clubs, some effects were rather important; in clubs where this was not the case, we fixed these to 0.
 
-
 {
   #########################################################################################################################
   # CLUB 1
@@ -42,8 +41,17 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
     }
     
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      
+    }
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "myeff_club1", ".RData", sep = ""))
 
@@ -85,9 +93,18 @@
       myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
       myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
     }
+    
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      
+    }
 
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "myeff_club2", ".RData", sep = ""))
     
@@ -129,9 +146,18 @@
       myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
       myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
     }
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      
+    }
     
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
+
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "myeff_club3", ".RData", sep = ""))
 
@@ -166,7 +192,6 @@
       myeff <- setEffect(myeff, unspInt, fix=TRUE, test=FALSE, effect1=eff1, effect2=eff2)
       myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "freq_other")
       myeff <- setEffect(myeff, effFrom, name = "freq_run", interaction1 = "gender", fix=T, test=F, initialValue=0)
-      myeff <- setEffect(myeff, Rate, name = "freq_run", fix = TRUE, test = FALSE, type = "rate", period = 8, initialValue = 5) # fix rate.
     }
     
     print(myeff) # 39 indeed
@@ -180,8 +205,23 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
     }
     
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    #{
+    #  myeff7 <- includeEffects(myeff5, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "creation")
+    #  myeff7 <- includeEffects(myeff7, avAttLower, name = "freq_run", interaction1 = "kudonet", type = "creation")
+    #  myeff8 <- includeEffects(myeff6, avSim, name = "freq_run", interaction1 = "kudonet", type = "creation")
+    #  
+    #}
+    
+    myeff7 <- includeEffects(myeff1, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "creation")
+    myeff7 <- includeEffects(myeff7, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "endow")
+    
+    effectsDocumentation(myeff)
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    #myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "myeff_club4", ".RData", sep = ""))
     
@@ -224,8 +264,17 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
     }
   
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "freq_run", interaction1 = "kudonet", type = "creation")
+      
+    }
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "myeff_club5", ".RData", sep = ""))
     
@@ -234,3 +283,4 @@
   #########################################################################################################################
   }
 }
+

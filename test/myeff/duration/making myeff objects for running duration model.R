@@ -45,8 +45,17 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "time_run", interaction1 = "kudonet")        # model 6: avSim
     }
     
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "time_run", interaction1 = "kudonet", type = "creation")
+      
+    }
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "duration", "/", "myeff_club1", ".RData", sep = ""))
 
@@ -89,8 +98,17 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "time_run", interaction1 = "kudonet")        # model 6: avSim
     }
 
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "time_run", interaction1 = "kudonet", type = "creation")
+      
+    }
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "duration", "/", "myeff_club2", ".RData", sep = ""))
     
@@ -134,8 +152,17 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "time_run", interaction1 = "kudonet")        # model 6: avSim
     }
     
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "time_run", interaction1 = "kudonet", type = "creation")
+      
+    }
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "duration", "/", "myeff_club3", ".RData", sep = ""))
     
@@ -185,8 +212,17 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "time_run", interaction1 = "kudonet")        # model 6: avSim
     }
     
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "time_run", interaction1 = "kudonet", type = "creation")
+      
+    }
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "duration", "/", "myeff_club4", ".RData", sep = ""))
     
@@ -230,8 +266,17 @@
       myeff6 <- includeEffects(myeff1, avSim, name = "time_run", interaction1 = "kudonet")        # model 6: avSim
     }
   
+    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
+    # creation function for behavior dynamics
+    {
+      myeff7 <- includeEffects(myeff5, avAttHigher, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff7 <- includeEffects(myeff7, avAttLower, name = "time_run", interaction1 = "kudonet", type = "creation")
+      myeff8 <- includeEffects(myeff6, avSim, name = "time_run", interaction1 = "kudonet", type = "creation")
+      
+    }
+    
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "duration", "/", "myeff_club5", ".RData", sep = ""))
     
