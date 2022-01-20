@@ -14,7 +14,7 @@ output:
     code_download: yes
 ---
 
-```{r, globalsettings, echo=FALSE, warning=FALSE}
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
 library(knitr)
 library(RSiena)
 library(ggplot2)

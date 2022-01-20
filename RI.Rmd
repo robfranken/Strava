@@ -14,7 +14,10 @@ output:
     code_download: yes
 ---
 
-```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+system("defaults write org.R-project.R force.LANG en_US.UTF-8")
+Sys.setenv(LANG = "en")
+127
 library(knitr)
 library(RSiena)
 library(RColorBrewer)

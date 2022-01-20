@@ -14,7 +14,7 @@ output:
     code_download: yes
 ---
 
-```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 library(knitr)
 library(RSiena)
 knitr::opts_chunk$set(echo = TRUE)
