@@ -1444,7 +1444,7 @@ Coleman's Homophily indices vary across clubs. In some clubs there is slight gen
 # Behavior
 
 
-We plotted the development of the mean of running attributes (Figure 5 of the manuscript). The script to replicate this plot can be found [here](https://robfranken.github.io/Strava/destab.html).
+We plotted the development of the mean of running attributes (Figure 5 of the manuscript). The script to replicate this plot can be found [here](https://robfranken.github.io/Strava/desfig.html).
 
 
 
