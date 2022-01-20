@@ -15,6 +15,7 @@ output:
 ---
 
 ```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE}
+
 library(knitr)
 library(kableExtra)
 library(RSiena)

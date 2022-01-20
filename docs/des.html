@@ -13,12 +13,22 @@
 
 <title>Descriptive statistics</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -46,11 +56,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -64,35 +69,33 @@ if (window.hljs) {
 
 
 <style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
 #rmd-source-code {
   display: none;
 }
 </style>
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="tweaks.css" type="text/css" />
 
@@ -103,10 +106,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -123,40 +122,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -184,7 +156,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -196,7 +168,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -207,10 +179,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -222,7 +207,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -351,7 +335,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -376,7 +360,7 @@ div.tocify {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -477,11 +461,11 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 <li role="separator" class="divider"></li>
@@ -637,14 +621,14 @@ fndyads2 &lt;- function(x, A) {
 fscolnet &lt;- function(network, ccovar) {
     # Calculate coleman on network level:
     # https://reader.elsevier.com/reader/sd/pii/S0378873314000239?token=A42F99FF6E2B750436DD2CB0DB7B1F41BDEC16052A45683C02644DAF88215A3379636B2AA197B65941D6373E9E2EE413
-    
+
     fhomomat &lt;- function(x) {
         xmat &lt;- matrix(x, nrow = length(x), ncol = length(x))
         xmatt &lt;- t(xmat)
         xhomo &lt;- xmat == xmatt
         return(xhomo)
     }
-    
+
     fsumintra &lt;- function(x, A) {
         # A is matrix indicating whether nodes constituting dyad have same characteristics
         diag(x) &lt;- NA
@@ -652,7 +636,7 @@ fscolnet &lt;- function(network, ccovar) {
         diag(A) &lt;- NA
         sum(x == 1 &amp; A == 1, na.rm = T)
     }
-    
+
     # expecation w*=sum_g sum_i (ni((ng-1)/(N-1)))
     network[network == 10] &lt;- NA
     ni &lt;- rowSums(network, na.rm = T)
@@ -662,20 +646,20 @@ fscolnet &lt;- function(network, ccovar) {
     }
     N &lt;- length(ccovar)
     wexp &lt;- sum(ni * ((ng - 1)/(N - 1)), na.rm = T)
-    
+
     # wgg1 how many intragroup ties
     w &lt;- fsumintra(network, fhomomat(ccovar))
-    
+
     Scol_net &lt;- ifelse(w &gt;= wexp, (w - wexp)/(sum(ni, na.rm = T) - wexp), (w - wexp)/wexp)
     return(Scol_net)
 }
 
 fMoran.I &lt;- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = &quot;two.sided&quot;, rowstandardize = TRUE) {
     if (rowstandardize) {
-        if (dim(weight)[1] != dim(weight)[2]) 
+        if (dim(weight)[1] != dim(weight)[2])
             stop(&quot;&#39;weight&#39; must be a square matrix&quot;)
         n &lt;- length(x)
-        if (dim(weight)[1] != n) 
+        if (dim(weight)[1] != n)
             stop(&quot;&#39;weight&#39; must have as many rows as observations in &#39;x&#39;&quot;)
         ei &lt;- -1/(n - 1)
         nas &lt;- is.na(x)
@@ -706,21 +690,21 @@ fMoran.I &lt;- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = 
         S2 &lt;- sum((apply(weight, 1, sum) + apply(weight, 2, sum))^2)
         s.sq &lt;- s^2
         k &lt;- (sum(y^4)/n)/(v/n)^2
-        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n * 
+        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n *
             S2 + 6 * s.sq))/((n - 1) * (n - 2) * (n - 3) * s.sq) - 1/((n - 1)^2))
         alternative &lt;- match.arg(alternative, c(&quot;two.sided&quot;, &quot;less&quot;, &quot;greater&quot;))
         pv &lt;- pnorm(obs, mean = ei, sd = sdi)
-        if (alternative == &quot;two.sided&quot;) 
-            pv &lt;- if (obs &lt;= ei) 
+        if (alternative == &quot;two.sided&quot;)
+            pv &lt;- if (obs &lt;= ei)
                 2 * pv else 2 * (1 - pv)
-        if (alternative == &quot;greater&quot;) 
+        if (alternative == &quot;greater&quot;)
             pv &lt;- 1 - pv
         list(observed = obs, expected = ei, sd = sdi, p.value = pv)
     } else {
-        if (dim(weight)[1] != dim(weight)[2]) 
+        if (dim(weight)[1] != dim(weight)[2])
             stop(&quot;&#39;weight&#39; must be a square matrix&quot;)
         n &lt;- length(x)
-        if (dim(weight)[1] != n) 
+        if (dim(weight)[1] != n)
             stop(&quot;&#39;weight&#39; must have as many rows as observations in &#39;x&#39;&quot;)
         ei &lt;- -1/(n - 1)
         nas &lt;- is.na(x)
@@ -749,19 +733,19 @@ fMoran.I &lt;- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = 
         S2 &lt;- sum((apply(weight, 1, sum) + apply(weight, 2, sum))^2)
         s.sq &lt;- s^2
         k &lt;- (sum(y^4)/n)/(v/n)^2
-        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n * 
+        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n *
             S2 + 6 * s.sq))/((n - 1) * (n - 2) * (n - 3) * s.sq) - 1/((n - 1)^2))
         alternative &lt;- match.arg(alternative, c(&quot;two.sided&quot;, &quot;less&quot;, &quot;greater&quot;))
         pv &lt;- pnorm(obs, mean = ei, sd = sdi)
-        if (alternative == &quot;two.sided&quot;) 
-            pv &lt;- if (obs &lt;= ei) 
+        if (alternative == &quot;two.sided&quot;)
+            pv &lt;- if (obs &lt;= ei)
                 2 * pv else 2 * (1 - pv)
-        if (alternative == &quot;greater&quot;) 
+        if (alternative == &quot;greater&quot;)
             pv &lt;- 1 - pv
         list(observed = obs, expected = ei, sd = sdi, p.value = pv)
     }
-    
-    
+
+
 }</code></pre>
 <hr />
 <p>We cover the following:</p>
@@ -778,7 +762,7 @@ fMoran.I &lt;- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = 
 <div id="print-report" class="section level1">
 <h1>Print report</h1>
 <div id="section" class="section level2 tabset tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-fade"></h2>
 <p>Make sure to check the output of the ‘print01Report()’ function for general data descripton (degrees, network size, etc.) and a general overview of the dataset. Output is printed in a .txt file in the directory specified.</p>
 <div id="club-1" class="section level3">
 <h3>Club 1</h3>
@@ -812,7 +796,7 @@ print01Report(df, modelname = &quot;files/club5&quot;)</code></pre>
 </div>
 </div>
 <div id="section-1" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <hr />
 </div>
 </div>
@@ -820,8 +804,8 @@ print01Report(df, modelname = &quot;files/club5&quot;)</code></pre>
 <h1>Club characteristics</h1>
 <p>Some club characteristics. We show the size of the network (the number of actors) for each club and the number of active members currently (18-1-2021) on Strava, by adding to <em>www.strava.com/clubs/…</em> the original club id.</p>
 <pre class="r test"><code># attrieve from the clubdata the number of actors in each network
-netsize &lt;- c(length(clubdata_rsiena_freq[[1]]$nodeSets$Actors), length(clubdata_rsiena_freq[[2]]$nodeSets$Actors), 
-    length(clubdata_rsiena_freq[[3]]$nodeSets$Actors), length(clubdata_rsiena_freq[[4]]$nodeSets$Actors), 
+netsize &lt;- c(length(clubdata_rsiena_freq[[1]]$nodeSets$Actors), length(clubdata_rsiena_freq[[2]]$nodeSets$Actors),
+    length(clubdata_rsiena_freq[[3]]$nodeSets$Actors), length(clubdata_rsiena_freq[[4]]$nodeSets$Actors),
     length(clubdata_rsiena_freq[[5]]$nodeSets$Actors))
 
 clubsize &lt;- c(66, 127, 373, 15, 169)  # find the number of members currently on Strava
@@ -842,7 +826,7 @@ print(df)</code></pre>
 <h1>Friendship network</h1>
 <p>We describe the friendship network. Note that the friendship network is a constant dyadic covariate.</p>
 <div id="node-level" class="section level2 tabset tabset-fade">
-<h2>1. Node-level</h2>
+<h2 class="tabset tabset-fade">1. Node-level</h2>
 <p>Let’s describe the friendship-indegrees and -outdegrees of the Strava-users in each club. We take from the RSiena object the friendship network of the club in question, and turn it into an <em>igraph</em> object. Then we find the in- and outdegree of each node.</p>
 <div id="club-1-1" class="section level3">
 <h3>Club 1</h3>
@@ -850,7 +834,7 @@ print(df)</code></pre>
 fnet &lt;- df$dycCovars$friendship  # take friendship network
 
 # make a &#39;graph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -866,7 +850,7 @@ hist(igraph::degree(G1, mode = &quot;in&quot;), xlab = &quot;indegree&quot;, mai
 fnet &lt;- df$dycCovars$friendship  # take friendship network
 
 # make a &#39;graph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -881,7 +865,7 @@ hist(igraph::degree(G1, mode = &quot;out&quot;), xlab = &quot;outdegree&quot;, m
 fnet &lt;- df$dycCovars$friendship  # take friendship network
 
 # make a &#39;graph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -896,7 +880,7 @@ hist(igraph::degree(G1, mode = &quot;out&quot;), xlab = &quot;outdegree&quot;, m
 fnet &lt;- df$dycCovars$friendship  # take friendship network
 
 # make a &#39;graph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -911,7 +895,7 @@ hist(igraph::degree(G1, mode = &quot;out&quot;), xlab = &quot;outdegree&quot;, m
 fnet &lt;- df$dycCovars$friendship  # take friendship network
 
 # make a &#39;graph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(fnet, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -922,17 +906,17 @@ hist(igraph::degree(G1, mode = &quot;out&quot;), xlab = &quot;outdegree&quot;, m
 </div>
 </div>
 <div id="section-2" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>In general, we see that the in- and outdegree distribution is right-skewed, suggesting that most Strava-users befriend and are befriended by relatively few club-members, while fewer users befriend and are befriended by many club-members.</p>
 <p><br></p>
 </div>
 <div id="dyad-level" class="section level2 tabset tabset-fade">
-<h2>2. Dyad-level</h2>
+<h2 class="tabset tabset-fade">2. Dyad-level</h2>
 <p>Let’s investigate to what extent friendship-relationships (dyads) are reciprocated or mutual. There are three types of dyad: mutual, assymetric, and non-existent. We will classify dyads with the dyad-census function, and we will investigate if we observe more mutual dyads than we would expect based on chance.</p>
 <div id="club-1-2" class="section level3">
 <h3>Club 1</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[1]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[1]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
@@ -972,7 +956,7 @@ for (i in 1:trial) {
 <div id="club-2-2" class="section level3">
 <h3>Club 2</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[2]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[2]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
@@ -1012,7 +996,7 @@ for (i in 1:trial) {
 <div id="club-3-2" class="section level3">
 <h3>Club 3</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[3]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[3]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
@@ -1052,7 +1036,7 @@ for (i in 1:trial) {
 <div id="club-4-2" class="section level3">
 <h3>Club 4</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[4]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[4]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
@@ -1092,7 +1076,7 @@ for (i in 1:trial) {
 <div id="club-5-2" class="section level3">
 <h3>Club 5</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[5]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[5]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify dyads
@@ -1131,18 +1115,18 @@ for (i in 1:trial) {
 </div>
 </div>
 <div id="section-3" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>As expected, mutual dyads are way more prominent than would be expected based on chance, which is indicative of reciprocity effects in Strava-friendships among the members of clubs.</p>
 <p><br></p>
 </div>
 <div id="triad-level" class="section level2 tabset tabset-fade">
-<h2>3. Triad-level</h2>
+<h2 class="tabset tabset-fade">3. Triad-level</h2>
 <p>There are 16 types of triads; see <span class="citation">Davis and Leinhardt (1967)</span>. They can be classified with the triad-census function. See <a href="https://igraph.org/r/doc/triad_census.html">here</a> for the order in which the multiple triad classifications are counted.</p>
 <p>Let’s also calculate for each club the (global) transitivity index, which is the ratio of connected triplets (transitive triads) and potentially connected triplets (see <a href="http://www.stats.ox.ac.uk/~snijders/Trans_Triads_ha.pdf">here</a>). The direction of the edges is ignored. We will then calculate the global transitivity index for random (undirected) graphs.</p>
 <div id="club-1-3" class="section level3">
 <h3>Club 1</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[1]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[1]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
@@ -1174,7 +1158,7 @@ for (i in 1:trial) {
 <div id="club-2-3" class="section level3">
 <h3>Club 2</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[2]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[2]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
@@ -1206,7 +1190,7 @@ for (i in 1:trial) {
 <div id="club-3-3" class="section level3">
 <h3>Club 3</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[3]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[3]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
@@ -1239,7 +1223,7 @@ for (i in 1:trial) {
 <div id="club-4-3" class="section level3">
 <h3>Club 4</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[4]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[4]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
@@ -1271,7 +1255,7 @@ for (i in 1:trial) {
 <div id="club-5-3" class="section level3">
 <h3>Club 5</h3>
 <pre class="r test"><code># make igraph object for the club
-G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[5]]$dycCovars$friendship, mode = &quot;directed&quot;, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(clubdata_rsiena_freq[[5]]$dycCovars$friendship, mode = &quot;directed&quot;,
     weighted = NULL, diag = TRUE, add.colnames = NA, add.rownames = NA)
 
 # classify triads
@@ -1299,7 +1283,7 @@ hist(recip, main = &quot;global transitivity index in random graph&quot;, xlab =
 </div>
 </div>
 <div id="section-4" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>Also transitivity is more prominent than would be expected solely based on chance.</p>
 <hr />
 </div>
@@ -1308,7 +1292,7 @@ hist(recip, main = &quot;global transitivity index in random graph&quot;, xlab =
 <h1>Kudos network</h1>
 <p>Now let’s describe the Kudos network.</p>
 <div id="node-level-1" class="section level2 tabset tabset-fade">
-<h2>1. Node-level</h2>
+<h2 class="tabset tabset-fade">1. Node-level</h2>
 <p>Starting, again, with indegrees and outdegrees: who receives and gives Kudos? We take from the RSiena object the Kudos network for each club, subset the first wave, and turn it into an <em>igraph</em> object.</p>
 <div id="club-1-4" class="section level3">
 <h3>Club 1</h3>
@@ -1317,7 +1301,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -1333,7 +1317,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -1349,7 +1333,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -1365,7 +1349,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -1381,7 +1365,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # find in- and outdegree for each node
@@ -1392,12 +1376,12 @@ hist(igraph::degree(G1, mode = &quot;out&quot;), xlab = &quot;outdegree&quot;, m
 </div>
 </div>
 <div id="section-5" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>We can observe the same Pareto-like-patern: some give/receive most of the Kudos given, while most give/receive few.</p>
 <p><br></p>
 </div>
 <div id="dyad-level-1" class="section level2 tabset tabset-fade">
-<h2>2. Dyad-level</h2>
+<h2 class="tabset tabset-fade">2. Dyad-level</h2>
 <p>At the dyad-level: let’s see to what extent Kudos tend to be reciprocated between actors.</p>
 <div id="club-1-5" class="section level3">
 <h3>Club 1</h3>
@@ -1407,7 +1391,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # classify dyads
@@ -1452,7 +1436,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # classify dyads
@@ -1497,7 +1481,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # classify dyads
@@ -1542,7 +1526,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # classify dyads
@@ -1587,7 +1571,7 @@ knet &lt;- df$depvars$kudonet  # take Kudo network
 knet1 &lt;- knet[, , 1]  # take wave 1 only for now
 
 # make an &#39;igraph object&#39;
-G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA, 
+G1 &lt;- igraph::graph_from_adjacency_matrix(knet1, mode = &quot;directed&quot;, weighted = NULL, diag = TRUE, add.colnames = NA,
     add.rownames = NA)
 
 # classify dyads
@@ -1626,7 +1610,7 @@ for (i in 1:trial) {
 </div>
 </div>
 <div id="section-6" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>Conclusion: Kudos tend to be reciprocated, like friendships!</p>
 <hr />
 <p><br></p>
@@ -1635,7 +1619,7 @@ for (i in 1:trial) {
 <div id="gender-composition" class="section level1">
 <h1>Gender composition</h1>
 <div id="section-7" class="section level2 tabset tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-fade"></h2>
 <p>Let’s investigate the gender composition of the club. We must retrieve gender from the object (note that we use the clubdata object, not the RSiena object). Then we make a categorical gender variable and plot it.</p>
 <div id="club-1-6" class="section level3">
 <h3>Club 1</h3>
@@ -1655,16 +1639,18 @@ gender &lt;- ifelse(other == 1, &quot;Other&quot;, gender)
 gender &lt;- ifelse(is.na(gender), &quot;Missing&quot;, gender)  # missing category
 
 # make dataframe
-df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender == 
-    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender == 
-    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1), 
-    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == 
-        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) * 
+df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender ==
+    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender ==
+    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1),
+    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender ==
+        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) *
         100), digits = 1)))
 
 # plot
-df %&gt;% mutate(gender = fct_reorder(gender, -n)) %&gt;% ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, 
-    width = 0.8) + geom_text(aes(label = paste0(freq, &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
+df %&gt;%
+    mutate(gender = fct_reorder(gender, -n)) %&gt;%
+    ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, width = 0.8) + geom_text(aes(label = paste0(freq,
+    &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 </div>
 <div id="club-2-6" class="section level3">
@@ -1684,16 +1670,18 @@ gender &lt;- ifelse(other == 1, &quot;Other&quot;, gender)
 gender &lt;- ifelse(is.na(gender), &quot;Missing&quot;, gender)  # missing category
 
 # make dataframe
-df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender == 
-    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender == 
-    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1), 
-    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == 
-        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) * 
+df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender ==
+    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender ==
+    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1),
+    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender ==
+        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) *
         100), digits = 1)))
 
 # plot
-df %&gt;% mutate(gender = fct_reorder(gender, -n)) %&gt;% ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, 
-    width = 0.8) + geom_text(aes(label = paste0(freq, &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
+df %&gt;%
+    mutate(gender = fct_reorder(gender, -n)) %&gt;%
+    ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, width = 0.8) + geom_text(aes(label = paste0(freq,
+    &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 </div>
 <div id="club-3-6" class="section level3">
@@ -1713,16 +1701,18 @@ gender &lt;- ifelse(other == 1, &quot;Other&quot;, gender)
 gender &lt;- ifelse(is.na(gender), &quot;Missing&quot;, gender)  # missing category
 
 # make dataframe
-df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender == 
-    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender == 
-    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1), 
-    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == 
-        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) * 
+df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender ==
+    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender ==
+    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1),
+    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender ==
+        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) *
         100), digits = 1)))
 
 # plot
-df %&gt;% mutate(gender = fct_reorder(gender, -n)) %&gt;% ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, 
-    width = 0.8) + geom_text(aes(label = paste0(freq, &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
+df %&gt;%
+    mutate(gender = fct_reorder(gender, -n)) %&gt;%
+    ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, width = 0.8) + geom_text(aes(label = paste0(freq,
+    &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 </div>
 <div id="club-4-6" class="section level3">
@@ -1742,16 +1732,18 @@ gender &lt;- ifelse(other == 1, &quot;Other&quot;, gender)
 gender &lt;- ifelse(is.na(gender), &quot;Missing&quot;, gender)  # missing category
 
 # make dataframe
-df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender == 
-    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender == 
-    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1), 
-    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == 
-        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) * 
+df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender ==
+    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender ==
+    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1),
+    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender ==
+        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) *
         100), digits = 1)))
 
 # plot
-df %&gt;% mutate(gender = fct_reorder(gender, -n)) %&gt;% ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, 
-    width = 0.8) + geom_text(aes(label = paste0(freq, &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
+df %&gt;%
+    mutate(gender = fct_reorder(gender, -n)) %&gt;%
+    ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, width = 0.8) + geom_text(aes(label = paste0(freq,
+    &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 </div>
 <div id="club-5-6" class="section level3">
@@ -1771,21 +1763,23 @@ gender &lt;- ifelse(other == 1, &quot;Other&quot;, gender)
 gender &lt;- ifelse(is.na(gender), &quot;Missing&quot;, gender)  # missing category
 
 # make dataframe
-df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender == 
-    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender == 
-    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1), 
-    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == 
-        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) * 
+df &lt;- data.frame(gender = as.factor(c(&quot;Male&quot;, &quot;Female&quot;, &quot;Other&quot;, &quot;Missing&quot;)), n = c(length(gender[gender ==
+    &quot;Male&quot;]), length(gender[gender == &quot;Female&quot;]), length(gender[gender == &quot;Other&quot;]), length(gender[gender ==
+    &quot;Missing&quot;])), freq = c(round((length(gender[gender == &quot;Male&quot;])/length(gender) * 100), digits = 1),
+    round((length(gender[gender == &quot;Female&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender ==
+        &quot;Other&quot;])/length(gender) * 100), digits = 1), round((length(gender[gender == &quot;Missing&quot;])/length(gender) *
         100), digits = 1)))
 
 # plot
-df %&gt;% mutate(gender = fct_reorder(gender, -n)) %&gt;% ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, 
-    width = 0.8) + geom_text(aes(label = paste0(freq, &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
+df %&gt;%
+    mutate(gender = fct_reorder(gender, -n)) %&gt;%
+    ggplot(aes(gender, n, fill = gender)) + geom_bar(stat = &quot;identity&quot;, width = 0.8) + geom_text(aes(label = paste0(freq,
+    &quot;%&quot;)), vjust = 1.5, colour = &quot;white&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 </div>
 </div>
 <div id="section-8" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>We can see that in all clubs men are the majority.</p>
 <hr />
 <p><br></p>
@@ -1795,7 +1789,7 @@ df %&gt;% mutate(gender = fct_reorder(gender, -n)) %&gt;% ggplot(aes(gender, n, 
 <h1>Gender segregation</h1>
 <p>Let’s now investigate segregation along gender in the friendship network.</p>
 <div id="section-9" class="section level2 tabset tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-fade"></h2>
 <p>Let’s start with describing the total density and intra- (same gender) and intergroup (different gender) densities. We also calculate the Coleman Homophily index for gender, which reflects gender segregation while taking into account the relative group size of gender categories. We describe these segregation measures for friendship and kudo-networks respectively.</p>
 <div id="club-1-7" class="section level3">
 <h3>Club 1</h3>
@@ -1840,7 +1834,7 @@ rownames(desmat) &lt;- c(&quot;total density&quot;, &quot;same gender density&qu
 
 
 
-knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;% 
+knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -1948,7 +1942,7 @@ colnames(desmat) &lt;- c(&quot;friendships&quot;, &quot;Kudos&quot;)
 rownames(desmat) &lt;- c(&quot;total density&quot;, &quot;same gender density&quot;, &quot;different gender density&quot;, &quot;Coleman&#39;s homophily index&quot;)
 
 # and make a nice table
-knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;% 
+knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -2056,7 +2050,7 @@ colnames(desmat) &lt;- c(&quot;friendships&quot;, &quot;Kudos&quot;)
 rownames(desmat) &lt;- c(&quot;total density&quot;, &quot;same gender density&quot;, &quot;different gender density&quot;, &quot;Coleman&#39;s homophily index&quot;)
 
 # and make a nice table
-knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;% 
+knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -2164,7 +2158,7 @@ colnames(desmat) &lt;- c(&quot;friendships&quot;, &quot;Kudos&quot;)
 rownames(desmat) &lt;- c(&quot;total density&quot;, &quot;same gender density&quot;, &quot;different gender density&quot;, &quot;Coleman&#39;s homophily index&quot;)
 
 # and make a nice table
-knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;% 
+knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -2271,7 +2265,7 @@ colnames(desmat) &lt;- c(&quot;friendships&quot;, &quot;Kudos&quot;)
 rownames(desmat) &lt;- c(&quot;total density&quot;, &quot;same gender density&quot;, &quot;different gender density&quot;, &quot;Coleman&#39;s homophily index&quot;)
 
 # and make a nice table
-knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;% 
+knitr::kable(desmat, digits = 2, &quot;html&quot;, caption = &quot;Gender segregation in friendship and kudo network&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -2339,7 +2333,7 @@ Coleman’s homophily index
 </div>
 </div>
 <div id="section-10" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>Density in friendships is not much higher within-gender than between-genders, though this ratio differs per club (and in some clubs between-gender friendships are more common). The same pattern holds for Kudos-relationships.</p>
 <p>Coleman’s Homophily indices vary across clubs. In some clubs there is slight gender segregation (or same-gender preference) in friendship ties (values higher than 0, but rather close to 0), though in others members tend to befriend others outside their own gender (values lower than 0). Overall, tendencies towards segregation (or avoidance thereof) are pronounced to greater extent in the Kudos-relationships than in friendships.</p>
 <hr />
@@ -2353,7 +2347,7 @@ Coleman’s homophily index
 <div id="within-person-change" class="section level1">
 <h1>Within-person change</h1>
 <div id="section-11" class="section level2 tabset tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-fade"></h2>
 <p>Now let’s also check if behavior varied over time within individuals. Within-person variation is a prerequisite for identifying influence effects on behavior. Down below we demonstrate how running activity varies within individuals over time, in absolute scores (i.e. in times per week).</p>
 <div id="club-1-8" class="section level3">
 <h3>Club 1</h3>
@@ -2373,7 +2367,7 @@ df_new &lt;- dplyr::filter(df, id %in% sample)
 
 # plot growth trajectories of random sample of 9 of all club members
 p &lt;- ggplot(data = df_new, aes(x, y)) + geom_line() + facet_wrap(~id)
-p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) + 
+p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) +
     xlab(&quot;Time in months&quot;) + ylab(&quot;Running frequency in times per week&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 </div>
@@ -2395,7 +2389,7 @@ df_new &lt;- dplyr::filter(df, id %in% sample)
 
 # plot growth trajectories of random sample of 9 of all club members
 p &lt;- ggplot(data = df_new, aes(x, y)) + geom_line() + facet_wrap(~id)
-p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) + 
+p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) +
     xlab(&quot;Time in months&quot;) + ylab(&quot;Running frequency in times per week&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
 </div>
@@ -2417,7 +2411,7 @@ df_new &lt;- dplyr::filter(df, id %in% sample)
 
 # plot growth trajectories of random sample of 9 of all club members
 p &lt;- ggplot(data = df_new, aes(x, y)) + geom_line() + facet_wrap(~id)
-p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) + 
+p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) +
     xlab(&quot;Time in months&quot;) + ylab(&quot;Running frequency in times per week&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
 </div>
@@ -2439,7 +2433,7 @@ df_new &lt;- dplyr::filter(df, id %in% sample)
 
 # plot growth trajectories of random sample of 9 of all club members
 p &lt;- ggplot(data = df_new, aes(x, y)) + geom_line() + facet_wrap(~id)
-p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) + 
+p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) +
     xlab(&quot;Time in months&quot;) + ylab(&quot;Running frequency in times per week&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 </div>
@@ -2461,22 +2455,22 @@ df_new &lt;- dplyr::filter(df, id %in% sample)
 
 # plot growth trajectories of random sample of 9 of all club members
 p &lt;- ggplot(data = df_new, aes(x, y)) + geom_line() + facet_wrap(~id)
-p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) + 
+p + scale_x_continuous(breaks = seq(1, 12, 1)) + scale_y_continuous(breaks = seq(0, 8, 1)) + ggtitle(&quot;Growth trajectories in running frequency over time of a random sample of 9 actors&quot;) +
     xlab(&quot;Time in months&quot;) + ylab(&quot;Running frequency in times per week&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
 </div>
 </div>
 <div id="section-12" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>There seems to be ‘sufficient’ within-person variability in running behavior, at least in frequency.</p>
 <hr />
 </div>
 </div>
 <div id="correlation-between-frequency-and-volume" class="section level1">
 <h1>Correlation between frequency and volume</h1>
-<p>Let’s plot the relation between frequency in times per week and volume in hours per week. We also calculate Kendall’s tau-b, i.e. a non-parametric measure of correlation on ranks (cf. <span class="citation">Khamis (2008)</span>).</p>
+<p>Let’s plot the relation between frequency in times per week and volume in hours per week. We also calculate Kendall’s tau-b, i.e. a non-parametric measure of correlation on ranks (cf. <span class="citation">Khamis (2008)</span>).</p>
 <div id="section-13" class="section level2 tabset tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-fade"></h2>
 <div id="club-1-9" class="section level3">
 <h3>Club 1</h3>
 <pre class="r test"><code>df &lt;- clubdata[[1]]  # grab club 
@@ -2484,9 +2478,9 @@ df &lt;- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
 
 c &lt;- cor.test(df$x, df$y, method = &quot;kendall&quot;)
 
-plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and (half) hours&quot;, 
-    sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;, xlab = &quot;Hours per week&quot;, 
-    ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.7, y = 5, round(c$estimate, 
+plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and (half) hours&quot;,
+    sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;, xlab = &quot;Hours per week&quot;,
+    ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.7, y = 5, round(c$estimate,
     digits = 2)) + text(x = 0.7, y = 5, &quot;Kendall&#39;s tau-b =&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
 <pre class="test2"><code>#&gt; integer(0)</code></pre>
@@ -2497,8 +2491,8 @@ plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running vari
 df &lt;- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
 c &lt;- cor.test(df$x, df$y, method = &quot;kendall&quot;)
 
-plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;, 
-    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.7, 
+plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;,
+    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.7,
     y = 5, round(c$estimate, digits = 2)) + text(x = 0.7, y = 5, &quot;Kendall&#39;s tau-b =&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 <pre class="test2"><code>#&gt; integer(0)</code></pre>
@@ -2509,8 +2503,8 @@ plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running vari
 df &lt;- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
 c &lt;- cor.test(df$x, df$y, method = &quot;kendall&quot;)
 
-plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;, 
-    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.7, 
+plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;,
+    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.7,
     y = 5, round(c$estimate, digits = 2)) + text(x = 0.7, y = 5, &quot;Kendall&#39;s tau-b =&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 <pre class="test2"><code>#&gt; integer(0)</code></pre>
@@ -2521,8 +2515,8 @@ plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running vari
 df &lt;- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
 c &lt;- cor.test(df$x, df$y, method = &quot;kendall&quot;)
 
-plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;, 
-    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.5, 
+plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;,
+    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 1.5,
     y = 5, round(c$estimate, digits = 2)) + text(x = 0.7, y = 5, &quot;Kendall&#39;s tau-b =&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <pre class="test2"><code>#&gt; integer(0)</code></pre>
@@ -2533,15 +2527,15 @@ plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running vari
 df &lt;- data.frame(x = as.matrix(df$time_run), y = as.matrix(df$freq_run))
 c &lt;- cor.test(df$x, df$y, method = &quot;kendall&quot;)
 
-plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;, 
-    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 2, 
+plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running variables: frequency and hours&quot;, sub = &quot;Note: running frequency capped with a maximum of 7, hours with a maximum of 7&quot;,
+    xlab = &quot;hours per week&quot;, ylab = &quot;sessions per week&quot;, col = &quot;blue&quot;, lwd = c(1, rep(6, 10000))) + text(x = 2,
     y = 7, round(c$estimate, digits = 2)) + text(x = 0.7, y = 7, &quot;Kendall&#39;s tau-b =&quot;)</code></pre>
 <p><img src="des_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
 <pre class="test2"><code>#&gt; integer(0)</code></pre>
 </div>
 </div>
 <div id="section-14" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>Although frequency and duration are strongly related, there is some invariance.</p>
 <hr />
 <p><br></p>
@@ -2550,7 +2544,7 @@ plot(df, type = &quot;b&quot;, main = &quot;Relation between weekly running vari
 <div id="network-autocorrelation" class="section level1">
 <h1>Network autocorrelation</h1>
 <div id="section-15" class="section level2 tabset tabset-fade">
-<h2></h2>
+<h2 class="tabset tabset-fade"></h2>
 <p>We have now covered the sport activity levels of our club-athletes, and the extent to which friendship- and kudos-associations are segregated along gender. Last, we will explore if friendship- and kudos-ties are also segregated along activity levels. Or in other words: do people with similar activity levels tend to socialize to a greater extent - by befriending one another and by exchanging kudos - even when taking into account the opportunity structures for ‘interacting’ with (dis)similar others?</p>
 <p>We use Moran’s I spatial autocorrelation measure for this, which is the correlation between the behavioral score of actor <em>i</em> and the (total/mean) behavioral score of alters <em>j</em> to whom <em>i</em> is connected <strong>directly</strong>. We also calculated Moran’s I by including the behavioral scores of the actors <em>h</em> to whom <em>i</em> is indirectly tied, and used the negative exponential function as described by <span class="citation">Chen (2013)</span> as a distance-decay function for assigning weights.</p>
 <div id="club-1-10" class="section level3">
@@ -2584,8 +2578,8 @@ k_weights1 &lt;- k_geodistances == 1
 f_weights2 &lt;- exp(-f_geodistances)
 k_weights2 &lt;- exp(-k_geodistances)
 
-# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network, for
-# frequency and volume respectively we do not row standardize!
+# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network,
+# for frequency and volume respectively we do not row standardize!
 f_freq1 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
 f_freq2 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
 f_vol1 &lt;- fMoran.I(vol1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
@@ -2635,10 +2629,10 @@ v_mat[4, 3] &lt;- k_vol2$sd
 v_mat[4, 4] &lt;- k_vol2$p.value
 
 colnames(f_mat) &lt;- colnames(v_mat) &lt;- c(&quot;observed&quot;, &quot;expected&quot;, &quot;sd&quot;, &quot;p-value&quot;)
-rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;, 
+rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;,
     &quot;direct kudos ties&quot;, &quot;direct and indirect kudos ties (distance-decay)&quot;)
 
-knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;% 
+knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -2733,7 +2727,7 @@ direct and indirect kudos ties (distance-decay)
 </tr>
 </tbody>
 </table>
-<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;% 
+<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -2860,8 +2854,8 @@ k_weights1 &lt;- k_geodistances == 1
 f_weights2 &lt;- exp(-f_geodistances)
 k_weights2 &lt;- exp(-k_geodistances)
 
-# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network, for
-# frequency and volume respectively we do not row standardize!
+# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network,
+# for frequency and volume respectively we do not row standardize!
 f_freq1 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
 f_freq2 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
 f_vol1 &lt;- fMoran.I(vol1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
@@ -2911,10 +2905,10 @@ v_mat[4, 3] &lt;- k_vol2$sd
 v_mat[4, 4] &lt;- k_vol2$p.value
 
 colnames(f_mat) &lt;- colnames(v_mat) &lt;- c(&quot;observed&quot;, &quot;expected&quot;, &quot;sd&quot;, &quot;p-value&quot;)
-rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;, 
+rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;,
     &quot;direct kudos ties&quot;, &quot;direct and indirect kudos ties (distance-decay)&quot;)
 
-knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;% 
+knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3009,7 +3003,7 @@ direct and indirect kudos ties (distance-decay)
 </tr>
 </tbody>
 </table>
-<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;% 
+<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3136,8 +3130,8 @@ k_weights1 &lt;- k_geodistances == 1
 f_weights2 &lt;- exp(-f_geodistances)
 k_weights2 &lt;- exp(-k_geodistances)
 
-# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network, for
-# frequency and volume respectively we do not row standardize!
+# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network,
+# for frequency and volume respectively we do not row standardize!
 f_freq1 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
 f_freq2 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
 f_vol1 &lt;- fMoran.I(vol1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
@@ -3187,10 +3181,10 @@ v_mat[4, 3] &lt;- k_vol2$sd
 v_mat[4, 4] &lt;- k_vol2$p.value
 
 colnames(f_mat) &lt;- colnames(v_mat) &lt;- c(&quot;observed&quot;, &quot;expected&quot;, &quot;sd&quot;, &quot;p-value&quot;)
-rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;, 
+rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;,
     &quot;direct kudos ties&quot;, &quot;direct and indirect kudos ties (distance-decay)&quot;)
 
-knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;% 
+knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3285,7 +3279,7 @@ direct and indirect kudos ties (distance-decay)
 </tr>
 </tbody>
 </table>
-<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;% 
+<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3413,8 +3407,8 @@ k_weights1 &lt;- k_geodistances == 1
 f_weights2 &lt;- exp(-f_geodistances)
 k_weights2 &lt;- exp(-k_geodistances)
 
-# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network, for
-# frequency and volume respectively we do not row standardize!
+# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network,
+# for frequency and volume respectively we do not row standardize!
 f_freq1 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
 f_freq2 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
 f_vol1 &lt;- fMoran.I(vol1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
@@ -3464,10 +3458,10 @@ v_mat[4, 3] &lt;- k_vol2$sd
 v_mat[4, 4] &lt;- k_vol2$p.value
 
 colnames(f_mat) &lt;- colnames(v_mat) &lt;- c(&quot;observed&quot;, &quot;expected&quot;, &quot;sd&quot;, &quot;p-value&quot;)
-rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;, 
+rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and indirect friends (distance-decay)&quot;,
     &quot;direct kudos ties&quot;, &quot;direct and indirect kudos ties (distance-decay)&quot;)
 
-knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;% 
+knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3562,7 +3556,7 @@ direct and indirect kudos ties (distance-decay)
 </tr>
 </tbody>
 </table>
-<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;% 
+<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3689,8 +3683,8 @@ k_weights1 &lt;- k_geodistances == 1
 f_weights2 &lt;- exp(-f_geodistances)
 k_weights2 &lt;- exp(-k_geodistances)
 
-# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network, for
-# frequency and volume respectively we do not row standardize!
+# calculate Moran&#39;s I for distance-1 and with distance decay, in the friendship and kudo network,
+# for frequency and volume respectively we do not row standardize!
 f_freq1 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
 f_freq2 &lt;- fMoran.I(freq1, scaled = FALSE, weight = f_weights2, na.rm = TRUE, rowstandardize = FALSE)
 f_vol1 &lt;- fMoran.I(vol1, scaled = FALSE, weight = f_weights1, na.rm = TRUE, rowstandardize = FALSE)
@@ -3740,10 +3734,10 @@ v_mat[4, 3] &lt;- k_vol2$sd
 v_mat[4, 4] &lt;- k_vol2$p.value
 
 colnames(f_mat) &lt;- colnames(v_mat) &lt;- c(&quot;observed&quot;, &quot;expected&quot;, &quot;sd&quot;, &quot;p-value&quot;)
-rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and undirect friends (distance-decay)&quot;, 
+rownames(f_mat) &lt;- rownames(v_mat) &lt;- c(&quot;direct friends&quot;, &quot;direct and undirect friends (distance-decay)&quot;,
     &quot;direct kudos ties&quot;, &quot;direct and indirect kudos ties (distance-decay)&quot;)
 
-knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;% 
+knitr::kable(f_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and weekly running frequency&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3838,7 +3832,7 @@ direct and indirect kudos ties (distance-decay)
 </tr>
 </tbody>
 </table>
-<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;% 
+<pre class="r test"><code>knitr::kable(v_mat, digits = 2, &quot;html&quot;, caption = &quot;Moran&#39;s I statistic for spatial autocorrelation based on geodistances and monthly running volume&quot;) %&gt;%
     kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -3936,7 +3930,7 @@ direct and indirect kudos ties (distance-decay)
 </div>
 </div>
 <div id="section-16" class="section level2 unnumbered">
-<h2></h2>
+<h2 class="unnumbered"></h2>
 <p>Here, the Moran’s I statistic tests whether club members that are <em>closer to one another</em> (i.e., having a shorter geodesic/path length), are more a similar with respect to their behavior, under the null hypothesis that behavior is ‘randomly distributed’ among the club members.</p>
 <p>We observe that, indeed, friends that are closer to one another are more alike, and especially kudos-ties! Autocorrelation was stronger without the distance-decay function, which suggests that especially close alters (with path length one) are similar.</p>
 <hr />
@@ -3944,16 +3938,16 @@ direct and indirect kudos ties (distance-decay)
 <hr />
 </div>
 <div id="references" class="section level2 unnumbered">
-<h2>References</h2>
-<div id="refs" class="references">
-<div id="ref-chen2013">
-<p>Chen, Yanguang. 2013. “New Approaches for Calculating Moran’s Index of Spatial Autocorrelation.” <em>PLOS ONE</em> 8 (7): –. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0068336">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0068336</a>.</p>
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-chen2013" class="csl-entry">
+Chen, Yanguang. 2013. <span>“New Approaches for Calculating Moran’s Index of Spatial Autocorrelation.”</span> <em>PLOS ONE</em> 8 (7): –. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0068336">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0068336</a>.
 </div>
-<div id="ref-davis1967structure">
-<p>Davis, James A, and Samuel Leinhardt. 1967. “The Structure of Positive Interpersonal Relations in Small Groups.” <a href="https://eric.ed.gov/?id=ED024086">https://eric.ed.gov/?id=ED024086</a>.</p>
+<div id="ref-davis1967structure" class="csl-entry">
+Davis, James A, and Samuel Leinhardt. 1967. <span>“The Structure of Positive Interpersonal Relations in Small Groups.”</span> <a href="https://eric.ed.gov/?id=ED024086">https://eric.ed.gov/?id=ED024086</a>.
 </div>
-<div id="ref-khamis">
-<p>Khamis, Harry. 2008. “Measures of Association: How to Choose?” <em>Journal of Diagnostic Medical Sonography</em> 24 (3): 155–62. <a href="doi:10.1177/8756479308317006">doi:10.1177/8756479308317006</a>.</p>
+<div id="ref-khamis" class="csl-entry">
+Khamis, Harry. 2008. <span>“Measures of Association: How to Choose?”</span> <em>Journal of Diagnostic Medical Sonography</em> 24 (3): 155–62. <a href="https://doi:10.1177/8756479308317006">doi:10.1177/8756479308317006</a>.
 </div>
 </div>
 </div>
@@ -3999,7 +3993,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -4014,6 +4008,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')

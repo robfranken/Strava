@@ -13,12 +13,22 @@
 
 <title>Data preparation</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -44,11 +54,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -62,30 +67,6 @@ if (window.hljs) {
 
 
 <style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
 #rmd-source-code {
   display: none;
 }
@@ -102,10 +83,6 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
 }
@@ -121,40 +98,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -182,7 +132,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -194,7 +144,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -205,10 +155,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -220,7 +183,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -349,7 +311,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -374,7 +336,7 @@ div.tocify {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -475,11 +437,11 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 <li role="separator" class="divider"></li>
@@ -495,6 +457,7 @@ div.tocify {
 </div>
 
 
+<pre><code>## NULL</code></pre>
 <script>
   addClassKlippyTo("pre.r, pre.markdown");
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
@@ -523,9 +486,9 @@ club_str &lt;- c(&quot;clubid1&quot;, &quot;clubid2&quot;, &quot;clubid3&quot;, 
 
 for (i in (1:length(club_str))) {
     club_id &lt;- club_str[i]
-    
+
     # read the data from the club
-    clubdata &lt;- read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;egoData_extended.csv&quot;, sep = &quot;&quot;), row.names = NULL, 
+    clubdata &lt;- read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;egoData_extended.csv&quot;, sep = &quot;&quot;), row.names = NULL,
         sep = &quot;,&quot;)
     # saving club size
     size &lt;- length(clubdata[, &quot;gender&quot;])
@@ -535,10 +498,9 @@ for (i in (1:length(club_str))) {
     male &lt;- ifelse(clubdata[, &quot;gender&quot;] == &quot;M&quot;, 1, 0)
     female &lt;- ifelse(clubdata[, &quot;gender&quot;] == &quot;F&quot;, 1, 0)
     other &lt;- ifelse(clubdata[, &quot;gender&quot;] == &quot;O&quot;, 1, 0)
-    
-    
+
     # let&#39;s load the friendship network
-    friend_data &lt;- as.matrix(read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;socialnetwork.csv&quot;, sep = &quot;&quot;), row.names = NULL, 
+    friend_data &lt;- as.matrix(read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;socialnetwork.csv&quot;, sep = &quot;&quot;), row.names = NULL,
         sep = &quot;,&quot;))
     # remove the first column (represents index made in the csv)
     friend_data &lt;- friend_data[, 2:ncol(friend_data)]
@@ -554,8 +516,7 @@ for (i in (1:length(club_str))) {
     }
     fakeid &lt;- idmaker(nrow(friend_data))  # generate random id
     colnames(friend_data) &lt;- fakeid  # anonymizing users
-    
-    
+
     # let&#39;s load the kudo network
     path &lt;- paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;kudos&quot;, sep = &quot;&quot;)  # create path
     {
@@ -584,95 +545,96 @@ for (i in (1:length(club_str))) {
         kudo_w12 &lt;- as.matrix(read.csv(paste(path, &quot;12-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
         kudo_w12 &lt;- kudo_w12[, 2:ncol(kudo_w12)]
     }
-    kudos &lt;- array(c(kudo_w1, kudo_w2, kudo_w3, kudo_w4, kudo_w5, kudo_w6, kudo_w7, kudo_w8, kudo_w9, 
+    kudos &lt;- array(c(kudo_w1, kudo_w2, kudo_w3, kudo_w4, kudo_w5, kudo_w6, kudo_w7, kudo_w8, kudo_w9,
         kudo_w10, kudo_w11, kudo_w12), dim = c(size, size, n_waves))  #Kudos matrix
-    
+
     kudo_data &lt;- ifelse(kudos &gt; 0, 1, 0)  #if at least 1 Kudo is send, tie exists
-    
+
     # running time (in hours per week)
-    time_run &lt;- array(c(clubdata[, &quot;time_run_1.2019&quot;], clubdata[, &quot;time_run_2.2019&quot;], clubdata[, &quot;time_run_3.2019&quot;], 
-        clubdata[, &quot;time_run_4.2019&quot;], clubdata[, &quot;time_run_5.2019&quot;], clubdata[, &quot;time_run_6.2019&quot;], 
-        clubdata[, &quot;time_run_7.2019&quot;], clubdata[, &quot;time_run_8.2019&quot;], clubdata[, &quot;time_run_9.2019&quot;], 
-        clubdata[, &quot;time_run_10.2019&quot;], clubdata[, &quot;time_run_11.2019&quot;], clubdata[, &quot;time_run_12.2019&quot;]), 
+    time_run &lt;- array(c(clubdata[, &quot;time_run_1.2019&quot;], clubdata[, &quot;time_run_2.2019&quot;], clubdata[, &quot;time_run_3.2019&quot;],
+        clubdata[, &quot;time_run_4.2019&quot;], clubdata[, &quot;time_run_5.2019&quot;], clubdata[, &quot;time_run_6.2019&quot;],
+        clubdata[, &quot;time_run_7.2019&quot;], clubdata[, &quot;time_run_8.2019&quot;], clubdata[, &quot;time_run_9.2019&quot;],
+        clubdata[, &quot;time_run_10.2019&quot;], clubdata[, &quot;time_run_11.2019&quot;], clubdata[, &quot;time_run_12.2019&quot;]),
         dim = c(size, 1, n_waves))  # minutes per month
     time_run_h &lt;- time_run/60  # hours per month
     # time_run_30 &lt;- time_run_h * 2 # half hours
     time &lt;- ceiling(time_run_h/4)  # per week
-    
+
     # provide some descriptives time %&gt;% # absolute table() time %&gt;% # proportionate table() %&gt;%
-    # prop.table() %&gt;% round(3) cumprop &lt;- time %&gt;% # cumulative proportions table() %&gt;% prop.table() %&gt;%
-    # round(3) %&gt;% cumsum() print(cumprop) 1-cumprop # the percentage of all values that is higher than
-    # the particular value
-    
+    # prop.table() %&gt;% round(3) cumprop &lt;- time %&gt;% # cumulative proportions table() %&gt;%
+    # prop.table() %&gt;% round(3) %&gt;% cumsum() print(cumprop) 1-cumprop # the percentage of all
+    # values that is higher than the particular value
+
     # our idea was to cap running time of at 7+ hours per week.  this resulted in rather smooth
-    # (right-skewed) distribution of values for most clubs except for club 5, where 7+ hours category was
-    # highly populated over time.  We added 2 extra categories (capped of at 9+ hours); this resulted in
-    # a rather smooth distribution for this club.
-    
+    # (right-skewed) distribution of values for most clubs except for club 5, where 7+ hours
+    # category was highly populated over time.  We added 2 extra categories (capped of at 9+
+    # hours); this resulted in a rather smooth distribution for this club.
+
     if (club_id == &quot;clubid5&quot;) {
         time_run_temp &lt;- ifelse(time &gt; 9, 9, time)
     } else {
         time_run_temp &lt;- ifelse(time &gt; 7, 7, time)
     }
-    
+
     # running frequency (times per week)
-    freq_run &lt;- array(c(clubdata[, &quot;X.run_1.2019&quot;], clubdata[, &quot;X.run_2.2019&quot;], clubdata[, &quot;X.run_3.2019&quot;], 
-        clubdata[, &quot;X.run_4.2019&quot;], clubdata[, &quot;X.run_5.2019&quot;], clubdata[, &quot;X.run_6.2019&quot;], clubdata[, 
-            &quot;X.run_7.2019&quot;], clubdata[, &quot;X.run_8.2019&quot;], clubdata[, &quot;X.run_9.2019&quot;], clubdata[, &quot;X.run_10.2019&quot;], 
+    freq_run &lt;- array(c(clubdata[, &quot;X.run_1.2019&quot;], clubdata[, &quot;X.run_2.2019&quot;], clubdata[, &quot;X.run_3.2019&quot;],
+        clubdata[, &quot;X.run_4.2019&quot;], clubdata[, &quot;X.run_5.2019&quot;], clubdata[, &quot;X.run_6.2019&quot;], clubdata[,
+            &quot;X.run_7.2019&quot;], clubdata[, &quot;X.run_8.2019&quot;], clubdata[, &quot;X.run_9.2019&quot;], clubdata[, &quot;X.run_10.2019&quot;],
         clubdata[, &quot;X.run_11.2019&quot;], clubdata[, &quot;X.run_12.2019&quot;]), dim = c(size, 1, n_waves))  # frequencies per month
     frequencies &lt;- ceiling(freq_run/4)  # per week
     freq_run_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)  # cap off at 7 times per week
-    
+
     # now that we have running data, let&#39;s load other activity data (e.g., cycling, swimming) time
-    time_ride &lt;- array(c(clubdata[, &quot;time_ride_1.2019&quot;], clubdata[, &quot;time_ride_2.2019&quot;], clubdata[, &quot;time_ride_3.2019&quot;], 
-        clubdata[, &quot;time_ride_4.2019&quot;], clubdata[, &quot;time_ride_5.2019&quot;], clubdata[, &quot;time_ride_6.2019&quot;], 
-        clubdata[, &quot;time_ride_7.2019&quot;], clubdata[, &quot;time_ride_8.2019&quot;], clubdata[, &quot;time_ride_9.2019&quot;], 
-        clubdata[, &quot;time_ride_10.2019&quot;], clubdata[, &quot;time_ride_11.2019&quot;], clubdata[, &quot;time_ride_12.2019&quot;]), 
+    time_ride &lt;- array(c(clubdata[, &quot;time_ride_1.2019&quot;], clubdata[, &quot;time_ride_2.2019&quot;], clubdata[, &quot;time_ride_3.2019&quot;],
+        clubdata[, &quot;time_ride_4.2019&quot;], clubdata[, &quot;time_ride_5.2019&quot;], clubdata[, &quot;time_ride_6.2019&quot;],
+        clubdata[, &quot;time_ride_7.2019&quot;], clubdata[, &quot;time_ride_8.2019&quot;], clubdata[, &quot;time_ride_9.2019&quot;],
+        clubdata[, &quot;time_ride_10.2019&quot;], clubdata[, &quot;time_ride_11.2019&quot;], clubdata[, &quot;time_ride_12.2019&quot;]),
         dim = c(size, 1, n_waves))
-    time_other &lt;- array(c(clubdata[, &quot;time_other_1.2019&quot;], clubdata[, &quot;time_other_2.2019&quot;], clubdata[, 
-        &quot;time_other_3.2019&quot;], clubdata[, &quot;time_other_4.2019&quot;], clubdata[, &quot;time_other_5.2019&quot;], clubdata[, 
-        &quot;time_other_6.2019&quot;], clubdata[, &quot;time_other_7.2019&quot;], clubdata[, &quot;time_other_8.2019&quot;], clubdata[, 
+    time_other &lt;- array(c(clubdata[, &quot;time_other_1.2019&quot;], clubdata[, &quot;time_other_2.2019&quot;], clubdata[,
+        &quot;time_other_3.2019&quot;], clubdata[, &quot;time_other_4.2019&quot;], clubdata[, &quot;time_other_5.2019&quot;], clubdata[,
+        &quot;time_other_6.2019&quot;], clubdata[, &quot;time_other_7.2019&quot;], clubdata[, &quot;time_other_8.2019&quot;], clubdata[,
         &quot;time_other_12.2019&quot;]), dim = c(size, 1, n_waves))
-    
+
     time_other &lt;- time_ride + time_other  # minutes per month
     time_other_h &lt;- time_other/60  # hours per month
     # time_other_h &lt;- time_other_h * 2 # half hours
     time &lt;- ceiling(time_other_h/4)  #per week
     time_other_temp &lt;- ifelse(time &gt; 7, 7, time)  # cap off at 7 hours per week
     table(time_other_temp)
-    
+
     # frequency
-    freq_ride &lt;- array(c(clubdata[, &quot;X.ride_1.2019&quot;], clubdata[, &quot;X.ride_2.2019&quot;], clubdata[, &quot;X.ride_3.2019&quot;], 
-        clubdata[, &quot;X.ride_4.2019&quot;], clubdata[, &quot;X.ride_5.2019&quot;], clubdata[, &quot;X.ride_6.2019&quot;], clubdata[, 
-            &quot;X.ride_7.2019&quot;], clubdata[, &quot;X.ride_8.2019&quot;], clubdata[, &quot;X.ride_9.2019&quot;], clubdata[, &quot;X.ride_10.2019&quot;], 
+    freq_ride &lt;- array(c(clubdata[, &quot;X.ride_1.2019&quot;], clubdata[, &quot;X.ride_2.2019&quot;], clubdata[, &quot;X.ride_3.2019&quot;],
+        clubdata[, &quot;X.ride_4.2019&quot;], clubdata[, &quot;X.ride_5.2019&quot;], clubdata[, &quot;X.ride_6.2019&quot;], clubdata[,
+            &quot;X.ride_7.2019&quot;], clubdata[, &quot;X.ride_8.2019&quot;], clubdata[, &quot;X.ride_9.2019&quot;], clubdata[, &quot;X.ride_10.2019&quot;],
         clubdata[, &quot;X.ride_11.2019&quot;], clubdata[, &quot;X.ride_12.2019&quot;]), dim = c(size, 1, n_waves))
-    freq_other &lt;- array(c(clubdata[, &quot;X.other_1.2019&quot;], clubdata[, &quot;X.other_2.2019&quot;], clubdata[, &quot;X.other_3.2019&quot;], 
-        clubdata[, &quot;X.other_4.2019&quot;], clubdata[, &quot;X.other_5.2019&quot;], clubdata[, &quot;X.other_6.2019&quot;], clubdata[, 
-            &quot;X.other_7.2019&quot;], clubdata[, &quot;X.other_8.2019&quot;], clubdata[, &quot;X.other_9.2019&quot;], clubdata[, 
-            &quot;X.other_10.2019&quot;], clubdata[, &quot;X.other_11.2019&quot;], clubdata[, &quot;X.other_12.2019&quot;]), dim = c(size, 
+    freq_other &lt;- array(c(clubdata[, &quot;X.other_1.2019&quot;], clubdata[, &quot;X.other_2.2019&quot;], clubdata[, &quot;X.other_3.2019&quot;],
+        clubdata[, &quot;X.other_4.2019&quot;], clubdata[, &quot;X.other_5.2019&quot;], clubdata[, &quot;X.other_6.2019&quot;], clubdata[,
+            &quot;X.other_7.2019&quot;], clubdata[, &quot;X.other_8.2019&quot;], clubdata[, &quot;X.other_9.2019&quot;], clubdata[,
+            &quot;X.other_10.2019&quot;], clubdata[, &quot;X.other_11.2019&quot;], clubdata[, &quot;X.other_12.2019&quot;]), dim = c(size,
         1, n_waves))
-    
+
     freq_other &lt;- freq_ride + freq_other
     frequencies &lt;- ceiling(freq_other/4)
     freq_other_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)
-    
-    # specify months of winter in case we want to use it as a varying covariate starts with december
+
+    # specify months of winter in case we want to use it as a varying covariate starts with
+    # december
     winter &lt;- rep(c(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), size)
     winter &lt;- matrix(winter, nrow = size, ncol = n_waves, byrow = TRUE)
-    
+
     # create a list containing all the read club data for the current club
-    club &lt;- list(friendship = friend_data, kudo = kudo_data, freq_run = freq_run_temp, time_run = time_run_temp, 
-        freq_other = freq_other_temp, time_other = time_other_temp, winter = winter, male = male, female = female, 
+    club &lt;- list(friendship = friend_data, kudo = kudo_data, freq_run = freq_run_temp, time_run = time_run_temp,
+        freq_other = freq_other_temp, time_other = time_other_temp, winter = winter, male = male, female = female,
         other = other, netsize = size)
-    
+
     # save
-    
+
     save(club, file = paste(&quot;clubs/&quot;, &quot;club&quot;, club_id, &quot;.RData&quot;, sep = &quot;&quot;))
-    
+
 }
 
 
-#################################################### 
+####################################################
 
 # Now that we have saved the clubdata for all clubs, let&#39;s combine them in one list
 
@@ -703,16 +665,17 @@ save(clubdata, file = &quot;clubs/clubdata.RData&quot;)</code></pre>
 <div id="clubdata_rsiena.rdata" class="section level1">
 <h1>clubdata_rsiena.RData</h1>
 <p>The following script creates a list containing RSiena objects for all clubs. We create a list containing RSiena objects with running frequency as the behavior variable (clubdata_rsiena_freq.RData) and running volume (clubdata_rsiena_vol.RData).</p>
-<p>Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We lift RSiena’s automatic restriction to follow this pattern in the simulations, by using ‘<em>allowOnly</em> = FALSE’. This must be done for the subsequent meta-analysis.</p>
+<p>Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We lift RSiena’s automatic restriction to follow this pattern in the simulations, by using ‘<em>allowOnly</em> = FALSE.’ This must be done for the subsequent meta-analysis.</p>
 <pre class="r test"><code># clean the working environment
 rm(list = ls())
 
 # load the clubdata
 load(&quot;clubs/clubdata.RData&quot;)
 str(clubdata)  # inspect structure
-# clubdata is a list of 5 lists, with each of these lists containing data of the corresponding club.
+# clubdata is a list of 5 lists, with each of these lists containing data of the corresponding
+# club.
 
-#################################################### 
+####################################################
 
 
 require(RSiena)
@@ -724,17 +687,17 @@ for (i in 1:5) {
     club &lt;- clubdata[[i]]
     # specify the roles of variables
     names(club)
-    
+
     # A: network variables
     kudonet &lt;- sienaDependent(club$kudo, allowOnly = FALSE)  #at least one Kudo
-    
+
     # B: behavioral variables
     time_run &lt;- sienaDependent(club$time_run, type = &quot;behavior&quot;, allowOnly = FALSE)
     freq_run &lt;- sienaDependent(club$freq_run, type = &quot;behavior&quot;, allowOnly = FALSE)
-    
+
     time_other &lt;- varCovar(club$time_other[, , ])
     freq_other &lt;- varCovar(club$freq_other[, , ])
-    
+
     # B: covariates
     friendship &lt;- coDyadCovar(club$friendship)
     winter &lt;- varCovar(club$winter)
@@ -743,11 +706,11 @@ for (i in 1:5) {
     gender &lt;- ifelse(club$female == 1, 2, gender)
     gender &lt;- ifelse(club$other == 1, 2, gender)
     gender &lt;- coCovar(gender)
-    
+
     # now combine the dependent and independent variables in a data object
     mydata &lt;- sienaDataCreate(kudonet, friendship, freq_run, time_other, freq_other, gender, winter)
     mydata2 &lt;- sienaDataCreate(kudonet, friendship, time_run, time_other, freq_other, gender, winter)
-    
+
     # this finishes the data specification
     clubdata_rsiena_freq[[i]] &lt;- mydata
     clubdata_rsiena_vol[[i]] &lt;- mydata2
@@ -799,7 +762,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -814,6 +777,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
