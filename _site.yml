@@ -42,7 +42,6 @@ navbar:
         href: RI.html
       - text: "Empirically calibrated SAOMs"
         href: simulations.html
-
   right:
     - icon: fab fa-github
       href: https://github.com/robfranken/Strava

@@ -380,32 +380,28 @@ for (c in 1:length(clubdata)) {
 
 ```
 
+<br>
 
 # Plots {.tabset .tabset-fade}
 
 ## club 1
-```{r,include=TRUE, fig.align="center", echo=FALSE}
-knitr::include_graphics("test/simulations/plots_club1.png")
-```
+
+![](plots_club1.png)
 
 ## club 2
-```{r,include=TRUE, fig.align="center", echo=FALSE}
-knitr::include_graphics("test/simulations/plots_club2.png")
-```
+
+![](plots_club2.png)
 
 ## club 3
-```{r,include=TRUE, fig.align="center", echo=FALSE}
-knitr::include_graphics("test/simulations/plots_club3.png")
-```
+
+![](plots_club3.png)
 
 ## club 4
-```{r,include=TRUE, fig.align="center", echo=FALSE}
-knitr::include_graphics("test/simulations/plots_club4.png")
-```
+
+![](plots_club4.png)
 
 ## club 5
-```{r,include=TRUE, fig.align="center", echo=FALSE}
-knitr::include_graphics("test/simulations/plots_club5.png")
-```
+
+![](plots_club5.png)
 
 # {-}
