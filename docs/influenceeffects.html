@@ -346,6 +346,9 @@ $(document).ready(function () {
     <li>
       <a href="RI.html">Figure 7: Relative importance of effects</a>
     </li>
+    <li>
+      <a href="simulations.html">Empirically calibrated SAOMs</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -376,7 +379,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Influence operationalizations</h1>
-<h4 class="date">Last compiled on januari, 2022</h4>
+<h4 class="date">Last compiled on maart, 2022</h4>
 
 </div>
 
@@ -386,7 +389,8 @@ $(document).ready(function () {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <hr />
-<p>We will show how the influence statistics in RSiena behave. We assume that ego is connected to all alters.</p>
+<p>We will show how the influence statistics in RSiena behave. We assume
+that ego is connected to all alters.</p>
 <p><br></p>
 <div id="functions" class="section level2">
 <h2>Functions</h2>
@@ -402,7 +406,8 @@ $(document).ready(function () {
 </div>
 <div id="calculating-similarity-scores" class="section level3">
 <h3>Calculating similarity scores</h3>
-<p><span class="math display">\[ sim^z_{ij} = 1 - \frac{|z_i - z_j|}{r_V} \]</span></p>
+<p><span class="math display">\[ sim^z_{ij} = 1 - \frac{|z_i -
+z_j|}{r_V} \]</span></p>
 <pre class="r test"><code>fsimij &lt;- function(actors, min, max) {
     # rv &lt;- max(actors) - min(actors)
     rv &lt;- max - min
@@ -415,7 +420,8 @@ $(document).ready(function () {
 </div>
 <div id="the-average-similarity-effect-avsim" class="section level3">
 <h3>The average similarity effect (avSim)</h3>
-<p><span class="math display">\[ s^{beh}_{i5}(x,z) = x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) \]</span></p>
+<p><span class="math display">\[ s^{beh}_{i5}(x,z) = x^{-1}_{i+}\sum_j
+x_{ij}(sim^z_{ij} - \widehat{sim^z}) \]</span></p>
 <pre class="r test"><code>favSim &lt;- function(ego, alters, min, max) {
     actors &lt;- c(ego, alters)  #define the network
     beh_centered &lt;- fcentering(actors)  #center behavior scores
@@ -443,9 +449,12 @@ $(document).ready(function () {
 }</code></pre>
 <p><br></p>
 </div>
-<div id="the-average-attraction-towards-higher-effect-avatthigher" class="section level3">
+<div id="the-average-attraction-towards-higher-effect-avatthigher"
+class="section level3">
 <h3>The average attraction towards higher effect (avAttHigher)</h3>
-<p><span class="math display">\[ s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&gt;z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \} )\,\]</span></p>
+<p><span class="math display">\[ s^{beh}_{i23}(x,z) = x^{-1}_{i+}\sum_j
+x_{ij} (\, I \{ (z_j)&gt;z_i \} sim^z_{ij} + I \{ (z_j ) \le z_i \}
+)\,\]</span></p>
 <pre class="r test"><code>favAttHigher &lt;- function(ego, alters, min, max) {
     actors &lt;- c(ego, alters)
     beh_centered &lt;- fcentering(actors)
@@ -461,9 +470,13 @@ $(document).ready(function () {
 }</code></pre>
 <p><br></p>
 </div>
-<div id="the-average-attraction-towards-higher-alters-effect-avattlower" class="section level3">
-<h3>The average attraction towards higher alters effect (avAttLower)</h3>
-<p><span class="math display">\[ s^{beh}_{i24}(x,z) = x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&lt;z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )\,\]</span></p>
+<div id="the-average-attraction-towards-higher-alters-effect-avattlower"
+class="section level3">
+<h3>The average attraction towards higher alters effect
+(avAttLower)</h3>
+<p><span class="math display">\[ s^{beh}_{i24}(x,z) = x^{-1}_{i+}\sum_j
+x_{ij} (\, I \{ (z_j)&lt;z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \}
+)\,\]</span></p>
 <pre class="r test"><code>favAttLower &lt;- function(ego, alters, min, max) {
     actors &lt;- c(ego, alters)
     beh_centered &lt;- fcentering(actors)
@@ -481,7 +494,8 @@ $(document).ready(function () {
 </div>
 <div id="average-alter-effect-avalt" class="section level3">
 <h3>Average alter effect (avAlt)</h3>
-<p><span class="math display">\[ s^{beh}_{i27}(x,z) = z_i(\textstyle \sum_jx_{ij}z_j)/(\textstyle \sum_jx_{ij}) \]</span></p>
+<p><span class="math display">\[ s^{beh}_{i27}(x,z) = z_i(\textstyle
+\sum_jx_{ij}z_j)/(\textstyle \sum_jx_{ij}) \]</span></p>
 <pre class="r test"><code>favAlt &lt;- function(ego, alters, ...) {
     actors &lt;- c(ego, alters)
     beh_centered &lt;- fcentering(actors)
@@ -496,7 +510,8 @@ $(document).ready(function () {
 <h3>Average attraction mean (AttMean)</h3>
 <p>We are attracted to the mean of our alters!</p>
 <p>(behaves approximately similar to avAlt, different shape.)</p>
-<p><span class="math display">\[ s^{beh}_{i}(x,z) = 1 - \frac{\lvert(z_i - x^{-1}_{i+}\sum_j x_{ij}z_j)\rvert}{r_Z}  \]</span></p>
+<p><span class="math display">\[ s^{beh}_{i}(x,z) = 1 - \frac{\lvert(z_i
+- x^{-1}_{i+}\sum_j x_{ij}z_j)\rvert}{r_Z}  \]</span></p>
 <pre class="r test"><code>fAttMean &lt;- function(ego, alters, min, max, ...) {
     rv &lt;- max - min
     actors &lt;- c(ego, alters)
@@ -509,7 +524,8 @@ $(document).ready(function () {
 <p><br></p>
 </div>
 </div>
-<div id="make-plot-of-statistic-values" class="section level2 tabset tabset-fade">
+<div id="make-plot-of-statistic-values"
+class="section level2 tabset tabset-fade">
 <h2 class="tabset tabset-fade">Make plot of statistic values</h2>
 <pre class="r test"><code>finluenceplot &lt;- function(alters, min, max, fun, params, results = TRUE, plot = TRUE) {
     # check correct number of parameters are given

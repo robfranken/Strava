@@ -424,6 +424,9 @@ div.tocify {
     <li>
       <a href="RI.html">Figure 7: Relative importance of effects</a>
     </li>
+    <li>
+      <a href="simulations.html">Empirically calibrated SAOMs</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -454,7 +457,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Replicating Table 1</h1>
-<h4 class="date">Last compiled on januari, 2022</h4>
+<h4 class="date">Last compiled on maart, 2022</h4>
 
 </div>
 
@@ -464,11 +467,13 @@ div.tocify {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <hr />
-<p>This script replicates Table 1 of the manuscript (Descriptive statistics of Strava Clubs).</p>
+<p>This script replicates Table 1 of the manuscript (Descriptive
+statistics of Strava Clubs).</p>
 <p><br></p>
 <div id="preparation" class="section level1">
 <h1>Preparation</h1>
-<p>Clean the working environment, load in the club (RSiena) data, load some packages.</p>
+<p>Clean the working environment, load in the club (RSiena) data, load
+some packages.</p>
 <pre class="r test"><code># clean the working environment
 rm(list = ls())
 
@@ -1131,22 +1136,36 @@ Male sex (%)
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup></sup> For network measures, mean values over time are given with standard deviations in parentheses. For behavioral attributes, means and standard deviations at baseline (t1: December) are given. Degrees reflect kudos ties, with awarding 1 or more kudos constituting the presence of a tie. The reciprocity index is the proportion of kudos ties that were reciprocated; the transitivity index is the number of closed triplets over the total number of triplets (both open and closed).
+<sup></sup> For network measures, mean values over time are given with
+standard deviations in parentheses. For behavioral attributes, means and
+standard deviations at baseline (t1: December) are given. Degrees
+reflect kudos ties, with awarding 1 or more kudos constituting the
+presence of a tie. The reciprocity index is the proportion of kudos ties
+that were reciprocated; the transitivity index is the number of closed
+triplets over the total number of triplets (both open and closed).
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>a</sup> The Jaccard similarity index measures the extent of tie change between consecutive waves
+<sup>a</sup> The Jaccard similarity index measures the extent of tie
+change between consecutive waves
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>b</sup> The gender segregation measure used is Coleman’s homophily index.
+<sup>b</sup> The gender segregation measure used is Coleman’s homophily
+index.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>c</sup> The network autocorrelation measure used is Moran’s I. We calculated Moran’s I for direct ties (i.e. with undirected path length 1) and for all ties to whom ego is (directly or indirectly) tied, using a distance-decay function for assigning weights. To construct the weight matrix, we measured the geodistance (d) for each dyad as the shortest (undirected) path length. We then used the negative exponential distance-decay function. We did not row-standardize.
+<sup>c</sup> The network autocorrelation measure used is Moran’s I. We
+calculated Moran’s I for direct ties (i.e. with undirected path length
+1) and for all ties to whom ego is (directly or indirectly) tied, using
+a distance-decay function for assigning weights. To construct the weight
+matrix, we measured the geodistance (d) for each dyad as the shortest
+(undirected) path length. We then used the negative exponential
+distance-decay function. We did not row-standardize.
 </td>
 </tr>
 </tfoot>

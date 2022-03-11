@@ -444,6 +444,9 @@ div.tocify {
     <li>
       <a href="RI.html">Figure 7: Relative importance of effects</a>
     </li>
+    <li>
+      <a href="simulations.html">Empirically calibrated SAOMs</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -474,7 +477,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">SAOM: Model selection</h1>
-<h4 class="date">Last compiled on januari, 2022</h4>
+<h4 class="date">Last compiled on maart, 2022</h4>
 
 </div>
 
@@ -484,7 +487,10 @@ div.tocify {
   addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
 </script>
 <hr />
-<p>Let’s estimate the Stochastic Actor-Oriented Model (SAOM) implemented in R as the Simulation Investigation for Empirical Network Analysis (R-SIENA), developed by <span class="citation">Snijders, Van de Bunt, and Steglich (2010)</span>.</p>
+<p>Let’s estimate the Stochastic Actor-Oriented Model (SAOM) implemented
+in R as the Simulation Investigation for Empirical Network Analysis
+(R-SIENA), developed by <span class="citation">Snijders, Van de Bunt,
+and Steglich (2010)</span>.</p>
 <hr />
 <p><br></p>
 <div id="preparation" class="section level1">
@@ -501,17 +507,24 @@ rm(list = ls())</code></pre>
 <li>Define our algorithm</li>
 <li>And estimate the SAOM</li>
 </ol>
-<p>Below, we will follow these steps for club 1 (N=30). Here, we focus on running frequency. We did the same procedure for the other clubs.</p>
+<p>Below, we will follow these steps for club 1 (N=30). Here, we focus
+on running frequency. We did the same procedure for the other clubs.</p>
 <p><br></p>
 <hr />
 </div>
 <div id="step-1-data" class="section level1">
 <h1>Step 1: Data</h1>
-<p>We read in the R-SIENA objects list (<em>clubdata_rsiena_freq.RData</em>) and we grab club 1 (N=30). We take as our network variable the kudos-network in which awarding/receiving <em>at least</em> 1 kudos constitutes an <em>i,j</em> tie.</p>
+<p>We read in the R-SIENA objects list
+(<em>clubdata_rsiena_freq.RData</em>) and we grab club 1 (N=30). We take
+as our network variable the kudos-network in which awarding/receiving
+<em>at least</em> 1 kudos constitutes an <em>i,j</em> tie.</p>
 <ul>
-<li><p>Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7+ times per week).</p></li>
-<li><p>We included activity (frequency) in other sports (e.g., cycling and swimming) as a time-varying covariate.</p></li>
-<li><p>And we also included gender (men vs. women and others) as constant covariate.</p></li>
+<li><p>Our (dependent) behavioral variable is running frequency (in
+times per week; ranging from 0 to 7+ times per week).</p></li>
+<li><p>We included activity (frequency) in other sports (e.g., cycling
+and swimming) as a time-varying covariate.</p></li>
+<li><p>And we also included gender (men vs. women and others) as
+constant covariate.</p></li>
 </ul>
 <pre class="r test"><code>load(&quot;clubdata_rsiena_freq.Rdata&quot;)  # load rsiena object list
 mydata &lt;- clubdata_rsiena_freq[[1]]  # grab club 1</code></pre>
@@ -523,30 +536,43 @@ mydata &lt;- clubdata_rsiena_freq[[1]]  # grab club 1</code></pre>
 <p>We inspect the R-SIENA object</p>
 <pre class="r test"><code>print01Report(mydata, modelname = &quot;files/test&quot;)</code></pre>
 <p>A text file is printed in the working directory.</p>
-<p><embed src="files/test.txt" id="id" class="class" style="width:100.0%" height="200" /></p>
+<p><embed src="files/test.txt" id="id" class="class"
+style="width:100.0%" height="200" /></p>
 <hr />
 <p><br></p>
 </div>
 <div id="step-3-define-effects" class="section level1">
 <h1>Step 3: Define effects</h1>
-<p>We are going to define our ‘myeff’ object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting “effectsDocumentation(myeff).” See <span class="citation">Ripley et al. (2021)</span> for a substantial and mathematical description of all effects.</p>
+<p>We are going to define our ‘myeff’ object containing the model
+parameters. A list of all available effects for the given object can be
+displayed in browser by requesting “effectsDocumentation(myeff)”. See
+<span class="citation">Ripley et al. (2021)</span> for a substantial and
+mathematical description of all effects.</p>
 <p>We build increasingly complex models.</p>
 <p>We include:</p>
 <ol style="list-style-type: decimal">
 <li><a href="#str">structural network effects</a></li>
 <li><a href="#sel">network selection effects</a></li>
-<li><a href="#co">covariate effects</a> on network and behavior dynamics</li>
+<li><a href="#co">covariate effects</a> on network and behavior
+dynamics</li>
 <li><a href="#inf">network influence effects</a></li>
 </ol>
-<p>We fix these effects to 0 and test them with the score-type test <span class="citation">Schweinberger (2012)</span> (we test the hypothesis that the parameter estimates are not 0, other than the model assumes).</p>
+<p>We fix these effects to 0 and test them with the score-type test
+<span class="citation">Schweinberger (2012)</span> (we test the
+hypothesis that the parameter estimates are not 0, other than the model
+assumes).</p>
 <pre class="r test"><code>myeff &lt;- getEffects(mydata)
 # effectsDocumentation(myeff)</code></pre>
 <p><br></p>
 <div id="str" class="section level2">
 <h2>Structural network effects</h2>
-<p>First, we are going to include structural network effects, guided by recommendations of <span class="citation">Snijders (2020)</span>: outdegree, reciprocity, and transitivity (GWESP).</p>
-<p>We also add degree-related effects: indegree-popularity and outdegree-activity (square-root versions).</p>
-<p>We tested the out-Isolate effect (leading to not awarding kudos) and this effect was not different from 0.</p>
+<p>First, we are going to include structural network effects, guided by
+recommendations of <span class="citation">Snijders (2020)</span>:
+outdegree, reciprocity, and transitivity (GWESP).</p>
+<p>We also add degree-related effects: indegree-popularity and
+outdegree-activity (square-root versions).</p>
+<p>We tested the out-Isolate effect (leading to not awarding kudos) and
+this effect was not different from 0.</p>
 <pre class="r test"><code>myeff1 &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;)
 myeff1 &lt;- includeEffects(myeff1, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;)
 myeff1 &lt;- setEffect(myeff1, outIso, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)</code></pre>
@@ -555,7 +581,8 @@ myeff1 &lt;- setEffect(myeff1, outIso, name = &quot;kudonet&quot;, fix = TRUE, t
 <div id="sel" class="section level2">
 <h2>Selection effects</h2>
 <p>Second, we include a selection effect with respect to behavior:</p>
-<p>We use the higher-effect to control for aspirational tie-preferences (indicated by a negative parameter estimate).</p>
+<p>We use the higher-effect to control for aspirational tie-preferences
+(indicated by a negative parameter estimate).</p>
 <pre class="r test"><code>myeff2 &lt;- setEffect(myeff1, higher, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;)</code></pre>
 <p><br></p>
 </div>
@@ -564,7 +591,13 @@ myeff1 &lt;- setEffect(myeff1, outIso, name = &quot;kudonet&quot;, fix = TRUE, t
 <p>We include effects on tie changes of gender (monadic and dyadic).</p>
 <pre class="r test"><code>myeff2 &lt;- includeEffects(myeff2, egoX, altX, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;)</code></pre>
 <p><br></p>
-<p>We have selected a rather simple model to simulate kudos tie-formation dynamics. Let’s estimate the model and assess the model’s GOF to additional effects that were not directly modeled: the in- and outdegree distribution and the geodesic distance distribution. We use ‘returnDeps=TRUE’ for keeping the simulated data (networks and behavior), for subsequent GOF assesment. We save the GOF-diagnostics in a list.</p>
+<p>We have selected a rather simple model to simulate kudos
+tie-formation dynamics. Let’s estimate the model and assess the model’s
+GOF to additional effects that were not directly modeled: the in- and
+outdegree distribution and the geodesic distance distribution. We use
+‘returnDeps=TRUE’ for keeping the simulated data (networks and
+behavior), for subsequent GOF assesment. We save the GOF-diagnostics in
+a list.</p>
 <pre class="r test"><code>myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, nsub=5, n3=5000 )
  # first, set the SAOM algorithm 
 
@@ -634,7 +667,9 @@ plot(goflist[[1]])</code></pre>
 <h3 class="unnumbered"></h3>
 <p>GOF is acceptable!</p>
 <p><br></p>
-<p>For subsequent meta-analysis, we need to ensure that the model specification for all our club-networks is identical. Some effects were rather important in other clubs. We fix these to 0:</p>
+<p>For subsequent meta-analysis, we need to ensure that the model
+specification for all our club-networks is identical. Some effects were
+rather important in other clubs. We fix these to 0:</p>
 <pre class="r test"><code>myeff2 &lt;- setEffect(myeff2, outPopSqrt, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
 myeff2 &lt;- setEffect(myeff2, reciAct, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
 myeff2 &lt;- includeInteraction(myeff2, recip, gwespFF, parameter = 69, name = &quot;kudonet&quot;)
@@ -648,14 +683,16 @@ myeff2 &lt;- setEffect(myeff2, unspInt, fix = TRUE, test = FALSE, effect1 = eff1
 --->
 <p><br></p>
 <hr />
-<p>We have modeled the dynamics of kudos tie formation. Now let’s model dynamics in running behaviors.</p>
+<p>We have modeled the dynamics of kudos tie formation. Now let’s model
+dynamics in running behaviors.</p>
 </div>
 </div>
 <div id="covariate-effects" class="section level2">
 <h2>Covariate effects</h2>
 <p>We start with effects on behavior changes of other variables.</p>
 <ul>
-<li>the interdependence between running frequency and other sports frequency.</li>
+<li>the interdependence between running frequency and other sports
+frequency.</li>
 <li>gender on behavior</li>
 </ul>
 <pre class="r test"><code>myeff3 &lt;- includeEffects(myeff2, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;freq_other&quot;)
@@ -665,7 +702,10 @@ myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;freq_run&quot;, intera
 </div>
 <div id="inf" class="section level2">
 <h2>Influence effects</h2>
-<p>Last, we include effects of network position (indegree) and alter behaviors (average alter/similarity, etc.) on behavior change. We make, for each club, 6 model specifications. We save these effect objects in a list.</p>
+<p>Last, we include effects of network position (indegree) and alter
+behaviors (average alter/similarity, etc.) on behavior change. We make,
+for each club, 6 model specifications. We save these effect objects in a
+list.</p>
 <ul>
 <li>Model 1: base model + indegree effect on running</li>
 <li>Model 2: Model 1 + average alter effect</li>
@@ -674,7 +714,9 @@ myeff3 &lt;- includeEffects(myeff3, effFrom, name = &quot;freq_run&quot;, intera
 <li>Model 5: Model 1 + average attraction higher + lower</li>
 <li>Model 6: Model 1 + average similarity effect</li>
 </ul>
-<p>We also fixed-and-tested the effect of outdegree on behavior, to rule out possible confounding of the outdegree effect. Score-type test indicated that outdegree-effects on behavior were 0 (not shown).</p>
+<p>We also fixed-and-tested the effect of outdegree on behavior, to rule
+out possible confounding of the outdegree effect. Score-type test
+indicated that outdegree-effects on behavior were 0 (not shown).</p>
 <pre class="r test"><code>myeff0 &lt;- myeff3  # model 0: base
 myeff1 &lt;- includeEffects(myeff0, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 1: indegree
 myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 2: avAlt
@@ -690,7 +732,10 @@ myeff &lt;- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)</code></pre>
 </div>
 <div id="step-4-estimate-the-model" class="section level1">
 <h1>Step 4: Estimate the model</h1>
-<p>Let’s estimate these models. We rerun the models until adequate convergence is reached. We store the sienaFit objects of these models in a list, which we save later on. We use ‘returnDeps=TRUE’ for keeping the simulated data (networks and behavior).</p>
+<p>Let’s estimate these models. We rerun the models until adequate
+convergence is reached. We store the sienaFit objects of these models in
+a list, which we save later on. We use ‘returnDeps=TRUE’ for keeping the
+simulated data (networks and behavior).</p>
 <pre class="r test"><code>m=6 # models to estimate (indeg, avAlt, avAttHigher, avAttLower, avAttHigher+Lower, avSim)
 
 # tweak the algorithm
@@ -748,7 +793,10 @@ for (i in 1:5) {
 lapply(sienaFit_clubL, &#39;[[&#39;, 5)
 map(sienaFit_clubL, 6)</code></pre>
 <p><br></p>
-<p>Because we are now modeling the evolution of both the network and the attribute (running freq.), we will add an additional indicator to evaluate GOF; namely, does the model capture the distribution of actors’ attribute levels over time?</p>
+<p>Because we are now modeling the evolution of both the network and the
+attribute (running freq.), we will add an additional indicator to
+evaluate GOF; namely, does the model capture the distribution of actors’
+attribute levels over time?</p>
 <pre class="r test"><code>gofbeh &lt;- sienaGOF(sienaFit[[5]], BehaviorDistribution, levls = 0:7, verbose = TRUE, join = TRUE, varName = &quot;freq_run&quot;)
 save(gofbeh, file = paste(&quot;files&quot;, &quot;/&quot;, &quot;test club 1&quot;, &quot;/&quot;, &quot;gofbeh.RData&quot;, sep = &quot;&quot;))</code></pre>
 <pre class="r fold-hide"><code>load(&quot;files/test club 1/gofbeh.RData&quot;)
@@ -760,22 +808,37 @@ plot(gofbeh)</code></pre>
 <hr />
 <div id="next-up" class="section level2">
 <h2>Next up</h2>
-<p>We will check whether this model configuration also converges for the <a href="https://robfranken.github.io/Strava/other.html">other clubs</a>. To summarize the results over our clubs, we will perform a <a href="https://robfranken.github.io/Strava/meta.html">meta-analysis</a> using a Fisher-type combination of one-tailed p-values.</p>
+<p>We will check whether this model configuration also converges for the
+<a href="https://robfranken.github.io/Strava/other.html">other
+clubs</a>. To summarize the results over our clubs, we will perform a <a
+href="https://robfranken.github.io/Strava/meta.html">meta-analysis</a>
+using a Fisher-type combination of one-tailed p-values.</p>
 <hr />
 <div id="references" class="section level3 unnumbered">
 <h3 class="unnumbered">References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-rsienamanual" class="csl-entry">
-Ripley, R. M., T. A. B. Snijders, Z. Boda, A. Vörös, and P. &amp; Preciado. 2021. <span>“Manual for RSIENA.”</span> <em>University of Oxford, Department of Statistics, Nuffield College</em> - (-): –. <a href="http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf">http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf</a>.
+Ripley, R. M., T. A. B. Snijders, Z. Boda, A. Vörös, and P. &amp;
+Preciado. 2021. <span>“Manual for RSIENA.”</span> <em>University of
+Oxford, Department of Statistics, Nuffield College</em> - (-): –. <a
+href="http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf">http://www.stats.ox.ac.uk/~snijders/siena/RSiena_Manual.pdf</a>.
 </div>
 <div id="ref-Schweinberger2012" class="csl-entry">
-Schweinberger, Michael. 2012. <span>“Statistical Modelling of Network Panel Data: Goodness of Fit.”</span> <em>British Journal of Mathematical and Statistical Psychology</em> 65 (2): 263–81. <a href="https://doi.org/10.1111/j.2044-8317.2011.02022.x">https://doi.org/10.1111/j.2044-8317.2011.02022.x</a>.
+Schweinberger, Michael. 2012. <span>“Statistical Modelling of Network
+Panel Data: Goodness of Fit.”</span> <em>British Journal of Mathematical
+and Statistical Psychology</em> 65 (2): 263–81. <a
+href="https://doi.org/10.1111/j.2044-8317.2011.02022.x">https://doi.org/10.1111/j.2044-8317.2011.02022.x</a>.
 </div>
 <div id="ref-snijderspres" class="csl-entry">
-Snijders, T. A. B. 2020. <span>“Statistical Methods for Social Network Dynamics. A: Networks.”</span> <a href="http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf">http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf</a>.
+Snijders, T. A. B. 2020. <span>“Statistical Methods for Social Network
+Dynamics. A: Networks.”</span> <a
+href="http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf">http://www.stats.ox.ac.uk/~snijders/siena/Siena_ModelSpec_s.pdf</a>.
 </div>
 <div id="ref-snijders2010" class="csl-entry">
-Snijders, T. A. B., G. G. Van de Bunt, and C. E. G. Steglich. 2010. <span>“Introduction to Stochastic Actor-Based Models for Network Dynamics.”</span> <em>Social Networks</em> 32 (1): 44–60. <a href="http://www.sciencedirect.com/science/article/pii/S0378873309000069">http://www.sciencedirect.com/science/article/pii/S0378873309000069</a>.
+Snijders, T. A. B., G. G. Van de Bunt, and C. E. G. Steglich. 2010.
+<span>“Introduction to Stochastic Actor-Based Models for Network
+Dynamics.”</span> <em>Social Networks</em> 32 (1): 44–60. <a
+href="http://www.sciencedirect.com/science/article/pii/S0378873309000069">http://www.sciencedirect.com/science/article/pii/S0378873309000069</a>.
 </div>
 </div>
 </div>

@@ -17,7 +17,7 @@ output:
 ```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 system("defaults write org.R-project.R force.LANG en_US.UTF-8")
 Sys.setenv(LANG = "en")
-127
+
 library(knitr)
 library(RSiena)
 library(RColorBrewer)
@@ -69,6 +69,7 @@ RI_list <- list()
 for (i in 1:5) { # for each club
 
   #get sienaFit list 
+ 
   ansL <- loadRData(paste0("test/sienaFit/sienaFit_club", i, ".RData"))
 
   #take model 5 (avAttH, avAttL, indegree...)
@@ -79,8 +80,10 @@ for (i in 1:5) { # for each club
   myeff.eval <- ans$effects[ans$effects$type[ans$effects$include]=="eval",]
   
   # only effects we are interested in
-  myeff.eval.beh <- myeff.eval[c(1, 16:18), ] # note: also include outdegree (or another effect pertaining to network dynamics); apparently this is needed...
-  theta.eval.beh <- theta.eval[c(1, 16:18)] # also want to include linear/quad shape? then do 14:18
+  myeff.eval.beh <- myeff.eval[c(1, 16:20), ] 
+  # note: also include outdegree (or another effect pertaining to network dynamics); apparently this is needed...
+  # first, I excluded the shape effects, as they heavily compound the resulting plots (they are most important...)
+  theta.eval.beh <- theta.eval[c(1, 16:20)] 
   
   # algorithm used
   myalgo <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
@@ -105,8 +108,8 @@ for (i in 1:5) { # for each club
   ans <- ansL[[5]]
   theta.eval <- ans$theta[ans$effects$type[ans$effects$include]=="eval"]
   myeff.eval <- ans$effects[ans$effects$type[ans$effects$include]=="eval",]
-  myeff.eval.beh <- myeff.eval[c(1, 16:18), ]
-  theta.eval.beh <- theta.eval[c(1, 16:18)]
+  myeff.eval.beh <- myeff.eval[c(1, 16:20), ]
+  theta.eval.beh <- theta.eval[c(1, 16:20)]
   RI <- sienaRI(
     data = mydata_vol[[i]],
     theta = theta.eval.beh,
@@ -127,17 +130,21 @@ for (i in 1:5) { # for each club
 df_plot <- data.frame(
   ri = unlist(RI_list),
   eff = substring(RI[[2]]$effectNames, 15),
-  y = rep(c("Frequency", "Volume"), 5, each=3),
-  club = rep(c("Club 1", "Club 2", "Club 3", "Club 4", "Club 5"), 1, each = 6)
+  y = rep(c("Frequency", "Volume"), 10, each=5),
+  club = rep(c("Club 1", "Club 2", "Club 3", "Club 4", "Club 5"), 1, each = 10)
 
 )
 
+# alter effect names
+df_plot$eff <- as.factor(df_plot$eff)
+levels(df_plot$eff)[1] <- substring(levels(df_plot$eff)[1], 14)
+levels(df_plot$eff)[2] <- "other activities"
 
 # reorder effect for plot
 df_plot$eff <- factor(df_plot$eff,
-                     levels = c("indegree", "average attraction higher", "average attraction lower"))
+                     levels = c("indegree", "average attraction higher", "average attraction lower", "gender", "other activities"))
 # nice colors
-color <- brewer.pal(3, "Set2")
+color <- brewer.pal(5, "Set2")
 
 ggplot(df_plot, aes(x="", y=ri, fill=eff)) +
   geom_bar(width = 1, size = 1, color = "white", stat = "identity") +

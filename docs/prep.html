@@ -422,6 +422,9 @@ div.tocify {
     <li>
       <a href="RI.html">Figure 7: Relative importance of effects</a>
     </li>
+    <li>
+      <a href="simulations.html">Empirically calibrated SAOMs</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -452,7 +455,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Data preparation</h1>
-<h4 class="date">Last compiled on januari, 2022</h4>
+<h4 class="date">Last compiled on maart, 2022</h4>
 
 </div>
 
@@ -464,10 +467,16 @@ div.tocify {
 <hr />
 <div id="clubdata.rdata" class="section level1">
 <h1>clubdata.RData</h1>
-<p>In the following scripts a list containing the (anonymized) data of all clubs is made (clubdata.RData).</p>
+<p>In the following scripts a list containing the (anonymized) data of
+all clubs is made (clubdata.RData).</p>
 <ul>
-<li><p>Our primary network variable is the Kudos-network. A tie i -&gt; j exists if ego i award at least 1 Kudos to alter j.</p></li>
-<li><p>For the behavioral data we include information on the <em>frequency</em> (i.e., in times per week) and <em>volume</em> (i.e., in hours per week) of running activities. We included activity (frequency and volume) in other sports (e.g., cycling and swimming) as a time-varying covariate.</p></li>
+<li><p>Our primary network variable is the Kudos-network. A tie i -&gt;
+j exists if ego i award at least 1 Kudos to alter j.</p></li>
+<li><p>For the behavioral data we include information on the
+<em>frequency</em> (i.e., in times per week) and <em>volume</em> (i.e.,
+in hours per week) of running activities. We included activity
+(frequency and volume) in other sports (e.g., cycling and swimming) as a
+time-varying covariate.</p></li>
 </ul>
 <pre class="r test"><code># first, install the required packages.
 library(RSiena)
@@ -663,8 +672,15 @@ save(clubdata, file = &quot;clubs/clubdata.RData&quot;)</code></pre>
 </div>
 <div id="clubdata_rsiena.rdata" class="section level1">
 <h1>clubdata_rsiena.RData</h1>
-<p>The following script creates a list containing RSiena objects for all clubs. We create a list containing RSiena objects with running frequency as the behavior variable (clubdata_rsiena_freq.RData) and running volume (clubdata_rsiena_vol.RData).</p>
-<p>Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We lift RSiena’s automatic restriction to follow this pattern in the simulations, by using ‘<em>allowOnly</em> = FALSE.’ This must be done for the subsequent meta-analysis.</p>
+<p>The following script creates a list containing RSiena objects for all
+clubs. We create a list containing RSiena objects with running frequency
+as the behavior variable (clubdata_rsiena_freq.RData) and running volume
+(clubdata_rsiena_vol.RData).</p>
+<p>Note: in some groups, dependent variables (either the kudos-network
+or running behaviors) only have upward or downward changes in particular
+periods. We lift RSiena’s automatic restriction to follow this pattern
+in the simulations, by using ‘<em>allowOnly</em> = FALSE’. This must be
+done for the subsequent meta-analysis.</p>
 <pre class="r test"><code># clean the working environment
 rm(list = ls())
 

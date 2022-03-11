@@ -348,6 +348,9 @@ $(document).ready(function () {
     <li>
       <a href="RI.html">Figure 7: Relative importance of effects</a>
     </li>
+    <li>
+      <a href="simulations.html">Empirically calibrated SAOMs</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -378,7 +381,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Meta-analysis</h1>
-<h4 class="date">Last compiled on januari, 2022</h4>
+<h4 class="date">Last compiled on maart, 2022</h4>
 
 </div>
 
@@ -394,7 +397,8 @@ $(document).ready(function () {
 </div>
 <div id="estimation" class="section level1">
 <h1>Estimation</h1>
-<p>Down below, we estimate the same models with running volume as the dependent variable, for clubs 1-5, models 1-6.</p>
+<p>Down below, we estimate the same models with running volume as the
+dependent variable, for clubs 1-5, models 1-6.</p>
 <pre class="r test"><code>load(&quot;clubdata_rsiena_vol.RData&quot;) # load the list containing rsiena objects.
 
 for (i in 1:c) { # for every club
@@ -459,7 +463,9 @@ map(sienaFit_clubL, 6)</code></pre>
 </div>
 <div id="meta-analysis" class="section level1">
 <h1>Meta-analysis</h1>
-<p>Again, to summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values.</p>
+<p>Again, to summarize the results over our clubs, we will perform a
+meta-analysis using a Fisher-type combination of one-tailed
+p-values.</p>
 <pre class="r test"><code># clean the working environment
 rm(list = ls())
 
@@ -756,7 +762,8 @@ save(df2, file = &quot;test/sienaFit/meta-analysis/meta_vol_m6.RData&quot;)</cod
 <h2>Model 1 (indegree)</h2>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption>
-Meta-analysis of parameter estimates for the objective function of kudos tie formation and running volume dynamics across 5 Strava clubs
+Meta-analysis of parameter estimates for the objective function of kudos
+tie formation and running volume dynamics across 5 Strava clubs
 </caption>
 <thead>
 <tr>
@@ -2204,22 +2211,30 @@ time_run: effect from time_other
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
+<sup></sup> Estimates are given with standard errors in parentheses. All
+convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+<sup>a</sup> Some structural network effects were rather important for
+some clubs, but not for others; for the latter, we fixed these effects
+to 0 (SE=NA).
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>b</sup> We fixed gender effects on kudos tie formation and running volume dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+<sup>b</sup> We fixed gender effects on kudos tie formation and running
+volume dynamics to 0 in club 4. Variation between the genders was not
+sufficient for model convergence. Score–type tests indicated that gender
+effects were not significant.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+<sup>c</sup> The Fisher Test combines independent p–values to test
+whether there is evidence in at least one of the clubs of a parameter
+being positive or negative.
 </td>
 </tr>
 </tfoot>
@@ -2229,7 +2244,8 @@ time_run: effect from time_other
 <h2>Model 2 (avAlt)</h2>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption>
-Meta-analysis of parameter estimates for the objective function of kudos tie formation and running volume dynamics across 5 Strava clubs
+Meta-analysis of parameter estimates for the objective function of kudos
+tie formation and running volume dynamics across 5 Strava clubs
 </caption>
 <thead>
 <tr>
@@ -3712,22 +3728,30 @@ time_run: effect from time_other
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
+<sup></sup> Estimates are given with standard errors in parentheses. All
+convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+<sup>a</sup> Some structural network effects were rather important for
+some clubs, but not for others; for the latter, we fixed these effects
+to 0 (SE=NA).
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>b</sup> We fixed gender effects on kudos tie formation and running volume dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+<sup>b</sup> We fixed gender effects on kudos tie formation and running
+volume dynamics to 0 in club 4. Variation between the genders was not
+sufficient for model convergence. Score–type tests indicated that gender
+effects were not significant.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+<sup>c</sup> The Fisher Test combines independent p–values to test
+whether there is evidence in at least one of the clubs of a parameter
+being positive or negative.
 </td>
 </tr>
 </tfoot>
@@ -3737,7 +3761,8 @@ time_run: effect from time_other
 <h2>Model 3 (avAttHigher)</h2>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption>
-Meta-analysis of parameter estimates for the objective function of kudos tie formation and running volume dynamics across 5 Strava clubs
+Meta-analysis of parameter estimates for the objective function of kudos
+tie formation and running volume dynamics across 5 Strava clubs
 </caption>
 <thead>
 <tr>
@@ -5220,22 +5245,30 @@ time_run: effect from time_other
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
+<sup></sup> Estimates are given with standard errors in parentheses. All
+convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+<sup>a</sup> Some structural network effects were rather important for
+some clubs, but not for others; for the latter, we fixed these effects
+to 0 (SE=NA).
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>b</sup> We fixed gender effects on kudos tie formation and running volume dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+<sup>b</sup> We fixed gender effects on kudos tie formation and running
+volume dynamics to 0 in club 4. Variation between the genders was not
+sufficient for model convergence. Score–type tests indicated that gender
+effects were not significant.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+<sup>c</sup> The Fisher Test combines independent p–values to test
+whether there is evidence in at least one of the clubs of a parameter
+being positive or negative.
 </td>
 </tr>
 </tfoot>
@@ -5245,7 +5278,8 @@ time_run: effect from time_other
 <h2>Model 4 (avAttLower)</h2>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption>
-Meta-analysis of parameter estimates for the objective function of kudos tie formation and running volume dynamics across 5 Strava clubs
+Meta-analysis of parameter estimates for the objective function of kudos
+tie formation and running volume dynamics across 5 Strava clubs
 </caption>
 <thead>
 <tr>
@@ -6728,22 +6762,30 @@ time_run: effect from time_other
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
+<sup></sup> Estimates are given with standard errors in parentheses. All
+convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+<sup>a</sup> Some structural network effects were rather important for
+some clubs, but not for others; for the latter, we fixed these effects
+to 0 (SE=NA).
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>b</sup> We fixed gender effects on kudos tie formation and running volume dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+<sup>b</sup> We fixed gender effects on kudos tie formation and running
+volume dynamics to 0 in club 4. Variation between the genders was not
+sufficient for model convergence. Score–type tests indicated that gender
+effects were not significant.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+<sup>c</sup> The Fisher Test combines independent p–values to test
+whether there is evidence in at least one of the clubs of a parameter
+being positive or negative.
 </td>
 </tr>
 </tfoot>
@@ -6753,7 +6795,8 @@ time_run: effect from time_other
 <h2>Model 5 (avAttHigher+Lower)</h2>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption>
-Meta-analysis of parameter estimates for the objective function of kudos tie formation and running volume dynamics across 5 Strava clubs
+Meta-analysis of parameter estimates for the objective function of kudos
+tie formation and running volume dynamics across 5 Strava clubs
 </caption>
 <thead>
 <tr>
@@ -8271,22 +8314,30 @@ time_run: effect from time_other
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
+<sup></sup> Estimates are given with standard errors in parentheses. All
+convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+<sup>a</sup> Some structural network effects were rather important for
+some clubs, but not for others; for the latter, we fixed these effects
+to 0 (SE=NA).
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>b</sup> We fixed gender effects on kudos tie formation and running volume dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+<sup>b</sup> We fixed gender effects on kudos tie formation and running
+volume dynamics to 0 in club 4. Variation between the genders was not
+sufficient for model convergence. Score–type tests indicated that gender
+effects were not significant.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>c</sup> The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative.
+<sup>c</sup> The Fisher Test combines independent p–values to test
+whether there is evidence in at least one of the clubs of a parameter
+being positive or negative.
 </td>
 </tr>
 </tfoot>
@@ -8296,7 +8347,8 @@ time_run: effect from time_other
 <h2>Model 6 (avSim)</h2>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;border-bottom: 0;">
 <caption>
-Meta-analysis of parameter estimates for the objective function of kudos tie formation and running volume dynamics across 5 Strava clubs
+Meta-analysis of parameter estimates for the objective function of kudos
+tie formation and running volume dynamics across 5 Strava clubs
 </caption>
 <thead>
 <tr>
@@ -9779,22 +9831,30 @@ time_run: effect from time_other
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup></sup> Estimates are given with standard errors in parentheses. All convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
+<sup></sup> Estimates are given with standard errors in parentheses. All
+convergence t ratios &lt;.10; overall maximum convergence ratio &lt;.15.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>a</sup> Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).
+<sup>a</sup> Some structural network effects were rather important for
+some clubs, but not for others; for the latter, we fixed these effects
+to 0 (SE=NA).
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>b</sup> We fixed gender effects on kudos tie formation and running volume dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.
+<sup>b</sup> We fixed gender effects on kudos tie formation and running
+volume dynamics to 0 in club 4. Variation between the genders was not
+sufficient for model convergence. Score–type tests indicated that gender
+effects were not significant.
 </td>
 </tr>
 <tr>
 <td style="padding: 0; " colspan="100%">
-<sup>c</sup> The Fisher Test combines independent p-values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative
+<sup>c</sup> The Fisher Test combines independent p-values to test
+whether there is evidence in at least one of the clubs of a parameter
+being positive or negative
 </td>
 </tr>
 </tfoot>
