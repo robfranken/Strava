@@ -198,8 +198,8 @@ for (c in 1:length(clubdata)) {
   
   #  make a layout for the plots
   dev.off()
-  l <- layout(matrix(c(1, 1, 6, 6,  # First
-                       2, 3, 4, 5), # and third plot
+  l <- layout(matrix(c(1, 1, 6, 6,  # 1st plot
+                       2, 3, 4, 5), # 2-5 plot
                      nrow = 2,
                      ncol = 4,
                      byrow = TRUE))
@@ -240,7 +240,7 @@ for (c in 1:length(clubdata)) {
   
   
   # I plot the mean simulated running frequency over time 
-  # extract mean drinking for all chains, with network change opportunities included
+  # extract mean running for all chains, with network change opportunities included
   simChanges <- rep(0, nIter)
   for (i in 1: nIter) {simChanges[i] <- length(sim_ans$chain[[i]][[1]][[1]]) }
   maxChanges <- max(simChanges)
