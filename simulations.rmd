@@ -41,7 +41,7 @@ Aim: to explore how consequential influence effects are for the running behavior
 
 I reduced the data to only two time-points. Initial effect values are set based on the estimated model parameters of tables 2 and 3 of the manuscript.
 
-I specify additional models: 1) with no peer influence effects whatsoever; 2) with only upward assimilation (avAttHigher); 3) with only downward assimilation (avAttLower).
+I specify additional models: 1) with no peer influence effects whatsoever; 2) with only indegree effect on behavior; 3) with only upward assimilation (avAttHigher); 4) with only downward assimilation (avAttLower).
 
 100 simulations were run.
 
@@ -85,7 +85,7 @@ The following scripts makes plots for all 5 clubs:
 plotL <- list() # list to store plots in
 
 for (c in 1:length(clubdata)) {
- 
+ i=4
   # pick club
   club <- clubdata[[c]]
   
