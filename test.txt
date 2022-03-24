@@ -4662,3 +4662,728 @@ covariance/correlation matrix of X can be found using
 summary(ans) within R, or by using the 'verbose' option in Siena07.
  
 Total computation time 75.37 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 24/03/2022 17:07:53
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 958829.
+Effects object used: myeff 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations in each period is 1.0.
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.9024
+  2. rate:  constant kudonet rate (period 2)                0.8335
+  3. rate:  constant kudonet rate (period 3)                0.4891
+  4. rate:  constant kudonet rate (period 4)                0.5580
+  5. rate:  constant kudonet rate (period 5)                0.2824
+  6. rate:  constant kudonet rate (period 6)                0.9024
+  7. rate:  constant kudonet rate (period 7)                0.5580
+  8. rate:  constant kudonet rate (period 8)                1.1780
+  9. rate:  constant kudonet rate (period 9)                0.4891
+ 10. rate:  constant kudonet rate (period 10)               1.4535
+ 11. rate:  constant kudonet rate (period 11)               1.5224
+ 12. eval:  outdegree (density)                            -0.5819
+ 13. eval:  reciprocity                                     0.0000
+ 14. eval:  GWESP I -> K -> J (69)                          0.0000
+ 15. eval:  indegree - popularity (sqrt)                    0.0000
+ 16. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+ 17. eval:  outdegree - activity (sqrt)                     0.0000
+ 18. eval:  rec.degree^(1/1) - activity                     0.0000  (fixed) 
+ 19. eval:  out-isolate                                     0.0000  (fixed) 
+ 20. eval:  gender alter                                    0.0000
+ 21. eval:  gender ego                                      0.0000
+ 22. eval:  same gender                                     0.0000
+ 23. eval:  higher freq_run                                 0.0000
+ 24. eval:  int.  reciprocity x GWESP I -> K -> J (69)      0.0000  (fixed) 
+ 25. rate:  rate freq_run (period 1)                        1.6506
+ 26. rate:  rate freq_run (period 2)                        1.1540
+ 27. rate:  rate freq_run (period 3)                        1.4713
+ 28. rate:  rate freq_run (period 4)                        0.9207
+ 29. rate:  rate freq_run (period 5)                        1.2195
+ 30. rate:  rate freq_run (period 6)                        1.8207
+ 31. rate:  rate freq_run (period 7)                        1.0851
+ 32. rate:  rate freq_run (period 8)                        0.9931
+ 33. rate:  rate freq_run (period 9)                        0.9207
+ 34. rate:  rate freq_run (period 10)                       1.6333
+ 35. rate:  rate freq_run (period 11)                       1.1448
+ 36. eval:  freq_run linear shape                           0.0184
+ 37. eval:  freq_run quadratic shape                        0.0000
+ 38. eval:  freq_run average attraction higher              0.0000
+ 39. eval:  freq_run average attraction lower               0.0000
+ 40. eval:  freq_run indegree                               0.0000
+ 41. eval:  freq_run: effect from gender                    0.0000
+ 42. eval:  freq_run: effect from freq_other                0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                13.0000
+  2. Amount of network change in period 2                                12.0000
+  3. Amount of network change in period 3                                 7.0000
+  4. Amount of network change in period 4                                 8.0000
+  5. Amount of network change in period 5                                 4.0000
+  6. Amount of network change in period 6                                13.0000
+  7. Amount of network change in period 7                                 8.0000
+  8. Amount of network change in period 8                                17.0000
+  9. Amount of network change in period 9                                 7.0000
+ 10. Amount of network change in period 10                               21.0000
+ 11. Amount of network change in period 11                               17.0000
+ 12. Number of ties                                                     791.0000
+ 13. Number of reciprocated ties                                        702.0000
+ 14. Numb. edgew. shrd prtns.by two path (69)                          1201.5720
+ 15. Sum of indegrees x sqrt(indegree)                                 1897.8991
+ 16. Sum of indegrees x sqrt(outdegree)                                1828.4461
+ 17. Sum of outdegrees^(1.5)                                           1992.4064
+ 18. Sum rec.degr^(1/1) x outdegr                                      4746.0000
+ 19. Number of out-isolates                                             126.0000
+ 20. Sum indegrees x gender                                            -138.2593
+ 21. Sum outdegrees x gender                                           -179.2593
+ 22. Same values on gender                                              492.0000
+ 23. ego > alter for freq_run                                           410.5000
+ 24. int.  reciprocity x GWESP I -> K -> J (69)                        1098.1077
+ 25. Amount of behavioral change in period 1 on freq_run                 22.0000
+ 26. Amount of behavioral change in period 2 on freq_run                 20.0000
+ 27. Amount of behavioral change in period 3 on freq_run                 25.0000
+ 28. Amount of behavioral change in period 4 on freq_run                 21.0000
+ 29. Amount of behavioral change in period 5 on freq_run                 21.0000
+ 30. Amount of behavioral change in period 6 on freq_run                 28.0000
+ 31. Amount of behavioral change in period 7 on freq_run                 24.0000
+ 32. Amount of behavioral change in period 8 on freq_run                 18.0000
+ 33. Amount of behavioral change in period 9 on freq_run                 19.0000
+ 34. Amount of behavioral change in period 10 on freq_run                25.0000
+ 35. Amount of behavioral change in period 11 on freq_run                17.0000
+ 36. freq_run centered sum                                               -6.8545
+ 37. freq_run sum of cent. squares                                      546.7909
+ 38. freq_run average attraction higher                                 149.5090
+ 39. freq_run average attraction lower                                  154.6382
+ 40. freq_run indegrees                                                 178.1194
+ 41. freq_run x gender                                                  -14.5066
+ 42. freq_run x freq_other                                              -66.8387
+
+ 42 parameters, 42 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 24/03/2022 17:10:58
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 308071.
+Effects object used: myeff 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations in each period is 1.0.
+Changing composition.
+Joiners/leavers option: 1
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.9024
+  2. rate:  constant kudonet rate (period 2)                0.8335
+  3. rate:  constant kudonet rate (period 3)                0.4891
+  4. rate:  constant kudonet rate (period 4)                0.5580
+  5. rate:  constant kudonet rate (period 5)                0.2824
+  6. rate:  constant kudonet rate (period 6)                0.9024
+  7. rate:  constant kudonet rate (period 7)                0.5580
+  8. rate:  constant kudonet rate (period 8)                1.1780
+  9. rate:  constant kudonet rate (period 9)                0.4891
+ 10. rate:  constant kudonet rate (period 10)               1.4535
+ 11. rate:  constant kudonet rate (period 11)               1.5224
+ 12. eval:  outdegree (density)                            -0.5819
+ 13. eval:  reciprocity                                     0.0000
+ 14. eval:  GWESP I -> K -> J (69)                          0.0000
+ 15. eval:  indegree - popularity (sqrt)                    0.0000
+ 16. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+ 17. eval:  outdegree - activity (sqrt)                     0.0000
+ 18. eval:  rec.degree^(1/1) - activity                     0.0000  (fixed) 
+ 19. eval:  out-isolate                                     0.0000  (fixed) 
+ 20. eval:  gender alter                                    0.0000
+ 21. eval:  gender ego                                      0.0000
+ 22. eval:  same gender                                     0.0000
+ 23. eval:  higher freq_run                                 0.0000
+ 24. eval:  int.  reciprocity x GWESP I -> K -> J (69)      0.0000  (fixed) 
+ 25. rate:  rate freq_run (period 1)                        1.6506
+ 26. rate:  rate freq_run (period 2)                        1.1540
+ 27. rate:  rate freq_run (period 3)                        1.4713
+ 28. rate:  rate freq_run (period 4)                        0.9207
+ 29. rate:  rate freq_run (period 5)                        1.2195
+ 30. rate:  rate freq_run (period 6)                        1.8207
+ 31. rate:  rate freq_run (period 7)                        1.0851
+ 32. rate:  rate freq_run (period 8)                        0.9931
+ 33. rate:  rate freq_run (period 9)                        0.9207
+ 34. rate:  rate freq_run (period 10)                       1.6333
+ 35. rate:  rate freq_run (period 11)                       1.1448
+ 36. eval:  freq_run linear shape                           0.0184
+ 37. eval:  freq_run quadratic shape                        0.0000
+ 38. eval:  freq_run average attraction higher              0.0000
+ 39. eval:  freq_run average attraction lower               0.0000
+ 40. eval:  freq_run indegree                               0.0000
+ 41. eval:  freq_run: effect from gender                    0.0000
+ 42. eval:  freq_run: effect from freq_other                0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                13.0000
+  2. Amount of network change in period 2                                12.0000
+  3. Amount of network change in period 3                                 7.0000
+  4. Amount of network change in period 4                                 8.0000
+  5. Amount of network change in period 5                                 4.0000
+  6. Amount of network change in period 6                                13.0000
+  7. Amount of network change in period 7                                 8.0000
+  8. Amount of network change in period 8                                17.0000
+  9. Amount of network change in period 9                                 7.0000
+ 10. Amount of network change in period 10                               21.0000
+ 11. Amount of network change in period 11                               17.0000
+ 12. Number of ties                                                     791.0000
+ 13. Number of reciprocated ties                                        702.0000
+ 14. Numb. edgew. shrd prtns.by two path (69)                          1201.5720
+ 15. Sum of indegrees x sqrt(indegree)                                 1897.8991
+ 16. Sum of indegrees x sqrt(outdegree)                                1828.4461
+ 17. Sum of outdegrees^(1.5)                                           1992.4064
+ 18. Sum rec.degr^(1/1) x outdegr                                      4746.0000
+ 19. Number of out-isolates                                             126.0000
+ 20. Sum indegrees x gender                                            -138.2593
+ 21. Sum outdegrees x gender                                           -179.2593
+ 22. Same values on gender                                              492.0000
+ 23. ego > alter for freq_run                                           410.5000
+ 24. int.  reciprocity x GWESP I -> K -> J (69)                        1098.1077
+ 25. Amount of behavioral change in period 1 on freq_run                 22.0000
+ 26. Amount of behavioral change in period 2 on freq_run                 20.0000
+ 27. Amount of behavioral change in period 3 on freq_run                 25.0000
+ 28. Amount of behavioral change in period 4 on freq_run                 21.0000
+ 29. Amount of behavioral change in period 5 on freq_run                 21.0000
+ 30. Amount of behavioral change in period 6 on freq_run                 28.0000
+ 31. Amount of behavioral change in period 7 on freq_run                 24.0000
+ 32. Amount of behavioral change in period 8 on freq_run                 18.0000
+ 33. Amount of behavioral change in period 9 on freq_run                 19.0000
+ 34. Amount of behavioral change in period 10 on freq_run                25.0000
+ 35. Amount of behavioral change in period 11 on freq_run                17.0000
+ 36. freq_run centered sum                                               -6.8545
+ 37. freq_run sum of cent. squares                                      546.7909
+ 38. freq_run average attraction higher                                 149.5090
+ 39. freq_run average attraction lower                                  154.6382
+ 40. freq_run indegrees                                                 178.1194
+ 41. freq_run x gender                                                  -14.5066
+ 42. freq_run x freq_other                                              -66.8387
+
+ 42 parameters, 42 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 5103 iterations.
+Parameter estimates based on 4103 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.1870   3.5658   0.0524                      
+  2.   0.0000   3.3932   0.0000                      
+  3.   0.0920   2.5131   0.0366                      
+  4.  -0.0610   2.6146  -0.0233                      
+  5.   0.0600   1.9053   0.0315                      
+  6.  -0.0630   3.3042  -0.0191                      
+  7.  -0.0830   2.6704  -0.0311                      
+  8.   0.1030   3.8613   0.0267                      
+  9.   0.0290   2.5739   0.0113                      
+ 10.  -0.1450   4.4375  -0.0327                      
+ 11.  -0.1060   4.1552  -0.0255                      
+ 12.  -0.6210  12.6299  -0.0492                      
+ 13.  -0.6360  12.4051  -0.0513                      
+ 14.  -1.0401  23.1505  -0.0449                      
+ 15.  -2.1511  38.3718  -0.0561                      
+ 16.  24.4941  38.4573   0.6369     (fixed parameter)
+ 17.  -2.0012  39.7213  -0.0504                      
+ 18.   7.0980 116.2208   0.0611     (fixed parameter)
+ 19.  -0.2800   4.8940  -0.0572     (fixed parameter)
+ 20.   0.0460   4.9712   0.0093                      
+ 21.   0.0780   4.6005   0.0170                      
+ 22.  -0.4030   8.3008  -0.0485                      
+ 23.  -0.5430   7.3102  -0.0743                      
+ 24.   7.2509  22.5463   0.3216     (fixed parameter)
+ 25.  -0.1660   4.0931  -0.0406                      
+ 26.   0.1190   3.8319   0.0311                      
+ 27.   0.1690   4.4252   0.0382                      
+ 28.   0.1930   3.9178   0.0493                      
+ 29.  -0.0840   4.1248  -0.0204                      
+ 30.  -0.1290   4.6530  -0.0277                      
+ 31.  -0.1850   4.1678  -0.0444                      
+ 32.  -0.0030   3.5005  -0.0009                      
+ 33.   0.1040   3.7520   0.0277                      
+ 34.  -0.1220   4.3859  -0.0278                      
+ 35.  -0.3110   3.4667  -0.0897                      
+ 36.  -0.7450  18.4680  -0.0403                      
+ 37.  -0.6777  40.7709  -0.0166                      
+ 38.  -0.0758   1.6078  -0.0471                      
+ 39.   0.0179   1.1035   0.0162                      
+ 40.  -0.8360  76.5698  -0.0109                      
+ 41.   0.0445   8.5203   0.0052                      
+ 42.   0.0099  20.7857   0.0005                      
+
+Good convergence is indicated by the t-ratios of non-fixed parameters being close to zero.
+
+Overall maximum convergence ratio =  0.215 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 5103 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        1.5489  (   0.5567)
+ 2. rate:  constant kudonet rate (period 2)                        1.4886  (   0.5050)
+ 3. rate:  constant kudonet rate (period 3)                        0.5802  (   0.2537)
+ 4. rate:  constant kudonet rate (period 4)                        0.6617  (   0.2617)
+ 5. rate:  constant kudonet rate (period 5)                        0.3163  (   0.1729)
+ 6. rate:  constant kudonet rate (period 6)                        1.1360  (   0.3666)
+ 7. rate:  constant kudonet rate (period 7)                        0.7123  (   0.2805)
+ 8. rate:  constant kudonet rate (period 8)                        1.8967  (   0.6631)
+ 9. rate:  constant kudonet rate (period 9)                        0.5230  (   0.2084)
+10. rate:  constant kudonet rate (period 10)                       2.1903  (   0.6188)
+11. rate:  constant kudonet rate (period 11)                       1.7671  (   0.5955)
+12. eval:  outdegree (density)                                    -5.8156  (   0.8144)
+13. eval:  reciprocity                                             4.9396  (   0.4577)
+14. eval:  GWESP I -> K -> J (69)                                  1.0964  (   0.2883)
+15. eval:  indegree - popularity (sqrt)                            0.1007  (   0.2601)
+16. eval:  outdegree - popularity (sqrt)                           0.0000  (  fixed  )
+17. eval:  outdegree - activity (sqrt)                             0.5691  (   0.1616)
+18. eval:  rec.degree^(1/1) - activity                             0.0000  (  fixed  )
+19. eval:  out-isolate                                             0.0000  (  fixed  )
+20. eval:  gender alter                                            0.2913  (   0.3255)
+21. eval:  gender ego                                             -0.3754  (   0.3505)
+22. eval:  same gender                                            -0.4371  (   0.2941)
+23. eval:  higher freq_run                                         0.5842  (   0.5511)
+24. eval:  int.  reciprocity x GWESP I -> K -> J (69)              0.0000  (  fixed  )
+Behavior Dynamics
+
+25. rate:  rate freq_run (period 1)                                3.6529  (   1.8118)
+26. rate:  rate freq_run (period 2)                                2.3581  (   0.7956)
+27. rate:  rate freq_run (period 3)                                3.6809  (   1.5216)
+28. rate:  rate freq_run (period 4)                                2.4387  (   1.0533)
+29. rate:  rate freq_run (period 5)                                2.5157  (   0.9769)
+30. rate:  rate freq_run (period 6)                                4.4049  (   1.9211)
+31. rate:  rate freq_run (period 7)                                3.2247  (   1.3057)
+32. rate:  rate freq_run (period 8)                                1.7339  (   0.5793)
+33. rate:  rate freq_run (period 9)                                1.8459  (   0.6354)
+34. rate:  rate freq_run (period 10)                               3.2204  (   1.1772)
+35. rate:  rate freq_run (period 11)                               1.5975  (   0.5678)
+36. eval:  freq_run linear shape                                   0.0015  (   0.1032)
+37. eval:  freq_run quadratic shape                               -0.0698  (   0.0288)
+38. eval:  freq_run average attraction higher                     -0.0900  (   1.8447)
+39. eval:  freq_run average attraction lower                       4.9258  (   2.4804)
+40. eval:  freq_run indegree                                       0.0475  (   0.0342)
+41. eval:  freq_run: effect from gender                           -0.1889  (   0.1237)
+42. eval:  freq_run: effect from freq_other                       -0.0470  (   0.0504)
+
+
+@3
+Covariance matrices
+                   
+(Values of the covariance matrix of estimates
+  are meaningless for the fixed parameters.)
+
+Covariance matrix of estimates (correlations below diagonal):
+     0.310      0.001      0.002      0.003     -0.006     -0.002      0.000     -0.007     -0.001     -0.011      0.004     -0.028      0.016      0.008     -0.002         NA     -0.002         NA         NA      0.008     -0.002      0.010      0.025         NA      0.053      0.000     -0.019      0.002     -0.006     -0.042      0.027      0.013      0.004     -0.026     -0.002      0.000     -0.002     -0.046     -0.026      0.001      0.001      0.001
+     0.004      0.255      0.001      0.006      0.005      0.005      0.004      0.039      0.002     -0.004      0.012     -0.030      0.024     -0.004      0.000         NA      0.008         NA         NA     -0.004     -0.011      0.000     -0.009         NA      0.046     -0.003      0.016     -0.032      0.013      0.025     -0.029     -0.001      0.007      0.005      0.006     -0.003      0.001      0.084     -0.034     -0.001      0.004     -0.001
+     0.016      0.008      0.064     -0.004      0.001      0.005      0.002      0.007      0.002     -0.007     -0.005     -0.008      0.007     -0.001      0.000         NA      0.000         NA         NA      0.003     -0.005      0.002      0.002         NA      0.005      0.007      0.062     -0.001     -0.003      0.017      0.003     -0.002      0.000     -0.025     -0.001      0.001      0.000     -0.001      0.000      0.000     -0.001     -0.001
+     0.019      0.043     -0.061      0.068      0.001      0.000     -0.002     -0.011      0.000      0.010     -0.005     -0.013      0.005     -0.001      0.001         NA      0.002         NA         NA      0.002      0.000      0.002      0.003         NA     -0.021     -0.002      0.020     -0.036      0.000     -0.010      0.001      0.005      0.001      0.026      0.001      0.000      0.000     -0.005     -0.021      0.000      0.002      0.001
+    -0.065      0.053      0.016      0.030      0.030      0.001      0.000      0.008      0.000      0.013     -0.004     -0.009      0.007      0.000      0.000         NA      0.001         NA         NA      0.001     -0.001      0.001      0.005         NA      0.005     -0.002      0.002      0.001     -0.026     -0.001     -0.007      0.002      0.006      0.002     -0.002     -0.001      0.000      0.023      0.005      0.000     -0.001      0.000
+    -0.008      0.026      0.057      0.000      0.016      0.134      0.006      0.012     -0.002     -0.006      0.004     -0.008      0.004      0.004      0.000         NA     -0.002         NA         NA      0.004     -0.005      0.010      0.006         NA     -0.060      0.005      0.001     -0.006     -0.011      0.072      0.010     -0.005     -0.002     -0.001     -0.006      0.000      0.001      0.044     -0.020     -0.001      0.000      0.000
+     0.000      0.030      0.030     -0.030     -0.005      0.057      0.079      0.008      0.002      0.003      0.001     -0.010      0.007     -0.001      0.002         NA      0.000         NA         NA      0.000     -0.007      0.000     -0.002         NA     -0.013     -0.007     -0.009     -0.015     -0.007      0.021      0.044      0.006     -0.005     -0.008     -0.006     -0.001      0.000      0.006     -0.027      0.000      0.000      0.000
+    -0.019      0.118      0.040     -0.063      0.073      0.051      0.043      0.440      0.007      0.011      0.025     -0.067      0.028     -0.016      0.013         NA      0.013         NA         NA     -0.014     -0.022     -0.002     -0.014         NA     -0.018     -0.017      0.028      0.008      0.049     -0.032     -0.010     -0.011      0.021      0.037     -0.008      0.004      0.000      0.014      0.001      0.000      0.000      0.001
+    -0.005      0.020      0.045     -0.001      0.011     -0.020      0.027      0.047      0.043      0.001     -0.003     -0.006      0.002     -0.002      0.002         NA      0.000         NA         NA      0.003      0.004      0.001      0.002         NA      0.016     -0.006      0.004      0.002      0.004      0.010     -0.009     -0.001     -0.015      0.002      0.000      0.001      0.000      0.010      0.011      0.000     -0.001      0.000
+    -0.033     -0.012     -0.043      0.063      0.118     -0.026      0.015      0.028      0.010      0.383     -0.028     -0.037      0.017     -0.008      0.005         NA      0.003         NA         NA      0.003     -0.010      0.005      0.024         NA     -0.039     -0.030      0.042     -0.003     -0.003     -0.009     -0.001      0.000      0.031      0.192     -0.002     -0.005      0.001      0.081     -0.104     -0.001      0.007      0.002
+     0.012      0.039     -0.032     -0.030     -0.043      0.018      0.005      0.063     -0.021     -0.075      0.355     -0.003      0.001      0.003     -0.005         NA     -0.003         NA         NA      0.011     -0.004      0.014     -0.006         NA      0.029      0.014     -0.006      0.014      0.031      0.028     -0.034      0.003     -0.005     -0.026      0.005     -0.001     -0.001      0.019     -0.096     -0.001     -0.002     -0.002
+    -0.061     -0.073     -0.037     -0.061     -0.063     -0.026     -0.042     -0.124     -0.037     -0.073     -0.005      0.663     -0.152      0.123     -0.159         NA     -0.079         NA         NA     -0.067     -0.013     -0.042     -0.219         NA     -0.095     -0.029      0.076      0.002     -0.048     -0.107      0.040     -0.017     -0.012      0.034      0.014     -0.002      0.001      0.057     -0.093     -0.002      0.007      0.000
+     0.062      0.103      0.059      0.039      0.094      0.027      0.053      0.091      0.018      0.059      0.005     -0.407      0.210      0.009     -0.003         NA      0.017         NA         NA      0.041     -0.006     -0.001      0.058         NA      0.084     -0.014     -0.019     -0.011     -0.016      0.077     -0.001      0.017      0.015     -0.035     -0.010      0.001      0.000     -0.010     -0.008      0.000      0.001      0.000
+     0.051     -0.026     -0.008     -0.015      0.002      0.037     -0.018     -0.086     -0.035     -0.043      0.018      0.522      0.066      0.083     -0.049         NA     -0.031         NA         NA     -0.002     -0.001     -0.005     -0.006         NA      0.037     -0.011     -0.006      0.016     -0.014      0.062      0.035     -0.004     -0.003     -0.010     -0.007      0.000      0.000      0.013     -0.070     -0.001      0.004     -0.001
+    -0.015      0.003      0.005      0.011     -0.008     -0.001      0.033      0.075      0.045      0.033     -0.032     -0.750     -0.024     -0.660      0.068         NA      0.015         NA         NA      0.019      0.000      0.002      0.031         NA      0.000      0.010     -0.008     -0.010      0.013     -0.026     -0.012     -0.004      0.000     -0.007     -0.003      0.001      0.000     -0.028      0.067      0.001     -0.003      0.000
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+    -0.021      0.097      0.012      0.052      0.036     -0.038      0.008      0.119      0.010      0.028     -0.026     -0.602      0.226     -0.662      0.359         NA      0.026         NA         NA     -0.002      0.010      0.003     -0.011         NA      0.005      0.005     -0.008      0.000      0.011     -0.006     -0.012      0.005      0.002      0.009      0.000     -0.001      0.000      0.003      0.020      0.000     -0.001      0.000
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+     0.045     -0.022      0.036      0.021      0.015      0.030      0.004     -0.066      0.047      0.017      0.059     -0.251      0.277     -0.021      0.227         NA     -0.031         NA         NA      0.106      0.012      0.042      0.001         NA      0.026      0.006      0.028     -0.007      0.001      0.040     -0.025      0.005     -0.010     -0.019     -0.005      0.001      0.000     -0.007     -0.005      0.000      0.000     -0.001
+    -0.009     -0.064     -0.061      0.001     -0.018     -0.037     -0.074     -0.096      0.051     -0.045     -0.017     -0.045     -0.039     -0.006     -0.002         NA      0.185         NA         NA      0.104      0.123      0.026     -0.009         NA     -0.033      0.013      0.011     -0.002     -0.015     -0.018     -0.020     -0.002      0.015      0.008     -0.007      0.000     -0.001      0.004     -0.043     -0.001     -0.002      0.000
+     0.060     -0.003      0.020      0.022      0.018      0.090     -0.003     -0.010      0.020      0.026      0.082     -0.176     -0.010     -0.063      0.025         NA      0.071         NA         NA      0.436      0.248      0.086     -0.007         NA     -0.015      0.008      0.019      0.010      0.004      0.018     -0.016      0.000      0.007      0.019      0.005      0.001      0.000     -0.003     -0.020      0.000      0.000      0.000
+     0.081     -0.033      0.018      0.024      0.057      0.029     -0.012     -0.039      0.018      0.069     -0.018     -0.487      0.232     -0.035      0.219         NA     -0.128         NA         NA      0.006     -0.045     -0.042      0.304         NA      0.069      0.001     -0.064      0.022     -0.004      0.146     -0.003      0.018     -0.002     -0.061      0.004      0.003      0.000     -0.032     -0.015     -0.001     -0.002     -0.001
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+     0.053      0.050      0.012     -0.045      0.015     -0.090     -0.025     -0.015      0.043     -0.035      0.027     -0.065      0.102      0.072      0.001         NA      0.018         NA         NA      0.044     -0.052     -0.027      0.069         NA      3.283      0.007     -0.076     -0.008      0.006     -0.058     -0.138      0.079     -0.006     -0.005     -0.069     -0.012     -0.004      0.393     -0.035     -0.002      0.015     -0.011
+    -0.001     -0.007      0.035     -0.011     -0.015      0.016     -0.030     -0.032     -0.038     -0.061      0.029     -0.044     -0.038     -0.048      0.050         NA      0.040         NA         NA      0.023      0.046      0.033      0.002         NA      0.005      0.633      0.011      0.020      0.038      0.015     -0.007      0.022      0.006     -0.012      0.007     -0.005     -0.002      0.003     -0.073      0.001      0.004     -0.002
+    -0.022      0.020      0.162      0.051      0.007      0.001     -0.021      0.028      0.012      0.044     -0.006      0.062     -0.027     -0.015     -0.020         NA     -0.033         NA         NA      0.057      0.020      0.042     -0.077         NA     -0.028      0.009      2.315      0.018      0.005     -0.020     -0.023      0.024      0.026      0.017     -0.019     -0.003     -0.005     -0.038     -0.547     -0.005      0.012     -0.001
+     0.004     -0.061     -0.005     -0.132      0.005     -0.016     -0.051      0.011      0.010     -0.004      0.022      0.002     -0.024      0.051     -0.035         NA     -0.002         NA         NA     -0.020     -0.005      0.031      0.038         NA     -0.004      0.023      0.012      1.109      0.007     -0.011      0.005      0.007     -0.005      0.015     -0.011     -0.006     -0.002      0.188     -0.410     -0.006     -0.003     -0.006
+    -0.010      0.027     -0.011      0.000     -0.153     -0.029     -0.025      0.076      0.020     -0.005      0.053     -0.060     -0.036     -0.050      0.049         NA      0.067         NA         NA      0.003     -0.044      0.015     -0.008         NA      0.003      0.049      0.003      0.007      0.954     -0.039      0.008     -0.021     -0.004     -0.011      0.000     -0.006     -0.002      0.014     -0.018      0.001     -0.002      0.000
+    -0.039      0.026      0.035     -0.020     -0.003      0.103      0.038     -0.025      0.024     -0.008      0.024     -0.068      0.087      0.111     -0.053         NA     -0.020         NA         NA      0.063     -0.027      0.032      0.138         NA     -0.017      0.010     -0.007     -0.005     -0.021      3.691      0.067      0.057     -0.009     -0.040     -0.002     -0.023      0.007      0.283     -0.626     -0.007      0.030     -0.011
+     0.037     -0.044      0.008      0.004     -0.033      0.020      0.121     -0.012     -0.035     -0.001     -0.044      0.038     -0.002      0.093     -0.036         NA     -0.057         NA         NA     -0.060     -0.044     -0.042     -0.005         NA     -0.058     -0.007     -0.012      0.004      0.006      0.027      1.705     -0.008      0.024      0.025     -0.005     -0.015      0.001      0.055     -0.359     -0.003      0.006      0.003
+     0.041     -0.004     -0.011      0.033      0.017     -0.023      0.039     -0.027     -0.007     -0.001      0.010     -0.037      0.065     -0.024     -0.026         NA      0.051         NA         NA      0.028     -0.008      0.000      0.055         NA      0.075      0.048      0.027      0.012     -0.037      0.052     -0.010      0.336      0.010     -0.022      0.003     -0.004      0.001     -0.032     -0.031      0.001      0.002      0.000
+     0.012      0.021     -0.002      0.008      0.056     -0.008     -0.027      0.050     -0.113      0.080     -0.012     -0.023      0.052     -0.014     -0.001         NA      0.023         NA         NA     -0.046      0.069      0.040     -0.005         NA     -0.005      0.011      0.027     -0.008     -0.006     -0.007      0.029      0.026      0.404     -0.006      0.016     -0.004     -0.001      0.041     -0.043      0.001      0.007      0.002
+    -0.040      0.009     -0.083      0.084      0.010     -0.001     -0.023      0.047      0.009      0.264     -0.036      0.035     -0.065     -0.029     -0.023         NA      0.049         NA         NA     -0.049      0.020      0.054     -0.094         NA     -0.002     -0.013      0.010      0.012     -0.009     -0.018      0.016     -0.033     -0.008      1.386      0.020     -0.019      0.001      0.305     -0.416     -0.005      0.023      0.002
+    -0.006      0.019     -0.008      0.003     -0.016     -0.029     -0.037     -0.021      0.000     -0.005      0.016      0.029     -0.039     -0.045     -0.023         NA      0.002         NA         NA     -0.028     -0.036      0.029      0.013         NA     -0.067      0.016     -0.022     -0.019      0.000     -0.002     -0.007      0.009      0.044      0.031      0.322     -0.005      0.001      0.082     -0.023      0.000      0.005      0.002
+    -0.004     -0.058      0.030     -0.005     -0.028     -0.011     -0.046      0.052      0.037     -0.080     -0.019     -0.026      0.024     -0.013      0.044         NA     -0.031         NA         NA      0.017      0.003      0.022      0.049         NA     -0.066     -0.062     -0.017     -0.057     -0.061     -0.116     -0.115     -0.066     -0.064     -0.156     -0.078      0.011      0.000     -0.119      0.127      0.001     -0.005      0.000
+    -0.113      0.035     -0.017      0.000      0.074      0.064     -0.028      0.022      0.007      0.032     -0.029      0.026     -0.002     -0.028     -0.017         NA      0.010         NA         NA     -0.028     -0.092     -0.026     -0.016         NA     -0.073     -0.067     -0.111     -0.058     -0.083      0.122      0.027      0.055     -0.038      0.044      0.086     -0.099      0.001      0.017      0.020      0.000      0.000      0.000
+    -0.045      0.090     -0.003     -0.011      0.071      0.066      0.012      0.011      0.026      0.071      0.017      0.038     -0.012      0.024     -0.059         NA      0.010         NA         NA     -0.011      0.007     -0.005     -0.032         NA      0.118      0.002     -0.014      0.097      0.008      0.080      0.023     -0.030      0.035      0.140      0.078     -0.626      0.319      3.403     -1.858     -0.038      0.070     -0.033
+    -0.019     -0.027     -0.001     -0.032      0.012     -0.022     -0.039      0.000      0.021     -0.068     -0.065     -0.046     -0.007     -0.098      0.103         NA      0.049         NA         NA     -0.007     -0.049     -0.027     -0.011         NA     -0.008     -0.037     -0.145     -0.157     -0.007     -0.131     -0.111     -0.021     -0.027     -0.143     -0.017      0.498      0.284     -0.406      6.152      0.064     -0.126      0.012
+     0.034     -0.041     -0.023      0.012     -0.026     -0.054     -0.011     -0.020     -0.043     -0.047     -0.047     -0.058     -0.020     -0.103      0.105         NA      0.075         NA         NA     -0.013     -0.048     -0.029     -0.035         NA     -0.033      0.019     -0.104     -0.157      0.033     -0.111     -0.060      0.044      0.037     -0.114     -0.009      0.210      0.036     -0.602      0.754      0.001     -0.001      0.001
+     0.019      0.063     -0.017      0.069     -0.039      0.006     -0.009      0.006     -0.048      0.087     -0.029      0.067      0.014      0.104     -0.099         NA     -0.056         NA         NA      0.005     -0.045     -0.001     -0.032         NA      0.069      0.043      0.064     -0.025     -0.015      0.124      0.036      0.034      0.084      0.157      0.075     -0.408     -0.007      0.307     -0.412     -0.173      0.015      0.001
+     0.034     -0.027     -0.103      0.042      0.006     -0.027     -0.007      0.015     -0.025      0.064     -0.051      0.009     -0.004     -0.038     -0.010         NA      0.051         NA         NA     -0.050     -0.011     -0.004     -0.052         NA     -0.124     -0.052     -0.018     -0.122      0.002     -0.115      0.049     -0.002      0.048      0.033      0.064      0.067     -0.019     -0.351      0.092      0.307      0.120      0.003
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 80.97 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 24/03/2022 17:12:59
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Estimation by stochastic approximation algorithm.
+=================================================
+
+Random initialization of random number stream.
+Current random number seed is 590241.
+Effects object used: myeff 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations in each period is 1.0.
+Changing composition.
+Joiners/leavers option: 1
+Standard errors are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Initial value of gain parameter is  0.2000000.
+Reduction factor for gain parameter is  0.5000000.
+Number of subphases in Phase 2 is 4.
+
+Initial parameter values are 
+  1. rate:  constant kudonet rate (period 1)                0.9024
+  2. rate:  constant kudonet rate (period 2)                0.8335
+  3. rate:  constant kudonet rate (period 3)                0.4891
+  4. rate:  constant kudonet rate (period 4)                0.5580
+  5. rate:  constant kudonet rate (period 5)                0.2824
+  6. rate:  constant kudonet rate (period 6)                0.9024
+  7. rate:  constant kudonet rate (period 7)                0.5580
+  8. rate:  constant kudonet rate (period 8)                1.1780
+  9. rate:  constant kudonet rate (period 9)                0.4891
+ 10. rate:  constant kudonet rate (period 10)               1.4535
+ 11. rate:  constant kudonet rate (period 11)               1.5224
+ 12. eval:  outdegree (density)                            -0.5819
+ 13. eval:  reciprocity                                     0.0000
+ 14. eval:  GWESP I -> K -> J (69)                          0.0000
+ 15. eval:  indegree - popularity (sqrt)                    0.0000
+ 16. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+ 17. eval:  outdegree - activity (sqrt)                     0.0000
+ 18. eval:  rec.degree^(1/1) - activity                     0.0000  (fixed) 
+ 19. eval:  out-isolate                                     0.0000  (fixed) 
+ 20. eval:  gender alter                                    0.0000
+ 21. eval:  gender ego                                      0.0000
+ 22. eval:  same gender                                     0.0000
+ 23. eval:  higher freq_run                                 0.0000
+ 24. eval:  int.  reciprocity x GWESP I -> K -> J (69)      0.0000  (fixed) 
+ 25. rate:  rate freq_run (period 1)                        1.6506
+ 26. rate:  rate freq_run (period 2)                        1.1540
+ 27. rate:  rate freq_run (period 3)                        1.4713
+ 28. rate:  rate freq_run (period 4)                        0.9207
+ 29. rate:  rate freq_run (period 5)                        1.2195
+ 30. rate:  rate freq_run (period 6)                        1.8207
+ 31. rate:  rate freq_run (period 7)                        1.0851
+ 32. rate:  rate freq_run (period 8)                        0.9931
+ 33. rate:  rate freq_run (period 9)                        0.9207
+ 34. rate:  rate freq_run (period 10)                       1.6333
+ 35. rate:  rate freq_run (period 11)                       1.1448
+ 36. eval:  freq_run linear shape                           0.0184
+ 37. eval:  freq_run quadratic shape                        0.0000
+ 38. eval:  freq_run average attraction higher              0.0000
+ 39. eval:  freq_run average attraction lower               0.0000
+ 40. eval:  freq_run indegree                               0.0000
+ 41. eval:  freq_run: effect from gender                    0.0000
+ 42. eval:  freq_run: effect from freq_other                0.0000
+
+
+Observed values of target statistics are
+  1. Amount of network change in period 1                                13.0000
+  2. Amount of network change in period 2                                12.0000
+  3. Amount of network change in period 3                                 7.0000
+  4. Amount of network change in period 4                                 8.0000
+  5. Amount of network change in period 5                                 4.0000
+  6. Amount of network change in period 6                                13.0000
+  7. Amount of network change in period 7                                 8.0000
+  8. Amount of network change in period 8                                17.0000
+  9. Amount of network change in period 9                                 7.0000
+ 10. Amount of network change in period 10                               21.0000
+ 11. Amount of network change in period 11                               17.0000
+ 12. Number of ties                                                     791.0000
+ 13. Number of reciprocated ties                                        702.0000
+ 14. Numb. edgew. shrd prtns.by two path (69)                          1201.5720
+ 15. Sum of indegrees x sqrt(indegree)                                 1897.8991
+ 16. Sum of indegrees x sqrt(outdegree)                                1828.4461
+ 17. Sum of outdegrees^(1.5)                                           1992.4064
+ 18. Sum rec.degr^(1/1) x outdegr                                      4746.0000
+ 19. Number of out-isolates                                             126.0000
+ 20. Sum indegrees x gender                                            -138.2593
+ 21. Sum outdegrees x gender                                           -179.2593
+ 22. Same values on gender                                              492.0000
+ 23. ego > alter for freq_run                                           410.5000
+ 24. int.  reciprocity x GWESP I -> K -> J (69)                        1098.1077
+ 25. Amount of behavioral change in period 1 on freq_run                 22.0000
+ 26. Amount of behavioral change in period 2 on freq_run                 20.0000
+ 27. Amount of behavioral change in period 3 on freq_run                 25.0000
+ 28. Amount of behavioral change in period 4 on freq_run                 21.0000
+ 29. Amount of behavioral change in period 5 on freq_run                 21.0000
+ 30. Amount of behavioral change in period 6 on freq_run                 28.0000
+ 31. Amount of behavioral change in period 7 on freq_run                 24.0000
+ 32. Amount of behavioral change in period 8 on freq_run                 18.0000
+ 33. Amount of behavioral change in period 9 on freq_run                 19.0000
+ 34. Amount of behavioral change in period 10 on freq_run                25.0000
+ 35. Amount of behavioral change in period 11 on freq_run                17.0000
+ 36. freq_run centered sum                                               -6.8545
+ 37. freq_run sum of cent. squares                                      546.7909
+ 38. freq_run average attraction higher                                 149.5090
+ 39. freq_run average attraction lower                                  154.6382
+ 40. freq_run indegrees                                                 178.1194
+ 41. freq_run x gender                                                  -14.5066
+ 42. freq_run x freq_other                                              -66.8387
+
+ 42 parameters, 42 statistics
+
+Estimation of derivatives by the LR method (type 1).
+
+
+@2
+End of stochastic approximation algorithm, phase 3.
+---------------------------------------------------
+
+Total of 5103 iterations.
+Parameter estimates based on 4103 iterations,
+convergence diagnostics, covariance and derivative matrices based on 1000 iterations.
+
+Information for convergence diagnosis.
+Averages, standard deviations, and t-ratios for deviations from targets:
+  1.   0.0280   3.6222   0.0077                      
+  2.   0.0810   3.3388   0.0243                      
+  3.   0.1360   2.6496   0.0513                      
+  4.  -0.1300   2.6590  -0.0489                      
+  5.  -0.0240   1.9129  -0.0125                      
+  6.  -0.1650   3.2800  -0.0503                      
+  7.   0.0220   2.7406   0.0080                      
+  8.   0.1710   3.7352   0.0458                      
+  9.   0.2230   2.5725   0.0867                      
+ 10.   0.0840   4.5294   0.0185                      
+ 11.   0.1280   4.1897   0.0306                      
+ 12.   0.9880  12.2701   0.0805                      
+ 13.   0.5620  12.2940   0.0457                      
+ 14.   1.8829  23.2592   0.0810                      
+ 15.   2.8216  37.5035   0.0752                      
+ 16.  28.9163  37.9299   0.7624     (fixed parameter)
+ 17.   3.2576  38.8148   0.0839                      
+ 18.  21.7610 114.5265   0.1900     (fixed parameter)
+ 19.  -0.4850   5.1618  -0.0940     (fixed parameter)
+ 20.   0.1905   4.9624   0.0384                      
+ 21.  -0.1215   4.8395  -0.0251                      
+ 22.   0.7220   8.1443   0.0887                      
+ 23.   0.5910   7.2564   0.0814                      
+ 24.   9.5895  22.2275   0.4314     (fixed parameter)
+ 25.  -0.0980   4.0784  -0.0240                      
+ 26.  -0.1080   3.7280  -0.0290                      
+ 27.   0.1350   4.2761   0.0316                      
+ 28.  -0.0800   3.6525  -0.0219                      
+ 29.   0.1880   3.9102   0.0481                      
+ 30.  -0.0550   4.6772  -0.0118                      
+ 31.  -0.1910   4.2838  -0.0446                      
+ 32.   0.0780   3.7995   0.0205                      
+ 33.   0.0140   3.7518   0.0037                      
+ 34.  -0.1920   4.3957  -0.0437                      
+ 35.  -0.1320   3.5439  -0.0372                      
+ 36.  -0.7410  19.4725  -0.0381                      
+ 37.  -0.6704  39.6839  -0.0169                      
+ 38.  -0.0209   1.6180  -0.0129                      
+ 39.  -0.0574   1.1106  -0.0516                      
+ 40.   1.9600  77.5760   0.0253                      
+ 41.   0.0809   8.9546   0.0090                      
+ 42.   0.1090  20.2867   0.0054                      
+
+Good convergence is indicated by the t-ratios of non-fixed parameters being close to zero.
+
+Overall maximum convergence ratio =  0.2465 .
+
+
+
+@2
+Estimation Results.
+-------------------
+
+Regular end of estimation algorithm.
+Total of 5103 iteration steps.
+
+
+@3
+Estimates and standard errors
+                             
+Network Dynamics
+ 1. rate:  constant kudonet rate (period 1)                        1.5321  (   0.5481)
+ 2. rate:  constant kudonet rate (period 2)                        1.4705  (   0.5639)
+ 3. rate:  constant kudonet rate (period 3)                        0.5837  (   0.2239)
+ 4. rate:  constant kudonet rate (period 4)                        0.6508  (   0.2550)
+ 5. rate:  constant kudonet rate (period 5)                        0.3134  (   0.1588)
+ 6. rate:  constant kudonet rate (period 6)                        1.1435  (   0.3829)
+ 7. rate:  constant kudonet rate (period 7)                        0.7256  (   0.3154)
+ 8. rate:  constant kudonet rate (period 8)                        1.8947  (   0.6907)
+ 9. rate:  constant kudonet rate (period 9)                        0.5278  (   0.2081)
+10. rate:  constant kudonet rate (period 10)                       2.1842  (   0.6209)
+11. rate:  constant kudonet rate (period 11)                       1.7758  (   0.5611)
+12. eval:  outdegree (density)                                    -5.8345  (   0.8544)
+13. eval:  reciprocity                                             4.9315  (   0.4857)
+14. eval:  GWESP I -> K -> J (69)                                  1.0829  (   0.2958)
+15. eval:  indegree - popularity (sqrt)                            0.1159  (   0.2672)
+16. eval:  outdegree - popularity (sqrt)                           0.0000  (  fixed  )
+17. eval:  outdegree - activity (sqrt)                             0.5719  (   0.1620)
+18. eval:  rec.degree^(1/1) - activity                             0.0000  (  fixed  )
+19. eval:  out-isolate                                             0.0000  (  fixed  )
+20. eval:  gender alter                                            0.3022  (   0.3106)
+21. eval:  gender ego                                             -0.3718  (   0.3711)
+22. eval:  same gender                                            -0.4283  (   0.2854)
+23. eval:  higher freq_run                                         0.5806  (   0.5344)
+24. eval:  int.  reciprocity x GWESP I -> K -> J (69)              0.0000  (  fixed  )
+Behavior Dynamics
+
+25. rate:  rate freq_run (period 1)                                3.7258  (   1.6149)
+26. rate:  rate freq_run (period 2)                                2.3770  (   0.9286)
+27. rate:  rate freq_run (period 3)                                3.6471  (   1.2536)
+28. rate:  rate freq_run (period 4)                                2.4493  (   0.9245)
+29. rate:  rate freq_run (period 5)                                2.5634  (   0.9872)
+30. rate:  rate freq_run (period 6)                                4.4428  (   1.8228)
+31. rate:  rate freq_run (period 7)                                3.2407  (   1.3236)
+32. rate:  rate freq_run (period 8)                                1.7541  (   0.5654)
+33. rate:  rate freq_run (period 9)                                1.8610  (   0.6090)
+34. rate:  rate freq_run (period 10)                               3.2057  (   1.1131)
+35. rate:  rate freq_run (period 11)                               1.6212  (   0.5909)
+36. eval:  freq_run linear shape                                  -0.0087  (   0.1076)
+37. eval:  freq_run quadratic shape                               -0.0694  (   0.0291)
+38. eval:  freq_run average attraction higher                      0.1755  (   1.8983)
+39. eval:  freq_run average attraction lower                       4.7528  (   2.4676)
+40. eval:  freq_run indegree                                       0.0449  (   0.0332)
+41. eval:  freq_run: effect from gender                           -0.1821  (   0.1278)
+42. eval:  freq_run: effect from freq_other                       -0.0494  (   0.0522)
+
+
+@3
+Covariance matrices
+                   
+(Values of the covariance matrix of estimates
+  are meaningless for the fixed parameters.)
+
+Covariance matrix of estimates (correlations below diagonal):
+     0.300      0.014      0.003     -0.006      0.003      0.010      0.006      0.005      0.001     -0.011      0.006     -0.028      0.033     -0.004     -0.003         NA      0.005         NA         NA     -0.002     -0.019      0.004      0.003         NA     -0.021      0.010     -0.002     -0.002     -0.027     -0.057      0.017     -0.015      0.020     -0.006     -0.006      0.002      0.001     -0.040      0.044      0.001      0.003      0.001
+     0.044      0.318     -0.006     -0.003      0.006      0.002     -0.003      0.006      0.008      0.019     -0.018     -0.053      0.026     -0.003      0.008         NA      0.003         NA         NA      0.014     -0.008      0.003      0.016         NA      0.004      0.045     -0.029      0.011     -0.032      0.017      0.005     -0.001     -0.010     -0.001     -0.012      0.001      0.001     -0.055      0.007      0.000     -0.001      0.001
+     0.024     -0.047      0.050      0.003     -0.002     -0.007     -0.002      0.000      0.001      0.004     -0.007     -0.010      0.003     -0.001      0.001         NA      0.001         NA         NA      0.004     -0.007      0.001      0.006         NA      0.000      0.010      0.048      0.006     -0.005     -0.013      0.010     -0.004      0.001     -0.001     -0.003      0.000      0.000      0.012      0.013      0.000      0.001      0.000
+    -0.046     -0.019      0.051      0.065      0.000      0.000      0.000     -0.006     -0.001     -0.003     -0.010     -0.003      0.000      0.002      0.000         NA      0.000         NA         NA      0.001     -0.001      0.003      0.001         NA     -0.001      0.011      0.016     -0.002     -0.007      0.011     -0.013      0.004     -0.002      0.010      0.006      0.000      0.000     -0.001      0.029      0.000     -0.001      0.000
+     0.038      0.065     -0.045      0.000      0.025      0.000     -0.003      0.003      0.001      0.001     -0.001     -0.009      0.008      0.001      0.001         NA      0.000         NA         NA      0.002     -0.002      0.002      0.004         NA      0.002      0.000     -0.006     -0.006      0.000     -0.006      0.008     -0.001     -0.001     -0.003      0.001      0.000      0.000      0.008     -0.015      0.000      0.000      0.000
+     0.050      0.009     -0.077     -0.004     -0.008      0.147      0.005      0.006     -0.001      0.009     -0.003     -0.025      0.009     -0.003      0.004         NA      0.002         NA         NA      0.001     -0.016      0.005     -0.002         NA     -0.010     -0.010      0.012      0.008     -0.013      0.009      0.009     -0.007     -0.006      0.031     -0.002      0.000      0.000     -0.009     -0.011      0.000      0.001      0.000
+     0.033     -0.016     -0.022      0.002     -0.056      0.045      0.100      0.001      0.002     -0.013      0.001     -0.009      0.012      0.002     -0.001         NA      0.002         NA         NA      0.007     -0.002      0.005     -0.006         NA     -0.003      0.013      0.008     -0.004     -0.002     -0.018     -0.049     -0.002     -0.005     -0.003      0.001      0.002      0.000     -0.029     -0.002      0.000      0.000      0.000
+     0.014      0.016      0.002     -0.034      0.026      0.023      0.006      0.477      0.004      0.003      0.025     -0.046      0.029     -0.002      0.011         NA      0.001         NA         NA      0.009     -0.009      0.006     -0.005         NA      0.033      0.005     -0.012      0.002     -0.009     -0.051      0.070      0.040      0.009      0.017     -0.014     -0.005      0.000      0.066     -0.057      0.000      0.007     -0.001
+     0.007      0.071      0.013     -0.012      0.020     -0.014      0.029      0.025      0.043     -0.002     -0.005     -0.013      0.010     -0.002      0.002         NA      0.002         NA         NA      0.003      0.000      0.000      0.001         NA      0.009     -0.008      0.014      0.009     -0.007     -0.024      0.014      0.001     -0.011     -0.009     -0.005      0.000      0.000     -0.021     -0.022      0.000     -0.001      0.000
+    -0.033      0.053      0.032     -0.021      0.010      0.037     -0.067      0.006     -0.016      0.386     -0.006      0.000      0.009      0.006     -0.011         NA     -0.004         NA         NA      0.002     -0.028     -0.008      0.025         NA      0.045      0.009     -0.031     -0.011     -0.047     -0.027      0.039     -0.017      0.003      0.095      0.001     -0.004      0.001      0.077     -0.065     -0.001      0.004      0.001
+     0.020     -0.057     -0.058     -0.067     -0.006     -0.013      0.007      0.064     -0.046     -0.016      0.315      0.012      0.019      0.000     -0.007         NA     -0.001         NA         NA      0.002     -0.003      0.002     -0.023         NA     -0.014     -0.003      0.018      0.011      0.037     -0.098      0.010     -0.004      0.006     -0.009     -0.013      0.000     -0.001     -0.026     -0.015      0.000     -0.001      0.000
+    -0.061     -0.110     -0.052     -0.012     -0.066     -0.077     -0.034     -0.078     -0.070      0.000      0.025      0.730     -0.190      0.131     -0.168         NA     -0.091         NA         NA     -0.064     -0.007     -0.050     -0.216         NA     -0.087     -0.065      0.059     -0.041      0.016      0.039     -0.100      0.013      0.008     -0.013     -0.002      0.004      0.000     -0.082     -0.082     -0.001     -0.002     -0.001
+     0.125      0.093      0.032      0.003      0.105      0.048      0.078      0.087      0.102      0.031      0.071     -0.458      0.236      0.014     -0.004         NA      0.020         NA         NA      0.039     -0.003      0.008      0.075         NA      0.053      0.005      0.003      0.019     -0.005     -0.049      0.044     -0.003      0.002     -0.001     -0.014     -0.001     -0.001      0.023     -0.025      0.000      0.001      0.000
+    -0.024     -0.016     -0.014      0.031      0.016     -0.023      0.019     -0.012     -0.028      0.032      0.000      0.518      0.101      0.087     -0.056         NA     -0.030         NA         NA     -0.005     -0.001     -0.009     -0.004         NA     -0.012     -0.002      0.021     -0.023     -0.013      0.022     -0.023      0.012     -0.002     -0.007     -0.009      0.000      0.000      0.006     -0.023     -0.001      0.000      0.000
+    -0.023      0.052      0.019      0.003      0.020      0.037     -0.014      0.060      0.035     -0.065     -0.046     -0.735     -0.031     -0.705      0.071         NA      0.018         NA         NA      0.016     -0.003      0.001      0.028         NA      0.005      0.011     -0.022      0.014      0.009      0.010      0.020     -0.005     -0.003      0.006      0.014     -0.001      0.000      0.013      0.023      0.000      0.000      0.000
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+     0.056      0.038      0.022     -0.009      0.006      0.040      0.041      0.010      0.055     -0.038     -0.011     -0.658      0.260     -0.631      0.406         NA      0.026         NA         NA      0.002      0.011      0.008     -0.009         NA      0.013      0.000     -0.010      0.003     -0.001     -0.023      0.014     -0.006     -0.001      0.000     -0.001      0.000      0.000     -0.006      0.023      0.000      0.000      0.000
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+    -0.011      0.079      0.059      0.015      0.042      0.008      0.074      0.041      0.050      0.009      0.009     -0.240      0.258     -0.058      0.194         NA      0.047         NA         NA      0.096      0.013      0.042     -0.007         NA      0.015      0.014      0.013     -0.009      0.011     -0.036      0.011     -0.006     -0.005     -0.020     -0.005      0.001      0.000     -0.028      0.049      0.001     -0.002      0.001
+    -0.093     -0.036     -0.088     -0.007     -0.028     -0.113     -0.015     -0.035     -0.002     -0.122     -0.016     -0.023     -0.019     -0.005     -0.035         NA      0.182         NA         NA      0.113      0.138      0.024     -0.006         NA     -0.041     -0.001     -0.026     -0.028      0.023     -0.015     -0.003     -0.002      0.006     -0.024     -0.013      0.000      0.000     -0.017     -0.011      0.000     -0.002      0.000
+     0.026      0.016      0.010      0.038      0.037      0.042      0.051      0.032     -0.001     -0.043      0.011     -0.207      0.055     -0.102      0.015         NA      0.174         NA         NA      0.474      0.224      0.081     -0.009         NA     -0.019      0.011      0.015     -0.006      0.003     -0.047      0.008     -0.011      0.001     -0.019     -0.007      0.000      0.000     -0.028      0.023      0.001     -0.001      0.000
+     0.009      0.054      0.050      0.005      0.047     -0.012     -0.033     -0.013      0.012      0.076     -0.076     -0.473      0.291     -0.023      0.195         NA     -0.101         NA         NA     -0.040     -0.028     -0.061      0.286         NA      0.030      0.045     -0.010      0.029     -0.022      0.043      0.006      0.012      0.000      0.020     -0.018     -0.001      0.001      0.094     -0.015     -0.001      0.000     -0.002
+        NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA         NA
+    -0.024      0.005      0.000     -0.003      0.009     -0.017     -0.006      0.029      0.026      0.045     -0.016     -0.063      0.067     -0.025      0.012         NA      0.051         NA         NA      0.030     -0.068     -0.040      0.035         NA      2.608     -0.012      0.060      0.093      0.028     -0.103      0.112     -0.025      0.041      0.101      0.024     -0.018     -0.004      0.535     -0.302     -0.005      0.017     -0.013
+     0.020      0.086      0.046      0.048      0.001     -0.029      0.044      0.007     -0.043      0.015     -0.006     -0.082      0.010     -0.006      0.043         NA      0.000         NA         NA      0.050     -0.002      0.040      0.091         NA     -0.008      0.862     -0.088     -0.011     -0.018      0.050      0.031      0.008      0.011      0.034      0.024     -0.002      0.002      0.135      0.046      0.000      0.003     -0.004
+    -0.003     -0.041      0.171      0.050     -0.028      0.025      0.019     -0.014      0.053     -0.040      0.026      0.055      0.005      0.057     -0.065         NA     -0.049         NA         NA      0.033     -0.055      0.042     -0.015         NA      0.030     -0.076      1.572     -0.012      0.008     -0.066      0.065     -0.044     -0.019     -0.005      0.003      0.011     -0.002     -0.139     -0.008      0.000      0.005     -0.004
+    -0.004      0.021      0.029     -0.008     -0.042      0.022     -0.014      0.003      0.047     -0.019      0.021     -0.051      0.042     -0.083      0.058         NA      0.017         NA         NA     -0.031     -0.081     -0.024      0.058         NA      0.063     -0.013     -0.011      0.855      0.022      0.007      0.046      0.022     -0.020     -0.041      0.009     -0.004     -0.002      0.085     -0.207     -0.003     -0.004     -0.001
+    -0.050     -0.058     -0.023     -0.029      0.002     -0.034     -0.006     -0.013     -0.032     -0.076      0.066      0.019     -0.011     -0.045      0.034         NA     -0.005         NA         NA      0.036      0.064      0.010     -0.042         NA      0.018     -0.020      0.007      0.024      0.975     -0.033      0.053      0.019      0.010      0.008      0.025     -0.006     -0.002      0.151     -0.353     -0.004      0.000     -0.005
+    -0.057      0.017     -0.031      0.025     -0.020      0.012     -0.031     -0.040     -0.062     -0.024     -0.096      0.025     -0.055      0.041      0.021         NA     -0.078         NA         NA     -0.064     -0.022     -0.091      0.044         NA     -0.035      0.030     -0.029      0.004     -0.018      3.323      0.086      0.001     -0.054      0.078      0.039     -0.024      0.011      0.545     -0.023     -0.006      0.013     -0.007
+     0.023      0.007      0.033     -0.038      0.037      0.017     -0.117      0.077      0.050      0.047      0.013     -0.089      0.069     -0.059      0.058         NA      0.067         NA         NA      0.026     -0.005      0.020      0.009         NA      0.052      0.025      0.039      0.038      0.041      0.036      1.752      0.004      0.058      0.024      0.009     -0.022      0.002      0.280     -0.104     -0.001      0.020     -0.006
+    -0.047     -0.002     -0.033      0.027     -0.007     -0.033     -0.014      0.102      0.006     -0.048     -0.013      0.026     -0.011      0.073     -0.031         NA     -0.062         NA         NA     -0.033     -0.009     -0.065      0.038         NA     -0.027      0.015     -0.061      0.042      0.034      0.001      0.005      0.320      0.003      0.016     -0.007      0.000      0.001      0.032      0.008      0.000     -0.002      0.000
+     0.061     -0.030      0.004     -0.014     -0.009     -0.024     -0.024      0.021     -0.086      0.008      0.017      0.016      0.007     -0.010     -0.016         NA     -0.006         NA         NA     -0.026      0.027      0.003      0.000         NA      0.041      0.020     -0.025     -0.036      0.017     -0.048      0.072      0.010      0.371      0.033      0.009     -0.002     -0.002      0.008     -0.069      0.000      0.006      0.000
+    -0.009     -0.002     -0.002      0.035     -0.018      0.073     -0.008      0.022     -0.041      0.138     -0.015     -0.014     -0.001     -0.021      0.020         NA      0.001         NA         NA     -0.059     -0.057     -0.061      0.034         NA      0.056      0.033     -0.004     -0.040      0.007      0.038      0.017      0.026      0.049      1.239     -0.008     -0.016      0.001      0.233     -0.189     -0.001      0.015      0.000
+    -0.020     -0.036     -0.024      0.038      0.011     -0.009      0.003     -0.035     -0.041      0.004     -0.040     -0.004     -0.047     -0.049      0.089         NA     -0.011         NA         NA     -0.027     -0.061     -0.042     -0.056         NA      0.025      0.043      0.005      0.016      0.044      0.036      0.012     -0.020      0.024     -0.012      0.349     -0.003      0.000      0.024      0.027      0.000     -0.001      0.000
+     0.037      0.020     -0.011      0.005     -0.011      0.008      0.051     -0.071      0.016     -0.056      0.004      0.046     -0.026      0.012     -0.027         NA     -0.017         NA         NA      0.023     -0.005      0.008     -0.022         NA     -0.106     -0.023      0.082     -0.040     -0.058     -0.121     -0.153     -0.001     -0.024     -0.136     -0.052      0.012      0.000     -0.136      0.145      0.001     -0.005      0.001
+     0.040      0.031      0.006      0.026     -0.019      0.000      0.014      0.003     -0.071      0.074     -0.057     -0.018     -0.047     -0.021      0.026         NA     -0.016         NA         NA      0.026     -0.040     -0.003      0.055         NA     -0.085      0.057     -0.068     -0.070     -0.080      0.210      0.051      0.039     -0.086      0.046      0.019     -0.040      0.001      0.015      0.024      0.000      0.000      0.000
+    -0.039     -0.052      0.028     -0.003      0.027     -0.012     -0.048      0.050     -0.053      0.065     -0.025     -0.050      0.025      0.010      0.025         NA     -0.018         NA         NA     -0.048     -0.024     -0.052      0.093         NA      0.174      0.077     -0.058      0.048      0.081      0.158      0.112      0.030      0.007      0.110      0.022     -0.665      0.267      3.604     -1.917     -0.040      0.055     -0.039
+     0.033      0.005      0.024      0.047     -0.039     -0.011     -0.003     -0.033     -0.044     -0.043     -0.011     -0.039     -0.021     -0.031      0.034         NA      0.058         NA         NA      0.064     -0.012      0.033     -0.012         NA     -0.076      0.020     -0.003     -0.091     -0.145     -0.005     -0.032      0.006     -0.046     -0.069      0.019      0.546      0.334     -0.409      6.089      0.062     -0.107      0.020
+     0.037      0.015      0.017      0.049     -0.062     -0.009      0.030     -0.014     -0.011     -0.040      0.018     -0.032     -0.002     -0.059      0.029         NA      0.076         NA         NA      0.069     -0.010      0.059     -0.048         NA     -0.091      0.000     -0.007     -0.102     -0.131     -0.104     -0.022     -0.009      0.002     -0.036      0.023      0.332      0.045     -0.638      0.757      0.001     -0.001      0.001
+     0.036     -0.018      0.042     -0.021     -0.001      0.027      0.000      0.082     -0.053      0.047     -0.007     -0.019      0.021     -0.008      0.006         NA      0.020         NA         NA     -0.040     -0.050     -0.029     -0.002         NA      0.084      0.028      0.034     -0.031      0.000      0.056      0.116     -0.023      0.072      0.104     -0.013     -0.348     -0.047      0.228     -0.338     -0.118      0.016      0.001
+     0.024      0.028     -0.019      0.015      0.028      0.005      0.019     -0.041     -0.006      0.018      0.016     -0.014      0.011     -0.023      0.011         NA      0.059         NA         NA      0.039      0.002      0.023     -0.060         NA     -0.155     -0.085     -0.059     -0.028     -0.104     -0.075     -0.086      0.009     -0.003      0.001      0.010      0.138      0.037     -0.397      0.158      0.370      0.211      0.003
+
+Derivative matrix of expected statistics X by parameters and
+covariance/correlation matrix of X can be found using
+summary(ans) within R, or by using the 'verbose' option in Siena07.
+ 
+Total computation time 82.69 seconds.
