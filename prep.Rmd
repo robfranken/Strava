@@ -397,8 +397,8 @@ for (i in 1:5) {
   joiners <- sienaCompositionChange(club$composition)
   
   # now combine the dependent and independent variables in a data object
-  mydata <- sienaDataCreate(kudonet, freq_run, time_other, freq_other, gender, winter, composition)
-  mydata2 <- sienaDataCreate(kudonet, time_run, time_other, freq_other, gender, winter, composition)
+  mydata <- sienaDataCreate(kudonet, freq_run, time_other, freq_other, gender, winter, joiners)
+  mydata2 <- sienaDataCreate(kudonet, time_run, time_other, freq_other, gender, winter, joiners)
 
   # this finishes the data specification
   clubdata_rsiena_freq[[i]] <- mydata

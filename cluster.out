@@ -1,30 +1,10 @@
-starting worker pid=26288 on localhost:11604 at 16:13:26.044
-starting worker pid=15780 on localhost:11604 at 16:13:26.675
-starting worker pid=10824 on localhost:11604 at 16:13:27.178
-starting worker pid=18692 on localhost:11604 at 16:13:27.704
-starting worker pid=6400 on localhost:11604 at 16:13:28.172
-starting worker pid=29616 on localhost:11604 at 16:13:28.631
-starting worker pid=14584 on localhost:11604 at 16:13:29.075
-starting worker pid=15680 on localhost:11604 at 16:13:29.508
-starting worker pid=9348 on localhost:11604 at 16:13:30.022
-starting worker pid=8300 on localhost:11604 at 16:13:30.520
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
+starting worker pid=5972 on localhost:11011 at 15:53:39.970
+starting worker pid=9720 on localhost:11011 at 15:53:40.250
+starting worker pid=13740 on localhost:11011 at 15:53:40.632
+starting worker pid=16052 on localhost:11011 at 15:53:40.942
+starting worker pid=11384 on localhost:11011 at 15:53:41.265
+starting worker pid=18448 on localhost:11011 at 15:53:41.577
+starting worker pid=8516 on localhost:11011 at 15:53:41.899
+starting worker pid=17656 on localhost:11011 at 15:53:42.269
+starting worker pid=8552 on localhost:11011 at 15:53:42.605
+starting worker pid=8216 on localhost:11011 at 15:53:42.932

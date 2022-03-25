@@ -147,12 +147,12 @@ myeff1 <- setEffect( myeff1, outIso, name = "kudonet", fix = TRUE, test = FALSE,
 <br>
 
 ## Selection effects {#sel}
-Second, we include a selection effect with respect to behavior:
+Second, we include selection effects with respect to behavior: egoX, altX and simX.
 
-We use the higher-effect to control for aspirational tie-preferences (indicated by a negative parameter estimate).
+In addition, we use the higher-effect to control for aspirational tie-preferences (indicated by a negative parameter estimate).
 
 ```{r echo=T, results='hide'}
-myeff2 <- setEffect(myeff1, higher, name = "kudonet", interaction1 = "freq_run")
+myeff2 <- includeEffects(myeff1, egoX, altX, simX, higher, name = "kudonet", interaction1 = "freq_run")
 ```
 
 
