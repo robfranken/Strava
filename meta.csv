@@ -1,0 +1,46 @@
+"","Fplus","Fminus","pplus","pminus","df","est","se"
+"constant kudonet rate (period 1)",305.889,0.198,0,1,10,3.847,1.022
+"constant kudonet rate (period 2)",299.756,0.221,0,1,10,3.3,1.074
+"constant kudonet rate (period 3)",306.867,0.156,0,1,10,3.505,1.183
+"constant kudonet rate (period 4)",324.349,0.255,0,1,10,3.685,1.432
+"constant kudonet rate (period 5)",328.329,0.215,0,1,10,3.858,1.43
+"constant kudonet rate (period 6)",337.875,0.106,0,1,10,3.835,1.202
+"constant kudonet rate (period 7)",314.899,0.125,0,1,10,4.071,1.07
+"constant kudonet rate (period 8)",344.278,0.117,0,1,10,4.674,1.531
+"constant kudonet rate (period 9)",364.34,0.191,0,1,10,4.476,1.28
+"constant kudonet rate (period 10)",347.909,0.189,0,1,10,3.478,1.085
+"constant kudonet rate (period 11)",342.11,0.122,0,1,10,5.01,1.595
+"outdegree (density)",2.397,1611.551,0.992,0,10,-5.037,0.874
+"reciprocity",1868.445,0,0,1,10,4.207,0.284
+"GWESP I -> K -> J (69)",696.849,0.001,0,1,10,1.317,0.185
+"indegree - popularity (sqrt)",167.949,21.117,0,0.02,10,0.19,0.184
+"outdegree - popularity (sqrt)",0,108.877,1,0,2,-0.519,0.051
+"outdegree - activity (sqrt)",269.277,6.198,0,0.798,10,0.35,0.185
+"rec.degree^(1/1) - activity",0,45.601,1,0,2,-0.094,0.015
+"out-isolate",462.983,0.365,0,1,8,1.389,0.662
+"gender alter",26.877,9.476,0.001,0.304,8,0.074,0.093
+"gender ego",4.566,22.98,0.803,0.003,8,-0.075,0.066
+"same gender",23.281,5.925,0.003,0.656,8,0.097,0.032
+"time_run alter",31.318,6.039,0.001,0.812,10,0.061,0.039
+"time_run ego",5.318,26.984,0.869,0.003,10,-0.046,0.044
+"time_run similarity",13.575,13.706,0.193,0.187,10,0.092,0.126
+"higher time_run",27.119,8.728,0.002,0.558,10,0.277,0.294
+"int.  reciprocity x GWESP I -> K -> J (69)",0,367.503,1,0,6,-1.164,0.277
+"rate time_run (period 1)",114.69,0.153,0,1,10,2.102,0.324
+"rate time_run (period 2)",101.339,0.345,0,1,10,2.877,0.434
+"rate time_run (period 3)",119.833,0.091,0,1,10,2.8,0.576
+"rate time_run (period 4)",108.152,0.006,0,1,8,2.087,0.222
+"rate time_run (period 5)",114.021,0.3,0,1,10,1.744,0.187
+"rate time_run (period 6)",119.218,0.162,0,1,10,2.301,0.399
+"rate time_run (period 7)",111.472,0.04,0,1,8,2.761,0.598
+"rate time_run (period 8)",125.506,0.075,0,1,10,2.013,0.315
+"rate time_run (period 9)",119.209,0.104,0,1,10,2.526,0.688
+"rate time_run (period 10)",124.413,0.07,0,1,10,2.458,0.61
+"rate time_run (period 11)",127.502,0.062,0,1,10,1.902,0.19
+"time_run linear shape",4.945,13.865,0.895,0.179,10,-0.091,0.054
+"time_run quadratic shape",10.189,11.418,0.424,0.326,10,0.001,0.013
+"time_run average attraction higher",11.689,2.412,0.166,0.966,8,1.324,1
+"time_run average attraction lower",22.151,1.539,0.005,0.992,8,3.549,1.298
+"time_run indegree",24.393,1.859,0.007,0.997,10,0.015,0.005
+"time_run: effect from gender",3.804,20.931,0.874,0.007,8,-0.069,0.058
+"time_run: effect from time_other",16.82,7.327,0.078,0.694,10,0.012,0.011

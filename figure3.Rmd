@@ -258,11 +258,11 @@ Our club estimates:
 
 ```{r}
 # frequency
-club1 <- c(-0.15, -0.002, 2.0027, 6.0905)
-club2 <- c(-0.24, 0.0075, 3.3213, 5.0047)
-club3 <- c(-0.2085, 0.021, 3.7703, 2.1283)
-club4 <- c(-1.3313, 0.0192, 2.5493, 4.4952)
-club5 <- c(0.1021, 0.0743, 1.1736, 8.5486)
+club1 <- c(-0.008, -0.071, 0.017, 4.762)
+club2 <- c(-0.077, 0.040, 1.385, 4.413)
+club3 <- c(-0.086, -0.009, 1.499, 2.410)
+club4 <- c(0.149, -0.201, -4.482, 6.216)
+club5 <- c(0.247, 0.062, -0.184, 9.062)
 ```
 
 <br>
@@ -423,11 +423,11 @@ We do the same for running volume.
 
 ```{r}
 #volume
-club1 <- c(-0.17, 0.016, 1.992, 4.427)
-club2 <- c(-0.39, 0.040, 3.713, 1.375)
-club3 <- c(-0.235, 0.023, 3.853, 1.962)
-club4 <- c(-1.146, 0.056, -2.233, 1.292)
-club5 <- c(-.37, 0.033, 3.657, 7.994)
+club1 <- c(-0.056, -0.033,0.277,3.475)
+club2 <- c(-0.220,0.012,1.721,1.227)
+club3 <- c(-0.129, -0.008,1.929,1.780)
+club4 <- c(1.294, -0.409, -18.608, 16.761)
+club5 <- c(-0.012, 0.024, 1.915, 8.610)
 
 p1 <- finluenceplot(alters = alters1, 
                       min = 1, max = 7, 
@@ -588,7 +588,6 @@ We create a nice multipanel plot of the different scenarios:
 ```{r fig3, class.source = 'fold-hide', fig.width=10, fig.height=8}
 
 
-
 library(ggplot2)
 library(lemon) # for repeating axis labels across facets
 library(ggtext)  #for colorizing parts of the title. 
@@ -596,7 +595,7 @@ library(ggtext)  #for colorizing parts of the title.
 ggplot(
   data = multiplot, 
   aes(x, s, group=Club, color=Club)) + 
-  geom_line(size = 1) + geom_point(aes(shape=Club), size = 3) +
+  geom_line(size = 1) + geom_point(aes(shape=Club), size = 2) +
   labs(
     title ="<b><span style = 'font-size:18pt'>Influence effects on running frequency</span></b><br><span style = 'font-size:14pt'>Evaluation of prospective behavior based on <i>linear</i> and <i>quadratic</i> shape effects and the <i>average attraction towards higher</i> and <i>lower</i> effects.",
        caption = "Notes: The y-axis represents the evaluation function statistic; the x-axis represents different values for ego’s prospective behavior. Lines represent the predicted ‘attractiveness’ of different behavior values. Panels A-D represent different scenarios with different values for the behavior of ego’s alters. Behavior dynamics presented here would be compounded had the objective function contained more effects (e.g., indegree, gender).") +

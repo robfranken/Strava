@@ -129,17 +129,9 @@
       myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
       myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
     }
-    # for additional analyses, we also specify our model with avAttHigher/Lower and avSim effects as part of a
-    # creation function for behavior dynamics
-    {
-      myeff7 <- includeEffects(myeff5, avAttHigher, name = "freq_run", interaction1 = "kudonet", type = "creation")
-      myeff7 <- includeEffects(myeff7, avAttLower, name = "freq_run", interaction1 = "kudonet", type = "creation")
-      myeff8 <- includeEffects(myeff6, avSim, name = "freq_run", interaction1 = "kudonet", type = "creation")
-      
-    }
     
     # make a list
-    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6, myeff7, myeff8)
+    myeff <- list(myeff1, myeff2, myeff3, myeff4, myeff5, myeff6)
 
     # save
     save(myeff, file=paste("test", "/", "myeff", "/", "myeff_club3", ".RData", sep = ""))

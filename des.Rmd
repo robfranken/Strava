@@ -782,7 +782,6 @@ G1 <- igraph::graph_from_adjacency_matrix(knet1, mode = "directed", weighted = N
 
 # find in- and outdegree for each node
 hist(igraph::degree(G1, mode="out"), xlab="outdegree", main="histogram of Kudo outdegree")
-
 hist(igraph::degree(G1, mode="in"), xlab="indegree", main="histogram of Kudo indegree")
 ```
 
