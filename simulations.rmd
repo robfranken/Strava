@@ -85,32 +85,43 @@ The following scripts makes plots for all 5 clubs:
 plotL <- list() # list to store plots in
 
 for (c in 1:length(clubdata)) {
- i=4
+ 
+  c=1
   # pick club
   club <- clubdata[[c]]
   
   # we reduce the data to only two time points
   kudonet <- sienaDependent(club$kudo[,,1:2], allowOnly = FALSE)
   freq_run <- sienaDependent(club$freq_run[,,1:2], type = "behavior", allowOnly = FALSE) 
+  time_run <- sienaDependent(club$time_run[,,1:2], type = "behavior", allowOnly = FALSE) 
   
   # covariates
   # changing covariates not possible with only 2 waves, so we make other activity a constant
   freq_other <- coCovar(club$freq_other[, ,1])
+  time_other <- coCovar(club$time_other[, ,1])
   gender <- coCovar(ifelse(club$male == 1, 1, 2))
   
-  # create a RSiena data object
+  # create a RSiena data object for both models: frequency and volume
   mydata <- sienaDataCreate(kudonet, freq_run, freq_other, gender)
+  mydata2<- sienaDataCreate(kudonet, time_run, time_other, gender)
   
   # load in the sienaFit object list, containing estimated parameters
-  load(paste0("test/sienaFit/sienaFit_club", c, ".RData"))
+  # for the frequency and volume model
+  load(paste0("test/sienaFit/sienaFit_club", c, ".RData")) # freq.
   ans <- sienaFit[[5]] # get object for main model (m5)
-
+  load(paste0("test/sienaFit/volume/sienaFit_club", c, ".RData")) # vol.
+  ans2 <- sienaFit[[5]]
+  
   # make effects object
   myeff <- getEffects(mydata)
+  myeff2 <- getEffects(mydata2)
   # set initial values of basic effects for simulations based on estimated model
   myeff$initialValue[myeff$include==T] <- ans$theta[c(1,12,13,25,36,37)]
+  myeff2$initialValue[myeff2$include==T] <- ans2$theta[c(1,12,13,25,36,37)]
   
   # include extra effects and set initial value
+  # frequency model
+  {
   myeff <- setEffect(myeff, gwespFF, name = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="gwespFF")])
   myeff <- setEffect(myeff, outActSqrt, name = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="outActSqrt")])
   myeff <- setEffect(myeff, inPopSqrt, name = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="inPopSqrt")])
@@ -130,33 +141,76 @@ for (c in 1:length(clubdata)) {
   myeff <- setEffect(myeff, indeg, name = "freq_run", interaction1 = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="indeg")])
   myeff <- setEffect(myeff, avAttHigher, name = "freq_run", interaction1 = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="avAttHigher")])
   myeff <- setEffect(myeff, avAttLower, name = "freq_run", interaction1 = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="avAttLower")])
+  }
+  
+    # volume model
+  {
+  myeff2 <- setEffect(myeff2, gwespFF, name = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="gwespFF")])
+  myeff2 <- setEffect(myeff2, outActSqrt, name = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="outActSqrt")])
+  myeff2 <- setEffect(myeff2, inPopSqrt, name = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="inPopSqrt")])
+  myeff2 <- setEffect(myeff2, outPopSqrt, name = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="outPopSqrt")])
+  myeff2 <- setEffect(myeff2, reciAct, name = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="reciAct")])
+  myeff2 <- setEffect(myeff2, outIso, name = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="outIso")])
+  myeff2 <- includeInteraction(myeff2, recip, gwespFF, parameter = 69, name = "kudonet")
+  (eff1 <- myeff2[myeff2$include, ]$effect1[10])
+  (eff2 <- myeff2[myeff2$include, ]$effect2[10])
+  myeff2 <- setEffect(myeff2, unspInt, effect1 = eff1, effect2 = eff2, initialValue = ans2$theta[which(ans2$effects$shortName=="unspInt")])
+  myeff2 <- setEffect(myeff2, higher, name = "kudonet", interaction1 = "time_run", initialValue = ans2$theta[which(ans2$effects$shortName=="higher")])
+  myeff2 <- setEffect(myeff2, egoX, name = "kudonet", interaction1 = "gender", initialValue = ans2$theta[which(ans2$effects$shortName=="egoX")])
+  myeff2 <- setEffect(myeff2, altX, name = "kudonet", interaction1 = "gender", initialValue = ans2$theta[which(ans2$effects$shortName=="altX")])
+  myeff2 <- setEffect(myeff2, sameX, name = "kudonet", interaction1 = "gender", initialValue = ans2$theta[which(ans2$effects$shortName=="sameX")])
+  myeff2 <- setEffect(myeff2, effFrom, name = "time_run", interaction1 = "time_other", initialValue = ans2$theta[which(ans2$effects$shortName=="effFrom" & ans2$effects$interaction1=="time_other")])
+  myeff2 <- setEffect(myeff2, effFrom, name = "time_run", interaction1 = "gender", initialValue = ans2$theta[which(ans2$effects$shortName=="effFrom" & ans2$effects$interaction1=="gender")])
+  myeff2 <- setEffect(myeff2, indeg, name = "time_run", interaction1 = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="indeg")])
+  myeff2 <- setEffect(myeff2, avAttHigher, name = "time_run", interaction1 = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="avAttHigher")])
+  myeff2 <- setEffect(myeff2, avAttLower, name = "time_run", interaction1 = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="avAttLower")])
+  }
+
   # fix effects at this value
   myeff$fix[myeff$include==T] <- TRUE 
+  myeff2$fix[myeff2$include==T] <- TRUE 
   
-  # I also specify models with no social influence, 
+  # I also specify models with no social influences, 
   myeff_noinf <- setEffect(myeff, avAttHigher, name = "freq_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
   myeff_noinf <- setEffect(myeff_noinf, avAttLower, name = "freq_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
+  myeff_noinf <- setEffect(myeff_noinf, indeg, name = "freq_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
+  
+  myeff2_noinf <- setEffect(myeff2, avAttHigher, name = "time_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
+  myeff2_noinf <- setEffect(myeff2_noinf, avAttLower, name = "time_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
+  myeff2_noinf <- setEffect(myeff2_noinf, indeg, name = "time_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
+  
+  # only indegree
+  myeff_indeg <- setEffect(myeff_noinf, indeg, name = "freq_run", interaction1 = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="indeg")], fix=TRUE)
+  
+  myeff2_indeg <- setEffect(myeff2_noinf, indeg, name = "time_run", interaction1 = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="indeg")], fix=TRUE)
+  
   # only upward assimilation,
-  myeff_nolow <- setEffect(myeff, avAttLower, name = "freq_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
+  myeff_nolow <- setEffect(myeff_noinf, avAttHigher, name = "freq_run", interaction1 = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="avAttHigher")], fix=TRUE)
+  
+  myeff2_nolow <- setEffect(myeff2_noinf, avAttHigher, name = "time_run", interaction1 = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="avAttHigher")], fix=TRUE)
+  
   # and only downward assimilation
-  myeff_nohigh <- setEffect(myeff, avAttHigher, name = "freq_run", interaction1 = "kudonet", initialValue = 0, fix = TRUE)
+  myeff_nohigh <- setEffect(myeff_noinf, avAttLower, name = "freq_run", interaction1 = "kudonet", initialValue = ans$theta[which(ans$effects$shortName=="avAttLower")], fix=TRUE)
+  
+  myeff2_nohigh <- setEffect(myeff2_noinf, avAttLower, name = "time_run", interaction1 = "kudonet", initialValue = ans2$theta[which(ans2$effects$shortName=="avAttLower")], fix=TRUE)
   
   # set up the simulation settings
   nIter <- 100 # number of iterations
   sim_model <- sienaAlgorithmCreate(
-    projname = 'sim_test1',
+    projname = 'simulation',
     cond = FALSE,
     useStdInits = FALSE, nsub = 0,
     n3 = nIter, 
     seed=242452, # seed for replication
     simOnly = TRUE)
   
-  # I will extract the mean running frequency values from the simulation runs
+  # I will extract the mean running frequency / volume values from the simulation runs
   # make vectors to store means
-  meanSimO <- rep(0, nIter)
-  meanSim_noinf <- rep(0, nIter)
-  meanSim_nolow <- rep(0, nIter)
-  meanSim_nohigh <- rep(0, nIter)
+  meanSimO_freq <- meanSimO_vol <- rep(0, nIter)
+  meanSim_noinf_freq <- meanSim_noinf_vol <- rep(0, nIter)
+  meanSim_indeg_freq <- meanSim_indeg_vol <- rep(0, nIter)
+  meanSim_nolow_freq <- meanSim_nolow_vol <- rep(0, nIter)
+  meanSim_nohigh_freq <- meanSim_nohigh_vol <- rep(0, nIter)
   
   # simulation using estimated parameters
   sim_ans <- siena07(sim_model,          # simulation settings
@@ -165,60 +219,126 @@ for (c in 1:length(clubdata)) {
                      returnDeps = TRUE,  # return simulated networks and behaviors
                      returnChains = TRUE,# return sequences of micro-steps
                      batch = TRUE)
+  sim_ans2 <- siena07(sim_model,         
+                     data = mydata2,      
+                     effects = myeff2,    
+                     returnDeps = TRUE,  
+                     returnChains = TRUE,
+                     batch = TRUE)
+  
   sim_ans_noinf <- siena07(sim_model,         
                            data = mydata,     
                            effects = myeff_noinf,   
                            returnDeps = TRUE, 
                            returnChains = TRUE,
                            batch = TRUE)
+  sim_ans2_noinf <- siena07(sim_model,         
+                           data = mydata2,     
+                           effects = myeff2_noinf,   
+                           returnDeps = TRUE, 
+                           returnChains = TRUE,
+                           batch = TRUE)
+  
+  sim_ans_indeg <- siena07(sim_model,         
+                           data = mydata,     
+                           effects = myeff_indeg,   
+                           returnDeps = TRUE, 
+                           returnChains = TRUE,
+                           batch = TRUE)
+  sim_ans2_indeg <- siena07(sim_model,         
+                           data = mydata2,     
+                           effects = myeff2_indeg,   
+                           returnDeps = TRUE, 
+                           returnChains = TRUE,
+                           batch = TRUE)
+  
   sim_ans_nolow <- siena07(sim_model,         
                            data = mydata,     
                            effects = myeff_nolow,   
                            returnDeps = TRUE, 
                            returnChains = TRUE,
                            batch = TRUE)
+  sim_ans2_nolow <- siena07(sim_model,         
+                           data = mydata2,     
+                           effects = myeff2_nolow,   
+                           returnDeps = TRUE, 
+                           returnChains = TRUE,
+                           batch = TRUE)
+  
   sim_ans_nohigh <- siena07(sim_model,         
                             data = mydata,     
                             effects = myeff_nohigh,   
                             returnDeps = TRUE, 
                             returnChains = TRUE,
                             batch = TRUE)
+  sim_ans2_nohigh <- siena07(sim_model,         
+                            data = mydata2,     
+                            effects = myeff2_nohigh,   
+                            returnDeps = TRUE, 
+                            returnChains = TRUE,
+                            batch = TRUE)
   
   # extract mean behavior values from simulation runs
   for (i in 1:nIter) {
-    meanSimO[i] <- mean(sim_ans$sims[[i]][[1]]$freq_run[[1]])
-    meanSim_noinf[i] <- mean(sim_ans_noinf$sims[[i]][[1]]$freq_run[[1]])
-    meanSim_nolow[i] <- mean(sim_ans_nolow$sims[[i]][[1]]$freq_run[[1]])
-    meanSim_nohigh[i] <- mean(sim_ans_nohigh$sims[[i]][[1]]$freq_run[[1]])
+    meanSimO_freq[i] <- mean(sim_ans$sims[[i]][[1]]$freq_run[[1]])
+    meanSimO_vol[i] <- mean(sim_ans2$sims[[i]][[1]]$time_run[[1]])
+    meanSim_noinf_freq[i] <- mean(sim_ans_noinf$sims[[i]][[1]]$freq_run[[1]])
+    meanSim_noinf_vol[i] <- mean(sim_ans2_noinf$sims[[i]][[1]]$time_run[[1]])
+    meanSim_indeg_freq[i] <- mean(sim_ans_indeg$sims[[i]][[1]]$freq_run[[1]])
+    meanSim_indeg_vol[i] <- mean(sim_ans2_indeg$sims[[i]][[1]]$time_run[[1]])
+    meanSim_nolow_freq[i] <- mean(sim_ans_nolow$sims[[i]][[1]]$freq_run[[1]])
+    meanSim_nolow_vol[i] <- mean(sim_ans2_nolow$sims[[i]][[1]]$time_run[[1]])
+    meanSim_nohigh_freq[i] <- mean(sim_ans_nohigh$sims[[i]][[1]]$freq_run[[1]])
+    meanSim_nohigh_vol[i] <- mean(sim_ans2_nohigh$sims[[i]][[1]]$time_run[[1]])
   }
   #str(sim_ans$sims[[1]]) # numbering is as follows: nIter, group number, DV, period number
   
-  # also store observed mean freq_run at t2
-  meanObs <- mean(club$freq_run[,,2])
+  # also store observed mean at t2
+  meanObs_freq <- mean(club$freq_run[,,2], na.rm = TRUE)
+  meanObs_vol <- mean(club$time_run[,,2], na.rm = TRUE)
   
   #  make a layout for the plots
   dev.off()
-  l <- layout(matrix(c(1, 1, 6, 6,  # 1st plot
-                       2, 3, 4, 5), # 2-5 plot
-                     nrow = 2,
-                     ncol = 4,
+  plot(rnorm(50), rnorm(50))
+  l <- layout(matrix(c(1, 1, 13, 2, 2,  # box plots
+                       3, 4, 5, 6, 7, # development of sim_freq means over continuous time
+                       8, 9, 10, 11, 12), # sim_vol
+                     nrow = 3,
+                     ncol = 5,
                      byrow = TRUE))
   #layout.show(l)
-  
+
   # make data for plotting
-  plot_data <- rbind(
-    data.frame(cond="Observed", mean = meanSimO),
-    data.frame(cond="No_inf", mean = meanSim_noinf),
-    data.frame(cond="No_avAttL", mean = meanSim_nolow),
-    data.frame(cond="No_avAttH", mean = meanSim_nohigh)
+  plot_data_freq <- rbind(
+    data.frame(cond="Observed", mean = meanSimO_freq),
+    data.frame(cond="No_inf", mean = meanSim_noinf_freq),
+    data.frame(cond="Indeg", mean = meanSim_indeg_freq),
+    data.frame(cond="No_avAttL", mean = meanSim_nolow_freq),
+    data.frame(cond="No_avAttH", mean = meanSim_nohigh_freq)
+  )
+    plot_data_vol <- rbind(
+    data.frame(cond="Observed", mean = meanSimO_vol),
+    data.frame(cond="No_inf", mean = meanSim_noinf_vol),
+    data.frame(cond="Indeg", mean = meanSim_indeg_vol),
+    data.frame(cond="No_avAttL", mean = meanSim_nolow_vol),
+    data.frame(cond="No_avAttH", mean = meanSim_nohigh_vol)
   )
   
   # reorder conditions
-  plot_data$cond <- factor(plot_data$cond, levels=c("Observed", "No_inf", "No_avAttL", "No_avAttH"))
-  color <- brewer.pal(4, "Set3") # get colors for boxplots
-  boxplot(mean ~ cond, data = plot_data, main = paste("Simulation results across", nIter, "iterations"),
+  plot_data_freq$cond <- factor(plot_data_freq$cond, levels=c("Observed", "No_inf", "Indeg", "No_avAttL", "No_avAttH"))
+  plot_data_vol$cond <- factor(plot_data_vol$cond, levels=c("Observed", "No_inf", "Indeg", "No_avAttL", "No_avAttH"))
+  color <- brewer.pal(5, "Set3") # get colors for boxplots
+  {
+  boxplot(mean ~ cond, data = plot_data_freq, main = paste("Simulation results across", nIter, "iterations"),
           xlab = "Simulation", ylab = "Average running frequency", col = color)
-  abline(h=meanObs, col = "brown") # add the observed mean running at t2
+  abline(h=meanObs_freq, col = "brown") # add the observed mean running at t2
+  }
+  
+  
+  
+  
+  ###
+  
   
   # I examine the running frequency changes in greater detail
   n_actors <- club$netsize
@@ -264,8 +384,8 @@ for (c in 1:length(clubdata)) {
   l1 <- predict(lo1, micros)
   
   # set ylim; so it is consistent across plots
-  ymin <- plyr::round_any(min(seqs), .5, f=floor)
-  ymax <- plyr::round_any(max(seqs), .5, f=ceiling)
+  ymin <- plyr::round_any(min(seqs, na.rm=TRUE), .5, f=floor)
+  ymax <- plyr::round_any(max(seqs, na.rm=TRUE), .5, f=ceiling)
   
   plot(x=1:dim(seqs)[2], y=seqs[1,], ylim=c(ymin,ymax),type="l", 
        ylab='Average running frequency', xlab='Micro-step', col='white',
