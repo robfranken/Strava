@@ -1,37 +1,29 @@
-starting worker pid=17632 on localhost:11420 at 13:37:47.055
-starting worker pid=6120 on localhost:11420 at 13:37:47.318
-starting worker pid=3552 on localhost:11420 at 13:37:47.603
-starting worker pid=3640 on localhost:11420 at 13:37:47.882
-starting worker pid=6452 on localhost:11420 at 13:37:48.173
-starting worker pid=19252 on localhost:11420 at 13:37:48.474
-starting worker pid=18504 on localhost:11420 at 13:37:48.875
-starting worker pid=17792 on localhost:11420 at 13:37:49.188
-starting worker pid=17104 on localhost:11420 at 13:37:49.535
-starting worker pid=15924 on localhost:11420 at 13:37:49.811
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Execution halted
-ze(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
-Error in unserialize(node$con) : error reading from connection
-Calls: <Anonymous> ... doTryCatch -> recvData -> recvData.SOCKnode -> unserialize
-Execution halted
+starting worker pid=4292 on localhost:11101 at 16:54:30.353
+starting worker pid=148 on localhost:11101 at 16:54:30.855
+starting worker pid=14968 on localhost:11101 at 16:54:31.300
+starting worker pid=18736 on localhost:11101 at 16:54:31.772
+starting worker pid=2880 on localhost:11101 at 16:54:32.261
+starting worker pid=20888 on localhost:11101 at 16:54:32.821
+starting worker pid=5028 on localhost:11101 at 16:54:33.320
+starting worker pid=17212 on localhost:11101 at 16:54:33.789
+starting worker pid=19180 on localhost:11101 at 16:54:34.228
+starting worker pid=15972 on localhost:11101 at 16:54:34.700
+Warning message:
+package 'RSiena' was built under R version 4.0.5 
+Warning message:
+package 'RSiena' was built under R version 4.0.5 
+Warning message:
+package 'RSiena' was built under R version 4.0.5 
+Warning message:
+package 'RSiena' was built under R version 4.0.5 
+Warning message:
+package 'RSiena' was built under R version 4.0.5 
+Warning message:
+Warning message:
+as built under R version 4.0.5 
+package 'RSiena' was built under R version 4.0.5 
+Warning message:
+package 'RSiena' was built under R version 4.0.5 
+Warning message:
+package 'RSiena' was built under R version 4.0.5 
+package 'RSiena' was built under R version 4.0.5 

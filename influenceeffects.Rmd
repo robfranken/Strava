@@ -68,6 +68,36 @@ return(simij)
 
 <br> 
 
+### linear shape
+
+```{r}
+
+flinear <- function(ego, alters, ...) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentring(actors) #center behavior scores
+  
+  statistic <- beh_centered[1] #the actual statistic
+  
+  return(statistic)
+}
+```
+
+### quadratic shape
+
+```{r}
+
+fquad <- function(ego, alters, ...) {
+  actors <- c(ego,alters) #define the network
+  beh_centered <- fcentring(actors) #center behavior scores
+  
+  statistic <- (beh_centered[1])^2 #the actual statistic
+  
+  return(statistic)
+}
+```
+
+<br>
+
 
 ### The average similarity effect (avSim)
 

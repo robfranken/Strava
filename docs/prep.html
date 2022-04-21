@@ -423,7 +423,7 @@ div.tocify {
       <a href="RI.html">Figure 7: Relative importance of effects</a>
     </li>
     <li>
-      <a href="simulations.html">Empirically calibrated SAOMs</a>
+      <a href="simulations.html">Empirically calibrated ABMs</a>
     </li>
   </ul>
 </li>
@@ -455,7 +455,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Data preparation</h1>
-<h4 class="date">Last compiled on maart, 2022</h4>
+<h4 class="date">Last compiled on april, 2022</h4>
 
 </div>
 
@@ -482,163 +482,266 @@ time-varying covariate.</p></li>
 library(RSiena)
 library(dplyr)
 
-# clean the working environment
-rm(list = ls())
+# clean the working environment 
+rm (list = ls( ))
 
 # club string represents the club ID
-club_str &lt;- c(&quot;clubid1&quot;, &quot;clubid2&quot;, &quot;clubid3&quot;, &quot;clubid4&quot;, &quot;clubid5&quot;)
+club_str &lt;- c(&quot;clubid1&quot;, &quot;clubid2&quot;, &quot;clubid3&quot;, &quot;clubid4&quot; ,&quot;clubid5&quot;) 
 
-# the following script reads the data of the clubs from the folder for each club, stores them in a
-# list, and saves it in an object in the last function call of this script.
+# the following script reads the data of the clubs from the folder for each club, stores them in a list, and saves it in an object in the last function call of this script. 
 
 
-for (i in (1:length(club_str))) {
-    club_id &lt;- club_str[i]
+for (i in (1: length(club_str))) {
+  
+  club_id &lt;- club_str[i]
+  
+  # read the data from the club
+  clubdata &lt;- read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;egoData_extended.csv&quot;, sep = &quot;&quot;), row.names = NULL,
+                       sep = &quot;,&quot;)
+  # saving club size
+  size &lt;- length(clubdata[, &quot;gender&quot;])
+  # the number of months that we want to add as waves
+  n_waves &lt;- 12
+  
+  # let&#39;s load the friendship/following network
+  friend_data &lt;- as.matrix(read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;socialnetwork.csv&quot;, sep = &quot;&quot;), row.names = NULL,
+                                    sep = &quot;,&quot;))
+  # remove the first column (represents index made in the csv)
+  friend_data &lt;- friend_data[, 2:ncol(friend_data)]
+  # and anonymize the user id, with an id-maker function
+  idmaker &lt;- function(x) {
+    max.val = x * 1e+05
+    count &lt;- nchar(as.character(max.val))  # find out how many &#39;numbers&#39; each id will have after the letter
+    size &lt;- paste(&quot;%0&quot;, count, &quot;d&quot;, sep = &quot;&quot;)  # set the variable to be fed into &#39;sprintf&#39; to ensure we have leading 0&#39;s
+    lets &lt;- toupper(sample(letters, x, replace = T))  # randomizing the letters 
+    nums &lt;- sprintf(size, sample(1:max.val)[1:x])  # randomizing the numbers, and ensuring they all have the same number of characters
+    ids &lt;- paste(lets, nums, sep = &quot;&quot;)  # joining them together
+    return(ids)
+  }
+  fakeid &lt;- idmaker(nrow(friend_data))  # generate random id
+  colnames(friend_data) &lt;- fakeid  # anonymizing users
+  
+  # let&#39;s load the kudos network
+  path &lt;- paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;kudos&quot;, sep = &quot;&quot;)  # create path
+  {
+    kudo_w1 &lt;- as.matrix(read.csv(paste(path, &quot;1-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w1 &lt;- kudo_w1[, 2:ncol(kudo_w1)]
+    kudo_w2 &lt;- as.matrix(read.csv(paste(path, &quot;2-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w2 &lt;- kudo_w2[, 2:ncol(kudo_w2)]
+    kudo_w3 &lt;- as.matrix(read.csv(paste(path, &quot;3-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w3 &lt;- kudo_w3[, 2:ncol(kudo_w3)]
+    kudo_w4 &lt;- as.matrix(read.csv(paste(path, &quot;4-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w4 &lt;- kudo_w4[, 2:ncol(kudo_w4)]
+    kudo_w5 &lt;- as.matrix(read.csv(paste(path, &quot;5-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w5 &lt;- kudo_w5[, 2:ncol(kudo_w5)]
+    kudo_w6 &lt;- as.matrix(read.csv(paste(path, &quot;6-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w6 &lt;- kudo_w6[, 2:ncol(kudo_w6)]
+    kudo_w7 &lt;- as.matrix(read.csv(paste(path, &quot;7-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w7 &lt;- kudo_w7[, 2:ncol(kudo_w7)]
+    kudo_w8 &lt;- as.matrix(read.csv(paste(path, &quot;8-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w8 &lt;- kudo_w8[, 2:ncol(kudo_w8)]
+    kudo_w9 &lt;- as.matrix(read.csv(paste(path, &quot;9-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w9 &lt;- kudo_w9[, 2:ncol(kudo_w9)]
+    kudo_w10 &lt;- as.matrix(read.csv(paste(path, &quot;10-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w10 &lt;- kudo_w10[, 2:ncol(kudo_w10)]
+    kudo_w11 &lt;- as.matrix(read.csv(paste(path, &quot;11-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w11 &lt;- kudo_w11[, 2:ncol(kudo_w11)]
+    kudo_w12 &lt;- as.matrix(read.csv(paste(path, &quot;12-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
+    kudo_w12 &lt;- kudo_w12[, 2:ncol(kudo_w12)]
+  }
+  kudos &lt;- array(c(kudo_w1, kudo_w2, kudo_w3, kudo_w4, kudo_w5, kudo_w6, kudo_w7, kudo_w8, kudo_w9,
+                   kudo_w10, kudo_w11, kudo_w12), dim = c(size, size, n_waves))  #Kudos matrix
+  
+  kudo_data &lt;- ifelse(kudos &gt; 0, 1, 0)  #if at least 1 Kudo is send, tie exists
+  
+  # running time (in hours per week)
+  time_run &lt;- array(c(clubdata[, &quot;time_run_1.2019&quot;], clubdata[, &quot;time_run_2.2019&quot;], clubdata[, &quot;time_run_3.2019&quot;],
+                      clubdata[, &quot;time_run_4.2019&quot;], clubdata[, &quot;time_run_5.2019&quot;], clubdata[, &quot;time_run_6.2019&quot;],
+                      clubdata[, &quot;time_run_7.2019&quot;], clubdata[, &quot;time_run_8.2019&quot;], clubdata[, &quot;time_run_9.2019&quot;],
+                      clubdata[, &quot;time_run_10.2019&quot;], clubdata[, &quot;time_run_11.2019&quot;], clubdata[, &quot;time_run_12.2019&quot;]),
+                    dim = c(size, 1, n_waves))  # minutes per month
+  time_run_h &lt;- time_run/60  # hours per month
+  # time_run_30 &lt;- time_run_h * 2 # half hours
+  time &lt;- ceiling(time_run_h/4)  # per week
+  
+  # provide some descriptives 
+  # time %&gt;% # absolute table() time %&gt;% # proportionate table() %&gt;%
+  # prop.table() %&gt;% round(3) cumprop &lt;- time %&gt;% # cumulative proportions table() %&gt;%
+  # prop.table() %&gt;% round(3) %&gt;% cumsum() print(cumprop) 1-cumprop # the percentage of all
+  # values that is higher than the particular value
+  
+  # our idea was to cap running time of at 7+ hours per week.  this resulted in rather smooth
+  # (right-skewed) distribution of values for most clubs except for club 5, where 7+ hours
+  # category was highly populated over time.  We added 2 extra categories (capped of at 9+
+  # hours); this resulted in a rather smooth distribution for this club.
+  
+  if (club_id == &quot;clubid5&quot;) {
+    time_run_temp &lt;- ifelse(time &gt; 9, 9, time)
+  } else {
+    time_run_temp &lt;- ifelse(time &gt; 7, 7, time)
+  }
+  
+  # running frequency (times per week)
+  freq_run &lt;- array(c(clubdata[, &quot;X.run_1.2019&quot;], clubdata[, &quot;X.run_2.2019&quot;], clubdata[, &quot;X.run_3.2019&quot;],
+                      clubdata[, &quot;X.run_4.2019&quot;], clubdata[, &quot;X.run_5.2019&quot;], clubdata[, &quot;X.run_6.2019&quot;], clubdata[,
+                                                                                                                   &quot;X.run_7.2019&quot;], clubdata[, &quot;X.run_8.2019&quot;], clubdata[, &quot;X.run_9.2019&quot;], clubdata[, &quot;X.run_10.2019&quot;],
+                      clubdata[, &quot;X.run_11.2019&quot;], clubdata[, &quot;X.run_12.2019&quot;]), dim = c(size, 1, n_waves))  # frequencies per month
+  frequencies &lt;- ceiling(freq_run/4)  # per week
+  freq_run_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)  # cap off at 7 times per week
+  
 
-    # read the data from the club
-    clubdata &lt;- read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;egoData_extended.csv&quot;, sep = &quot;&quot;), row.names = NULL,
-        sep = &quot;,&quot;)
-    # saving club size
-    size &lt;- length(clubdata[, &quot;gender&quot;])
-    # the number of months that we want to add as waves
-    n_waves &lt;- 12
-    # separating male/female/other
-    male &lt;- ifelse(clubdata[, &quot;gender&quot;] == &quot;M&quot;, 1, 0)
-    female &lt;- ifelse(clubdata[, &quot;gender&quot;] == &quot;F&quot;, 1, 0)
-    other &lt;- ifelse(clubdata[, &quot;gender&quot;] == &quot;O&quot;, 1, 0)
-
-    # let&#39;s load the friendship network
-    friend_data &lt;- as.matrix(read.csv(paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;socialnetwork.csv&quot;, sep = &quot;&quot;), row.names = NULL,
-        sep = &quot;,&quot;))
-    # remove the first column (represents index made in the csv)
-    friend_data &lt;- friend_data[, 2:ncol(friend_data)]
-    # and anonymize the user id, with an id-maker function
-    idmaker &lt;- function(x) {
-        max.val = x * 1e+05
-        count &lt;- nchar(as.character(max.val))  # find out how many &#39;numbers&#39; each id will have after the letter
-        size &lt;- paste(&quot;%0&quot;, count, &quot;d&quot;, sep = &quot;&quot;)  # set the variable to be fed into &#39;sprintf&#39; to ensure we have leading 0&#39;s
-        lets &lt;- toupper(sample(letters, x, replace = T))  # randomizing the letters 
-        nums &lt;- sprintf(size, sample(1:max.val)[1:x])  # randomizing the numbers, and ensuring they all have the same number of characters
-        ids &lt;- paste(lets, nums, sep = &quot;&quot;)  # joining them together
-        return(ids)
+  # we deal with composition change: actors joining the Strava club over time (we assume no leavers);
+  # node set was determined at t12; from there, we &#39;scraped backward&#39; in time;
+  # down below, we count the number of waves, from t1 onward, that actors scored 0 on all DVs 
+  # that is, where the sum of number of kudos in- and out-ties (network activity), frequency and volume (behavior activity), equals 0.
+  # this number +1 is the wave in which actors are assumed to have joined 
+  # our model will then assume that entries of joiners happen at the midpoint of the unobserved time period between this and the subsequent wave.
+  
+  sum_dv &lt;- matrix(NA, nr=size, nc=n_waves)
+  
+  for (i in 1:size) {
+    for (j in 1:n_waves) {
+      sum_dv[i,j] &lt;- sum( c( # sum of
+        kudo_data[i,,j],     # number of out-ties of actor i at time j
+        kudo_data[,i,j],     # number of in-ties of actor i at time j
+        freq_run_temp[i,,j], # running frequency of i at j
+        time_run_temp[i,,j]  # running volume of i at j
+      ))
     }
-    fakeid &lt;- idmaker(nrow(friend_data))  # generate random id
-    colnames(friend_data) &lt;- fakeid  # anonymizing users
+  }
 
-    # let&#39;s load the kudo network
-    path &lt;- paste(&quot;clubs/&quot;, club_id, &quot;/&quot;, &quot;kudos&quot;, sep = &quot;&quot;)  # create path
-    {
-        kudo_w1 &lt;- as.matrix(read.csv(paste(path, &quot;1-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w1 &lt;- kudo_w1[, 2:ncol(kudo_w1)]
-        kudo_w2 &lt;- as.matrix(read.csv(paste(path, &quot;2-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w2 &lt;- kudo_w2[, 2:ncol(kudo_w2)]
-        kudo_w3 &lt;- as.matrix(read.csv(paste(path, &quot;3-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w3 &lt;- kudo_w3[, 2:ncol(kudo_w3)]
-        kudo_w4 &lt;- as.matrix(read.csv(paste(path, &quot;4-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w4 &lt;- kudo_w4[, 2:ncol(kudo_w4)]
-        kudo_w5 &lt;- as.matrix(read.csv(paste(path, &quot;5-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w5 &lt;- kudo_w5[, 2:ncol(kudo_w5)]
-        kudo_w6 &lt;- as.matrix(read.csv(paste(path, &quot;6-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w6 &lt;- kudo_w6[, 2:ncol(kudo_w6)]
-        kudo_w7 &lt;- as.matrix(read.csv(paste(path, &quot;7-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w7 &lt;- kudo_w7[, 2:ncol(kudo_w7)]
-        kudo_w8 &lt;- as.matrix(read.csv(paste(path, &quot;8-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w8 &lt;- kudo_w8[, 2:ncol(kudo_w8)]
-        kudo_w9 &lt;- as.matrix(read.csv(paste(path, &quot;9-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w9 &lt;- kudo_w9[, 2:ncol(kudo_w9)]
-        kudo_w10 &lt;- as.matrix(read.csv(paste(path, &quot;10-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w10 &lt;- kudo_w10[, 2:ncol(kudo_w10)]
-        kudo_w11 &lt;- as.matrix(read.csv(paste(path, &quot;11-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w11 &lt;- kudo_w11[, 2:ncol(kudo_w11)]
-        kudo_w12 &lt;- as.matrix(read.csv(paste(path, &quot;12-2019.csv&quot;, sep = &quot;&quot;), row.names = NULL, sep = &quot;,&quot;))
-        kudo_w12 &lt;- kudo_w12[, 2:ncol(kudo_w12)]
+  t &lt;- rep(1, size) # starting entry t=1
+  for ( i in 1:size) {
+    for( j in 1:n_waves) {
+      
+      # if sum = 0 for actor i in wave j, 
+      # increment the entry period t with 1
+      if(sum_dv[i,j] == 0) {
+        t[i] = t[i] + 1
+      }
+      # if sum &gt; 0, break the loop
+      if(sum_dv[i,j] &gt; 0) {
+        break
+      }
     }
-    kudos &lt;- array(c(kudo_w1, kudo_w2, kudo_w3, kudo_w4, kudo_w5, kudo_w6, kudo_w7, kudo_w8, kudo_w9,
-        kudo_w10, kudo_w11, kudo_w12), dim = c(size, size, n_waves))  #Kudos matrix
+  }
+  # entry-waves cannot surpass 12:
+  t[which(t&gt;12)] &lt;- 12
+  
+  # actors that join at t=12, cannot be included into the estimation;
+  # they are structural zero;
+  # we exclude the rows (i) and columns (j) corresponding to these actors
+  # from the kudos matrices
+  # we also remove these actors&#39; elements from the running variable objects.
+  
+  # first, identify these actors (get their index)
+  x &lt;- which(t==12)
+  
+  # make new arrays to store entries of actors, excluding structural zeros
+  kudo_data.nm &lt;- array(NA, dim = c(size - length(x),
+                                    size - length(x),
+                                    n_waves))
+  freq_run_temp.nm &lt;- array(NA, dim = c(size - length(x), 1, n_waves))
+  time_run_temp.nm &lt;- array(NA, dim = c(size - length(x), 1, n_waves))
+  
+  # fill arrays  
+  for (i in 1:n_waves) {
+    kudo_data.nm[,,i] &lt;- subset(kudo_data[,,i], select = -x)[-x, ]
+    freq_run_temp.nm[,,i] &lt;- freq_run_temp[,,i][-x]
+    time_run_temp.nm[,,i] &lt;- time_run_temp[,,i][-x]
+  }
+  
+  # and adjust network size accordingly
+  size.nm &lt;- size - length(x)
 
-    kudo_data &lt;- ifelse(kudos &gt; 0, 1, 0)  #if at least 1 Kudo is send, tie exists
 
-    # running time (in hours per week)
-    time_run &lt;- array(c(clubdata[, &quot;time_run_1.2019&quot;], clubdata[, &quot;time_run_2.2019&quot;], clubdata[, &quot;time_run_3.2019&quot;],
-        clubdata[, &quot;time_run_4.2019&quot;], clubdata[, &quot;time_run_5.2019&quot;], clubdata[, &quot;time_run_6.2019&quot;],
-        clubdata[, &quot;time_run_7.2019&quot;], clubdata[, &quot;time_run_8.2019&quot;], clubdata[, &quot;time_run_9.2019&quot;],
-        clubdata[, &quot;time_run_10.2019&quot;], clubdata[, &quot;time_run_11.2019&quot;], clubdata[, &quot;time_run_12.2019&quot;]),
-        dim = c(size, 1, n_waves))  # minutes per month
-    time_run_h &lt;- time_run/60  # hours per month
-    # time_run_30 &lt;- time_run_h * 2 # half hours
-    time &lt;- ceiling(time_run_h/4)  # per week
+  # create a list for the times of composition change
+  # see 4.3.3 of RSIENA manual
+  comp &lt;- rep(list(NA), size.nm)
+  for (i in 1:size.nm) {
+    comp[[i]] &lt;- c(t[-x][i],n_waves)
+  }
+  
+  # RSiena GOF functions do not combine properly with the method of joiners and leavers
+  # But if we use NA codes for the tie variables of absent actors, sienaGOF will work properly.
 
-    # provide some descriptives time %&gt;% # absolute table() time %&gt;% # proportionate table() %&gt;%
-    # prop.table() %&gt;% round(3) cumprop &lt;- time %&gt;% # cumulative proportions table() %&gt;%
-    # prop.table() %&gt;% round(3) %&gt;% cumsum() print(cumprop) 1-cumprop # the percentage of all
-    # values that is higher than the particular value
-
-    # our idea was to cap running time of at 7+ hours per week.  this resulted in rather smooth
-    # (right-skewed) distribution of values for most clubs except for club 5, where 7+ hours
-    # category was highly populated over time.  We added 2 extra categories (capped of at 9+
-    # hours); this resulted in a rather smooth distribution for this club.
-
-    if (club_id == &quot;clubid5&quot;) {
-        time_run_temp &lt;- ifelse(time &gt; 9, 9, time)
-    } else {
-        time_run_temp &lt;- ifelse(time &gt; 7, 7, time)
+  # get time of joining for each actor:
+  t_j &lt;- t[which(t!=12)] 
+  
+  # for actors that are partially absent, set entries in the kudos-matrix to NA, 
+  # for those waves they are absent, i.e., waves 1 : (t_j-1)
+  for ( i in which(t_j&gt;1)) {     # for actors that join later
+    for (j in 1:n_waves) {       # for all waves
+      if(t_j[i]&gt;j) {             # if their time of joining comes after the current wave
+        kudo_data.nm[i,,j] &lt;- NA # set their out-degree entries to NA
+        kudo_data.nm[,i,j] &lt;- NA # but also their in-degree entries
+        freq_run_temp.nm[i,1,j] &lt;- NA # and their behaviors
+        time_run_temp.nm[i,1,j] &lt;- NA
+      }
     }
+  }
 
-    # running frequency (times per week)
-    freq_run &lt;- array(c(clubdata[, &quot;X.run_1.2019&quot;], clubdata[, &quot;X.run_2.2019&quot;], clubdata[, &quot;X.run_3.2019&quot;],
-        clubdata[, &quot;X.run_4.2019&quot;], clubdata[, &quot;X.run_5.2019&quot;], clubdata[, &quot;X.run_6.2019&quot;], clubdata[,
-            &quot;X.run_7.2019&quot;], clubdata[, &quot;X.run_8.2019&quot;], clubdata[, &quot;X.run_9.2019&quot;], clubdata[, &quot;X.run_10.2019&quot;],
-        clubdata[, &quot;X.run_11.2019&quot;], clubdata[, &quot;X.run_12.2019&quot;]), dim = c(size, 1, n_waves))  # frequencies per month
-    frequencies &lt;- ceiling(freq_run/4)  # per week
-    freq_run_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)  # cap off at 7 times per week
+  #  let&#39;s load other activity data (e.g., cycling, swimming) time
+  time_ride &lt;- array(c(clubdata[, &quot;time_ride_1.2019&quot;], clubdata[, &quot;time_ride_2.2019&quot;], clubdata[, &quot;time_ride_3.2019&quot;],
+                       clubdata[, &quot;time_ride_4.2019&quot;], clubdata[, &quot;time_ride_5.2019&quot;], clubdata[, &quot;time_ride_6.2019&quot;],
+                       clubdata[, &quot;time_ride_7.2019&quot;], clubdata[, &quot;time_ride_8.2019&quot;], clubdata[, &quot;time_ride_9.2019&quot;],
+                       clubdata[, &quot;time_ride_10.2019&quot;], clubdata[, &quot;time_ride_11.2019&quot;], clubdata[, &quot;time_ride_12.2019&quot;]),
+                     dim = c(size, 1, n_waves))
+  time_other &lt;- array(c(clubdata[, &quot;time_other_1.2019&quot;], clubdata[, &quot;time_other_2.2019&quot;], clubdata[,
+                                                                                                   &quot;time_other_3.2019&quot;], clubdata[, &quot;time_other_4.2019&quot;], clubdata[, &quot;time_other_5.2019&quot;], clubdata[,
+                                                                                                                                                                                                    &quot;time_other_6.2019&quot;], clubdata[, &quot;time_other_7.2019&quot;], clubdata[, &quot;time_other_8.2019&quot;], clubdata[,
+                                                                                                                                                                                                                                                                                                     &quot;time_other_12.2019&quot;]), dim = c(size, 1, n_waves))
 
-    # now that we have running data, let&#39;s load other activity data (e.g., cycling, swimming) time
-    time_ride &lt;- array(c(clubdata[, &quot;time_ride_1.2019&quot;], clubdata[, &quot;time_ride_2.2019&quot;], clubdata[, &quot;time_ride_3.2019&quot;],
-        clubdata[, &quot;time_ride_4.2019&quot;], clubdata[, &quot;time_ride_5.2019&quot;], clubdata[, &quot;time_ride_6.2019&quot;],
-        clubdata[, &quot;time_ride_7.2019&quot;], clubdata[, &quot;time_ride_8.2019&quot;], clubdata[, &quot;time_ride_9.2019&quot;],
-        clubdata[, &quot;time_ride_10.2019&quot;], clubdata[, &quot;time_ride_11.2019&quot;], clubdata[, &quot;time_ride_12.2019&quot;]),
-        dim = c(size, 1, n_waves))
-    time_other &lt;- array(c(clubdata[, &quot;time_other_1.2019&quot;], clubdata[, &quot;time_other_2.2019&quot;], clubdata[,
-        &quot;time_other_3.2019&quot;], clubdata[, &quot;time_other_4.2019&quot;], clubdata[, &quot;time_other_5.2019&quot;], clubdata[,
-        &quot;time_other_6.2019&quot;], clubdata[, &quot;time_other_7.2019&quot;], clubdata[, &quot;time_other_8.2019&quot;], clubdata[,
-        &quot;time_other_12.2019&quot;]), dim = c(size, 1, n_waves))
+  time_other &lt;- time_ride + time_other  # minutes per month
+  time_other_h &lt;- time_other/60  # hours per month
+  # time_other_h &lt;- time_other_h * 2 # half hours
+  time &lt;- ceiling(time_other_h/4)  #per week
+  time_other_temp &lt;- ifelse(time &gt; 7, 7, time)  # cap off at 7 hours per week
+  #table(time_other_temp)
+  
+  # frequency
+  freq_ride &lt;- array(c(clubdata[, &quot;X.ride_1.2019&quot;], clubdata[, &quot;X.ride_2.2019&quot;], clubdata[, &quot;X.ride_3.2019&quot;],
+                       clubdata[, &quot;X.ride_4.2019&quot;], clubdata[, &quot;X.ride_5.2019&quot;], clubdata[, &quot;X.ride_6.2019&quot;], clubdata[,
+                                                                                                                       &quot;X.ride_7.2019&quot;], clubdata[, &quot;X.ride_8.2019&quot;], clubdata[, &quot;X.ride_9.2019&quot;], clubdata[, &quot;X.ride_10.2019&quot;],
+                       clubdata[, &quot;X.ride_11.2019&quot;], clubdata[, &quot;X.ride_12.2019&quot;]), dim = c(size, 1, n_waves))
+  freq_other &lt;- array(c(clubdata[, &quot;X.other_1.2019&quot;], clubdata[, &quot;X.other_2.2019&quot;], clubdata[, &quot;X.other_3.2019&quot;],
+                        clubdata[, &quot;X.other_4.2019&quot;], clubdata[, &quot;X.other_5.2019&quot;], clubdata[, &quot;X.other_6.2019&quot;], clubdata[,
+                                                                                                                           &quot;X.other_7.2019&quot;], clubdata[, &quot;X.other_8.2019&quot;], clubdata[, &quot;X.other_9.2019&quot;], clubdata[,
+                                                                                                                                                                                                                   &quot;X.other_10.2019&quot;], clubdata[, &quot;X.other_11.2019&quot;], clubdata[, &quot;X.other_12.2019&quot;]), dim = c(size,
+                                                                                                                                                                                                                                                                                                              1, n_waves))
+  
+  freq_other &lt;- freq_ride + freq_other
+  frequencies &lt;- ceiling(freq_other/4)
+  freq_other_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)
+  
+  # and again, exclude the structural zeros:
+  freq_other_temp.nm &lt;- array(NA, dim = c(size.nm, 1, n_waves))
+  time_other_temp.nm &lt;- array(NA, dim = c(size.nm, 1, n_waves))
+  for (i in 1:n_waves) {
+    freq_other_temp.nm[,,i] &lt;- freq_other_temp[,,i][-x]
+    time_other_temp.nm[,,i] &lt;- time_other_temp[,,i][-x]
+  }
+  
+  # separating male/female/other
+  
+  male &lt;- ifelse(clubdata[, &quot;gender&quot;][-x] == &quot;M&quot;, 1,0)
+  female &lt;- ifelse(clubdata[, &quot;gender&quot;][-x] == &quot;F&quot;, 1, 0)
+  other &lt;- ifelse(clubdata[, &quot;gender&quot;][-x] == &quot;O&quot;, 1, 0)
+  
+  # specify months of winter in case we want to use it as a varying covariate starts with
+  # december
+  winter &lt;- rep(c(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), size.nm)
+  winter &lt;- matrix(winter, nr = size.nm, nc = n_waves, byrow = TRUE)
+  
+  # create a list containing all the read club data for the current club
+  club &lt;- list(friendship = friend_data, kudo = kudo_data.nm, freq_run = freq_run_temp.nm, time_run = time_run_temp.nm,
+               freq_other = freq_other_temp.nm, time_other = time_other_temp.nm, winter = winter, male = male, female = female,
+               other = other, netsize = size.nm, composition = comp)
 
-    time_other &lt;- time_ride + time_other  # minutes per month
-    time_other_h &lt;- time_other/60  # hours per month
-    # time_other_h &lt;- time_other_h * 2 # half hours
-    time &lt;- ceiling(time_other_h/4)  #per week
-    time_other_temp &lt;- ifelse(time &gt; 7, 7, time)  # cap off at 7 hours per week
-    table(time_other_temp)
-
-    # frequency
-    freq_ride &lt;- array(c(clubdata[, &quot;X.ride_1.2019&quot;], clubdata[, &quot;X.ride_2.2019&quot;], clubdata[, &quot;X.ride_3.2019&quot;],
-        clubdata[, &quot;X.ride_4.2019&quot;], clubdata[, &quot;X.ride_5.2019&quot;], clubdata[, &quot;X.ride_6.2019&quot;], clubdata[,
-            &quot;X.ride_7.2019&quot;], clubdata[, &quot;X.ride_8.2019&quot;], clubdata[, &quot;X.ride_9.2019&quot;], clubdata[, &quot;X.ride_10.2019&quot;],
-        clubdata[, &quot;X.ride_11.2019&quot;], clubdata[, &quot;X.ride_12.2019&quot;]), dim = c(size, 1, n_waves))
-    freq_other &lt;- array(c(clubdata[, &quot;X.other_1.2019&quot;], clubdata[, &quot;X.other_2.2019&quot;], clubdata[, &quot;X.other_3.2019&quot;],
-        clubdata[, &quot;X.other_4.2019&quot;], clubdata[, &quot;X.other_5.2019&quot;], clubdata[, &quot;X.other_6.2019&quot;], clubdata[,
-            &quot;X.other_7.2019&quot;], clubdata[, &quot;X.other_8.2019&quot;], clubdata[, &quot;X.other_9.2019&quot;], clubdata[,
-            &quot;X.other_10.2019&quot;], clubdata[, &quot;X.other_11.2019&quot;], clubdata[, &quot;X.other_12.2019&quot;]), dim = c(size,
-        1, n_waves))
-
-    freq_other &lt;- freq_ride + freq_other
-    frequencies &lt;- ceiling(freq_other/4)
-    freq_other_temp &lt;- ifelse(frequencies &gt; 7, 7, frequencies)
-
-    # specify months of winter in case we want to use it as a varying covariate starts with
-    # december
-    winter &lt;- rep(c(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), size)
-    winter &lt;- matrix(winter, nrow = size, ncol = n_waves, byrow = TRUE)
-
-    # create a list containing all the read club data for the current club
-    club &lt;- list(friendship = friend_data, kudo = kudo_data, freq_run = freq_run_temp, time_run = time_run_temp,
-        freq_other = freq_other_temp, time_other = time_other_temp, winter = winter, male = male, female = female,
-        other = other, netsize = size)
-
-    # save
-
-    save(club, file = paste(&quot;clubs/&quot;, &quot;club&quot;, club_id, &quot;.RData&quot;, sep = &quot;&quot;))
-
+  
+  # save the club object
+  save(club, file = paste(&quot;clubs/&quot;, &quot;club&quot;, club_id, &quot;.RData&quot;, sep = &quot;&quot;))
+  
 }
 
 
@@ -650,18 +753,18 @@ for (i in (1:length(club_str))) {
 rm(list = setdiff(ls(), &quot;club_str&quot;))
 
 # We use a function to load the objects under new names.
-loadRData &lt;- function(fileName) {
-    # loads an RData file, and returns it
-    load(fileName)
-    get(ls()[ls() != &quot;fileName&quot;])
+loadRData &lt;- function(fileName){
+  #loads an RData file, and returns it
+  load(fileName)
+  get(ls()[ls() != &quot;fileName&quot;])
 }
 
 # load in the separate club-objects
-club1 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[1], &quot;.RData&quot;, sep = &quot;&quot;))
-club2 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[2], &quot;.RData&quot;, sep = &quot;&quot;))
-club3 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[3], &quot;.RData&quot;, sep = &quot;&quot;))
-club4 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[4], &quot;.RData&quot;, sep = &quot;&quot;))
-club5 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[5], &quot;.RData&quot;, sep = &quot;&quot;))
+club1 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[1], &quot;.RData&quot;, sep=&quot;&quot;))
+club2 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[2], &quot;.RData&quot;, sep=&quot;&quot;))
+club3 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[3], &quot;.RData&quot;, sep=&quot;&quot;))
+club4 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[4], &quot;.RData&quot;, sep=&quot;&quot;))
+club5 &lt;- loadRData(paste(&quot;clubs&quot;, &quot;/&quot;, &quot;club&quot;, club_str[5], &quot;.RData&quot;, sep=&quot;&quot;))
 
 # and make a list containing all the clubdata
 clubdata &lt;- list(club1, club2, club3, club4, club5)
@@ -713,8 +816,7 @@ for (i in 1:5) {
     time_other &lt;- varCovar(club$time_other[, , ])
     freq_other &lt;- varCovar(club$freq_other[, , ])
 
-    # B: covariates
-    friendship &lt;- coDyadCovar(club$friendship)
+    # C: covariates
     winter &lt;- varCovar(club$winter)
     gender &lt;- NA  #we dichotomize gender as binary (men vs. women and other)
     gender &lt;- ifelse(club$male == 1, 1, gender)
@@ -722,9 +824,12 @@ for (i in 1:5) {
     gender &lt;- ifelse(club$other == 1, 2, gender)
     gender &lt;- coCovar(gender)
 
+    # D: composition change (joiners)
+    joiners &lt;- sienaCompositionChange(club$composition)
+
     # now combine the dependent and independent variables in a data object
-    mydata &lt;- sienaDataCreate(kudonet, friendship, freq_run, time_other, freq_other, gender, winter)
-    mydata2 &lt;- sienaDataCreate(kudonet, friendship, time_run, time_other, freq_other, gender, winter)
+    mydata &lt;- sienaDataCreate(kudonet, freq_run, time_other, freq_other, gender, winter, joiners)
+    mydata2 &lt;- sienaDataCreate(kudonet, time_run, time_other, freq_other, gender, winter, joiners)
 
     # this finishes the data specification
     clubdata_rsiena_freq[[i]] &lt;- mydata
@@ -737,7 +842,7 @@ save(clubdata_rsiena_vol, file = &quot;clubs/clubdata_rsiena_vol.RData&quot;)</c
 <hr />
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkRhdGEgcHJlcGFyYXRpb24iDQpiaWJsaW9ncmFwaHk6IHJlZmVyZW5jZXMuYmliDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCm91dHB1dDogDQogIGh0bWxfZG9jdW1lbnQ6DQogICAgY3NzOiB0d2Vha3MuY3NzDQogICAgdG9jOiAgdHJ1ZQ0KICAgIHRvY19mbG9hdDogdHJ1ZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICB0b2NfZGVwdGg6IDENCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQ0KbGlicmFyeShrbml0cikNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCmBgYA0KDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCi0tLSAgDQoNCg0KDQojIGNsdWJkYXRhLlJEYXRhDQoNCkluIHRoZSBmb2xsb3dpbmcgc2NyaXB0cyBhIGxpc3QgY29udGFpbmluZyB0aGUgKGFub255bWl6ZWQpIGRhdGEgb2YgYWxsIGNsdWJzIGlzIG1hZGUgKGNsdWJkYXRhLlJEYXRhKS4NCg0KKiBPdXIgcHJpbWFyeSBuZXR3b3JrIHZhcmlhYmxlIGlzIHRoZSBLdWRvcy1uZXR3b3JrLiBBIHRpZSBpIC0+IGogZXhpc3RzIGlmIGVnbyBpIGF3YXJkIGF0IGxlYXN0IDEgS3Vkb3MgdG8gYWx0ZXIgai4NCg0KKiBGb3IgdGhlIGJlaGF2aW9yYWwgZGF0YSB3ZSBpbmNsdWRlIGluZm9ybWF0aW9uIG9uIHRoZSAqZnJlcXVlbmN5KiAoaS5lLiwgaW4gdGltZXMgcGVyIHdlZWspIGFuZCAqdm9sdW1lKiAoaS5lLiwgaW4gaG91cnMgcGVyIHdlZWspIG9mIHJ1bm5pbmcgYWN0aXZpdGllcy4gV2UgaW5jbHVkZWQgYWN0aXZpdHkgKGZyZXF1ZW5jeSBhbmQgdm9sdW1lKSBpbiBvdGhlciBzcG9ydHMgKGUuZy4sIGN5Y2xpbmcgYW5kIHN3aW1taW5nKSBhcyBhIHRpbWUtdmFyeWluZyBjb3ZhcmlhdGUuDQoNCg0KYGBge3IgY2x1YnMsIGV2YWw9RkFMU0V9DQojIGZpcnN0LCBpbnN0YWxsIHRoZSByZXF1aXJlZCBwYWNrYWdlcy4NCmxpYnJhcnkoUlNpZW5hKQ0KbGlicmFyeShkcGx5cikNCg0KIyBjbGVhbiB0aGUgd29ya2luZyBlbnZpcm9ubWVudCANCnJtIChsaXN0ID0gbHMoICkpDQoNCiMgY2x1YiBzdHJpbmcgcmVwcmVzZW50cyB0aGUgY2x1YiBJRA0KY2x1Yl9zdHIgPC0gYygiY2x1YmlkMSIsICJjbHViaWQyIiwgImNsdWJpZDMiLCAiY2x1YmlkNCIgLCJjbHViaWQ1IikgDQoNCiMgdGhlIGZvbGxvd2luZyBzY3JpcHQgcmVhZHMgdGhlIGRhdGEgb2YgdGhlIGNsdWJzIGZyb20gdGhlIGZvbGRlciBmb3IgZWFjaCBjbHViLCBzdG9yZXMgdGhlbSBpbiBhIGxpc3QsIGFuZCBzYXZlcyBpdCBpbiBhbiBvYmplY3QgaW4gdGhlIGxhc3QgZnVuY3Rpb24gY2FsbCBvZiB0aGlzIHNjcmlwdC4gDQoNCg0KZm9yIChpIGluICgxOiBsZW5ndGgoY2x1Yl9zdHIpKSkgew0KICBjbHViX2lkIDwtIGNsdWJfc3RyW2ldIA0KICANCiAgIyByZWFkIHRoZSBkYXRhIGZyb20gdGhlIGNsdWIgICAgDQogIGNsdWJkYXRhIDwtIHJlYWQuY3N2KHBhc3RlKCJjbHVicy8iLCBjbHViX2lkLCAiLyIsICJlZ29EYXRhX2V4dGVuZGVkLmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpDQogICMgc2F2aW5nIGNsdWIgc2l6ZQ0KICBzaXplIDwtIGxlbmd0aChjbHViZGF0YVssICdnZW5kZXInXSkNCiAgIyB0aGUgbnVtYmVyIG9mIG1vbnRocyB0aGF0IHdlIHdhbnQgdG8gYWRkIGFzIHdhdmVzDQogIG5fd2F2ZXMgPC0gMTINCiAgIyBzZXBhcmF0aW5nIG1hbGUvZmVtYWxlL290aGVyDQogIG1hbGUgPC0gaWZlbHNlKGNsdWJkYXRhWywnZ2VuZGVyJ10gPT0gIk0iLCAxLCAwKQ0KICBmZW1hbGUgPC0gaWZlbHNlKGNsdWJkYXRhWywnZ2VuZGVyJ10gPT0gIkYiLCAxLCAwKQ0KICBvdGhlciA8LSBpZmVsc2UoY2x1YmRhdGFbLCdnZW5kZXInXSA9PSAiTyIsIDEsIDApDQogIA0KICANCiAgIyBsZXQncyBsb2FkIHRoZSBmcmllbmRzaGlwIG5ldHdvcmsNCiAgZnJpZW5kX2RhdGEgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKCJjbHVicy8iLCBjbHViX2lkLCAiLyIsICJzb2NpYWxuZXR3b3JrLmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICAjIHJlbW92ZSB0aGUgZmlyc3QgY29sdW1uIChyZXByZXNlbnRzIGluZGV4IG1hZGUgaW4gdGhlIGNzdikNCiAgZnJpZW5kX2RhdGEgPC0gZnJpZW5kX2RhdGFbLCAyOm5jb2woZnJpZW5kX2RhdGEpXQ0KICAjIGFuZCBhbm9ueW1pemUgdGhlIHVzZXIgaWQsIHdpdGggYW4gaWQtbWFrZXIgZnVuY3Rpb24NCiAgaWRtYWtlciA8LSBmdW5jdGlvbih4KQ0KICB7DQogICAgbWF4LnZhbCA9IHgqMTAwMDAwDQogICAgY291bnQgPC0gbmNoYXIoYXMuY2hhcmFjdGVyKG1heC52YWwpKSAgICAgICAgICAgIyBmaW5kIG91dCBob3cgbWFueSAnbnVtYmVycycgZWFjaCBpZCB3aWxsIGhhdmUgYWZ0ZXIgdGhlIGxldHRlcg0KICAgIHNpemUgPC0gcGFzdGUoIiUwIixjb3VudCwiZCIsc2VwPSIiKSAgICAgICAgICAgICMgc2V0IHRoZSB2YXJpYWJsZSB0byBiZSBmZWQgaW50byAnc3ByaW50ZicgdG8gZW5zdXJlIHdlIGhhdmUgbGVhZGluZyAwJ3MNCiAgICBsZXRzIDwtIHRvdXBwZXIoc2FtcGxlKGxldHRlcnMseCwgcmVwbGFjZT1UKSkgICAjIHJhbmRvbWl6aW5nIHRoZSBsZXR0ZXJzIA0KICAgIG51bXMgPC0gc3ByaW50ZihzaXplLHNhbXBsZSgxOm1heC52YWwpWzE6eF0pICAgICMgcmFuZG9taXppbmcgdGhlIG51bWJlcnMsIGFuZCBlbnN1cmluZyB0aGV5IGFsbCBoYXZlIHRoZSBzYW1lIG51bWJlciBvZiBjaGFyYWN0ZXJzDQogICAgaWRzIDwtIHBhc3RlKGxldHMsbnVtcyxzZXA9IiIpICAgICAgICAgICAgICAgICAgIyBqb2luaW5nIHRoZW0gdG9nZXRoZXINCiAgICByZXR1cm4oaWRzKQ0KICB9DQogIGZha2VpZCA8LSBpZG1ha2VyKG5yb3coZnJpZW5kX2RhdGEpKSAjIGdlbmVyYXRlIHJhbmRvbSBpZA0KICBjb2xuYW1lcyhmcmllbmRfZGF0YSkgPC0gZmFrZWlkICMgYW5vbnltaXppbmcgdXNlcnMNCiAgDQogIA0KICAjIGxldCdzIGxvYWQgdGhlIGt1ZG8gbmV0d29yaw0KICBwYXRoIDwtIHBhc3RlKCJjbHVicy8iLCBjbHViX2lkLCAiLyIsICJrdWRvcyIsIHNlcD0iIikgIyBjcmVhdGUgcGF0aA0KICB7DQogICAga3Vkb193MSA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjEtMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193MSA8LSBrdWRvX3cxWywyOm5jb2woa3Vkb193MSldDQogICAga3Vkb193MiA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjItMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193MiA8LSBrdWRvX3cyWywyOm5jb2woa3Vkb193MildDQogICAga3Vkb193MyA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjMtMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193MyA8LSBrdWRvX3czWywyOm5jb2woa3Vkb193MyldDQogICAga3Vkb193NCA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjQtMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193NCA8LSBrdWRvX3c0WywyOm5jb2woa3Vkb193NCldDQogICAga3Vkb193NSA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjUtMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193NSA8LSBrdWRvX3c1WywyOm5jb2woa3Vkb193NSldDQogICAga3Vkb193NiA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjYtMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193NiA8LSBrdWRvX3c2WywyOm5jb2woa3Vkb193NildDQogICAga3Vkb193NyA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjctMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193NyA8LSBrdWRvX3c3WywyOm5jb2woa3Vkb193NyldDQogICAga3Vkb193OCA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjgtMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193OCA8LSBrdWRvX3c4WywyOm5jb2woa3Vkb193OCldDQogICAga3Vkb193OSA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjktMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193OSA8LSBrdWRvX3c5WywyOm5jb2woa3Vkb193OSldDQogICAga3Vkb193MTAgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIxMC0yMDE5LmNzdiIsIHNlcD0iIiksIHJvdy5uYW1lcyA9IE5VTEwsIHNlcD0gIiwiKSkNCiAgICBrdWRvX3cxMCA8LSBrdWRvX3cxMFssMjpuY29sKGt1ZG9fdzEwKV0NCiAgICBrdWRvX3cxMSA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjExLTIwMTkuY3N2Iiwgc2VwPSIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwPSAiLCIpKQ0KICAgIGt1ZG9fdzExIDwtIGt1ZG9fdzExWywyOm5jb2woa3Vkb193MTEpXQ0KICAgIGt1ZG9fdzEyIDwtIGFzLm1hdHJpeChyZWFkLmNzdihwYXN0ZShwYXRoLCAiMTItMjAxOS5jc3YiLCBzZXA9IiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXA9ICIsIikpDQogICAga3Vkb193MTIgPC0ga3Vkb193MTJbLDI6bmNvbChrdWRvX3cxMildDQogIH0NCiAga3Vkb3MgPC0gYXJyYXkoIGMoa3Vkb193MSxrdWRvX3cyLGt1ZG9fdzMsa3Vkb193NCxrdWRvX3c1LGt1ZG9fdzYsa3Vkb193NyxrdWRvX3c4LGt1ZG9fdzksa3Vkb193MTAsa3Vkb193MTEsa3Vkb193MTIpLA0KICAgICAgICAgICAgICAgICAgZGltID0gYyggc2l6ZSwgc2l6ZSwgbl93YXZlcykpICNLdWRvcyBtYXRyaXgNCg0KICBrdWRvX2RhdGEgPC0gaWZlbHNlKGt1ZG9zID4gMCwgMSwgMCkgICNpZiBhdCBsZWFzdCAxIEt1ZG8gaXMgc2VuZCwgdGllIGV4aXN0cw0KDQogICMgcnVubmluZyB0aW1lIChpbiBob3VycyBwZXIgd2VlaykNCiAgdGltZV9ydW4gPC0gYXJyYXkoYyhjbHViZGF0YVssICJ0aW1lX3J1bl8xLjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9ydW5fMi4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcnVuXzMuMjAxOSJdLCANCiAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJ0aW1lX3J1bl80LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9ydW5fNS4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcnVuXzYuMjAxOSJdLCANCiAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJ0aW1lX3J1bl83LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9ydW5fOC4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcnVuXzkuMjAxOSJdLCANCiAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJ0aW1lX3J1bl8xMC4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcnVuXzExLjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9ydW5fMTIuMjAxOSJdKSwgDQogICAgICAgICAgICAgICAgICAgIGRpbSA9IGMoc2l6ZSwgMSwgbl93YXZlcykpICAjIG1pbnV0ZXMgcGVyIG1vbnRoDQogIHRpbWVfcnVuX2ggPC0gdGltZV9ydW4vNjAgICMgaG91cnMgcGVyIG1vbnRoDQogICN0aW1lX3J1bl8zMCA8LSB0aW1lX3J1bl9oICogMiAgIyBoYWxmIGhvdXJzDQogIHRpbWUgPC0gY2VpbGluZyh0aW1lX3J1bl9oLzQpICAjIHBlciB3ZWVrDQoNCiAgIyBwcm92aWRlIHNvbWUgZGVzY3JpcHRpdmVzDQogICN0aW1lICU+JSAjIGFic29sdXRlDQogICMgIHRhYmxlKCkgDQogICN0aW1lICU+JSAjIHByb3BvcnRpb25hdGUgDQogICMgIHRhYmxlKCkgJT4lDQogICMgIHByb3AudGFibGUoKSAlPiUNCiAgIyAgcm91bmQoMykNCiAgI2N1bXByb3AgPC0gdGltZSAlPiUgIyBjdW11bGF0aXZlIHByb3BvcnRpb25zDQogICMgIHRhYmxlKCkgJT4lDQogICMgIHByb3AudGFibGUoKSAlPiUNCiAgIyAgcm91bmQoMykgJT4lDQogICMgIGN1bXN1bSgpDQogICNwcmludChjdW1wcm9wKQ0KICAjMS1jdW1wcm9wICMgdGhlIHBlcmNlbnRhZ2Ugb2YgYWxsIHZhbHVlcyB0aGF0IGlzIGhpZ2hlciB0aGFuIHRoZSBwYXJ0aWN1bGFyIHZhbHVlDQogIA0KICAjIG91ciBpZGVhIHdhcyB0byBjYXAgcnVubmluZyB0aW1lIG9mIGF0IDcrIGhvdXJzIHBlciB3ZWVrLg0KICAjIHRoaXMgcmVzdWx0ZWQgaW4gcmF0aGVyIHNtb290aCAocmlnaHQtc2tld2VkKSBkaXN0cmlidXRpb24gb2YgdmFsdWVzIGZvciBtb3N0IGNsdWJzDQogICMgZXhjZXB0IGZvciBjbHViIDUsIHdoZXJlIDcrIGhvdXJzIGNhdGVnb3J5IHdhcyBoaWdobHkgcG9wdWxhdGVkIG92ZXIgdGltZS4gDQogICMgV2UgYWRkZWQgMiBleHRyYSBjYXRlZ29yaWVzIChjYXBwZWQgb2YgYXQgOSsgaG91cnMpOyB0aGlzIHJlc3VsdGVkIGluIGEgcmF0aGVyIHNtb290aCBkaXN0cmlidXRpb24gZm9yIHRoaXMgY2x1Yi4gDQoNCiAgaWYgKGNsdWJfaWQgPT0gImNsdWJpZDUiKSB7DQogICAgdGltZV9ydW5fdGVtcCA8LSBpZmVsc2UodGltZSA+IDksIDksIHRpbWUpDQogIH0gZWxzZSB7DQogICAgdGltZV9ydW5fdGVtcCA8LSBpZmVsc2UodGltZSA+IDcsIDcsIHRpbWUpDQogIH0NCiAgDQogICMgcnVubmluZyBmcmVxdWVuY3kgKHRpbWVzIHBlciB3ZWVrKQ0KICBmcmVxX3J1biA8LSBhcnJheShjKGNsdWJkYXRhWywgIlgucnVuXzEuMjAxOSJdLCBjbHViZGF0YVssICJYLnJ1bl8yLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5ydW5fMy4yMDE5Il0sIA0KICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgIlgucnVuXzQuMjAxOSJdLCBjbHViZGF0YVssICJYLnJ1bl81LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5ydW5fNi4yMDE5Il0sIGNsdWJkYXRhWywgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlgucnVuXzcuMjAxOSJdLCBjbHViZGF0YVssICJYLnJ1bl84LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5ydW5fOS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucnVuXzEwLjIwMTkiXSwgDQogICAgICAgICAgICAgICAgICAgICAgY2x1YmRhdGFbLCAiWC5ydW5fMTEuMjAxOSJdLCBjbHViZGF0YVssICJYLnJ1bl8xMi4yMDE5Il0pLCBkaW0gPSBjKHNpemUsIDEsIG5fd2F2ZXMpKSAgIyBmcmVxdWVuY2llcyBwZXIgbW9udGgNCiAgZnJlcXVlbmNpZXMgPC0gY2VpbGluZyhmcmVxX3J1bi80KSAgIyBwZXIgd2Vlaw0KICBmcmVxX3J1bl90ZW1wIDwtIGlmZWxzZShmcmVxdWVuY2llcyA+IDcsIDcsIGZyZXF1ZW5jaWVzKSAgIyBjYXAgb2ZmIGF0IDcgdGltZXMgcGVyIHdlZWsNCiAgDQogICMgbm93IHRoYXQgd2UgaGF2ZSBydW5uaW5nIGRhdGEsIGxldCdzIGxvYWQgb3RoZXIgYWN0aXZpdHkgZGF0YSAoZS5nLiwgY3ljbGluZywgc3dpbW1pbmcpIHRpbWUNCiAgdGltZV9yaWRlIDwtIGFycmF5KGMoY2x1YmRhdGFbLCAidGltZV9yaWRlXzEuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX3JpZGVfMi4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcmlkZV8zLjIwMTkiXSwgDQogICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgInRpbWVfcmlkZV80LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9yaWRlXzUuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX3JpZGVfNi4yMDE5Il0sIA0KICAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJ0aW1lX3JpZGVfNy4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcmlkZV84LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9yaWRlXzkuMjAxOSJdLCANCiAgICAgICAgICAgICAgICAgICAgICAgY2x1YmRhdGFbLCAidGltZV9yaWRlXzEwLjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9yaWRlXzExLjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9yaWRlXzEyLjIwMTkiXSksIA0KICAgICAgICAgICAgICAgICAgICAgZGltID0gYyhzaXplLCAxLCBuX3dhdmVzKSkNCiAgdGltZV9vdGhlciA8LSBhcnJheShjKGNsdWJkYXRhWywgInRpbWVfb3RoZXJfMS4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfb3RoZXJfMi4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfb3RoZXJfMy4yMDE5Il0sIA0KICAgICAgICAgICAgICAgICAgICAgICAgY2x1YmRhdGFbLCAidGltZV9vdGhlcl80LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9vdGhlcl81LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9vdGhlcl82LjIwMTkiXSwgDQogICAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJ0aW1lX290aGVyXzcuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX290aGVyXzguMjAxOSJdLCBjbHViZGF0YVssInRpbWVfb3RoZXJfMTIuMjAxOSJdKSwgDQogICAgICAgICAgICAgICAgICAgICAgZGltID0gYyhzaXplLCAxLCBuX3dhdmVzKSkNCiAgICAgICAgICAgICAgICAgICAgICANCiAgdGltZV9vdGhlciA8LSB0aW1lX3JpZGUgKyB0aW1lX290aGVyICAjIG1pbnV0ZXMgcGVyIG1vbnRoDQogIHRpbWVfb3RoZXJfaCA8LSB0aW1lX290aGVyLzYwICAjIGhvdXJzIHBlciBtb250aA0KICAjdGltZV9vdGhlcl9oIDwtIHRpbWVfb3RoZXJfaCAqIDIgICMgaGFsZiBob3Vycw0KICB0aW1lIDwtIGNlaWxpbmcodGltZV9vdGhlcl9oLzQpICAjcGVyIHdlZWsNCiAgdGltZV9vdGhlcl90ZW1wIDwtIGlmZWxzZSh0aW1lID4gNywgNywgdGltZSkgICMgY2FwIG9mZiBhdCA3IGhvdXJzIHBlciB3ZWVrDQogIHRhYmxlKHRpbWVfb3RoZXJfdGVtcCkNCiAgDQogICMgZnJlcXVlbmN5DQogIGZyZXFfcmlkZSA8LSBhcnJheShjKGNsdWJkYXRhWywgIlgucmlkZV8xLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5yaWRlXzIuMjAxOSJdLCBjbHViZGF0YVssICJYLnJpZGVfMy4yMDE5Il0sIA0KICAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJYLnJpZGVfNC4yMDE5Il0sIGNsdWJkYXRhWywgIlgucmlkZV81LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5yaWRlXzYuMjAxOSJdLCBjbHViZGF0YVssIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiWC5yaWRlXzcuMjAxOSJdLCBjbHViZGF0YVssICJYLnJpZGVfOC4yMDE5Il0sIGNsdWJkYXRhWywgIlgucmlkZV85LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5yaWRlXzEwLjIwMTkiXSwgDQogICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgIlgucmlkZV8xMS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucmlkZV8xMi4yMDE5Il0pLCBkaW0gPSBjKHNpemUsIDEsIG5fd2F2ZXMpKQ0KICBmcmVxX290aGVyIDwtIGFycmF5KGMoY2x1YmRhdGFbLCAiWC5vdGhlcl8xLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5vdGhlcl8yLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5vdGhlcl8zLjIwMTkiXSwgDQogICAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJYLm90aGVyXzQuMjAxOSJdLCBjbHViZGF0YVssICJYLm90aGVyXzUuMjAxOSJdLCBjbHViZGF0YVssICJYLm90aGVyXzYuMjAxOSJdLCBjbHViZGF0YVssIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlgub3RoZXJfNy4yMDE5Il0sIGNsdWJkYXRhWywgIlgub3RoZXJfOC4yMDE5Il0sIGNsdWJkYXRhWywgIlgub3RoZXJfOS4yMDE5Il0sIGNsdWJkYXRhWywgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlgub3RoZXJfMTAuMjAxOSJdLCBjbHViZGF0YVssICJYLm90aGVyXzExLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5vdGhlcl8xMi4yMDE5Il0pLCBkaW0gPSBjKHNpemUsIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAxLCBuX3dhdmVzKSkNCiAgDQogIGZyZXFfb3RoZXIgPC0gZnJlcV9yaWRlICsgZnJlcV9vdGhlcg0KICBmcmVxdWVuY2llcyA8LSBjZWlsaW5nKGZyZXFfb3RoZXIvNCkNCiAgZnJlcV9vdGhlcl90ZW1wIDwtIGlmZWxzZShmcmVxdWVuY2llcyA+IDcsIDcsIGZyZXF1ZW5jaWVzKQ0KICANCiAgIyBzcGVjaWZ5IG1vbnRocyBvZiB3aW50ZXIgaW4gY2FzZSB3ZSB3YW50IHRvIHVzZSBpdCBhcyBhIHZhcnlpbmcgY292YXJpYXRlDQogICMgc3RhcnRzIHdpdGggZGVjZW1iZXINCiAgd2ludGVyIDwtIHJlcChjKDEsMSwxLDAsMCwwLDAsMCwwLDAsMCwwKSwgc2l6ZSkNCiAgd2ludGVyIDwtIG1hdHJpeCh3aW50ZXIsbnJvdyA9IHNpemUsbmNvbCA9IG5fd2F2ZXMsIGJ5cm93ID0gVFJVRSkNCiAgDQogICMgY3JlYXRlIGEgbGlzdCBjb250YWluaW5nIGFsbCB0aGUgcmVhZCBjbHViIGRhdGEgZm9yIHRoZSBjdXJyZW50IGNsdWINCiAgY2x1YiA8LSBsaXN0KGZyaWVuZHNoaXAgPSBmcmllbmRfZGF0YSwga3VkbyA9IGt1ZG9fZGF0YSwgDQogICAgICAgICAgICAgICBmcmVxX3J1biA9IGZyZXFfcnVuX3RlbXAsIHRpbWVfcnVuID0gdGltZV9ydW5fdGVtcCwgZnJlcV9vdGhlciA9IGZyZXFfb3RoZXJfdGVtcCwgdGltZV9vdGhlciA9IHRpbWVfb3RoZXJfdGVtcCwgDQogICAgICAgICAgICAgICB3aW50ZXIgPSB3aW50ZXIsIG1hbGUgPSBtYWxlLCBmZW1hbGUgPSBmZW1hbGUsIG90aGVyID0gb3RoZXIsIG5ldHNpemUgPSBzaXplKQ0KICANCiAgIyBzYXZlDQogIA0KICBzYXZlKGNsdWIsIGZpbGU9cGFzdGUoImNsdWJzLyIsICJjbHViIiwgY2x1Yl9pZCwgIi5SRGF0YSIsIHNlcCA9ICIiKSkNCiAgDQp9DQoNCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KDQojIE5vdyB0aGF0IHdlIGhhdmUgc2F2ZWQgdGhlIGNsdWJkYXRhIGZvciBhbGwgY2x1YnMsIGxldCdzIGNvbWJpbmUgdGhlbSBpbiBvbmUgbGlzdA0KDQojIGZpcnN0IGNsZWFuIHRoZSB3b3JraW5nIGRpcmVjdG9yeSwgZXhjZXB0IG91ciBjbHViIHN0cmluZzsgd2Ugc3RpbGwgbmVlZCB0aGF0IG9uZS4NCnJtKGxpc3QgPSBzZXRkaWZmKGxzKCksICJjbHViX3N0ciIpKQ0KDQojIFdlIHVzZSBhIGZ1bmN0aW9uIHRvIGxvYWQgdGhlIG9iamVjdHMgdW5kZXIgbmV3IG5hbWVzLg0KbG9hZFJEYXRhIDwtIGZ1bmN0aW9uKGZpbGVOYW1lKXsNCiAgI2xvYWRzIGFuIFJEYXRhIGZpbGUsIGFuZCByZXR1cm5zIGl0DQogIGxvYWQoZmlsZU5hbWUpDQogIGdldChscygpW2xzKCkgIT0gImZpbGVOYW1lIl0pDQp9DQoNCiMgbG9hZCBpbiB0aGUgc2VwYXJhdGUgY2x1Yi1vYmplY3RzDQpjbHViMSA8LSBsb2FkUkRhdGEocGFzdGUoImNsdWJzIiwgIi8iLCAiY2x1YiIsIGNsdWJfc3RyWzFdLCAiLlJEYXRhIiwgc2VwPSIiKSkNCmNsdWIyIDwtIGxvYWRSRGF0YShwYXN0ZSgiY2x1YnMiLCAiLyIsICJjbHViIiwgY2x1Yl9zdHJbMl0sICIuUkRhdGEiLCBzZXA9IiIpKQ0KY2x1YjMgPC0gbG9hZFJEYXRhKHBhc3RlKCJjbHVicyIsICIvIiwgImNsdWIiLCBjbHViX3N0clszXSwgIi5SRGF0YSIsIHNlcD0iIikpDQpjbHViNCA8LSBsb2FkUkRhdGEocGFzdGUoImNsdWJzIiwgIi8iLCAiY2x1YiIsIGNsdWJfc3RyWzRdLCAiLlJEYXRhIiwgc2VwPSIiKSkNCmNsdWI1IDwtIGxvYWRSRGF0YShwYXN0ZSgiY2x1YnMiLCAiLyIsICJjbHViIiwgY2x1Yl9zdHJbNV0sICIuUkRhdGEiLCBzZXA9IiIpKQ0KDQojIGFuZCBtYWtlIGEgbGlzdCBjb250YWluaW5nIGFsbCB0aGUgY2x1YmRhdGENCmNsdWJkYXRhIDwtIGxpc3QoY2x1YjEsIGNsdWIyLCBjbHViMywgY2x1YjQsIGNsdWI1KQ0KDQojIHNhdmUgdGhlIG91dHB1dA0Kc2F2ZShjbHViZGF0YSwgZmlsZSA9ICJjbHVicy9jbHViZGF0YS5SRGF0YSIpDQoNCg0KYGBgIA0KDQotLS0gIA0KDQojIGNsdWJkYXRhX3JzaWVuYS5SRGF0YQ0KDQpUaGUgZm9sbG93aW5nIHNjcmlwdCBjcmVhdGVzIGEgbGlzdCBjb250YWluaW5nIFJTaWVuYSBvYmplY3RzIGZvciBhbGwgY2x1YnMuIA0KV2UgY3JlYXRlIGEgbGlzdCBjb250YWluaW5nIFJTaWVuYSBvYmplY3RzIHdpdGggcnVubmluZyBmcmVxdWVuY3kgYXMgdGhlIGJlaGF2aW9yIHZhcmlhYmxlIChjbHViZGF0YV9yc2llbmFfZnJlcS5SRGF0YSkgYW5kIHJ1bm5pbmcgdm9sdW1lIChjbHViZGF0YV9yc2llbmFfdm9sLlJEYXRhKS4gDQoNCk5vdGU6IGluIHNvbWUgZ3JvdXBzLCBkZXBlbmRlbnQgdmFyaWFibGVzIChlaXRoZXIgdGhlIGt1ZG9zLW5ldHdvcmsgb3IgcnVubmluZyBiZWhhdmlvcnMpIG9ubHkgaGF2ZSB1cHdhcmQgb3IgZG93bndhcmQgY2hhbmdlcyBpbiBwYXJ0aWN1bGFyIHBlcmlvZHMuIFdlIGxpZnQgUlNpZW5hJ3MgYXV0b21hdGljIHJlc3RyaWN0aW9uIHRvICBmb2xsb3cgdGhpcyBwYXR0ZXJuIGluIHRoZSBzaW11bGF0aW9ucywgYnkgdXNpbmcgJyphbGxvd09ubHkqID0gRkFMU0UnLiBUaGlzIG11c3QgYmUgZG9uZSBmb3IgdGhlIHN1YnNlcXVlbnQgbWV0YS1hbmFseXNpcy4NCg0KYGBge3IgZXZhbD1GQUxTRX0NCiMgY2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQgDQpybSAobGlzdCA9IGxzKCApKQ0KDQojIGxvYWQgdGhlIGNsdWJkYXRhDQpsb2FkKCJjbHVicy9jbHViZGF0YS5SRGF0YSIpDQpzdHIoY2x1YmRhdGEpICMgaW5zcGVjdCBzdHJ1Y3R1cmUNCiMgY2x1YmRhdGEgaXMgYSBsaXN0IG9mIDUgbGlzdHMsIA0KIyB3aXRoIGVhY2ggb2YgdGhlc2UgbGlzdHMgY29udGFpbmluZyBkYXRhIG9mIHRoZSBjb3JyZXNwb25kaW5nIGNsdWIuDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KDQpyZXF1aXJlKFJTaWVuYSkNCmNsdWJkYXRhX3JzaWVuYV9mcmVxIDwtIGxpc3QoKQ0KY2x1YmRhdGFfcnNpZW5hX3ZvbCA8LSBsaXN0KCkNCg0KDQpmb3IgKGkgaW4gMTo1KSB7IA0KICBjbHViIDwtIGNsdWJkYXRhW1tpXV0NCiAgIyBzcGVjaWZ5IHRoZSByb2xlcyBvZiB2YXJpYWJsZXMNCiAgbmFtZXMoY2x1YikNCiAgDQogICMgQTogbmV0d29yayB2YXJpYWJsZXMNCiAga3Vkb25ldCA8LSBzaWVuYURlcGVuZGVudChjbHViJGt1ZG8sIGFsbG93T25seSA9IEZBTFNFKSAgI2F0IGxlYXN0IG9uZSBLdWRvDQogIA0KICAjIEI6IGJlaGF2aW9yYWwgdmFyaWFibGVzDQogIHRpbWVfcnVuIDwtIHNpZW5hRGVwZW5kZW50KGNsdWIkdGltZV9ydW4sIHR5cGU9ICJiZWhhdmlvciIsIGFsbG93T25seSA9IEZBTFNFKQ0KICBmcmVxX3J1biA8LSBzaWVuYURlcGVuZGVudChjbHViJGZyZXFfcnVuLCB0eXBlPSAiYmVoYXZpb3IiLCBhbGxvd09ubHkgPSBGQUxTRSkNCiAgDQogIHRpbWVfb3RoZXIgPC0gdmFyQ292YXIoY2x1YiR0aW1lX290aGVyWywsXSkNCiAgZnJlcV9vdGhlciA8LSB2YXJDb3ZhcihjbHViJGZyZXFfb3RoZXJbLCxdKQ0KDQogICMgQjogY292YXJpYXRlcw0KICBmcmllbmRzaGlwIDwtIGNvRHlhZENvdmFyKGNsdWIkZnJpZW5kc2hpcCkNCiAgd2ludGVyIDwtIHZhckNvdmFyKGNsdWIkd2ludGVyKQ0KICBnZW5kZXIgPC0gTkEgI3dlIGRpY2hvdG9taXplIGdlbmRlciBhcyBiaW5hcnkgKG1lbiB2cy4gd29tZW4gYW5kIG90aGVyKQ0KICBnZW5kZXIgPC0gaWZlbHNlKGNsdWIkbWFsZSA9PSAxLCAxLCBnZW5kZXIpDQogIGdlbmRlciA8LSBpZmVsc2UoY2x1YiRmZW1hbGUgPT0gMSwgMiwgZ2VuZGVyKQ0KICBnZW5kZXIgPC0gaWZlbHNlKGNsdWIkb3RoZXIgPT0gMSwgMiwgZ2VuZGVyKQ0KICBnZW5kZXIgPC0gY29Db3ZhcihnZW5kZXIpDQogIA0KICAjIG5vdyBjb21iaW5lIHRoZSBkZXBlbmRlbnQgYW5kIGluZGVwZW5kZW50IHZhcmlhYmxlcyBpbiBhIGRhdGEgb2JqZWN0DQogIG15ZGF0YSA8LSBzaWVuYURhdGFDcmVhdGUoa3Vkb25ldCwgZnJpZW5kc2hpcCwgZnJlcV9ydW4sIHRpbWVfb3RoZXIsIGZyZXFfb3RoZXIsIGdlbmRlciwgd2ludGVyKQ0KICBteWRhdGEyIDwtIHNpZW5hRGF0YUNyZWF0ZShrdWRvbmV0LCBmcmllbmRzaGlwLCB0aW1lX3J1biwgdGltZV9vdGhlciwgZnJlcV9vdGhlciwgZ2VuZGVyLCB3aW50ZXIpDQoNCiAgIyB0aGlzIGZpbmlzaGVzIHRoZSBkYXRhIHNwZWNpZmljYXRpb24NCiAgY2x1YmRhdGFfcnNpZW5hX2ZyZXFbW2ldXSA8LSBteWRhdGENCiAgY2x1YmRhdGFfcnNpZW5hX3ZvbFtbaV1dIDwtIG15ZGF0YTINCn0gDQoNCiMgc2F2ZSB0aGUgb3V0cHV0DQpzYXZlKGNsdWJkYXRhX3JzaWVuYV9mcmVxLCBmaWxlID0gImNsdWJzL2NsdWJkYXRhX3JzaWVuYV9mcmVxLlJEYXRhIikNCnNhdmUoY2x1YmRhdGFfcnNpZW5hX3ZvbCwgZmlsZSA9ICJjbHVicy9jbHViZGF0YV9yc2llbmFfdm9sLlJEYXRhIikNCmBgYA0KDQoNCg0KLS0tDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkRhdGEgcHJlcGFyYXRpb24iDQpiaWJsaW9ncmFwaHk6IHJlZmVyZW5jZXMuYmliDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCm91dHB1dDogDQogIGh0bWxfZG9jdW1lbnQ6DQogICAgY3NzOiB0d2Vha3MuY3NzDQogICAgdG9jOiAgdHJ1ZQ0KICAgIHRvY19mbG9hdDogdHJ1ZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICB0b2NfZGVwdGg6IDENCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQ0KbGlicmFyeShrbml0cikNCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UsY29tbWVudCA9ICIjPiIsIGNhY2hlPVRSVUUsIGNsYXNzLnNvdXJjZT1jKCJ0ZXN0IiksIGNsYXNzLm91dHB1dD1jKCJ0ZXN0MiIpKQ0Kb3B0aW9ucyh3aWR0aCA9IDEwMCkNCnJnbDo6c2V0dXBLbml0cigpDQoNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCmBgYA0KDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCi0tLSAgDQoNCg0KDQojIGNsdWJkYXRhLlJEYXRhDQoNCkluIHRoZSBmb2xsb3dpbmcgc2NyaXB0cyBhIGxpc3QgY29udGFpbmluZyB0aGUgKGFub255bWl6ZWQpIGRhdGEgb2YgYWxsIGNsdWJzIGlzIG1hZGUgKGNsdWJkYXRhLlJEYXRhKS4NCg0KKiBPdXIgcHJpbWFyeSBuZXR3b3JrIHZhcmlhYmxlIGlzIHRoZSBLdWRvcy1uZXR3b3JrLiBBIHRpZSBpIC0+IGogZXhpc3RzIGlmIGVnbyBpIGF3YXJkIGF0IGxlYXN0IDEgS3Vkb3MgdG8gYWx0ZXIgai4NCg0KKiBGb3IgdGhlIGJlaGF2aW9yYWwgZGF0YSB3ZSBpbmNsdWRlIGluZm9ybWF0aW9uIG9uIHRoZSAqZnJlcXVlbmN5KiAoaS5lLiwgaW4gdGltZXMgcGVyIHdlZWspIGFuZCAqdm9sdW1lKiAoaS5lLiwgaW4gaG91cnMgcGVyIHdlZWspIG9mIHJ1bm5pbmcgYWN0aXZpdGllcy4gV2UgaW5jbHVkZWQgYWN0aXZpdHkgKGZyZXF1ZW5jeSBhbmQgdm9sdW1lKSBpbiBvdGhlciBzcG9ydHMgKGUuZy4sIGN5Y2xpbmcgYW5kIHN3aW1taW5nKSBhcyBhIHRpbWUtdmFyeWluZyBjb3ZhcmlhdGUuDQoNCg0KYGBge3IgY2x1YnMsIGV2YWw9RkFMU0V9DQojIGZpcnN0LCBpbnN0YWxsIHRoZSByZXF1aXJlZCBwYWNrYWdlcy4NCmxpYnJhcnkoUlNpZW5hKQ0KbGlicmFyeShkcGx5cikNCg0KIyBjbGVhbiB0aGUgd29ya2luZyBlbnZpcm9ubWVudCANCnJtIChsaXN0ID0gbHMoICkpDQoNCiMgY2x1YiBzdHJpbmcgcmVwcmVzZW50cyB0aGUgY2x1YiBJRA0KY2x1Yl9zdHIgPC0gYygiY2x1YmlkMSIsICJjbHViaWQyIiwgImNsdWJpZDMiLCAiY2x1YmlkNCIgLCJjbHViaWQ1IikgDQoNCiMgdGhlIGZvbGxvd2luZyBzY3JpcHQgcmVhZHMgdGhlIGRhdGEgb2YgdGhlIGNsdWJzIGZyb20gdGhlIGZvbGRlciBmb3IgZWFjaCBjbHViLCBzdG9yZXMgdGhlbSBpbiBhIGxpc3QsIGFuZCBzYXZlcyBpdCBpbiBhbiBvYmplY3QgaW4gdGhlIGxhc3QgZnVuY3Rpb24gY2FsbCBvZiB0aGlzIHNjcmlwdC4gDQoNCg0KZm9yIChpIGluICgxOiBsZW5ndGgoY2x1Yl9zdHIpKSkgew0KICANCiAgY2x1Yl9pZCA8LSBjbHViX3N0cltpXQ0KICANCiAgIyByZWFkIHRoZSBkYXRhIGZyb20gdGhlIGNsdWINCiAgY2x1YmRhdGEgPC0gcmVhZC5jc3YocGFzdGUoImNsdWJzLyIsIGNsdWJfaWQsICIvIiwgImVnb0RhdGFfZXh0ZW5kZWQuY3N2Iiwgc2VwID0gIiIpLCByb3cubmFtZXMgPSBOVUxMLA0KICAgICAgICAgICAgICAgICAgICAgICBzZXAgPSAiLCIpDQogICMgc2F2aW5nIGNsdWIgc2l6ZQ0KICBzaXplIDwtIGxlbmd0aChjbHViZGF0YVssICJnZW5kZXIiXSkNCiAgIyB0aGUgbnVtYmVyIG9mIG1vbnRocyB0aGF0IHdlIHdhbnQgdG8gYWRkIGFzIHdhdmVzDQogIG5fd2F2ZXMgPC0gMTINCiAgDQogICMgbGV0J3MgbG9hZCB0aGUgZnJpZW5kc2hpcC9mb2xsb3dpbmcgbmV0d29yaw0KICBmcmllbmRfZGF0YSA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUoImNsdWJzLyIsIGNsdWJfaWQsICIvIiwgInNvY2lhbG5ldHdvcmsuY3N2Iiwgc2VwID0gIiIpLCByb3cubmFtZXMgPSBOVUxMLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VwID0gIiwiKSkNCiAgIyByZW1vdmUgdGhlIGZpcnN0IGNvbHVtbiAocmVwcmVzZW50cyBpbmRleCBtYWRlIGluIHRoZSBjc3YpDQogIGZyaWVuZF9kYXRhIDwtIGZyaWVuZF9kYXRhWywgMjpuY29sKGZyaWVuZF9kYXRhKV0NCiAgIyBhbmQgYW5vbnltaXplIHRoZSB1c2VyIGlkLCB3aXRoIGFuIGlkLW1ha2VyIGZ1bmN0aW9uDQogIGlkbWFrZXIgPC0gZnVuY3Rpb24oeCkgew0KICAgIG1heC52YWwgPSB4ICogMWUrMDUNCiAgICBjb3VudCA8LSBuY2hhcihhcy5jaGFyYWN0ZXIobWF4LnZhbCkpICAjIGZpbmQgb3V0IGhvdyBtYW55ICdudW1iZXJzJyBlYWNoIGlkIHdpbGwgaGF2ZSBhZnRlciB0aGUgbGV0dGVyDQogICAgc2l6ZSA8LSBwYXN0ZSgiJTAiLCBjb3VudCwgImQiLCBzZXAgPSAiIikgICMgc2V0IHRoZSB2YXJpYWJsZSB0byBiZSBmZWQgaW50byAnc3ByaW50ZicgdG8gZW5zdXJlIHdlIGhhdmUgbGVhZGluZyAwJ3MNCiAgICBsZXRzIDwtIHRvdXBwZXIoc2FtcGxlKGxldHRlcnMsIHgsIHJlcGxhY2UgPSBUKSkgICMgcmFuZG9taXppbmcgdGhlIGxldHRlcnMgDQogICAgbnVtcyA8LSBzcHJpbnRmKHNpemUsIHNhbXBsZSgxOm1heC52YWwpWzE6eF0pICAjIHJhbmRvbWl6aW5nIHRoZSBudW1iZXJzLCBhbmQgZW5zdXJpbmcgdGhleSBhbGwgaGF2ZSB0aGUgc2FtZSBudW1iZXIgb2YgY2hhcmFjdGVycw0KICAgIGlkcyA8LSBwYXN0ZShsZXRzLCBudW1zLCBzZXAgPSAiIikgICMgam9pbmluZyB0aGVtIHRvZ2V0aGVyDQogICAgcmV0dXJuKGlkcykNCiAgfQ0KICBmYWtlaWQgPC0gaWRtYWtlcihucm93KGZyaWVuZF9kYXRhKSkgICMgZ2VuZXJhdGUgcmFuZG9tIGlkDQogIGNvbG5hbWVzKGZyaWVuZF9kYXRhKSA8LSBmYWtlaWQgICMgYW5vbnltaXppbmcgdXNlcnMNCiAgDQogICMgbGV0J3MgbG9hZCB0aGUga3Vkb3MgbmV0d29yaw0KICBwYXRoIDwtIHBhc3RlKCJjbHVicy8iLCBjbHViX2lkLCAiLyIsICJrdWRvcyIsIHNlcCA9ICIiKSAgIyBjcmVhdGUgcGF0aA0KICB7DQogICAga3Vkb193MSA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjEtMjAxOS5jc3YiLCBzZXAgPSAiIiksIHJvdy5uYW1lcyA9IE5VTEwsIHNlcCA9ICIsIikpDQogICAga3Vkb193MSA8LSBrdWRvX3cxWywgMjpuY29sKGt1ZG9fdzEpXQ0KICAgIGt1ZG9fdzIgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIyLTIwMTkuY3N2Iiwgc2VwID0gIiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXAgPSAiLCIpKQ0KICAgIGt1ZG9fdzIgPC0ga3Vkb193MlssIDI6bmNvbChrdWRvX3cyKV0NCiAgICBrdWRvX3czIDwtIGFzLm1hdHJpeChyZWFkLmNzdihwYXN0ZShwYXRoLCAiMy0yMDE5LmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwID0gIiwiKSkNCiAgICBrdWRvX3czIDwtIGt1ZG9fdzNbLCAyOm5jb2woa3Vkb193MyldDQogICAga3Vkb193NCA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjQtMjAxOS5jc3YiLCBzZXAgPSAiIiksIHJvdy5uYW1lcyA9IE5VTEwsIHNlcCA9ICIsIikpDQogICAga3Vkb193NCA8LSBrdWRvX3c0WywgMjpuY29sKGt1ZG9fdzQpXQ0KICAgIGt1ZG9fdzUgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI1LTIwMTkuY3N2Iiwgc2VwID0gIiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXAgPSAiLCIpKQ0KICAgIGt1ZG9fdzUgPC0ga3Vkb193NVssIDI6bmNvbChrdWRvX3c1KV0NCiAgICBrdWRvX3c2IDwtIGFzLm1hdHJpeChyZWFkLmNzdihwYXN0ZShwYXRoLCAiNi0yMDE5LmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwID0gIiwiKSkNCiAgICBrdWRvX3c2IDwtIGt1ZG9fdzZbLCAyOm5jb2woa3Vkb193NildDQogICAga3Vkb193NyA8LSBhcy5tYXRyaXgocmVhZC5jc3YocGFzdGUocGF0aCwgIjctMjAxOS5jc3YiLCBzZXAgPSAiIiksIHJvdy5uYW1lcyA9IE5VTEwsIHNlcCA9ICIsIikpDQogICAga3Vkb193NyA8LSBrdWRvX3c3WywgMjpuY29sKGt1ZG9fdzcpXQ0KICAgIGt1ZG9fdzggPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICI4LTIwMTkuY3N2Iiwgc2VwID0gIiIpLCByb3cubmFtZXMgPSBOVUxMLCBzZXAgPSAiLCIpKQ0KICAgIGt1ZG9fdzggPC0ga3Vkb193OFssIDI6bmNvbChrdWRvX3c4KV0NCiAgICBrdWRvX3c5IDwtIGFzLm1hdHJpeChyZWFkLmNzdihwYXN0ZShwYXRoLCAiOS0yMDE5LmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwID0gIiwiKSkNCiAgICBrdWRvX3c5IDwtIGt1ZG9fdzlbLCAyOm5jb2woa3Vkb193OSldDQogICAga3Vkb193MTAgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIxMC0yMDE5LmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwID0gIiwiKSkNCiAgICBrdWRvX3cxMCA8LSBrdWRvX3cxMFssIDI6bmNvbChrdWRvX3cxMCldDQogICAga3Vkb193MTEgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIxMS0yMDE5LmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwID0gIiwiKSkNCiAgICBrdWRvX3cxMSA8LSBrdWRvX3cxMVssIDI6bmNvbChrdWRvX3cxMSldDQogICAga3Vkb193MTIgPC0gYXMubWF0cml4KHJlYWQuY3N2KHBhc3RlKHBhdGgsICIxMi0yMDE5LmNzdiIsIHNlcCA9ICIiKSwgcm93Lm5hbWVzID0gTlVMTCwgc2VwID0gIiwiKSkNCiAgICBrdWRvX3cxMiA8LSBrdWRvX3cxMlssIDI6bmNvbChrdWRvX3cxMildDQogIH0NCiAga3Vkb3MgPC0gYXJyYXkoYyhrdWRvX3cxLCBrdWRvX3cyLCBrdWRvX3czLCBrdWRvX3c0LCBrdWRvX3c1LCBrdWRvX3c2LCBrdWRvX3c3LCBrdWRvX3c4LCBrdWRvX3c5LA0KICAgICAgICAgICAgICAgICAgIGt1ZG9fdzEwLCBrdWRvX3cxMSwga3Vkb193MTIpLCBkaW0gPSBjKHNpemUsIHNpemUsIG5fd2F2ZXMpKSAgI0t1ZG9zIG1hdHJpeA0KICANCiAga3Vkb19kYXRhIDwtIGlmZWxzZShrdWRvcyA+IDAsIDEsIDApICAjaWYgYXQgbGVhc3QgMSBLdWRvIGlzIHNlbmQsIHRpZSBleGlzdHMNCiAgDQogICMgcnVubmluZyB0aW1lIChpbiBob3VycyBwZXIgd2VlaykNCiAgdGltZV9ydW4gPC0gYXJyYXkoYyhjbHViZGF0YVssICJ0aW1lX3J1bl8xLjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9ydW5fMi4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcnVuXzMuMjAxOSJdLA0KICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgInRpbWVfcnVuXzQuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX3J1bl81LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9ydW5fNi4yMDE5Il0sDQogICAgICAgICAgICAgICAgICAgICAgY2x1YmRhdGFbLCAidGltZV9ydW5fNy4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcnVuXzguMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX3J1bl85LjIwMTkiXSwNCiAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJ0aW1lX3J1bl8xMC4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcnVuXzExLjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9ydW5fMTIuMjAxOSJdKSwNCiAgICAgICAgICAgICAgICAgICAgZGltID0gYyhzaXplLCAxLCBuX3dhdmVzKSkgICMgbWludXRlcyBwZXIgbW9udGgNCiAgdGltZV9ydW5faCA8LSB0aW1lX3J1bi82MCAgIyBob3VycyBwZXIgbW9udGgNCiAgIyB0aW1lX3J1bl8zMCA8LSB0aW1lX3J1bl9oICogMiAjIGhhbGYgaG91cnMNCiAgdGltZSA8LSBjZWlsaW5nKHRpbWVfcnVuX2gvNCkgICMgcGVyIHdlZWsNCiAgDQogICMgcHJvdmlkZSBzb21lIGRlc2NyaXB0aXZlcyANCiAgIyB0aW1lICU+JSAjIGFic29sdXRlIHRhYmxlKCkgdGltZSAlPiUgIyBwcm9wb3J0aW9uYXRlIHRhYmxlKCkgJT4lDQogICMgcHJvcC50YWJsZSgpICU+JSByb3VuZCgzKSBjdW1wcm9wIDwtIHRpbWUgJT4lICMgY3VtdWxhdGl2ZSBwcm9wb3J0aW9ucyB0YWJsZSgpICU+JQ0KICAjIHByb3AudGFibGUoKSAlPiUgcm91bmQoMykgJT4lIGN1bXN1bSgpIHByaW50KGN1bXByb3ApIDEtY3VtcHJvcCAjIHRoZSBwZXJjZW50YWdlIG9mIGFsbA0KICAjIHZhbHVlcyB0aGF0IGlzIGhpZ2hlciB0aGFuIHRoZSBwYXJ0aWN1bGFyIHZhbHVlDQogIA0KICAjIG91ciBpZGVhIHdhcyB0byBjYXAgcnVubmluZyB0aW1lIG9mIGF0IDcrIGhvdXJzIHBlciB3ZWVrLiAgdGhpcyByZXN1bHRlZCBpbiByYXRoZXIgc21vb3RoDQogICMgKHJpZ2h0LXNrZXdlZCkgZGlzdHJpYnV0aW9uIG9mIHZhbHVlcyBmb3IgbW9zdCBjbHVicyBleGNlcHQgZm9yIGNsdWIgNSwgd2hlcmUgNysgaG91cnMNCiAgIyBjYXRlZ29yeSB3YXMgaGlnaGx5IHBvcHVsYXRlZCBvdmVyIHRpbWUuICBXZSBhZGRlZCAyIGV4dHJhIGNhdGVnb3JpZXMgKGNhcHBlZCBvZiBhdCA5Kw0KICAjIGhvdXJzKTsgdGhpcyByZXN1bHRlZCBpbiBhIHJhdGhlciBzbW9vdGggZGlzdHJpYnV0aW9uIGZvciB0aGlzIGNsdWIuDQogIA0KICBpZiAoY2x1Yl9pZCA9PSAiY2x1YmlkNSIpIHsNCiAgICB0aW1lX3J1bl90ZW1wIDwtIGlmZWxzZSh0aW1lID4gOSwgOSwgdGltZSkNCiAgfSBlbHNlIHsNCiAgICB0aW1lX3J1bl90ZW1wIDwtIGlmZWxzZSh0aW1lID4gNywgNywgdGltZSkNCiAgfQ0KICANCiAgIyBydW5uaW5nIGZyZXF1ZW5jeSAodGltZXMgcGVyIHdlZWspDQogIGZyZXFfcnVuIDwtIGFycmF5KGMoY2x1YmRhdGFbLCAiWC5ydW5fMS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucnVuXzIuMjAxOSJdLCBjbHViZGF0YVssICJYLnJ1bl8zLjIwMTkiXSwNCiAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJYLnJ1bl80LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5ydW5fNS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucnVuXzYuMjAxOSJdLCBjbHViZGF0YVssDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlgucnVuXzcuMjAxOSJdLCBjbHViZGF0YVssICJYLnJ1bl84LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5ydW5fOS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucnVuXzEwLjIwMTkiXSwNCiAgICAgICAgICAgICAgICAgICAgICBjbHViZGF0YVssICJYLnJ1bl8xMS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucnVuXzEyLjIwMTkiXSksIGRpbSA9IGMoc2l6ZSwgMSwgbl93YXZlcykpICAjIGZyZXF1ZW5jaWVzIHBlciBtb250aA0KICBmcmVxdWVuY2llcyA8LSBjZWlsaW5nKGZyZXFfcnVuLzQpICAjIHBlciB3ZWVrDQogIGZyZXFfcnVuX3RlbXAgPC0gaWZlbHNlKGZyZXF1ZW5jaWVzID4gNywgNywgZnJlcXVlbmNpZXMpICAjIGNhcCBvZmYgYXQgNyB0aW1lcyBwZXIgd2Vlaw0KICANCg0KICAjIHdlIGRlYWwgd2l0aCBjb21wb3NpdGlvbiBjaGFuZ2U6IGFjdG9ycyBqb2luaW5nIHRoZSBTdHJhdmEgY2x1YiBvdmVyIHRpbWUgKHdlIGFzc3VtZSBubyBsZWF2ZXJzKTsNCiAgIyBub2RlIHNldCB3YXMgZGV0ZXJtaW5lZCBhdCB0MTI7IGZyb20gdGhlcmUsIHdlICdzY3JhcGVkIGJhY2t3YXJkJyBpbiB0aW1lOw0KICAjIGRvd24gYmVsb3csIHdlIGNvdW50IHRoZSBudW1iZXIgb2Ygd2F2ZXMsIGZyb20gdDEgb253YXJkLCB0aGF0IGFjdG9ycyBzY29yZWQgMCBvbiBhbGwgRFZzIA0KICAjIHRoYXQgaXMsIHdoZXJlIHRoZSBzdW0gb2YgbnVtYmVyIG9mIGt1ZG9zIGluLSBhbmQgb3V0LXRpZXMgKG5ldHdvcmsgYWN0aXZpdHkpLCBmcmVxdWVuY3kgYW5kIHZvbHVtZSAoYmVoYXZpb3IgYWN0aXZpdHkpLCBlcXVhbHMgMC4NCiAgIyB0aGlzIG51bWJlciArMSBpcyB0aGUgd2F2ZSBpbiB3aGljaCBhY3RvcnMgYXJlIGFzc3VtZWQgdG8gaGF2ZSBqb2luZWQgDQogICMgb3VyIG1vZGVsIHdpbGwgdGhlbiBhc3N1bWUgdGhhdCBlbnRyaWVzIG9mIGpvaW5lcnMgaGFwcGVuIGF0IHRoZSBtaWRwb2ludCBvZiB0aGUgdW5vYnNlcnZlZCB0aW1lIHBlcmlvZCBiZXR3ZWVuIHRoaXMgYW5kIHRoZSBzdWJzZXF1ZW50IHdhdmUuDQogIA0KICBzdW1fZHYgPC0gbWF0cml4KE5BLCBucj1zaXplLCBuYz1uX3dhdmVzKQ0KICANCiAgZm9yIChpIGluIDE6c2l6ZSkgew0KICAgIGZvciAoaiBpbiAxOm5fd2F2ZXMpIHsNCiAgICAgIHN1bV9kdltpLGpdIDwtIHN1bSggYyggIyBzdW0gb2YNCiAgICAgICAga3Vkb19kYXRhW2ksLGpdLCAgICAgIyBudW1iZXIgb2Ygb3V0LXRpZXMgb2YgYWN0b3IgaSBhdCB0aW1lIGoNCiAgICAgICAga3Vkb19kYXRhWyxpLGpdLCAgICAgIyBudW1iZXIgb2YgaW4tdGllcyBvZiBhY3RvciBpIGF0IHRpbWUgag0KICAgICAgICBmcmVxX3J1bl90ZW1wW2ksLGpdLCAjIHJ1bm5pbmcgZnJlcXVlbmN5IG9mIGkgYXQgag0KICAgICAgICB0aW1lX3J1bl90ZW1wW2ksLGpdICAjIHJ1bm5pbmcgdm9sdW1lIG9mIGkgYXQgag0KICAgICAgKSkNCiAgICB9DQogIH0NCg0KICB0IDwtIHJlcCgxLCBzaXplKSAjIHN0YXJ0aW5nIGVudHJ5IHQ9MQ0KICBmb3IgKCBpIGluIDE6c2l6ZSkgew0KICAgIGZvciggaiBpbiAxOm5fd2F2ZXMpIHsNCiAgICAgIA0KICAgICAgIyBpZiBzdW0gPSAwIGZvciBhY3RvciBpIGluIHdhdmUgaiwgDQogICAgICAjIGluY3JlbWVudCB0aGUgZW50cnkgcGVyaW9kIHQgd2l0aCAxDQogICAgICBpZihzdW1fZHZbaSxqXSA9PSAwKSB7DQogICAgICAgIHRbaV0gPSB0W2ldICsgMQ0KICAgICAgfQ0KICAgICAgIyBpZiBzdW0gPiAwLCBicmVhayB0aGUgbG9vcA0KICAgICAgaWYoc3VtX2R2W2ksal0gPiAwKSB7DQogICAgICAgIGJyZWFrDQogICAgICB9DQogICAgfQ0KICB9DQogICMgZW50cnktd2F2ZXMgY2Fubm90IHN1cnBhc3MgMTI6DQogIHRbd2hpY2godD4xMildIDwtIDEyDQogIA0KICAjIGFjdG9ycyB0aGF0IGpvaW4gYXQgdD0xMiwgY2Fubm90IGJlIGluY2x1ZGVkIGludG8gdGhlIGVzdGltYXRpb247DQogICMgdGhleSBhcmUgc3RydWN0dXJhbCB6ZXJvOw0KICAjIHdlIGV4Y2x1ZGUgdGhlIHJvd3MgKGkpIGFuZCBjb2x1bW5zIChqKSBjb3JyZXNwb25kaW5nIHRvIHRoZXNlIGFjdG9ycw0KICAjIGZyb20gdGhlIGt1ZG9zIG1hdHJpY2VzDQogICMgd2UgYWxzbyByZW1vdmUgdGhlc2UgYWN0b3JzJyBlbGVtZW50cyBmcm9tIHRoZSBydW5uaW5nIHZhcmlhYmxlIG9iamVjdHMuDQogIA0KICAjIGZpcnN0LCBpZGVudGlmeSB0aGVzZSBhY3RvcnMgKGdldCB0aGVpciBpbmRleCkNCiAgeCA8LSB3aGljaCh0PT0xMikNCiAgDQogICMgbWFrZSBuZXcgYXJyYXlzIHRvIHN0b3JlIGVudHJpZXMgb2YgYWN0b3JzLCBleGNsdWRpbmcgc3RydWN0dXJhbCB6ZXJvcw0KICBrdWRvX2RhdGEubm0gPC0gYXJyYXkoTkEsIGRpbSA9IGMoc2l6ZSAtIGxlbmd0aCh4KSwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNpemUgLSBsZW5ndGgoeCksDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuX3dhdmVzKSkNCiAgZnJlcV9ydW5fdGVtcC5ubSA8LSBhcnJheShOQSwgZGltID0gYyhzaXplIC0gbGVuZ3RoKHgpLCAxLCBuX3dhdmVzKSkNCiAgdGltZV9ydW5fdGVtcC5ubSA8LSBhcnJheShOQSwgZGltID0gYyhzaXplIC0gbGVuZ3RoKHgpLCAxLCBuX3dhdmVzKSkNCiAgDQogICMgZmlsbCBhcnJheXMgIA0KICBmb3IgKGkgaW4gMTpuX3dhdmVzKSB7DQogICAga3Vkb19kYXRhLm5tWywsaV0gPC0gc3Vic2V0KGt1ZG9fZGF0YVssLGldLCBzZWxlY3QgPSAteClbLXgsIF0NCiAgICBmcmVxX3J1bl90ZW1wLm5tWywsaV0gPC0gZnJlcV9ydW5fdGVtcFssLGldWy14XQ0KICAgIHRpbWVfcnVuX3RlbXAubm1bLCxpXSA8LSB0aW1lX3J1bl90ZW1wWywsaV1bLXhdDQogIH0NCiAgDQogICMgYW5kIGFkanVzdCBuZXR3b3JrIHNpemUgYWNjb3JkaW5nbHkNCiAgc2l6ZS5ubSA8LSBzaXplIC0gbGVuZ3RoKHgpDQoNCg0KICAjIGNyZWF0ZSBhIGxpc3QgZm9yIHRoZSB0aW1lcyBvZiBjb21wb3NpdGlvbiBjaGFuZ2UNCiAgIyBzZWUgNC4zLjMgb2YgUlNJRU5BIG1hbnVhbA0KICBjb21wIDwtIHJlcChsaXN0KE5BKSwgc2l6ZS5ubSkNCiAgZm9yIChpIGluIDE6c2l6ZS5ubSkgew0KICAgIGNvbXBbW2ldXSA8LSBjKHRbLXhdW2ldLG5fd2F2ZXMpDQogIH0NCiAgDQogICMgUlNpZW5hIEdPRiBmdW5jdGlvbnMgZG8gbm90IGNvbWJpbmUgcHJvcGVybHkgd2l0aCB0aGUgbWV0aG9kIG9mIGpvaW5lcnMgYW5kIGxlYXZlcnMNCiAgIyBCdXQgaWYgd2UgdXNlIE5BIGNvZGVzIGZvciB0aGUgdGllIHZhcmlhYmxlcyBvZiBhYnNlbnQgYWN0b3JzLCBzaWVuYUdPRiB3aWxsIHdvcmsgcHJvcGVybHkuDQoNCiAgIyBnZXQgdGltZSBvZiBqb2luaW5nIGZvciBlYWNoIGFjdG9yOg0KICB0X2ogPC0gdFt3aGljaCh0IT0xMildIA0KICANCiAgIyBmb3IgYWN0b3JzIHRoYXQgYXJlIHBhcnRpYWxseSBhYnNlbnQsIHNldCBlbnRyaWVzIGluIHRoZSBrdWRvcy1tYXRyaXggdG8gTkEsIA0KICAjIGZvciB0aG9zZSB3YXZlcyB0aGV5IGFyZSBhYnNlbnQsIGkuZS4sIHdhdmVzIDEgOiAodF9qLTEpDQogIGZvciAoIGkgaW4gd2hpY2godF9qPjEpKSB7ICAgICAjIGZvciBhY3RvcnMgdGhhdCBqb2luIGxhdGVyDQogICAgZm9yIChqIGluIDE6bl93YXZlcykgeyAgICAgICAjIGZvciBhbGwgd2F2ZXMNCiAgICAgIGlmKHRfaltpXT5qKSB7ICAgICAgICAgICAgICMgaWYgdGhlaXIgdGltZSBvZiBqb2luaW5nIGNvbWVzIGFmdGVyIHRoZSBjdXJyZW50IHdhdmUNCiAgICAgICAga3Vkb19kYXRhLm5tW2ksLGpdIDwtIE5BICMgc2V0IHRoZWlyIG91dC1kZWdyZWUgZW50cmllcyB0byBOQQ0KICAgICAgICBrdWRvX2RhdGEubm1bLGksal0gPC0gTkEgIyBidXQgYWxzbyB0aGVpciBpbi1kZWdyZWUgZW50cmllcw0KICAgICAgICBmcmVxX3J1bl90ZW1wLm5tW2ksMSxqXSA8LSBOQSAjIGFuZCB0aGVpciBiZWhhdmlvcnMNCiAgICAgICAgdGltZV9ydW5fdGVtcC5ubVtpLDEsal0gPC0gTkENCiAgICAgIH0NCiAgICB9DQogIH0NCg0KICAjICBsZXQncyBsb2FkIG90aGVyIGFjdGl2aXR5IGRhdGEgKGUuZy4sIGN5Y2xpbmcsIHN3aW1taW5nKSB0aW1lDQogIHRpbWVfcmlkZSA8LSBhcnJheShjKGNsdWJkYXRhWywgInRpbWVfcmlkZV8xLjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9yaWRlXzIuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX3JpZGVfMy4yMDE5Il0sDQogICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgInRpbWVfcmlkZV80LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9yaWRlXzUuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX3JpZGVfNi4yMDE5Il0sDQogICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgInRpbWVfcmlkZV83LjIwMTkiXSwgY2x1YmRhdGFbLCAidGltZV9yaWRlXzguMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX3JpZGVfOS4yMDE5Il0sDQogICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgInRpbWVfcmlkZV8xMC4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcmlkZV8xMS4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfcmlkZV8xMi4yMDE5Il0pLA0KICAgICAgICAgICAgICAgICAgICAgZGltID0gYyhzaXplLCAxLCBuX3dhdmVzKSkNCiAgdGltZV9vdGhlciA8LSBhcnJheShjKGNsdWJkYXRhWywgInRpbWVfb3RoZXJfMS4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfb3RoZXJfMi4yMDE5Il0sIGNsdWJkYXRhWywNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJ0aW1lX290aGVyXzMuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX290aGVyXzQuMjAxOSJdLCBjbHViZGF0YVssICJ0aW1lX290aGVyXzUuMjAxOSJdLCBjbHViZGF0YVssDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInRpbWVfb3RoZXJfNi4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfb3RoZXJfNy4yMDE5Il0sIGNsdWJkYXRhWywgInRpbWVfb3RoZXJfOC4yMDE5Il0sIGNsdWJkYXRhWywNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInRpbWVfb3RoZXJfMTIuMjAxOSJdKSwgZGltID0gYyhzaXplLCAxLCBuX3dhdmVzKSkNCg0KICB0aW1lX290aGVyIDwtIHRpbWVfcmlkZSArIHRpbWVfb3RoZXIgICMgbWludXRlcyBwZXIgbW9udGgNCiAgdGltZV9vdGhlcl9oIDwtIHRpbWVfb3RoZXIvNjAgICMgaG91cnMgcGVyIG1vbnRoDQogICMgdGltZV9vdGhlcl9oIDwtIHRpbWVfb3RoZXJfaCAqIDIgIyBoYWxmIGhvdXJzDQogIHRpbWUgPC0gY2VpbGluZyh0aW1lX290aGVyX2gvNCkgICNwZXIgd2Vlaw0KICB0aW1lX290aGVyX3RlbXAgPC0gaWZlbHNlKHRpbWUgPiA3LCA3LCB0aW1lKSAgIyBjYXAgb2ZmIGF0IDcgaG91cnMgcGVyIHdlZWsNCiAgI3RhYmxlKHRpbWVfb3RoZXJfdGVtcCkNCiAgDQogICMgZnJlcXVlbmN5DQogIGZyZXFfcmlkZSA8LSBhcnJheShjKGNsdWJkYXRhWywgIlgucmlkZV8xLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5yaWRlXzIuMjAxOSJdLCBjbHViZGF0YVssICJYLnJpZGVfMy4yMDE5Il0sDQogICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgIlgucmlkZV80LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5yaWRlXzUuMjAxOSJdLCBjbHViZGF0YVssICJYLnJpZGVfNi4yMDE5Il0sIGNsdWJkYXRhWywNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlgucmlkZV83LjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5yaWRlXzguMjAxOSJdLCBjbHViZGF0YVssICJYLnJpZGVfOS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucmlkZV8xMC4yMDE5Il0sDQogICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgIlgucmlkZV8xMS4yMDE5Il0sIGNsdWJkYXRhWywgIlgucmlkZV8xMi4yMDE5Il0pLCBkaW0gPSBjKHNpemUsIDEsIG5fd2F2ZXMpKQ0KICBmcmVxX290aGVyIDwtIGFycmF5KGMoY2x1YmRhdGFbLCAiWC5vdGhlcl8xLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5vdGhlcl8yLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5vdGhlcl8zLjIwMTkiXSwNCiAgICAgICAgICAgICAgICAgICAgICAgIGNsdWJkYXRhWywgIlgub3RoZXJfNC4yMDE5Il0sIGNsdWJkYXRhWywgIlgub3RoZXJfNS4yMDE5Il0sIGNsdWJkYXRhWywgIlgub3RoZXJfNi4yMDE5Il0sIGNsdWJkYXRhWywNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJYLm90aGVyXzcuMjAxOSJdLCBjbHViZGF0YVssICJYLm90aGVyXzguMjAxOSJdLCBjbHViZGF0YVssICJYLm90aGVyXzkuMjAxOSJdLCBjbHViZGF0YVssDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlgub3RoZXJfMTAuMjAxOSJdLCBjbHViZGF0YVssICJYLm90aGVyXzExLjIwMTkiXSwgY2x1YmRhdGFbLCAiWC5vdGhlcl8xMi4yMDE5Il0pLCBkaW0gPSBjKHNpemUsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDEsIG5fd2F2ZXMpKQ0KICANCiAgZnJlcV9vdGhlciA8LSBmcmVxX3JpZGUgKyBmcmVxX290aGVyDQogIGZyZXF1ZW5jaWVzIDwtIGNlaWxpbmcoZnJlcV9vdGhlci80KQ0KICBmcmVxX290aGVyX3RlbXAgPC0gaWZlbHNlKGZyZXF1ZW5jaWVzID4gNywgNywgZnJlcXVlbmNpZXMpDQogIA0KICAjIGFuZCBhZ2FpbiwgZXhjbHVkZSB0aGUgc3RydWN0dXJhbCB6ZXJvczoNCiAgZnJlcV9vdGhlcl90ZW1wLm5tIDwtIGFycmF5KE5BLCBkaW0gPSBjKHNpemUubm0sIDEsIG5fd2F2ZXMpKQ0KICB0aW1lX290aGVyX3RlbXAubm0gPC0gYXJyYXkoTkEsIGRpbSA9IGMoc2l6ZS5ubSwgMSwgbl93YXZlcykpDQogIGZvciAoaSBpbiAxOm5fd2F2ZXMpIHsNCiAgICBmcmVxX290aGVyX3RlbXAubm1bLCxpXSA8LSBmcmVxX290aGVyX3RlbXBbLCxpXVsteF0NCiAgICB0aW1lX290aGVyX3RlbXAubm1bLCxpXSA8LSB0aW1lX290aGVyX3RlbXBbLCxpXVsteF0NCiAgfQ0KICANCiAgIyBzZXBhcmF0aW5nIG1hbGUvZmVtYWxlL290aGVyDQogIA0KICBtYWxlIDwtIGlmZWxzZShjbHViZGF0YVssICJnZW5kZXIiXVsteF0gPT0gIk0iLCAxLDApDQogIGZlbWFsZSA8LSBpZmVsc2UoY2x1YmRhdGFbLCAiZ2VuZGVyIl1bLXhdID09ICJGIiwgMSwgMCkNCiAgb3RoZXIgPC0gaWZlbHNlKGNsdWJkYXRhWywgImdlbmRlciJdWy14XSA9PSAiTyIsIDEsIDApDQogIA0KICAjIHNwZWNpZnkgbW9udGhzIG9mIHdpbnRlciBpbiBjYXNlIHdlIHdhbnQgdG8gdXNlIGl0IGFzIGEgdmFyeWluZyBjb3ZhcmlhdGUgc3RhcnRzIHdpdGgNCiAgIyBkZWNlbWJlcg0KICB3aW50ZXIgPC0gcmVwKGMoMSwgMSwgMSwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCwgMCksIHNpemUubm0pDQogIHdpbnRlciA8LSBtYXRyaXgod2ludGVyLCBuciA9IHNpemUubm0sIG5jID0gbl93YXZlcywgYnlyb3cgPSBUUlVFKQ0KICANCiAgIyBjcmVhdGUgYSBsaXN0IGNvbnRhaW5pbmcgYWxsIHRoZSByZWFkIGNsdWIgZGF0YSBmb3IgdGhlIGN1cnJlbnQgY2x1Yg0KICBjbHViIDwtIGxpc3QoZnJpZW5kc2hpcCA9IGZyaWVuZF9kYXRhLCBrdWRvID0ga3Vkb19kYXRhLm5tLCBmcmVxX3J1biA9IGZyZXFfcnVuX3RlbXAubm0sIHRpbWVfcnVuID0gdGltZV9ydW5fdGVtcC5ubSwNCiAgICAgICAgICAgICAgIGZyZXFfb3RoZXIgPSBmcmVxX290aGVyX3RlbXAubm0sIHRpbWVfb3RoZXIgPSB0aW1lX290aGVyX3RlbXAubm0sIHdpbnRlciA9IHdpbnRlciwgbWFsZSA9IG1hbGUsIGZlbWFsZSA9IGZlbWFsZSwNCiAgICAgICAgICAgICAgIG90aGVyID0gb3RoZXIsIG5ldHNpemUgPSBzaXplLm5tLCBjb21wb3NpdGlvbiA9IGNvbXApDQoNCiAgDQogICMgc2F2ZSB0aGUgY2x1YiBvYmplY3QNCiAgc2F2ZShjbHViLCBmaWxlID0gcGFzdGUoImNsdWJzLyIsICJjbHViIiwgY2x1Yl9pZCwgIi5SRGF0YSIsIHNlcCA9ICIiKSkNCiAgDQp9DQoNCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KDQojIE5vdyB0aGF0IHdlIGhhdmUgc2F2ZWQgdGhlIGNsdWJkYXRhIGZvciBhbGwgY2x1YnMsIGxldCdzIGNvbWJpbmUgdGhlbSBpbiBvbmUgbGlzdA0KDQojIGZpcnN0IGNsZWFuIHRoZSB3b3JraW5nIGRpcmVjdG9yeSwgZXhjZXB0IG91ciBjbHViIHN0cmluZzsgd2Ugc3RpbGwgbmVlZCB0aGF0IG9uZS4NCnJtKGxpc3QgPSBzZXRkaWZmKGxzKCksICJjbHViX3N0ciIpKQ0KDQojIFdlIHVzZSBhIGZ1bmN0aW9uIHRvIGxvYWQgdGhlIG9iamVjdHMgdW5kZXIgbmV3IG5hbWVzLg0KbG9hZFJEYXRhIDwtIGZ1bmN0aW9uKGZpbGVOYW1lKXsNCiAgI2xvYWRzIGFuIFJEYXRhIGZpbGUsIGFuZCByZXR1cm5zIGl0DQogIGxvYWQoZmlsZU5hbWUpDQogIGdldChscygpW2xzKCkgIT0gImZpbGVOYW1lIl0pDQp9DQoNCiMgbG9hZCBpbiB0aGUgc2VwYXJhdGUgY2x1Yi1vYmplY3RzDQpjbHViMSA8LSBsb2FkUkRhdGEocGFzdGUoImNsdWJzIiwgIi8iLCAiY2x1YiIsIGNsdWJfc3RyWzFdLCAiLlJEYXRhIiwgc2VwPSIiKSkNCmNsdWIyIDwtIGxvYWRSRGF0YShwYXN0ZSgiY2x1YnMiLCAiLyIsICJjbHViIiwgY2x1Yl9zdHJbMl0sICIuUkRhdGEiLCBzZXA9IiIpKQ0KY2x1YjMgPC0gbG9hZFJEYXRhKHBhc3RlKCJjbHVicyIsICIvIiwgImNsdWIiLCBjbHViX3N0clszXSwgIi5SRGF0YSIsIHNlcD0iIikpDQpjbHViNCA8LSBsb2FkUkRhdGEocGFzdGUoImNsdWJzIiwgIi8iLCAiY2x1YiIsIGNsdWJfc3RyWzRdLCAiLlJEYXRhIiwgc2VwPSIiKSkNCmNsdWI1IDwtIGxvYWRSRGF0YShwYXN0ZSgiY2x1YnMiLCAiLyIsICJjbHViIiwgY2x1Yl9zdHJbNV0sICIuUkRhdGEiLCBzZXA9IiIpKQ0KDQojIGFuZCBtYWtlIGEgbGlzdCBjb250YWluaW5nIGFsbCB0aGUgY2x1YmRhdGENCmNsdWJkYXRhIDwtIGxpc3QoY2x1YjEsIGNsdWIyLCBjbHViMywgY2x1YjQsIGNsdWI1KQ0KDQojIHNhdmUgdGhlIG91dHB1dA0Kc2F2ZShjbHViZGF0YSwgZmlsZSA9ICJjbHVicy9jbHViZGF0YS5SRGF0YSIpDQoNCg0KYGBgIA0KDQotLS0gIA0KDQojIGNsdWJkYXRhX3JzaWVuYS5SRGF0YQ0KDQpUaGUgZm9sbG93aW5nIHNjcmlwdCBjcmVhdGVzIGEgbGlzdCBjb250YWluaW5nIFJTaWVuYSBvYmplY3RzIGZvciBhbGwgY2x1YnMuIA0KV2UgY3JlYXRlIGEgbGlzdCBjb250YWluaW5nIFJTaWVuYSBvYmplY3RzIHdpdGggcnVubmluZyBmcmVxdWVuY3kgYXMgdGhlIGJlaGF2aW9yIHZhcmlhYmxlIChjbHViZGF0YV9yc2llbmFfZnJlcS5SRGF0YSkgYW5kIHJ1bm5pbmcgdm9sdW1lIChjbHViZGF0YV9yc2llbmFfdm9sLlJEYXRhKS4gDQoNCk5vdGU6IGluIHNvbWUgZ3JvdXBzLCBkZXBlbmRlbnQgdmFyaWFibGVzIChlaXRoZXIgdGhlIGt1ZG9zLW5ldHdvcmsgb3IgcnVubmluZyBiZWhhdmlvcnMpIG9ubHkgaGF2ZSB1cHdhcmQgb3IgZG93bndhcmQgY2hhbmdlcyBpbiBwYXJ0aWN1bGFyIHBlcmlvZHMuIFdlIGxpZnQgUlNpZW5hJ3MgYXV0b21hdGljIHJlc3RyaWN0aW9uIHRvICBmb2xsb3cgdGhpcyBwYXR0ZXJuIGluIHRoZSBzaW11bGF0aW9ucywgYnkgdXNpbmcgJyphbGxvd09ubHkqID0gRkFMU0UnLiBUaGlzIG11c3QgYmUgZG9uZSBmb3IgdGhlIHN1YnNlcXVlbnQgbWV0YS1hbmFseXNpcy4NCg0KYGBge3IgZXZhbD1GQUxTRX0NCiMgY2xlYW4gdGhlIHdvcmtpbmcgZW52aXJvbm1lbnQgDQpybSAobGlzdCA9IGxzKCApKQ0KDQojIGxvYWQgdGhlIGNsdWJkYXRhDQpsb2FkKCJjbHVicy9jbHViZGF0YS5SRGF0YSIpDQpzdHIoY2x1YmRhdGEpICMgaW5zcGVjdCBzdHJ1Y3R1cmUNCiMgY2x1YmRhdGEgaXMgYSBsaXN0IG9mIDUgbGlzdHMsIA0KIyB3aXRoIGVhY2ggb2YgdGhlc2UgbGlzdHMgY29udGFpbmluZyBkYXRhIG9mIHRoZSBjb3JyZXNwb25kaW5nIGNsdWIuDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KDQpyZXF1aXJlKFJTaWVuYSkNCmNsdWJkYXRhX3JzaWVuYV9mcmVxIDwtIGxpc3QoKQ0KY2x1YmRhdGFfcnNpZW5hX3ZvbCA8LSBsaXN0KCkNCg0KDQpmb3IgKGkgaW4gMTo1KSB7IA0KICBjbHViIDwtIGNsdWJkYXRhW1tpXV0NCiAgIyBzcGVjaWZ5IHRoZSByb2xlcyBvZiB2YXJpYWJsZXMNCiAgbmFtZXMoY2x1YikNCiAgDQogICMgQTogbmV0d29yayB2YXJpYWJsZXMNCiAga3Vkb25ldCA8LSBzaWVuYURlcGVuZGVudChjbHViJGt1ZG8sIGFsbG93T25seSA9IEZBTFNFKSAgI2F0IGxlYXN0IG9uZSBLdWRvDQogIA0KICAjIEI6IGJlaGF2aW9yYWwgdmFyaWFibGVzDQogIHRpbWVfcnVuIDwtIHNpZW5hRGVwZW5kZW50KGNsdWIkdGltZV9ydW4sIHR5cGU9ICJiZWhhdmlvciIsIGFsbG93T25seSA9IEZBTFNFKQ0KICBmcmVxX3J1biA8LSBzaWVuYURlcGVuZGVudChjbHViJGZyZXFfcnVuLCB0eXBlPSAiYmVoYXZpb3IiLCBhbGxvd09ubHkgPSBGQUxTRSkNCiAgDQogIHRpbWVfb3RoZXIgPC0gdmFyQ292YXIoY2x1YiR0aW1lX290aGVyWywsXSkNCiAgZnJlcV9vdGhlciA8LSB2YXJDb3ZhcihjbHViJGZyZXFfb3RoZXJbLCxdKQ0KDQogICMgQzogY292YXJpYXRlcw0KICB3aW50ZXIgPC0gdmFyQ292YXIoY2x1YiR3aW50ZXIpDQogIGdlbmRlciA8LSBOQSAjd2UgZGljaG90b21pemUgZ2VuZGVyIGFzIGJpbmFyeSAobWVuIHZzLiB3b21lbiBhbmQgb3RoZXIpDQogIGdlbmRlciA8LSBpZmVsc2UoY2x1YiRtYWxlID09IDEsIDEsIGdlbmRlcikNCiAgZ2VuZGVyIDwtIGlmZWxzZShjbHViJGZlbWFsZSA9PSAxLCAyLCBnZW5kZXIpDQogIGdlbmRlciA8LSBpZmVsc2UoY2x1YiRvdGhlciA9PSAxLCAyLCBnZW5kZXIpDQogIGdlbmRlciA8LSBjb0NvdmFyKGdlbmRlcikNCiAgDQogICMgRDogY29tcG9zaXRpb24gY2hhbmdlIChqb2luZXJzKQ0KICBqb2luZXJzIDwtIHNpZW5hQ29tcG9zaXRpb25DaGFuZ2UoY2x1YiRjb21wb3NpdGlvbikNCiAgDQogICMgbm93IGNvbWJpbmUgdGhlIGRlcGVuZGVudCBhbmQgaW5kZXBlbmRlbnQgdmFyaWFibGVzIGluIGEgZGF0YSBvYmplY3QNCiAgbXlkYXRhIDwtIHNpZW5hRGF0YUNyZWF0ZShrdWRvbmV0LCBmcmVxX3J1biwgdGltZV9vdGhlciwgZnJlcV9vdGhlciwgZ2VuZGVyLCB3aW50ZXIsIGpvaW5lcnMpDQogIG15ZGF0YTIgPC0gc2llbmFEYXRhQ3JlYXRlKGt1ZG9uZXQsIHRpbWVfcnVuLCB0aW1lX290aGVyLCBmcmVxX290aGVyLCBnZW5kZXIsIHdpbnRlciwgam9pbmVycykNCg0KICAjIHRoaXMgZmluaXNoZXMgdGhlIGRhdGEgc3BlY2lmaWNhdGlvbg0KICBjbHViZGF0YV9yc2llbmFfZnJlcVtbaV1dIDwtIG15ZGF0YQ0KICBjbHViZGF0YV9yc2llbmFfdm9sW1tpXV0gPC0gbXlkYXRhMg0KfSANCg0KIyBzYXZlIHRoZSBvdXRwdXQNCnNhdmUoY2x1YmRhdGFfcnNpZW5hX2ZyZXEsIGZpbGUgPSAiY2x1YnMvY2x1YmRhdGFfcnNpZW5hX2ZyZXEuUkRhdGEiKQ0Kc2F2ZShjbHViZGF0YV9yc2llbmFfdm9sLCBmaWxlID0gImNsdWJzL2NsdWJkYXRhX3JzaWVuYV92b2wuUkRhdGEiKQ0KYGBgDQoNCg0KDQotLS0NCg0K</div>
 <style>
 .center {
   text-align: center;
