@@ -16,7 +16,7 @@ meanL_freq <- list()
 meanL_vol <- list()
 
 #for (c in 1:length(clubdata)) {
-# c=...
+c=2
 
 # pick club
 club <- clubdata[[c]]
@@ -237,32 +237,56 @@ meanL_vol[[c]] <- data.frame(
 }
 
 
-# compare means between manipulated model and empircally estimated model
+# compare means between no_inf model and empircally estimated model
 # c=...
-for (m in unique(meanL_freq[[c]]$model)[-1] ) {
-  print(t.test(
-    sim_means ~ model, 
-    data= meanL_freq[[c]][which(meanL_freq[[c]]$model=="obs" | meanL_freq[[c]]$model==m),], 
-    var.equal=FALSE, na.rm=TRUE))
-}
+t.test(
+  sim_means ~ model,
+  data = meanL_freq[[c]][which(meanL_freq[[c]]$model=="obs" | meanL_freq[[c]]$model=="no_inf"),],
+  var.equal=FALSE, na.rm=TRUE)
 
-for (m in unique(meanL_vol[[c]]$model)[-1] ) {
+# calculate percentage difference
+( (mean(meanL_freq[[c]][which(meanL_freq[[c]]$model=="no_inf"),2]) - mean(meanL_freq[[c]][which(meanL_freq[[c]]$model=="obs"),2])) /  mean(meanL_freq[[c]][which(meanL_freq[[c]]$model=="obs"),2]) ) * 100
+
+
+# and between remaining models and no_inf model
+for (m in unique(meanL_freq[[c]]$model)[-c(1,2)]) {
   print(t.test(
     sim_means ~ model, 
-    data= meanL_vol[[c]][which(meanL_vol[[c]]$model=="obs" | meanL_vol[[c]]$model==m),], 
+    data= meanL_freq[[c]][which(meanL_freq[[c]]$model=="no_inf" | meanL_freq[[c]]$model==m),], 
     var.equal=FALSE, na.rm=TRUE))
 }
 
 # calculate percentage difference
 # freq model
-for (m in unique(meanL_freq[[c]]$model)[-1] ) {
-  print(( (mean(meanL_freq[[c]][which(meanL_freq[[c]]$model==m),2]) - mean(meanL_freq[[c]][which(meanL_freq[[c]]$model=="obs"),2])) /  mean(meanL_freq[[c]][which(meanL_freq[[c]]$model=="obs"),2]) ) * 100)
+for (m in unique(meanL_freq[[c]]$model)[-c(1,2)]) {
+  print(( (mean(meanL_freq[[c]][which(meanL_freq[[c]]$model==m),2]) - mean(meanL_freq[[c]][which(meanL_freq[[c]]$model=="no_inf"),2])) /  mean(meanL_freq[[c]][which(meanL_freq[[c]]$model=="no_inf"),2]) ) * 100)
 }
 
-# vol model
-for (m in unique(meanL_vol[[c]]$model)[-1] ) {
-  print(( (mean(meanL_vol[[c]][which(meanL_vol[[c]]$model==m),2]) - mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="obs"),2])) /  mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="obs"),2]) ) * 100)
+
+### same for volume...
+t.test(
+  sim_means ~ model,
+  data = meanL_vol[[c]][which(meanL_vol[[c]]$model=="obs" | meanL_vol[[c]]$model=="no_inf"),],
+  var.equal=FALSE, na.rm=TRUE)
+
+# calculate percentage difference
+( (mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="no_inf"),2]) - mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="obs"),2])) /  mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="obs"),2]) ) * 100
+
+
+# and between remaining models and no_inf model
+for (m in unique(meanL_vol[[c]]$model)[-c(1,2)]) {
+  print(t.test(
+    sim_means ~ model, 
+    data= meanL_vol[[c]][which(meanL_vol[[c]]$model=="no_inf" | meanL_vol[[c]]$model==m),], 
+    var.equal=FALSE, na.rm=TRUE))
 }
+
+# calculate percentage difference
+# vol model
+for (m in unique(meanL_vol[[c]]$model)[-c(1,2)]) {
+  print(( (mean(meanL_vol[[c]][which(meanL_vol[[c]]$model==m),2]) - mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="no_inf"),2])) /  mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="no_inf"),2]) ) * 100)
+}
+
 
 
 
