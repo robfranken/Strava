@@ -16,15 +16,16 @@ meanL_freq <- list()
 meanL_vol <- list()
 
 #for (c in 1:length(clubdata)) {
-##c=...
+##c=2
 
 # pick club
 club <- clubdata[[c]]
 
 # initial running distribution
-#mean(club$freq_run[,,1], na.rm=TRUE)
-#sd(club$freq_run[,,1], na.rm=TRUE)
+mean(club$freq_run[,,1], na.rm=TRUE)
+sd(club$freq_run[,,1], na.rm=TRUE)
 
+psych::describe(club$freq_run[,,1])
 # we reduce the data to only two time points
 kudonet <- sienaDependent(club$kudo[,,1:2], allowOnly = FALSE)
 freq_run <- sienaDependent(club$freq_run[,,1:2], type = "behavior", allowOnly = FALSE) 
@@ -235,7 +236,6 @@ meanL_vol[[c]] <- data.frame(
 
 
 }
-
 
 # compare means between no_inf model and empircally estimated model
 # c=...

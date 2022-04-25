@@ -4648,3 +4648,1553 @@ Estimated means and standard deviations, standard errors of the mean
 Standard errors of the mean are less than s.d./sqrt(n) 
 because of regression on scores (Dolby option). 
 Total computation time 0.93 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:22:01
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.6035  (fixed) 
+  2. eval:  outdegree (density)                            -6.9624  (fixed) 
+  3. eval:  reciprocity                                     4.4241  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8707  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1731  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7708  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0901  (fixed) 
+  9. eval:  out-isolate                                     0.4326  (fixed) 
+ 10. eval:  gender alter                                    0.1668  (fixed) 
+ 11. eval:  gender ego                                      0.0858  (fixed) 
+ 12. eval:  same gender                                     0.1936  (fixed) 
+ 13. eval:  higher freq_run                                 0.5011  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6913  (fixed) 
+ 15. rate:  rate freq_run period 1                          2.3256  (fixed) 
+ 16. eval:  freq_run linear shape                          -0.0793  (fixed) 
+ 17. eval:  freq_run quadratic shape                        0.0407  (fixed) 
+ 18. eval:  freq_run average attraction higher              1.4368  (fixed) 
+ 19. eval:  freq_run average attraction lower               4.4403  (fixed) 
+ 20. eval:  freq_run indegree                               0.0142  (fixed) 
+ 21. eval:  freq_run: effect from freq_other                0.0048  (fixed) 
+ 22. eval:  freq_run: effect from gender                    0.0280  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for freq_run                                           292.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         45.0000
+ 16. freq_run centered sum                                               -8.5000
+ 17. freq_run sum of cent. squares                                      245.0227
+ 18. freq_run average attraction higher                                  36.3348
+ 19. freq_run average attraction lower                                   39.0301
+ 20. freq_run indegrees                                                 317.5000
+ 21. freq_run x freq_other                                              -39.6191
+ 22. freq_run x gender                                                   -7.8370
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.6035  
+ 2. eval:  outdegree (density)                                    -6.9624  
+ 3. eval:  reciprocity                                             4.4241  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8707  
+ 5. eval:  indegree - popularity (sqrt)                            0.1731  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7708  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0901  
+ 9. eval:  out-isolate                                             0.4326  
+10. eval:  gender alter                                            0.1668  
+11. eval:  gender ego                                              0.0858  
+12. eval:  same gender                                             0.1936  
+13. eval:  higher freq_run                                         0.5011  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6913  
+Behavior Dynamics
+
+15. rate:  rate freq_run period 1                                  2.3256  
+16. eval:  freq_run linear shape                                  -0.0793  
+17. eval:  freq_run quadratic shape                                0.0407  
+18. eval:  freq_run average attraction higher                      1.4368  
+19. eval:  freq_run average attraction lower                       4.4403  
+20. eval:  freq_run indegree                                       0.0142  
+21. eval:  freq_run: effect from freq_other                        0.0048  
+22. eval:  freq_run: effect from gender                            0.0280  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 169.968   12.162   0.3132
+  2. Number of ties                                           546.068   16.134   0.2404
+  3. Number of reciprocated ties                              431.326   15.739   0.2692
+  4. Numb. edgew. shrd prtns.by two path (69)                 995.016   33.599   0.4682
+  5. Sum of indegrees x sqrt(indegree)                       2139.905   82.295   1.2721
+  6. Sum of indegrees x sqrt(outdegree)                      2132.790   81.904   1.4271
+  7. Sum of outdegrees^(1.5)                                 2283.117   85.490   0.9923
+  8. Sum rec.degr^(1/1) x outdegr                            7975.735  394.662   5.3116
+  9. Number of out-isolates                                    12.991    1.981   0.0562
+ 10. Sum indegrees x gender                                   -75.340    5.073   0.0864
+ 11. Sum outdegrees x gender                                  -89.519    5.486   0.0969
+ 12. Same values on gender                                    426.484   12.497   0.1744
+ 13. ego > alter for freq_run                                 287.064   10.050   0.1799
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               796.833   31.079   0.5454
+ 15. Amount of behavioral change                               45.439    5.801   0.1673
+ 16. freq_run centered sum                                      1.506    8.694   0.0976
+ 17. freq_run sum of cent. squares                            230.528   26.266   0.4140
+ 18. freq_run average attraction higher                        36.771    0.770   0.0233
+ 19. freq_run average attraction lower                         39.335    0.521   0.0156
+ 20. freq_run indegrees                                       435.078  115.021   1.0451
+ 21. freq_run x freq_other                                     -7.421   18.419   0.1685
+ 22. freq_run x gender                                        -11.045    3.532   0.0479
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 18.72 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:22:20
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff2 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.5855  (fixed) 
+  2. eval:  outdegree (density)                            -7.1092  (fixed) 
+  3. eval:  reciprocity                                     4.4326  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8625  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1726  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7944  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0940  (fixed) 
+  9. eval:  out-isolate                                     0.3942  (fixed) 
+ 10. eval:  gender alter                                    0.1682  (fixed) 
+ 11. eval:  gender ego                                      0.0848  (fixed) 
+ 12. eval:  same gender                                     0.1956  (fixed) 
+ 13. eval:  higher time_run                                 0.6428  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6557  (fixed) 
+ 15. rate:  rate time_run period 1                          2.2658  (fixed) 
+ 16. eval:  time_run linear shape                          -0.2125  (fixed) 
+ 17. eval:  time_run quadratic shape                        0.0133  (fixed) 
+ 18. eval:  time_run average attraction higher              1.6918  (fixed) 
+ 19. eval:  time_run average attraction lower               1.3580  (fixed) 
+ 20. eval:  time_run indegree                               0.0114  (fixed) 
+ 21. eval:  time_run: effect from time_other                0.0022  (fixed) 
+ 22. eval:  time_run: effect from gender                    0.0309  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for time_run                                           291.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         44.0000
+ 16. time_run centered sum                                               -4.0000
+ 17. time_run sum of cent. squares                                      260.4727
+ 18. time_run average attraction higher                                  36.1207
+ 19. time_run average attraction lower                                   38.4422
+ 20. time_run indegrees                                                 345.2000
+ 21. time_run x time_other                                              -53.7022
+ 22. time_run x gender                                                  -10.4602
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.5855  
+ 2. eval:  outdegree (density)                                    -7.1092  
+ 3. eval:  reciprocity                                             4.4326  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8625  
+ 5. eval:  indegree - popularity (sqrt)                            0.1726  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7944  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0940  
+ 9. eval:  out-isolate                                             0.3942  
+10. eval:  gender alter                                            0.1682  
+11. eval:  gender ego                                              0.0848  
+12. eval:  same gender                                             0.1956  
+13. eval:  higher time_run                                         0.6428  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6557  
+Behavior Dynamics
+
+15. rate:  rate time_run period 1                                  2.2658  
+16. eval:  time_run linear shape                                  -0.2125  
+17. eval:  time_run quadratic shape                                0.0133  
+18. eval:  time_run average attraction higher                      1.6918  
+19. eval:  time_run average attraction lower                       1.3580  
+20. eval:  time_run indegree                                       0.0114  
+21. eval:  time_run: effect from time_other                        0.0022  
+22. eval:  time_run: effect from gender                            0.0309  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 170.268   12.336   0.3053
+  2. Number of ties                                           547.383   16.686   0.2386
+  3. Number of reciprocated ties                              430.196   16.052   0.2668
+  4. Numb. edgew. shrd prtns.by two path (69)                 998.469   34.654   0.4646
+  5. Sum of indegrees x sqrt(indegree)                       2142.151   83.731   1.2859
+  6. Sum of indegrees x sqrt(outdegree)                      2135.575   83.544   1.4611
+  7. Sum of outdegrees^(1.5)                                 2296.513   89.871   0.9786
+  8. Sum rec.degr^(1/1) x outdegr                            7988.898  406.808   5.2103
+  9. Number of out-isolates                                    13.111    1.946   0.0555
+ 10. Sum indegrees x gender                                   -74.839    5.122   0.0859
+ 11. Sum outdegrees x gender                                  -90.216    5.452   0.0951
+ 12. Same values on gender                                    427.293   12.569   0.1752
+ 13. ego > alter for time_run                                 290.652   10.569   0.1766
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               795.646   31.978   0.5496
+ 15. Amount of behavioral change                               44.182    5.956   0.1748
+ 16. time_run centered sum                                     -3.260    8.361   0.0927
+ 17. time_run sum of cent. squares                            230.327   24.967   0.4200
+ 18. time_run average attraction higher                        36.668    0.714   0.0217
+ 19. time_run average attraction lower                         39.253    0.503   0.0154
+ 20. time_run indegrees                                       402.085  108.348   1.0113
+ 21. time_run x time_other                                    -10.358   18.943   0.1557
+ 22. time_run x gender                                        -12.419    3.465   0.0436
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 18.59 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:22:39
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff_noinf 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.6035  (fixed) 
+  2. eval:  outdegree (density)                            -6.9624  (fixed) 
+  3. eval:  reciprocity                                     4.4241  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8707  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1731  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7708  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0901  (fixed) 
+  9. eval:  out-isolate                                     0.4326  (fixed) 
+ 10. eval:  gender alter                                    0.1668  (fixed) 
+ 11. eval:  gender ego                                      0.0858  (fixed) 
+ 12. eval:  same gender                                     0.1936  (fixed) 
+ 13. eval:  higher freq_run                                 0.5011  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6913  (fixed) 
+ 15. rate:  rate freq_run period 1                          2.3256  (fixed) 
+ 16. eval:  freq_run linear shape                          -0.0793  (fixed) 
+ 17. eval:  freq_run quadratic shape                        0.0407  (fixed) 
+ 18. eval:  freq_run average attraction higher              0.0000  (fixed) 
+ 19. eval:  freq_run average attraction lower               0.0000  (fixed) 
+ 20. eval:  freq_run indegree                               0.0000  (fixed) 
+ 21. eval:  freq_run: effect from freq_other                0.0048  (fixed) 
+ 22. eval:  freq_run: effect from gender                    0.0280  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for freq_run                                           292.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         45.0000
+ 16. freq_run centered sum                                               -8.5000
+ 17. freq_run sum of cent. squares                                      245.0227
+ 18. freq_run average attraction higher                                  36.3348
+ 19. freq_run average attraction lower                                   39.0301
+ 20. freq_run indegrees                                                 317.5000
+ 21. freq_run x freq_other                                              -39.6191
+ 22. freq_run x gender                                                   -7.8370
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.6035  
+ 2. eval:  outdegree (density)                                    -6.9624  
+ 3. eval:  reciprocity                                             4.4241  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8707  
+ 5. eval:  indegree - popularity (sqrt)                            0.1731  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7708  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0901  
+ 9. eval:  out-isolate                                             0.4326  
+10. eval:  gender alter                                            0.1668  
+11. eval:  gender ego                                              0.0858  
+12. eval:  same gender                                             0.1936  
+13. eval:  higher freq_run                                         0.5011  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6913  
+Behavior Dynamics
+
+15. rate:  rate freq_run period 1                                  2.3256  
+16. eval:  freq_run linear shape                                  -0.0793  
+17. eval:  freq_run quadratic shape                                0.0407  
+18. eval:  freq_run average attraction higher                      0.0000  
+19. eval:  freq_run average attraction lower                       0.0000  
+20. eval:  freq_run indegree                                       0.0000  
+21. eval:  freq_run: effect from freq_other                        0.0048  
+22. eval:  freq_run: effect from gender                            0.0280  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 169.986   12.084   0.3079
+  2. Number of ties                                           546.046   16.682   0.2440
+  3. Number of reciprocated ties                              431.496   16.371   0.2714
+  4. Numb. edgew. shrd prtns.by two path (69)                 994.872   34.891   0.4708
+  5. Sum of indegrees x sqrt(indegree)                       2141.110   85.885   1.2963
+  6. Sum of indegrees x sqrt(outdegree)                      2133.524   84.878   1.4619
+  7. Sum of outdegrees^(1.5)                                 2281.446   88.576   1.0013
+  8. Sum rec.degr^(1/1) x outdegr                            7970.838  411.283   5.4578
+  9. Number of out-isolates                                    12.977    2.000   0.0571
+ 10. Sum indegrees x gender                                   -75.546    5.202   0.0864
+ 11. Sum outdegrees x gender                                  -89.332    5.509   0.0963
+ 12. Same values on gender                                    426.477   12.736   0.1752
+ 13. ego > alter for freq_run                                 287.212   10.157   0.1827
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               796.987   32.524   0.5590
+ 15. Amount of behavioral change                               45.596    5.911   0.1725
+ 16. freq_run centered sum                                     -0.520    8.390   0.0883
+ 17. freq_run sum of cent. squares                            260.513   25.663   0.4093
+ 18. freq_run average attraction higher                        36.176    0.732   0.0225
+ 19. freq_run average attraction lower                         38.540    0.551   0.0167
+ 20. freq_run indegrees                                       394.600  110.682   0.9605
+ 21. freq_run x freq_other                                    -12.218   18.330   0.1607
+ 22. freq_run x gender                                        -10.719    3.587   0.0448
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 19.8 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:22:59
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff2_noinf 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.5855  (fixed) 
+  2. eval:  outdegree (density)                            -7.1092  (fixed) 
+  3. eval:  reciprocity                                     4.4326  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8625  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1726  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7944  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0940  (fixed) 
+  9. eval:  out-isolate                                     0.3942  (fixed) 
+ 10. eval:  gender alter                                    0.1682  (fixed) 
+ 11. eval:  gender ego                                      0.0848  (fixed) 
+ 12. eval:  same gender                                     0.1956  (fixed) 
+ 13. eval:  higher time_run                                 0.6428  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6557  (fixed) 
+ 15. rate:  rate time_run period 1                          2.2658  (fixed) 
+ 16. eval:  time_run linear shape                          -0.2125  (fixed) 
+ 17. eval:  time_run quadratic shape                        0.0133  (fixed) 
+ 18. eval:  time_run average attraction higher              0.0000  (fixed) 
+ 19. eval:  time_run average attraction lower               0.0000  (fixed) 
+ 20. eval:  time_run indegree                               0.0000  (fixed) 
+ 21. eval:  time_run: effect from time_other                0.0022  (fixed) 
+ 22. eval:  time_run: effect from gender                    0.0309  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for time_run                                           291.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         44.0000
+ 16. time_run centered sum                                               -4.0000
+ 17. time_run sum of cent. squares                                      260.4727
+ 18. time_run average attraction higher                                  36.1207
+ 19. time_run average attraction lower                                   38.4422
+ 20. time_run indegrees                                                 345.2000
+ 21. time_run x time_other                                              -53.7022
+ 22. time_run x gender                                                  -10.4602
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.5855  
+ 2. eval:  outdegree (density)                                    -7.1092  
+ 3. eval:  reciprocity                                             4.4326  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8625  
+ 5. eval:  indegree - popularity (sqrt)                            0.1726  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7944  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0940  
+ 9. eval:  out-isolate                                             0.3942  
+10. eval:  gender alter                                            0.1682  
+11. eval:  gender ego                                              0.0848  
+12. eval:  same gender                                             0.1956  
+13. eval:  higher time_run                                         0.6428  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6557  
+Behavior Dynamics
+
+15. rate:  rate time_run period 1                                  2.2658  
+16. eval:  time_run linear shape                                  -0.2125  
+17. eval:  time_run quadratic shape                                0.0133  
+18. eval:  time_run average attraction higher                      0.0000  
+19. eval:  time_run average attraction lower                       0.0000  
+20. eval:  time_run indegree                                       0.0000  
+21. eval:  time_run: effect from time_other                        0.0022  
+22. eval:  time_run: effect from gender                            0.0309  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 170.123   12.442   0.3159
+  2. Number of ties                                           547.480   16.981   0.2421
+  3. Number of reciprocated ties                              430.618   16.149   0.2623
+  4. Numb. edgew. shrd prtns.by two path (69)                 998.698   35.114   0.4687
+  5. Sum of indegrees x sqrt(indegree)                       2144.194   85.884   1.2872
+  6. Sum of indegrees x sqrt(outdegree)                      2137.060   85.309   1.4538
+  7. Sum of outdegrees^(1.5)                                 2294.889   90.846   0.9974
+  8. Sum rec.degr^(1/1) x outdegr                            7988.091  406.728   5.3489
+  9. Number of out-isolates                                    13.089    1.943   0.0554
+ 10. Sum indegrees x gender                                   -74.995    4.980   0.0849
+ 11. Sum outdegrees x gender                                  -90.033    5.615   0.1003
+ 12. Same values on gender                                    427.295   12.771   0.1733
+ 13. ego > alter for time_run                                 290.758   10.601   0.1844
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               796.120   31.789   0.5444
+ 15. Amount of behavioral change                               46.120    6.264   0.1807
+ 16. time_run centered sum                                    -14.172    8.354   0.0976
+ 17. time_run sum of cent. squares                            242.424   25.133   0.4357
+ 18. time_run average attraction higher                        36.495    0.712   0.0218
+ 19. time_run average attraction lower                         38.798    0.528   0.0162
+ 20. time_run indegrees                                       250.859  108.299   1.1754
+ 21. time_run x time_other                                    -17.166   18.844   0.1760
+ 22. time_run x gender                                        -11.400    3.481   0.0454
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 19.51 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:23:18
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff_indeg 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.6035  (fixed) 
+  2. eval:  outdegree (density)                            -6.9624  (fixed) 
+  3. eval:  reciprocity                                     4.4241  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8707  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1731  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7708  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0901  (fixed) 
+  9. eval:  out-isolate                                     0.4326  (fixed) 
+ 10. eval:  gender alter                                    0.1668  (fixed) 
+ 11. eval:  gender ego                                      0.0858  (fixed) 
+ 12. eval:  same gender                                     0.1936  (fixed) 
+ 13. eval:  higher freq_run                                 0.5011  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6913  (fixed) 
+ 15. rate:  rate freq_run period 1                          2.3256  (fixed) 
+ 16. eval:  freq_run linear shape                          -0.0793  (fixed) 
+ 17. eval:  freq_run quadratic shape                        0.0407  (fixed) 
+ 18. eval:  freq_run average attraction higher              0.0000  (fixed) 
+ 19. eval:  freq_run average attraction lower               0.0000  (fixed) 
+ 20. eval:  freq_run indegree                               0.0142  (fixed) 
+ 21. eval:  freq_run: effect from freq_other                0.0048  (fixed) 
+ 22. eval:  freq_run: effect from gender                    0.0280  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for freq_run                                           292.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         45.0000
+ 16. freq_run centered sum                                               -8.5000
+ 17. freq_run sum of cent. squares                                      245.0227
+ 18. freq_run average attraction higher                                  36.3348
+ 19. freq_run average attraction lower                                   39.0301
+ 20. freq_run indegrees                                                 317.5000
+ 21. freq_run x freq_other                                              -39.6191
+ 22. freq_run x gender                                                   -7.8370
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.6035  
+ 2. eval:  outdegree (density)                                    -6.9624  
+ 3. eval:  reciprocity                                             4.4241  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8707  
+ 5. eval:  indegree - popularity (sqrt)                            0.1731  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7708  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0901  
+ 9. eval:  out-isolate                                             0.4326  
+10. eval:  gender alter                                            0.1668  
+11. eval:  gender ego                                              0.0858  
+12. eval:  same gender                                             0.1936  
+13. eval:  higher freq_run                                         0.5011  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6913  
+Behavior Dynamics
+
+15. rate:  rate freq_run period 1                                  2.3256  
+16. eval:  freq_run linear shape                                  -0.0793  
+17. eval:  freq_run quadratic shape                                0.0407  
+18. eval:  freq_run average attraction higher                      0.0000  
+19. eval:  freq_run average attraction lower                       0.0000  
+20. eval:  freq_run indegree                                       0.0142  
+21. eval:  freq_run: effect from freq_other                        0.0048  
+22. eval:  freq_run: effect from gender                            0.0280  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 169.783   11.751   0.2989
+  2. Number of ties                                           546.172   16.644   0.2429
+  3. Number of reciprocated ties                              431.362   16.062   0.2674
+  4. Numb. edgew. shrd prtns.by two path (69)                 994.994   34.763   0.4735
+  5. Sum of indegrees x sqrt(indegree)                       2140.607   84.882   1.2816
+  6. Sum of indegrees x sqrt(outdegree)                      2133.379   84.203   1.4437
+  7. Sum of outdegrees^(1.5)                                 2283.188   88.469   1.0026
+  8. Sum rec.degr^(1/1) x outdegr                            7972.585  402.788   5.3277
+  9. Number of out-isolates                                    12.993    1.966   0.0557
+ 10. Sum indegrees x gender                                   -75.443    5.160   0.0872
+ 11. Sum outdegrees x gender                                  -89.431    5.708   0.1000
+ 12. Same values on gender                                    426.581   12.803   0.1748
+ 13. ego > alter for freq_run                                 287.362   10.259   0.1832
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               796.884   31.615   0.5540
+ 15. Amount of behavioral change                               45.326    5.834   0.1710
+ 16. freq_run centered sum                                      9.257    8.269   0.0902
+ 17. freq_run sum of cent. squares                            269.916   25.224   0.4307
+ 18. freq_run average attraction higher                        35.887    0.720   0.0217
+ 19. freq_run average attraction lower                         38.772    0.508   0.0156
+ 20. freq_run indegrees                                       556.793  105.179   1.1207
+ 21. freq_run x freq_other                                     -5.432   18.377   0.1788
+ 22. freq_run x gender                                        -11.934    3.608   0.0466
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 19.09 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:23:37
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff2_indeg 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.5855  (fixed) 
+  2. eval:  outdegree (density)                            -7.1092  (fixed) 
+  3. eval:  reciprocity                                     4.4326  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8625  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1726  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7944  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0940  (fixed) 
+  9. eval:  out-isolate                                     0.3942  (fixed) 
+ 10. eval:  gender alter                                    0.1682  (fixed) 
+ 11. eval:  gender ego                                      0.0848  (fixed) 
+ 12. eval:  same gender                                     0.1956  (fixed) 
+ 13. eval:  higher time_run                                 0.6428  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6557  (fixed) 
+ 15. rate:  rate time_run period 1                          2.2658  (fixed) 
+ 16. eval:  time_run linear shape                          -0.2125  (fixed) 
+ 17. eval:  time_run quadratic shape                        0.0133  (fixed) 
+ 18. eval:  time_run average attraction higher              0.0000  (fixed) 
+ 19. eval:  time_run average attraction lower               0.0000  (fixed) 
+ 20. eval:  time_run indegree                               0.0114  (fixed) 
+ 21. eval:  time_run: effect from time_other                0.0022  (fixed) 
+ 22. eval:  time_run: effect from gender                    0.0309  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for time_run                                           291.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         44.0000
+ 16. time_run centered sum                                               -4.0000
+ 17. time_run sum of cent. squares                                      260.4727
+ 18. time_run average attraction higher                                  36.1207
+ 19. time_run average attraction lower                                   38.4422
+ 20. time_run indegrees                                                 345.2000
+ 21. time_run x time_other                                              -53.7022
+ 22. time_run x gender                                                  -10.4602
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.5855  
+ 2. eval:  outdegree (density)                                    -7.1092  
+ 3. eval:  reciprocity                                             4.4326  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8625  
+ 5. eval:  indegree - popularity (sqrt)                            0.1726  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7944  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0940  
+ 9. eval:  out-isolate                                             0.3942  
+10. eval:  gender alter                                            0.1682  
+11. eval:  gender ego                                              0.0848  
+12. eval:  same gender                                             0.1956  
+13. eval:  higher time_run                                         0.6428  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6557  
+Behavior Dynamics
+
+15. rate:  rate time_run period 1                                  2.2658  
+16. eval:  time_run linear shape                                  -0.2125  
+17. eval:  time_run quadratic shape                                0.0133  
+18. eval:  time_run average attraction higher                      0.0000  
+19. eval:  time_run average attraction lower                       0.0000  
+20. eval:  time_run indegree                                       0.0114  
+21. eval:  time_run: effect from time_other                        0.0022  
+22. eval:  time_run: effect from gender                            0.0309  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 170.440   12.290   0.3091
+  2. Number of ties                                           547.434   16.852   0.2384
+  3. Number of reciprocated ties                              430.333   16.007   0.2599
+  4. Numb. edgew. shrd prtns.by two path (69)                 998.470   35.263   0.4666
+  5. Sum of indegrees x sqrt(indegree)                       2142.222   84.981   1.2747
+  6. Sum of indegrees x sqrt(outdegree)                      2135.888   84.942   1.4305
+  7. Sum of outdegrees^(1.5)                                 2296.720   89.035   0.9947
+  8. Sum rec.degr^(1/1) x outdegr                            7991.193  400.735   5.1418
+  9. Number of out-isolates                                    13.090    1.923   0.0547
+ 10. Sum indegrees x gender                                   -74.796    5.150   0.0841
+ 11. Sum outdegrees x gender                                  -90.202    5.605   0.0992
+ 12. Same values on gender                                    427.197   12.705   0.1743
+ 13. ego > alter for time_run                                 290.878   10.552   0.1779
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               795.997   31.882   0.5463
+ 15. Amount of behavioral change                               44.572    5.973   0.1744
+ 16. time_run centered sum                                     -6.677    8.121   0.0914
+ 17. time_run sum of cent. squares                            246.720   25.146   0.4266
+ 18. time_run average attraction higher                        36.226    0.720   0.0218
+ 19. time_run average attraction lower                         38.950    0.492   0.0151
+ 20. time_run indegrees                                       376.134  104.622   0.9833
+ 21. time_run x time_other                                    -12.321   18.936   0.1544
+ 22. time_run x gender                                        -12.331    3.509   0.0435
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 19.43 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:23:57
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff_nolow 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.6035  (fixed) 
+  2. eval:  outdegree (density)                            -6.9624  (fixed) 
+  3. eval:  reciprocity                                     4.4241  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8707  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1731  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7708  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0901  (fixed) 
+  9. eval:  out-isolate                                     0.4326  (fixed) 
+ 10. eval:  gender alter                                    0.1668  (fixed) 
+ 11. eval:  gender ego                                      0.0858  (fixed) 
+ 12. eval:  same gender                                     0.1936  (fixed) 
+ 13. eval:  higher freq_run                                 0.5011  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6913  (fixed) 
+ 15. rate:  rate freq_run period 1                          2.3256  (fixed) 
+ 16. eval:  freq_run linear shape                          -0.0793  (fixed) 
+ 17. eval:  freq_run quadratic shape                        0.0407  (fixed) 
+ 18. eval:  freq_run average attraction higher              1.4368  (fixed) 
+ 19. eval:  freq_run average attraction lower               0.0000  (fixed) 
+ 20. eval:  freq_run indegree                               0.0000  (fixed) 
+ 21. eval:  freq_run: effect from freq_other                0.0048  (fixed) 
+ 22. eval:  freq_run: effect from gender                    0.0280  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for freq_run                                           292.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         45.0000
+ 16. freq_run centered sum                                               -8.5000
+ 17. freq_run sum of cent. squares                                      245.0227
+ 18. freq_run average attraction higher                                  36.3348
+ 19. freq_run average attraction lower                                   39.0301
+ 20. freq_run indegrees                                                 317.5000
+ 21. freq_run x freq_other                                              -39.6191
+ 22. freq_run x gender                                                   -7.8370
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.6035  
+ 2. eval:  outdegree (density)                                    -6.9624  
+ 3. eval:  reciprocity                                             4.4241  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8707  
+ 5. eval:  indegree - popularity (sqrt)                            0.1731  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7708  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0901  
+ 9. eval:  out-isolate                                             0.4326  
+10. eval:  gender alter                                            0.1668  
+11. eval:  gender ego                                              0.0858  
+12. eval:  same gender                                             0.1936  
+13. eval:  higher freq_run                                         0.5011  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6913  
+Behavior Dynamics
+
+15. rate:  rate freq_run period 1                                  2.3256  
+16. eval:  freq_run linear shape                                  -0.0793  
+17. eval:  freq_run quadratic shape                                0.0407  
+18. eval:  freq_run average attraction higher                      1.4368  
+19. eval:  freq_run average attraction lower                       0.0000  
+20. eval:  freq_run indegree                                       0.0000  
+21. eval:  freq_run: effect from freq_other                        0.0048  
+22. eval:  freq_run: effect from gender                            0.0280  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 169.883   12.125   0.3069
+  2. Number of ties                                           546.122   16.023   0.2395
+  3. Number of reciprocated ties                              431.531   15.715   0.2671
+  4. Numb. edgew. shrd prtns.by two path (69)                 994.948   33.520   0.4704
+  5. Sum of indegrees x sqrt(indegree)                       2141.181   81.649   1.2706
+  6. Sum of indegrees x sqrt(outdegree)                      2133.437   80.934   1.4375
+  7. Sum of outdegrees^(1.5)                                 2281.928   85.856   0.9903
+  8. Sum rec.degr^(1/1) x outdegr                            7973.537  396.086   5.3425
+  9. Number of out-isolates                                    12.989    1.963   0.0555
+ 10. Sum indegrees x gender                                   -75.457    5.012   0.0855
+ 11. Sum outdegrees x gender                                  -89.364    5.445   0.0991
+ 12. Same values on gender                                    426.534   12.378   0.1765
+ 13. ego > alter for freq_run                                 287.277    9.912   0.1824
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               797.363   31.313   0.5491
+ 15. Amount of behavioral change                               45.190    5.797   0.1690
+ 16. freq_run centered sum                                      6.694    8.277   0.0856
+ 17. freq_run sum of cent. squares                            253.171   25.437   0.4035
+ 18. freq_run average attraction higher                        36.449    0.745   0.0225
+ 19. freq_run average attraction lower                         38.758    0.542   0.0166
+ 20. freq_run indegrees                                       472.638  109.861   0.9438
+ 21. freq_run x freq_other                                     -8.993   18.633   0.1589
+ 22. freq_run x gender                                        -11.078    3.569   0.0453
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 19.54 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:24:16
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff2_nolow 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.5855  (fixed) 
+  2. eval:  outdegree (density)                            -7.1092  (fixed) 
+  3. eval:  reciprocity                                     4.4326  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8625  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1726  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7944  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0940  (fixed) 
+  9. eval:  out-isolate                                     0.3942  (fixed) 
+ 10. eval:  gender alter                                    0.1682  (fixed) 
+ 11. eval:  gender ego                                      0.0848  (fixed) 
+ 12. eval:  same gender                                     0.1956  (fixed) 
+ 13. eval:  higher time_run                                 0.6428  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6557  (fixed) 
+ 15. rate:  rate time_run period 1                          2.2658  (fixed) 
+ 16. eval:  time_run linear shape                          -0.2125  (fixed) 
+ 17. eval:  time_run quadratic shape                        0.0133  (fixed) 
+ 18. eval:  time_run average attraction higher              1.6918  (fixed) 
+ 19. eval:  time_run average attraction lower               0.0000  (fixed) 
+ 20. eval:  time_run indegree                               0.0000  (fixed) 
+ 21. eval:  time_run: effect from time_other                0.0022  (fixed) 
+ 22. eval:  time_run: effect from gender                    0.0309  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for time_run                                           291.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         44.0000
+ 16. time_run centered sum                                               -4.0000
+ 17. time_run sum of cent. squares                                      260.4727
+ 18. time_run average attraction higher                                  36.1207
+ 19. time_run average attraction lower                                   38.4422
+ 20. time_run indegrees                                                 345.2000
+ 21. time_run x time_other                                              -53.7022
+ 22. time_run x gender                                                  -10.4602
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.5855  
+ 2. eval:  outdegree (density)                                    -7.1092  
+ 3. eval:  reciprocity                                             4.4326  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8625  
+ 5. eval:  indegree - popularity (sqrt)                            0.1726  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7944  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0940  
+ 9. eval:  out-isolate                                             0.3942  
+10. eval:  gender alter                                            0.1682  
+11. eval:  gender ego                                              0.0848  
+12. eval:  same gender                                             0.1956  
+13. eval:  higher time_run                                         0.6428  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6557  
+Behavior Dynamics
+
+15. rate:  rate time_run period 1                                  2.2658  
+16. eval:  time_run linear shape                                  -0.2125  
+17. eval:  time_run quadratic shape                                0.0133  
+18. eval:  time_run average attraction higher                      1.6918  
+19. eval:  time_run average attraction lower                       0.0000  
+20. eval:  time_run indegree                                       0.0000  
+21. eval:  time_run: effect from time_other                        0.0022  
+22. eval:  time_run: effect from gender                            0.0309  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 170.277   12.398   0.3117
+  2. Number of ties                                           547.633   16.459   0.2400
+  3. Number of reciprocated ties                              430.379   15.961   0.2594
+  4. Numb. edgew. shrd prtns.by two path (69)                 998.854   34.354   0.4735
+  5. Sum of indegrees x sqrt(indegree)                       2144.265   82.759   1.2915
+  6. Sum of indegrees x sqrt(outdegree)                      2137.093   82.392   1.4809
+  7. Sum of outdegrees^(1.5)                                 2296.061   88.979   0.9942
+  8. Sum rec.degr^(1/1) x outdegr                            7985.769  403.931   5.0292
+  9. Number of out-isolates                                    13.051    1.894   0.0547
+ 10. Sum indegrees x gender                                   -74.963    5.183   0.0865
+ 11. Sum outdegrees x gender                                  -90.097    5.509   0.0968
+ 12. Same values on gender                                    427.359   12.652   0.1737
+ 13. ego > alter for time_run                                 290.874   10.358   0.1784
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               795.906   31.557   0.5298
+ 15. Amount of behavioral change                               44.684    5.959   0.1738
+ 16. time_run centered sum                                     -6.407    8.308   0.0911
+ 17. time_run sum of cent. squares                            232.395   25.018   0.4201
+ 18. time_run average attraction higher                        36.746    0.716   0.0219
+ 19. time_run average attraction lower                         39.008    0.527   0.0161
+ 20. time_run indegrees                                       335.051  108.419   1.0372
+ 21. time_run x time_other                                    -13.614   19.082   0.1536
+ 22. time_run x gender                                        -11.796    3.460   0.0438
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 19.63 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:24:36
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff_nohigh 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.6035  (fixed) 
+  2. eval:  outdegree (density)                            -6.9624  (fixed) 
+  3. eval:  reciprocity                                     4.4241  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8707  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1731  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7708  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0901  (fixed) 
+  9. eval:  out-isolate                                     0.4326  (fixed) 
+ 10. eval:  gender alter                                    0.1668  (fixed) 
+ 11. eval:  gender ego                                      0.0858  (fixed) 
+ 12. eval:  same gender                                     0.1936  (fixed) 
+ 13. eval:  higher freq_run                                 0.5011  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6913  (fixed) 
+ 15. rate:  rate freq_run period 1                          2.3256  (fixed) 
+ 16. eval:  freq_run linear shape                          -0.0793  (fixed) 
+ 17. eval:  freq_run quadratic shape                        0.0407  (fixed) 
+ 18. eval:  freq_run average attraction higher              0.0000  (fixed) 
+ 19. eval:  freq_run average attraction lower               4.4403  (fixed) 
+ 20. eval:  freq_run indegree                               0.0000  (fixed) 
+ 21. eval:  freq_run: effect from freq_other                0.0048  (fixed) 
+ 22. eval:  freq_run: effect from gender                    0.0280  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for freq_run                                           292.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         45.0000
+ 16. freq_run centered sum                                               -8.5000
+ 17. freq_run sum of cent. squares                                      245.0227
+ 18. freq_run average attraction higher                                  36.3348
+ 19. freq_run average attraction lower                                   39.0301
+ 20. freq_run indegrees                                                 317.5000
+ 21. freq_run x freq_other                                              -39.6191
+ 22. freq_run x gender                                                   -7.8370
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.6035  
+ 2. eval:  outdegree (density)                                    -6.9624  
+ 3. eval:  reciprocity                                             4.4241  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8707  
+ 5. eval:  indegree - popularity (sqrt)                            0.1731  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7708  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0901  
+ 9. eval:  out-isolate                                             0.4326  
+10. eval:  gender alter                                            0.1668  
+11. eval:  gender ego                                              0.0858  
+12. eval:  same gender                                             0.1936  
+13. eval:  higher freq_run                                         0.5011  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6913  
+Behavior Dynamics
+
+15. rate:  rate freq_run period 1                                  2.3256  
+16. eval:  freq_run linear shape                                  -0.0793  
+17. eval:  freq_run quadratic shape                                0.0407  
+18. eval:  freq_run average attraction higher                      0.0000  
+19. eval:  freq_run average attraction lower                       4.4403  
+20. eval:  freq_run indegree                                       0.0000  
+21. eval:  freq_run: effect from freq_other                        0.0048  
+22. eval:  freq_run: effect from gender                            0.0280  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 170.015   12.196   0.3099
+  2. Number of ties                                           545.936   16.648   0.2419
+  3. Number of reciprocated ties                              431.457   16.084   0.2717
+  4. Numb. edgew. shrd prtns.by two path (69)                 994.777   34.776   0.4653
+  5. Sum of indegrees x sqrt(indegree)                       2140.508   84.462   1.3075
+  6. Sum of indegrees x sqrt(outdegree)                      2132.978   83.670   1.4810
+  7. Sum of outdegrees^(1.5)                                 2281.033   88.746   0.9809
+  8. Sum rec.degr^(1/1) x outdegr                            7969.861  402.721   5.3255
+  9. Number of out-isolates                                    12.990    2.011   0.0579
+ 10. Sum indegrees x gender                                   -75.463    5.023   0.0864
+ 11. Sum outdegrees x gender                                  -89.336    5.406   0.0982
+ 12. Same values on gender                                    426.449   12.302   0.1771
+ 13. ego > alter for freq_run                                 286.932   10.504   0.1805
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               796.990   31.757   0.5670
+ 15. Amount of behavioral change                               48.864    6.335   0.1793
+ 16. freq_run centered sum                                    -16.393    8.576   0.1173
+ 17. freq_run sum of cent. squares                            232.244   25.840   0.4579
+ 18. freq_run average attraction higher                        36.861    0.760   0.0232
+ 19. freq_run average attraction lower                         38.951    0.570   0.0170
+ 20. freq_run indegrees                                       181.390  117.455   1.5130
+ 21. freq_run x freq_other                                    -17.280   17.776   0.2035
+ 22. freq_run x gender                                         -9.370    3.495   0.0519
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 19.2 seconds.
+
+
+-----------------------------------
+New Analysis started.
+Date and time: 25/04/2022 17:24:55
+New results follow.
+-----------------------------------
+
+RSiena version 1.3.0.1 (02 mei 21)
+
+
+@1
+Simulations.
+============
+
+Current random number seed is 242452.
+Effects object used: myeff2_nohigh 
+Model Type:
+ Standard actor-oriented model
+Behavioral Model Type:
+ Standard behavior actor-oriented model ('restrict')
+Estimation method: unconditional moment estimation
+.
+
+Time duration for simulations is 1.0.
+Derivatives are estimated with the likelihood ratio method.
+Dolby method (regression on scores) is used.
+Parameter values are 
+  1. rate:  basic rate parameter kudonet                    5.5855  (fixed) 
+  2. eval:  outdegree (density)                            -7.1092  (fixed) 
+  3. eval:  reciprocity                                     4.4326  (fixed) 
+  4. eval:  GWESP I -> K -> J (69)                          0.8625  (fixed) 
+  5. eval:  indegree - popularity (sqrt)                    0.1726  (fixed) 
+  6. eval:  outdegree - popularity (sqrt)                   0.0000  (fixed) 
+  7. eval:  outdegree - activity (sqrt)                     0.7944  (fixed) 
+  8. eval:  rec.degree^(1/1) - activity                    -0.0940  (fixed) 
+  9. eval:  out-isolate                                     0.3942  (fixed) 
+ 10. eval:  gender alter                                    0.1682  (fixed) 
+ 11. eval:  gender ego                                      0.0848  (fixed) 
+ 12. eval:  same gender                                     0.1956  (fixed) 
+ 13. eval:  higher time_run                                 0.6428  (fixed) 
+ 14. eval:  int.  reciprocity x GWESP I -> K -> J (69)     -0.6557  (fixed) 
+ 15. rate:  rate time_run period 1                          2.2658  (fixed) 
+ 16. eval:  time_run linear shape                          -0.2125  (fixed) 
+ 17. eval:  time_run quadratic shape                        0.0133  (fixed) 
+ 18. eval:  time_run average attraction higher              0.0000  (fixed) 
+ 19. eval:  time_run average attraction lower               1.3580  (fixed) 
+ 20. eval:  time_run indegree                               0.0000  (fixed) 
+ 21. eval:  time_run: effect from time_other                0.0022  (fixed) 
+ 22. eval:  time_run: effect from gender                    0.0309  (fixed) 
+
+
+Observed values of target statistics are
+  1. Amount of network change                                           170.0000
+  2. Number of ties                                                     563.0000
+  3. Number of reciprocated ties                                        436.0000
+  4. Numb. edgew. shrd prtns.by two path (69)                          1023.2561
+  5. Sum of indegrees x sqrt(indegree)                                 2205.3162
+  6. Sum of indegrees x sqrt(outdegree)                                2123.7943
+  7. Sum of outdegrees^(1.5)                                           2363.1293
+  8. Sum rec.degr^(1/1) x outdegr                                      8041.0000
+  9. Number of out-isolates                                              13.0000
+ 10. Sum indegrees x gender                                             -67.3103
+ 11. Sum outdegrees x gender                                            -87.3103
+ 12. Same values on gender                                              429.0000
+ 13. ego > alter for time_run                                           291.0000
+ 14. int.  reciprocity x GWESP I -> K -> J (69)                         794.7594
+ 15. Amount of behavioral change                                         44.0000
+ 16. time_run centered sum                                               -4.0000
+ 17. time_run sum of cent. squares                                      260.4727
+ 18. time_run average attraction higher                                  36.1207
+ 19. time_run average attraction lower                                   38.4422
+ 20. time_run indegrees                                                 345.2000
+ 21. time_run x time_other                                              -53.7022
+ 22. time_run x gender                                                  -10.4602
+
+ 22 parameters, 22 statistics
+
+All parameters are fixed.
+Therefore the estimation phase is skipped
+ and the program passes on immediately to phase 3
+ for checking the current parameter values and calculating standard errors.
+Estimation of derivatives by the LR method (type 1).
+
+
+
+
+@2
+Simulation Results.
+-------------------
+
+Regular end of simulation algorithm.
+Total of 1000 iteration steps.
+
+
+@3
+Parameter values
+                
+Network Dynamics
+ 1. rate:  basic rate parameter kudonet                            5.5855  
+ 2. eval:  outdegree (density)                                    -7.1092  
+ 3. eval:  reciprocity                                             4.4326  
+ 4. eval:  GWESP I -> K -> J (69)                                  0.8625  
+ 5. eval:  indegree - popularity (sqrt)                            0.1726  
+ 6. eval:  outdegree - popularity (sqrt)                           0.0000  
+ 7. eval:  outdegree - activity (sqrt)                             0.7944  
+ 8. eval:  rec.degree^(1/1) - activity                            -0.0940  
+ 9. eval:  out-isolate                                             0.3942  
+10. eval:  gender alter                                            0.1682  
+11. eval:  gender ego                                              0.0848  
+12. eval:  same gender                                             0.1956  
+13. eval:  higher time_run                                         0.6428  
+14. eval:  int.  reciprocity x GWESP I -> K -> J (69)             -0.6557  
+Behavior Dynamics
+
+15. rate:  rate time_run period 1                                  2.2658  
+16. eval:  time_run linear shape                                  -0.2125  
+17. eval:  time_run quadratic shape                                0.0133  
+18. eval:  time_run average attraction higher                      0.0000  
+19. eval:  time_run average attraction lower                       1.3580  
+20. eval:  time_run indegree                                       0.0000  
+21. eval:  time_run: effect from time_other                        0.0022  
+22. eval:  time_run: effect from gender                            0.0309  
+
+
+@3
+Simulated statistics
+                    
+Estimated means and standard deviations, standard errors of the mean 
+  1. Amount of network change                                 170.114   12.834   0.3237
+  2. Number of ties                                           547.377   16.874   0.2379
+  3. Number of reciprocated ties                              430.611   15.956   0.2582
+  4. Numb. edgew. shrd prtns.by two path (69)                 998.681   34.832   0.4647
+  5. Sum of indegrees x sqrt(indegree)                       2143.605   85.249   1.2760
+  6. Sum of indegrees x sqrt(outdegree)                      2136.271   84.521   1.4332
+  7. Sum of outdegrees^(1.5)                                 2294.128   89.650   0.9802
+  8. Sum rec.degr^(1/1) x outdegr                            7983.915  399.171   5.1809
+  9. Number of out-isolates                                    13.040    1.940   0.0553
+ 10. Sum indegrees x gender                                   -74.920    4.818   0.0840
+ 11. Sum outdegrees x gender                                  -90.002    5.658   0.0967
+ 12. Same values on gender                                    427.273   12.738   0.1741
+ 13. ego > alter for time_run                                 290.703   10.505   0.1809
+ 14. int.  reciprocity x GWESP I -> K -> J (69)               796.219   31.505   0.5390
+ 15. Amount of behavioral change                               47.293    6.326   0.1816
+ 16. time_run centered sum                                    -18.747    8.310   0.1071
+ 17. time_run sum of cent. squares                            236.300   25.257   0.4547
+ 18. time_run average attraction higher                        36.687    0.720   0.0221
+ 19. time_run average attraction lower                         38.910    0.526   0.0160
+ 20. time_run indegrees                                       191.133  109.515   1.3682
+ 21. time_run x time_other                                    -18.570   18.694   0.1994
+ 22. time_run x gender                                        -11.088    3.403   0.0469
+
+Standard errors of the mean are less than s.d./sqrt(n) 
+because of regression on scores (Dolby option). 
+Total computation time 18.26 seconds.
