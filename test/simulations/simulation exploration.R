@@ -16,7 +16,7 @@ meanL_freq <- list()
 meanL_vol <- list()
 
 #for (c in 1:length(clubdata)) {
-c=2
+##c=...
 
 # pick club
 club <- clubdata[[c]]
