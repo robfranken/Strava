@@ -15,7 +15,6 @@ output:
 ---
 
 ```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
-system("defaults write org.R-project.R force.LANG en_US.UTF-8")
 Sys.setenv(LANG = "en")
 
 library(knitr)
@@ -23,6 +22,7 @@ library(RSiena)
 library(RColorBrewer)
 library(ggplot2)
 library(ggtext)
+
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
 options(width = 100)
