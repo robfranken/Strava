@@ -14,10 +14,13 @@ output:
     code_download: yes
 ---
 
+<!--
+@RF Dit script nog aanpassen obv meta.Rmd (freq. models)
+-->
+
+
+
 ```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
-library(knitr)
-library(RSiena)
-library(ggplot2)
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
 options(width = 100)
@@ -37,6 +40,55 @@ klippy::klippy(position = c('top', 'right'))
 ----
 
 ##  Meta-analysis of running volume models
+
+# getting started
+
+## clean up
+```{r, results='hide'}
+# empty environment
+rm(list=ls())
+# free up memory
+gc()
+```
+
+
+## general custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+- `fload.R`: function to load R-objects under new names.
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+fload.R  <- function(fileName){
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+<br>
+
+## necessary packages
+
+- `RSiena`: for meta-analysis in siena08
+- `knitr`: generating tables
+
+
+```{r, results='hide'}
+packages = c("RSiena", "knitr")
+fpackage.check(packages)
+```
 
 <br>
 
@@ -118,21 +170,14 @@ Again, to summarize the results over our clubs, we will perform a meta-analysis 
 
 
 ```{r get data, eval=F}
-# clean the working environment 
-rm (list = ls( ))
 
-loadRData <- function(fileName){
-  #loads an RData file, and returns it
-  load(fileName)
-  get(ls()[ls() != "fileName"])
-}
 
 # large lists, takes a lot of time to load
 # in case you don't have enough memory space for all RSiena lists, leave club 3 for now.
-club1 <-  loadRData("test/sienaFit/volume/sienaFit_club1.RData")
-club2 <-  loadRData("test/sienaFit/volume/sienaFit_club2.RData")
-club4 <-  loadRData("test/sienaFit/volume/sienaFit_club4.RData")
-club5 <-  loadRData("test/sienaFit/volume/sienaFit_club5.RData")
+club1 <-  fload.R("test/sienaFit/volume/sienaFit_club1.RData")
+club2 <-  fload.R("test/sienaFit/volume/sienaFit_club2.RData")
+club4 <-  fload.R("test/sienaFit/volume/sienaFit_club4.RData")
+club5 <-  fload.R("test/sienaFit/volume/sienaFit_club5.RData")
 
 # we list model 1-6
 m1List <- list(club1[[1]], club2[[1]], club4[[1]], club5[[1]])
@@ -144,7 +189,7 @@ m6List <- list(club1[[6]], club2[[6]], club4[[6]], club5[[6]])
 
 # remove the excess data, and add club 3's rsiena objects.
 rm(club1, club2, club4, club5)
-club3 <-  loadRData("test/sienaFit/volume/sienaFit_club3.RData")
+club3 <-  fload.R("test/sienaFit/volume/sienaFit_club3.RData")
 # when facing facing storage capacity issues, check the capacity:
 #memory.limit()
 # we increase the limit

@@ -16,7 +16,6 @@ output:
 
 
 ```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
-library(knitr)
 
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
@@ -43,28 +42,51 @@ This script replicates Table 1 of the manuscript (Descriptive statistics of Stra
 
 <br>
 
-# Preparation
 
-Clean the working environment, load in the club (RSiena) data, load some packages.
+# Getting started
 
-```{r, warning=FALSE}
-# clean the working environment 
+## clean up
+
+```{r, attr.output='style="max-height: 200px;"'}
 rm (list = ls( ))
+```
 
-# load the RSiena objects
-load("clubdata_rsiena_freq.RData")
-load("clubdata_rsiena_vol.RData")
-load("clubdata.RData")
+<br> 
 
-library(dplyr)
-library(RSiena)
-library(sna)
-library(igraph)
+## custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
 ```
 
 <br>
 
-Define some functions:
+
+## necessary packages
+
+We install and load the packages we need later on:
+- `RSiena`
+- `igraph`: Descriptives (dyad/triad census, degrees)
+- `dplyr`: for data manipulation
+- `sna`: for network analysis
+- `knitr`: for generating tables
+- `kableExtra`: for manipulating tables
+
+```{r packages, results='hide'}
+packages = c("RSiena", "igraph", "dplyr", "sna", "knitr", "kableExtra")
+fpackage.check(packages)
+```
+## additional functions 
 
 ```{r eval=T}
 # density: observed relations divided by possible relations
@@ -251,6 +273,26 @@ fMoran.I <- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = "tw
 ```
 
 <br>
+
+## load data objects 
+
+```{r, warning=FALSE}
+# load the RSiena objects
+load("clubdata_rsiena_freq.RData")
+load("clubdata_rsiena_vol.RData")
+load("clubdata.RData")
+
+```
+
+
+
+----
+
+
+<br>
+
+
+# Descriptives table
 
 Replicate the descriptives table:
 

@@ -15,9 +15,7 @@ output:
 ---
   
 ```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
-library(knitr)
-library(RSiena)
-library(ggplot2)
+
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
 options(width = 100)
@@ -44,15 +42,42 @@ Let's estimate the Stochastic Actor-Oriented Model (SAOM) implemented in R as th
 <br>
 
 
-# Preparation
+# Getting started
 
-Clean the working environment.
+## clean up
 
 ```{r, attr.output='style="max-height: 200px;"'}
-# clean the working environment 
 rm (list = ls( ))
 ```
 
+<br> 
+## custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+```
+
+<br>
+
+
+## necessary packages
+
+- `RSiena`: RSiena models
+
+```{r packages, results='hide'}
+packages = c("RSiena")
+fpackage.check(packages)
+```
 <br> 
 
 We will:
@@ -108,7 +133,7 @@ A text file is printed in the working directory.
 <br>
 
 # Step 3: Define effects
-We are going to define our 'myeff' object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting "effectsDocumentation(myeff)". See @rsienamanual for a substantial and mathematical description of all effects.
+We are going to define our `myeff` object containing the model parameters. A list of all available effects for the given object can be displayed in browser by requesting `effectsDocumentation(myeff)`. See @rsienamanual for a substantial and mathematical description of all effects.
 
 We build increasingly complex models.
 

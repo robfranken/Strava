@@ -13,7 +13,7 @@
 
 <title>Replicating Table 1</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -461,7 +461,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Replicating Table 1</h1>
-<h4 class="date">Last compiled on juni, 2022</h4>
+<h4 class="date">Last compiled on juli, 2022</h4>
 
 </div>
 
@@ -478,8 +478,8 @@ statistics of Strava Clubs).</p>
 <h1>Preparation</h1>
 <p>Clean the working environment, load in the club (RSiena) data, load
 some packages.</p>
-<pre class="r test"><code># clean the working environment
-rm(list = ls())
+<pre class="r test"><code># clean the working environment 
+rm (list = ls( ))
 
 # load the RSiena objects
 load(&quot;clubdata_rsiena_freq.RData&quot;)
@@ -547,14 +547,14 @@ fndyads2 &lt;- function(x, A) {
 fscolnet &lt;- function(network, ccovar) {
     # Calculate coleman on network level:
     # https://reader.elsevier.com/reader/sd/pii/S0378873314000239?token=A42F99FF6E2B750436DD2CB0DB7B1F41BDEC16052A45683C02644DAF88215A3379636B2AA197B65941D6373E9E2EE413
-
+    
     fhomomat &lt;- function(x) {
         xmat &lt;- matrix(x, nrow = length(x), ncol = length(x))
         xmatt &lt;- t(xmat)
         xhomo &lt;- xmat == xmatt
         return(xhomo)
     }
-
+    
     fsumintra &lt;- function(x, A) {
         # A is matrix indicating whether nodes constituting dyad have same characteristics
         diag(x) &lt;- NA
@@ -562,7 +562,7 @@ fscolnet &lt;- function(network, ccovar) {
         diag(A) &lt;- NA
         sum(x == 1 &amp; A == 1, na.rm = T)
     }
-
+    
     # expecation w*=sum_g sum_i (ni((ng-1)/(N-1)))
     network[network == 10] &lt;- NA
     ni &lt;- rowSums(network, na.rm = T)
@@ -572,20 +572,20 @@ fscolnet &lt;- function(network, ccovar) {
     }
     N &lt;- length(ccovar)
     wexp &lt;- sum(ni * ((ng - 1)/(N - 1)), na.rm = T)
-
+    
     # wgg1 how many intragroup ties
     w &lt;- fsumintra(network, fhomomat(ccovar))
-
+    
     Scol_net &lt;- ifelse(w &gt;= wexp, (w - wexp)/(sum(ni, na.rm = T) - wexp), (w - wexp)/wexp)
     return(Scol_net)
 }
 
 fMoran.I &lt;- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = &quot;two.sided&quot;, rowstandardize = TRUE) {
     if (rowstandardize) {
-        if (dim(weight)[1] != dim(weight)[2])
+        if (dim(weight)[1] != dim(weight)[2]) 
             stop(&quot;&#39;weight&#39; must be a square matrix&quot;)
         n &lt;- length(x)
-        if (dim(weight)[1] != n)
+        if (dim(weight)[1] != n) 
             stop(&quot;&#39;weight&#39; must have as many rows as observations in &#39;x&#39;&quot;)
         ei &lt;- -1/(n - 1)
         nas &lt;- is.na(x)
@@ -616,21 +616,21 @@ fMoran.I &lt;- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = 
         S2 &lt;- sum((apply(weight, 1, sum) + apply(weight, 2, sum))^2)
         s.sq &lt;- s^2
         k &lt;- (sum(y^4)/n)/(v/n)^2
-        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n *
+        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n * 
             S2 + 6 * s.sq))/((n - 1) * (n - 2) * (n - 3) * s.sq) - 1/((n - 1)^2))
         alternative &lt;- match.arg(alternative, c(&quot;two.sided&quot;, &quot;less&quot;, &quot;greater&quot;))
         pv &lt;- pnorm(obs, mean = ei, sd = sdi)
-        if (alternative == &quot;two.sided&quot;)
-            pv &lt;- if (obs &lt;= ei)
+        if (alternative == &quot;two.sided&quot;) 
+            pv &lt;- if (obs &lt;= ei) 
                 2 * pv else 2 * (1 - pv)
-        if (alternative == &quot;greater&quot;)
+        if (alternative == &quot;greater&quot;) 
             pv &lt;- 1 - pv
         list(observed = obs, expected = ei, sd = sdi, p.value = pv)
     } else {
-        if (dim(weight)[1] != dim(weight)[2])
+        if (dim(weight)[1] != dim(weight)[2]) 
             stop(&quot;&#39;weight&#39; must be a square matrix&quot;)
         n &lt;- length(x)
-        if (dim(weight)[1] != n)
+        if (dim(weight)[1] != n) 
             stop(&quot;&#39;weight&#39; must have as many rows as observations in &#39;x&#39;&quot;)
         ei &lt;- -1/(n - 1)
         nas &lt;- is.na(x)
@@ -659,19 +659,19 @@ fMoran.I &lt;- function(x, weight, scaled = FALSE, na.rm = FALSE, alternative = 
         S2 &lt;- sum((apply(weight, 1, sum) + apply(weight, 2, sum))^2)
         s.sq &lt;- s^2
         k &lt;- (sum(y^4)/n)/(v/n)^2
-        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n *
+        sdi &lt;- sqrt((n * ((n^2 - 3 * n + 3) * S1 - n * S2 + 3 * s.sq) - k * (n * (n - 1) * S1 - 2 * n * 
             S2 + 6 * s.sq))/((n - 1) * (n - 2) * (n - 3) * s.sq) - 1/((n - 1)^2))
         alternative &lt;- match.arg(alternative, c(&quot;two.sided&quot;, &quot;less&quot;, &quot;greater&quot;))
         pv &lt;- pnorm(obs, mean = ei, sd = sdi)
-        if (alternative == &quot;two.sided&quot;)
-            pv &lt;- if (obs &lt;= ei)
+        if (alternative == &quot;two.sided&quot;) 
+            pv &lt;- if (obs &lt;= ei) 
                 2 * pv else 2 * (1 - pv)
-        if (alternative == &quot;greater&quot;)
+        if (alternative == &quot;greater&quot;) 
             pv &lt;- 1 - pv
         list(observed = obs, expected = ei, sd = sdi, p.value = pv)
     }
-
-
+    
+    
 }</code></pre>
 <p><br></p>
 <p>Replicate the descriptives table:</p>
@@ -832,19 +832,19 @@ Club 5
 Density
 </td>
 <td style="text-align:left;">
-0.083 (0.014)
+0.108 (0.014)
 </td>
 <td style="text-align:left;">
-0.168 (0.014)
+0.198 (0.011)
 </td>
 <td style="text-align:left;">
-0.011 (0.002)
+0.014 (0.003)
 </td>
 <td style="text-align:left;">
-0.115 (0.018)
+0.316 (0.03)
 </td>
 <td style="text-align:left;">
-0.098 (0.013)
+0.111 (0.007)
 </td>
 </tr>
 <tr>
@@ -852,19 +852,19 @@ Density
 Average degree
 </td>
 <td style="text-align:left;">
-2.392 (0.408)
+2.642 (0.411)
 </td>
 <td style="text-align:left;">
-10.156 (0.838)
+10.855 (0.895)
 </td>
 <td style="text-align:left;">
-1.787 (0.28)
+1.855 (0.291)
 </td>
 <td style="text-align:left;">
-1.385 (0.205)
+2 (0.296)
 </td>
 <td style="text-align:left;">
-7.418 (0.994)
+7.515 (1.007)
 </td>
 </tr>
 <tr>
@@ -872,7 +872,7 @@ Average degree
 Reciprocity index
 </td>
 <td style="text-align:left;">
-0.803 (0.06)
+0.804 (0.06)
 </td>
 <td style="text-align:left;">
 0.634 (0.036)
@@ -892,7 +892,7 @@ Reciprocity index
 Global transitivity index
 </td>
 <td style="text-align:left;">
-0.581 (0.035)
+0.582 (0.034)
 </td>
 <td style="text-align:left;">
 0.544 (0.016)
@@ -932,19 +932,19 @@ Jaccard index
 Gender segregation
 </td>
 <td style="text-align:left;">
-0.235 (0.109)
+0.197 (0.116)
 </td>
 <td style="text-align:left;">
-0.294 (0.038)
+0.269 (0.038)
 </td>
 <td style="text-align:left;">
-0.093 (0.064)
+0.098 (0.065)
 </td>
 <td style="text-align:left;">
--0.139 (0.12)
+-0.183 (0.116)
 </td>
 <td style="text-align:left;">
-0.015 (0.034)
+0.018 (0.034)
 </td>
 </tr>
 <tr>
@@ -982,19 +982,19 @@ Direct ties
 Frequency (per week)
 </td>
 <td style="text-align:left;">
-0.173 (0.169)
+0.069 (0.153)
 </td>
 <td style="text-align:left;">
-0.217 (0.081)
+0.133 (0.056)
 </td>
 <td style="text-align:left;">
-0.203 (0.069)
+0.13 (0.072)
 </td>
 <td style="text-align:left;">
-0.296 (0.264)
+-0.185 (0.164)
 </td>
 <td style="text-align:left;">
-0.276 (0.04)
+0.252 (0.048)
 </td>
 </tr>
 <tr>
@@ -1002,19 +1002,19 @@ Frequency (per week)
 Hours (per week)
 </td>
 <td style="text-align:left;">
-0.207 (0.151)
+0.077 (0.162)
 </td>
 <td style="text-align:left;">
-0.197 (0.099)
+0.115 (0.07)
 </td>
 <td style="text-align:left;">
-0.244 (0.065)
+0.156 (0.068)
 </td>
 <td style="text-align:left;">
-0.243 (0.302)
+-0.209 (0.168)
 </td>
 <td style="text-align:left;">
-0.324 (0.054)
+0.282 (0.062)
 </td>
 </tr>
 <tr>
@@ -1037,19 +1037,19 @@ Distance decay
 Frequency (per week)
 </td>
 <td style="text-align:left;">
-0.108 (0.117)
+0.02 (0.087)
 </td>
 <td style="text-align:left;">
-0.112 (0.036)
+0.05 (0.024)
 </td>
 <td style="text-align:left;">
-0.141 (0.061)
+0.078 (0.048)
 </td>
 <td style="text-align:left;">
-0.311 (0.254)
+-0.148 (0.145)
 </td>
 <td style="text-align:left;">
-0.157 (0.022)
+0.123 (0.026)
 </td>
 </tr>
 <tr>
@@ -1057,19 +1057,19 @@ Frequency (per week)
 Hours (per week)
 </td>
 <td style="text-align:left;">
-0.138 (0.101)
+0.021 (0.09)
 </td>
 <td style="text-align:left;">
-0.107 (0.043)
+0.044 (0.027)
 </td>
 <td style="text-align:left;">
-0.161 (0.04)
+0.085 (0.039)
 </td>
 <td style="text-align:left;">
-0.275 (0.276)
+-0.159 (0.129)
 </td>
 <td style="text-align:left;">
-0.18 (0.028)
+0.137 (0.027)
 </td>
 </tr>
 <tr>
@@ -1077,19 +1077,19 @@ Hours (per week)
 Weekly running frequency at t1
 </td>
 <td style="text-align:left;">
-2.033 (1.351)
+2.542 (0.977)
 </td>
 <td style="text-align:left;">
-3 (2.15)
+3.382 (1.977)
 </td>
 <td style="text-align:left;">
-1.885 (1.658)
+2.411 (1.498)
 </td>
 <td style="text-align:left;">
-1.385 (1.502)
+2.571 (0.976)
 </td>
 <td style="text-align:left;">
-3.208 (2.313)
+3.8 (2.017)
 </td>
 </tr>
 <tr>
@@ -1097,19 +1097,19 @@ Weekly running frequency at t1
 Weekly running hours at t1
 </td>
 <td style="text-align:left;">
-2.1 (1.561)
+2.625 (1.279)
 </td>
 <td style="text-align:left;">
-2.952 (2.161)
+3.327 (2.001)
 </td>
 <td style="text-align:left;">
-1.915 (1.726)
+2.45 (1.581)
 </td>
 <td style="text-align:left;">
-1.538 (1.613)
+2.857 (0.9)
 </td>
 <td style="text-align:left;">
-3.143 (2.475)
+3.723 (2.254)
 </td>
 </tr>
 <tr>
@@ -1117,19 +1117,19 @@ Weekly running hours at t1
 Male sex (%)
 </td>
 <td style="text-align:left;">
-56.667
+59.259
 </td>
 <td style="text-align:left;">
-70.968
+72.414
 </td>
 <td style="text-align:left;">
-70.909
+70.44
 </td>
 <td style="text-align:left;">
-61.538
+88.889
 </td>
 <td style="text-align:left;">
-67.532
+67.105
 </td>
 </tr>
 </tbody>

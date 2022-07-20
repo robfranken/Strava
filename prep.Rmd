@@ -34,7 +34,46 @@ klippy::klippy(position = c('top', 'right'))
 
 ---  
 
+# Getting started
 
+## general custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+- `fload.R`: function to load R-objects under new names.
+
+```{r, results='hide'}
+rm(list=ls()) # clean up
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+fload.R  <- function(fileName){
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
+
+```
+
+<br>
+
+## necessary packages
+
+- `RSiena`
+- `dplyr`: package for data wrangling
+
+```{r, results='hide'}
+packages = c("RSiena", "dplyr")
+fpackage.check(packages)
+```
+
+<br>
+----
 
 # clubdata.RData
 
@@ -46,12 +85,6 @@ In the following scripts a list containing the (anonymized) data of all clubs is
 
 
 ```{r clubs, eval=FALSE}
-# first, install the required packages.
-library(RSiena)
-library(dplyr)
-
-# clean the working environment 
-rm (list = ls( ))
 
 # club string represents the club ID
 club_str <- c("clubid1", "clubid2", "clubid3", "clubid4" ,"clubid5") 
@@ -320,19 +353,13 @@ for (i in (1: length(club_str))) {
 # first clean the working directory, except our club string; we still need that one.
 rm(list = setdiff(ls(), "club_str"))
 
-# We use a function to load the objects under new names.
-loadRData <- function(fileName){
-  #loads an RData file, and returns it
-  load(fileName)
-  get(ls()[ls() != "fileName"])
-}
 
 # load in the separate club-objects
-club1 <- loadRData(paste("clubs", "/", "club", club_str[1], ".RData", sep=""))
-club2 <- loadRData(paste("clubs", "/", "club", club_str[2], ".RData", sep=""))
-club3 <- loadRData(paste("clubs", "/", "club", club_str[3], ".RData", sep=""))
-club4 <- loadRData(paste("clubs", "/", "club", club_str[4], ".RData", sep=""))
-club5 <- loadRData(paste("clubs", "/", "club", club_str[5], ".RData", sep=""))
+club1 <- fload.R(paste("clubs", "/", "club", club_str[1], ".RData", sep=""))
+club2 <- fload.R(paste("clubs", "/", "club", club_str[2], ".RData", sep=""))
+club3 <- fload.R(paste("clubs", "/", "club", club_str[3], ".RData", sep=""))
+club4 <- fload.R(paste("clubs", "/", "club", club_str[4], ".RData", sep=""))
+club5 <- fload.R(paste("clubs", "/", "club", club_str[5], ".RData", sep=""))
 
 # and make a list containing all the clubdata
 clubdata <- list(club1, club2, club3, club4, club5)
@@ -365,7 +392,6 @@ str(clubdata) # inspect structure
 ####################################################
 
 
-require(RSiena)
 clubdata_rsiena_freq <- list()
 clubdata_rsiena_vol <- list()
 

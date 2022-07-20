@@ -15,9 +15,7 @@ output:
 ---
 
 ```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
-library(knitr)
-library(RSiena)
-library(ggplot2)
+
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
 options(width = 100)
@@ -34,6 +32,7 @@ klippy::klippy(position = c('top', 'right'))
 ```
 
 
+
 ---
 
 We also built increasingly complex models for the remaining 4 clubs. We started by modeling network structure and dynamics in kudos tie formation, using a rather simple model specification. If this did not produce adequate GOF, we assessed how the model may be extended, by a theory-guided exploration. We performed a forward model-selection procedure and use score-type tests to see which effect could improve the model. We use *sienaGOF* to estimate how the fit (based on Mahalanobis distance) would increase had we included the fixed-and-tested effects (hence, circumventing the need for re-estimating the model with the new effect). This resulted in slightly different model-specification for kudos-tie formation dynamics for each club.
@@ -45,15 +44,29 @@ Note: for subsequent meta-analysis, we needed to ensure that the model specifica
 
 ----
 
-# Preparation
-Clean the working environment and read in the RSiena object list.
+# Getting started
+
+## clean up
 
 ```{r, attr.output='style="max-height: 200px;"'}
-# clean the working environment 
 rm (list = ls( ))
-# load in the R-SIENA objects
+```
+
+## read in data
+
+```{r, data}
 load("clubdata_rsiena_freq.Rdata")
 ```
+
+
+## necessary packages
+
+- `RSiena`
+
+```{r packages, results='hide'}
+library(RSiena)
+```
+
 
 <br>
 

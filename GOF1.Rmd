@@ -39,22 +39,87 @@ klippy::klippy(position = c('top', 'right'))
 
 Here, we present violin plots representing how well our simulations capture the distribution of running frequency values across clubs [see Lospinoso and Snijders, -@Lospinoso2019 and chapter 5.13 of RSiena manual]. For GOF-plots for models with running volume as the behavior variable, see [here](https://robfranken.github.io/Strava/GOF2.html)) 
 
-
-----
-
 <br>
 
-We read in the sienaFit-objects of our 5 clubs (frequency as behavior variable); we take model 5 (our main model), and we calculate GOF (outdegree, indegree, geodesic distance, behavior distribution).
+# Getting started
 
-```{r eval=F}
-# clean the working environment 
+## clean up
+
+```{r, attr.output='style="max-height: 200px;"'}
 rm (list = ls( ))
+```
 
-loadRData <- function(fileName){
-  #loads an RData file, and returns it
+<br> 
+
+## general custom functions
+
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+- `fload.R`: function to load R-objects under new names.
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+
+fload.R  <- function(fileName){
   load(fileName)
   get(ls()[ls() != "fileName"])
 }
+
+```
+
+<br>
+
+## additional functions
+
+- `GeodesicDistribution` function: see [here](https://www.stats.ox.ac.uk/~snijders/siena/sienaGOF_vdB.R)
+
+```{r}
+
+GeodesicDistribution <- function (i, data, sims, period, groupName,
+   varName, levls=c(1:5, Inf), cumulative=TRUE, ...) {
+     x <- networkExtraction(i, data, sims, period, groupName, varName)
+     require(sna)
+     a <- sna::geodist(symmetrize(x))$gdist
+     if (cumulative)
+     {
+       gdi <- sapply(levls, function(i){ sum(a<=i) })
+     }
+     else
+     {
+       gdi <- sapply(levls, function(i){ sum(a==i) })
+     }
+     names(gdi) <- as.character(levls)
+     gdi
+}
+```
+
+<br> 
+
+## necessary packages
+
+We install and load the packages we need later on:
+- `RSiena`
+
+```{r packages, results='hide'}
+packages = c("RSiena")
+fpackage.check(packages)
+```
+
+## load data
+
+
+We read in the sienaFit-objects of our 5 clubs (frequency as behavior variable); we take model 5 (our main model)
+
+```{r eval=F}
 
 # large lists, takes a lot of time to load
 # when facing facing storage capacity issues, check the capacity:
@@ -75,27 +140,15 @@ list <- list(club1[[5]], club2[[5]],  club3[[5]], club4[[5]], club5[[5]])
 rm(club1, club2, club3, club4, club5)
 ```
 
-The following script to produces the violin plots. 
 
+----
+
+# calculate GOF
+
+we calculate GOF (outdegree, indegree, geodesic distance, behavior distribution) for all clubs
+
+ 
 ```{r, eval=F}
-# function for geodesic distance distribution
-GeodesicDistribution <- function (i, data, sims, period, groupName,
-   varName, levls=c(1:5, Inf), cumulative=TRUE, ...) {
-     x <- networkExtraction(i, data, sims, period, groupName, varName)
-     require(sna)
-     a <- sna::geodist(symmetrize(x))$gdist
-     if (cumulative)
-     {
-       gdi <- sapply(levls, function(i){ sum(a<=i) })
-     }
-     else
-     {
-       gdi <- sapply(levls, function(i){ sum(a==i) })
-     }
-     names(gdi) <- as.character(levls)
-     gdi
-}
-
 for (i in 1:5) {
   # calculate GOF diagnostics
   gofi <- sienaGOF(list[[i]], #i
@@ -132,11 +185,15 @@ for (i in 1:5) {
 
 ```
 
+
+---- 
+
 <br>
 
 # Violin plot {.tabset .tabset-fade}
 
-We show violin plots per club:
+We produce violin plots for each club.
+
 
 ## Club 1
 

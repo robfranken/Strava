@@ -1,7 +1,7 @@
 # rsiena as abm
 
 # clean the working environment 
-#rm (list = ls( ))
+rm (list = ls( ))
 
 
 # packages:
@@ -10,13 +10,17 @@ library(RSiena)
 
 # load data for starting networks
 
+temp <- "C:/Users/Rob/Documents/GitHub/Strava"
+getwd()
+setwd(temp)
+
 load("clubdata.RData")
 
 meanL_freq <- list()
 meanL_vol <- list()
 
 #for (c in 1:length(clubdata)) {
-##c=2
+##c=5
 
 # pick club
 club <- clubdata[[c]]
@@ -236,6 +240,10 @@ meanL_vol[[c]] <- data.frame(
 
 
 }
+#store observed means at t2
+meanObs_freq <- mean(club$freq_run[,,2], na.rm = TRUE)
+meanObs_vol <- mean(club$time_run[,,2], na.rm = TRUE)
+
 
 # compare means between no_inf model and empircally estimated model
 # c=...
@@ -287,7 +295,42 @@ for (m in unique(meanL_vol[[c]]$model)[-c(1,2)]) {
   print(( (mean(meanL_vol[[c]][which(meanL_vol[[c]]$model==m),2]) - mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="no_inf"),2])) /  mean(meanL_vol[[c]][which(meanL_vol[[c]]$model=="no_inf"),2]) ) * 100)
 }
 
+### also, make boxplots to illustrate;
+#dev.off()
+# make layout
+#plot(rnorm(50), rnorm(50))
+l <- layout(matrix(c(1,2)))
+#layout.show(l)
 
+# make data for plotting
+plot_data_freq <- rbind(
+  data.frame(cond="Observed", mean = meanSimO_freq),
+  data.frame(cond="No_inf", mean = meanSim_noinf_freq),
+  data.frame(cond="Only_Indeg", mean = meanSim_indeg_freq),
+  data.frame(cond="Only_avAttH", mean = meanSim_nolow_freq),
+  data.frame(cond="Only_avAttL", mean = meanSim_nohigh_freq)
+)
+plot_data_vol <- rbind(
+  data.frame(cond="Observed", mean = meanSimO_vol),
+  data.frame(cond="No_inf", mean = meanSim_noinf_vol),
+  data.frame(cond="Only_Indeg", mean = meanSim_indeg_vol),
+  data.frame(cond="Only_avAttH", mean = meanSim_nolow_vol),
+  data.frame(cond="Only_avAttL", mean = meanSim_nohigh_vol)
+)
 
+# reorder conditions
+plot_data_freq$cond <- factor(plot_data_freq$cond, levels=c("Observed", "No_inf", "Only_Indeg", "Only_avAttH", "Only_avAttL"))
+plot_data_vol$cond <- factor(plot_data_vol$cond, levels=c("Observed", "No_inf", "Only_Indeg", "Only_avAttH", "Only_avAttL"))
 
+color <- RColorBrewer::brewer.pal(5, "Set3") # get colors for boxplots
+{
+  boxplot(mean ~ cond, data = plot_data_freq, main = paste("Simulation results across", nIter, "iterations"),
+          xlab = "Simulation", ylab = "Average running frequency", col = color)
+ # abline(h=meanObs_freq, col = "brown") # add the observed mean running at t2
+}
 
+{
+  boxplot(mean ~ cond, data = plot_data_vol, main = paste("Simulation results across", nIter, "iterations"),
+          xlab = "Simulation", ylab = "Average running volume", col = color)
+ # abline(h=meanObs_freq, col = "brown") # add the observed mean running at t2
+}

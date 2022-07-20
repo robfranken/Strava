@@ -13,7 +13,7 @@
 
 <title>Goodness of fit</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -405,7 +405,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Goodness of fit</h1>
-<h4 class="date">Last compiled on juni, 2022</h4>
+<h4 class="date">Last compiled on juli, 2022</h4>
 
 </div>
 
@@ -428,26 +428,29 @@ href="https://robfranken.github.io/Strava/GOF1.html">here</a>)</p>
 <p>We read in the sienaFit-objects of our 5 clubs (volume as behavior
 variable); we take model 5 (our main model), and we calculate GOF
 (outdegree, indegree, geodesic distance, behavior distribution).</p>
-<pre class="r test"><code># clean the working environment
-rm(list = ls())
+<pre class="r test"><code># clean the working environment 
+rm (list = ls( ))
 
-loadRData &lt;- function(fileName) {
-    # loads an RData file, and returns it
-    load(fileName)
-    get(ls()[ls() != &quot;fileName&quot;])
+loadRData &lt;- function(fileName){
+  #loads an RData file, and returns it
+  load(fileName)
+  get(ls()[ls() != &quot;fileName&quot;])
 }
 
-# large lists, takes a lot of time to load when facing facing storage capacity issues, check the
-# capacity: memory.limit() we increase the limit memory.limit(size=56000)
+# large lists, takes a lot of time to load
+# when facing facing storage capacity issues, check the capacity:
+#memory.limit()
+# we increase the limit
+#memory.limit(size=56000)
 
-club1 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club1.RData&quot;)
-club2 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club2.RData&quot;)
-club3 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club3.RData&quot;)
-club4 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club4.RData&quot;)
-club5 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club5.RData&quot;)
+club1 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club1.RData&quot;)
+club2 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club2.RData&quot;)
+club3 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club3.RData&quot;)
+club4 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club4.RData&quot;)
+club5 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club5.RData&quot;)
 
 # list main model (5)
-list &lt;- list(club1[[5]], club2[[5]], club3[[5]], club4[[5]], club5[[5]])
+list &lt;- list(club1[[5]], club2[[5]],  club3[[5]], club4[[5]], club5[[5]])
 
 # remove the excess data
 rm(club1, club2, club3, club4, club5)</code></pre>

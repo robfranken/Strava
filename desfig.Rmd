@@ -16,7 +16,6 @@ output:
 
 
 ```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
-library(knitr)
 
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
@@ -43,26 +42,58 @@ This script replicates Figure 5 (Development of the mean of running attributes).
 
 <br>
 
-# Preparation
+# Getting started
 
+## clean up
 
-
-Clean the working environment, load in the club data, load some packages.
-
-```{r, warning=FALSE}
-# clean the working environment 
+```{r, attr.output='style="max-height: 200px;"'}
 rm (list = ls( ))
+```
 
-#packages
-library(dplyr)
-library(moments)
-library(ggplot2)
+<br> 
 
+## custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+```
+
+<br>
+
+
+## necessary packages
+
+We install and load the packages we need later on:
+- `moments`: for calculating statistics
+- `dplyr`: for data manipulation
+- `ggplot2`: for data visualization
+
+```{r packages, results='hide'}
+packages = c("moments", "dplyr", "ggplot2")
+fpackage.check(packages)
+```
+
+
+## load club data 
+```{r, warning=FALSE}
 load("clubdata.RData")
 
 ```
 
-# Plot
+<br>
+----
+
+# data wrangling
 
 ```{r}
 
@@ -70,16 +101,16 @@ load("clubdata.RData")
 mean_freq <- mean_vol <- matrix(NA, nrow=12, ncol=5)
 for ( i in 1:5) {
   for ( t in 1:12) {
-    mean_freq[t,i] <- mean(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)])
-    mean_vol[t,i] <- mean(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)])
+    mean_freq[t,i] <- mean(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
+    mean_vol[t,i] <- mean(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
   }
 }
 
 sd_freq <- sd_vol <- matrix(NA, nrow=12, ncol=5)
 for ( i in 1:5) {
   for ( t in 1:12) {
-    sd_freq[t,i] <- sd(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)])
-    sd_vol[t,i] <- sd(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)])
+    sd_freq[t,i] <- sd(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
+    sd_vol[t,i] <- sd(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
   }
 }
 
@@ -95,7 +126,7 @@ data_male <- data.frame(
   mean = as.vector(c(mean_freq, mean_vol)),
   sd = as.vector(c(sd_freq, sd_vol)),
   se =  as.vector(c(se_freq, se_vol)),
-  club = as.character(sort(replicate(12, c("Club 1 (N=30)", "Club 2 (N=62)", "Club 3 (N=165)", "Club 4 (N=14)", "Club 5 (N=77)")))),
+  club = as.character(sort(replicate(12, c("Club 1 (N=27)", "Club 2 (N=58)", "Club 3 (N=159)", "Club 4 (N=9)", "Club 5 (N=76)")))),
   time = rep(c(1:12)),
   Attribute = c(rep("Frequency", 12*5), rep("Volume", 12*5)),
   Group = "Male")
@@ -106,8 +137,8 @@ mean_freq <- matrix(NA, nrow=12, ncol=5)
 mean_vol <- matrix(NA, nrow=12, ncol=5)
 for ( i in 1:5) {
   for ( t in 1:12) {
-    mean_freq[t,i] <- mean(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)])
-    mean_vol[t,i] <- mean(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)])
+    mean_freq[t,i] <- mean(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
+    mean_vol[t,i] <- mean(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
   }
 }
 
@@ -115,8 +146,8 @@ sd_freq <- matrix(NA, nrow=12, ncol=5)
 sd_vol <- matrix(NA, nrow=12, ncol=5)
 for ( i in 1:5) {
   for ( t in 1:12) {
-    sd_freq[t,i] <- sd(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)])
-    sd_vol[t,i] <- sd(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)])
+    sd_freq[t,i] <- sd(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
+    sd_vol[t,i] <- sd(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
   }
 }
 
@@ -133,12 +164,17 @@ data_female <- data.frame(
   mean = as.vector(c(mean_freq, mean_vol)),
   sd = as.vector(c(sd_freq, sd_vol)),
   se =  as.vector(c(se_freq, se_vol)),
-  club = as.character(sort(replicate(12, c("Club 1 (N=30)", "Club 2 (N=62)", "Club 3 (N=165)", "Club 4 (N=14)", "Club 5 (N=77)")))),
+  club = as.character(sort(replicate(12, c("Club 1 (N=27)", "Club 2 (N=58)", "Club 3 (N=159)", "Club 4 (N=9)", "Club 5 (N=76)")))),
   time = rep(c(1:12)),
   Attribute = c(rep("Frequency", 12*5), rep("Volume", 12*5)),
   Group = "Female and others"
 )
+```
 
+----
+
+# Plotting
+```{r}
 plot <- rbind(data_male, data_female) #, data_all)
 
 pd <- position_dodge(width = .8) # dodge between points to prevent overlap of CIs

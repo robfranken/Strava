@@ -13,7 +13,7 @@
 
 <title>Meta-analysis</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -385,7 +385,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Meta-analysis</h1>
-<h4 class="date">Last compiled on juni, 2022</h4>
+<h4 class="date">Last compiled on juli, 2022</h4>
 
 </div>
 
@@ -470,21 +470,21 @@ map(sienaFit_clubL, 6)</code></pre>
 <p>Again, to summarize the results over our clubs, we will perform a
 meta-analysis using a Fisher-type combination of one-tailed
 p-values.</p>
-<pre class="r test"><code># clean the working environment
-rm(list = ls())
+<pre class="r test"><code># clean the working environment 
+rm (list = ls( ))
 
-loadRData &lt;- function(fileName) {
-    # loads an RData file, and returns it
-    load(fileName)
-    get(ls()[ls() != &quot;fileName&quot;])
+loadRData &lt;- function(fileName){
+  #loads an RData file, and returns it
+  load(fileName)
+  get(ls()[ls() != &quot;fileName&quot;])
 }
 
-# large lists, takes a lot of time to load in case you don&#39;t have enough memory space for all
-# RSiena lists, leave club 3 for now.
-club1 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club1.RData&quot;)
-club2 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club2.RData&quot;)
-club4 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club4.RData&quot;)
-club5 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club5.RData&quot;)
+# large lists, takes a lot of time to load
+# in case you don&#39;t have enough memory space for all RSiena lists, leave club 3 for now.
+club1 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club1.RData&quot;)
+club2 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club2.RData&quot;)
+club4 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club4.RData&quot;)
+club5 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club5.RData&quot;)
 
 # we list model 1-6
 m1List &lt;- list(club1[[1]], club2[[1]], club4[[1]], club5[[1]])
@@ -496,9 +496,11 @@ m6List &lt;- list(club1[[6]], club2[[6]], club4[[6]], club5[[6]])
 
 # remove the excess data, and add club 3&#39;s rsiena objects.
 rm(club1, club2, club4, club5)
-club3 &lt;- loadRData(&quot;test/sienaFit/volume/sienaFit_club3.RData&quot;)
-# when facing facing storage capacity issues, check the capacity: memory.limit() we increase the
-# limit memory.limit(size=56000)
+club3 &lt;-  loadRData(&quot;test/sienaFit/volume/sienaFit_club3.RData&quot;)
+# when facing facing storage capacity issues, check the capacity:
+#memory.limit()
+# we increase the limit
+#memory.limit(size=56000)
 
 # add to the lists
 m1List[[5]] &lt;- club3[[1]]
@@ -509,250 +511,238 @@ m5List[[5]] &lt;- club3[[5]]
 m6List[[5]] &lt;- club3[[6]]
 rm(club3)</code></pre>
 <p><br></p>
-<pre class="r test"><code># model 1 We extract the parameter estimates and standard errors
-parameters &lt;- sapply(m1List, function(x) {
-    x$theta
-})
-standers &lt;- sapply(m1List, function(x) {
-    x$se
-})
+<pre class="r test"><code>#model 1
+# We extract the parameter estimates and standard errors 
+parameters &lt;- sapply(m1List, function(x){x$theta})
+standers &lt;- sapply(m1List, function(x){x$se}) 
 
-(eff.names &lt;- m1List[[1]]$effects[m1List[[1]]$effects$include, &quot;effectName&quot;])
+(eff.names &lt;-
+    m1List[[1]]$effects[m1List[[1]]$effects$include,&#39;effectName&#39;]) 
 (eff.names &lt;- eff.names)
 
-# combine parameters and std.errors with effect names
+#combine parameters and std.errors with effect names
 rownames(parameters) &lt;- eff.names
 rownames(standers) &lt;- eff.names
 
 # print rounded to 3 decimals
-round(parameters, 3)
-round(standers, 3)
+round(parameters,3)
+round(standers,3)
 
-ans8 &lt;- siena08(m1List, bound = 100)
+ans8 &lt;- siena08(m1List, bound=100)
 
 efnames &lt;- names(ans8[1:40])
 efnames &lt;- substring(efnames, 8)
 
-Fishers &lt;- t(sapply(1:40, function(i) {
-    c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1)
-}))
+Fishers &lt;- t(sapply(1:40,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers &lt;- as.data.frame(Fishers)
 rownames(Fishers) &lt;- efnames
-names(Fishers) &lt;- c(&quot;Fplus&quot;, &quot;Fminus&quot;, &quot;pplus&quot;, &quot;pminus&quot;, &quot;df&quot;)
-# round(Fishers,3)
+names(Fishers) &lt;- c(&#39;Fplus&#39;, &#39;Fminus&#39;, &#39;pplus&#39;, &#39;pminus&#39;, &#39;df&#39;)
+#round(Fishers,3)
 
 # we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
-par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep = &quot;&quot;)
-df &lt;- as.data.frame(matrix(par_standers, nrow = 40, ncol = 5))
+par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep=&quot;&quot;)
+df &lt;- as.data.frame(matrix(par_standers, nrow=40, ncol=5))
 rownames(df) &lt;- efnames
 colnames(df) &lt;- (c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 4 (N=13)&quot;, &quot;Club 5 (N=77)&quot;, &quot;Club 3 (N=162)&quot;))
 df2 &lt;- cbind(df, round(Fishers, 3))
-df2 &lt;- df2[, c(1, 2, 5, 3, 4, 7, 6, 9, 8, 10)]  # reorder
+df2 &lt;- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
 save(df2, file = &quot;test/sienaFit/meta-analysis/meta_vol_m1.RData&quot;)
 
-# model 2 We extract the parameter estimates and standard errors
-parameters &lt;- sapply(m2List, function(x) {
-    x$theta
-})
-standers &lt;- sapply(m2List, function(x) {
-    x$se
-})
+#model 2
+# We extract the parameter estimates and standard errors 
+parameters &lt;- sapply(m2List, function(x){x$theta})
+standers &lt;- sapply(m2List, function(x){x$se}) 
 
-(eff.names &lt;- m2List[[1]]$effects[m2List[[1]]$effects$include, &quot;effectName&quot;])
+(eff.names &lt;-
+    m2List[[1]]$effects[m2List[[1]]$effects$include,&#39;effectName&#39;]) 
 (eff.names &lt;- eff.names)
 
-# combine parameters and std.errors with effect names
+#combine parameters and std.errors with effect names
 rownames(parameters) &lt;- eff.names
 rownames(standers) &lt;- eff.names
 
 # print rounded to 3 decimals
-round(parameters, 3)
-round(standers, 3)
+round(parameters,3)
+round(standers,3)
 
-ans8 &lt;- siena08(m2List, bound = 100)
+ans8 &lt;- siena08(m2List, bound=100)
 
 efnames &lt;- names(ans8[1:41])
 efnames &lt;- substring(efnames, 8)
 
-Fishers &lt;- t(sapply(1:41, function(i) {
-    c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1)
-}))
+Fishers &lt;- t(sapply(1:41,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers &lt;- as.data.frame(Fishers)
 rownames(Fishers) &lt;- efnames
-names(Fishers) &lt;- c(&quot;Fplus&quot;, &quot;Fminus&quot;, &quot;pplus&quot;, &quot;pminus&quot;, &quot;df&quot;)
-# round(Fishers,3)
+names(Fishers) &lt;- c(&#39;Fplus&#39;, &#39;Fminus&#39;, &#39;pplus&#39;, &#39;pminus&#39;, &#39;df&#39;)
+#round(Fishers,3)
 
 # we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
-par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep = &quot;&quot;)
-df &lt;- as.data.frame(matrix(par_standers, nrow = 41, ncol = 5))
+par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep=&quot;&quot;)
+df &lt;- as.data.frame(matrix(par_standers, nrow=41, ncol=5))
 rownames(df) &lt;- efnames
 colnames(df) &lt;- (c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 4 (N=13)&quot;, &quot;Club 5 (N=77)&quot;, &quot;Club 3 (N=162)&quot;))
 df2 &lt;- cbind(df, round(Fishers, 3))
-df2 &lt;- df2[, c(1, 2, 5, 3, 4, 7, 6, 9, 8, 10)]  # reorder
+df2 &lt;- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
 save(df2, file = &quot;test/sienaFit/meta-analysis/meta_vol_m2.RData&quot;)
 
-# model 3 We extract the parameter estimates and standard errors
-parameters &lt;- sapply(m3List, function(x) {
-    x$theta
-})
-standers &lt;- sapply(m3List, function(x) {
-    x$se
-})
+#model 3
+# We extract the parameter estimates and standard errors 
+parameters &lt;- sapply(m3List, function(x){x$theta})
+standers &lt;- sapply(m3List, function(x){x$se}) 
 
-(eff.names &lt;- m3List[[1]]$effects[m3List[[1]]$effects$include, &quot;effectName&quot;])
+(eff.names &lt;-
+    m3List[[1]]$effects[m3List[[1]]$effects$include,&#39;effectName&#39;]) 
 (eff.names &lt;- eff.names)
 
-# combine parameters and std.errors with effect names
+#combine parameters and std.errors with effect names
 rownames(parameters) &lt;- eff.names
 rownames(standers) &lt;- eff.names
 
 # print rounded to 3 decimals
-round(parameters, 3)
-round(standers, 3)
+round(parameters,3)
+round(standers,3)
 
-ans8 &lt;- siena08(m3List, bound = 100)
+ans8 &lt;- siena08(m3List, bound=100)
 
 efnames &lt;- names(ans8[1:41])
 efnames &lt;- substring(efnames, 8)
 
-Fishers &lt;- t(sapply(1:41, function(i) {
-    c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1)
-}))
+Fishers &lt;- t(sapply(1:41,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers &lt;- as.data.frame(Fishers)
 rownames(Fishers) &lt;- efnames
-names(Fishers) &lt;- c(&quot;Fplus&quot;, &quot;Fminus&quot;, &quot;pplus&quot;, &quot;pminus&quot;, &quot;df&quot;)
-# round(Fishers,3)
+names(Fishers) &lt;- c(&#39;Fplus&#39;, &#39;Fminus&#39;, &#39;pplus&#39;, &#39;pminus&#39;, &#39;df&#39;)
+#round(Fishers,3)
 
 # we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
-par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep = &quot;&quot;)
-df &lt;- as.data.frame(matrix(par_standers, nrow = 41, ncol = 5))
+par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep=&quot;&quot;)
+df &lt;- as.data.frame(matrix(par_standers, nrow=41, ncol=5))
 rownames(df) &lt;- efnames
 colnames(df) &lt;- (c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 4 (N=13)&quot;, &quot;Club 5 (N=77)&quot;, &quot;Club 3 (N=162)&quot;))
 df2 &lt;- cbind(df, round(Fishers, 3))
-df2 &lt;- df2[, c(1, 2, 5, 3, 4, 7, 6, 9, 8, 10)]  # reorder
+df2 &lt;- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
 save(df2, file = &quot;test/sienaFit/meta-analysis/meta_vol_m3.RData&quot;)
 
-# model 4 We extract the parameter estimates and standard errors
-parameters &lt;- sapply(m4List, function(x) {
-    x$theta
-})
-standers &lt;- sapply(m4List, function(x) {
-    x$se
-})
+#model 4
+# We extract the parameter estimates and standard errors 
+parameters &lt;- sapply(m4List, function(x){x$theta})
+standers &lt;- sapply(m4List, function(x){x$se}) 
 
-(eff.names &lt;- m4List[[1]]$effects[m4List[[1]]$effects$include, &quot;effectName&quot;])
+(eff.names &lt;-
+    m4List[[1]]$effects[m4List[[1]]$effects$include,&#39;effectName&#39;]) 
 (eff.names &lt;- eff.names)
 
-# combine parameters and std.errors with effect names
+#combine parameters and std.errors with effect names
 rownames(parameters) &lt;- eff.names
 rownames(standers) &lt;- eff.names
 
 # print rounded to 3 decimals
-round(parameters, 3)
-round(standers, 3)
+round(parameters,3)
+round(standers,3)
 
-ans8 &lt;- siena08(m4List, bound = 100)
+ans8 &lt;- siena08(m4List, bound=100)
 
 efnames &lt;- names(ans8[1:41])
 efnames &lt;- substring(efnames, 8)
 
-Fishers &lt;- t(sapply(1:41, function(i) {
-    c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1)
-}))
+Fishers &lt;- t(sapply(1:41,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers &lt;- as.data.frame(Fishers)
 rownames(Fishers) &lt;- efnames
-names(Fishers) &lt;- c(&quot;Fplus&quot;, &quot;Fminus&quot;, &quot;pplus&quot;, &quot;pminus&quot;, &quot;df&quot;)
-# round(Fishers,3)
+names(Fishers) &lt;- c(&#39;Fplus&#39;, &#39;Fminus&#39;, &#39;pplus&#39;, &#39;pminus&#39;, &#39;df&#39;)
+#round(Fishers,3)
 
 # we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
-par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep = &quot;&quot;)
-df &lt;- as.data.frame(matrix(par_standers, nrow = 41, ncol = 5))
+par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep=&quot;&quot;)
+df &lt;- as.data.frame(matrix(par_standers, nrow=41, ncol=5))
 rownames(df) &lt;- efnames
 colnames(df) &lt;- (c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 4 (N=13)&quot;, &quot;Club 5 (N=77)&quot;, &quot;Club 3 (N=162)&quot;))
 df2 &lt;- cbind(df, round(Fishers, 3))
-df2 &lt;- df2[, c(1, 2, 5, 3, 4, 7, 6, 9, 8, 10)]  # reorder
+df2 &lt;- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
 save(df2, file = &quot;test/sienaFit/meta-analysis/meta_vol_m4.RData&quot;)
 
-# model 5 We extract the parameter estimates and standard errors
-parameters &lt;- sapply(m5List, function(x) {
-    x$theta
-})
-standers &lt;- sapply(m5List, function(x) {
-    x$se
-})
+#model 5
+# We extract the parameter estimates and standard errors 
+parameters &lt;- sapply(m5List, function(x){x$theta})
+standers &lt;- sapply(m5List, function(x){x$se}) 
 
-(eff.names &lt;- m5List[[1]]$effects[m5List[[1]]$effects$include, &quot;effectName&quot;])
+(eff.names &lt;-
+    m5List[[1]]$effects[m5List[[1]]$effects$include,&#39;effectName&#39;]) 
 (eff.names &lt;- eff.names)
 
-# combine parameters and std.errors with effect names
+#combine parameters and std.errors with effect names
 rownames(parameters) &lt;- eff.names
 rownames(standers) &lt;- eff.names
 
 # print rounded to 3 decimals
-round(parameters, 3)
-round(standers, 3)
+round(parameters,3)
+round(standers,3)
 
-ans8 &lt;- siena08(m5List, bound = 100)
+ans8 &lt;- siena08(m5List, bound=100)
 
 efnames &lt;- names(ans8[1:42])
 efnames &lt;- substring(efnames, 8)
 
-Fishers &lt;- t(sapply(1:42, function(i) {
-    c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1)
-}))
+Fishers &lt;- t(sapply(1:42,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers &lt;- as.data.frame(Fishers)
 rownames(Fishers) &lt;- efnames
-names(Fishers) &lt;- c(&quot;Fplus&quot;, &quot;Fminus&quot;, &quot;pplus&quot;, &quot;pminus&quot;, &quot;df&quot;)
-# round(Fishers,3)
+names(Fishers) &lt;- c(&#39;Fplus&#39;, &#39;Fminus&#39;, &#39;pplus&#39;, &#39;pminus&#39;, &#39;df&#39;)
+#round(Fishers,3)
 
 # we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
-par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep = &quot;&quot;)
-df &lt;- as.data.frame(matrix(par_standers, nrow = 42, ncol = 5))
+par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep=&quot;&quot;)
+df &lt;- as.data.frame(matrix(par_standers, nrow=42, ncol=5))
 rownames(df) &lt;- efnames
 colnames(df) &lt;- (c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 4 (N=13)&quot;, &quot;Club 5 (N=77)&quot;, &quot;Club 3 (N=162)&quot;))
 df2 &lt;- cbind(df, round(Fishers, 3))
-df2 &lt;- df2[, c(1, 2, 5, 3, 4, 7, 6, 9, 8, 10)]  # reorder
+df2 &lt;- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
 save(df2, file = &quot;test/sienaFit/meta-analysis/meta_vol_m5.RData&quot;)
 
-# model 6 We extract the parameter estimates and standard errors
-parameters &lt;- sapply(m6List, function(x) {
-    x$theta
-})
-standers &lt;- sapply(m6List, function(x) {
-    x$se
-})
+#model 6
+# We extract the parameter estimates and standard errors 
+parameters &lt;- sapply(m6List, function(x){x$theta})
+standers &lt;- sapply(m6List, function(x){x$se}) 
 
-(eff.names &lt;- m6List[[1]]$effects[m6List[[1]]$effects$include, &quot;effectName&quot;])
+(eff.names &lt;-
+    m6List[[1]]$effects[m6List[[1]]$effects$include,&#39;effectName&#39;]) 
 (eff.names &lt;- eff.names)
 
-# combine parameters and std.errors with effect names
+#combine parameters and std.errors with effect names
 rownames(parameters) &lt;- eff.names
 rownames(standers) &lt;- eff.names
 
 # print rounded to 3 decimals
-round(parameters, 3)
-round(standers, 3)
+round(parameters,3)
+round(standers,3)
 
-ans8 &lt;- siena08(m6List, bound = 100)
+ans8 &lt;- siena08(m6List, bound=100)
 
 efnames &lt;- names(ans8[1:41])
 efnames &lt;- substring(efnames, 8)
 
-Fishers &lt;- t(sapply(1:41, function(i) {
-    c(ans8[[i]]$cjplus, ans8[[i]]$cjminus, ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2 * ans8[[i]]$n1)
-}))
+Fishers &lt;- t(sapply(1:41,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers &lt;- as.data.frame(Fishers)
 rownames(Fishers) &lt;- efnames
-names(Fishers) &lt;- c(&quot;Fplus&quot;, &quot;Fminus&quot;, &quot;pplus&quot;, &quot;pminus&quot;, &quot;df&quot;)
-# round(Fishers,3)
+names(Fishers) &lt;- c(&#39;Fplus&#39;, &#39;Fminus&#39;, &#39;pplus&#39;, &#39;pminus&#39;, &#39;df&#39;)
+#round(Fishers,3)
 
 # we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
-par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep = &quot;&quot;)
-df &lt;- as.data.frame(matrix(par_standers, nrow = 41, ncol = 5))
+par_standers &lt;- paste(round(parameters, 3), &quot; (&quot;, round(standers, 3), &quot;)&quot;, sep=&quot;&quot;)
+df &lt;- as.data.frame(matrix(par_standers, nrow=41, ncol=5))
 rownames(df) &lt;- efnames
 colnames(df) &lt;- (c(&quot;Club 1 (N=30)&quot;, &quot;Club 2 (N=62)&quot;, &quot;Club 4 (N=13)&quot;, &quot;Club 5 (N=77)&quot;, &quot;Club 3 (N=162)&quot;))
 df2 &lt;- cbind(df, round(Fishers, 3))
-df2 &lt;- df2[, c(1, 2, 5, 3, 4, 7, 6, 9, 8, 10)]  # reorder
+df2 &lt;- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
 save(df2, file = &quot;test/sienaFit/meta-analysis/meta_vol_m6.RData&quot;)</code></pre>
 <div id="section" class="section level2 unnumbered">
 <h2 class="unnumbered"></h2>
