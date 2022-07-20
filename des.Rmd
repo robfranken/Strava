@@ -88,6 +88,7 @@ fload.R  <- function(fileName){
 ## necessary packages
 
 We install and load the packages we need later on:
+
 - `RSiena`: RSiena models, some descriptives on network level
 - `igraph`: Descriptives (dyad/triad census, degrees)
 - `tidyverse`

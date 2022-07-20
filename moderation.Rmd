@@ -1,0 +1,127 @@
+---
+title: "Post-hoc probing of moderational effects"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+  
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+
+---
+  
+Aim: to explore effect heterogeneity in social influence between actors within clubs, according to running level and gender.
+
+
+We specify multiple models, for each club. We include interaction terms (between influence and actor variables), fix them at the value 0, corresponding to the null hypothesis, and testing this null value using the score-type test.
+
+
+----
+
+# Getting started
+
+## clean up
+
+```{r, attr.output='style="max-height: 200px;"'}
+
+rm (list = ls( ))
+
+```
+
+<br>
+
+## general custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+- `fload.R`: function to load R-objects under new names.
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+fload.R  <- function(fileName){
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
+
+```
+
+
+## necessary packages
+
+- `RSiena`
+
+```{r packages, results='hide'}
+
+packages = c("RSiena")
+
+fpackage.check(packages)
+```
+
+<br>
+
+## read in RSiena data objects
+
+```{r, data}
+load("clubdata_rsiena_freq.Rdata")
+```
+
+<br>
+
+----
+
+# testing
+
+We probe for moderational effects of:
+
+- *gender*: to see whether receiving kudos or the activities of lower alters have differential effects for males and females;
+- *running level*: to see whether runners with different running experience are more/less susceptible to influence. We interact the influence effects with the `linear` shape effect (which represents ego's current running) and a time-constant actor-covariate representing the number of years that actors were active on Strava. 
+
+We have 2 (significant) influence effects (i.e., `indeg` and `avAttLower`);
+We have 2 dependent variables (i.e., running frequency and volume);
+and 3 interactions (i.e., gender, linear shape, years active on Strava).
+
+Thus, we estimate a total of 2x2x3=12 additional models.
+We include the particular interaction term, fix it at the value 0, and test this using the score-type test. 
+
+
+
+
+----
+
+we need:
+- `myeff` objects, lists containing the effect-objects for the respective clubs
+we take the main model (m5); and add the particular interaction terms.
+

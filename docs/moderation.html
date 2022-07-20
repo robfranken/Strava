@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Post-hoc probing of moderational effects</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+    <li>
+      <a href="desfig.html">Figure 5: Development of the mean running</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="other.html">Clubs 2-5</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Meta-analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="meta.html">Running frequency models</a>
+    </li>
+    <li>
+      <a href="vol_meta.html">Running volume models</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GOF
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GOF1.html">Running frequency models</a>
+    </li>
+    <li>
+      <a href="GOF2.html">Running volume</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Influence effects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influenceeffects.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 6: Ego-alter influence plot</a>
+    </li>
+    <li>
+      <a href="RI.html">Figure 7: Relative importance of effects</a>
+    </li>
+    <li>
+      <a href="simulations.html">Empirically calibrated ABMs</a>
+    </li>
+    <li>
+      <a href="moderation.html">Post-hoc probing of moderational effects</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Post-hoc probing of moderational
+effects</h1>
+<h4 class="date">Last compiled on juli, 2022</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<p>Aim: to explore effect heterogeneity in social influence between
+actors within clubs, according to running level and gender.</p>
+<p>We specify multiple models, for each club. We include interaction
+terms (between influence and actor variables), fix them at the value 0,
+corresponding to the null hypothesis, and testing this null value using
+the score-type test.</p>
+<hr />
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<div id="clean-up" class="section level2">
+<h2>clean up</h2>
+<pre class="r test"><code>rm (list = ls( ))</code></pre>
+<p><br></p>
+</div>
+<div id="general-custom-functions" class="section level2">
+<h2>general custom functions</h2>
+<ul>
+<li><code>fpackage.check</code>: Check if packages are installed (and
+install if not) in R (<a
+href="https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/">source</a>)</li>
+<li><code>fload.R</code>: function to load R-objects under new
+names.</li>
+</ul>
+<pre class="r test"><code>fpackage.check &lt;- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+fload.R  &lt;- function(fileName){
+  load(fileName)
+  get(ls()[ls() != &quot;fileName&quot;])
+}</code></pre>
+</div>
+<div id="necessary-packages" class="section level2">
+<h2>necessary packages</h2>
+<ul>
+<li><code>RSiena</code></li>
+</ul>
+<pre class="r test"><code>packages = c(&quot;RSiena&quot;)
+
+fpackage.check(packages)</code></pre>
+<p><br></p>
+</div>
+<div id="read-in-rsiena-data-objects" class="section level2">
+<h2>read in RSiena data objects</h2>
+<pre class="r test"><code>load(&quot;clubdata_rsiena_freq.Rdata&quot;)</code></pre>
+<p><br></p>
+<hr />
+</div>
+</div>
+<div id="testing" class="section level1">
+<h1>testing</h1>
+<p>We probe for moderational effects of:</p>
+<ul>
+<li><em>gender</em>: to see whether receiving kudos or the activities of
+lower alters have differential effects for males and females;</li>
+<li><em>running level</em>: to see whether runners with different
+running experience are more/less susceptible to influence. We interact
+the influence effects with the <code>linear</code> shape effect (which
+represents ego’s current running) and a time-constant actor-covariate
+representing the number of years that actors were active on Strava.</li>
+</ul>
+<p>We have 2 (significant) influence effects (i.e., <code>indeg</code>
+and <code>avAttLower</code>); We have 2 dependent variables (i.e.,
+running frequency and volume); and 3 interactions (i.e., gender, linear
+shape, years active on Strava).</p>
+<p>Thus, we estimate a total of 2x2x3=12 additional models. We include
+the particular interaction term, fix it at the value 0, and test this
+using the score-type test.</p>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBvc3QtaG9jIHByb2Jpbmcgb2YgbW9kZXJhdGlvbmFsIGVmZmVjdHMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQogIA0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJ30NCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCg0KLS0tDQogIA0KQWltOiB0byBleHBsb3JlIGVmZmVjdCBoZXRlcm9nZW5laXR5IGluIHNvY2lhbCBpbmZsdWVuY2UgYmV0d2VlbiBhY3RvcnMgd2l0aGluIGNsdWJzLCBhY2NvcmRpbmcgdG8gcnVubmluZyBsZXZlbCBhbmQgZ2VuZGVyLg0KDQoNCldlIHNwZWNpZnkgbXVsdGlwbGUgbW9kZWxzLCBmb3IgZWFjaCBjbHViLiBXZSBpbmNsdWRlIGludGVyYWN0aW9uIHRlcm1zIChiZXR3ZWVuIGluZmx1ZW5jZSBhbmQgYWN0b3IgdmFyaWFibGVzKSwgZml4IHRoZW0gYXQgdGhlIHZhbHVlIDAsIGNvcnJlc3BvbmRpbmcgdG8gdGhlIG51bGwgaHlwb3RoZXNpcywgYW5kIHRlc3RpbmcgdGhpcyBudWxsIHZhbHVlIHVzaW5nIHRoZSBzY29yZS10eXBlIHRlc3QuDQoNCg0KLS0tLQ0KDQojIEdldHRpbmcgc3RhcnRlZA0KDQojIyBjbGVhbiB1cA0KDQpgYGB7ciwgYXR0ci5vdXRwdXQ9J3N0eWxlPSJtYXgtaGVpZ2h0OiAyMDBweDsiJ30NCg0Kcm0gKGxpc3QgPSBscyggKSkNCg0KYGBgDQoNCjxicj4NCg0KIyMgZ2VuZXJhbCBjdXN0b20gZnVuY3Rpb25zDQoNCi0gYGZwYWNrYWdlLmNoZWNrYDogQ2hlY2sgaWYgcGFja2FnZXMgYXJlIGluc3RhbGxlZCAoYW5kIGluc3RhbGwgaWYgbm90KSBpbiBSIChbc291cmNlXShodHRwczovL3ZiYWxpZ2EuZ2l0aHViLmlvL3ZlcmlmeS10aGF0LXItcGFja2FnZXMtYXJlLWluc3RhbGxlZC1hbmQtbG9hZGVkLykpDQotIGBmbG9hZC5SYDogZnVuY3Rpb24gdG8gbG9hZCBSLW9iamVjdHMgdW5kZXIgbmV3IG5hbWVzLg0KDQpgYGB7ciwgcmVzdWx0cz0naGlkZSd9DQoNCmZwYWNrYWdlLmNoZWNrIDwtIGZ1bmN0aW9uKHBhY2thZ2VzKSB7DQogICAgbGFwcGx5KHBhY2thZ2VzLCBGVU4gPSBmdW5jdGlvbih4KSB7DQogICAgICAgIGlmICghcmVxdWlyZSh4LCBjaGFyYWN0ZXIub25seSA9IFRSVUUpKSB7DQogICAgICAgICAgICBpbnN0YWxsLnBhY2thZ2VzKHgsIGRlcGVuZGVuY2llcyA9IFRSVUUpDQogICAgICAgICAgICBsaWJyYXJ5KHgsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkNCiAgICAgICAgfQ0KICAgIH0pDQp9DQoNCmZsb2FkLlIgIDwtIGZ1bmN0aW9uKGZpbGVOYW1lKXsNCiAgbG9hZChmaWxlTmFtZSkNCiAgZ2V0KGxzKClbbHMoKSAhPSAiZmlsZU5hbWUiXSkNCn0NCg0KYGBgDQoNCg0KIyMgbmVjZXNzYXJ5IHBhY2thZ2VzDQoNCi0gYFJTaWVuYWANCg0KYGBge3IgcGFja2FnZXMsIHJlc3VsdHM9J2hpZGUnfQ0KDQpwYWNrYWdlcyA9IGMoIlJTaWVuYSIpDQoNCmZwYWNrYWdlLmNoZWNrKHBhY2thZ2VzKQ0KYGBgDQoNCjxicj4NCg0KIyMgcmVhZCBpbiBSU2llbmEgZGF0YSBvYmplY3RzDQoNCmBgYHtyLCBkYXRhfQ0KbG9hZCgiY2x1YmRhdGFfcnNpZW5hX2ZyZXEuUmRhdGEiKQ0KYGBgDQoNCjxicj4NCg0KLS0tLQ0KDQojIHRlc3RpbmcNCg0KV2UgcHJvYmUgZm9yIG1vZGVyYXRpb25hbCBlZmZlY3RzIG9mOg0KDQotICpnZW5kZXIqOiB0byBzZWUgd2hldGhlciByZWNlaXZpbmcga3Vkb3Mgb3IgdGhlIGFjdGl2aXRpZXMgb2YgbG93ZXIgYWx0ZXJzIGhhdmUgZGlmZmVyZW50aWFsIGVmZmVjdHMgZm9yIG1hbGVzIGFuZCBmZW1hbGVzOw0KLSAqcnVubmluZyBsZXZlbCo6IHRvIHNlZSB3aGV0aGVyIHJ1bm5lcnMgd2l0aCBkaWZmZXJlbnQgcnVubmluZyBleHBlcmllbmNlIGFyZSBtb3JlL2xlc3Mgc3VzY2VwdGlibGUgdG8gaW5mbHVlbmNlLiBXZSBpbnRlcmFjdCB0aGUgaW5mbHVlbmNlIGVmZmVjdHMgd2l0aCB0aGUgYGxpbmVhcmAgc2hhcGUgZWZmZWN0ICh3aGljaCByZXByZXNlbnRzIGVnbydzIGN1cnJlbnQgcnVubmluZykgYW5kIGEgdGltZS1jb25zdGFudCBhY3Rvci1jb3ZhcmlhdGUgcmVwcmVzZW50aW5nIHRoZSBudW1iZXIgb2YgeWVhcnMgdGhhdCBhY3RvcnMgd2VyZSBhY3RpdmUgb24gU3RyYXZhLiANCg0KV2UgaGF2ZSAyIChzaWduaWZpY2FudCkgaW5mbHVlbmNlIGVmZmVjdHMgKGkuZS4sIGBpbmRlZ2AgYW5kIGBhdkF0dExvd2VyYCk7DQpXZSBoYXZlIDIgZGVwZW5kZW50IHZhcmlhYmxlcyAoaS5lLiwgcnVubmluZyBmcmVxdWVuY3kgYW5kIHZvbHVtZSk7DQphbmQgMyBpbnRlcmFjdGlvbnMgKGkuZS4sIGdlbmRlciwgbGluZWFyIHNoYXBlLCB5ZWFycyBhY3RpdmUgb24gU3RyYXZhKS4NCg0KVGh1cywgd2UgZXN0aW1hdGUgYSB0b3RhbCBvZiAyeDJ4Mz0xMiBhZGRpdGlvbmFsIG1vZGVscy4NCldlIGluY2x1ZGUgdGhlIHBhcnRpY3VsYXIgaW50ZXJhY3Rpb24gdGVybSwgZml4IGl0IGF0IHRoZSB2YWx1ZSAwLCBhbmQgdGVzdCB0aGlzIHVzaW5nIHRoZSBzY29yZS10eXBlIHRlc3QuIA0KDQoNCg==</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("moderation.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

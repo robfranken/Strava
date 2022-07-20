@@ -51,6 +51,7 @@ rm (list = ls( ))
 ```
 
 <br> 
+
 ## custom functions
 
 - `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))

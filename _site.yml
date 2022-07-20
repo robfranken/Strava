@@ -42,6 +42,8 @@ navbar:
         href: RI.html
       - text: "Empirically calibrated ABMs"
         href: simulations.html
+      - text: "Post-hoc probing of moderational effects"
+        href: moderation.html
   right:
     - icon: fab fa-github
       href: https://github.com/robfranken/Strava
