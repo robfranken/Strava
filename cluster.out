@@ -1,24 +1,10 @@
-starting worker pid=17488 on localhost:11002 at 18:18:02.209
-starting worker pid=18252 on localhost:11002 at 18:18:02.428
-starting worker pid=19916 on localhost:11002 at 18:18:02.642
-starting worker pid=8240 on localhost:11002 at 18:18:02.863
-starting worker pid=1420 on localhost:11002 at 18:18:03.082
-starting worker pid=15600 on localhost:11002 at 18:18:03.354
-starting worker pid=10924 on localhost:11002 at 18:18:03.565
-starting worker pid=20788 on localhost:11002 at 18:18:03.774
-starting worker pid=9744 on localhost:11002 at 18:18:03.987
-starting worker pid=8452 on localhost:11002 at 18:18:04.215
-Warning message:
-Warning message:
-Warning message:
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-package 'RSiena' was built under R version 4.0.5 
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
-Warning message:
-package 'RSiena' was built under R version 4.0.5 
+starting worker pid=15928 on localhost:11758 at 16:11:20.751
+starting worker pid=5856 on localhost:11758 at 16:11:21.338
+starting worker pid=11416 on localhost:11758 at 16:11:21.806
+starting worker pid=13028 on localhost:11758 at 16:11:22.261
+starting worker pid=7560 on localhost:11758 at 16:11:22.707
+starting worker pid=20216 on localhost:11758 at 16:11:23.230
+starting worker pid=19520 on localhost:11758 at 16:11:23.688
+starting worker pid=20836 on localhost:11758 at 16:11:24.136
+starting worker pid=16372 on localhost:11758 at 16:11:24.634
+starting worker pid=20636 on localhost:11758 at 16:11:25.120
