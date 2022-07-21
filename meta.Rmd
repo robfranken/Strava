@@ -107,10 +107,12 @@ colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", co
 
 - `RSiena`: for meta-analysis in siena08
 - `knitr`: generating tables
+- `kableExtra`: extend `knitr`' table functionality
+- `dplyr`: data manipulation
 
 
 ```{r, results='hide'}
-packages = c("RSiena", "knitr")
+packages = c("RSiena", "knitr", "kableExtra", "dplyr")
 fpackage.check(packages)
 ```
 

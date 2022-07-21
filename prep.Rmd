@@ -36,13 +36,23 @@ klippy::klippy(position = c('top', 'right'))
 
 # Getting started
 
+
+## clean up
+
+```{r, results='hide'}
+rm(list=ls())
+
+```
+
+<br>
+
 ## general custom functions
 
 - `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
 - `fload.R`: function to load R-objects under new names.
+- `fidmaker`: creating mock IDs
 
-```{r, results='hide'}
-rm(list=ls()) # clean up
+```{r, eval=FALSE}
 
 fpackage.check <- function(packages) {
     lapply(packages, FUN = function(x) {
@@ -58,16 +68,26 @@ fload.R  <- function(fileName){
   get(ls()[ls() != "fileName"])
 }
 
+fidmaker <- function(x) {
+    max.val = x * 1e+05
+    count <- nchar(as.character(max.val))  # find out how many 'numbers' each id will have after the letter
+    size <- paste("%0", count, "d", sep = "")  # set the variable to be fed into 'sprintf' to ensure we have leading 0's
+    lets <- toupper(sample(letters, x, replace = T))  # randomizing the letters 
+    nums <- sprintf(size, sample(1:max.val)[1:x])  # randomizing the numbers, and ensuring they all have the same number of characters
+    ids <- paste(lets, nums, sep = "")  # joining them together
+    return(ids)
+  }
+
 ```
 
 <br>
 
 ## necessary packages
 
-- `RSiena`
+- `RSiena`: creating RSiena data objects
 - `dplyr`: package for data wrangling
 
-```{r, results='hide'}
+```{r, eval=FALSE}
 packages = c("RSiena", "dplyr")
 fpackage.check(packages)
 ```
@@ -109,17 +129,10 @@ for (i in (1: length(club_str))) {
                                     sep = ","))
   # remove the first column (represents index made in the csv)
   friend_data <- friend_data[, 2:ncol(friend_data)]
-  # and anonymize the user id, with an id-maker function
-  idmaker <- function(x) {
-    max.val = x * 1e+05
-    count <- nchar(as.character(max.val))  # find out how many 'numbers' each id will have after the letter
-    size <- paste("%0", count, "d", sep = "")  # set the variable to be fed into 'sprintf' to ensure we have leading 0's
-    lets <- toupper(sample(letters, x, replace = T))  # randomizing the letters 
-    nums <- sprintf(size, sample(1:max.val)[1:x])  # randomizing the numbers, and ensuring they all have the same number of characters
-    ids <- paste(lets, nums, sep = "")  # joining them together
-    return(ids)
-  }
-  fakeid <- idmaker(nrow(friend_data))  # generate random id
+  
+  # and anonymize the user id, with our id-maker function
+  
+  fakeid <- fidmaker(nrow(friend_data))  # generate random id
   colnames(friend_data) <- fakeid  # anonymizing users
   
   # let's load the kudos network
@@ -278,7 +291,7 @@ for (i in (1: length(club_str))) {
         kudo_data.nm[,i,j] <- NA # but also their in-degree entries
         freq_run_temp.nm[i,1,j] <- NA # and their behaviors
         time_run_temp.nm[i,1,j] <- NA
-      }
+      }g
     }
   }
 
