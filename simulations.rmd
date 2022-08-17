@@ -43,7 +43,8 @@ I reduced the data to only two time-points. Initial effect values are set based 
 
 I specify additional models: 1) with no peer influence effects whatsoever; 2) with only indegree effect on behavior; 3) with only upward assimilation (avAttHigher); 4) with only downward assimilation (avAttLower).
 
-100 simulations were run.
+
+`r colorize("only 100 simulations were run, but this can be adjusted in the script!", "red")`
 
 ----
 
@@ -116,6 +117,7 @@ load("clubdata.RData")
 The following scripts makes for all clubs boxplots illustrating how average running behavior values differ across different simulation models.
 
 **Models**:
+
 - model 5
 - no_inf
 - only indegree
@@ -558,22 +560,22 @@ for (c in 1:length(clubdata)) {
 
 ## club 1
 
-![](test/simulations/abm_plot_club1.png)
+![](abm_plot_club1.png)
 
 ## club 2
 
-![](test/simulations/abm_plot_club2.png)
+![](abm_plot_club2.png)
 
 ## club 3
 
-![](test/simulations/abm_plot_club3.png)
+![](abm_plot_club3.png)
 
 ## club 4
 
-![](test/simulations/abm_plot_club4.png)
+![](abm_plot_club4.png)
 
 ## club 5
 
-![](test/simulations/abm_plot_club5.png)
+![](abm_plot_club5.png)
 
 # {-}
