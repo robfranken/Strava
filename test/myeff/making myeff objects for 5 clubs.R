@@ -11,9 +11,10 @@
     
     #load rsiena object for this club (mydata)
     load(file=paste("test", "/", "mydata", "/", "mydata_club", 1, ".RData", sep = ""))
+
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10) #behNintn = number of user-defined behavior interactions we can later add.
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -59,7 +60,7 @@
     load(file=paste("test", "/", "mydata", "/", "mydata_club", 2, ".RData", sep = ""))
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -104,7 +105,7 @@
     load(file=paste("test", "/", "mydata", "/", "mydata_club", 3, ".RData", sep = ""))
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -149,7 +150,7 @@
     load(file=paste("test", "/", "mydata", "/", "mydata_club", 4, ".RData", sep = ""))
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -197,7 +198,7 @@
     load(file=paste("test", "/", "mydata", "/", "mydata_club", 5, ".RData", sep = ""))
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 

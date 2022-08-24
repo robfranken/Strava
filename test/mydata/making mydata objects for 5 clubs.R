@@ -18,7 +18,8 @@ for (i in (1: length(clubdata))) {
   gender <- ifelse(club$female == 1, 2, gender)
   gender <- ifelse(club$other == 1, 2, gender)
   gender <- coCovar(gender)
-  mydata <- sienaDataCreate(kudonet, freq_run, freq_other, gender)
+  novice <- coCovar(club$novice)
+  mydata <- sienaDataCreate(kudonet, freq_run, freq_other, gender, novice)
   
   # save object
   save(mydata, file=paste("test", "/", "mydata", "/", "mydata_club", i, ".RData", sep = ""))
@@ -42,6 +43,7 @@ for (i in (1: length(clubdata))) {
   gender <- ifelse(club$female == 1, 2, gender)
   gender <- ifelse(club$other == 1, 2, gender)
   gender <- coCovar(gender)
+  novice <- coCovar(club$novice)
   mydata <- sienaDataCreate(kudonet, time_run, time_other, gender)
   
   # save object

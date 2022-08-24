@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Interaction between influence and ego’s behavior</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/clipboard-1.7.1/clipboard.min.js"></script>
+<link href="site_libs/primer-tooltips-1.4.0/build.css" rel="stylesheet" />
+<link href="site_libs/klippy-0.0.0.9500/css/klippy.min.css" rel="stylesheet" />
+<script src="site_libs/klippy-0.0.0.9500/js/klippy.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="tweaks.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="prep.html">Preparation</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Descriptives
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="des.html">Procedure</a>
+    </li>
+    <li>
+      <a href="destab.html">Table 1: Descriptives</a>
+    </li>
+    <li>
+      <a href="desfig.html">Figure 5: Development of the mean running</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Model selection
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="explore.html">Club 1</a>
+    </li>
+    <li>
+      <a href="other.html">Clubs 2-5</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Meta-analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="meta.html">Running frequency models</a>
+    </li>
+    <li>
+      <a href="vol_meta.html">Running volume models</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    GOF
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GOF1.html">Running frequency models</a>
+    </li>
+    <li>
+      <a href="GOF2.html">Running volume</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Influence effects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="influenceeffects.html">Different influence operationalizations</a>
+    </li>
+    <li>
+      <a href="figure3.html">Figure 6: Ego-alter influence plot</a>
+    </li>
+    <li>
+      <a href="RI.html">Figure 7: Relative importance of effects</a>
+    </li>
+    <li>
+      <a href="simulations.html">Empirically calibrated ABMs</a>
+    </li>
+    <li>
+      <a href="moderation.html">Post-hoc probing of moderational effects</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/robfranken/Strava">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Interaction between influence and ego’s
+behavior</h1>
+<h4 class="date">Last compiled on augustus, 2022</h4>
+
+</div>
+
+
+<script>
+  addClassKlippyTo("pre.r, pre.markdown");
+  addKlippy('right', 'top', 'auto', '1', 'Copy code', 'Copied!');
+</script>
+<hr />
+<p>We are interested in exploring influence heterogeneity between actors
+in the networks. More precisely, we aim to assess whether social
+influence differed between actors depending on their current
+behavior.</p>
+<p>But how to implement this in RSiena?</p>
+<p>Recall that the behavior evaluation function for actor <em>i</em> is
+defined as</p>
+<p><span class="math display">\[f_i^{beh}(x,z) = \sum_k \beta^{beh}_k
+s^{beh}_{ik}(x,z) \]</span></p>
+<p>where <span class="math inline">\(\beta^{beh}_k\)</span> are the
+parameters and <span class="math inline">\(s^{beh}_k(x,z)\)</span>
+behavior effects.</p>
+<p>Let us assume, for simplicity’s sake, that behavior evolution is
+guided only by peer influence.</p>
+<p><br></p>
+<div id="average-alter-effect" class="section level2">
+<h2>average alter effect</h2>
+<p>Following the approach in the RSiena manual (section 5.10.2), we take
+the <code>avAlt</code>-effect representing peer influence.</p>
+<p>This leads to the following equation; where it is assumed that also
+the shape effects are included in the model.</p>
+<p><span class="math display">\[f_i^{beh}(x,z) = \beta^{beh}_1 z_i +
+\beta^{beh}_2 z_i^2 + \beta^{beh}_3 z_i \frac {\textstyle \sum_j
+x_{ij}z_j } {\textstyle \sum_j x_{ij} }  \]</span></p>
+<p>To condition influence on ego’s current behavior, the
+<code>avAlt</code> effect is interacted with the <code>linear</code>
+shape effect [i.e., the (mean-centered) behavior value of <em>i</em>].
+<span style="color: red;">The manual states on p.57 that they interact
+the average alter effect with the <strong>quadratic shape</strong>
+effect, but this is wrong!</span> Given that the linear shape effect is
+defined as <span class="math inline">\(s^{beh}_{i1}(x,z) = z_i\)</span>,
+the resulting equation reads</p>
+<p><span class="math display">\[f_i^{beh}(x,z) = \beta^{beh}_1 z_i +
+\beta^{beh}_2 z_i^2 + \beta^{beh}_3 z_i \frac {\textstyle \sum_j
+x_{ij}z_j } {\textstyle \sum_j x_{ij} } + \beta^{beh}_4 z_i^2 \frac
+{\textstyle \sum_j x_{ij}z_j } {\textstyle \sum_j x_{ij}
+}  \]</span></p>
+<div id="test" class="section level3">
+<h3>test</h3>
+<p>Let’s see if this model captures this interaction (i.e., that a
+positive/negative estimate for <span
+class="math inline">\(\beta^{beh}_4\)</span> means that actors with
+higher values for <em>z</em> have a stronger/weaker tendency to
+assimilate to their alters’ mean behavior value).</p>
+<div id="functions" class="section level4">
+<h4>functions</h4>
+<p>we first define some functions:</p>
+<pre class="r fold-hide"><code>#centering behavior z
+fcentering &lt;- function(actors) {
+    centered &lt;- actors - mean(actors)
+    return(centered)
+}
+
+#calculate similarity score
+fsimij &lt;- function(actors, min, max) {
+    # rv &lt;- max(actors) - min(actors)
+    rv &lt;- max - min
+    mat1 &lt;- matrix(actors, nrow = length(actors), ncol = length(actors), byrow = TRUE)
+    mat2 &lt;- t(mat1)
+    simij &lt;- 1 - (abs(mat1 - mat2)/rv)
+    return(simij)
+}
+
+#effects
+flinear &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+
+    statistic &lt;- beh_centered[1]  #the actual statistic
+
+    return(statistic)
+}
+
+fquad &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+
+    statistic &lt;- (beh_centered[1])^2  #the actual statistic
+
+    return(statistic)
+}
+
+favAlt &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+
+    statistic &lt;- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+
+    return(statistic)
+}
+
+# this is the interaction between avAlt and linear shape
+favAltZ &lt;- function(ego, alters, ...) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+
+    statistic &lt;- beh_centered[1]*(sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+    statistic &lt;- beh_centered[1]*statistic #multiply with linear shape, which is the centered behavior score of ego
+
+    return(statistic)
+}
+
+
+
+favSim &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+    simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+    diag(simij) &lt;- NA
+    msimij &lt;- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+    simij_c &lt;- simij - msimij  #center the similarity scores
+
+    statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+
+    return(statistic)
+}
+
+favSimZ &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)  #define the network
+    beh_centered &lt;- fcentering(actors)  #center behavior scores
+    simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+    diag(simij) &lt;- NA
+    msimij &lt;- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+    simij_c &lt;- simij - msimij  #center the similarity scores
+
+    statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+    
+    statistic &lt;- beh_centered[1]*statistic #interact with (centered) z_i
+    
+
+    return(statistic)
+}
+
+favAttLower &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    simij &lt;- fsimij(beh_centered, min, max)
+    diag(simij) &lt;- NA
+
+    simijL &lt;- simij[1, ]
+    simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
+    simijL[1] &lt;- NA
+    statistic &lt;- sum(simijL, na.rm = TRUE)/length(alters)
+
+    return(statistic)
+}
+
+favAttLowerZ &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    simij &lt;- fsimij(beh_centered, min, max)
+    diag(simij) &lt;- NA
+
+    simijL &lt;- simij[1, ]
+    simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
+    simijL[1] &lt;- NA
+    statistic &lt;- sum(simijL, na.rm = TRUE)/length(alters)
+    
+    statistic &lt;- beh_centered[1] * statistic
+
+    return(statistic)
+}
+
+favAttHigher &lt;- function(ego, alters, min, max) {
+    actors &lt;- c(ego, alters)
+    beh_centered &lt;- fcentering(actors)
+    simij &lt;- fsimij(beh_centered, min, max)
+    diag(simij) &lt;- NA
+
+    simijH &lt;- simij[1, ]
+    simijH[beh_centered &lt;= beh_centered[1]] &lt;- 1
+    simijH[1] &lt;- NA
+    statistic &lt;- sum(simijH, na.rm = TRUE)/length(alters)
+
+    return(statistic)
+}
+
+#plotting statistic values of evaluation function
+finfluenceplot &lt;- function(alters, min, max, fun, params, results = TRUE, plot = TRUE) {
+    # check correct number of parameters are given
+    if (length(fun) != length(params))
+        stop(&quot;Please provide one (and only one) parameter for each of the behavioral effects!&quot;)
+
+    # calculuate value of evaluation function
+    s &lt;- NA
+    for (i in min:max) {
+        s[i] &lt;- 0
+        for (j in 1:length(fun)) {
+            s[i] &lt;- s[i] + params[j] * fun[[j]](i, alters, min, max)
+        }
+    }
+
+    # calculate the probabilities
+    p &lt;- NA
+    for (i in min:max) {
+        p[i] &lt;- exp(s[i])/sum(exp(s))
+    }
+
+    # calculate the probabilities of choice set
+    p2 &lt;- NA
+    for (i in min:max) {
+        if (i == min) {
+            p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i + 1]))
+        } else if (i == max) {
+            p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]))
+        } else {
+            p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]) + exp(s[i + 1]))
+        }
+    }
+
+    # calculate the probability ratio
+    r &lt;- NA
+    for (i in min:max) {
+        r[i] &lt;- p[i]/p[1]
+    }
+
+    # some simple plots
+    if (plot) {
+        name &lt;- deparse(substitute(fun))
+        name &lt;- stringr::str_sub(as.character(name), 6, -2)
+        par(mfrow = c(2, 2))
+        plot(y = s, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+        mtext(&quot;EVALUATION&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        plot(y = p, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+        mtext(&quot;PROBABILITIES&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        plot(y = p2, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+        mtext(&quot;PROBABILITIES_choice_set&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        plot(y = r, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+        mtext(&quot;RATIOS&quot;, line = 1)
+        mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+    }
+
+    # return results for more fancy plotting
+    if (results) {
+        x &lt;- min:max
+        df &lt;- data.frame(x, s, p, p2, r)
+        return(df)
+    }
+
+}</code></pre>
+<p>We assume that <span class="math inline">\(\beta^{beh}_1=0\)</span>
+(i.e., behavior increases are not more/less likely than decreases) and
+<span class="math inline">\(\beta^{beh}_2=0\)</span> [i.e., evaluation
+function is a straight line; no (inverse) U-shaped parabola]. <span
+class="math inline">\(\beta^{beh}_3=5\)</span>, and <span
+class="math inline">\(\beta^{beh}_4=0\)</span>, for now.</p>
+<p>We assume ego <em>i</em> has a network of 6 alters (with a mean value
+of 4), all of whose behaviors are stable (i.e., ego is the only one
+facing decision regarding his behavior over time). The behavior has a
+range of 7.</p>
+<pre class="r test"><code>alters &lt;- rep(c(3,3,3,5,5,5),1)</code></pre>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAlt,favAltZ), params = c(0,0,5,0))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x          s           p         p2         r
+#&gt; 1 1 -5.5102041 0.001785903 0.04473535   1.00000
+#&gt; 2 2 -2.4489796 0.038135608 0.13655900  21.35369
+#&gt; 3 3 -0.6122449 0.239339522 0.33290007 134.01600
+#&gt; 4 4  0.0000000 0.441477933 0.47978545 247.20157
+#&gt; 5 5 -0.6122449 0.239339522 0.33290007 134.01600
+#&gt; 6 6 -2.4489796 0.038135608 0.13655900  21.35369
+#&gt; 7 7 -5.5102041 0.001785903 0.04473535   1.00000</code></pre>
+<p><br></p>
+<p>Here, the contribution of the average of alters’ behavior values to
+the evaluation function is unconditional on ego’s own value; or in other
+words, the tendency to ‘mimic’ the mean behavior is no different for
+actors with high and low behavior values. To allow for this
+heterogeneity, we tweak <span
+class="math inline">\(\beta^{beh}_4\)</span>.</p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAlt,favAltZ), params = c(0,0,5,1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x          s            p          p2            r
+#&gt; 1 1 -2.6763848 2.871190e-02 0.255963470  1.000000000
+#&gt; 2 2 -1.6093294 8.345997e-02 0.229656812  2.906807482
+#&gt; 3 3 -0.5072886 2.512398e-01 0.334115773  8.750371966
+#&gt; 4 4  0.0000000 4.172546e-01 0.478413400 14.532461039
+#&gt; 5 5 -0.7172012 2.036688e-01 0.319987966  7.093534061
+#&gt; 6 6 -3.2886297 1.556565e-02 0.070967898  0.542132470
+#&gt; 7 7 -8.3440233 9.922882e-05 0.006334476  0.003456017</code></pre>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAlt,favAltZ), params = c(0,0,5,-1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x          s            p          p2         r
+#&gt; 1 1 -8.3440233 9.922882e-05 0.006334476    1.0000
+#&gt; 2 2 -3.2886297 1.556565e-02 0.070967898  156.8663
+#&gt; 3 3 -0.7172012 2.036688e-01 0.319987966 2052.5171
+#&gt; 4 4  0.0000000 4.172546e-01 0.478413400 4204.9737
+#&gt; 5 5 -0.5072886 2.512398e-01 0.334115773 2531.9238
+#&gt; 6 6 -1.6093294 8.345997e-02 0.229656812  841.0860
+#&gt; 7 7 -2.6763848 2.871190e-02 0.255963470  289.3504</code></pre>
+<p><br></p>
+<p>This seems alright!</p>
+<p>Many predefined RSiena effects (like the average alter effect) have
+the form of a product <span class="math inline">\(s^{beh}_{ik} (x,z) =
+z_i s^0_{ik} (x,z)\)</span>, where <span class="math inline">\(s^0_{ik}
+(x,z)\)</span> does not depend on <span
+class="math inline">\(z_i\)</span>.</p>
+<p>Here, if one is interested in how the magnitude of a particular
+effect (e.g., the in-degree effect on behavior) depends on ego’s current
+behavior value, one could simply interact it with the linear shape
+effect, like we just did.</p>
+</div>
+</div>
+</div>
+<div id="average-similarity-effect" class="section level2">
+<h2>average similarity effect</h2>
+<p>However, (average) similarity and attraction effects do not have same
+product-form; statistic <em>s</em> depends on <span
+class="math inline">\(z_i\)</span> (in addition to <span
+class="math inline">\(z_j\)</span>, for other actors <em>j</em>).</p>
+<p>If we model the average similarity effect, in interaction with the
+linear shape, the objective function is</p>
+<p><span class="math display">\[f_i^{beh}(x,z) = \beta^{beh}_1 z_i +
+\beta^{beh}_2 z_i^2 + \beta^{beh}_3 x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij}
+- \widehat{sim^z}) + \beta^{beh}_4 z_i x^{-1}_{i+}\sum_j
+x_{ij}(sim^z_{ij} - \widehat{sim^z})  \]</span></p>
+<div id="no-interaction" class="section level4">
+<h4>no interaction</h4>
+<pre class="r test"><code>alters &lt;- c(4,4,4,4,4)
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,0))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x          s          p        p2        r
+#&gt; 1 1 -1.6666667 0.05932686 0.3645764 1.000000
+#&gt; 2 2 -1.1111111 0.10340132 0.3015079 1.742909
+#&gt; 3 3 -0.5555556 0.18021909 0.3015079 3.037732
+#&gt; 4 4  0.0000000 0.31410547 0.4656563 5.294490
+#&gt; 5 5 -0.5555556 0.18021909 0.3015079 3.037732
+#&gt; 6 6 -1.1111111 0.10340132 0.3015079 1.742909
+#&gt; 7 7 -1.6666667 0.05932686 0.3645764 1.000000</code></pre>
+<p><br></p>
+</div>
+<div id="positive-and-negative-interactions" class="section level4">
+<h4>positive and negative interactions</h4>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,.5))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(.5,-.1,5,1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,2))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-7-4.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,3))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-7-5.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,4))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-7-6.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x          s          p        p2         r
+#&gt; 1 1 -1.2500000 0.08871591 0.4196832 1.0000000
+#&gt; 2 2 -0.9259259 0.12267190 0.3086331 1.3827497
+#&gt; 3 3 -0.5092593 0.18608061 0.3009058 2.0974886
+#&gt; 4 4  0.0000000 0.30964895 0.4653897 3.4903430
+#&gt; 5 5 -0.6018519 0.16962454 0.3007656 1.9119968
+#&gt; 6 6 -1.2962963 0.08470232 0.2892023 0.9547590
+#&gt; 7 7 -2.0833333 0.03855578 0.3128052 0.4345982
+#&gt;   x          s          p        p2         r
+#&gt; 1 1 -0.8333333 0.12883955 0.4768684 1.0000000
+#&gt; 2 2 -0.7407407 0.14133888 0.3094291 1.0970147
+#&gt; 3 3 -0.4629630 0.18659457 0.2988429 1.4482709
+#&gt; 4 4  0.0000000 0.29645670 0.4645913 2.3009759
+#&gt; 5 5 -0.6481481 0.15505083 0.2988112 1.2034413
+#&gt; 6 6 -1.4814815 0.06738481 0.2730670 0.5230134
+#&gt; 7 7 -2.5000000 0.02433465 0.2653161 0.1888756
+#&gt;   x          s          p        p2         r
+#&gt; 1 1 -2.7083333 0.02297926 0.2980750  1.000000
+#&gt; 2 2 -1.8518519 0.05411295 0.2569968  2.354860
+#&gt; 3 3 -0.9490741 0.13346662 0.2507046  5.808133
+#&gt; 4 4  0.0000000 0.34478653 0.4700945 15.004248
+#&gt; 5 5 -0.3009259 0.25518775 0.3464558 11.105133
+#&gt; 6 6 -0.9259259 0.13659216 0.3071871  5.944149
+#&gt; 7 7 -1.8750000 0.05287473 0.2790711  2.300976
+#&gt;   x          s           p        p2          r
+#&gt; 1 1  0.0000000 0.246892977 0.5915485 1.00000000
+#&gt; 2 2 -0.3703704 0.170474305 0.2900004 0.69047855
+#&gt; 3 3 -0.3703704 0.170474305 0.2900004 0.69047855
+#&gt; 4 4  0.0000000 0.246892977 0.4614165 1.00000000
+#&gt; 5 5 -0.7407407 0.117708851 0.2918275 0.47676063
+#&gt; 6 6 -1.8518519 0.038748928 0.2344648 0.15694626
+#&gt; 7 7 -3.3333333 0.008807658 0.1852038 0.03567399
+#&gt;   x          s          p        p2           r
+#&gt; 1 1  0.8333333 0.40965147 0.6970593 1.000000000
+#&gt; 2 2  0.0000000 0.17803379 0.2464000 0.434598209
+#&gt; 3 3 -0.2777778 0.13485439 0.2746962 0.329192988
+#&gt; 4 4  0.0000000 0.17803379 0.4561912 0.434598209
+#&gt; 5 5 -0.8333333 0.07737317 0.2816641 0.188875603
+#&gt; 6 6 -2.2222222 0.01929317 0.1940445 0.047096549
+#&gt; 7 7 -4.1666667 0.00276021 0.1251604 0.006737947
+#&gt;   x          s            p         p2           r
+#&gt; 1 1  1.6666667 0.5849334833 0.78521100 1.000000000
+#&gt; 2 2  0.3703704 0.1600044841 0.19122341 0.273543042
+#&gt; 3 3 -0.1851852 0.0918031201 0.25339869 0.156946256
+#&gt; 4 4  0.0000000 0.1104796643 0.44901143 0.188875603
+#&gt; 5 5 -0.9259259 0.0437681133 0.26931819 0.074825796
+#&gt; 6 6 -2.5925926 0.0082667288 0.15662839 0.014132767
+#&gt; 7 7 -5.0000000 0.0007444061 0.08260959 0.001272634</code></pre>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-.5))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(.5,-.1,5,-1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-2))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-8-4.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-3))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-8-5.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-4))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-8-6.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x          s          p        p2        r
+#&gt; 1 1 -2.0833333 0.03855578 0.3128052 1.000000
+#&gt; 2 2 -1.2962963 0.08470232 0.2892023 2.196878
+#&gt; 3 3 -0.6018519 0.16962454 0.3007656 4.399459
+#&gt; 4 4  0.0000000 0.30964895 0.4653897 8.031195
+#&gt; 5 5 -0.5092593 0.18608061 0.3009058 4.826271
+#&gt; 6 6 -0.9259259 0.12267190 0.3086331 3.181674
+#&gt; 7 7 -1.2500000 0.08871591 0.4196832 2.300976
+#&gt;   x          s          p        p2         r
+#&gt; 1 1 -2.5000000 0.02433465 0.2653161  1.000000
+#&gt; 2 2 -1.4814815 0.06738481 0.2730670  2.769089
+#&gt; 3 3 -0.6481481 0.15505083 0.2988112  6.371608
+#&gt; 4 4  0.0000000 0.29645670 0.4645913 12.182494
+#&gt; 5 5 -0.4629630 0.18659457 0.2988429  7.667856
+#&gt; 6 6 -0.7407407 0.14133888 0.3094291  5.808133
+#&gt; 7 7 -0.8333333 0.12883955 0.4768684  5.294490
+#&gt;   x          s           p        p2         r
+#&gt; 1 1 -4.3750000 0.003192799 0.1440061  1.000000
+#&gt; 2 2 -2.5925926 0.018978472 0.1829150  5.944149
+#&gt; 3 3 -1.1342593 0.081584443 0.2303355 25.552643
+#&gt; 4 4  0.0000000 0.253635414 0.4520047 79.439840
+#&gt; 5 5 -0.1157407 0.225914615 0.3272662 70.757551
+#&gt; 6 6 -0.1851852 0.210758446 0.3279731 66.010566
+#&gt; 7 7 -0.2083333 0.205935811 0.4942132 64.500093
+#&gt;   x          s           p        p2         r
+#&gt; 1 1 -3.3333333 0.008807658 0.1852038  1.000000
+#&gt; 2 2 -1.8518519 0.038748928 0.2344648  4.399459
+#&gt; 3 3 -0.7407407 0.117708851 0.2918275 13.364375
+#&gt; 4 4  0.0000000 0.246892977 0.4614165 28.031625
+#&gt; 5 5 -0.3703704 0.170474305 0.2900004 19.355236
+#&gt; 6 6 -0.3703704 0.170474305 0.2900004 19.355236
+#&gt; 7 7  0.0000000 0.246892977 0.5915485 28.031625
+#&gt;   x             s          p        p2          r
+#&gt; 1 1 -4.166667e+00 0.00276021 0.1251604   1.000000
+#&gt; 2 2 -2.222222e+00 0.01929317 0.1940445   6.989748
+#&gt; 3 3 -8.333333e-01 0.07737317 0.2816641  28.031625
+#&gt; 4 4  0.000000e+00 0.17803379 0.4561912  64.500093
+#&gt; 5 5 -2.777778e-01 0.13485439 0.2746962  48.856571
+#&gt; 6 6  2.220446e-16 0.17803379 0.2464000  64.500093
+#&gt; 7 7  8.333333e-01 0.40965147 0.6970593 148.413159
+#&gt;   x          s            p         p2         r
+#&gt; 1 1 -5.0000000 0.0007444061 0.08260959   1.00000
+#&gt; 2 2 -2.5925926 0.0082667288 0.15662839  11.10513
+#&gt; 3 3 -0.9259259 0.0437681133 0.26931819  58.79601
+#&gt; 4 4  0.0000000 0.1104796643 0.44901143 148.41316
+#&gt; 5 5 -0.1851852 0.0918031201 0.25339869 123.32397
+#&gt; 6 6  0.3703704 0.1600044841 0.19122341 214.94246
+#&gt; 7 7  1.6666667 0.5849334833 0.78521100 785.77199</code></pre>
+<p><br></p>
+<p><span style="color: red;">Only makes sense with low parameter values
+for the interaction effect!!!</span></p>
+</div>
+</div>
+<div id="average-attraction-towards-lower" class="section level2">
+<h2>average attraction (towards lower)</h2>
+<p>If we model the attraction effects, in interaction with the linear
+shape, the objective function is</p>
+<p><span class="math display">\[f_i^{beh}(x,z) = \beta^{beh}_1 z_i +
+\beta^{beh}_2 z_i^2 + \beta^{beh}_3 x^{-1}_{i+}\sum_j x_{ij} (\, I \{
+(z_j)&lt;z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} ) + \beta^{beh}_4
+z_i x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)&lt;z_i \} sim^z_{ij} + I \{
+(z_j ) \ge z_i \} )\]</span></p>
+<div id="no-interaction-1" class="section level4">
+<h4>no interaction</h4>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttHigher,favAttLower,favAttLowerZ), params = c(0,0,0,5,0))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttHigher,favAttLower,favAttLowerZ), params = c(0,0,1,5,0))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x        s          p        p2         r
+#&gt; 1 1 5.000000 0.21251461 0.5000000 1.0000000
+#&gt; 2 2 5.000000 0.21251461 0.3333333 1.0000000
+#&gt; 3 3 5.000000 0.21251461 0.3333333 1.0000000
+#&gt; 4 4 5.000000 0.21251461 0.4107454 1.0000000
+#&gt; 5 5 4.166667 0.09235847 0.2676965 0.4345982
+#&gt; 6 6 3.333333 0.04013883 0.2676965 0.1888756
+#&gt; 7 7 2.500000 0.01744426 0.3029407 0.0820850
+#&gt;   x        s          p        p2         r
+#&gt; 1 1 5.500000 0.15651990 0.4584295 1.0000000
+#&gt; 2 2 5.666667 0.18490641 0.3302682 1.1813604
+#&gt; 3 3 5.833333 0.21844112 0.3302682 1.3956124
+#&gt; 4 4 6.000000 0.25805769 0.4383888 1.6487213
+#&gt; 5 5 5.166667 0.11215141 0.2676965 0.7165313
+#&gt; 6 6 4.333333 0.04874080 0.2676965 0.3114032
+#&gt; 7 7 3.500000 0.02118267 0.3029407 0.1353353</code></pre>
+<p><br></p>
+</div>
+<div id="positive-and-negative-interactions-1" class="section level4">
+<h4>positive and negative interactions</h4>
+<pre class="r test"><code>alters &lt;- c(2,2,2,3,3,3,3)
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,0))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,.5))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,-.5))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,-1))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-10-5.png" width="672" /></p>
+<pre class="r test"><code>finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,-2))</code></pre>
+<p><img src="interaction_files/figure-html/unnamed-chunk-10-6.png" width="672" /></p>
+<pre class="test2"><code>#&gt;   x        s          p        p2          r
+#&gt; 1 1 5.000000 0.31072375 0.5000000 1.00000000
+#&gt; 2 2 5.000000 0.31072375 0.3704153 1.00000000
+#&gt; 3 3 4.642857 0.21740487 0.3491817 0.69967254
+#&gt; 4 4 3.809524 0.09448377 0.2676965 0.30407643
+#&gt; 5 5 2.976190 0.04106248 0.2676965 0.13215107
+#&gt; 6 6 2.142857 0.01784568 0.2676965 0.05743262
+#&gt; 7 7 1.309524 0.00775570 0.3029407 0.02496011
+#&gt;   x        s          p        p2          r
+#&gt; 1 1 4.312500 0.16742423 0.3923368 1.00000000
+#&gt; 2 2 4.750000 0.25931173 0.3683369 1.54883030
+#&gt; 3 3 4.816964 0.27727095 0.3963381 1.65609809
+#&gt; 4 4 4.285714 0.16299918 0.3116086 0.97356984
+#&gt; 5 5 3.608631 0.08281936 0.2934894 0.49466770
+#&gt; 6 6 2.785714 0.03637003 0.2734714 0.21723279
+#&gt; 7 7 1.816964 0.01380451 0.2751297 0.08245227
+#&gt;   x        s          p        p2         r
+#&gt; 1 1 3.625000 0.07472965 0.2942150 1.0000000
+#&gt; 2 2 4.500000 0.17926710 0.3277691 2.3988753
+#&gt; 3 3 4.991071 0.29293428 0.4154262 3.9199207
+#&gt; 4 4 4.761905 0.23294017 0.3506832 3.1171052
+#&gt; 5 5 4.241071 0.13837236 0.3197772 1.8516394
+#&gt; 6 6 3.428571 0.06140236 0.2789383 0.8216600
+#&gt; 7 7 2.324405 0.02035409 0.2489600 0.2723696
+#&gt;   x         s           p        p2           r
+#&gt; 1 1 5.6875000 0.477494475 0.6076632 1.000000000
+#&gt; 2 2 5.2500000 0.308293604 0.3325946 0.645648526
+#&gt; 3 3 4.4687500 0.141147097 0.2852669 0.295599435
+#&gt; 4 4 3.3333333 0.045348900 0.2230051 0.094972617
+#&gt; 5 5 2.3437500 0.016857617 0.2427062 0.035304318
+#&gt; 6 6 1.5000000 0.007250371 0.2615959 0.015184198
+#&gt; 7 7 0.8020833 0.003607936 0.3322743 0.007555975
+#&gt;   x         s           p        p2           r
+#&gt; 1 1 6.3750000 0.630062575 0.7057850 1.000000000
+#&gt; 2 2 5.5000000 0.262649157 0.2703828 0.416862020
+#&gt; 3 3 4.2946429 0.078685744 0.2185567 0.124885602
+#&gt; 4 4 2.8571429 0.018689502 0.1808935 0.029662931
+#&gt; 5 5 1.7113095 0.005942493 0.2187849 0.009431591
+#&gt; 6 6 0.8571429 0.002529349 0.2551542 0.004014441
+#&gt; 7 7 0.2946429 0.001441180 0.3629692 0.002287360
+#&gt;   x          s            p        p2            r
+#&gt; 1 1  7.7500000 0.8332486504 0.8519528 1.0000000000
+#&gt; 2 2  6.0000000 0.1447969039 0.1452880 0.1737739435
+#&gt; 3 3  3.9464286 0.0185739613 0.1120385 0.0222910187
+#&gt; 4 4  1.9047619 0.0024111263 0.1119061 0.0028936457
+#&gt; 5 5  0.4464286 0.0005608850 0.1749582 0.0006731304
+#&gt; 6 6 -0.4285714 0.0002338117 0.2412026 0.0002806025
+#&gt; 7 7 -0.7202381 0.0001746614 0.4275959 0.0002096150</code></pre>
+<p><br></p>
+<p><span style="color: red;">Hmmm… this is not what I want! Ego should
+not be drawn up by higher alters in the case of a positive attraction
+towards lower parameter; ego should not move away from higher alters in
+the case of a negative parameter. That’s exactly why the similarity
+scores for alters who <em>did not</em> score lower than ego were
+replaced by 1. Thus, alters that are (no longer) lower than me, have no
+influence anymore. But since the average similarity of alters is now
+multiplied by ego’s own behavior, ego will always prefer increasing the
+behavior over staying constant (at least, in the case of a postive
+paramter for the interaction effect.</span></p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkludGVyYWN0aW9uIGJldHdlZW4gaW5mbHVlbmNlIGFuZCBlZ28ncyBiZWhhdmlvciINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCmRhdGU6ICJMYXN0IGNvbXBpbGVkIG9uIGByIGZvcm1hdChTeXMudGltZSgpLCAnJUIsICVZJylgIg0Kb3V0cHV0OiANCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6ICBmYWxzZQ0KICAgIHRvY19mbG9hdDogdHJ1ZQ0KICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UNCiAgICBjb2RlX2ZvbGRpbmc6IHNob3cNCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMNCi0tLQ0KDQpgYGB7ciwgZ2xvYmFsc2V0dGluZ3MsIGVjaG89RkFMU0UsIHdhcm5pbmc9RkFMU0UsIHJlc3VsdHM9J2hpZGUnfQ0KbGlicmFyeShrbml0cikNCm9wdHNfY2h1bmskc2V0KHRpZHkub3B0cz1saXN0KHdpZHRoLmN1dG9mZj0xMDApLHRpZHk9VFJVRSwgd2FybmluZyA9IEZBTFNFLCByZXN1bHRzPSJob2xkIiwgbWVzc2FnZSA9IEZBTFNFLGNvbW1lbnQgPSAiIz4iLCBjYWNoZT1UUlVFLCBjbGFzcy5zb3VyY2U9YygidGVzdCIpLCBjbGFzcy5vdXRwdXQ9YygidGVzdDIiKSkNCm9wdGlvbnMod2lkdGggPSAxMDApDQpyZ2w6OnNldHVwS25pdHIoKQ0KDQpjb2xvcml6ZSA8LSBmdW5jdGlvbih4LCBjb2xvcikge3NwcmludGYoIjxzcGFuIHN0eWxlPSdjb2xvcjogJXM7Jz4lczwvc3Bhbj4iLCBjb2xvciwgeCkgfQ0KDQpgYGANCg0KYGBge3Iga2xpcHB5LCBlY2hvPUZBTFNFLCBpbmNsdWRlPVRSVUV9DQprbGlwcHk6OmtsaXBweShwb3NpdGlvbiA9IGMoJ3RvcCcsICdyaWdodCcpKQ0KI2tsaXBweTo6a2xpcHB5KGNvbG9yID0gJ2RhcmtyZWQnKQ0KI2tsaXBweTo6a2xpcHB5KHRvb2x0aXBfbWVzc2FnZSA9ICdDbGljayB0byBjb3B5JywgdG9vbHRpcF9zdWNjZXNzID0gJ0RvbmUnKQ0KYGBgDQoNCi0tLS0gIA0KDQoNCldlIGFyZSBpbnRlcmVzdGVkIGluIGV4cGxvcmluZyBpbmZsdWVuY2UgaGV0ZXJvZ2VuZWl0eSBiZXR3ZWVuIGFjdG9ycyBpbiB0aGUgbmV0d29ya3MuIE1vcmUgcHJlY2lzZWx5LCB3ZSBhaW0gdG8gYXNzZXNzIHdoZXRoZXIgc29jaWFsIGluZmx1ZW5jZSBkaWZmZXJlZCBiZXR3ZWVuIGFjdG9ycyBkZXBlbmRpbmcgb24gdGhlaXIgY3VycmVudCBiZWhhdmlvci4NCg0KDQpCdXQgaG93IHRvIGltcGxlbWVudCB0aGlzIGluIFJTaWVuYT8NCg0KDQpSZWNhbGwgdGhhdCB0aGUgYmVoYXZpb3IgZXZhbHVhdGlvbiBmdW5jdGlvbiBmb3IgYWN0b3IgKmkqIGlzIGRlZmluZWQgYXMNCg0KJCRmX2lee2JlaH0oeCx6KSA9IFxzdW1fayBcYmV0YV57YmVofV9rIHNee2JlaH1fe2lrfSh4LHopICQkDQoNCndoZXJlICRcYmV0YV57YmVofV9rJCBhcmUgdGhlIHBhcmFtZXRlcnMgYW5kICRzXntiZWh9X2soeCx6KSQgYmVoYXZpb3IgZWZmZWN0cy4NCg0KTGV0IHVzIGFzc3VtZSwgZm9yIHNpbXBsaWNpdHkncyBzYWtlLCB0aGF0IGJlaGF2aW9yIGV2b2x1dGlvbiBpcyBndWlkZWQgb25seSBieSBwZWVyIGluZmx1ZW5jZS4gDQoNCjxicj4gDQoNCiMjIGF2ZXJhZ2UgYWx0ZXIgZWZmZWN0DQoNCkZvbGxvd2luZyB0aGUgYXBwcm9hY2ggaW4gdGhlIFJTaWVuYSBtYW51YWwgKHNlY3Rpb24gNS4xMC4yKSwgd2UgdGFrZSB0aGUgYGF2QWx0YC1lZmZlY3QgcmVwcmVzZW50aW5nIHBlZXIgaW5mbHVlbmNlLg0KDQpUaGlzIGxlYWRzIHRvIHRoZSBmb2xsb3dpbmcgZXF1YXRpb247IHdoZXJlIGl0IGlzIGFzc3VtZWQgdGhhdCBhbHNvIHRoZSBzaGFwZSBlZmZlY3RzIGFyZSBpbmNsdWRlZCBpbiB0aGUgbW9kZWwuDQoNCiQkZl9pXntiZWh9KHgseikgPSBcYmV0YV57YmVofV8xIHpfaSArIFxiZXRhXntiZWh9XzIgel9pXjIgKyBcYmV0YV57YmVofV8zIHpfaSBcZnJhYyB7XHRleHRzdHlsZSBcc3VtX2ogeF97aWp9el9qIH0ge1x0ZXh0c3R5bGUgXHN1bV9qIHhfe2lqfSB9ICAkJA0KDQpUbyBjb25kaXRpb24gaW5mbHVlbmNlIG9uIGVnbydzIGN1cnJlbnQgYmVoYXZpb3IsIHRoZSBgYXZBbHRgIGVmZmVjdCBpcyBpbnRlcmFjdGVkIHdpdGggdGhlIGBsaW5lYXJgIHNoYXBlIGVmZmVjdCBbaS5lLiwgdGhlIChtZWFuLWNlbnRlcmVkKSBiZWhhdmlvciB2YWx1ZSBvZiAqaSpdLiBgciBjb2xvcml6ZSgiVGhlIG1hbnVhbCBzdGF0ZXMgb24gcC41NyB0aGF0IHRoZXkgaW50ZXJhY3QgdGhlIGF2ZXJhZ2UgYWx0ZXIgZWZmZWN0IHdpdGggdGhlICoqcXVhZHJhdGljIHNoYXBlKiogZWZmZWN0LCBidXQgdGhpcyBpcyB3cm9uZyEiLCAicmVkIilgIEdpdmVuIHRoYXQgdGhlIGxpbmVhciBzaGFwZSBlZmZlY3QgaXMgZGVmaW5lZCBhcyAkc157YmVofV97aTF9KHgseikgPSB6X2kkLCB0aGUgcmVzdWx0aW5nIGVxdWF0aW9uIHJlYWRzDQoNCiQkZl9pXntiZWh9KHgseikgPSBcYmV0YV57YmVofV8xIHpfaSArIFxiZXRhXntiZWh9XzIgel9pXjIgKyBcYmV0YV57YmVofV8zIHpfaSBcZnJhYyB7XHRleHRzdHlsZSBcc3VtX2ogeF97aWp9el9qIH0ge1x0ZXh0c3R5bGUgXHN1bV9qIHhfe2lqfSB9ICsgXGJldGFee2JlaH1fNCB6X2leMiBcZnJhYyB7XHRleHRzdHlsZSBcc3VtX2ogeF97aWp9el9qIH0ge1x0ZXh0c3R5bGUgXHN1bV9qIHhfe2lqfSB9ICAkJA0KDQojIyMgdGVzdA0KTGV0J3Mgc2VlIGlmIHRoaXMgbW9kZWwgY2FwdHVyZXMgdGhpcyBpbnRlcmFjdGlvbiAoaS5lLiwgdGhhdCBhIHBvc2l0aXZlL25lZ2F0aXZlIGVzdGltYXRlIGZvciAkXGJldGFee2JlaH1fNCQgbWVhbnMgdGhhdCBhY3RvcnMgd2l0aCBoaWdoZXIgdmFsdWVzIGZvciAqeiogaGF2ZSBhIHN0cm9uZ2VyL3dlYWtlciB0ZW5kZW5jeSB0byBhc3NpbWlsYXRlIHRvIHRoZWlyIGFsdGVycycgbWVhbiBiZWhhdmlvciB2YWx1ZSkuDQoNCg0KIyMjIyBmdW5jdGlvbnMNCndlIGZpcnN0IGRlZmluZSBzb21lIGZ1bmN0aW9uczoNCg0KYGBge3IgY2xhc3Muc291cmNlID0gJ2ZvbGQtaGlkZSd9DQojY2VudGVyaW5nIGJlaGF2aW9yIHoNCmZjZW50ZXJpbmcgPC0gZnVuY3Rpb24oYWN0b3JzKSB7DQogICAgY2VudGVyZWQgPC0gYWN0b3JzIC0gbWVhbihhY3RvcnMpDQogICAgcmV0dXJuKGNlbnRlcmVkKQ0KfQ0KDQojY2FsY3VsYXRlIHNpbWlsYXJpdHkgc2NvcmUNCmZzaW1paiA8LSBmdW5jdGlvbihhY3RvcnMsIG1pbiwgbWF4KSB7DQogICAgIyBydiA8LSBtYXgoYWN0b3JzKSAtIG1pbihhY3RvcnMpDQogICAgcnYgPC0gbWF4IC0gbWluDQogICAgbWF0MSA8LSBtYXRyaXgoYWN0b3JzLCBucm93ID0gbGVuZ3RoKGFjdG9ycyksIG5jb2wgPSBsZW5ndGgoYWN0b3JzKSwgYnlyb3cgPSBUUlVFKQ0KICAgIG1hdDIgPC0gdChtYXQxKQ0KICAgIHNpbWlqIDwtIDEgLSAoYWJzKG1hdDEgLSBtYXQyKS9ydikNCiAgICByZXR1cm4oc2ltaWopDQp9DQoNCiNlZmZlY3RzDQpmbGluZWFyIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCAuLi4pIHsNCiAgICBhY3RvcnMgPC0gYyhlZ28sIGFsdGVycykgICNkZWZpbmUgdGhlIG5ldHdvcmsNCiAgICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpICAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KDQogICAgc3RhdGlzdGljIDwtIGJlaF9jZW50ZXJlZFsxXSAgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQoNCiAgICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KDQpmcXVhZCA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgLi4uKSB7DQogICAgYWN0b3JzIDwtIGMoZWdvLCBhbHRlcnMpICAjZGVmaW5lIHRoZSBuZXR3b3JrDQogICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKSAgI2NlbnRlciBiZWhhdmlvciBzY29yZXMNCg0KICAgIHN0YXRpc3RpYyA8LSAoYmVoX2NlbnRlcmVkWzFdKV4yICAjdGhlIGFjdHVhbCBzdGF0aXN0aWMNCg0KICAgIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZhdkFsdCA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgLi4uKSB7DQogICAgYWN0b3JzIDwtIGMoZWdvLCBhbHRlcnMpDQogICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KDQogICAgc3RhdGlzdGljIDwtIGJlaF9jZW50ZXJlZFsxXSAqIChzdW0oYmVoX2NlbnRlcmVkWy0xXSwgbmEucm0gPSBUUlVFKS9sZW5ndGgoYWx0ZXJzKSkNCg0KICAgIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCiMgdGhpcyBpcyB0aGUgaW50ZXJhY3Rpb24gYmV0d2VlbiBhdkFsdCBhbmQgbGluZWFyIHNoYXBlDQpmYXZBbHRaIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCAuLi4pIHsNCiAgICBhY3RvcnMgPC0gYyhlZ28sIGFsdGVycykNCiAgICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpDQoNCiAgICBzdGF0aXN0aWMgPC0gYmVoX2NlbnRlcmVkWzFdKihzdW0oYmVoX2NlbnRlcmVkWy0xXSwgbmEucm0gPSBUUlVFKS9sZW5ndGgoYWx0ZXJzKSkNCiAgICBzdGF0aXN0aWMgPC0gYmVoX2NlbnRlcmVkWzFdKnN0YXRpc3RpYyAjbXVsdGlwbHkgd2l0aCBsaW5lYXIgc2hhcGUsIHdoaWNoIGlzIHRoZSBjZW50ZXJlZCBiZWhhdmlvciBzY29yZSBvZiBlZ28NCg0KICAgIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCg0KDQpmYXZTaW0gPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIG1pbiwgbWF4KSB7DQogICAgYWN0b3JzIDwtIGMoZWdvLCBhbHRlcnMpICAjZGVmaW5lIHRoZSBuZXR3b3JrDQogICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKSAgI2NlbnRlciBiZWhhdmlvciBzY29yZXMNCiAgICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkgICNjYWxjdWxhdGUgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQogICAgZGlhZyhzaW1paikgPC0gTkENCiAgICBtc2ltaWogPC0gbWVhbihzaW1paiwgbmEucm0gPSBUUlVFKSAgI2NhbGN1bGF0ZSB0aGUgbWVhbiBzaW1pbGFyaXR5IHNjb3JlLiBvbmx5IGNhbGN1bGF0ZSBtZWFuIG9uIG5vbi1kaWFnb25hbCBjZWxscz8/ISENCiAgICBzaW1pal9jIDwtIHNpbWlqIC0gbXNpbWlqICAjY2VudGVyIHRoZSBzaW1pbGFyaXR5IHNjb3Jlcw0KDQogICAgc3RhdGlzdGljIDwtIHN1bShzaW1pal9jWzEsIF0sIG5hLnJtID0gVFJVRSkvbGVuZ3RoKGFsdGVycykgICN0aGUgYWN0dWFsIHN0YXRpc3RpYw0KDQogICAgcmV0dXJuKHN0YXRpc3RpYykNCn0NCg0KZmF2U2ltWiA8LSBmdW5jdGlvbihlZ28sIGFsdGVycywgbWluLCBtYXgpIHsNCiAgICBhY3RvcnMgPC0gYyhlZ28sIGFsdGVycykgICNkZWZpbmUgdGhlIG5ldHdvcmsNCiAgICBiZWhfY2VudGVyZWQgPC0gZmNlbnRlcmluZyhhY3RvcnMpICAjY2VudGVyIGJlaGF2aW9yIHNjb3Jlcw0KICAgIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KSAgI2NhbGN1bGF0ZSB0aGUgc2ltaWxhcml0eSBzY29yZXMNCiAgICBkaWFnKHNpbWlqKSA8LSBOQQ0KICAgIG1zaW1paiA8LSBtZWFuKHNpbWlqLCBuYS5ybSA9IFRSVUUpICAjY2FsY3VsYXRlIHRoZSBtZWFuIHNpbWlsYXJpdHkgc2NvcmUuIG9ubHkgY2FsY3VsYXRlIG1lYW4gb24gbm9uLWRpYWdvbmFsIGNlbGxzPz8hIQ0KICAgIHNpbWlqX2MgPC0gc2ltaWogLSBtc2ltaWogICNjZW50ZXIgdGhlIHNpbWlsYXJpdHkgc2NvcmVzDQoNCiAgICBzdGF0aXN0aWMgPC0gc3VtKHNpbWlqX2NbMSwgXSwgbmEucm0gPSBUUlVFKS9sZW5ndGgoYWx0ZXJzKSAgI3RoZSBhY3R1YWwgc3RhdGlzdGljDQogICAgDQogICAgc3RhdGlzdGljIDwtIGJlaF9jZW50ZXJlZFsxXSpzdGF0aXN0aWMgI2ludGVyYWN0IHdpdGggKGNlbnRlcmVkKSB6X2kNCiAgICANCg0KICAgIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCmZhdkF0dExvd2VyIDwtIGZ1bmN0aW9uKGVnbywgYWx0ZXJzLCBtaW4sIG1heCkgew0KICAgIGFjdG9ycyA8LSBjKGVnbywgYWx0ZXJzKQ0KICAgIGJlaF9jZW50ZXJlZCA8LSBmY2VudGVyaW5nKGFjdG9ycykNCiAgICBzaW1paiA8LSBmc2ltaWooYmVoX2NlbnRlcmVkLCBtaW4sIG1heCkNCiAgICBkaWFnKHNpbWlqKSA8LSBOQQ0KDQogICAgc2ltaWpMIDwtIHNpbWlqWzEsIF0NCiAgICBzaW1pakxbYmVoX2NlbnRlcmVkID49IGJlaF9jZW50ZXJlZFsxXV0gPC0gMQ0KICAgIHNpbWlqTFsxXSA8LSBOQQ0KICAgIHN0YXRpc3RpYyA8LSBzdW0oc2ltaWpMLCBuYS5ybSA9IFRSVUUpL2xlbmd0aChhbHRlcnMpDQoNCiAgICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KDQpmYXZBdHRMb3dlclogPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIG1pbiwgbWF4KSB7DQogICAgYWN0b3JzIDwtIGMoZWdvLCBhbHRlcnMpDQogICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KICAgIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KQ0KICAgIGRpYWcoc2ltaWopIDwtIE5BDQoNCiAgICBzaW1pakwgPC0gc2ltaWpbMSwgXQ0KICAgIHNpbWlqTFtiZWhfY2VudGVyZWQgPj0gYmVoX2NlbnRlcmVkWzFdXSA8LSAxDQogICAgc2ltaWpMWzFdIDwtIE5BDQogICAgc3RhdGlzdGljIDwtIHN1bShzaW1pakwsIG5hLnJtID0gVFJVRSkvbGVuZ3RoKGFsdGVycykNCiAgICANCiAgICBzdGF0aXN0aWMgPC0gYmVoX2NlbnRlcmVkWzFdICogc3RhdGlzdGljDQoNCiAgICByZXR1cm4oc3RhdGlzdGljKQ0KfQ0KDQpmYXZBdHRIaWdoZXIgPC0gZnVuY3Rpb24oZWdvLCBhbHRlcnMsIG1pbiwgbWF4KSB7DQogICAgYWN0b3JzIDwtIGMoZWdvLCBhbHRlcnMpDQogICAgYmVoX2NlbnRlcmVkIDwtIGZjZW50ZXJpbmcoYWN0b3JzKQ0KICAgIHNpbWlqIDwtIGZzaW1paihiZWhfY2VudGVyZWQsIG1pbiwgbWF4KQ0KICAgIGRpYWcoc2ltaWopIDwtIE5BDQoNCiAgICBzaW1pakggPC0gc2ltaWpbMSwgXQ0KICAgIHNpbWlqSFtiZWhfY2VudGVyZWQgPD0gYmVoX2NlbnRlcmVkWzFdXSA8LSAxDQogICAgc2ltaWpIWzFdIDwtIE5BDQogICAgc3RhdGlzdGljIDwtIHN1bShzaW1pakgsIG5hLnJtID0gVFJVRSkvbGVuZ3RoKGFsdGVycykNCg0KICAgIHJldHVybihzdGF0aXN0aWMpDQp9DQoNCiNwbG90dGluZyBzdGF0aXN0aWMgdmFsdWVzIG9mIGV2YWx1YXRpb24gZnVuY3Rpb24NCmZpbmZsdWVuY2VwbG90IDwtIGZ1bmN0aW9uKGFsdGVycywgbWluLCBtYXgsIGZ1biwgcGFyYW1zLCByZXN1bHRzID0gVFJVRSwgcGxvdCA9IFRSVUUpIHsNCiAgICAjIGNoZWNrIGNvcnJlY3QgbnVtYmVyIG9mIHBhcmFtZXRlcnMgYXJlIGdpdmVuDQogICAgaWYgKGxlbmd0aChmdW4pICE9IGxlbmd0aChwYXJhbXMpKQ0KICAgICAgICBzdG9wKCJQbGVhc2UgcHJvdmlkZSBvbmUgKGFuZCBvbmx5IG9uZSkgcGFyYW1ldGVyIGZvciBlYWNoIG9mIHRoZSBiZWhhdmlvcmFsIGVmZmVjdHMhIikNCg0KICAgICMgY2FsY3VsdWF0ZSB2YWx1ZSBvZiBldmFsdWF0aW9uIGZ1bmN0aW9uDQogICAgcyA8LSBOQQ0KICAgIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgICAgIHNbaV0gPC0gMA0KICAgICAgICBmb3IgKGogaW4gMTpsZW5ndGgoZnVuKSkgew0KICAgICAgICAgICAgc1tpXSA8LSBzW2ldICsgcGFyYW1zW2pdICogZnVuW1tqXV0oaSwgYWx0ZXJzLCBtaW4sIG1heCkNCiAgICAgICAgfQ0KICAgIH0NCg0KICAgICMgY2FsY3VsYXRlIHRoZSBwcm9iYWJpbGl0aWVzDQogICAgcCA8LSBOQQ0KICAgIGZvciAoaSBpbiBtaW46bWF4KSB7DQogICAgICAgIHBbaV0gPC0gZXhwKHNbaV0pL3N1bShleHAocykpDQogICAgfQ0KDQogICAgIyBjYWxjdWxhdGUgdGhlIHByb2JhYmlsaXRpZXMgb2YgY2hvaWNlIHNldA0KICAgIHAyIDwtIE5BDQogICAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICAgICAgaWYgKGkgPT0gbWluKSB7DQogICAgICAgICAgICBwMltpXSA8LSBleHAoc1tpXSkvc3VtKGV4cChzW2ldKSArIGV4cChzW2kgKyAxXSkpDQogICAgICAgIH0gZWxzZSBpZiAoaSA9PSBtYXgpIHsNCiAgICAgICAgICAgIHAyW2ldIDwtIGV4cChzW2ldKS9zdW0oZXhwKHNbaV0pICsgZXhwKHNbaSAtIDFdKSkNCiAgICAgICAgfSBlbHNlIHsNCiAgICAgICAgICAgIHAyW2ldIDwtIGV4cChzW2ldKS9zdW0oZXhwKHNbaV0pICsgZXhwKHNbaSAtIDFdKSArIGV4cChzW2kgKyAxXSkpDQogICAgICAgIH0NCiAgICB9DQoNCiAgICAjIGNhbGN1bGF0ZSB0aGUgcHJvYmFiaWxpdHkgcmF0aW8NCiAgICByIDwtIE5BDQogICAgZm9yIChpIGluIG1pbjptYXgpIHsNCiAgICAgICAgcltpXSA8LSBwW2ldL3BbMV0NCiAgICB9DQoNCiAgICAjIHNvbWUgc2ltcGxlIHBsb3RzDQogICAgaWYgKHBsb3QpIHsNCiAgICAgICAgbmFtZSA8LSBkZXBhcnNlKHN1YnN0aXR1dGUoZnVuKSkNCiAgICAgICAgbmFtZSA8LSBzdHJpbmdyOjpzdHJfc3ViKGFzLmNoYXJhY3RlcihuYW1lKSwgNiwgLTIpDQogICAgICAgIHBhcihtZnJvdyA9IGMoMiwgMikpDQogICAgICAgIHBsb3QoeSA9IHMsIHggPSBtaW46bWF4LCB4bGFiID0gImVnbyBiZWhhdmlvcmFsIHNjb3JlIiwgeWxhYiA9IG5hbWUsIHR5cGUgPSAiYiIpDQogICAgICAgIG10ZXh0KCJFVkFMVUFUSU9OIiwgbGluZSA9IDEpDQogICAgICAgIG10ZXh0KHBhc3RlKCJhbHRlcnM6IiwgcGFzdGUwKGFsdGVycywgY29sbGFwc2UgPSAiLCIpKSkNCiAgICAgICAgcGxvdCh5ID0gcCwgeCA9IG1pbjptYXgsIHhsYWIgPSAiZWdvIGJlaGF2aW9yYWwgc2NvcmUiLCB5bGFiID0gbmFtZSwgeWxpbSA9IGMoMCwgMSksIHR5cGUgPSAiYiIpDQogICAgICAgIG10ZXh0KCJQUk9CQUJJTElUSUVTIiwgbGluZSA9IDEpDQogICAgICAgIG10ZXh0KHBhc3RlKCJhbHRlcnM6IiwgcGFzdGUwKGFsdGVycywgY29sbGFwc2UgPSAiLCIpKSkNCiAgICAgICAgcGxvdCh5ID0gcDIsIHggPSBtaW46bWF4LCB4bGFiID0gImVnbyBiZWhhdmlvcmFsIHNjb3JlIiwgeWxhYiA9IG5hbWUsIHlsaW0gPSBjKDAsIDEpLCB0eXBlID0gImIiKQ0KICAgICAgICBtdGV4dCgiUFJPQkFCSUxJVElFU19jaG9pY2Vfc2V0IiwgbGluZSA9IDEpDQogICAgICAgIG10ZXh0KHBhc3RlKCJhbHRlcnM6IiwgcGFzdGUwKGFsdGVycywgY29sbGFwc2UgPSAiLCIpKSkNCiAgICAgICAgcGxvdCh5ID0gciwgeCA9IG1pbjptYXgsIHhsYWIgPSAiZWdvIGJlaGF2aW9yYWwgc2NvcmUiLCB5bGFiID0gbmFtZSwgdHlwZSA9ICJiIikNCiAgICAgICAgbXRleHQoIlJBVElPUyIsIGxpbmUgPSAxKQ0KICAgICAgICBtdGV4dChwYXN0ZSgiYWx0ZXJzOiIsIHBhc3RlMChhbHRlcnMsIGNvbGxhcHNlID0gIiwiKSkpDQogICAgfQ0KDQogICAgIyByZXR1cm4gcmVzdWx0cyBmb3IgbW9yZSBmYW5jeSBwbG90dGluZw0KICAgIGlmIChyZXN1bHRzKSB7DQogICAgICAgIHggPC0gbWluOm1heA0KICAgICAgICBkZiA8LSBkYXRhLmZyYW1lKHgsIHMsIHAsIHAyLCByKQ0KICAgICAgICByZXR1cm4oZGYpDQogICAgfQ0KDQp9DQoNCmBgYCANCg0KV2UgYXNzdW1lIHRoYXQgJFxiZXRhXntiZWh9XzE9MCQgKGkuZS4sIGJlaGF2aW9yIGluY3JlYXNlcyBhcmUgbm90IG1vcmUvbGVzcyBsaWtlbHkgdGhhbiBkZWNyZWFzZXMpIGFuZCAkXGJldGFee2JlaH1fMj0wJCBbaS5lLiwgZXZhbHVhdGlvbiBmdW5jdGlvbiBpcyBhIHN0cmFpZ2h0IGxpbmU7IG5vIChpbnZlcnNlKSBVLXNoYXBlZCBwYXJhYm9sYV0uICRcYmV0YV57YmVofV8zPTUkLCBhbmQgJFxiZXRhXntiZWh9XzQ9MCQsIGZvciBub3cuIA0KDQpXZSBhc3N1bWUgZWdvICppKiBoYXMgYSBuZXR3b3JrIG9mIDYgYWx0ZXJzICh3aXRoIGEgbWVhbiB2YWx1ZSBvZiA0KSwgYWxsIG9mIHdob3NlIGJlaGF2aW9ycyBhcmUgc3RhYmxlIChpLmUuLCBlZ28gaXMgdGhlIG9ubHkgb25lIGZhY2luZyBkZWNpc2lvbiByZWdhcmRpbmcgaGlzIGJlaGF2aW9yIG92ZXIgdGltZSkuIFRoZSBiZWhhdmlvciBoYXMgYSByYW5nZSBvZiA3Lg0KDQpgYGB7cn0NCmFsdGVycyA8LSByZXAoYygzLDMsMyw1LDUsNSksMSkNCmBgYA0KDQpgYGB7cn0NCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdkFsdCxmYXZBbHRaKSwgcGFyYW1zID0gYygwLDAsNSwwKSkNCmBgYA0KPGJyPg0KDQpIZXJlLCB0aGUgY29udHJpYnV0aW9uIG9mIHRoZSBhdmVyYWdlIG9mIGFsdGVycycgYmVoYXZpb3IgdmFsdWVzIHRvIHRoZSBldmFsdWF0aW9uIGZ1bmN0aW9uIGlzIHVuY29uZGl0aW9uYWwgb24gZWdvJ3Mgb3duIHZhbHVlOyBvciBpbiBvdGhlciB3b3JkcywgdGhlIHRlbmRlbmN5IHRvICdtaW1pYycgdGhlIG1lYW4gYmVoYXZpb3IgaXMgbm8gZGlmZmVyZW50IGZvciBhY3RvcnMgd2l0aCBoaWdoIGFuZCBsb3cgYmVoYXZpb3IgdmFsdWVzLiBUbyBhbGxvdyBmb3IgdGhpcyBoZXRlcm9nZW5laXR5LCB3ZSB0d2VhayAkXGJldGFee2JlaH1fNCQuIA0KDQoNCmBgYHtyfQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2QWx0LGZhdkFsdFopLCBwYXJhbXMgPSBjKDAsMCw1LDEpKQ0KYGBgDQpgYGB7cn0NCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdkFsdCxmYXZBbHRaKSwgcGFyYW1zID0gYygwLDAsNSwtMSkpDQpgYGANCjxicj4NCg0KVGhpcyBzZWVtcyBhbHJpZ2h0ISANCg0KTWFueSBwcmVkZWZpbmVkIFJTaWVuYSBlZmZlY3RzIChsaWtlIHRoZSBhdmVyYWdlIGFsdGVyIGVmZmVjdCkgaGF2ZSB0aGUgZm9ybSBvZiBhIHByb2R1Y3QgJHNee2JlaH1fe2lrfSAoeCx6KSA9IHpfaSBzXjBfe2lrfSAoeCx6KSQsIHdoZXJlICRzXjBfe2lrfSAoeCx6KSQgZG9lcyBub3QgZGVwZW5kIG9uICR6X2kkLg0KDQpIZXJlLCBpZiBvbmUgaXMgaW50ZXJlc3RlZCBpbiBob3cgdGhlIG1hZ25pdHVkZSBvZiBhIHBhcnRpY3VsYXIgZWZmZWN0IChlLmcuLCB0aGUgaW4tZGVncmVlIGVmZmVjdCBvbiBiZWhhdmlvcikgZGVwZW5kcyBvbiBlZ28ncyBjdXJyZW50IGJlaGF2aW9yIHZhbHVlLCBvbmUgY291bGQgc2ltcGx5IGludGVyYWN0IGl0IHdpdGggdGhlIGxpbmVhciBzaGFwZSBlZmZlY3QsIGxpa2Ugd2UganVzdCBkaWQuDQoNCiMjIGF2ZXJhZ2Ugc2ltaWxhcml0eSBlZmZlY3QNCg0KSG93ZXZlciwgKGF2ZXJhZ2UpIHNpbWlsYXJpdHkgYW5kIGF0dHJhY3Rpb24gZWZmZWN0cyBkbyBub3QgaGF2ZSBzYW1lIHByb2R1Y3QtZm9ybTsgc3RhdGlzdGljICpzKiBkZXBlbmRzIG9uICR6X2kkIChpbiBhZGRpdGlvbiB0byAkel9qJCwgZm9yIG90aGVyIGFjdG9ycyAqaiopLg0KDQpJZiB3ZSBtb2RlbCB0aGUgYXZlcmFnZSBzaW1pbGFyaXR5IGVmZmVjdCwgaW4gaW50ZXJhY3Rpb24gd2l0aCB0aGUgbGluZWFyIHNoYXBlLCB0aGUgb2JqZWN0aXZlIGZ1bmN0aW9uIGlzDQoNCiQkZl9pXntiZWh9KHgseikgPSBcYmV0YV57YmVofV8xIHpfaSArIFxiZXRhXntiZWh9XzIgel9pXjIgKyBcYmV0YV57YmVofV8zIHheey0xfV97aSt9XHN1bV9qIHhfe2lqfShzaW1eel97aWp9IC0gXHdpZGVoYXR7c2ltXnp9KSArIFxiZXRhXntiZWh9XzQgel9pIHheey0xfV97aSt9XHN1bV9qIHhfe2lqfShzaW1eel97aWp9IC0gXHdpZGVoYXR7c2ltXnp9KSAgJCQNCg0KIyMjIyBubyBpbnRlcmFjdGlvbg0KYGBge3J9DQphbHRlcnMgPC0gYyg0LDQsNCw0LDQpDQpmaW5mbHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzLCBtaW49MSwgbWF4PTcsIGxpc3QoZmxpbmVhcixmcXVhZCxmYXZTaW0sZmF2U2ltWiksIHBhcmFtcyA9IGMoMCwwLDUsMCkpDQpgYGANCjxicj4NCg0KIyMjIyBwb3NpdGl2ZSBhbmQgbmVnYXRpdmUgaW50ZXJhY3Rpb25zDQoNCmBgYHtyfQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2U2ltLGZhdlNpbVopLCBwYXJhbXMgPSBjKDAsMCw1LC41KSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYygwLDAsNSwxKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYyguNSwtLjEsNSwxKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYygwLDAsNSwyKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYygwLDAsNSwzKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYygwLDAsNSw0KSkNCmBgYA0KDQpgYGB7cn0NCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYygwLDAsNSwtLjUpKQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2U2ltLGZhdlNpbVopLCBwYXJhbXMgPSBjKDAsMCw1LC0xKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYyguNSwtLjEsNSwtMSkpDQpmaW5mbHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzLCBtaW49MSwgbWF4PTcsIGxpc3QoZmxpbmVhcixmcXVhZCxmYXZTaW0sZmF2U2ltWiksIHBhcmFtcyA9IGMoMCwwLDUsLTIpKQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2U2ltLGZhdlNpbVopLCBwYXJhbXMgPSBjKDAsMCw1LC0zKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdlNpbSxmYXZTaW1aKSwgcGFyYW1zID0gYygwLDAsNSwtNCkpDQpgYGANCjxicj4NCg0KYHIgY29sb3JpemUoIk9ubHkgbWFrZXMgc2Vuc2Ugd2l0aCBsb3cgcGFyYW1ldGVyIHZhbHVlcyBmb3IgdGhlIGludGVyYWN0aW9uIGVmZmVjdCEhISIsICJyZWQiKWANCg0KIyMgYXZlcmFnZSBhdHRyYWN0aW9uICh0b3dhcmRzIGxvd2VyKQ0KSWYgd2UgbW9kZWwgdGhlIGF0dHJhY3Rpb24gZWZmZWN0cywgaW4gaW50ZXJhY3Rpb24gd2l0aCB0aGUgbGluZWFyIHNoYXBlLCB0aGUgb2JqZWN0aXZlIGZ1bmN0aW9uIGlzDQoNCg0KJCRmX2lee2JlaH0oeCx6KSA9IFxiZXRhXntiZWh9XzEgel9pICsgXGJldGFee2JlaH1fMiB6X2leMiArIFxiZXRhXntiZWh9XzMgeF57LTF9X3tpK31cc3VtX2ogeF97aWp9IChcLCBJIFx7ICh6X2opPHpfaSBcfSBzaW1eel97aWp9ICsgSSBceyAoel9qICkgXGdlIHpfaSBcfSApICsgXGJldGFee2JlaH1fNCB6X2kgeF57LTF9X3tpK31cc3VtX2ogeF97aWp9IChcLCBJIFx7ICh6X2opPHpfaSBcfSBzaW1eel97aWp9ICsgSSBceyAoel9qICkgXGdlIHpfaSBcfSApJCQNCg0KIyMjIyBubyBpbnRlcmFjdGlvbg0KYGBge3J9DQpmaW5mbHVlbmNlcGxvdChhbHRlcnM9YWx0ZXJzLCBtaW49MSwgbWF4PTcsIGxpc3QoZmxpbmVhcixmcXVhZCxmYXZBdHRIaWdoZXIsZmF2QXR0TG93ZXIsZmF2QXR0TG93ZXJaKSwgcGFyYW1zID0gYygwLDAsMCw1LDApKQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2QXR0SGlnaGVyLGZhdkF0dExvd2VyLGZhdkF0dExvd2VyWiksIHBhcmFtcyA9IGMoMCwwLDEsNSwwKSkNCmBgYA0KPGJyPg0KDQojIyMjIHBvc2l0aXZlIGFuZCBuZWdhdGl2ZSBpbnRlcmFjdGlvbnMNCg0KYGBge3J9DQphbHRlcnMgPC0gYygyLDIsMiwzLDMsMywzKQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2QXR0TG93ZXIsZmF2QXR0TG93ZXJaKSwgcGFyYW1zID0gYygwLDAsNSwwKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdkF0dExvd2VyLGZhdkF0dExvd2VyWiksIHBhcmFtcyA9IGMoMCwwLDUsLjUpKQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2QXR0TG93ZXIsZmF2QXR0TG93ZXJaKSwgcGFyYW1zID0gYygwLDAsNSwxKSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdkF0dExvd2VyLGZhdkF0dExvd2VyWiksIHBhcmFtcyA9IGMoMCwwLDUsLS41KSkNCmZpbmZsdWVuY2VwbG90KGFsdGVycz1hbHRlcnMsIG1pbj0xLCBtYXg9NywgbGlzdChmbGluZWFyLGZxdWFkLGZhdkF0dExvd2VyLGZhdkF0dExvd2VyWiksIHBhcmFtcyA9IGMoMCwwLDUsLTEpKQ0KZmluZmx1ZW5jZXBsb3QoYWx0ZXJzPWFsdGVycywgbWluPTEsIG1heD03LCBsaXN0KGZsaW5lYXIsZnF1YWQsZmF2QXR0TG93ZXIsZmF2QXR0TG93ZXJaKSwgcGFyYW1zID0gYygwLDAsNSwtMikpDQpgYGANCg0KPGJyPg0KDQpgciBjb2xvcml6ZSgiSG1tbS4uLiB0aGlzIGlzIG5vdCB3aGF0IEkgd2FudCEgRWdvIHNob3VsZCBub3QgYmUgZHJhd24gdXAgYnkgaGlnaGVyIGFsdGVycyBpbiB0aGUgY2FzZSBvZiBhIHBvc2l0aXZlICBhdHRyYWN0aW9uIHRvd2FyZHMgbG93ZXIgcGFyYW1ldGVyOyBlZ28gc2hvdWxkIG5vdCBtb3ZlIGF3YXkgZnJvbSBoaWdoZXIgYWx0ZXJzIGluIHRoZSBjYXNlIG9mIGEgbmVnYXRpdmUgcGFyYW1ldGVyLiBUaGF0J3MgZXhhY3RseSB3aHkgdGhlIHNpbWlsYXJpdHkgc2NvcmVzIGZvciBhbHRlcnMgd2hvICpkaWQgbm90KiBzY29yZSBsb3dlciB0aGFuIGVnbyB3ZXJlIHJlcGxhY2VkIGJ5IDEuIFRodXMsIGFsdGVycyB0aGF0IGFyZSAobm8gbG9uZ2VyKSBsb3dlciB0aGFuIG1lLCBoYXZlIG5vIGluZmx1ZW5jZSBhbnltb3JlLiBCdXQgc2luY2UgdGhlIGF2ZXJhZ2Ugc2ltaWxhcml0eSBvZiBhbHRlcnMgaXMgbm93IG11bHRpcGxpZWQgYnkgZWdvJ3Mgb3duIGJlaGF2aW9yLCBlZ28gd2lsbCBhbHdheXMgcHJlZmVyIGluY3JlYXNpbmcgdGhlIGJlaGF2aW9yIG92ZXIgc3RheWluZyBjb25zdGFudCAoYXQgbGVhc3QsIGluIHRoZSBjYXNlIG9mIGEgcG9zdGl2ZSBwYXJhbXRlciBmb3IgdGhlIGludGVyYWN0aW9uIGVmZmVjdC4iLCAicmVkIilgDQo=</div>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+
+<hr>
+<br>
+<p class="center">Copyright &copy; 2021 Rob Franken</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("interaction.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

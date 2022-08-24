@@ -1,7 +1,13 @@
-# Strava SAOM estimation
+#Strava SAOM estimation
 #additional models
 #probing for gender differences in influence dynamics
 #last edited 20220807 RF
+#to do: make an .Rmd for the online repo website
+
+
+#explore whether social influence - the indegree and avSim effects - condition on...
+#1. running experience (interaction with linear shape effect & constant covariate reflecting years on strava)
+#2. gender (ref.=male)
 
 ##################################################
 
@@ -9,59 +15,78 @@
 
 # clean the working environment
 rm(list = ls())
+
+#load rsiena
+library(RSiena)
+
+#temp <- "C:\\Users\\u244147\\Documents\\GitHub\\Stravajournal"
+#setwd(temp)
+#rm(temp)
+
 # load in the R-SIENA objects
 load("clubdata_rsiena_freq.Rdata")
 
-#i load the basic for-loop script that runs models (here, with myeff object 5;
-#the main model) over all clubs; but, for each club i run 2 models;
-#a. the main model + an interaction of gender with kudos indegree
-#b. " + an interaction of avAttLower with gender.
 
+# make a list to store our final results in.
+results.list <- vector("list", length(clubdata_rsiena_freq)) #"pre-allocate" empty list of length 5
 
-###
-library(RSiena)
-c=5 #5clubs;
-
-#start with c1
-#c=1
-#then 2-5
-
-for (i in 2:c) { # for club c
-  
-  i=5
-  
+for (i in 1:5) { # for club i
   #get rsiena object
   mydata <- clubdata_rsiena_freq[[i]]
   
   #and the list containing myeff objects
   load(file=paste0("test/myeff/myeff_club",i,".RData"))
-  myeffL <- myeff
+
+  #take 6th element, which is the model with avSim
+  myeff <- myeff[[6]]
   
-  #take 5th element, which is the main model
-  myeff <- myeffL[[5]]
-  #and now add interaction effects
-  myeff1 <- includeInteraction(myeff, effFrom, indeg,
-                               name="freq_run", interaction1=c("gender", "kudonet"))
-  myeff2 <- includeInteraction(myeff, effFrom, avAttLower,
-                               name="freq_run", interaction1=c("gender", "kudonet"))
-  myeffL <- list(myeff1,myeff2)#list extra model specficiations
+  #include interaction effects, fixed to 0 and test=TRUE
+  #here, it is important that in the getEffects command, the behNintn argument is set to a high enough value..
   
-  # but first specify algorithm
-  myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
-  #mock algo
-  myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=3, n3=1000 )
+  #current behavior (linear shape)
+  #myeff1 <- includeInteraction(myeff, linear, indeg, name="freq_run", interaction1=c("","kudonet"))
+  #myeff2 <- includeInteraction(myeff, linear, avSim, name="freq_run", interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
+
+  #novice
+  myeff3 <- includeInteraction(myeff, effFrom, indeg, name = "freq_run", interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
+  myeff4 <- includeInteraction(myeff, effFrom, avSim, name = "freq_run", interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
   
-  {
+  #gender:
+  myeff5 <- includeInteraction(myeff, effFrom, indeg, name = "freq_run", interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
+  myeff6 <- includeInteraction(myeff, effFrom, avSim, name = "freq_run", interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
   
-  for (j in 1:length(myeffL)) {
-    
-    #reiterate until reaching good convergence
+  myeffL<-list(myeff3,myeff4,myeff5,myeff6)
   
-    sienaFit <-list()
-    #store as jth element in results list
+  # specify algorithm
+ # myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+  myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=3, n3=500 )
   
-    #estimate
-    try=1
+  ansL <- vector("list", length(myeffL)) #"pre-allocate" empty list of length 6
+
+  #estimate
+  for (j in 1:length(ansL)) {
+    ans <- siena07(myalgorithm, data=mydata, effects=myeffL[[j]], nbrNodes=10, initC=TRUE, batch=TRUE)
+    ansL[[j]] <- ans
+  }
+  
+  results.list[[i]] <- ansL
+}
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ans <- siena07(myalgorithm, data=mydata, effects=myeff, nbrNodes=10, initC=TRUE, batch=TRUE)
+  ans
+  sans <- summary(ans)
+  sans$  
+  try=1
     #j=2
     sienaFit[[j]] <- siena07( myalgorithm, data = mydata, effects = myeffL[[j]], returnDeps=TRUE, useCluster=TRUE, nbrNodes=10, initC=TRUE, batch=TRUE)
 

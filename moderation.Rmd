@@ -38,7 +38,9 @@ klippy::klippy(position = c('top', 'right'))
 Aim: to explore effect heterogeneity in social influence between actors within clubs, according to running level and gender.
 
 
-We specify multiple models, for each club. We include interaction terms (between influence and actor variables), fix them at the value 0, corresponding to the null hypothesis, and testing this null value using the score-type test.
+Our model already considers rather many parameters given the information available in the data-set. We have limited power to detect behavior evolution effects, as the number of data points is at the order $n$. If we consider network evolution, we have data points of the order $n^2$. Therefore, our data does now allow for backward elimination (i.e., estimating the 'full model', including all interactions simultaneously, and stepwisely removing effects that are not significant according to some criterion). 
+
+Instead, we estimate our main model and assess the interactions by testing their parameters $(H_0:\theta=0)$ *without* estimating them, using score-type tests, a procedure proposed by @schweinberger.
 
 
 ----
@@ -48,9 +50,7 @@ We specify multiple models, for each club. We include interaction terms (between
 ## clean up
 
 ```{r, attr.output='style="max-height: 200px;"'}
-
 rm (list = ls( ))
-
 ```
 
 <br>
@@ -60,7 +60,7 @@ rm (list = ls( ))
 - `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
 - `fload.R`: function to load R-objects under new names.
 
-```{r, results='hide'}
+```{r, eval=F}
 
 fpackage.check <- function(packages) {
     lapply(packages, FUN = function(x) {
@@ -83,7 +83,7 @@ fload.R  <- function(fileName){
 
 - `RSiena`
 
-```{r packages, results='hide'}
+```{r packages, eval=F}
 
 packages = c("RSiena")
 
@@ -93,8 +93,7 @@ fpackage.check(packages)
 <br>
 
 ## read in RSiena data objects
-
-```{r, data}
+```{r, eval=F}
 load("clubdata_rsiena_freq.Rdata")
 ```
 
@@ -102,26 +101,146 @@ load("clubdata_rsiena_freq.Rdata")
 
 ----
 
-# testing
+# Approach
 
 We probe for moderational effects of:
 
-- *gender*: to see whether receiving kudos or the activities of lower alters have differential effects for males and females;
-- *running level*: to see whether runners with different running experience are more/less susceptible to influence. We interact the influence effects with the `linear` shape effect (which represents ego's current running) and a time-constant actor-covariate representing the number of years that actors were active on Strava. 
+- *gender*: to see whether receiving kudos or the activities of alters have differential effects for males and females;
+- *running level*: to see whether runners with different running experience are more/less susceptible to influence. We interact the influence effects with the `linear` shape effect (which represents ego's current running) and a time-constant actor-covariate representing the number of years that actors were active on Strava (labeled `novice`). 
 
-We have 2 (significant) influence effects (i.e., `indeg` and `avAttLower`);
-We have 2 dependent variables (i.e., running frequency and volume);
-and 3 interactions (i.e., gender, linear shape, years active on Strava).
+We discuss [here](...) why we use the `linear` shape effect, and why we use `avSim` rather than `avAttLower` in the interaction models. 
+ 
+We focus on 2 influence effects, and 3 interactions; thus a total of 6 models for each club.
 
-Thus, we estimate a total of 2x2x3=12 additional models.
-We include the particular interaction term, fix it at the value 0, and test this using the score-type test. 
-
+We will consider the results of the (one-sided) one-parameter test. Its test statistic is standard normally distributed.
 
 
+# Estimation
 
-----
+```{r, eval=F}
+# make a list to store our final results in.
+results.list <- vector("list", length(clubdata_rsiena_freq)) #"pre-allocate" empty list of length 5
 
-we need:
-- `myeff` objects, lists containing the effect-objects for the respective clubs
-we take the main model (m5); and add the particular interaction terms.
+for (i in 1:5) { # for club i
+
+  #get rsiena object
+  mydata <- clubdata_rsiena_freq[[i]]
+  
+  #and the list containing myeff objects
+  load(file=paste0("test/myeff/myeff_club",i,".RData"))
+
+  #take 6th element, which is the model with avSim
+  myeff <- myeff[[6]]
+  
+  #include interaction effects, fixed to 0 and test=TRUE
+  #here, it is important that in the getEffects command, the behNintn argument is set to a high enough value...
+  
+  #current behavior (linear shape)
+  myeff1 <- includeInteraction(myeff, linear, indeg, name="freq_run", interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
+  myeff2 <- includeInteraction(myeff, linear, avSim, name="freq_run", interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
+
+  #novice
+  myeff3 <- includeInteraction(myeff, effFrom, indeg, name = "freq_run", interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
+  myeff4 <- includeInteraction(myeff, effFrom, avSim, name = "freq_run", interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
+  
+  #gender:
+  myeff5 <- includeInteraction(myeff, effFrom, indeg, name = "freq_run", interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
+  myeff6 <- includeInteraction(myeff, effFrom, avSim, name = "freq_run", interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
+  
+  myeffL<-list(myeff1,myeff2, myeff3,myeff4,myeff5,myeff6)
+  
+  # specify algorithm
+  myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+ # myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=3, n3=500 )
+  
+  ansL <- vector("list", length(myeffL)) #"pre-allocate" empty list of length 6
+
+  #estimate
+  for (j in 1:length(ansL)) {
+    ans <- siena07(myalgorithm, data=mydata, effects=myeffL[[j]], nbrNodes=10, initC=TRUE, batch=TRUE)
+    ansL[[j]] <- ans
+  }
+  
+  results.list[[i]] <- ansL
+}
+
+```
+
+<br> 
+
+# Results {.tabset .tabset-fade} 
+
+Down below, we present the results for each model, by club
+
+## `indeg x linear` {.tabset .tabset-fade}
+
+### club 1
+```{r, eval=F}
+
+
+```
+
+### club 2
+```{r, eval=F}
+
+```
+
+### club 3
+
+### club 4
+
+### club 5
+
+# {-}
+
+## `avSim x linear` {.tabset .tabset-fade}
+### club 1
+```{r, eval=F}
+
+```
+
+### club 2
+```{r, eval=F}
+
+```
+
+### club 3
+
+### club 4
+
+### club 5
+
+# {-}
+
+## `avSim x linear` {.tabset .tabset-fade}
+### club 1
+```{r, eval=F}
+
+```
+
+### club 2
+```{r, eval=F}
+
+```
+
+### club 3
+
+### club 4
+
+### club 5
+
+# {-}
+
+<br>
+
+
+- `indeg x linear`...
+- `avSim x linear`...
+
+
+<br> 
+
+---
+## References
+
 

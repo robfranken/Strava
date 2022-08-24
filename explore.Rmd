@@ -275,16 +275,10 @@ For subsequent meta-analysis, we need to ensure that the model specification for
 myeff2 <- setEffect( myeff2, outPopSqrt, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
 myeff2 <- setEffect( myeff2, reciAct, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
 myeff2 <- includeInteraction(myeff2, recip, gwespFF, parameter = 69, name = "kudonet")
-eff1 <- myeff2[myeff2$include,]$effect1[24]
-eff2 <- myeff2[myeff2$include,]$effect2[24]
+eff1 <- myeff2[myeff2$include,]$effect1[27]
+eff2 <- myeff2[myeff2$include,]$effect2[27]
 myeff2 <- setEffect(myeff2, unspInt, fix=TRUE, test=FALSE, effect1=eff1, effect2=eff2)
 ```
-
-<!--- 
-
-@RF: for some reasons this gives an error when rendering the site... so set on eval=F
-
----> 
 
 <br>
 

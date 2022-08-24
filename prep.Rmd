@@ -347,11 +347,26 @@ for (i in (1: length(club_str))) {
   winter <- rep(c(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), size.nm)
   winter <- matrix(winter, nr = size.nm, nc = n_waves, byrow = TRUE)
   
+  # in case we want to condition on the first activity recorded by users:
+  st_yr <- clubdata[,'start_date_year']
+  st_yr <- st_yr[-x] #exclude NAs
+  
+  start_year <- ifelse(st_yr <= 2011, 1, 
+                       ifelse(st_yr == 2012, 2,
+                              ifelse(st_yr == 2013, 3,
+                                     ifelse(st_yr == 2014, 4,
+                                            ifelse(st_yr == 2015, 5,
+                                                   ifelse(st_yr == 2016, 6,
+                                                          ifelse(st_yr == 2017, 7,
+                                                                 ifelse(st_yr == 2018, 8,
+                                                                        9))))))))
+  #hist(start_year)
+  
   # create a list containing all the read club data for the current club
   club <- list(friendship = friend_data, kudo = kudo_data.nm, freq_run = freq_run_temp.nm, time_run = time_run_temp.nm,
                freq_other = freq_other_temp.nm, time_other = time_other_temp.nm, winter = winter, male = male, female = female,
-               other = other, netsize = size.nm, composition = comp)
-
+               other = other, netsize = size.nm, composition = comp, novice=start_year)
+  
   
   # save the club object
   save(club, file = paste("clubs/", "club", club_id, ".RData", sep = ""))
@@ -364,7 +379,8 @@ for (i in (1: length(club_str))) {
 # Now that we have saved the clubdata for all clubs, let's combine them in one list
 
 # first clean the working directory, except our club string; we still need that one.
-rm(list = setdiff(ls(), "club_str"))
+# and our function fload.R
+rm(list = setdiff(ls(), c("club_str", "fload.R")))
 
 
 # load in the separate club-objects
@@ -431,18 +447,24 @@ for (i in 1:5) {
   gender <- ifelse(club$female == 1, 2, gender)
   gender <- ifelse(club$other == 1, 2, gender)
   gender <- coCovar(gender)
+  novice <- coCovar(club$novice)
+  
   
   # D: composition change (joiners)
   joiners <- sienaCompositionChange(club$composition)
   
   # now combine the dependent and independent variables in a data object
-  mydata <- sienaDataCreate(kudonet, freq_run, time_other, freq_other, gender, winter, joiners)
-  mydata2 <- sienaDataCreate(kudonet, time_run, time_other, freq_other, gender, winter, joiners)
+  mydata <- sienaDataCreate(kudonet, freq_run, time_other, freq_other, gender, winter, joiners, novice)
+  mydata2 <- sienaDataCreate(kudonet, time_run, time_other, freq_other, gender, winter, joiners, novice)
 
   # this finishes the data specification
   clubdata_rsiena_freq[[i]] <- mydata
   clubdata_rsiena_vol[[i]] <- mydata2
 } 
+
+
+#clean environment
+rm(list = setdiff(ls(), c("clubdata_rsiena_freq", "clubdata_rsiena_vol")))
 
 # save the output
 save(clubdata_rsiena_freq, file = "clubs/clubdata_rsiena_freq.RData")

@@ -17,7 +17,7 @@
     load(file=paste("test", "/", "mydata", "/", "duration", "/", "mydata_club", 1, ".RData", sep = "")) 
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -64,7 +64,7 @@
     load(file=paste("test", "/", "mydata", "/", "duration", "/", "mydata_club", 2, ".RData", sep = "")) 
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -111,7 +111,7 @@
     load(file=paste("test", "/", "mydata", "/", "duration", "/", "mydata_club", 3, ".RData", sep = "")) 
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -158,7 +158,7 @@
     load(file=paste("test", "/", "mydata", "/", "duration", "/", "mydata_club", 4, ".RData", sep = "")) 
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
@@ -211,7 +211,7 @@
     load(file=paste("test", "/", "mydata", "/", "duration", "/", "mydata_club", 5, ".RData", sep = "")) 
     #effectsDocumentation(myeff)
     # define effects
-    myeff <- getEffects(mydata)
+    myeff <- getEffects(mydata, behNintn=10)
     
     {
       myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 

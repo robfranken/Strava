@@ -73,6 +73,28 @@ if (window.hljs) {
 }
 </style>
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="tweaks.css" type="text/css" />
 
@@ -475,10 +497,20 @@ effects</h1>
 <hr />
 <p>Aim: to explore effect heterogeneity in social influence between
 actors within clubs, according to running level and gender.</p>
-<p>We specify multiple models, for each club. We include interaction
-terms (between influence and actor variables), fix them at the value 0,
-corresponding to the null hypothesis, and testing this null value using
-the score-type test.</p>
+<p>Our model already considers rather many parameters given the
+information available in the data-set. We have limited power to detect
+behavior evolution effects, as the number of data points is at the order
+<span class="math inline">\(n\)</span>. If we consider network
+evolution, we have data points of the order <span
+class="math inline">\(n^2\)</span>. Therefore, our data does now allow
+for backward elimination (i.e., estimating the ‘full model’, including
+all interactions simultaneously, and stepwisely removing effects that
+are not significant according to some criterion).</p>
+<p>Instead, we estimate our main model and assess the interactions by
+testing their parameters <span
+class="math inline">\((H_0:\theta=0)\)</span> <em>without</em>
+estimating them, using score-type tests, a procedure proposed by <span
+class="citation">Schweinberger (2012)</span>.</p>
 <hr />
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
@@ -527,32 +559,163 @@ fpackage.check(packages)</code></pre>
 <hr />
 </div>
 </div>
-<div id="testing" class="section level1">
-<h1>testing</h1>
+<div id="approach" class="section level1">
+<h1>Approach</h1>
 <p>We probe for moderational effects of:</p>
 <ul>
 <li><em>gender</em>: to see whether receiving kudos or the activities of
-lower alters have differential effects for males and females;</li>
+alters have differential effects for males and females;</li>
 <li><em>running level</em>: to see whether runners with different
 running experience are more/less susceptible to influence. We interact
 the influence effects with the <code>linear</code> shape effect (which
 represents ego’s current running) and a time-constant actor-covariate
-representing the number of years that actors were active on Strava.</li>
+representing the number of years that actors were active on Strava
+(labeled <code>novice</code>).</li>
 </ul>
-<p>We have 2 (significant) influence effects (i.e., <code>indeg</code>
-and <code>avAttLower</code>); We have 2 dependent variables (i.e.,
-running frequency and volume); and 3 interactions (i.e., gender, linear
-shape, years active on Strava).</p>
-<p>Thus, we estimate a total of 2x2x3=12 additional models. We include
-the particular interaction term, fix it at the value 0, and test this
-using the score-type test.</p>
+<p>We discuss <a href="...">here</a> why we use the <code>linear</code>
+shape effect, and why we use <code>avSim</code> rather than
+<code>avAttLower</code> in the interaction models.</p>
+<p>We focus on 2 influence effects, and 3 interactions; thus a total of
+6 models for each club.</p>
+<p>We will consider the results of the (one-sided) one-parameter test.
+Its test statistic is standard normally distributed.</p>
+</div>
+<div id="estimation" class="section level1">
+<h1>Estimation</h1>
+<pre class="r test"><code># make a list to store our final results in.
+results.list &lt;- vector(&quot;list&quot;, length(clubdata_rsiena_freq)) #&quot;pre-allocate&quot; empty list of length 5
+
+for (i in 1:5) { # for club i
+
+  #get rsiena object
+  mydata &lt;- clubdata_rsiena_freq[[i]]
+  
+  #and the list containing myeff objects
+  load(file=paste0(&quot;test/myeff/myeff_club&quot;,i,&quot;.RData&quot;))
+
+  #take 6th element, which is the model with avSim
+  myeff &lt;- myeff[[6]]
+  
+  #include interaction effects, fixed to 0 and test=TRUE
+  #here, it is important that in the getEffects command, the behNintn argument is set to a high enough value...
+  
+  #current behavior (linear shape)
+  myeff1 &lt;- includeInteraction(myeff, linear, indeg, name=&quot;freq_run&quot;, interaction1=c(&quot;&quot;,&quot;kudonet&quot;), fix=TRUE, test=TRUE)
+  myeff2 &lt;- includeInteraction(myeff, linear, avSim, name=&quot;freq_run&quot;, interaction1=c(&quot;&quot;,&quot;kudonet&quot;), fix=TRUE, test=TRUE)
+
+  #novice
+  myeff3 &lt;- includeInteraction(myeff, effFrom, indeg, name = &quot;freq_run&quot;, interaction1 = c(&quot;novice&quot;, &quot;kudonet&quot;), fix=TRUE, test=TRUE)
+  myeff4 &lt;- includeInteraction(myeff, effFrom, avSim, name = &quot;freq_run&quot;, interaction1 = c(&quot;novice&quot;, &quot;kudonet&quot;), fix=TRUE, test=TRUE)
+  
+  #gender:
+  myeff5 &lt;- includeInteraction(myeff, effFrom, indeg, name = &quot;freq_run&quot;, interaction1 = c(&quot;gender&quot;, &quot;kudonet&quot;), fix=TRUE, test=TRUE)
+  myeff6 &lt;- includeInteraction(myeff, effFrom, avSim, name = &quot;freq_run&quot;, interaction1 = c(&quot;gender&quot;, &quot;kudonet&quot;), fix=TRUE, test=TRUE)
+  
+  myeffL&lt;-list(myeff1,myeff2, myeff3,myeff4,myeff5,myeff6)
+  
+  # specify algorithm
+  myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, nsub=5, n3=5000 )
+ # myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, nsub=3, n3=500 )
+  
+  ansL &lt;- vector(&quot;list&quot;, length(myeffL)) #&quot;pre-allocate&quot; empty list of length 6
+
+  #estimate
+  for (j in 1:length(ansL)) {
+    ans &lt;- siena07(myalgorithm, data=mydata, effects=myeffL[[j]], nbrNodes=10, initC=TRUE, batch=TRUE)
+    ansL[[j]] &lt;- ans
+  }
+  
+  results.list[[i]] &lt;- ansL
+}</code></pre>
+<p><br></p>
+</div>
+<div id="results" class="section level1 tabset tabset-fade">
+<h1 class="tabset tabset-fade">Results</h1>
+<p>Down below, we present the results for each model, by club</p>
+<div id="indeg-x-linear" class="section level2 tabset tabset-fade">
+<h2 class="tabset tabset-fade"><code>indeg x linear</code></h2>
+<div id="club-1" class="section level3">
+<h3>club 1</h3>
+</div>
+<div id="club-2" class="section level3">
+<h3>club 2</h3>
+</div>
+<div id="club-3" class="section level3">
+<h3>club 3</h3>
+</div>
+<div id="club-4" class="section level3">
+<h3>club 4</h3>
+</div>
+<div id="club-5" class="section level3">
+<h3>club 5</h3>
+</div>
+</div>
+</div>
+<div id="section" class="section level1 unnumbered">
+<h1 class="unnumbered"></h1>
+<div id="avsim-x-linear" class="section level2 tabset tabset-fade">
+<h2 class="tabset tabset-fade"><code>avSim x linear</code></h2>
+<div id="club-1-1" class="section level3">
+<h3>club 1</h3>
+</div>
+<div id="club-2-1" class="section level3">
+<h3>club 2</h3>
+</div>
+<div id="club-3-1" class="section level3">
+<h3>club 3</h3>
+</div>
+<div id="club-4-1" class="section level3">
+<h3>club 4</h3>
+</div>
+<div id="club-5-1" class="section level3">
+<h3>club 5</h3>
+</div>
+</div>
+</div>
+<div id="section-1" class="section level1 unnumbered">
+<h1 class="unnumbered"></h1>
+<div id="avsim-x-linear-1" class="section level2 tabset tabset-fade">
+<h2 class="tabset tabset-fade"><code>avSim x linear</code></h2>
+<div id="club-1-2" class="section level3">
+<h3>club 1</h3>
+</div>
+<div id="club-2-2" class="section level3">
+<h3>club 2</h3>
+</div>
+<div id="club-3-2" class="section level3">
+<h3>club 3</h3>
+</div>
+<div id="club-4-2" class="section level3">
+<h3>club 4</h3>
+</div>
+<div id="club-5-2" class="section level3">
+<h3>club 5</h3>
+</div>
+</div>
+</div>
+<div id="section-2" class="section level1 unnumbered">
+<h1 class="unnumbered"></h1>
+<p><br></p>
+<ul>
+<li><code>indeg x linear</code>…</li>
+<li><code>avSim x linear</code>…</li>
+</ul>
+<p><br></p>
 <hr />
-<p>we need: - <code>myeff</code> objects, lists containing the
-effect-objects for the respective clubs we take the main model (m5); and
-add the particular interaction terms.</p>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-schweinberger" class="csl-entry">
+Schweinberger, Michael. 2012. <span>“Statistical Modelling of Network
+Panel Data: Goodness of Fit.”</span> <em>British Journal of Mathematical
+and Statistical Psychology</em> 65 (2): 263–81. <a
+href="https://doi.org/10.1111/j.2044-8317.2011.02022.x">https://doi.org/10.1111/j.2044-8317.2011.02022.x</a>.
+</div>
+</div>
+</div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBvc3QtaG9jIHByb2Jpbmcgb2YgbW9kZXJhdGlvbmFsIGVmZmVjdHMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQogIA0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJ30NCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCg0KLS0tDQogIA0KQWltOiB0byBleHBsb3JlIGVmZmVjdCBoZXRlcm9nZW5laXR5IGluIHNvY2lhbCBpbmZsdWVuY2UgYmV0d2VlbiBhY3RvcnMgd2l0aGluIGNsdWJzLCBhY2NvcmRpbmcgdG8gcnVubmluZyBsZXZlbCBhbmQgZ2VuZGVyLg0KDQoNCldlIHNwZWNpZnkgbXVsdGlwbGUgbW9kZWxzLCBmb3IgZWFjaCBjbHViLiBXZSBpbmNsdWRlIGludGVyYWN0aW9uIHRlcm1zIChiZXR3ZWVuIGluZmx1ZW5jZSBhbmQgYWN0b3IgdmFyaWFibGVzKSwgZml4IHRoZW0gYXQgdGhlIHZhbHVlIDAsIGNvcnJlc3BvbmRpbmcgdG8gdGhlIG51bGwgaHlwb3RoZXNpcywgYW5kIHRlc3RpbmcgdGhpcyBudWxsIHZhbHVlIHVzaW5nIHRoZSBzY29yZS10eXBlIHRlc3QuDQoNCg0KLS0tLQ0KDQojIEdldHRpbmcgc3RhcnRlZA0KDQojIyBjbGVhbiB1cA0KDQpgYGB7ciwgYXR0ci5vdXRwdXQ9J3N0eWxlPSJtYXgtaGVpZ2h0OiAyMDBweDsiJ30NCg0Kcm0gKGxpc3QgPSBscyggKSkNCg0KYGBgDQoNCjxicj4NCg0KIyMgZ2VuZXJhbCBjdXN0b20gZnVuY3Rpb25zDQoNCi0gYGZwYWNrYWdlLmNoZWNrYDogQ2hlY2sgaWYgcGFja2FnZXMgYXJlIGluc3RhbGxlZCAoYW5kIGluc3RhbGwgaWYgbm90KSBpbiBSIChbc291cmNlXShodHRwczovL3ZiYWxpZ2EuZ2l0aHViLmlvL3ZlcmlmeS10aGF0LXItcGFja2FnZXMtYXJlLWluc3RhbGxlZC1hbmQtbG9hZGVkLykpDQotIGBmbG9hZC5SYDogZnVuY3Rpb24gdG8gbG9hZCBSLW9iamVjdHMgdW5kZXIgbmV3IG5hbWVzLg0KDQpgYGB7ciwgcmVzdWx0cz0naGlkZSd9DQoNCmZwYWNrYWdlLmNoZWNrIDwtIGZ1bmN0aW9uKHBhY2thZ2VzKSB7DQogICAgbGFwcGx5KHBhY2thZ2VzLCBGVU4gPSBmdW5jdGlvbih4KSB7DQogICAgICAgIGlmICghcmVxdWlyZSh4LCBjaGFyYWN0ZXIub25seSA9IFRSVUUpKSB7DQogICAgICAgICAgICBpbnN0YWxsLnBhY2thZ2VzKHgsIGRlcGVuZGVuY2llcyA9IFRSVUUpDQogICAgICAgICAgICBsaWJyYXJ5KHgsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkNCiAgICAgICAgfQ0KICAgIH0pDQp9DQoNCmZsb2FkLlIgIDwtIGZ1bmN0aW9uKGZpbGVOYW1lKXsNCiAgbG9hZChmaWxlTmFtZSkNCiAgZ2V0KGxzKClbbHMoKSAhPSAiZmlsZU5hbWUiXSkNCn0NCg0KYGBgDQoNCg0KIyMgbmVjZXNzYXJ5IHBhY2thZ2VzDQoNCi0gYFJTaWVuYWANCg0KYGBge3IgcGFja2FnZXMsIHJlc3VsdHM9J2hpZGUnfQ0KDQpwYWNrYWdlcyA9IGMoIlJTaWVuYSIpDQoNCmZwYWNrYWdlLmNoZWNrKHBhY2thZ2VzKQ0KYGBgDQoNCjxicj4NCg0KIyMgcmVhZCBpbiBSU2llbmEgZGF0YSBvYmplY3RzDQoNCmBgYHtyLCBkYXRhfQ0KbG9hZCgiY2x1YmRhdGFfcnNpZW5hX2ZyZXEuUmRhdGEiKQ0KYGBgDQoNCjxicj4NCg0KLS0tLQ0KDQojIHRlc3RpbmcNCg0KV2UgcHJvYmUgZm9yIG1vZGVyYXRpb25hbCBlZmZlY3RzIG9mOg0KDQotICpnZW5kZXIqOiB0byBzZWUgd2hldGhlciByZWNlaXZpbmcga3Vkb3Mgb3IgdGhlIGFjdGl2aXRpZXMgb2YgbG93ZXIgYWx0ZXJzIGhhdmUgZGlmZmVyZW50aWFsIGVmZmVjdHMgZm9yIG1hbGVzIGFuZCBmZW1hbGVzOw0KLSAqcnVubmluZyBsZXZlbCo6IHRvIHNlZSB3aGV0aGVyIHJ1bm5lcnMgd2l0aCBkaWZmZXJlbnQgcnVubmluZyBleHBlcmllbmNlIGFyZSBtb3JlL2xlc3Mgc3VzY2VwdGlibGUgdG8gaW5mbHVlbmNlLiBXZSBpbnRlcmFjdCB0aGUgaW5mbHVlbmNlIGVmZmVjdHMgd2l0aCB0aGUgYGxpbmVhcmAgc2hhcGUgZWZmZWN0ICh3aGljaCByZXByZXNlbnRzIGVnbydzIGN1cnJlbnQgcnVubmluZykgYW5kIGEgdGltZS1jb25zdGFudCBhY3Rvci1jb3ZhcmlhdGUgcmVwcmVzZW50aW5nIHRoZSBudW1iZXIgb2YgeWVhcnMgdGhhdCBhY3RvcnMgd2VyZSBhY3RpdmUgb24gU3RyYXZhLiANCg0KV2UgaGF2ZSAyIChzaWduaWZpY2FudCkgaW5mbHVlbmNlIGVmZmVjdHMgKGkuZS4sIGBpbmRlZ2AgYW5kIGBhdkF0dExvd2VyYCk7DQpXZSBoYXZlIDIgZGVwZW5kZW50IHZhcmlhYmxlcyAoaS5lLiwgcnVubmluZyBmcmVxdWVuY3kgYW5kIHZvbHVtZSk7DQphbmQgMyBpbnRlcmFjdGlvbnMgKGkuZS4sIGdlbmRlciwgbGluZWFyIHNoYXBlLCB5ZWFycyBhY3RpdmUgb24gU3RyYXZhKS4NCg0KVGh1cywgd2UgZXN0aW1hdGUgYSB0b3RhbCBvZiAyeDJ4Mz0xMiBhZGRpdGlvbmFsIG1vZGVscy4NCldlIGluY2x1ZGUgdGhlIHBhcnRpY3VsYXIgaW50ZXJhY3Rpb24gdGVybSwgZml4IGl0IGF0IHRoZSB2YWx1ZSAwLCBhbmQgdGVzdCB0aGlzIHVzaW5nIHRoZSBzY29yZS10eXBlIHRlc3QuIA0KDQoNCg0KDQotLS0tDQoNCndlIG5lZWQ6DQotIGBteWVmZmAgb2JqZWN0cywgbGlzdHMgY29udGFpbmluZyB0aGUgZWZmZWN0LW9iamVjdHMgZm9yIHRoZSByZXNwZWN0aXZlIGNsdWJzDQp3ZSB0YWtlIHRoZSBtYWluIG1vZGVsIChtNSk7IGFuZCBhZGQgdGhlIHBhcnRpY3VsYXIgaW50ZXJhY3Rpb24gdGVybXMuDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBvc3QtaG9jIHByb2Jpbmcgb2YgbW9kZXJhdGlvbmFsIGVmZmVjdHMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQogIA0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJ30NCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCg0KLS0tDQogIA0KQWltOiB0byBleHBsb3JlIGVmZmVjdCBoZXRlcm9nZW5laXR5IGluIHNvY2lhbCBpbmZsdWVuY2UgYmV0d2VlbiBhY3RvcnMgd2l0aGluIGNsdWJzLCBhY2NvcmRpbmcgdG8gcnVubmluZyBsZXZlbCBhbmQgZ2VuZGVyLg0KDQoNCk91ciBtb2RlbCBhbHJlYWR5IGNvbnNpZGVycyByYXRoZXIgbWFueSBwYXJhbWV0ZXJzIGdpdmVuIHRoZSBpbmZvcm1hdGlvbiBhdmFpbGFibGUgaW4gdGhlIGRhdGEtc2V0LiBXZSBoYXZlIGxpbWl0ZWQgcG93ZXIgdG8gZGV0ZWN0IGJlaGF2aW9yIGV2b2x1dGlvbiBlZmZlY3RzLCBhcyB0aGUgbnVtYmVyIG9mIGRhdGEgcG9pbnRzIGlzIGF0IHRoZSBvcmRlciAkbiQuIElmIHdlIGNvbnNpZGVyIG5ldHdvcmsgZXZvbHV0aW9uLCB3ZSBoYXZlIGRhdGEgcG9pbnRzIG9mIHRoZSBvcmRlciAkbl4yJC4gVGhlcmVmb3JlLCBvdXIgZGF0YSBkb2VzIG5vdyBhbGxvdyBmb3IgYmFja3dhcmQgZWxpbWluYXRpb24gKGkuZS4sIGVzdGltYXRpbmcgdGhlICdmdWxsIG1vZGVsJywgaW5jbHVkaW5nIGFsbCBpbnRlcmFjdGlvbnMgc2ltdWx0YW5lb3VzbHksIGFuZCBzdGVwd2lzZWx5IHJlbW92aW5nIGVmZmVjdHMgdGhhdCBhcmUgbm90IHNpZ25pZmljYW50IGFjY29yZGluZyB0byBzb21lIGNyaXRlcmlvbikuIA0KDQpJbnN0ZWFkLCB3ZSBlc3RpbWF0ZSBvdXIgbWFpbiBtb2RlbCBhbmQgYXNzZXNzIHRoZSBpbnRlcmFjdGlvbnMgYnkgdGVzdGluZyB0aGVpciBwYXJhbWV0ZXJzICQoSF8wOlx0aGV0YT0wKSQgKndpdGhvdXQqIGVzdGltYXRpbmcgdGhlbSwgdXNpbmcgc2NvcmUtdHlwZSB0ZXN0cywgYSBwcm9jZWR1cmUgcHJvcG9zZWQgYnkgQHNjaHdlaW5iZXJnZXIuDQoNCg0KLS0tLQ0KDQojIEdldHRpbmcgc3RhcnRlZA0KDQojIyBjbGVhbiB1cA0KDQpgYGB7ciwgYXR0ci5vdXRwdXQ9J3N0eWxlPSJtYXgtaGVpZ2h0OiAyMDBweDsiJ30NCnJtIChsaXN0ID0gbHMoICkpDQpgYGANCg0KPGJyPg0KDQojIyBnZW5lcmFsIGN1c3RvbSBmdW5jdGlvbnMNCg0KLSBgZnBhY2thZ2UuY2hlY2tgOiBDaGVjayBpZiBwYWNrYWdlcyBhcmUgaW5zdGFsbGVkIChhbmQgaW5zdGFsbCBpZiBub3QpIGluIFIgKFtzb3VyY2VdKGh0dHBzOi8vdmJhbGlnYS5naXRodWIuaW8vdmVyaWZ5LXRoYXQtci1wYWNrYWdlcy1hcmUtaW5zdGFsbGVkLWFuZC1sb2FkZWQvKSkNCi0gYGZsb2FkLlJgOiBmdW5jdGlvbiB0byBsb2FkIFItb2JqZWN0cyB1bmRlciBuZXcgbmFtZXMuDQoNCmBgYHtyLCBldmFsPUZ9DQoNCmZwYWNrYWdlLmNoZWNrIDwtIGZ1bmN0aW9uKHBhY2thZ2VzKSB7DQogICAgbGFwcGx5KHBhY2thZ2VzLCBGVU4gPSBmdW5jdGlvbih4KSB7DQogICAgICAgIGlmICghcmVxdWlyZSh4LCBjaGFyYWN0ZXIub25seSA9IFRSVUUpKSB7DQogICAgICAgICAgICBpbnN0YWxsLnBhY2thZ2VzKHgsIGRlcGVuZGVuY2llcyA9IFRSVUUpDQogICAgICAgICAgICBsaWJyYXJ5KHgsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkNCiAgICAgICAgfQ0KICAgIH0pDQp9DQoNCmZsb2FkLlIgIDwtIGZ1bmN0aW9uKGZpbGVOYW1lKXsNCiAgbG9hZChmaWxlTmFtZSkNCiAgZ2V0KGxzKClbbHMoKSAhPSAiZmlsZU5hbWUiXSkNCn0NCg0KYGBgDQoNCg0KIyMgbmVjZXNzYXJ5IHBhY2thZ2VzDQoNCi0gYFJTaWVuYWANCg0KYGBge3IgcGFja2FnZXMsIGV2YWw9Rn0NCg0KcGFja2FnZXMgPSBjKCJSU2llbmEiKQ0KDQpmcGFja2FnZS5jaGVjayhwYWNrYWdlcykNCmBgYA0KDQo8YnI+DQoNCiMjIHJlYWQgaW4gUlNpZW5hIGRhdGEgb2JqZWN0cw0KYGBge3IsIGV2YWw9Rn0NCmxvYWQoImNsdWJkYXRhX3JzaWVuYV9mcmVxLlJkYXRhIikNCmBgYA0KDQo8YnI+DQoNCi0tLS0NCg0KIyBBcHByb2FjaA0KDQpXZSBwcm9iZSBmb3IgbW9kZXJhdGlvbmFsIGVmZmVjdHMgb2Y6DQoNCi0gKmdlbmRlcio6IHRvIHNlZSB3aGV0aGVyIHJlY2VpdmluZyBrdWRvcyBvciB0aGUgYWN0aXZpdGllcyBvZiBhbHRlcnMgaGF2ZSBkaWZmZXJlbnRpYWwgZWZmZWN0cyBmb3IgbWFsZXMgYW5kIGZlbWFsZXM7DQotICpydW5uaW5nIGxldmVsKjogdG8gc2VlIHdoZXRoZXIgcnVubmVycyB3aXRoIGRpZmZlcmVudCBydW5uaW5nIGV4cGVyaWVuY2UgYXJlIG1vcmUvbGVzcyBzdXNjZXB0aWJsZSB0byBpbmZsdWVuY2UuIFdlIGludGVyYWN0IHRoZSBpbmZsdWVuY2UgZWZmZWN0cyB3aXRoIHRoZSBgbGluZWFyYCBzaGFwZSBlZmZlY3QgKHdoaWNoIHJlcHJlc2VudHMgZWdvJ3MgY3VycmVudCBydW5uaW5nKSBhbmQgYSB0aW1lLWNvbnN0YW50IGFjdG9yLWNvdmFyaWF0ZSByZXByZXNlbnRpbmcgdGhlIG51bWJlciBvZiB5ZWFycyB0aGF0IGFjdG9ycyB3ZXJlIGFjdGl2ZSBvbiBTdHJhdmEgKGxhYmVsZWQgYG5vdmljZWApLiANCg0KV2UgZGlzY3VzcyBbaGVyZV0oLi4uKSB3aHkgd2UgdXNlIHRoZSBgbGluZWFyYCBzaGFwZSBlZmZlY3QsIGFuZCB3aHkgd2UgdXNlIGBhdlNpbWAgcmF0aGVyIHRoYW4gYGF2QXR0TG93ZXJgIGluIHRoZSBpbnRlcmFjdGlvbiBtb2RlbHMuIA0KIA0KV2UgZm9jdXMgb24gMiBpbmZsdWVuY2UgZWZmZWN0cywgYW5kIDMgaW50ZXJhY3Rpb25zOyB0aHVzIGEgdG90YWwgb2YgNiBtb2RlbHMgZm9yIGVhY2ggY2x1Yi4NCg0KV2Ugd2lsbCBjb25zaWRlciB0aGUgcmVzdWx0cyBvZiB0aGUgKG9uZS1zaWRlZCkgb25lLXBhcmFtZXRlciB0ZXN0LiBJdHMgdGVzdCBzdGF0aXN0aWMgaXMgc3RhbmRhcmQgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuDQoNCg0KIyBFc3RpbWF0aW9uDQoNCmBgYHtyLCBldmFsPUZ9DQojIG1ha2UgYSBsaXN0IHRvIHN0b3JlIG91ciBmaW5hbCByZXN1bHRzIGluLg0KcmVzdWx0cy5saXN0IDwtIHZlY3RvcigibGlzdCIsIGxlbmd0aChjbHViZGF0YV9yc2llbmFfZnJlcSkpICMicHJlLWFsbG9jYXRlIiBlbXB0eSBsaXN0IG9mIGxlbmd0aCA1DQoNCmZvciAoaSBpbiAxOjUpIHsgIyBmb3IgY2x1YiBpDQoNCiAgI2dldCByc2llbmEgb2JqZWN0DQogIG15ZGF0YSA8LSBjbHViZGF0YV9yc2llbmFfZnJlcVtbaV1dDQogIA0KICAjYW5kIHRoZSBsaXN0IGNvbnRhaW5pbmcgbXllZmYgb2JqZWN0cw0KICBsb2FkKGZpbGU9cGFzdGUwKCJ0ZXN0L215ZWZmL215ZWZmX2NsdWIiLGksIi5SRGF0YSIpKQ0KDQogICN0YWtlIDZ0aCBlbGVtZW50LCB3aGljaCBpcyB0aGUgbW9kZWwgd2l0aCBhdlNpbQ0KICBteWVmZiA8LSBteWVmZltbNl1dDQogIA0KICAjaW5jbHVkZSBpbnRlcmFjdGlvbiBlZmZlY3RzLCBmaXhlZCB0byAwIGFuZCB0ZXN0PVRSVUUNCiAgI2hlcmUsIGl0IGlzIGltcG9ydGFudCB0aGF0IGluIHRoZSBnZXRFZmZlY3RzIGNvbW1hbmQsIHRoZSBiZWhOaW50biBhcmd1bWVudCBpcyBzZXQgdG8gYSBoaWdoIGVub3VnaCB2YWx1ZS4uLg0KICANCiAgI2N1cnJlbnQgYmVoYXZpb3IgKGxpbmVhciBzaGFwZSkNCiAgbXllZmYxIDwtIGluY2x1ZGVJbnRlcmFjdGlvbihteWVmZiwgbGluZWFyLCBpbmRlZywgbmFtZT0iZnJlcV9ydW4iLCBpbnRlcmFjdGlvbjE9YygiIiwia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KICBteWVmZjIgPC0gaW5jbHVkZUludGVyYWN0aW9uKG15ZWZmLCBsaW5lYXIsIGF2U2ltLCBuYW1lPSJmcmVxX3J1biIsIGludGVyYWN0aW9uMT1jKCIiLCJrdWRvbmV0IiksIGZpeD1UUlVFLCB0ZXN0PVRSVUUpDQoNCiAgI25vdmljZQ0KICBteWVmZjMgPC0gaW5jbHVkZUludGVyYWN0aW9uKG15ZWZmLCBlZmZGcm9tLCBpbmRlZywgbmFtZSA9ICJmcmVxX3J1biIsIGludGVyYWN0aW9uMSA9IGMoIm5vdmljZSIsICJrdWRvbmV0IiksIGZpeD1UUlVFLCB0ZXN0PVRSVUUpDQogIG15ZWZmNCA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGVmZkZyb20sIGF2U2ltLCBuYW1lID0gImZyZXFfcnVuIiwgaW50ZXJhY3Rpb24xID0gYygibm92aWNlIiwgImt1ZG9uZXQiKSwgZml4PVRSVUUsIHRlc3Q9VFJVRSkNCiAgDQogICNnZW5kZXI6DQogIG15ZWZmNSA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGVmZkZyb20sIGluZGVnLCBuYW1lID0gImZyZXFfcnVuIiwgaW50ZXJhY3Rpb24xID0gYygiZ2VuZGVyIiwgImt1ZG9uZXQiKSwgZml4PVRSVUUsIHRlc3Q9VFJVRSkNCiAgbXllZmY2IDwtIGluY2x1ZGVJbnRlcmFjdGlvbihteWVmZiwgZWZmRnJvbSwgYXZTaW0sIG5hbWUgPSAiZnJlcV9ydW4iLCBpbnRlcmFjdGlvbjEgPSBjKCJnZW5kZXIiLCAia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KICANCiAgbXllZmZMPC1saXN0KG15ZWZmMSxteWVmZjIsIG15ZWZmMyxteWVmZjQsbXllZmY1LG15ZWZmNikNCiAgDQogICMgc3BlY2lmeSBhbGdvcml0aG0NCiAgbXlhbGdvcml0aG0gPC0gc2llbmFBbGdvcml0aG1DcmVhdGUocHJvam5hbWUgPSAidGVzdCIsIG5zdWI9NSwgbjM9NTAwMCApDQogIyBteWFsZ29yaXRobSA8LSBzaWVuYUFsZ29yaXRobUNyZWF0ZShwcm9qbmFtZSA9ICJ0ZXN0IiwgbnN1Yj0zLCBuMz01MDAgKQ0KICANCiAgYW5zTCA8LSB2ZWN0b3IoImxpc3QiLCBsZW5ndGgobXllZmZMKSkgIyJwcmUtYWxsb2NhdGUiIGVtcHR5IGxpc3Qgb2YgbGVuZ3RoIDYNCg0KICAjZXN0aW1hdGUNCiAgZm9yIChqIGluIDE6bGVuZ3RoKGFuc0wpKSB7DQogICAgYW5zIDwtIHNpZW5hMDcobXlhbGdvcml0aG0sIGRhdGE9bXlkYXRhLCBlZmZlY3RzPW15ZWZmTFtbal1dLCBuYnJOb2Rlcz0xMCwgaW5pdEM9VFJVRSwgYmF0Y2g9VFJVRSkNCiAgICBhbnNMW1tqXV0gPC0gYW5zDQogIH0NCiAgDQogIHJlc3VsdHMubGlzdFtbaV1dIDwtIGFuc0wNCn0NCg0KYGBgDQoNCjxicj4gDQoNCiMgUmVzdWx0cyB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KDQpEb3duIGJlbG93LCB3ZSBwcmVzZW50IHRoZSByZXN1bHRzIGZvciBlYWNoIG1vZGVsLCBieSBjbHViDQoNCiMjIGBpbmRlZyB4IGxpbmVhcmAgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgY2x1YiAxDQpgYGB7ciwgZXZhbD1GfQ0KDQoNCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7ciwgZXZhbD1GfQ0KDQpgYGANCg0KIyMjIGNsdWIgMw0KDQojIyMgY2x1YiA0DQoNCiMjIyBjbHViIDUNCg0KIyB7LX0NCg0KIyMgYGF2U2ltIHggbGluZWFyYCB7LnRhYnNldCAudGFic2V0LWZhZGV9DQojIyMgY2x1YiAxDQpgYGB7ciwgZXZhbD1GfQ0KDQpgYGANCg0KIyMjIGNsdWIgMg0KYGBge3IsIGV2YWw9Rn0NCg0KYGBgDQoNCiMjIyBjbHViIDMNCg0KIyMjIGNsdWIgNA0KDQojIyMgY2x1YiA1DQoNCiMgey19DQoNCiMjIGBhdlNpbSB4IGxpbmVhcmAgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KIyMjIGNsdWIgMQ0KYGBge3IsIGV2YWw9Rn0NCg0KYGBgDQoNCiMjIyBjbHViIDINCmBgYHtyLCBldmFsPUZ9DQoNCmBgYA0KDQojIyMgY2x1YiAzDQoNCiMjIyBjbHViIDQNCg0KIyMjIGNsdWIgNQ0KDQojIHstfQ0KDQo8YnI+DQoNCg0KLSBgaW5kZWcgeCBsaW5lYXJgLi4uDQotIGBhdlNpbSB4IGxpbmVhcmAuLi4NCg0KDQo8YnI+IA0KDQotLS0NCiMjIFJlZmVyZW5jZXMNCg0KDQo=</div>
 <style>
 .center {
   text-align: center;
