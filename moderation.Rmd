@@ -108,7 +108,7 @@ We probe for moderational effects of:
 - *gender*: to see whether receiving kudos or the activities of alters have differential effects for males and females;
 - *running level*: to see whether runners with different running experience are more/less susceptible to influence. We interact the influence effects with the `linear` shape effect (which represents ego's current running) and a time-constant actor-covariate representing the number of years that actors were active on Strava (labeled `novice`). 
 
-We discuss [here](...) why we use the `linear` shape effect, and why we use `avSim` rather than `avAttLower` in the interaction models. 
+We discuss [here](https://robfranken.github.io/Strava/interaction) why we use the `linear` shape effect, and why we use `avSim` rather than `avAttLower` in the interaction models. 
  
 We focus on 2 influence effects, and 3 interactions; thus a total of 6 models for each club.
 
