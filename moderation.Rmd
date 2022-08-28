@@ -43,6 +43,7 @@ Our model already considers rather many parameters given the information availab
 Instead, we estimate our main model and assess the interactions by testing their parameters $(H_0:\theta=0)$ *without* estimating them, using score-type tests, a procedure proposed by @schweinberger.
 
 
+
 ----
 
 # Getting started
@@ -51,6 +52,7 @@ Instead, we estimate our main model and assess the interactions by testing their
 
 ```{r, attr.output='style="max-height: 200px;"'}
 rm (list = ls( ))
+#gc()
 ```
 
 <br>
@@ -82,19 +84,24 @@ fload.R  <- function(fileName){
 ## necessary packages
 
 - `RSiena`
+- `parallel`: utilize more cores
 
 ```{r packages, eval=F}
 
-packages = c("RSiena")
+packages = c("RSiena", "parallel")
 
 fpackage.check(packages)
 ```
 
 <br>
 
+Down below, we focus on running frequency; but the scripts can be modified to model running volume.
+
+
 ## read in RSiena data objects
 ```{r, eval=F}
 load("clubdata_rsiena_freq.Rdata")
+#load("clubdata_rsiena_vol.Rdata")
 ```
 
 <br>
@@ -106,7 +113,7 @@ load("clubdata_rsiena_freq.Rdata")
 We probe for moderational effects of:
 
 - *gender*: to see whether receiving kudos or the activities of alters have differential effects for males and females;
-- *running level*: to see whether runners with different running experience are more/less susceptible to influence. We interact the influence effects with the `linear` shape effect (which represents ego's current running) and a time-constant actor-covariate representing the number of years that actors were active on Strava (labeled `novice`). 
+- *running level*: to see whether runners with different running experience are more/less s  usceptible to influence. We interact the influence effects with the `linear` shape effect (which represents ego's current running) and a time-constant actor-covariate representing the number of years that actors were active on Strava (labeled `novice`). 
 
 We discuss [here](https://robfranken.github.io/Strava/interaction) why we use the `linear` shape effect, and why we use `avSim` rather than `avAttLower` in the interaction models. 
  
@@ -118,53 +125,71 @@ We will consider the results of the (one-sided) one-parameter test. Its test sta
 # Estimation
 
 ```{r, eval=F}
+#detectCores()
+
+
 # make a list to store our final results in.
 results.list <- vector("list", length(clubdata_rsiena_freq)) #"pre-allocate" empty list of length 5
 
 for (i in 1:5) { # for club i
-
+  
+  print(paste0("next up: club ", i))
+  
   #get rsiena object
   mydata <- clubdata_rsiena_freq[[i]]
   
   #and the list containing myeff objects
   load(file=paste0("test/myeff/myeff_club",i,".RData"))
+  #load(file=paste0("test/myeff/duration/myeff_club",i,".RData"))
 
   #take 6th element, which is the model with avSim
   myeff <- myeff[[6]]
   
   #include interaction effects, fixed to 0 and test=TRUE
-  #here, it is important that in the getEffects command, the behNintn argument is set to a high enough value...
+  #here, it is important that in the `getEffects` command, the `behNintn` argument is set to a high enough value...
   
   #current behavior (linear shape)
-  myeff1 <- includeInteraction(myeff, linear, indeg, name="freq_run", interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
-  myeff2 <- includeInteraction(myeff, linear, avSim, name="freq_run", interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
+  beh <- "freq_run"
+  #beh <- "time_run"
+  myeff1 <- includeInteraction(myeff, linear, indeg, name=beh, interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
+  myeff2 <- includeInteraction(myeff, linear, avSim, name=beh, interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
 
   #novice
-  myeff3 <- includeInteraction(myeff, effFrom, indeg, name = "freq_run", interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
-  myeff4 <- includeInteraction(myeff, effFrom, avSim, name = "freq_run", interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
+  myeff3 <- includeInteraction(myeff, effFrom, indeg, name = beh, interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
+  myeff4 <- includeInteraction(myeff, effFrom, avSim, name = beh, interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
   
   #gender:
-  myeff5 <- includeInteraction(myeff, effFrom, indeg, name = "freq_run", interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
-  myeff6 <- includeInteraction(myeff, effFrom, avSim, name = "freq_run", interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
+  myeff5 <- includeInteraction(myeff, effFrom, indeg, name = beh, interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
+  myeff6 <- includeInteraction(myeff, effFrom, avSim, name = beh, interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
   
   myeffL<-list(myeff1,myeff2, myeff3,myeff4,myeff5,myeff6)
   
   # specify algorithm
   myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
- # myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=3, n3=500 )
+ # myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=3, n3=50 ) #test
   
-  ansL <- vector("list", length(myeffL)) #"pre-allocate" empty list of length 6
+  ansL <- vector("list", length(myeffL)) #"pre-allocate" empty list of length 6 to store models j in, for club i
 
   #estimate
   for (j in 1:length(ansL)) {
-    ans <- siena07(myalgorithm, data=mydata, effects=myeffL[[j]], nbrNodes=10, initC=TRUE, batch=TRUE)
+    
+    print(paste0("club ", i, ": estimating model ", j, "/6"))
+    
+    ans <- siena07(myalgorithm, data=mydata, effects=myeffL[[j]], nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
     ansL[[j]] <- ans
   }
   
   results.list[[i]] <- ansL
 }
 
+#takes a long time, so save the results...
+save(results.list, file="test/sienaFit/interactions_frequency.RData")
+
+#save(results.list, file="test/sienaFit/interactions_volume.RData")
+
 ```
+
+
 
 <br> 
 
@@ -172,75 +197,189 @@ for (i in 1:5) { # for club i
 
 Down below, we present the results for each model, by club
 
+```{r}
+load("test/sienaFit/interactions_frequency.RData")
+rm(list=setdiff(ls(), "results.list"))
+```
+
+
 ## `indeg x linear` {.tabset .tabset-fade}
 
 ### club 1
-```{r, eval=F}
-
+```{r}
+results.list[[1]][[1]]
 
 ```
 
 ### club 2
-```{r, eval=F}
-
+```{r}
+results.list[[2]][[1]]
 ```
 
 ### club 3
+```{r}
+results.list[[3]][[1]]
+```
+
 
 ### club 4
+```{r}
+results.list[[4]][[1]]
+```
 
 ### club 5
-
-# {-}
+```{r}
+results.list[[5]][[1]]
+```
 
 ## `avSim x linear` {.tabset .tabset-fade}
-### club 1
-```{r, eval=F}
 
+### club 1
+```{r}
+results.list[[1]][[2]]
 ```
 
-### club 2
-```{r, eval=F}
 
+### club 2
+```{r}
+results.list[[2]][[2]]
 ```
 
 ### club 3
+```{r}
+results.list[[3]][[2]]
+```
 
 ### club 4
+```{r}
+results.list[[4]][[2]]
+```
 
 ### club 5
+```{r}
+results.list[[5]][[2]]
+```
 
-# {-}
 
-## `avSim x linear` {.tabset .tabset-fade}
+## `indeg x novice` {.tabset .tabset-fade}
 ### club 1
-```{r, eval=F}
-
+```{r}
+results.list[[1]][[3]]
 ```
 
 ### club 2
-```{r, eval=F}
-
+```{r}
+results.list[[2]][[3]]
 ```
 
 ### club 3
+```{r}
+results.list[[3]][[3]]
+```
 
 ### club 4
+```{r}
+results.list[[4]][[3]]
+```
 
 ### club 5
 
-# {-}
+```{r}
+results.list[[5]][[3]]
+```
+
+## `avSim x novice` {.tabset .tabset-fade}
+
+### club 1
+```{r}
+results.list[[1]][[4]]
+```
+
+### club 2
+```{r}
+results.list[[2]][[4]]
+```
+
+### club 3
+```{r}
+results.list[[3]][[4]]
+```
+
+### club 4
+```{r}
+results.list[[4]][[4]]
+```
+
+
+### club 5
+```{r}
+results.list[[5]][[4]]
+```
+
+## `indeg x gender` {.tabset .tabset-fade}
+
+### club 1
+```{r}
+results.list[[1]][[5]]
+```
+
+### club 2
+```{r}
+results.list[[2]][[5]]
+```
+
+### club 3
+```{r}
+results.list[[3]][[5]]
+```
+
+### club 4
+```{r}
+results.list[[4]][[5]]
+```
+
+
+### club 5
+```{r}
+results.list[[5]][[5]]
+```
+
+
+## `avSim x gender` {.tabset .tabset-fade}
+
+### club 1
+```{r}
+results.list[[1]][[6]]
+```
+
+### club 2
+```{r}
+results.list[[2]][[6]]
+```
+
+### club 3
+```{r}
+results.list[[3]][[6]]
+```
+
+### club 4
+```{r}
+results.list[[4]][[6]]
+```
+
+
+### club 5
+```{r}
+results.list[[5]][[6]]
+```
 
 <br>
 
-
-- `indeg x linear`...
-- `avSim x linear`...
+In club 5, `indeg x novice`
+In club 2,4 `avSim x novice`
 
 
 <br> 
 
----
-## References
 
 
