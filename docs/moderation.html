@@ -513,7 +513,13 @@ are not significant according to some criterion).</p>
 testing their parameters <span
 class="math inline">\((H_0:\theta=0)\)</span> <em>without</em>
 estimating them, using score-type tests, a procedure proposed by <span
-class="citation">Schweinberger (2012)</span>.</p>
+class="citation">Schweinberger (2012)</span>. Score-type tests indicate
+whether and which of the tested effects will improve a model, when
+included. We will consider the results of the (one-sided) one-parameter
+test. Its test statistic is standard normally distributed.</p>
+<p>If we find interaction effects that would improve the model, we will
+estimate these effects simultaneously with the other model effects.
+Thus, we use a two-step exploratory procedure.</p>
 <hr />
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
@@ -587,11 +593,9 @@ use the <code>linear</code> shape effect, and why we use
 interaction models.</p>
 <p>We focus on 2 influence effects, and 3 interactions; thus a total of
 6 models for each club.</p>
-<p>We will consider the results of the (one-sided) one-parameter test.
-Its test statistic is standard normally distributed.</p>
 </div>
-<div id="estimation" class="section level1">
-<h1>Estimation</h1>
+<div id="step-1-score-type-test" class="section level1">
+<h1>Step 1: score-type test</h1>
 <pre class="r test"><code>#detectCores()
 
 
@@ -657,9 +661,10 @@ save(results.list, file=&quot;test/sienaFit/interactions_frequency.RData&quot;)
 </div>
 <div id="results" class="section level1 tabset tabset-fade">
 <h1 class="tabset tabset-fade">Results</h1>
-<p>Down below, we present the results for each model, by club</p>
+<p>Down below, we present the results of step 1 (testing parameters
+without estimating them, using score-type tests).</p>
 <pre class="r test"><code>load(&quot;test/sienaFit/interactions_frequency.RData&quot;)
-rm(list=setdiff(ls(), &quot;results.list&quot;))</code></pre>
+#rm(list=setdiff(ls(), &quot;results.list&quot;))</code></pre>
 <div id="indeg-x-linear" class="section level2 tabset tabset-fade">
 <h2 class="tabset tabset-fade"><code>indeg x linear</code></h2>
 <div id="club-1" class="section level3">
@@ -2596,10 +2601,313 @@ rm(list=setdiff(ls(), &quot;results.list&quot;))</code></pre>
 #&gt; chi-squared = 3.64, p = 0.0563.
 #&gt; 
 #&gt; Total of 7407 iteration steps.</code></pre>
+</div>
+</div>
+<div id="section" class="section level2 unnumbered">
+<h2 class="unnumbered"></h2>
+</div>
+</div>
+<div id="section-1" class="section level1 unnumbered">
+<h1 class="unnumbered"></h1>
 <p><br></p>
-<p>In club 5, <code>indeg x novice</code> In club 2,4
-<code>avSim x novice</code></p>
+<ul>
+<li><code>indeg x novice</code> appears to improve the model in club
+5;</li>
+<li><code>avSim x novice</code> appears to improve the model in clubs 2
+and 4.</li>
+</ul>
 <p><br></p>
+<hr />
+</div>
+<div id="step-2-estimate-interaction-effects" class="section level1">
+<h1>Step 2: estimate interaction effects</h1>
+<p>Apparently, influence - that is, the effects of receiving kudos and
+the running of friends - works differently for club members who are
+newer to Strava (at least, in some clubs). These dynamics were no
+different for the genders, nor for athletes that differed in their
+current running. In step 2, we include these (missing) predictors of
+change in running behavior in our model. <span style="color: red;">Thus,
+we not only test the effect, but we also estimate it simultaneously with
+the other effects.</span></p>
+<p><br></p>
+<div id="indeg-x-novice-1" class="section level2">
+<h2><code>indeg x novice</code></h2>
+<pre class="r test"><code>load(&quot;clubdata_rsiena_freq.Rdata&quot;)
+
+mydata &lt;- clubdata_rsiena_freq[[5]]
+
+#load effects object
+load(file=paste0(&quot;test/myeff/myeff_club&quot;,&quot;5&quot;,&quot;.RData&quot;))
+myeff &lt;- myeff[[6]] 
+
+# include interaction, and estimate the parameter
+beh &lt;- &quot;freq_run&quot;
+myeff &lt;- includeInteraction(myeff, effFrom, indeg, name = beh, interaction1 = c(&quot;novice&quot;, &quot;kudonet&quot;), fix=FALSE, test=FALSE)
+
+# specify algorithm
+myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, nsub=5, n3=5000 )
+
+# estimate
+ans &lt;- siena07(myalgorithm, data=mydata, effects=myeff, nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
+
+# save output
+save(ans, file=&quot;test/sienaFit/indeg_novice_club5.RData&quot;)</code></pre>
+<p><br></p>
+<p>The interaction effect <code>indeg x novice</code> is
+<strong>negative</strong> and significant, suggesting that club members
+who joined Strava relatively recently, are <em>less</em> susceptible to
+the positive motivational effect of receiving kudos from clubmates on
+Strava.</p>
+<p><br></p>
+</div>
+<div id="avsim-x-novice-1" class="section level2">
+<h2><code>avSim x novice</code></h2>
+<pre class="r test"><code>rm(list=setdiff(ls(), &quot;clubdata_rsiena_freq&quot;))
+
+# make a list to store our results in.
+results.list &lt;- vector(&quot;list&quot;, length(clubdata_rsiena_freq)) #&quot;pre-allocate&quot; empty list of length 5
+
+#club we need to do the estimation for
+clubs &lt;- c(&quot;2&quot;,&quot;4&quot;)
+
+for (i in unique(clubs)) { # for club i
+   #get rsiena object
+   mydata &lt;- clubdata_rsiena_freq[[2]]
+   
+  #and the list containing myeff objects
+  load(file=paste0(&quot;test/myeff/myeff_club&quot;,i,&quot;.RData&quot;))
+
+  #take 6th element, which is the model with avSim
+  myeff &lt;- myeff[[6]]
+  
+  #include interaction, estimate parameter
+  beh &lt;- &quot;freq_run&quot;
+  myeff &lt;- includeInteraction(myeff, effFrom, avSim, name = beh, interaction1 = c(&quot;novice&quot;, &quot;kudonet&quot;), fix=FALSE, test=FALSE)
+  
+  # specify algorithm
+  myalgorithm &lt;- sienaAlgorithmCreate(projname = &quot;test&quot;, nsub=5, n3=5000 )
+  
+  #estimate saom
+  ans &lt;- siena07(myalgorithm, data=mydata, effects=myeff, nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
+  
+  #store in results.list
+  results.list[[i]] &lt;- ans
+}
+
+# save output
+save(results.list, file=&quot;test/sienaFit/avsim_novice_club2_4.RData&quot;)</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="results-1" class="section level1">
+<h1>Results</h1>
+<p>Now let’s see if the interaction effect parameters are significant
+when estimated simultaneously with the other effects. And if so, what
+their sign is!</p>
+<div id="indeg-x-novice-2" class="section level2">
+<h2><code>indeg x novice</code></h2>
+<pre class="r test"><code>load(&quot;test/sienaFit/indeg_novice_club5.RData&quot;)
+rm(list=setdiff(ls(), &quot;ans&quot;))
+print(ans)</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                                             Estimate   Standard   Convergence 
+#&gt;                                                                          Error      t-ratio   
+#&gt; Network Dynamics 
+#&gt;    1. rate constant kudonet rate (period 1)                  6.0650  ( 0.6177   )   -0.0115   
+#&gt;    2. rate constant kudonet rate (period 2)                  5.3550  ( 0.5385   )    0.0009   
+#&gt;    3. rate constant kudonet rate (period 3)                  6.2330  ( 0.6327   )    0.0367   
+#&gt;    4. rate constant kudonet rate (period 4)                  4.9781  ( 0.4610   )   -0.0206   
+#&gt;    5. rate constant kudonet rate (period 5)                  5.8867  ( 0.5275   )    0.0164   
+#&gt;    6. rate constant kudonet rate (period 6)                  7.1728  ( 0.6404   )   -0.0131   
+#&gt;    7. rate constant kudonet rate (period 7)                  5.4743  ( 0.5069   )   -0.0175   
+#&gt;    8. rate constant kudonet rate (period 8)                  5.6377  ( 0.5090   )    0.0126   
+#&gt;    9. rate constant kudonet rate (period 9)                  6.6070  ( 0.5582   )    0.0005   
+#&gt;   10. rate constant kudonet rate (period 10)                 6.4098  ( 0.5407   )   -0.0092   
+#&gt;   11. rate constant kudonet rate (period 11)                 6.9069  ( 0.5875   )    0.0115   
+#&gt;   12. eval outdegree (density)                              -3.9123  ( 0.1796   )    0.0077   
+#&gt;   13. eval reciprocity                                       3.8043  ( 0.1813   )   -0.0029   
+#&gt;   14. eval GWESP I -&gt; K -&gt; J (69)                            1.7112  ( 0.0978   )    0.0004   
+#&gt;   15. eval indegree - popularity (sqrt)                     -0.0920  ( 0.0312   )   -0.0007   
+#&gt;   16. eval outdegree - popularity (sqrt)                     0.0000  (     NA   )    1.4037   
+#&gt;   17. eval outdegree - activity (sqrt)                       0.0712  ( 0.0194   )    0.0060   
+#&gt;   18. eval rec.degree^(1/1) - activity                       0.0000  (     NA   )   -0.0664   
+#&gt;   19. eval out-isolate                                       0.5596  ( 0.2217   )   -0.0351   
+#&gt;   20. eval gender alter                                      0.1583  ( 0.0482   )   -0.0082   
+#&gt;   21. eval gender ego                                       -0.1407  ( 0.0493   )    0.0089   
+#&gt;   22. eval same gender                                       0.0829  ( 0.0457   )    0.0142   
+#&gt;   23. eval freq_run alter                                   -0.0160  ( 0.0335   )   -0.0019   
+#&gt;   24. eval freq_run ego                                      0.0481  ( 0.0339   )   -0.0066   
+#&gt;   25. eval freq_run similarity                               0.2239  ( 0.1278   )   -0.0083   
+#&gt;   26. eval higher freq_run                                  -0.3306  ( 0.2054   )    0.0073   
+#&gt;   27. eval int.  reciprocity x GWESP I -&gt; K -&gt; J (69)       -1.2100  ( 0.1063   )   -0.0121   
+#&gt; 
+#&gt; Behavior Dynamics
+#&gt;   28. rate rate freq_run (period 1)                          2.7441  ( 0.6215   )   -0.0084   
+#&gt;   29. rate rate freq_run (period 2)                          3.4781  ( 0.7812   )    0.0236   
+#&gt;   30. rate rate freq_run (period 3)                          2.9634  ( 0.6217   )    0.0067   
+#&gt;   31. rate rate freq_run (period 4)                          2.6227  ( 0.5418   )   -0.0119   
+#&gt;   32. rate rate freq_run (period 5)                          2.9411  ( 0.5980   )   -0.0064   
+#&gt;   33. rate rate freq_run (period 6)                          3.9805  ( 0.8839   )    0.0100   
+#&gt;   34. rate rate freq_run (period 7)                          4.0175  ( 0.9349   )    0.0009   
+#&gt;   35. rate rate freq_run (period 8)                          2.2695  ( 0.4629   )    0.0020   
+#&gt;   36. rate rate freq_run (period 9)                          3.8265  ( 0.8023   )    0.0139   
+#&gt;   37. rate rate freq_run (period 10)                         2.0948  ( 0.4278   )   -0.0004   
+#&gt;   38. rate rate freq_run (period 11)                         2.2394  ( 0.4550   )    0.0412   
+#&gt;   39. eval freq_run linear shape                            -0.1018  ( 0.0474   )   -0.0060   
+#&gt;   40. eval freq_run quadratic shape                          0.0427  ( 0.0136   )   -0.0009   
+#&gt;   41. eval freq_run average similarity                       3.3402  ( 0.8467   )   -0.0194   
+#&gt;   42. eval freq_run indegree                                 0.0061  ( 0.0040   )   -0.0003   
+#&gt;   43. eval freq_run: effect from gender                     -0.0180  ( 0.0668   )   -0.0055   
+#&gt;   44. eval freq_run: effect from freq_other                  0.0398  ( 0.0187   )   -0.0092   
+#&gt;   45. eval freq_run: effect from novice x freq_run indegree -0.0045  ( 0.0014   )    0.0158   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1096 
+#&gt; 
+#&gt; 
+#&gt; Total of 7264 iteration steps.</code></pre>
+</div>
+<div id="avsim-x-novice-2" class="section level2 tabset tabset-fade">
+<h2 class="tabset tabset-fade"><code>avSim x novice</code></h2>
+<pre class="r test"><code>load(&quot;test/sienaFit/avsim_novice_club2_4.RData&quot;)
+rm(list=setdiff(ls(), &quot;results.list&quot;))</code></pre>
+<div id="club-2-6" class="section level3">
+<h3>club 2</h3>
+<pre class="r test"><code>results.list[[2]]</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                                                       Estimate   Standard   Convergence 
+#&gt;                                                                                    Error      t-ratio   
+#&gt; Network Dynamics 
+#&gt;    1. rate constant kudonet rate (period 1)                            5.6056  ( 0.5367   )    0.0289   
+#&gt;    2. rate constant kudonet rate (period 2)                            6.0842  ( 0.5747   )    0.0103   
+#&gt;    3. rate constant kudonet rate (period 3)                            6.0955  ( 0.5739   )    0.0022   
+#&gt;    4. rate constant kudonet rate (period 4)                            4.2231  ( 0.4014   )   -0.0091   
+#&gt;    5. rate constant kudonet rate (period 5)                            5.0585  ( 0.4499   )   -0.0136   
+#&gt;    6. rate constant kudonet rate (period 6)                            5.0627  ( 0.4550   )   -0.0359   
+#&gt;    7. rate constant kudonet rate (period 7)                            5.7559  ( 0.5383   )   -0.0041   
+#&gt;    8. rate constant kudonet rate (period 8)                            5.6545  ( 0.5053   )   -0.0231   
+#&gt;    9. rate constant kudonet rate (period 9)                            4.8907  ( 0.4314   )   -0.0202   
+#&gt;   10. rate constant kudonet rate (period 10)                           3.4016  ( 0.3386   )   -0.0129   
+#&gt;   11. rate constant kudonet rate (period 11)                           4.9285  ( 0.4149   )   -0.0303   
+#&gt;   12. eval outdegree (density)                                        -6.9394  ( 0.3596   )    0.0012   
+#&gt;   13. eval reciprocity                                                 4.4065  ( 0.2597   )    0.0118   
+#&gt;   14. eval GWESP I -&gt; K -&gt; J (69)                                      0.8714  ( 0.1314   )   -0.0004   
+#&gt;   15. eval indegree - popularity (sqrt)                                0.1718  ( 0.0421   )   -0.0002   
+#&gt;   16. eval outdegree - popularity (sqrt)                               0.0000  (     NA   )    1.8691   
+#&gt;   17. eval outdegree - activity (sqrt)                                 0.7653  ( 0.0881   )    0.0016   
+#&gt;   18. eval rec.degree^(1/1) - activity                                -0.0892  ( 0.0144   )    0.0071   
+#&gt;   19. eval out-isolate                                                 0.4301  ( 0.3447   )   -0.0165   
+#&gt;   20. eval gender alter                                                0.1666  ( 0.0709   )    0.0232   
+#&gt;   21. eval gender ego                                                  0.0856  ( 0.0708   )   -0.0019   
+#&gt;   22. eval same gender                                                 0.1934  ( 0.0668   )   -0.0064   
+#&gt;   23. eval freq_run alter                                              0.0940  ( 0.0316   )   -0.0037   
+#&gt;   24. eval freq_run ego                                               -0.1003  ( 0.0313   )   -0.0033   
+#&gt;   25. eval freq_run similarity                                        -0.0773  ( 0.1312   )   -0.0056   
+#&gt;   26. eval higher freq_run                                             0.5050  ( 0.1870   )    0.0016   
+#&gt;   27. eval int.  reciprocity x GWESP I -&gt; K -&gt; J (69)                 -0.6872  ( 0.1638   )    0.0092   
+#&gt; 
+#&gt; Behavior Dynamics
+#&gt;   28. rate rate freq_run (period 1)                                    2.2973  ( 0.5217   )    0.0003   
+#&gt;   29. rate rate freq_run (period 2)                                    2.0263  ( 0.4721   )    0.0097   
+#&gt;   30. rate rate freq_run (period 3)                                    2.5907  ( 0.6975   )    0.0006   
+#&gt;   31. rate rate freq_run (period 4)                                    1.8138  ( 0.4191   )   -0.0219   
+#&gt;   32. rate rate freq_run (period 5)                                    1.5586  ( 0.3353   )    0.0380   
+#&gt;   33. rate rate freq_run (period 6)                                    2.6010  ( 0.6642   )   -0.0163   
+#&gt;   34. rate rate freq_run (period 7)                                    2.6130  ( 0.5636   )   -0.0288   
+#&gt;   35. rate rate freq_run (period 8)                                    3.5347  ( 0.8602   )    0.0105   
+#&gt;   36. rate rate freq_run (period 9)                                    2.6993  ( 0.6015   )    0.0381   
+#&gt;   37. rate rate freq_run (period 10)                                   2.3076  ( 0.5140   )    0.0016   
+#&gt;   38. rate rate freq_run (period 11)                                   1.3801  ( 0.3261   )    0.0304   
+#&gt;   39. eval freq_run linear shape                                      -0.2194  ( 0.0737   )    0.0035   
+#&gt;   40. eval freq_run quadratic shape                                    0.0324  ( 0.0266   )   -0.0154   
+#&gt;   41. eval freq_run average similarity                                 2.6459  ( 1.2034   )    0.0011   
+#&gt;   42. eval freq_run indegree                                           0.0104  ( 0.0055   )    0.0011   
+#&gt;   43. eval freq_run: effect from gender                                0.0117  ( 0.0897   )    0.0252   
+#&gt;   44. eval freq_run: effect from freq_other                            0.0132  ( 0.0195   )   -0.0049   
+#&gt;   45. eval freq_run: effect from novice x freq_run average similarity  0.6376  ( 0.2647   )   -0.0043   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1141 
+#&gt; 
+#&gt; 
+#&gt; Total of 7383 iteration steps.</code></pre>
+</div>
+<div id="club-4-6" class="section level3">
+<h3>club 4</h3>
+<pre class="r test"><code>results.list[[4]]</code></pre>
+<pre class="test2"><code>#&gt; Estimates, standard errors and convergence t-ratios
+#&gt; 
+#&gt;                                                                       Estimate   Standard   Convergence 
+#&gt;                                                                                    Error      t-ratio   
+#&gt; Network Dynamics 
+#&gt;    1. rate constant kudonet rate (period 1)                            5.7420  ( 0.5716   )   -0.0062   
+#&gt;    2. rate constant kudonet rate (period 2)                            6.3642  ( 0.6092   )    0.0078   
+#&gt;    3. rate constant kudonet rate (period 3)                            6.2532  ( 0.5883   )   -0.0363   
+#&gt;    4. rate constant kudonet rate (period 4)                            4.3205  ( 0.4277   )   -0.0215   
+#&gt;    5. rate constant kudonet rate (period 5)                            5.1664  ( 0.4838   )    0.0145   
+#&gt;    6. rate constant kudonet rate (period 6)                            5.2248  ( 0.4922   )   -0.0235   
+#&gt;    7. rate constant kudonet rate (period 7)                            5.9970  ( 0.5597   )   -0.0011   
+#&gt;    8. rate constant kudonet rate (period 8)                            5.9366  ( 0.5239   )    0.0181   
+#&gt;    9. rate constant kudonet rate (period 9)                            5.0162  ( 0.4586   )    0.0170   
+#&gt;   10. rate constant kudonet rate (period 10)                           3.4482  ( 0.3315   )   -0.0008   
+#&gt;   11. rate constant kudonet rate (period 11)                           5.1835  ( 0.4668   )   -0.0300   
+#&gt;   12. eval outdegree (density)                                        -4.1818  ( 0.1591   )   -0.0079   
+#&gt;   13. eval reciprocity                                                 1.8415  ( 0.0523   )   -0.0039   
+#&gt;   14. eval GWESP I -&gt; K -&gt; J (69)                                      0.5685  ( 0.0983   )   -0.0077   
+#&gt;   15. eval indegree - popularity (sqrt)                                0.1561  ( 0.0374   )   -0.0019   
+#&gt;   16. eval outdegree - popularity (sqrt)                               0.0000  (     NA   )    1.7390   
+#&gt;   17. eval outdegree - activity (sqrt)                                 0.2212  ( 0.0190   )   -0.0149   
+#&gt;   18. eval rec.degree^(1/1) - activity                                 0.0000  (     NA   )    1.9108   
+#&gt;   19. eval out-isolate                                                 1.1568  ( 0.3094   )    0.0090   
+#&gt;   20. eval gender alter                                                0.0000  (     NA   )   -1.0606   
+#&gt;   21. eval gender ego                                                  0.0000  (     NA   )   -0.8275   
+#&gt;   22. eval same gender                                                 0.0000  (     NA   )   -0.2367   
+#&gt;   23. eval freq_run alter                                              0.0856  ( 0.0304   )    0.0020   
+#&gt;   24. eval freq_run ego                                               -0.1296  ( 0.0304   )    0.0103   
+#&gt;   25. eval freq_run similarity                                         0.0148  ( 0.1211   )    0.0248   
+#&gt;   26. eval higher freq_run                                             0.4975  ( 0.1809   )   -0.0073   
+#&gt;   27. eval int.  reciprocity x GWESP I -&gt; K -&gt; J (69)                  0.0000  (     NA   )    1.3898   
+#&gt; 
+#&gt; Behavior Dynamics
+#&gt;   28. rate rate freq_run (period 1)                                    2.3114  ( 0.5327   )    0.0148   
+#&gt;   29. rate rate freq_run (period 2)                                    2.0125  ( 0.4861   )    0.0146   
+#&gt;   30. rate rate freq_run (period 3)                                    2.5829  ( 0.6884   )    0.0321   
+#&gt;   31. rate rate freq_run (period 4)                                    1.8144  ( 0.4155   )   -0.0229   
+#&gt;   32. rate rate freq_run (period 5)                                    1.5427  ( 0.3528   )   -0.0156   
+#&gt;   33. rate rate freq_run (period 6)                                    2.6029  ( 0.6113   )    0.0363   
+#&gt;   34. rate rate freq_run (period 7)                                    2.5972  ( 0.6106   )    0.0305   
+#&gt;   35. rate rate freq_run (period 8)                                    3.5219  ( 0.8576   )    0.0221   
+#&gt;   36. rate rate freq_run (period 9)                                    2.6993  ( 0.6454   )    0.0366   
+#&gt;   37. rate rate freq_run (period 10)                                   2.2950  ( 0.5234   )    0.0063   
+#&gt;   38. rate rate freq_run (period 11)                                   1.3762  ( 0.3154   )   -0.0147   
+#&gt;   39. eval freq_run linear shape                                      -0.2167  ( 0.0725   )    0.0085   
+#&gt;   40. eval freq_run quadratic shape                                    0.0339  ( 0.0279   )   -0.0053   
+#&gt;   41. eval freq_run average similarity                                 2.7280  ( 1.2793   )    0.0034   
+#&gt;   42. eval freq_run indegree                                           0.0101  ( 0.0053   )   -0.0077   
+#&gt;   43. eval freq_run: effect from gender                                0.0000  (     NA   )   -0.1389   
+#&gt;   44. eval freq_run: effect from freq_other                            0.0141  ( 0.0194   )    0.0066   
+#&gt;   45. eval freq_run: effect from novice x freq_run average similarity  0.6471  ( 0.2734   )    0.0041   
+#&gt; 
+#&gt; Overall maximum convergence ratio:    0.1199 
+#&gt; 
+#&gt; 
+#&gt; Total of 7182 iteration steps.</code></pre>
+</div>
+</div>
+<div id="section-2" class="section level2 unnumbered">
+<h2 class="unnumbered"></h2>
+<p><br></p>
+<p>In both clubs, <code>avSim x novice</code> is
+<strong>positive</strong> and significant, suggesting that the tendency
+to minimize the dissimilarity in running behaviors compared to friends
+is greater for athletes that are relatively new to Strava.</p>
+<p>All in all, we do not find consistent findings for these
+moderations.</p>
+<p><br></p>
+<hr />
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-schweinberger" class="csl-entry">
 Schweinberger, Michael. 2012. <span>“Statistical Modelling of Network
@@ -2610,9 +2918,8 @@ href="https://doi.org/10.1111/j.2044-8317.2011.02022.x">https://doi.org/10.1111/
 </div>
 </div>
 </div>
-</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBvc3QtaG9jIHByb2Jpbmcgb2YgbW9kZXJhdGlvbmFsIGVmZmVjdHMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQogIA0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJ30NCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCg0KLS0tDQogIA0KQWltOiB0byBleHBsb3JlIGVmZmVjdCBoZXRlcm9nZW5laXR5IGluIHNvY2lhbCBpbmZsdWVuY2UgYmV0d2VlbiBhY3RvcnMgd2l0aGluIGNsdWJzLCBhY2NvcmRpbmcgdG8gcnVubmluZyBsZXZlbCBhbmQgZ2VuZGVyLg0KDQoNCk91ciBtb2RlbCBhbHJlYWR5IGNvbnNpZGVycyByYXRoZXIgbWFueSBwYXJhbWV0ZXJzIGdpdmVuIHRoZSBpbmZvcm1hdGlvbiBhdmFpbGFibGUgaW4gdGhlIGRhdGEtc2V0LiBXZSBoYXZlIGxpbWl0ZWQgcG93ZXIgdG8gZGV0ZWN0IGJlaGF2aW9yIGV2b2x1dGlvbiBlZmZlY3RzLCBhcyB0aGUgbnVtYmVyIG9mIGRhdGEgcG9pbnRzIGlzIGF0IHRoZSBvcmRlciAkbiQuIElmIHdlIGNvbnNpZGVyIG5ldHdvcmsgZXZvbHV0aW9uLCB3ZSBoYXZlIGRhdGEgcG9pbnRzIG9mIHRoZSBvcmRlciAkbl4yJC4gVGhlcmVmb3JlLCBvdXIgZGF0YSBkb2VzIG5vdyBhbGxvdyBmb3IgYmFja3dhcmQgZWxpbWluYXRpb24gKGkuZS4sIGVzdGltYXRpbmcgdGhlICdmdWxsIG1vZGVsJywgaW5jbHVkaW5nIGFsbCBpbnRlcmFjdGlvbnMgc2ltdWx0YW5lb3VzbHksIGFuZCBzdGVwd2lzZWx5IHJlbW92aW5nIGVmZmVjdHMgdGhhdCBhcmUgbm90IHNpZ25pZmljYW50IGFjY29yZGluZyB0byBzb21lIGNyaXRlcmlvbikuIA0KDQpJbnN0ZWFkLCB3ZSBlc3RpbWF0ZSBvdXIgbWFpbiBtb2RlbCBhbmQgYXNzZXNzIHRoZSBpbnRlcmFjdGlvbnMgYnkgdGVzdGluZyB0aGVpciBwYXJhbWV0ZXJzICQoSF8wOlx0aGV0YT0wKSQgKndpdGhvdXQqIGVzdGltYXRpbmcgdGhlbSwgdXNpbmcgc2NvcmUtdHlwZSB0ZXN0cywgYSBwcm9jZWR1cmUgcHJvcG9zZWQgYnkgQHNjaHdlaW5iZXJnZXIuDQoNCg0KDQotLS0tDQoNCiMgR2V0dGluZyBzdGFydGVkDQoNCiMjIGNsZWFuIHVwDQoNCmBgYHtyLCBhdHRyLm91dHB1dD0nc3R5bGU9Im1heC1oZWlnaHQ6IDIwMHB4OyInfQ0Kcm0gKGxpc3QgPSBscyggKSkNCiNnYygpDQpgYGANCg0KPGJyPg0KDQojIyBnZW5lcmFsIGN1c3RvbSBmdW5jdGlvbnMNCg0KLSBgZnBhY2thZ2UuY2hlY2tgOiBDaGVjayBpZiBwYWNrYWdlcyBhcmUgaW5zdGFsbGVkIChhbmQgaW5zdGFsbCBpZiBub3QpIGluIFIgKFtzb3VyY2VdKGh0dHBzOi8vdmJhbGlnYS5naXRodWIuaW8vdmVyaWZ5LXRoYXQtci1wYWNrYWdlcy1hcmUtaW5zdGFsbGVkLWFuZC1sb2FkZWQvKSkNCi0gYGZsb2FkLlJgOiBmdW5jdGlvbiB0byBsb2FkIFItb2JqZWN0cyB1bmRlciBuZXcgbmFtZXMuDQoNCmBgYHtyLCBldmFsPUZ9DQoNCmZwYWNrYWdlLmNoZWNrIDwtIGZ1bmN0aW9uKHBhY2thZ2VzKSB7DQogICAgbGFwcGx5KHBhY2thZ2VzLCBGVU4gPSBmdW5jdGlvbih4KSB7DQogICAgICAgIGlmICghcmVxdWlyZSh4LCBjaGFyYWN0ZXIub25seSA9IFRSVUUpKSB7DQogICAgICAgICAgICBpbnN0YWxsLnBhY2thZ2VzKHgsIGRlcGVuZGVuY2llcyA9IFRSVUUpDQogICAgICAgICAgICBsaWJyYXJ5KHgsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkNCiAgICAgICAgfQ0KICAgIH0pDQp9DQoNCmZsb2FkLlIgIDwtIGZ1bmN0aW9uKGZpbGVOYW1lKXsNCiAgbG9hZChmaWxlTmFtZSkNCiAgZ2V0KGxzKClbbHMoKSAhPSAiZmlsZU5hbWUiXSkNCn0NCg0KYGBgDQoNCg0KIyMgbmVjZXNzYXJ5IHBhY2thZ2VzDQoNCi0gYFJTaWVuYWANCi0gYHBhcmFsbGVsYDogdXRpbGl6ZSBtb3JlIGNvcmVzDQoNCmBgYHtyIHBhY2thZ2VzLCBldmFsPUZ9DQoNCnBhY2thZ2VzID0gYygiUlNpZW5hIiwgInBhcmFsbGVsIikNCg0KZnBhY2thZ2UuY2hlY2socGFja2FnZXMpDQpgYGANCg0KPGJyPg0KDQpEb3duIGJlbG93LCB3ZSBmb2N1cyBvbiBydW5uaW5nIGZyZXF1ZW5jeTsgYnV0IHRoZSBzY3JpcHRzIGNhbiBiZSBtb2RpZmllZCB0byBtb2RlbCBydW5uaW5nIHZvbHVtZS4NCg0KDQojIyByZWFkIGluIFJTaWVuYSBkYXRhIG9iamVjdHMNCmBgYHtyLCBldmFsPUZ9DQpsb2FkKCJjbHViZGF0YV9yc2llbmFfZnJlcS5SZGF0YSIpDQojbG9hZCgiY2x1YmRhdGFfcnNpZW5hX3ZvbC5SZGF0YSIpDQpgYGANCg0KPGJyPg0KDQotLS0tDQoNCiMgQXBwcm9hY2gNCg0KV2UgcHJvYmUgZm9yIG1vZGVyYXRpb25hbCBlZmZlY3RzIG9mOg0KDQotICpnZW5kZXIqOiB0byBzZWUgd2hldGhlciByZWNlaXZpbmcga3Vkb3Mgb3IgdGhlIGFjdGl2aXRpZXMgb2YgYWx0ZXJzIGhhdmUgZGlmZmVyZW50aWFsIGVmZmVjdHMgZm9yIG1hbGVzIGFuZCBmZW1hbGVzOw0KLSAqcnVubmluZyBsZXZlbCo6IHRvIHNlZSB3aGV0aGVyIHJ1bm5lcnMgd2l0aCBkaWZmZXJlbnQgcnVubmluZyBleHBlcmllbmNlIGFyZSBtb3JlL2xlc3MgcyAgdXNjZXB0aWJsZSB0byBpbmZsdWVuY2UuIFdlIGludGVyYWN0IHRoZSBpbmZsdWVuY2UgZWZmZWN0cyB3aXRoIHRoZSBgbGluZWFyYCBzaGFwZSBlZmZlY3QgKHdoaWNoIHJlcHJlc2VudHMgZWdvJ3MgY3VycmVudCBydW5uaW5nKSBhbmQgYSB0aW1lLWNvbnN0YW50IGFjdG9yLWNvdmFyaWF0ZSByZXByZXNlbnRpbmcgdGhlIG51bWJlciBvZiB5ZWFycyB0aGF0IGFjdG9ycyB3ZXJlIGFjdGl2ZSBvbiBTdHJhdmEgKGxhYmVsZWQgYG5vdmljZWApLiANCg0KV2UgZGlzY3VzcyBbaGVyZV0oaHR0cHM6Ly9yb2JmcmFua2VuLmdpdGh1Yi5pby9TdHJhdmEvaW50ZXJhY3Rpb24pIHdoeSB3ZSB1c2UgdGhlIGBsaW5lYXJgIHNoYXBlIGVmZmVjdCwgYW5kIHdoeSB3ZSB1c2UgYGF2U2ltYCByYXRoZXIgdGhhbiBgYXZBdHRMb3dlcmAgaW4gdGhlIGludGVyYWN0aW9uIG1vZGVscy4gDQogDQpXZSBmb2N1cyBvbiAyIGluZmx1ZW5jZSBlZmZlY3RzLCBhbmQgMyBpbnRlcmFjdGlvbnM7IHRodXMgYSB0b3RhbCBvZiA2IG1vZGVscyBmb3IgZWFjaCBjbHViLg0KDQpXZSB3aWxsIGNvbnNpZGVyIHRoZSByZXN1bHRzIG9mIHRoZSAob25lLXNpZGVkKSBvbmUtcGFyYW1ldGVyIHRlc3QuIEl0cyB0ZXN0IHN0YXRpc3RpYyBpcyBzdGFuZGFyZCBub3JtYWxseSBkaXN0cmlidXRlZC4NCg0KDQojIEVzdGltYXRpb24NCg0KYGBge3IsIGV2YWw9Rn0NCiNkZXRlY3RDb3JlcygpDQoNCg0KIyBtYWtlIGEgbGlzdCB0byBzdG9yZSBvdXIgZmluYWwgcmVzdWx0cyBpbi4NCnJlc3VsdHMubGlzdCA8LSB2ZWN0b3IoImxpc3QiLCBsZW5ndGgoY2x1YmRhdGFfcnNpZW5hX2ZyZXEpKSAjInByZS1hbGxvY2F0ZSIgZW1wdHkgbGlzdCBvZiBsZW5ndGggNQ0KDQpmb3IgKGkgaW4gMTo1KSB7ICMgZm9yIGNsdWIgaQ0KICANCiAgcHJpbnQocGFzdGUwKCJuZXh0IHVwOiBjbHViICIsIGkpKQ0KICANCiAgI2dldCByc2llbmEgb2JqZWN0DQogIG15ZGF0YSA8LSBjbHViZGF0YV9yc2llbmFfZnJlcVtbaV1dDQogIA0KICAjYW5kIHRoZSBsaXN0IGNvbnRhaW5pbmcgbXllZmYgb2JqZWN0cw0KICBsb2FkKGZpbGU9cGFzdGUwKCJ0ZXN0L215ZWZmL215ZWZmX2NsdWIiLGksIi5SRGF0YSIpKQ0KICAjbG9hZChmaWxlPXBhc3RlMCgidGVzdC9teWVmZi9kdXJhdGlvbi9teWVmZl9jbHViIixpLCIuUkRhdGEiKSkNCg0KICAjdGFrZSA2dGggZWxlbWVudCwgd2hpY2ggaXMgdGhlIG1vZGVsIHdpdGggYXZTaW0NCiAgbXllZmYgPC0gbXllZmZbWzZdXQ0KICANCiAgI2luY2x1ZGUgaW50ZXJhY3Rpb24gZWZmZWN0cywgZml4ZWQgdG8gMCBhbmQgdGVzdD1UUlVFDQogICNoZXJlLCBpdCBpcyBpbXBvcnRhbnQgdGhhdCBpbiB0aGUgYGdldEVmZmVjdHNgIGNvbW1hbmQsIHRoZSBgYmVoTmludG5gIGFyZ3VtZW50IGlzIHNldCB0byBhIGhpZ2ggZW5vdWdoIHZhbHVlLi4uDQogIA0KICAjY3VycmVudCBiZWhhdmlvciAobGluZWFyIHNoYXBlKQ0KICBiZWggPC0gImZyZXFfcnVuIg0KICAjYmVoIDwtICJ0aW1lX3J1biINCiAgbXllZmYxIDwtIGluY2x1ZGVJbnRlcmFjdGlvbihteWVmZiwgbGluZWFyLCBpbmRlZywgbmFtZT1iZWgsIGludGVyYWN0aW9uMT1jKCIiLCJrdWRvbmV0IiksIGZpeD1UUlVFLCB0ZXN0PVRSVUUpDQogIG15ZWZmMiA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGxpbmVhciwgYXZTaW0sIG5hbWU9YmVoLCBpbnRlcmFjdGlvbjE9YygiIiwia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KDQogICNub3ZpY2UNCiAgbXllZmYzIDwtIGluY2x1ZGVJbnRlcmFjdGlvbihteWVmZiwgZWZmRnJvbSwgaW5kZWcsIG5hbWUgPSBiZWgsIGludGVyYWN0aW9uMSA9IGMoIm5vdmljZSIsICJrdWRvbmV0IiksIGZpeD1UUlVFLCB0ZXN0PVRSVUUpDQogIG15ZWZmNCA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGVmZkZyb20sIGF2U2ltLCBuYW1lID0gYmVoLCBpbnRlcmFjdGlvbjEgPSBjKCJub3ZpY2UiLCAia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KICANCiAgI2dlbmRlcjoNCiAgbXllZmY1IDwtIGluY2x1ZGVJbnRlcmFjdGlvbihteWVmZiwgZWZmRnJvbSwgaW5kZWcsIG5hbWUgPSBiZWgsIGludGVyYWN0aW9uMSA9IGMoImdlbmRlciIsICJrdWRvbmV0IiksIGZpeD1UUlVFLCB0ZXN0PVRSVUUpDQogIG15ZWZmNiA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGVmZkZyb20sIGF2U2ltLCBuYW1lID0gYmVoLCBpbnRlcmFjdGlvbjEgPSBjKCJnZW5kZXIiLCAia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KICANCiAgbXllZmZMPC1saXN0KG15ZWZmMSxteWVmZjIsIG15ZWZmMyxteWVmZjQsbXllZmY1LG15ZWZmNikNCiAgDQogICMgc3BlY2lmeSBhbGdvcml0aG0NCiAgbXlhbGdvcml0aG0gPC0gc2llbmFBbGdvcml0aG1DcmVhdGUocHJvam5hbWUgPSAidGVzdCIsIG5zdWI9NSwgbjM9NTAwMCApDQogIyBteWFsZ29yaXRobSA8LSBzaWVuYUFsZ29yaXRobUNyZWF0ZShwcm9qbmFtZSA9ICJ0ZXN0IiwgbnN1Yj0zLCBuMz01MCApICN0ZXN0DQogIA0KICBhbnNMIDwtIHZlY3RvcigibGlzdCIsIGxlbmd0aChteWVmZkwpKSAjInByZS1hbGxvY2F0ZSIgZW1wdHkgbGlzdCBvZiBsZW5ndGggNiB0byBzdG9yZSBtb2RlbHMgaiBpbiwgZm9yIGNsdWIgaQ0KDQogICNlc3RpbWF0ZQ0KICBmb3IgKGogaW4gMTpsZW5ndGgoYW5zTCkpIHsNCiAgICANCiAgICBwcmludChwYXN0ZTAoImNsdWIgIiwgaSwgIjogZXN0aW1hdGluZyBtb2RlbCAiLCBqLCAiLzYiKSkNCiAgICANCiAgICBhbnMgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YT1teWRhdGEsIGVmZmVjdHM9bXllZmZMW1tqXV0sIG5ick5vZGVzPTEwLCBpbml0Qz1UUlVFLCB1c2VDbHVzdGVyID0gVFJVRSwgYmF0Y2g9VFJVRSkNCiAgICBhbnNMW1tqXV0gPC0gYW5zDQogIH0NCiAgDQogIHJlc3VsdHMubGlzdFtbaV1dIDwtIGFuc0wNCn0NCg0KI3Rha2VzIGEgbG9uZyB0aW1lLCBzbyBzYXZlIHRoZSByZXN1bHRzLi4uDQpzYXZlKHJlc3VsdHMubGlzdCwgZmlsZT0idGVzdC9zaWVuYUZpdC9pbnRlcmFjdGlvbnNfZnJlcXVlbmN5LlJEYXRhIikNCg0KI3NhdmUocmVzdWx0cy5saXN0LCBmaWxlPSJ0ZXN0L3NpZW5hRml0L2ludGVyYWN0aW9uc192b2x1bWUuUkRhdGEiKQ0KDQpgYGANCg0KDQoNCjxicj4gDQoNCiMgUmVzdWx0cyB7LnRhYnNldCAudGFic2V0LWZhZGV9IA0KDQpEb3duIGJlbG93LCB3ZSBwcmVzZW50IHRoZSByZXN1bHRzIGZvciBlYWNoIG1vZGVsLCBieSBjbHViDQoNCmBgYHtyfQ0KbG9hZCgidGVzdC9zaWVuYUZpdC9pbnRlcmFjdGlvbnNfZnJlcXVlbmN5LlJEYXRhIikNCnJtKGxpc3Q9c2V0ZGlmZihscygpLCAicmVzdWx0cy5saXN0IikpDQpgYGANCg0KDQojIyBgaW5kZWcgeCBsaW5lYXJgIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIGNsdWIgMQ0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzFdXVtbMV1dDQoNCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dW1sxXV0NCmBgYA0KDQojIyMgY2x1YiAzDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbM11dW1sxXV0NCmBgYA0KDQoNCiMjIyBjbHViIDQNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s0XV1bWzFdXQ0KYGBgDQoNCiMjIyBjbHViIDUNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s1XV1bWzFdXQ0KYGBgDQoNCiMjIGBhdlNpbSB4IGxpbmVhcmAgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgY2x1YiAxDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMV1dW1syXV0NCmBgYA0KDQoNCiMjIyBjbHViIDINCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1syXV1bWzJdXQ0KYGBgDQoNCiMjIyBjbHViIDMNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1szXV1bWzJdXQ0KYGBgDQoNCiMjIyBjbHViIDQNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s0XV1bWzJdXQ0KYGBgDQoNCiMjIyBjbHViIDUNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s1XV1bWzJdXQ0KYGBgDQoNCg0KIyMgYGluZGVnIHggbm92aWNlYCB7LnRhYnNldCAudGFic2V0LWZhZGV9DQojIyMgY2x1YiAxDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMV1dW1szXV0NCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dW1szXV0NCmBgYA0KDQojIyMgY2x1YiAzDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbM11dW1szXV0NCmBgYA0KDQojIyMgY2x1YiA0DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNF1dW1szXV0NCmBgYA0KDQojIyMgY2x1YiA1DQoNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s1XV1bWzNdXQ0KYGBgDQoNCiMjIGBhdlNpbSB4IG5vdmljZWAgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgY2x1YiAxDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMV1dW1s0XV0NCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dW1s0XV0NCmBgYA0KDQojIyMgY2x1YiAzDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbM11dW1s0XV0NCmBgYA0KDQojIyMgY2x1YiA0DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNF1dW1s0XV0NCmBgYA0KDQoNCiMjIyBjbHViIDUNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s1XV1bWzRdXQ0KYGBgDQoNCiMjIGBpbmRlZyB4IGdlbmRlcmAgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgY2x1YiAxDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMV1dW1s1XV0NCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dW1s1XV0NCmBgYA0KDQojIyMgY2x1YiAzDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbM11dW1s1XV0NCmBgYA0KDQojIyMgY2x1YiA0DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNF1dW1s1XV0NCmBgYA0KDQoNCiMjIyBjbHViIDUNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s1XV1bWzVdXQ0KYGBgDQoNCg0KIyMgYGF2U2ltIHggZ2VuZGVyYCB7LnRhYnNldCAudGFic2V0LWZhZGV9DQoNCiMjIyBjbHViIDENCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1sxXV1bWzZdXQ0KYGBgDQoNCiMjIyBjbHViIDINCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1syXV1bWzZdXQ0KYGBgDQoNCiMjIyBjbHViIDMNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1szXV1bWzZdXQ0KYGBgDQoNCiMjIyBjbHViIDQNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s0XV1bWzZdXQ0KYGBgDQoNCg0KIyMjIGNsdWIgNQ0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzVdXVtbNl1dDQpgYGANCg0KPGJyPg0KDQpJbiBjbHViIDUsIGBpbmRlZyB4IG5vdmljZWANCkluIGNsdWIgMiw0IGBhdlNpbSB4IG5vdmljZWANCg0KDQo8YnI+IA0KDQoNCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBvc3QtaG9jIHByb2Jpbmcgb2YgbW9kZXJhdGlvbmFsIGVmZmVjdHMiDQpkYXRlOiAiTGFzdCBjb21waWxlZCBvbiBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVCLCAlWScpYCINCmJpYmxpb2dyYXBoeTogcmVmZXJlbmNlcy5iaWINCm91dHB1dDoNCiAgaHRtbF9kb2N1bWVudDoNCiAgICBjc3M6IHR3ZWFrcy5jc3MNCiAgICB0b2M6IHRydWUNCiAgICB0b2NfZmxvYXQ6IHRydWUNCiAgICBjb2xsYXBzZWQ6IGZhbHNlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQ0KICAgIHRvY19kZXB0aDogMQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IHllcw0KLS0tDQogIA0KYGBge3IsIGdsb2JhbHNldHRpbmdzLCBlY2hvPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCByZXN1bHRzPSdoaWRlJ30NCg0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0Kb3B0c19jaHVuayRzZXQodGlkeS5vcHRzPWxpc3Qod2lkdGguY3V0b2ZmPTEwMCksdGlkeT1UUlVFLCB3YXJuaW5nID0gRkFMU0UsIG1lc3NhZ2UgPSBGQUxTRSxjb21tZW50ID0gIiM+IiwgY2FjaGU9VFJVRSwgY2xhc3Muc291cmNlPWMoInRlc3QiKSwgY2xhc3Mub3V0cHV0PWMoInRlc3QyIikpDQpvcHRpb25zKHdpZHRoID0gMTAwKQ0KcmdsOjpzZXR1cEtuaXRyKCkNCg0KY29sb3JpemUgPC0gZnVuY3Rpb24oeCwgY29sb3IpIHtzcHJpbnRmKCI8c3BhbiBzdHlsZT0nY29sb3I6ICVzOyc+JXM8L3NwYW4+IiwgY29sb3IsIHgpIH0NCg0KYGBgDQoNCmBgYHtyIGtsaXBweSwgZWNobz1GQUxTRSwgaW5jbHVkZT1UUlVFfQ0Ka2xpcHB5OjprbGlwcHkocG9zaXRpb24gPSBjKCd0b3AnLCAncmlnaHQnKSkNCiNrbGlwcHk6OmtsaXBweShjb2xvciA9ICdkYXJrcmVkJykNCiNrbGlwcHk6OmtsaXBweSh0b29sdGlwX21lc3NhZ2UgPSAnQ2xpY2sgdG8gY29weScsIHRvb2x0aXBfc3VjY2VzcyA9ICdEb25lJykNCmBgYA0KDQoNCg0KLS0tDQogIA0KQWltOiB0byBleHBsb3JlIGVmZmVjdCBoZXRlcm9nZW5laXR5IGluIHNvY2lhbCBpbmZsdWVuY2UgYmV0d2VlbiBhY3RvcnMgd2l0aGluIGNsdWJzLCBhY2NvcmRpbmcgdG8gcnVubmluZyBsZXZlbCBhbmQgZ2VuZGVyLg0KDQoNCk91ciBtb2RlbCBhbHJlYWR5IGNvbnNpZGVycyByYXRoZXIgbWFueSBwYXJhbWV0ZXJzIGdpdmVuIHRoZSBpbmZvcm1hdGlvbiBhdmFpbGFibGUgaW4gdGhlIGRhdGEtc2V0LiBXZSBoYXZlIGxpbWl0ZWQgcG93ZXIgdG8gZGV0ZWN0IGJlaGF2aW9yIGV2b2x1dGlvbiBlZmZlY3RzLCBhcyB0aGUgbnVtYmVyIG9mIGRhdGEgcG9pbnRzIGlzIGF0IHRoZSBvcmRlciAkbiQuIElmIHdlIGNvbnNpZGVyIG5ldHdvcmsgZXZvbHV0aW9uLCB3ZSBoYXZlIGRhdGEgcG9pbnRzIG9mIHRoZSBvcmRlciAkbl4yJC4gVGhlcmVmb3JlLCBvdXIgZGF0YSBkb2VzIG5vdyBhbGxvdyBmb3IgYmFja3dhcmQgZWxpbWluYXRpb24gKGkuZS4sIGVzdGltYXRpbmcgdGhlICdmdWxsIG1vZGVsJywgaW5jbHVkaW5nIGFsbCBpbnRlcmFjdGlvbnMgc2ltdWx0YW5lb3VzbHksIGFuZCBzdGVwd2lzZWx5IHJlbW92aW5nIGVmZmVjdHMgdGhhdCBhcmUgbm90IHNpZ25pZmljYW50IGFjY29yZGluZyB0byBzb21lIGNyaXRlcmlvbikuIA0KDQpJbnN0ZWFkLCB3ZSBlc3RpbWF0ZSBvdXIgbWFpbiBtb2RlbCBhbmQgYXNzZXNzIHRoZSBpbnRlcmFjdGlvbnMgYnkgdGVzdGluZyB0aGVpciBwYXJhbWV0ZXJzICQoSF8wOlx0aGV0YT0wKSQgKndpdGhvdXQqIGVzdGltYXRpbmcgdGhlbSwgdXNpbmcgc2NvcmUtdHlwZSB0ZXN0cywgYSBwcm9jZWR1cmUgcHJvcG9zZWQgYnkgQHNjaHdlaW5iZXJnZXIuIFNjb3JlLXR5cGUgdGVzdHMgaW5kaWNhdGUgd2hldGhlciBhbmQgd2hpY2ggb2YgdGhlIHRlc3RlZCBlZmZlY3RzIHdpbGwgaW1wcm92ZSBhIG1vZGVsLCB3aGVuIGluY2x1ZGVkLiBXZSB3aWxsIGNvbnNpZGVyIHRoZSByZXN1bHRzIG9mIHRoZSAob25lLXNpZGVkKSBvbmUtcGFyYW1ldGVyIHRlc3QuIEl0cyB0ZXN0IHN0YXRpc3RpYyBpcyBzdGFuZGFyZCBub3JtYWxseSBkaXN0cmlidXRlZC4gDQoNCklmIHdlIGZpbmQgaW50ZXJhY3Rpb24gZWZmZWN0cyB0aGF0IHdvdWxkIGltcHJvdmUgdGhlIG1vZGVsLCB3ZSB3aWxsIGVzdGltYXRlIHRoZXNlIGVmZmVjdHMgc2ltdWx0YW5lb3VzbHkgd2l0aCB0aGUgb3RoZXIgbW9kZWwgZWZmZWN0cy4gVGh1cywgd2UgdXNlIGEgdHdvLXN0ZXAgZXhwbG9yYXRvcnkgcHJvY2VkdXJlLg0KDQoNCi0tLS0NCg0KIyBHZXR0aW5nIHN0YXJ0ZWQNCg0KIyMgY2xlYW4gdXANCg0KYGBge3IsIGF0dHIub3V0cHV0PSdzdHlsZT0ibWF4LWhlaWdodDogMjAwcHg7Iid9DQpybSAobGlzdCA9IGxzKCApKQ0KI2djKCkNCmBgYA0KDQo8YnI+DQoNCiMjIGdlbmVyYWwgY3VzdG9tIGZ1bmN0aW9ucw0KDQotIGBmcGFja2FnZS5jaGVja2A6IENoZWNrIGlmIHBhY2thZ2VzIGFyZSBpbnN0YWxsZWQgKGFuZCBpbnN0YWxsIGlmIG5vdCkgaW4gUiAoW3NvdXJjZV0oaHR0cHM6Ly92YmFsaWdhLmdpdGh1Yi5pby92ZXJpZnktdGhhdC1yLXBhY2thZ2VzLWFyZS1pbnN0YWxsZWQtYW5kLWxvYWRlZC8pKQ0KLSBgZmxvYWQuUmA6IGZ1bmN0aW9uIHRvIGxvYWQgUi1vYmplY3RzIHVuZGVyIG5ldyBuYW1lcy4NCg0KYGBge3IsIGV2YWw9Rn0NCg0KZnBhY2thZ2UuY2hlY2sgPC0gZnVuY3Rpb24ocGFja2FnZXMpIHsNCiAgICBsYXBwbHkocGFja2FnZXMsIEZVTiA9IGZ1bmN0aW9uKHgpIHsNCiAgICAgICAgaWYgKCFyZXF1aXJlKHgsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkpIHsNCiAgICAgICAgICAgIGluc3RhbGwucGFja2FnZXMoeCwgZGVwZW5kZW5jaWVzID0gVFJVRSkNCiAgICAgICAgICAgIGxpYnJhcnkoeCwgY2hhcmFjdGVyLm9ubHkgPSBUUlVFKQ0KICAgICAgICB9DQogICAgfSkNCn0NCg0KZmxvYWQuUiAgPC0gZnVuY3Rpb24oZmlsZU5hbWUpew0KICBsb2FkKGZpbGVOYW1lKQ0KICBnZXQobHMoKVtscygpICE9ICJmaWxlTmFtZSJdKQ0KfQ0KDQpgYGANCg0KDQojIyBuZWNlc3NhcnkgcGFja2FnZXMNCg0KLSBgUlNpZW5hYA0KLSBgcGFyYWxsZWxgOiB1dGlsaXplIG1vcmUgY29yZXMNCg0KYGBge3IgcGFja2FnZXMsIGV2YWw9Rn0NCg0KcGFja2FnZXMgPSBjKCJSU2llbmEiLCAicGFyYWxsZWwiKQ0KDQpmcGFja2FnZS5jaGVjayhwYWNrYWdlcykNCmBgYA0KDQo8YnI+DQoNCkRvd24gYmVsb3csIHdlIGZvY3VzIG9uIHJ1bm5pbmcgZnJlcXVlbmN5OyBidXQgdGhlIHNjcmlwdHMgY2FuIGJlIG1vZGlmaWVkIHRvIG1vZGVsIHJ1bm5pbmcgdm9sdW1lLg0KDQoNCiMjIHJlYWQgaW4gUlNpZW5hIGRhdGEgb2JqZWN0cw0KYGBge3IsIGV2YWw9Rn0NCmxvYWQoImNsdWJkYXRhX3JzaWVuYV9mcmVxLlJkYXRhIikNCiNsb2FkKCJjbHViZGF0YV9yc2llbmFfdm9sLlJkYXRhIikNCmBgYA0KDQo8YnI+DQoNCi0tLS0NCg0KIyBBcHByb2FjaA0KDQpXZSBwcm9iZSBmb3IgbW9kZXJhdGlvbmFsIGVmZmVjdHMgb2Y6DQoNCi0gKmdlbmRlcio6IHRvIHNlZSB3aGV0aGVyIHJlY2VpdmluZyBrdWRvcyBvciB0aGUgYWN0aXZpdGllcyBvZiBhbHRlcnMgaGF2ZSBkaWZmZXJlbnRpYWwgZWZmZWN0cyBmb3IgbWFsZXMgYW5kIGZlbWFsZXM7DQotICpydW5uaW5nIGxldmVsKjogdG8gc2VlIHdoZXRoZXIgcnVubmVycyB3aXRoIGRpZmZlcmVudCBydW5uaW5nIGV4cGVyaWVuY2UgYXJlIG1vcmUvbGVzcyBzICB1c2NlcHRpYmxlIHRvIGluZmx1ZW5jZS4gV2UgaW50ZXJhY3QgdGhlIGluZmx1ZW5jZSBlZmZlY3RzIHdpdGggdGhlIGBsaW5lYXJgIHNoYXBlIGVmZmVjdCAod2hpY2ggcmVwcmVzZW50cyBlZ28ncyBjdXJyZW50IHJ1bm5pbmcpIGFuZCBhIHRpbWUtY29uc3RhbnQgYWN0b3ItY292YXJpYXRlIHJlcHJlc2VudGluZyB0aGUgbnVtYmVyIG9mIHllYXJzIHRoYXQgYWN0b3JzIHdlcmUgYWN0aXZlIG9uIFN0cmF2YSAobGFiZWxlZCBgbm92aWNlYCkuIA0KDQpXZSBkaXNjdXNzIFtoZXJlXShodHRwczovL3JvYmZyYW5rZW4uZ2l0aHViLmlvL1N0cmF2YS9pbnRlcmFjdGlvbikgd2h5IHdlIHVzZSB0aGUgYGxpbmVhcmAgc2hhcGUgZWZmZWN0LCBhbmQgd2h5IHdlIHVzZSBgYXZTaW1gIHJhdGhlciB0aGFuIGBhdkF0dExvd2VyYCBpbiB0aGUgaW50ZXJhY3Rpb24gbW9kZWxzLiANCiANCldlIGZvY3VzIG9uIDIgaW5mbHVlbmNlIGVmZmVjdHMsIGFuZCAzIGludGVyYWN0aW9uczsgdGh1cyBhIHRvdGFsIG9mIDYgbW9kZWxzIGZvciBlYWNoIGNsdWIuDQoNCg0KDQojIFN0ZXAgMTogc2NvcmUtdHlwZSB0ZXN0DQoNCmBgYHtyLCBldmFsPUZ9DQojZGV0ZWN0Q29yZXMoKQ0KDQoNCiMgbWFrZSBhIGxpc3QgdG8gc3RvcmUgb3VyIGZpbmFsIHJlc3VsdHMgaW4uDQpyZXN1bHRzLmxpc3QgPC0gdmVjdG9yKCJsaXN0IiwgbGVuZ3RoKGNsdWJkYXRhX3JzaWVuYV9mcmVxKSkgIyJwcmUtYWxsb2NhdGUiIGVtcHR5IGxpc3Qgb2YgbGVuZ3RoIDUNCg0KZm9yIChpIGluIDE6NSkgeyAjIGZvciBjbHViIGkNCiAgDQogIHByaW50KHBhc3RlMCgibmV4dCB1cDogY2x1YiAiLCBpKSkNCiAgDQogICNnZXQgcnNpZW5hIG9iamVjdA0KICBteWRhdGEgPC0gY2x1YmRhdGFfcnNpZW5hX2ZyZXFbW2ldXQ0KICANCiAgI2FuZCB0aGUgbGlzdCBjb250YWluaW5nIG15ZWZmIG9iamVjdHMNCiAgbG9hZChmaWxlPXBhc3RlMCgidGVzdC9teWVmZi9teWVmZl9jbHViIixpLCIuUkRhdGEiKSkNCiAgI2xvYWQoZmlsZT1wYXN0ZTAoInRlc3QvbXllZmYvZHVyYXRpb24vbXllZmZfY2x1YiIsaSwiLlJEYXRhIikpDQoNCiAgI3Rha2UgNnRoIGVsZW1lbnQsIHdoaWNoIGlzIHRoZSBtb2RlbCB3aXRoIGF2U2ltDQogIG15ZWZmIDwtIG15ZWZmW1s2XV0NCiAgDQogICNpbmNsdWRlIGludGVyYWN0aW9uIGVmZmVjdHMsIGZpeGVkIHRvIDAgYW5kIHRlc3Q9VFJVRQ0KICAjaGVyZSwgaXQgaXMgaW1wb3J0YW50IHRoYXQgaW4gdGhlIGBnZXRFZmZlY3RzYCBjb21tYW5kLCB0aGUgYGJlaE5pbnRuYCBhcmd1bWVudCBpcyBzZXQgdG8gYSBoaWdoIGVub3VnaCB2YWx1ZS4uLg0KICANCiAgI2N1cnJlbnQgYmVoYXZpb3IgKGxpbmVhciBzaGFwZSkNCiAgYmVoIDwtICJmcmVxX3J1biINCiAgI2JlaCA8LSAidGltZV9ydW4iDQogIG15ZWZmMSA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGxpbmVhciwgaW5kZWcsIG5hbWU9YmVoLCBpbnRlcmFjdGlvbjE9YygiIiwia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KICBteWVmZjIgPC0gaW5jbHVkZUludGVyYWN0aW9uKG15ZWZmLCBsaW5lYXIsIGF2U2ltLCBuYW1lPWJlaCwgaW50ZXJhY3Rpb24xPWMoIiIsImt1ZG9uZXQiKSwgZml4PVRSVUUsIHRlc3Q9VFJVRSkNCg0KICAjbm92aWNlDQogIG15ZWZmMyA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGVmZkZyb20sIGluZGVnLCBuYW1lID0gYmVoLCBpbnRlcmFjdGlvbjEgPSBjKCJub3ZpY2UiLCAia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KICBteWVmZjQgPC0gaW5jbHVkZUludGVyYWN0aW9uKG15ZWZmLCBlZmZGcm9tLCBhdlNpbSwgbmFtZSA9IGJlaCwgaW50ZXJhY3Rpb24xID0gYygibm92aWNlIiwgImt1ZG9uZXQiKSwgZml4PVRSVUUsIHRlc3Q9VFJVRSkNCiAgDQogICNnZW5kZXI6DQogIG15ZWZmNSA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGVmZkZyb20sIGluZGVnLCBuYW1lID0gYmVoLCBpbnRlcmFjdGlvbjEgPSBjKCJnZW5kZXIiLCAia3Vkb25ldCIpLCBmaXg9VFJVRSwgdGVzdD1UUlVFKQ0KICBteWVmZjYgPC0gaW5jbHVkZUludGVyYWN0aW9uKG15ZWZmLCBlZmZGcm9tLCBhdlNpbSwgbmFtZSA9IGJlaCwgaW50ZXJhY3Rpb24xID0gYygiZ2VuZGVyIiwgImt1ZG9uZXQiKSwgZml4PVRSVUUsIHRlc3Q9VFJVRSkNCiAgDQogIG15ZWZmTDwtbGlzdChteWVmZjEsbXllZmYyLCBteWVmZjMsbXllZmY0LG15ZWZmNSxteWVmZjYpDQogIA0KICAjIHNwZWNpZnkgYWxnb3JpdGhtDQogIG15YWxnb3JpdGhtIDwtIHNpZW5hQWxnb3JpdGhtQ3JlYXRlKHByb2puYW1lID0gInRlc3QiLCBuc3ViPTUsIG4zPTUwMDAgKQ0KICMgbXlhbGdvcml0aG0gPC0gc2llbmFBbGdvcml0aG1DcmVhdGUocHJvam5hbWUgPSAidGVzdCIsIG5zdWI9MywgbjM9NTAgKSAjdGVzdA0KICANCiAgYW5zTCA8LSB2ZWN0b3IoImxpc3QiLCBsZW5ndGgobXllZmZMKSkgIyJwcmUtYWxsb2NhdGUiIGVtcHR5IGxpc3Qgb2YgbGVuZ3RoIDYgdG8gc3RvcmUgbW9kZWxzIGogaW4sIGZvciBjbHViIGkNCg0KICAjZXN0aW1hdGUNCiAgZm9yIChqIGluIDE6bGVuZ3RoKGFuc0wpKSB7DQogICAgDQogICAgcHJpbnQocGFzdGUwKCJjbHViICIsIGksICI6IGVzdGltYXRpbmcgbW9kZWwgIiwgaiwgIi82IikpDQogICAgDQogICAgYW5zIDwtIHNpZW5hMDcobXlhbGdvcml0aG0sIGRhdGE9bXlkYXRhLCBlZmZlY3RzPW15ZWZmTFtbal1dLCBuYnJOb2Rlcz0xMCwgaW5pdEM9VFJVRSwgdXNlQ2x1c3RlciA9IFRSVUUsIGJhdGNoPVRSVUUpDQogICAgYW5zTFtbal1dIDwtIGFucw0KICB9DQogIA0KICByZXN1bHRzLmxpc3RbW2ldXSA8LSBhbnNMDQp9DQoNCiN0YWtlcyBhIGxvbmcgdGltZSwgc28gc2F2ZSB0aGUgcmVzdWx0cy4uLg0Kc2F2ZShyZXN1bHRzLmxpc3QsIGZpbGU9InRlc3Qvc2llbmFGaXQvaW50ZXJhY3Rpb25zX2ZyZXF1ZW5jeS5SRGF0YSIpDQoNCiNzYXZlKHJlc3VsdHMubGlzdCwgZmlsZT0idGVzdC9zaWVuYUZpdC9pbnRlcmFjdGlvbnNfdm9sdW1lLlJEYXRhIikNCg0KYGBgDQoNCg0KDQo8YnI+IA0KDQojIFJlc3VsdHMgey50YWJzZXQgLnRhYnNldC1mYWRlfSANCg0KRG93biBiZWxvdywgd2UgcHJlc2VudCB0aGUgcmVzdWx0cyBvZiBzdGVwIDEgKHRlc3RpbmcgcGFyYW1ldGVycyB3aXRob3V0IGVzdGltYXRpbmcgdGhlbSwgdXNpbmcgc2NvcmUtdHlwZSB0ZXN0cykuDQoNCg0KYGBge3J9DQpsb2FkKCJ0ZXN0L3NpZW5hRml0L2ludGVyYWN0aW9uc19mcmVxdWVuY3kuUkRhdGEiKQ0KI3JtKGxpc3Q9c2V0ZGlmZihscygpLCAicmVzdWx0cy5saXN0IikpDQpgYGANCg0KDQojIyBgaW5kZWcgeCBsaW5lYXJgIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIGNsdWIgMQ0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzFdXVtbMV1dDQoNCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dW1sxXV0NCmBgYA0KDQojIyMgY2x1YiAzDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbM11dW1sxXV0NCmBgYA0KDQojIyMgY2x1YiA0DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNF1dW1sxXV0NCmBgYA0KDQojIyMgY2x1YiA1DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNV1dW1sxXV0NCmBgYA0KDQojIyBgYXZTaW0geCBsaW5lYXJgIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIGNsdWIgMQ0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzFdXVtbMl1dDQpgYGANCg0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dW1syXV0NCmBgYA0KDQojIyMgY2x1YiAzDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbM11dW1syXV0NCmBgYA0KDQojIyMgY2x1YiA0DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNF1dW1syXV0NCmBgYA0KDQojIyMgY2x1YiA1DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNV1dW1syXV0NCmBgYA0KDQoNCiMjIGBpbmRlZyB4IG5vdmljZWAgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KIyMjIGNsdWIgMQ0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzFdXVtbM11dDQpgYGANCg0KIyMjIGNsdWIgMg0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzJdXVtbM11dDQpgYGANCg0KIyMjIGNsdWIgMw0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzNdXVtbM11dDQpgYGANCg0KIyMjIGNsdWIgNA0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzRdXVtbM11dDQpgYGANCg0KIyMjIGNsdWIgNQ0KDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNV1dW1szXV0NCmBgYA0KDQojIyBgYXZTaW0geCBub3ZpY2VgIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIGNsdWIgMQ0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzFdXVtbNF1dDQpgYGANCg0KIyMjIGNsdWIgMg0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzJdXVtbNF1dDQpgYGANCg0KIyMjIGNsdWIgMw0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzNdXVtbNF1dDQpgYGANCg0KIyMjIGNsdWIgNA0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzRdXVtbNF1dDQpgYGANCg0KDQojIyMgY2x1YiA1DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNV1dW1s0XV0NCmBgYA0KDQojIyBgaW5kZWcgeCBnZW5kZXJgIHsudGFic2V0IC50YWJzZXQtZmFkZX0NCg0KIyMjIGNsdWIgMQ0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzFdXVtbNV1dDQpgYGANCg0KIyMjIGNsdWIgMg0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzJdXVtbNV1dDQpgYGANCg0KIyMjIGNsdWIgMw0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzNdXVtbNV1dDQpgYGANCg0KIyMjIGNsdWIgNA0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzRdXVtbNV1dDQpgYGANCg0KDQojIyMgY2x1YiA1DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNV1dW1s1XV0NCmBgYA0KDQoNCiMjIGBhdlNpbSB4IGdlbmRlcmAgey50YWJzZXQgLnRhYnNldC1mYWRlfQ0KDQojIyMgY2x1YiAxDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMV1dW1s2XV0NCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dW1s2XV0NCmBgYA0KDQojIyMgY2x1YiAzDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbM11dW1s2XV0NCmBgYA0KDQojIyMgY2x1YiA0DQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbNF1dW1s2XV0NCmBgYA0KDQoNCiMjIyBjbHViIDUNCmBgYHtyfQ0KcmVzdWx0cy5saXN0W1s1XV1bWzZdXQ0KYGBgDQoNCg0KIyMgey19DQojIHstfQ0KDQo8YnI+DQoNCi0gYGluZGVnIHggbm92aWNlYCBhcHBlYXJzIHRvIGltcHJvdmUgdGhlIG1vZGVsIGluIGNsdWIgNTsNCi0gYGF2U2ltIHggbm92aWNlYCBhcHBlYXJzIHRvIGltcHJvdmUgdGhlIG1vZGVsIGluIGNsdWJzIDIgYW5kIDQuDQoNCjxicj4NCg0KLS0tDQoNCiMgU3RlcCAyOiBlc3RpbWF0ZSBpbnRlcmFjdGlvbiBlZmZlY3RzDQoNCkFwcGFyZW50bHksIGluZmx1ZW5jZSAtIHRoYXQgaXMsIHRoZSBlZmZlY3RzIG9mIHJlY2VpdmluZyBrdWRvcyBhbmQgdGhlIHJ1bm5pbmcgb2YgZnJpZW5kcyAtIHdvcmtzIGRpZmZlcmVudGx5IGZvciBjbHViIG1lbWJlcnMgd2hvIGFyZSBuZXdlciB0byBTdHJhdmEgKGF0IGxlYXN0LCBpbiBzb21lIGNsdWJzKS4gVGhlc2UgZHluYW1pY3Mgd2VyZSBubyBkaWZmZXJlbnQgZm9yIHRoZSBnZW5kZXJzLCBub3IgZm9yIGF0aGxldGVzIHRoYXQgZGlmZmVyZWQgaW4gdGhlaXIgY3VycmVudCBydW5uaW5nLiBJbiBzdGVwIDIsIHdlIGluY2x1ZGUgdGhlc2UgKG1pc3NpbmcpIHByZWRpY3RvcnMgb2YgY2hhbmdlIGluIHJ1bm5pbmcgYmVoYXZpb3IgaW4gb3VyIG1vZGVsLiBgciBjb2xvcml6ZSgiVGh1cywgd2Ugbm90IG9ubHkgdGVzdCB0aGUgZWZmZWN0LCBidXQgd2UgYWxzbyBlc3RpbWF0ZSBpdCBzaW11bHRhbmVvdXNseSB3aXRoIHRoZSBvdGhlciBlZmZlY3RzLiIsICJyZWQiKWANCg0KDQoNCjxicj4NCg0KIyMgYGluZGVnIHggbm92aWNlYA0KYGBge3IsIGV2YWw9Rn0NCmxvYWQoImNsdWJkYXRhX3JzaWVuYV9mcmVxLlJkYXRhIikNCg0KbXlkYXRhIDwtIGNsdWJkYXRhX3JzaWVuYV9mcmVxW1s1XV0NCg0KI2xvYWQgZWZmZWN0cyBvYmplY3QNCmxvYWQoZmlsZT1wYXN0ZTAoInRlc3QvbXllZmYvbXllZmZfY2x1YiIsIjUiLCIuUkRhdGEiKSkNCm15ZWZmIDwtIG15ZWZmW1s2XV0gDQoNCiMgaW5jbHVkZSBpbnRlcmFjdGlvbiwgYW5kIGVzdGltYXRlIHRoZSBwYXJhbWV0ZXINCmJlaCA8LSAiZnJlcV9ydW4iDQpteWVmZiA8LSBpbmNsdWRlSW50ZXJhY3Rpb24obXllZmYsIGVmZkZyb20sIGluZGVnLCBuYW1lID0gYmVoLCBpbnRlcmFjdGlvbjEgPSBjKCJub3ZpY2UiLCAia3Vkb25ldCIpLCBmaXg9RkFMU0UsIHRlc3Q9RkFMU0UpDQoNCiMgc3BlY2lmeSBhbGdvcml0aG0NCm15YWxnb3JpdGhtIDwtIHNpZW5hQWxnb3JpdGhtQ3JlYXRlKHByb2puYW1lID0gInRlc3QiLCBuc3ViPTUsIG4zPTUwMDAgKQ0KDQojIGVzdGltYXRlDQphbnMgPC0gc2llbmEwNyhteWFsZ29yaXRobSwgZGF0YT1teWRhdGEsIGVmZmVjdHM9bXllZmYsIG5ick5vZGVzPTEwLCBpbml0Qz1UUlVFLCB1c2VDbHVzdGVyID0gVFJVRSwgYmF0Y2g9VFJVRSkNCg0KIyBzYXZlIG91dHB1dA0Kc2F2ZShhbnMsIGZpbGU9InRlc3Qvc2llbmFGaXQvaW5kZWdfbm92aWNlX2NsdWI1LlJEYXRhIikNCmBgYA0KDQo8YnI+DQoNClRoZSBpbnRlcmFjdGlvbiBlZmZlY3QgYGluZGVnIHggbm92aWNlYCBpcyAqKm5lZ2F0aXZlKiogYW5kIHNpZ25pZmljYW50LCBzdWdnZXN0aW5nIHRoYXQgY2x1YiBtZW1iZXJzIHdobyBqb2luZWQgU3RyYXZhIHJlbGF0aXZlbHkgcmVjZW50bHksIGFyZSAqbGVzcyogc3VzY2VwdGlibGUgdG8gdGhlIHBvc2l0aXZlIG1vdGl2YXRpb25hbCBlZmZlY3Qgb2YgcmVjZWl2aW5nIGt1ZG9zIGZyb20gY2x1Ym1hdGVzIG9uIFN0cmF2YS4NCg0KPGJyPg0KDQojIyBgYXZTaW0geCBub3ZpY2VgDQpgYGB7ciwgZXZhbD1GfQ0Kcm0obGlzdD1zZXRkaWZmKGxzKCksICJjbHViZGF0YV9yc2llbmFfZnJlcSIpKQ0KDQojIG1ha2UgYSBsaXN0IHRvIHN0b3JlIG91ciByZXN1bHRzIGluLg0KcmVzdWx0cy5saXN0IDwtIHZlY3RvcigibGlzdCIsIGxlbmd0aChjbHViZGF0YV9yc2llbmFfZnJlcSkpICMicHJlLWFsbG9jYXRlIiBlbXB0eSBsaXN0IG9mIGxlbmd0aCA1DQoNCiNjbHViIHdlIG5lZWQgdG8gZG8gdGhlIGVzdGltYXRpb24gZm9yDQpjbHVicyA8LSBjKCIyIiwiNCIpDQoNCmZvciAoaSBpbiB1bmlxdWUoY2x1YnMpKSB7ICMgZm9yIGNsdWIgaQ0KICAgI2dldCByc2llbmEgb2JqZWN0DQogICBteWRhdGEgPC0gY2x1YmRhdGFfcnNpZW5hX2ZyZXFbWzJdXQ0KICAgDQogICNhbmQgdGhlIGxpc3QgY29udGFpbmluZyBteWVmZiBvYmplY3RzDQogIGxvYWQoZmlsZT1wYXN0ZTAoInRlc3QvbXllZmYvbXllZmZfY2x1YiIsaSwiLlJEYXRhIikpDQoNCiAgI3Rha2UgNnRoIGVsZW1lbnQsIHdoaWNoIGlzIHRoZSBtb2RlbCB3aXRoIGF2U2ltDQogIG15ZWZmIDwtIG15ZWZmW1s2XV0NCiAgDQogICNpbmNsdWRlIGludGVyYWN0aW9uLCBlc3RpbWF0ZSBwYXJhbWV0ZXINCiAgYmVoIDwtICJmcmVxX3J1biINCiAgbXllZmYgPC0gaW5jbHVkZUludGVyYWN0aW9uKG15ZWZmLCBlZmZGcm9tLCBhdlNpbSwgbmFtZSA9IGJlaCwgaW50ZXJhY3Rpb24xID0gYygibm92aWNlIiwgImt1ZG9uZXQiKSwgZml4PUZBTFNFLCB0ZXN0PUZBTFNFKQ0KICANCiAgIyBzcGVjaWZ5IGFsZ29yaXRobQ0KICBteWFsZ29yaXRobSA8LSBzaWVuYUFsZ29yaXRobUNyZWF0ZShwcm9qbmFtZSA9ICJ0ZXN0IiwgbnN1Yj01LCBuMz01MDAwICkNCiAgDQogICNlc3RpbWF0ZSBzYW9tDQogIGFucyA8LSBzaWVuYTA3KG15YWxnb3JpdGhtLCBkYXRhPW15ZGF0YSwgZWZmZWN0cz1teWVmZiwgbmJyTm9kZXM9MTAsIGluaXRDPVRSVUUsIHVzZUNsdXN0ZXIgPSBUUlVFLCBiYXRjaD1UUlVFKQ0KICANCiAgI3N0b3JlIGluIHJlc3VsdHMubGlzdA0KICByZXN1bHRzLmxpc3RbW2ldXSA8LSBhbnMNCn0NCg0KIyBzYXZlIG91dHB1dA0Kc2F2ZShyZXN1bHRzLmxpc3QsIGZpbGU9InRlc3Qvc2llbmFGaXQvYXZzaW1fbm92aWNlX2NsdWIyXzQuUkRhdGEiKQ0KYGBgDQoNCjxicj4NCg0KIyBSZXN1bHRzDQoNCk5vdyBsZXQncyBzZWUgaWYgdGhlIGludGVyYWN0aW9uIGVmZmVjdCBwYXJhbWV0ZXJzIGFyZSBzaWduaWZpY2FudCB3aGVuIGVzdGltYXRlZCBzaW11bHRhbmVvdXNseSB3aXRoIHRoZSBvdGhlciBlZmZlY3RzLiBBbmQgaWYgc28sIHdoYXQgdGhlaXIgc2lnbiBpcyENCg0KIyMgYGluZGVnIHggbm92aWNlYA0KYGBge3J9DQpsb2FkKCJ0ZXN0L3NpZW5hRml0L2luZGVnX25vdmljZV9jbHViNS5SRGF0YSIpDQpybShsaXN0PXNldGRpZmYobHMoKSwgImFucyIpKQ0KcHJpbnQoYW5zKQ0KYGBgDQoNCg0KIyMgYGF2U2ltIHggbm92aWNlYCB7LnRhYnNldCAudGFic2V0LWZhZGV9DQpgYGB7cn0NCmxvYWQoInRlc3Qvc2llbmFGaXQvYXZzaW1fbm92aWNlX2NsdWIyXzQuUkRhdGEiKQ0Kcm0obGlzdD1zZXRkaWZmKGxzKCksICJyZXN1bHRzLmxpc3QiKSkNCmBgYA0KDQojIyMgY2x1YiAyDQpgYGB7cn0NCnJlc3VsdHMubGlzdFtbMl1dDQpgYGANCg0KIyMjIGNsdWIgNA0KYGBge3J9DQpyZXN1bHRzLmxpc3RbWzRdXQ0KYGBgDQoNCiMjIHstfQ0KDQo8YnI+DQoNCkluIGJvdGggY2x1YnMsIGBhdlNpbSB4IG5vdmljZWAgaXMgKipwb3NpdGl2ZSoqIGFuZCBzaWduaWZpY2FudCwgc3VnZ2VzdGluZyB0aGF0IHRoZSB0ZW5kZW5jeSB0byBtaW5pbWl6ZSB0aGUgZGlzc2ltaWxhcml0eSBpbiBydW5uaW5nIGJlaGF2aW9ycyBjb21wYXJlZCB0byBmcmllbmRzIGlzIGdyZWF0ZXIgZm9yIGF0aGxldGVzIHRoYXQgYXJlIHJlbGF0aXZlbHkgbmV3IHRvIFN0cmF2YS4gDQoNCg0KQWxsIGluIGFsbCwgd2UgZG8gbm90IGZpbmQgY29uc2lzdGVudCBmaW5kaW5ncyBmb3IgdGhlc2UgbW9kZXJhdGlvbnMuDQoNCjxicj4gDQoNCi0tLS0NCg0KIyMgUmVmZXJlbmNlcw0KDQo=</div>
 <style>
 .center {
   text-align: center;

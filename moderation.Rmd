@@ -40,8 +40,9 @@ Aim: to explore effect heterogeneity in social influence between actors within c
 
 Our model already considers rather many parameters given the information available in the data-set. We have limited power to detect behavior evolution effects, as the number of data points is at the order $n$. If we consider network evolution, we have data points of the order $n^2$. Therefore, our data does now allow for backward elimination (i.e., estimating the 'full model', including all interactions simultaneously, and stepwisely removing effects that are not significant according to some criterion). 
 
-Instead, we estimate our main model and assess the interactions by testing their parameters $(H_0:\theta=0)$ *without* estimating them, using score-type tests, a procedure proposed by @schweinberger.
+Instead, we estimate our main model and assess the interactions by testing their parameters $(H_0:\theta=0)$ *without* estimating them, using score-type tests, a procedure proposed by @schweinberger. Score-type tests indicate whether and which of the tested effects will improve a model, when included. We will consider the results of the (one-sided) one-parameter test. Its test statistic is standard normally distributed. 
 
+If we find interaction effects that would improve the model, we will estimate these effects simultaneously with the other model effects. Thus, we use a two-step exploratory procedure.
 
 
 ----
@@ -119,10 +120,9 @@ We discuss [here](https://robfranken.github.io/Strava/interaction) why we use th
  
 We focus on 2 influence effects, and 3 interactions; thus a total of 6 models for each club.
 
-We will consider the results of the (one-sided) one-parameter test. Its test statistic is standard normally distributed.
 
 
-# Estimation
+# Step 1: score-type test
 
 ```{r, eval=F}
 #detectCores()
@@ -195,11 +195,12 @@ save(results.list, file="test/sienaFit/interactions_frequency.RData")
 
 # Results {.tabset .tabset-fade} 
 
-Down below, we present the results for each model, by club
+Down below, we present the results of step 1 (testing parameters without estimating them, using score-type tests).
+
 
 ```{r}
 load("test/sienaFit/interactions_frequency.RData")
-rm(list=setdiff(ls(), "results.list"))
+#rm(list=setdiff(ls(), "results.list"))
 ```
 
 
@@ -220,7 +221,6 @@ results.list[[2]][[1]]
 ```{r}
 results.list[[3]][[1]]
 ```
-
 
 ### club 4
 ```{r}
@@ -373,13 +373,137 @@ results.list[[4]][[6]]
 results.list[[5]][[6]]
 ```
 
+
+## {-}
+# {-}
+
 <br>
 
-In club 5, `indeg x novice`
-In club 2,4 `avSim x novice`
+- `indeg x novice` appears to improve the model in club 5;
+- `avSim x novice` appears to improve the model in clubs 2 and 4.
 
+<br>
+
+---
+
+# Step 2: estimate interaction effects
+
+Apparently, influence - that is, the effects of receiving kudos and the running of friends - works differently for club members who are newer to Strava (at least, in some clubs). These dynamics were no different for the genders, nor for athletes that differed in their current running. In step 2, we include these (missing) predictors of change in running behavior in our model. `r colorize("Thus, we not only test the effect, but we also estimate it simultaneously with the other effects.", "red")`
+
+
+
+<br>
+
+## `indeg x novice`
+```{r, eval=F}
+load("clubdata_rsiena_freq.Rdata")
+
+mydata <- clubdata_rsiena_freq[[5]]
+
+#load effects object
+load(file=paste0("test/myeff/myeff_club","5",".RData"))
+myeff <- myeff[[6]] 
+
+# include interaction, and estimate the parameter
+beh <- "freq_run"
+myeff <- includeInteraction(myeff, effFrom, indeg, name = beh, interaction1 = c("novice", "kudonet"), fix=FALSE, test=FALSE)
+
+# specify algorithm
+myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+
+# estimate
+ans <- siena07(myalgorithm, data=mydata, effects=myeff, nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
+
+# save output
+save(ans, file="test/sienaFit/indeg_novice_club5.RData")
+```
+
+<br>
+
+The interaction effect `indeg x novice` is **negative** and significant, suggesting that club members who joined Strava relatively recently, are *less* susceptible to the positive motivational effect of receiving kudos from clubmates on Strava.
+
+<br>
+
+## `avSim x novice`
+```{r, eval=F}
+rm(list=setdiff(ls(), "clubdata_rsiena_freq"))
+
+# make a list to store our results in.
+results.list <- vector("list", length(clubdata_rsiena_freq)) #"pre-allocate" empty list of length 5
+
+#club we need to do the estimation for
+clubs <- c("2","4")
+
+for (i in unique(clubs)) { # for club i
+   #get rsiena object
+   mydata <- clubdata_rsiena_freq[[2]]
+   
+  #and the list containing myeff objects
+  load(file=paste0("test/myeff/myeff_club",i,".RData"))
+
+  #take 6th element, which is the model with avSim
+  myeff <- myeff[[6]]
+  
+  #include interaction, estimate parameter
+  beh <- "freq_run"
+  myeff <- includeInteraction(myeff, effFrom, avSim, name = beh, interaction1 = c("novice", "kudonet"), fix=FALSE, test=FALSE)
+  
+  # specify algorithm
+  myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+  
+  #estimate saom
+  ans <- siena07(myalgorithm, data=mydata, effects=myeff, nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
+  
+  #store in results.list
+  results.list[[i]] <- ans
+}
+
+# save output
+save(results.list, file="test/sienaFit/avsim_novice_club2_4.RData")
+```
+
+<br>
+
+# Results
+
+Now let's see if the interaction effect parameters are significant when estimated simultaneously with the other effects. And if so, what their sign is!
+
+## `indeg x novice`
+```{r}
+load("test/sienaFit/indeg_novice_club5.RData")
+rm(list=setdiff(ls(), "ans"))
+print(ans)
+```
+
+
+## `avSim x novice` {.tabset .tabset-fade}
+```{r}
+load("test/sienaFit/avsim_novice_club2_4.RData")
+rm(list=setdiff(ls(), "results.list"))
+```
+
+### club 2
+```{r}
+results.list[[2]]
+```
+
+### club 4
+```{r}
+results.list[[4]]
+```
+
+## {-}
+
+<br>
+
+In both clubs, `avSim x novice` is **positive** and significant, suggesting that the tendency to minimize the dissimilarity in running behaviors compared to friends is greater for athletes that are relatively new to Strava. 
+
+
+All in all, we do not find consistent findings for these moderations.
 
 <br> 
 
+----
 
+## References
 
