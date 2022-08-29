@@ -48,7 +48,7 @@ klippy::klippy(position = c('top', 'right'))
 # empty environment
 rm(list=ls())
 # free up memory
-gc()
+#gc()
 ```
 
 
@@ -83,10 +83,12 @@ colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", co
 
 - `RSiena`: for meta-analysis in siena08
 - `knitr`: generating tables
+- `kableExtra`: extend `knitr`' table functionality
+- `dplyr`: data manipulation
 
 
 ```{r, results='hide'}
-packages = c("RSiena", "knitr")
+packages = c("RSiena", "knitr", "kableExtra", "dplyr")
 fpackage.check(packages)
 ```
 
@@ -171,13 +173,12 @@ Again, to summarize the results over our clubs, we will perform a meta-analysis 
 
 ```{r get data, eval=F}
 
-
 # large lists, takes a lot of time to load
 # in case you don't have enough memory space for all RSiena lists, leave club 3 for now.
-club1 <-  fload.R("test/sienaFit/volume/sienaFit_club1.RData")
-club2 <-  fload.R("test/sienaFit/volume/sienaFit_club2.RData")
-club4 <-  fload.R("test/sienaFit/volume/sienaFit_club4.RData")
-club5 <-  fload.R("test/sienaFit/volume/sienaFit_club5.RData")
+club1 <-  fload.R("test/sienaFit/duration/sienaFit_club1.RData")
+club2 <-  fload.R("test/sienaFit/duration/sienaFit_club2.RData")
+club4 <-  fload.R("test/sienaFit/duration/sienaFit_club4.RData")
+club5 <-  fload.R("test/sienaFit/duration/sienaFit_club5.RData")
 
 # we list model 1-6
 m1List <- list(club1[[1]], club2[[1]], club4[[1]], club5[[1]])
@@ -189,7 +190,7 @@ m6List <- list(club1[[6]], club2[[6]], club4[[6]], club5[[6]])
 
 # remove the excess data, and add club 3's rsiena objects.
 rm(club1, club2, club4, club5)
-club3 <-  fload.R("test/sienaFit/volume/sienaFit_club3.RData")
+club3 <-  fload.R("test/sienaFit/duration/sienaFit_club3.RData")
 # when facing facing storage capacity issues, check the capacity:
 #memory.limit()
 # we increase the limit
@@ -384,10 +385,10 @@ round(standers,3)
 
 ans8 <- siena08(m5List, bound=100)
 
-efnames <- names(ans8[1:42])
+efnames <- names(ans8[1:45])
 efnames <- substring(efnames, 8)
 
-Fishers <- t(sapply(1:42,
+Fishers <- t(sapply(1:45,
                     function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
                                   ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers <- as.data.frame(Fishers)
@@ -445,6 +446,7 @@ save(df2, file = "test/sienaFit/meta-analysis/meta_vol_m6.RData")
 
 ```
 
+<br>
 
 ## {-}
 
