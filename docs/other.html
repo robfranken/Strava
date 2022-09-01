@@ -13,7 +13,7 @@
 
 <title>Other clubs</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -535,101 +535,104 @@ used in the manuscript)</li>
 <pre class="r test"><code>myeff &lt;- getEffects(clubdata_rsiena_freq[[2]])
 
 # base model
-myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects( myeff, outIso, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outIso, name = &quot;kudonet&quot;)
 myeff &lt;- setEffect(myeff, higher, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;)
-myeff &lt;- includeEffects(myeff, egoX, altX, sameX, name=&quot;kudonet&quot;, interaction1 = &quot;gender&quot; )
+myeff &lt;- includeEffects(myeff, egoX, altX, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;)
 myeff &lt;- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = &quot;kudonet&quot;)
 myeff &lt;- includeEffects(myeff, reciAct, name = &quot;kudonet&quot;)
-myeff &lt;- setEffect( myeff, outPopSqrt, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
+myeff &lt;- setEffect(myeff, outPopSqrt, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
 myeff &lt;- includeEffects(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;freq_other&quot;)
 myeff &lt;- includeEffects(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;gender&quot;)
 
 # models 1-6
-myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)         # model 1: indegree
-myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 2: avAlt
+myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 1: indegree
+myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 2: avAlt
 myeff3 &lt;- includeEffects(myeff1, avAttHigher, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 3: avAttHigher
-myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 4: avAttLower
-myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 5: avAttHigher+Lower
-myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 6: avSim</code></pre>
+myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 4: avAttLower
+myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 5: avAttHigher+Lower
+myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 6: avSim</code></pre>
 </div>
 <div id="club-3" class="section level3">
 <h3>Club 3</h3>
 <pre class="r test"><code>myeff &lt;- getEffects(clubdata_rsiena_freq[[3]])
 
 # base model
-myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects( myeff, outIso, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outIso, name = &quot;kudonet&quot;)
 myeff &lt;- setEffect(myeff, higher, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;)
-myeff &lt;- includeEffects(myeff, egoX, altX, sameX, name=&quot;kudonet&quot;, interaction1 = &quot;gender&quot; )
+myeff &lt;- includeEffects(myeff, egoX, altX, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;)
 myeff &lt;- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = &quot;kudonet&quot;)
 myeff &lt;- includeEffects(myeff, outPopSqrt, name = &quot;kudonet&quot;)
-myeff &lt;- setEffect( myeff, reciAct, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
+myeff &lt;- setEffect(myeff, reciAct, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
 myeff &lt;- includeEffects(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;freq_other&quot;)
 myeff &lt;- includeEffects(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;gender&quot;)
 
 # models 1-6
-myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)         # model 1: indegree
-myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 2: avAlt
+myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 1: indegree
+myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 2: avAlt
 myeff3 &lt;- includeEffects(myeff1, avAttHigher, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 3: avAttHigher
-myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 4: avAttLower
-myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 5: avAttHigher+Lower
-myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 6: avSim</code></pre>
+myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 4: avAttLower
+myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 5: avAttHigher+Lower
+myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 6: avSim</code></pre>
 </div>
 <div id="club-4" class="section level3">
 <h3>Club 4</h3>
 <pre class="r test"><code>myeff &lt;- getEffects(clubdata_rsiena_freq[[4]])
 
 # base model
-myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects( myeff, outIso, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outIso, name = &quot;kudonet&quot;)
 myeff &lt;- setEffect(myeff, higher, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;)
-myeff &lt;- setEffect( myeff, egoX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix=TRUE, test=FALSE, initialValue = 0)
-myeff &lt;- setEffect( myeff, altX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix=TRUE, test=FALSE, initialValue = 0)
-myeff &lt;- setEffect( myeff, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix=TRUE, test=FALSE, initialValue = 0)
-myeff &lt;- setEffect(myeff, outPopSqrt, name = &quot;kudonet&quot;, fix=TRUE, test=FALSE, initialValue = 0)
-myeff &lt;- setEffect(myeff, reciAct, name = &quot;kudonet&quot;, fix=TRUE, test=FALSE, initialValue = 0)
+myeff &lt;- setEffect(myeff, egoX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix = TRUE, test = FALSE,
+    initialValue = 0)
+myeff &lt;- setEffect(myeff, altX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix = TRUE, test = FALSE,
+    initialValue = 0)
+myeff &lt;- setEffect(myeff, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;, fix = TRUE, test = FALSE,
+    initialValue = 0)
+myeff &lt;- setEffect(myeff, outPopSqrt, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
+myeff &lt;- setEffect(myeff, reciAct, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
 (myeff &lt;- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = &quot;kudonet&quot;))
-(eff1 &lt;- myeff[myeff$include,]$effect1[24])
-(eff2 &lt;- myeff[myeff$include,]$effect2[24])
-myeff &lt;- setEffect(myeff, unspInt, fix=TRUE, test=FALSE, effect1=eff1, effect2=eff2)
+(eff1 &lt;- myeff[myeff$include, ]$effect1[24])
+(eff2 &lt;- myeff[myeff$include, ]$effect2[24])
+myeff &lt;- setEffect(myeff, unspInt, fix = TRUE, test = FALSE, effect1 = eff1, effect2 = eff2)
 myeff &lt;- includeEffects(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;freq_other&quot;)
-myeff &lt;- setEffect(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;gender&quot;, fix=T, test=F, initialValue=0)
+myeff &lt;- setEffect(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;gender&quot;, fix = T, test = F, initialValue = 0)
 
 # models 1-6
-myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)         # model 1: indegree
-myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 2: avAlt
+myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 1: indegree
+myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 2: avAlt
 myeff3 &lt;- includeEffects(myeff1, avAttHigher, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 3: avAttHigher
-myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 4: avAttLower
-myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 5: avAttHigher+Lower
-myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 6: avSim</code></pre>
+myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 4: avAttLower
+myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 5: avAttHigher+Lower
+myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 6: avSim</code></pre>
 </div>
 <div id="club-5" class="section level3">
 <h3>Club 5</h3>
 <pre class="r test"><code>myeff &lt;- getEffects(clubdata_rsiena_freq[[5]])
 
 # base model
-myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;) 
-myeff &lt;- includeEffects( myeff, outIso, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, gwespFF, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outActSqrt, inPopSqrt, name = &quot;kudonet&quot;)
+myeff &lt;- includeEffects(myeff, outIso, name = &quot;kudonet&quot;)
 myeff &lt;- setEffect(myeff, higher, name = &quot;kudonet&quot;, interaction1 = &quot;freq_run&quot;)
-myeff &lt;- includeEffects(myeff, egoX, altX, sameX, name=&quot;kudonet&quot;, interaction1 = &quot;gender&quot; )
+myeff &lt;- includeEffects(myeff, egoX, altX, sameX, name = &quot;kudonet&quot;, interaction1 = &quot;gender&quot;)
 myeff &lt;- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = &quot;kudonet&quot;)
-myeff &lt;- setEffect( myeff, outPopSqrt, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
-myeff &lt;- setEffect( myeff, reciAct, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
+myeff &lt;- setEffect(myeff, outPopSqrt, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
+myeff &lt;- setEffect(myeff, reciAct, name = &quot;kudonet&quot;, fix = TRUE, test = FALSE, initialValue = 0)
 myeff &lt;- includeEffects(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;freq_other&quot;)
 myeff &lt;- includeEffects(myeff, effFrom, name = &quot;freq_run&quot;, interaction1 = &quot;gender&quot;)
 
 # models 1-6
-myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)         # model 1: indegree
-myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 2: avAlt
+myeff1 &lt;- includeEffects(myeff, indeg, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 1: indegree
+myeff2 &lt;- includeEffects(myeff1, avAlt, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 2: avAlt
 myeff3 &lt;- includeEffects(myeff1, avAttHigher, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 3: avAttHigher
-myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 4: avAttLower
-myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)   # model 5: avAttHigher+Lower
-myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)        # model 6: avSim</code></pre>
+myeff4 &lt;- includeEffects(myeff1, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 4: avAttLower
+myeff5 &lt;- includeEffects(myeff3, avAttLower, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 5: avAttHigher+Lower
+myeff6 &lt;- includeEffects(myeff1, avSim, name = &quot;freq_run&quot;, interaction1 = &quot;kudonet&quot;)  # model 6: avSim</code></pre>
 </div>
 </div>
 <div id="section-1" class="section level2 unnumbered">

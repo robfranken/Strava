@@ -13,7 +13,7 @@
 
 <title>Replicating ego-alter influence plot</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -480,189 +480,184 @@ influence plots).</p>
 <div id="preparation" class="section level1">
 <h1>Preparation</h1>
 <p>Clean the working environment</p>
-<pre class="r test"><code># clean the working environment 
-rm (list = ls( ))</code></pre>
+<pre class="r test"><code># clean the working environment
+rm(list = ls())</code></pre>
 <p><br></p>
 <p>Define some functions</p>
 <pre class="r test"><code>{
 
-fcentring &lt;- function(actors){
-  centored &lt;- actors - mean(actors)
-  return(centored)
-}
-
-
-fsimij &lt;- function(actors, min, max){
-  #rv &lt;- max(actors) - min(actors)
-  rv &lt;- max - min
-  mat1 &lt;- matrix(actors, nrow=length(actors), ncol=length(actors), byrow=TRUE)
-  mat2 &lt;- t(mat1)
-  simij &lt;- 1 - ( abs(mat1-mat2) / rv)
-  return(simij)
-}
-
-flinear &lt;- function(ego, alters, ...) {
-  actors &lt;- c(ego,alters) #define the network
-  beh_centered &lt;- fcentring(actors) #center behavior scores
-  
-  statistic &lt;- beh_centered[1] #the actual statistic
-  
-  return(statistic)
-}
-
-fquad &lt;- function(ego, alters, ...) {
-  actors &lt;- c(ego,alters) #define the network
-  beh_centered &lt;- fcentring(actors) #center behavior scores
-  
-  statistic &lt;- (beh_centered[1])^2 #the actual statistic
-  
-  return(statistic)
-}
-
-
-favSim &lt;- function(ego, alters, min, max) {
-  actors &lt;- c(ego,alters) #define the network
-  beh_centered &lt;- fcentring(actors) #center behavior scores
-  simij &lt;- fsimij(beh_centered, min, max) #calculate the similarity scores
-  diag(simij) &lt;- NA
-  msimij &lt;- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
-  simij_c &lt;- simij - msimij #center the similarity scores
-  
-  statistic &lt;- sum(simij_c[1,], na.rm = TRUE) / length(alters) #the actual statistic
-  
-  return(statistic)
-}
-
-favSim2 &lt;- function(ego, alters, min, max) {
-  actors &lt;- c(ego,alters) #define the network
-  beh_centered &lt;- fcentring(actors) #center behavior scores
-  simij &lt;- fsimij(beh_centered, min, max) #calculate the similarity scores
-  diag(simij) &lt;- NA
-  #msimij &lt;- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
-  simij_c &lt;- simij # - msimij #center the similarity scores
-  
-  statistic &lt;- sum(simij_c[1,], na.rm = TRUE) / length(alters) #the actual statistic
-  
-  return(statistic)
-}
-
-favAttHigher &lt;- function(ego, alters, min, max) {
-  actors &lt;- c(ego,alters)
-  beh_centered &lt;- fcentring(actors)
-  simij &lt;- fsimij(beh_centered, min, max)
-  diag(simij) &lt;- NA
-  #msimij &lt;- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!!
-  #simij_c &lt;- simij - msimij
-  #diag(simij_c) &lt;- NA 
-  simijH &lt;- simij[1,]
-  simijH[beh_centered &lt;= beh_centered[1]] &lt;- 1
-  simijH[1] &lt;- NA
-  statistic &lt;- sum(simijH, na.rm = TRUE) / length(alters)
-
-  return(statistic)
-}
-
-favAttLower &lt;- function(ego, alters, min, max) {
-  actors &lt;- c(ego,alters)
-  beh_centered &lt;- fcentring(actors)
-  simij &lt;- fsimij(beh_centered, min, max)
-  diag(simij) &lt;- NA
-  
-  simijL &lt;- simij[1,]
-  simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
-  simijL[1] &lt;- NA
-  statistic &lt;- sum(simijL, na.rm = TRUE) / length(alters)
-  
-  
-  return(statistic)
-}
-
-favAlt &lt;- function(ego, alters, ...) {
-  actors &lt;- c(ego,alters)
-  beh_centered &lt;- fcentring(actors)
-  
-  
-  statistic &lt;- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE) / length(alters))
-  
-  
-  return(statistic)
-}
-
-fAttMean &lt;- function(ego, alters, min, max, ...) {
-  rv &lt;- max - min
-  actors &lt;- c(ego,alters)
-  beh_centered &lt;- fcentring(actors)
-  
-  statistic &lt;- 1 -  abs(beh_centered[1] - (sum(beh_centered[-1], na.rm = TRUE) / length(alters)))/rv #thus we strive for a highest local similarity score!
-  
-  
-  return(statistic)
-}
-
-finluenceplot &lt;- function(alters, min, max, fun, params, results=TRUE, plot=TRUE) {
-  #check correct number of parameters are given
-  if (length(fun) != length(params)) stop(&quot;Please provide one (and only one) parameter for each of the behavioral effects!&quot;)
-  
-  #calculuate value of evaluation function
-  s &lt;- NA
-  for (i in min:max) {
-    s[i] &lt;- 0
-    for (j in 1:length(fun)) {
-      s[i] &lt;- s[i] + params[j]*fun[[j]](i, alters, min, max)      
+    fcentring &lt;- function(actors) {
+        centored &lt;- actors - mean(actors)
+        return(centored)
     }
-  }
-  
-  #calculate the probabilities  
-  p &lt;- NA
-  for (i in min:max) {
-    p[i] &lt;- exp(s[i]) / sum(exp(s))
-  }
-  
-  #calculate the probabilities of choice set  
-  p2 &lt;- NA
-  for (i in min:max) {
-    if (i==min) { 
-      p2[i] &lt;- exp(s[i]) / sum(exp(s[i]) + exp(s[i + 1])) 
-    } else if (i==max) { 
-      p2[i] &lt;- exp(s[i]) / sum(exp(s[i]) + exp(s[i - 1]))
-    } else {
-      p2[i] &lt;- exp(s[i]) / sum(exp(s[i]) + exp(s[i - 1]) + exp(s[i + 1]))
+
+    fsimij &lt;- function(actors, min, max) {
+        # rv &lt;- max(actors) - min(actors)
+        rv &lt;- max - min
+        mat1 &lt;- matrix(actors, nrow = length(actors), ncol = length(actors), byrow = TRUE)
+        mat2 &lt;- t(mat1)
+        simij &lt;- 1 - (abs(mat1 - mat2)/rv)
+        return(simij)
     }
-  }
-  
-  #calculate the probability ratio  
-  r &lt;- NA
-  for (i in min:max) {
-    r[i] &lt;- p[i] / p[1]
-  }
-  
-  #some simple plots
-  if (plot) { 
-    name &lt;- deparse(substitute(fun))
-    name &lt;- stringr::str_sub(as.character(name), 6, -2)
-    par(mfrow=c(2,2))
-    plot(y=s, x=min:max, xlab=&quot;ego behavioral score&quot;, ylab=name, type=&quot;b&quot;)
-    mtext(&quot;EVALUATION&quot;, line=1)
-    mtext(paste(&quot;alters:&quot;, paste0(alters, collapse=&quot;,&quot;)))
-    plot(y=p, x=min:max, xlab=&quot;ego behavioral score&quot;, ylab=name, ylim=c(0,1), type=&quot;b&quot;)
-    mtext(&quot;PROBABILITIES&quot;, line=1)
-    mtext(paste(&quot;alters:&quot;, paste0(alters, collapse=&quot;,&quot;)))
-    plot(y=p2, x=min:max, xlab=&quot;ego behavioral score&quot;, ylab=name, ylim=c(0,1), type=&quot;b&quot;)
-    mtext(&quot;PROBABILITIES choice set&quot;, line=1)
-    mtext(paste(&quot;alters:&quot;, paste0(alters, collapse=&quot;,&quot;)))
-    plot(y=r, x=min:max, xlab=&quot;ego behavioral score&quot;, ylab=name, type=&quot;b&quot;)
-    mtext(&quot;RATIOS&quot;, line=1)
-    mtext(paste(&quot;alters:&quot;, paste0(alters, collapse=&quot;,&quot;)))
-  }
-  
-  #return results for more fancy plotting
-  if (results) {
-    x &lt;- min:max
-    df &lt;- data.frame(x, s, p,p2, r)
-    return(df)
-  }
-  
-}
+
+    flinear &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+
+        statistic &lt;- beh_centered[1]  #the actual statistic
+
+        return(statistic)
+    }
+
+    fquad &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+
+        statistic &lt;- (beh_centered[1])^2  #the actual statistic
+
+        return(statistic)
+    }
+
+    favSim &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+        diag(simij) &lt;- NA
+        msimij &lt;- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+        simij_c &lt;- simij - msimij  #center the similarity scores
+
+        statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+
+        return(statistic)
+    }
+
+    favSim2 &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)  #define the network
+        beh_centered &lt;- fcentring(actors)  #center behavior scores
+        simij &lt;- fsimij(beh_centered, min, max)  #calculate the similarity scores
+        diag(simij) &lt;- NA
+        # msimij &lt;- mean(simij, na.rm=TRUE) #calculate the mean similarity score. only calculate
+        # mean on non-diagonal cells??!!
+        simij_c &lt;- simij  # - msimij #center the similarity scores
+
+        statistic &lt;- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+
+        return(statistic)
+    }
+
+    favAttHigher &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        simij &lt;- fsimij(beh_centered, min, max)
+        diag(simij) &lt;- NA
+        # msimij &lt;- mean(simij, na.rm=TRUE) #only calculate mean on non-diagonal cells??!! simij_c
+        # &lt;- simij - msimij diag(simij_c) &lt;- NA
+        simijH &lt;- simij[1, ]
+        simijH[beh_centered &lt;= beh_centered[1]] &lt;- 1
+        simijH[1] &lt;- NA
+        statistic &lt;- sum(simijH, na.rm = TRUE)/length(alters)
+
+        return(statistic)
+    }
+
+    favAttLower &lt;- function(ego, alters, min, max) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+        simij &lt;- fsimij(beh_centered, min, max)
+        diag(simij) &lt;- NA
+
+        simijL &lt;- simij[1, ]
+        simijL[beh_centered &gt;= beh_centered[1]] &lt;- 1
+        simijL[1] &lt;- NA
+        statistic &lt;- sum(simijL, na.rm = TRUE)/length(alters)
+
+        return(statistic)
+    }
+
+    favAlt &lt;- function(ego, alters, ...) {
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+
+        statistic &lt;- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+
+        return(statistic)
+    }
+
+    fAttMean &lt;- function(ego, alters, min, max, ...) {
+        rv &lt;- max - min
+        actors &lt;- c(ego, alters)
+        beh_centered &lt;- fcentring(actors)
+
+        statistic &lt;- 1 - abs(beh_centered[1] - (sum(beh_centered[-1], na.rm = TRUE)/length(alters)))/rv  #thus we strive for a highest local similarity score!
+
+        return(statistic)
+    }
+
+    finluenceplot &lt;- function(alters, min, max, fun, params, results = TRUE, plot = TRUE) {
+        # check correct number of parameters are given
+        if (length(fun) != length(params))
+            stop(&quot;Please provide one (and only one) parameter for each of the behavioral effects!&quot;)
+
+        # calculuate value of evaluation function
+        s &lt;- NA
+        for (i in min:max) {
+            s[i] &lt;- 0
+            for (j in 1:length(fun)) {
+                s[i] &lt;- s[i] + params[j] * fun[[j]](i, alters, min, max)
+            }
+        }
+
+        # calculate the probabilities
+        p &lt;- NA
+        for (i in min:max) {
+            p[i] &lt;- exp(s[i])/sum(exp(s))
+        }
+
+        # calculate the probabilities of choice set
+        p2 &lt;- NA
+        for (i in min:max) {
+            if (i == min) {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i + 1]))
+            } else if (i == max) {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]))
+            } else {
+                p2[i] &lt;- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]) + exp(s[i + 1]))
+            }
+        }
+
+        # calculate the probability ratio
+        r &lt;- NA
+        for (i in min:max) {
+            r[i] &lt;- p[i]/p[1]
+        }
+
+        # some simple plots
+        if (plot) {
+            name &lt;- deparse(substitute(fun))
+            name &lt;- stringr::str_sub(as.character(name), 6, -2)
+            par(mfrow = c(2, 2))
+            plot(y = s, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+            mtext(&quot;EVALUATION&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = p, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+            mtext(&quot;PROBABILITIES&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = p2, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, ylim = c(0, 1), type = &quot;b&quot;)
+            mtext(&quot;PROBABILITIES choice set&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+            plot(y = r, x = min:max, xlab = &quot;ego behavioral score&quot;, ylab = name, type = &quot;b&quot;)
+            mtext(&quot;RATIOS&quot;, line = 1)
+            mtext(paste(&quot;alters:&quot;, paste0(alters, collapse = &quot;,&quot;)))
+        }
+
+        # return results for more fancy plotting
+        if (results) {
+            x &lt;- min:max
+            df &lt;- data.frame(x, s, p, p2, r)
+            return(df)
+        }
+
+    }
 }</code></pre>
 <p><br></p>
 <p>We consider different scenarios, where ego’s alters have different
@@ -675,311 +670,184 @@ alters4 &lt;- rep(c(1, 2, 3, 4, 5, 6, 7))</code></pre>
 <p>Our club estimates:</p>
 <pre class="r test"><code># frequency
 club1 &lt;- c(-0.008, -0.071, 0.017, 4.762)
-club2 &lt;- c(-0.077, 0.040, 1.385, 4.413)
-club3 &lt;- c(-0.086, -0.009, 1.499, 2.410)
+club2 &lt;- c(-0.077, 0.04, 1.385, 4.413)
+club3 &lt;- c(-0.086, -0.009, 1.499, 2.41)
 club4 &lt;- c(0.149, -0.201, -4.482, 6.216)
 club5 &lt;- c(0.247, 0.062, -0.184, 9.062)</code></pre>
 <p><br></p>
-<pre class="r test"><code># scenario 1
-# club1
-p1 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+<pre class="r test"><code># scenario 1 club1
+p1 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot1 &lt;- rbind(p1, p2, p3, p4, p5)
-plot1$Club &lt;- as.character(sort(rep(1:5,7)))
-plot1$scenario &lt;- paste(&quot;A) Behavior alters:&quot;, paste0(alters1, collapse=&quot;, &quot; ))
+plot1$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot1$scenario &lt;- paste(&quot;A) Behavior alters:&quot;, paste0(alters1, collapse = &quot;, &quot;))
 
-# scenario 2
-# club1
-p1 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+# scenario 2 club1
+p1 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot2 &lt;- rbind(p1, p2, p3, p4, p5)
-plot2$Club &lt;- as.character(sort(rep(1:5,7)))
-plot2$scenario &lt;- paste(&quot;B) Behavior alters:&quot;, paste0(alters2, collapse=&quot;, &quot; ))
+plot2$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot2$scenario &lt;- paste(&quot;B) Behavior alters:&quot;, paste0(alters2, collapse = &quot;, &quot;))
 
-# scenario 3
-# club1
-p1 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+# scenario 3 club1
+p1 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot3 &lt;- rbind(p1, p2, p3, p4, p5)
-plot3$Club &lt;- as.character(sort(rep(1:5,7)))
-plot3$scenario &lt;- paste(&quot;C) Behavior alters:&quot;, paste0(alters3, collapse=&quot;, &quot; ))
+plot3$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot3$scenario &lt;- paste(&quot;C) Behavior alters:&quot;, paste0(alters3, collapse = &quot;, &quot;))
 
-# scenario 4
-# club1
-p1 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+# scenario 4 club1
+p1 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot4 &lt;- rbind(p1, p2, p3, p4, p5)
-plot4$Club &lt;- as.character(sort(rep(1:5,7)))
-plot4$scenario &lt;- paste(&quot;D) Behavior alters:&quot;, paste0(alters4, collapse=&quot;, &quot; ))
+plot4$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot4$scenario &lt;- paste(&quot;D) Behavior alters:&quot;, paste0(alters4, collapse = &quot;, &quot;))
 
 
-multiplot &lt;- rbind(plot1,plot2,plot3,plot4)
+multiplot &lt;- rbind(plot1, plot2, plot3, plot4)
 multiplot$Attribute &lt;- &quot;Frequency&quot;</code></pre>
 <p><br></p>
 <p>We do the same for running volume.</p>
-<pre class="r test"><code>#volume
-club1 &lt;- c(-0.056, -0.033,0.277,3.475)
-club2 &lt;- c(-0.220,0.012,1.721,1.227)
-club3 &lt;- c(-0.129, -0.008,1.929,1.780)
+<pre class="r test"><code># volume
+club1 &lt;- c(-0.056, -0.033, 0.277, 3.475)
+club2 &lt;- c(-0.22, 0.012, 1.721, 1.227)
+club3 &lt;- c(-0.129, -0.008, 1.929, 1.78)
 club4 &lt;- c(1.294, -0.409, -18.608, 16.761)
-club5 &lt;- c(-0.012, 0.024, 1.915, 8.610)
+club5 &lt;- c(-0.012, 0.024, 1.915, 8.61)
 
-p1 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+p1 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters1, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters1, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot1 &lt;- rbind(p1, p2, p3, p4, p5)
-plot1$Club &lt;- as.character(sort(rep(1:5,7)))
-plot1$scenario &lt;- paste(&quot;A) Behavior alters:&quot;, paste0(alters1, collapse=&quot;, &quot; ))
+plot1$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot1$scenario &lt;- paste(&quot;A) Behavior alters:&quot;, paste0(alters1, collapse = &quot;, &quot;))
 
-# scenario 2
-# club1
-p1 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+# scenario 2 club1
+p1 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters2, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters2, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot2 &lt;- rbind(p1, p2, p3, p4, p5)
-plot2$Club &lt;- as.character(sort(rep(1:5,7)))
-plot2$scenario &lt;- paste(&quot;B) Behavior alters:&quot;, paste0(alters2, collapse=&quot;, &quot; ))
+plot2$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot2$scenario &lt;- paste(&quot;B) Behavior alters:&quot;, paste0(alters2, collapse = &quot;, &quot;))
 
-# scenario 3
-# club1
-p1 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+# scenario 3 club1
+p1 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters3, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters3, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot3 &lt;- rbind(p1, p2, p3, p4, p5)
-plot3$Club &lt;- as.character(sort(rep(1:5,7)))
-plot3$scenario &lt;- paste(&quot;C) Behavior alters:&quot;, paste0(alters3, collapse=&quot;, &quot; ))
+plot3$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot3$scenario &lt;- paste(&quot;C) Behavior alters:&quot;, paste0(alters3, collapse = &quot;, &quot;))
 
-# scenario 4
-# club1
-p1 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club1)
+# scenario 4 club1
+p1 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club1)
 # club2
-p2 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club2)
+p2 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club2)
 # club 3
-p3 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club3)
+p3 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club3)
 # club 4
-p4 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club4)
+p4 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club4)
 # club 5
-p5 &lt;- finluenceplot(alters = alters4, 
-                      min = 1, max = 7, 
-                      results = T, plot=F,
-                      fun = list(flinear, fquad, favAttHigher,favAttLower), 
-                      params = club5)
+p5 &lt;- finluenceplot(alters = alters4, min = 1, max = 7, results = T, plot = F, fun = list(flinear, fquad,
+    favAttHigher, favAttLower), params = club5)
 
 plot4 &lt;- rbind(p1, p2, p3, p4, p5)
-plot4$Club &lt;- as.character(sort(rep(1:5,7)))
-plot4$scenario &lt;- paste(&quot;D) Behavior alters:&quot;, paste0(alters4, collapse=&quot;, &quot; ))
+plot4$Club &lt;- as.character(sort(rep(1:5, 7)))
+plot4$scenario &lt;- paste(&quot;D) Behavior alters:&quot;, paste0(alters4, collapse = &quot;, &quot;))
 
 
-multiplot2 &lt;- rbind(plot1,plot2,plot3,plot4)
+multiplot2 &lt;- rbind(plot1, plot2, plot3, plot4)
 multiplot2$Attribute &lt;- &quot;Volume&quot;
 
 # merge them together
