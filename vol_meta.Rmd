@@ -48,7 +48,7 @@ klippy::klippy(position = c('top', 'right'))
 # empty environment
 rm(list=ls())
 # free up memory
-gc()
+#gc()
 ```
 
 
@@ -83,10 +83,12 @@ colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", co
 
 - `RSiena`: for meta-analysis in siena08
 - `knitr`: generating tables
+- `kableExtra`: extend `knitr`' table functionality
+- `dplyr`: data manipulation
 
 
 ```{r, results='hide'}
-packages = c("RSiena", "knitr")
+packages = c("RSiena", "knitr", "kableExtra", "dplyr")
 fpackage.check(packages)
 rm(packages)
 ```
@@ -171,7 +173,6 @@ Again, to summarize the results over our clubs, we will perform a meta-analysis 
 
 
 ```{r get data, eval=F}
-
 
 # large lists, takes a lot of time to load
 # in case you don't have enough memory space for all RSiena lists, leave club 3 for now.
@@ -385,10 +386,10 @@ round(standers,3)
 
 ans8 <- siena08(m5List, bound=100)
 
-efnames <- names(ans8[1:42])
+efnames <- names(ans8[1:45])
 efnames <- substring(efnames, 8)
 
-Fishers <- t(sapply(1:42,
+Fishers <- t(sapply(1:45,
                     function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
                                   ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
 Fishers <- as.data.frame(Fishers)
@@ -446,6 +447,7 @@ save(df2, file = "test/sienaFit/meta-analysis/meta_vol_m6.RData")
 
 ```
 
+<br>
 
 ## {-}
 

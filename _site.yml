@@ -36,6 +36,8 @@ navbar:
       menu:
       - text: "Different influence operationalizations"
         href: influenceeffects.html
+      - text: "Interaction effects for influence dynamics"
+        href: interaction.html
       - text: "Figure 6: Ego-alter influence plot"
         href: figure3.html
       - text: "Figure 7: Relative importance of effects"

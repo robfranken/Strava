@@ -41,7 +41,6 @@ klippy::klippy(position = c('top', 'right'))
 
 ```{r, results='hide'}
 rm(list=ls())
-
 ```
 
 <br>
