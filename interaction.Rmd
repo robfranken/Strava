@@ -55,7 +55,7 @@ This leads to the following equation; where it is assumed that also the shape ef
 
 $$f_i^{beh}(x,z) = \beta^{beh}_1 z_i + \beta^{beh}_2 z_i^2 + \beta^{beh}_3 z_i \frac {\textstyle \sum_j x_{ij}z_j } {\textstyle \sum_j x_{ij} }  $$
 
-To condition influence on ego's current behavior, the `avAlt` effect is interacted with the `linear` shape effect [i.e., the (mean-centered) behavior value of *i*]. `r colorize("The manual states on p.57 that they interact the average alter effect with the **quadratic shape** effect, but this is wrong!", "red")` Given that the linear shape effect is defined as $s^{beh}_{i1}(x,z) = z_i$, the resulting equation reads
+To condition influence on ego's current behavior, the `avAlt` effect is interacted with the `linear` shape effect [i.e., the (mean-centered) behavior value of *i*]. Given that the linear shape effect is defined as $s^{beh}_{i1}(x,z) = z_i$, the resulting equation reads (see also the formula under section 5.10.2 of the RSiena manual)
 
 $$f_i^{beh}(x,z) = \beta^{beh}_1 z_i + \beta^{beh}_2 z_i^2 + \beta^{beh}_3 z_i \frac {\textstyle \sum_j x_{ij}z_j } {\textstyle \sum_j x_{ij} } + \beta^{beh}_4 z_i^2 \frac {\textstyle \sum_j x_{ij}z_j } {\textstyle \sum_j x_{ij} }  $$
 
