@@ -1,0 +1,609 @@
+---
+title: "Meta-analysis"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: no
+    toc_float: no
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+----
+
+# Meta-analysis 
+
+We estimated all models with running frequency as the dependent behavior variable ([here](https://robfranken.github.io/Strava/other)). To summarize the results over our clubs, we will perform a meta-analysis using a Fisher-type combination of one-tailed p-values, described by @hedges2014 and @bosker2011 (Chapter 3). We also performed this meta-analysis on models with running volume as the dependent variable (find the script [here](https://robfranken.github.io/Strava/vol_meta.html)) 
+
+We perform a double test:
+
+1. For detecting if there are any club-networks with a positive parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or less than zero; with the alternative hypothesis: for at least one club, the value of this parameter is greater than zero.
+2. For detecting if there are any club-networks with a negative parameter value, the null hypothesis tested is: for all clubs, the value of this parameter is zero or greater than zero; with the alternative hypothesis: for at least one club, the value of this parameter is less than zero.
+
+For each of these combined tests, the *p*-value is given. We use for each test the significance level of *α*/2, which yields an overall combined test at significance level *α*. Four different overall results are possible. Indicating the right-sided and left-sided *p*-values by *p<sub>r</sub>* and *p<sub>l</sub>* respectively, these results are:
+
+- *p<sub>r</sub>* $\gt$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
+
+No evidence for any non-zero parameter values.
+
+- *p<sub>r</sub>* $\leq$ *α*/2 & *p<sub>l</sub>* $\gt$ *α*/2:
+
+Evidence that some club-networks have a positive parameter value, but no evidence for any negative parameter values.
+
+- *p<sub>r</sub>* $\gt$ *α*/2 & *p<sub>l</sub>* $\leq$ *α*/2:
+
+Evidence that some clubs have a negative parameter value, no evidence for any positive parameter values
+
+- *p<sub>r</sub>* $\leq$ *α*/2 & *p<sub>l</sub>* $\leq$ *α*/2:
+
+Evidence that some clubs have a negative parameter value, and some others have a positive parameter value.
+
+<br>
+
+----
+
+# getting started
+
+## clean up
+```{r, results='hide'}
+# empty environment
+rm(list=ls())
+# free up memory
+gc()
+```
+
+
+## general custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+- `fload.R`: function to load R-objects under new names.
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+fload.R  <- function(fileName){
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+<br>
+
+## necessary packages
+
+- `RSiena`: for meta-analysis in siena08
+- `knitr`: generating tables
+- `kableExtra`: extend `knitr`' table functionality
+- `dplyr`: data manipulation
+
+
+```{r, results='hide'}
+packages = c("RSiena", "knitr", "kableExtra", "dplyr")
+fpackage.check(packages)
+```
+
+
+First, we read in the sienaFit-objects of our 5 clubs. We estimated for each club 6 models, and we listed these models for each club. 
+
+We use `fload.R` to load the objects under new names. We list models 1-6 across clubs for subsequent meta-analysis.
+
+```{r get data, eval=F}
+
+# large lists, takes a lot of time to load
+# in case of limited memory space, exclude club 3 for now.
+club1 <-  fload.R("test/sienaFit/sienaFit_club1.RData")
+club2 <-  fload.R("test/sienaFit/sienaFit_club2.RData")
+club4 <-  fload.R("test/sienaFit/sienaFit_club4.RData")
+club5 <-  fload.R("test/sienaFit/sienaFit_club5.RData")
+
+# we list model 1-6
+m1List <- list(club1[[1]], club2[[1]], club4[[1]], club5[[1]])
+m2List <- list(club1[[2]], club2[[2]], club4[[2]], club5[[2]])
+m3List <- list(club1[[3]], club2[[3]], club4[[3]], club5[[3]])
+m4List <- list(club1[[4]], club2[[4]], club4[[4]], club5[[4]])
+m5List <- list(club1[[5]], club2[[5]], club4[[5]], club5[[5]])
+m6List <- list(club1[[6]], club2[[6]], club4[[6]], club5[[6]])
+
+# remove the excess data, and add club 3's rsiena objects.
+rm(club1, club2, club4, club5)
+club3 <-  fload.R("test/sienaFit/sienaFit_club3.RData")
+# when facing facing storage capacity issues, check the capacity:
+#memory.limit()
+# we increase the limit
+#memory.limit(size=56000)
+
+# add to the lists
+m1List[[5]] <- club3[[1]]
+m2List[[5]] <- club3[[2]]
+m3List[[5]] <- club3[[3]]
+m4List[[5]] <- club3[[4]]
+m5List[[5]] <- club3[[5]]
+m6List[[5]] <- club3[[6]]
+rm(club3)
+
+```
+
+
+<br>
+
+# Models {.tabset .tabset-fade} 
+
+We perform the meta-analysis seperately for 6 model specifications.
+
+<!--
+
+- cjplus: test statistic for combination of right one-sided Fisher combination test
+- cjplusp: p-value for cjplus
+- cjminus: test statistic for combination of left one-sided Fisher combination test
+- cjminusp: p-value for cjminus
+- df: degrees of freedom
+
+https://search.r-project.org/CRAN/refmans/RSiena/html/siena08.html 
+
+
+--> 
+
+## Model 1 (indegree)
+
+We extract the parameter estimates and standard errors for our models.
+
+We use *siena08* to perform Fisher's method for combining independent *p*-values.
+
+```{r eval = FALSE,  results='hide'}
+# We extract the parameter estimates and standard errors 
+parameters <- sapply(m1List, function(x){x$theta})
+standers <- sapply(m1List, function(x){x$se}) 
+
+(eff.names <-
+    m1List[[1]]$effects[m1List[[1]]$effects$include,'effectName']) 
+(eff.names <- eff.names)
+
+#combine parameters and std.errors with effect names
+rownames(parameters) <- eff.names
+rownames(standers) <- eff.names
+
+# print rounded to 3 decimals
+round(parameters,3)
+round(standers,3)
+
+ans8 <- siena08(m1List, bound=100)
+
+efnames <- names(ans8[1:43])
+efnames <- substring(efnames, 8)
+
+Fishers <- t(sapply(1:43,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+#round(Fishers,3)
+
+# we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
+par_standers <- paste(round(parameters, 3), " (", round(standers, 3), ")", sep="")
+df <- as.data.frame(matrix(par_standers, nrow=43, ncol=5))
+rownames(df) <- efnames
+colnames(df) <- (c("Club 1 (N=27)", "Club 2 (N=58)", "Club 4 (N=9)", "Club 5 (N=76)", "Club 3 (N=159)"))
+df2 <- cbind(df, round(Fishers, 3))
+df2 <- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
+save(df2, file = "test/sienaFit/meta-analysis/meta_freq_m1.RData")
+```
+
+## Model 2 (avAlt)
+We extract the parameter estimates and standard errors for our models.
+
+We use *siena08* to perform Fisher's method for combining independent *p*-values.
+
+```{r eval = FALSE,  results='hide'}
+# We extract the parameter estimates and standard errors 
+parameters <- sapply(m2List, function(x){x$theta})
+standers <- sapply(m2List, function(x){x$se}) 
+
+(eff.names <-
+    m2List[[1]]$effects[m2List[[1]]$effects$include,'effectName']) 
+(eff.names <- eff.names)
+
+#combine parameters and std.errors with effect names
+rownames(parameters) <- eff.names
+rownames(standers) <- eff.names
+
+# print rounded to 3 decimals
+round(parameters,3)
+round(standers,3)
+
+ans8 <- siena08(m2List, bound=100)
+
+efnames <- names(ans8[1:44])
+efnames <- substring(efnames, 8)
+
+Fishers <- t(sapply(1:44,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+#round(Fishers,3)
+
+# we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
+par_standers <- paste(round(parameters, 3), " (", round(standers, 3), ")", sep="")
+df <- as.data.frame(matrix(par_standers, nrow=44, ncol=5))
+rownames(df) <- efnames
+colnames(df) <- (c("Club 1 (N=27)", "Club 2 (N=58)", "Club 4 (N=9)", "Club 5 (N=76)", "Club 3 (N=159)"))
+df2 <- cbind(df, round(Fishers, 3))
+df2 <- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
+save(df2, file = "test/sienaFit/meta-analysis/meta_freq_m2.RData")
+```
+
+## Model 3 (avAttHigher)
+We extract the parameter estimates and standard errors for our models.
+
+We use *siena08* to perform Fisher's method for combining independent *p*-values.
+```{r eval = FALSE,  results='hide'}
+# We extract the parameter estimates and standard errors 
+parameters <- sapply(m3List, function(x){x$theta})
+standers <- sapply(m3List, function(x){x$se}) 
+
+(eff.names <-
+    m3List[[1]]$effects[m3List[[1]]$effects$include,'effectName']) 
+(eff.names <- eff.names)
+
+#combine parameters and std.errors with effect names
+rownames(parameters) <- eff.names
+rownames(standers) <- eff.names
+
+# print rounded to 3 decimals
+round(parameters,3)
+round(standers,3)
+
+ans8 <- siena08(m3List, bound=100)
+
+efnames <- names(ans8[1:44])
+efnames <- substring(efnames, 8)
+
+Fishers <- t(sapply(1:44,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+#round(Fishers,3)
+
+# we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
+par_standers <- paste(round(parameters, 3), " (", round(standers, 3), ")", sep="")
+df <- as.data.frame(matrix(par_standers, nrow=44, ncol=5))
+rownames(df) <- efnames
+colnames(df) <- (c("Club 1 (N=27)", "Club 2 (N=58)", "Club 4 (N=9)", "Club 5 (N=76)", "Club 3 (N=159)"))
+df2 <- cbind(df, round(Fishers, 3))
+df2 <- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
+save(df2, file = "test/sienaFit/meta-analysis/meta_freq_m3.RData")
+```
+
+
+## Model 4 (avAttLower)
+We extract the parameter estimates and standard errors for our models.
+
+We use *siena08* to perform Fisher's method for combining independent *p*-values.
+
+```{r eval = FALSE,  results='hide'}
+# We extract the parameter estimates and standard errors 
+parameters <- sapply(m4List, function(x){x$theta})
+standers <- sapply(m4List, function(x){x$se}) 
+
+(eff.names <-
+    m4List[[1]]$effects[m4List[[1]]$effects$include,'effectName']) 
+(eff.names <- eff.names)
+
+#combine parameters and std.errors with effect names
+rownames(parameters) <- eff.names
+rownames(standers) <- eff.names
+
+# print rounded to 3 decimals
+round(parameters,3)
+round(standers,3)
+
+ans8 <- siena08(m4List, bound=100)
+
+efnames <- names(ans8[1:44])
+efnames <- substring(efnames, 8)
+
+Fishers <- t(sapply(1:44,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+#round(Fishers,3)
+
+# we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
+par_standers <- paste(round(parameters, 3), " (", round(standers, 3), ")", sep="")
+df <- as.data.frame(matrix(par_standers, nrow=44, ncol=5))
+rownames(df) <- efnames
+colnames(df) <- (c("Club 1 (N=27)", "Club 2 (N=58)", "Club 4 (N=9)", "Club 5 (N=76)", "Club 3 (N=159)"))
+df2 <- cbind(df, round(Fishers, 3))
+df2 <- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
+save(df2, file = "test/sienaFit/meta-analysis/meta_freq_m4.RData")
+```
+
+## Model 5 (avAttHigher+Lower)
+
+We extract the parameter estimates and standard errors for our models.
+
+We use *siena08* to perform Fisher's method for combining independent *p*-values.
+
+```{r eval = FALSE,  results='hide'}
+# We extract the parameter estimates and standard errors 
+parameters <- sapply(m5List, function(x){x$theta})
+standers <- sapply(m5List, function(x){x$se}) 
+
+(eff.names <-
+    m5List[[1]]$effects[m5List[[1]]$effects$include,'effectName']) 
+(eff.names <- eff.names)
+
+#combine parameters and std.errors with effect names
+rownames(parameters) <- eff.names
+rownames(standers) <- eff.names
+
+# print rounded to 3 decimals
+round(parameters,3)
+round(standers,3)
+
+ans8 <- siena08(m5List, bound=100)
+
+efnames <- names(ans8[1:45])
+efnames <- substring(efnames, 8)
+
+Fishers <- t(sapply(1:45,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+#round(Fishers,3)
+
+# we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
+par_standers <- paste(round(parameters, 3), " (", round(standers, 3), ")", sep="")
+df <- as.data.frame(matrix(par_standers, nrow=45, ncol=5))
+rownames(df) <- efnames
+colnames(df) <- (c("Club 1 (N=27)", "Club 2 (N=58)", "Club 4 (N=9)", "Club 5 (N=76)", "Club 3 (N=159)"))
+df2 <- cbind(df, round(Fishers, 3))
+df2 <- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
+save(df2, file = "test/sienaFit/meta-analysis/meta_freq_m5.RData")
+```
+
+<br>
+
+### additional check: are results driven by club 5?
+we note that club 5 displayed the most significant influence effects. Following the suggestion of an anonymous reviewer, we checked the robustness of our aggregate findings by excluding this club from our summary of estimates.
+
+`r colorize("Note, that the results of club 5 are in the **4th** object of our list!!", "red")`
+
+
+```{r eval = FALSE,  results='hide'}
+# remove club 5
+m5List_ <- m5List[-4]
+
+# We extract the parameter estimates and standard errors 
+parameters <- sapply(m5List_, function(x){x$theta})
+standers <- sapply(m5List_, function(x){x$se}) 
+
+ans8 <- siena08(m5List_, bound=100)
+
+Fishers <- t(sapply(1:45,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+#round(Fishers,3)
+
+# reorder
+colnames(Fishers)
+Fishers <- Fishers[, c(2,4,1,3,5)]
+
+# so, now: we exclude from our previously made table, the columns representing club 5 results;
+# and we replace the Fisher statistics with the above
+
+df3 <- df2[-c(5:10)]
+df3 <- cbind(df3, round(Fishers,3))
+
+
+save(df3, file = "test/sienaFit/meta-analysis/meta_freq_m5_withoutclub5.RData")
+```
+
+
+## Model 6 (avSim)
+
+We extract the parameter estimates and standard errors for our models.
+
+We use *siena08* to perform Fisher's method for combining independent *p*-values.
+
+```{r eval = FALSE,  results='hide'}
+# We extract the parameter estimates and standard errors 
+parameters <- sapply(m6List, function(x){x$theta})
+standers <- sapply(m6List, function(x){x$se}) 
+
+(eff.names <-
+    m6List[[1]]$effects[m6List[[1]]$effects$include,'effectName']) 
+(eff.names <- eff.names)
+
+#combine parameters and std.errors with effect names
+rownames(parameters) <- eff.names
+rownames(standers) <- eff.names
+
+# print rounded to 3 decimals
+round(parameters,3)
+round(standers,3)
+
+ans8 <- siena08(m6List, bound=100)
+
+efnames <- names(ans8[1:44])
+efnames <- substring(efnames, 8)
+
+Fishers <- t(sapply(1:44,
+                    function(i){c(ans8[[i]]$cjplus, ans8[[i]]$cjminus,
+                                  ans8[[i]]$cjplusp, ans8[[i]]$cjminusp, 2*ans8[[i]]$n1 )}))
+Fishers <- as.data.frame(Fishers)
+rownames(Fishers) <- efnames
+names(Fishers) <- c('Fplus', 'Fminus', 'pplus', 'pminus', 'df')
+#round(Fishers,3)
+
+# we make (and save) a dataframe combining club estimates (std. errors) with fisher test statistics
+par_standers <- paste(round(parameters, 3), " (", round(standers, 3), ")", sep="")
+df <- as.data.frame(matrix(par_standers, nrow=44, ncol=5))
+rownames(df) <- efnames
+colnames(df) <- (c("Club 1 (N=27)", "Club 2 (N=58)", "Club 4 (N=9)", "Club 5 (N=76)", "Club 3 (N=159)"))
+df2 <- cbind(df, round(Fishers, 3))
+df2 <- df2[, c(1,2,5,3,4,7,6,9,8,10)] # reorder
+save(df2, file = "test/sienaFit/meta-analysis/meta_freq_m6.RData")
+
+```
+
+
+# {-}
+
+<br>
+
+# Results {.tabset .tabset-fade} 
+
+And we present the results:
+
+## Model 1 (indegree)
+
+```{r echo=F}
+load("test/sienaFit/meta-analysis/meta_freq_m1.RData")
+
+options(knitr.kable.NA = '-')
+
+knitr::kable(df2, digits=3, "html", caption="Meta-analysis of parameter estimates for the objective function of kudos tie formation and running frequency dynamics across 5 Strava clubs") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  footnote(general = "Estimates are given with standard errors in parentheses. All convergence t ratios <.10; overall maximum convergence ratio <.15.",
+           alphabet  = c("Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).", "We fixed gender effects on kudos tie formation and running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.", "The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative."))
+
+```
+
+## Model 2 (avAlt)
+
+```{r echo=F}
+load("test/sienaFit/meta-analysis/meta_freq_m2.RData")
+
+options(knitr.kable.NA = '-')
+
+knitr::kable(df2, digits=3, "html", caption="Meta-analysis of parameter estimates for the objective function of kudos tie formation and running frequency dynamics across 5 Strava clubs") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  footnote(general = "Estimates are given with standard errors in parentheses. All convergence t ratios <.10; overall maximum convergence ratio <.15.",
+           alphabet  = c("Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).", "We fixed gender effects on kudos tie formation and running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.", "The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative."))
+
+```
+
+## Model 3 (avAttHigher)
+
+```{r echo=F}
+load("test/sienaFit/meta-analysis/meta_freq_m3.RData")
+
+options(knitr.kable.NA = '-')
+
+knitr::kable(df2, digits=3, "html", caption="Meta-analysis of parameter estimates for the objective function of kudos tie formation and running frequency dynamics across 5 Strava clubs") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  footnote(general = "Estimates are given with standard errors in parentheses. All convergence t ratios <.10; overall maximum convergence ratio <.15.",
+           alphabet  = c("Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).", "We fixed gender effects on kudos tie formation and running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.", "The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative."))
+
+```
+
+## Model 4 (avAttLower)
+
+```{r echo=F}
+load("test/sienaFit/meta-analysis/meta_freq_m4.RData")
+
+options(knitr.kable.NA = '-')
+
+knitr::kable(df2, digits=3, "html", caption="Meta-analysis of parameter estimates for the objective function of kudos tie formation and running frequency dynamics across 5 Strava clubs") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  footnote(general = "Estimates are given with standard errors in parentheses. All convergence t ratios <.10; overall maximum convergence ratio <.15.",
+           alphabet  = c("Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).", "We fixed gender effects on kudos tie formation and running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.", "The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative."))
+
+```
+
+
+## Model 5 (avAttHigher+Lower)
+
+```{r echo=F}
+load("test/sienaFit/meta-analysis/meta_freq_m5.RData")
+
+options(knitr.kable.NA = '-')
+
+knitr::kable(df2, digits=3, "html", caption="Meta-analysis of parameter estimates for the objective function of kudos tie formation and running frequency dynamics across 5 Strava clubs") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  footnote(general = "Estimates are given with standard errors in parentheses. All convergence t ratios <.10; overall maximum convergence ratio <.15.",
+           alphabet  = c("Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).", "We fixed gender effects on kudos tie formation and running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.", "The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative."))
+
+```
+<br>
+
+`r colorize("and the Fisher results excluding club 5:", "red")`
+
+
+```{r echo=F}
+load("test/sienaFit/meta-analysis/meta_freq_m5_withoutclub5.RData")
+
+options(knitr.kable.NA = '-')
+
+knitr::kable(df3, digits=3, "html", caption="Meta-analysis of parameter estimates for the objective function of kudos tie formation and running frequency dynamics, excluding club 5") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  footnote(general = "Estimates are given with standard errors in parentheses. All convergence t ratios <.10; overall maximum convergence ratio <.15.",
+           alphabet  = c("Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).", "We fixed gender effects on kudos tie formation and running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.", "The Fisher Test combines independent p–values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative."))
+
+```
+
+
+## Model 6 (avSim)
+
+```{r echo=F}
+load("test/sienaFit/meta-analysis/meta_freq_m6.RData")
+
+options(knitr.kable.NA = '-')
+
+knitr::kable(df2, digits=3, "html", caption="Meta-analysis of parameter estimates for the objective function of kudos tie formation and running frequency dynamics across 5 Strava clubs") %>% 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  footnote(general = "Estimates are given with standard errors in parentheses. All convergence t ratios <.10; overall maximum convergence ratio <.15.",
+           alphabet  = c("Some structural network effects were rather important for some clubs, but not for others; for the latter, we fixed these effects to 0 (SE=NA).", "We fixed gender effects on kudos tie formation and running frequency dynamics to 0 in club 4. Variation between the genders was not sufficient for model convergence. Score–type tests indicated that gender effects were not significant.", "The Fisher Test combines independent p-values to test whether there is evidence in at least one of the clubs of a parameter being positive or negative"))
+
+```
+
+----
+
+
+### References 

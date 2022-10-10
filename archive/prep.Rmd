@@ -1,0 +1,476 @@
+---
+title: "Data preparation"
+bibliography: references.bib
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+output: 
+  html_document:
+    css: tweaks.css
+    toc:  true
+    toc_float: true
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+```
+
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+---  
+
+# Getting started
+
+
+## clean up
+
+```{r, results='hide'}
+rm(list=ls())
+```
+
+<br>
+
+## general custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+- `fload.R`: function to load R-objects under new names.
+- `fidmaker`: creating mock IDs
+
+```{r, eval=FALSE}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+fload.R  <- function(fileName){
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
+
+fidmaker <- function(x) {
+    max.val = x * 1e+05
+    count <- nchar(as.character(max.val))  # find out how many 'numbers' each id will have after the letter
+    size <- paste("%0", count, "d", sep = "")  # set the variable to be fed into 'sprintf' to ensure we have leading 0's
+    lets <- toupper(sample(letters, x, replace = T))  # randomizing the letters 
+    nums <- sprintf(size, sample(1:max.val)[1:x])  # randomizing the numbers, and ensuring they all have the same number of characters
+    ids <- paste(lets, nums, sep = "")  # joining them together
+    return(ids)
+  }
+
+```
+
+<br>
+
+## necessary packages
+
+- `RSiena`: creating RSiena data objects
+- `dplyr`: package for data wrangling
+
+```{r, eval=FALSE}
+packages = c("RSiena", "dplyr")
+fpackage.check(packages)
+```
+
+<br>
+----
+
+# clubdata.RData
+
+In the following scripts a list containing the (anonymized) data of all clubs is made (clubdata.RData).
+
+* Our primary network variable is the Kudos-network. A tie i -> j exists if ego i award at least 1 Kudos to alter j.
+
+* For the behavioral data we include information on the *frequency* (i.e., in times per week) and *volume* (i.e., in hours per week) of running activities. We included activity (frequency and volume) in other sports (e.g., cycling and swimming) as a time-varying covariate.
+
+
+```{r clubs, eval=FALSE}
+
+# club string represents the club ID
+club_str <- c("clubid1", "clubid2", "clubid3", "clubid4" ,"clubid5") 
+
+# the following script reads the data of the clubs from the folder for each club, stores them in a list, and saves it in an object in the last function call of this script. 
+
+
+for (i in (1: length(club_str))) {
+  
+  club_id <- club_str[i]
+  
+  # read the data from the club
+  clubdata <- read.csv(paste("clubs/", club_id, "/", "egoData_extended.csv", sep = ""), row.names = NULL,
+                       sep = ",")
+  # saving club size
+  size <- length(clubdata[, "gender"])
+  # the number of months that we want to add as waves
+  n_waves <- 12
+  
+  # let's load the friendship/following network
+  friend_data <- as.matrix(read.csv(paste("clubs/", club_id, "/", "socialnetwork.csv", sep = ""), row.names = NULL,
+                                    sep = ","))
+  # remove the first column (represents index made in the csv)
+  friend_data <- friend_data[, 2:ncol(friend_data)]
+  
+  # and anonymize the user id, with our id-maker function
+  
+  fakeid <- fidmaker(nrow(friend_data))  # generate random id
+  colnames(friend_data) <- fakeid  # anonymizing users
+  
+  # let's load the kudos network
+  path <- paste("clubs/", club_id, "/", "kudos", sep = "")  # create path
+  {
+    kudo_w1 <- as.matrix(read.csv(paste(path, "1-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w1 <- kudo_w1[, 2:ncol(kudo_w1)]
+    kudo_w2 <- as.matrix(read.csv(paste(path, "2-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w2 <- kudo_w2[, 2:ncol(kudo_w2)]
+    kudo_w3 <- as.matrix(read.csv(paste(path, "3-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w3 <- kudo_w3[, 2:ncol(kudo_w3)]
+    kudo_w4 <- as.matrix(read.csv(paste(path, "4-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w4 <- kudo_w4[, 2:ncol(kudo_w4)]
+    kudo_w5 <- as.matrix(read.csv(paste(path, "5-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w5 <- kudo_w5[, 2:ncol(kudo_w5)]
+    kudo_w6 <- as.matrix(read.csv(paste(path, "6-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w6 <- kudo_w6[, 2:ncol(kudo_w6)]
+    kudo_w7 <- as.matrix(read.csv(paste(path, "7-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w7 <- kudo_w7[, 2:ncol(kudo_w7)]
+    kudo_w8 <- as.matrix(read.csv(paste(path, "8-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w8 <- kudo_w8[, 2:ncol(kudo_w8)]
+    kudo_w9 <- as.matrix(read.csv(paste(path, "9-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w9 <- kudo_w9[, 2:ncol(kudo_w9)]
+    kudo_w10 <- as.matrix(read.csv(paste(path, "10-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w10 <- kudo_w10[, 2:ncol(kudo_w10)]
+    kudo_w11 <- as.matrix(read.csv(paste(path, "11-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w11 <- kudo_w11[, 2:ncol(kudo_w11)]
+    kudo_w12 <- as.matrix(read.csv(paste(path, "12-2019.csv", sep = ""), row.names = NULL, sep = ","))
+    kudo_w12 <- kudo_w12[, 2:ncol(kudo_w12)]
+  }
+  kudos <- array(c(kudo_w1, kudo_w2, kudo_w3, kudo_w4, kudo_w5, kudo_w6, kudo_w7, kudo_w8, kudo_w9,
+                   kudo_w10, kudo_w11, kudo_w12), dim = c(size, size, n_waves))  #Kudos matrix
+  
+  kudo_data <- ifelse(kudos > 0, 1, 0)  #if at least 1 Kudo is send, tie exists
+  
+  # running time (in hours per week)
+  time_run <- array(c(clubdata[, "time_run_1.2019"], clubdata[, "time_run_2.2019"], clubdata[, "time_run_3.2019"],
+                      clubdata[, "time_run_4.2019"], clubdata[, "time_run_5.2019"], clubdata[, "time_run_6.2019"],
+                      clubdata[, "time_run_7.2019"], clubdata[, "time_run_8.2019"], clubdata[, "time_run_9.2019"],
+                      clubdata[, "time_run_10.2019"], clubdata[, "time_run_11.2019"], clubdata[, "time_run_12.2019"]),
+                    dim = c(size, 1, n_waves))  # minutes per month
+  time_run_h <- time_run/60  # hours per month
+  # time_run_30 <- time_run_h * 2 # half hours
+  time <- ceiling(time_run_h/4)  # per week
+  
+  # provide some descriptives 
+  # time %>% # absolute table() time %>% # proportionate table() %>%
+  # prop.table() %>% round(3) cumprop <- time %>% # cumulative proportions table() %>%
+  # prop.table() %>% round(3) %>% cumsum() print(cumprop) 1-cumprop # the percentage of all
+  # values that is higher than the particular value
+  
+  # our idea was to cap running time of at 7+ hours per week.  this resulted in rather smooth
+  # (right-skewed) distribution of values for most clubs except for club 5, where 7+ hours
+  # category was highly populated over time.  We added 2 extra categories (capped of at 9+
+  # hours); this resulted in a rather smooth distribution for this club.
+  
+  if (club_id == "clubid5") {
+    time_run_temp <- ifelse(time > 9, 9, time)
+  } else {
+    time_run_temp <- ifelse(time > 7, 7, time)
+  }
+  
+  # running frequency (times per week)
+  freq_run <- array(c(clubdata[, "X.run_1.2019"], clubdata[, "X.run_2.2019"], clubdata[, "X.run_3.2019"],
+                      clubdata[, "X.run_4.2019"], clubdata[, "X.run_5.2019"], clubdata[, "X.run_6.2019"], clubdata[,
+                                                                                                                   "X.run_7.2019"], clubdata[, "X.run_8.2019"], clubdata[, "X.run_9.2019"], clubdata[, "X.run_10.2019"],
+                      clubdata[, "X.run_11.2019"], clubdata[, "X.run_12.2019"]), dim = c(size, 1, n_waves))  # frequencies per month
+  frequencies <- ceiling(freq_run/4)  # per week
+  freq_run_temp <- ifelse(frequencies > 7, 7, frequencies)  # cap off at 7 times per week
+  
+
+  # we deal with composition change: actors joining the Strava club over time (we assume no leavers);
+  # node set was determined at t12; from there, we 'scraped backward' in time;
+  # down below, we count the number of waves, from t1 onward, that actors scored 0 on all DVs 
+  # that is, where the sum of number of kudos in- and out-ties (network activity), frequency and volume (behavior activity), equals 0.
+  # this number +1 is the wave in which actors are assumed to have joined 
+  # our model will then assume that entries of joiners happen at the midpoint of the unobserved time period between this and the subsequent wave.
+  
+  sum_dv <- matrix(NA, nr=size, nc=n_waves)
+  
+  for (i in 1:size) {
+    for (j in 1:n_waves) {
+      sum_dv[i,j] <- sum( c( # sum of
+        kudo_data[i,,j],     # number of out-ties of actor i at time j
+        kudo_data[,i,j],     # number of in-ties of actor i at time j
+        freq_run_temp[i,,j], # running frequency of i at j
+        time_run_temp[i,,j]  # running volume of i at j
+      ))
+    }
+  }
+
+  t <- rep(1, size) # starting entry t=1
+  for ( i in 1:size) {
+    for( j in 1:n_waves) {
+      
+      # if sum = 0 for actor i in wave j, 
+      # increment the entry period t with 1
+      if(sum_dv[i,j] == 0) {
+        t[i] = t[i] + 1
+      }
+      # if sum > 0, break the loop
+      if(sum_dv[i,j] > 0) {
+        break
+      }
+    }
+  }
+  # entry-waves cannot surpass 12:
+  t[which(t>12)] <- 12
+  
+  # actors that join at t=12, cannot be included into the estimation;
+  # they are structural zero;
+  # we exclude the rows (i) and columns (j) corresponding to these actors
+  # from the kudos matrices
+  # we also remove these actors' elements from the running variable objects.
+  
+  # first, identify these actors (get their index)
+  x <- which(t==12)
+  
+  # make new arrays to store entries of actors, excluding structural zeros
+  kudo_data.nm <- array(NA, dim = c(size - length(x),
+                                    size - length(x),
+                                    n_waves))
+  freq_run_temp.nm <- array(NA, dim = c(size - length(x), 1, n_waves))
+  time_run_temp.nm <- array(NA, dim = c(size - length(x), 1, n_waves))
+  
+  # fill arrays  
+  for (i in 1:n_waves) {
+    kudo_data.nm[,,i] <- subset(kudo_data[,,i], select = -x)[-x, ]
+    freq_run_temp.nm[,,i] <- freq_run_temp[,,i][-x]
+    time_run_temp.nm[,,i] <- time_run_temp[,,i][-x]
+  }
+  
+  # and adjust network size accordingly
+  size.nm <- size - length(x)
+
+
+  # create a list for the times of composition change
+  # see 4.3.3 of RSIENA manual
+  comp <- rep(list(NA), size.nm)
+  for (i in 1:size.nm) {
+    comp[[i]] <- c(t[-x][i],n_waves)
+  }
+  
+  # RSiena GOF functions do not combine properly with the method of joiners and leavers
+  # But if we use NA codes for the tie variables of absent actors, sienaGOF will work properly.
+
+  # get time of joining for each actor:
+  t_j <- t[which(t!=12)] 
+  
+  # for actors that are partially absent, set entries in the kudos-matrix to NA, 
+  # for those waves they are absent, i.e., waves 1 : (t_j-1)
+  for ( i in which(t_j>1)) {     # for actors that join later
+    for (j in 1:n_waves) {       # for all waves
+      if(t_j[i]>j) {             # if their time of joining comes after the current wave
+        kudo_data.nm[i,,j] <- NA # set their out-degree entries to NA
+        kudo_data.nm[,i,j] <- NA # but also their in-degree entries
+        freq_run_temp.nm[i,1,j] <- NA # and their behaviors
+        time_run_temp.nm[i,1,j] <- NA
+      }g
+    }
+  }
+
+  #  let's load other activity data (e.g., cycling, swimming) time
+  time_ride <- array(c(clubdata[, "time_ride_1.2019"], clubdata[, "time_ride_2.2019"], clubdata[, "time_ride_3.2019"],
+                       clubdata[, "time_ride_4.2019"], clubdata[, "time_ride_5.2019"], clubdata[, "time_ride_6.2019"],
+                       clubdata[, "time_ride_7.2019"], clubdata[, "time_ride_8.2019"], clubdata[, "time_ride_9.2019"],
+                       clubdata[, "time_ride_10.2019"], clubdata[, "time_ride_11.2019"], clubdata[, "time_ride_12.2019"]),
+                     dim = c(size, 1, n_waves))
+  time_other <- array(c(clubdata[, "time_other_1.2019"], clubdata[, "time_other_2.2019"], clubdata[,
+                                                                                                   "time_other_3.2019"], clubdata[, "time_other_4.2019"], clubdata[, "time_other_5.2019"], clubdata[,
+                                                                                                                                                                                                    "time_other_6.2019"], clubdata[, "time_other_7.2019"], clubdata[, "time_other_8.2019"], clubdata[,
+                                                                                                                                                                                                                                                                                                     "time_other_12.2019"]), dim = c(size, 1, n_waves))
+
+  time_other <- time_ride + time_other  # minutes per month
+  time_other_h <- time_other/60  # hours per month
+  # time_other_h <- time_other_h * 2 # half hours
+  time <- ceiling(time_other_h/4)  #per week
+  time_other_temp <- ifelse(time > 7, 7, time)  # cap off at 7 hours per week
+  #table(time_other_temp)
+  
+  # frequency
+  freq_ride <- array(c(clubdata[, "X.ride_1.2019"], clubdata[, "X.ride_2.2019"], clubdata[, "X.ride_3.2019"],
+                       clubdata[, "X.ride_4.2019"], clubdata[, "X.ride_5.2019"], clubdata[, "X.ride_6.2019"], clubdata[,
+                                                                                                                       "X.ride_7.2019"], clubdata[, "X.ride_8.2019"], clubdata[, "X.ride_9.2019"], clubdata[, "X.ride_10.2019"],
+                       clubdata[, "X.ride_11.2019"], clubdata[, "X.ride_12.2019"]), dim = c(size, 1, n_waves))
+  freq_other <- array(c(clubdata[, "X.other_1.2019"], clubdata[, "X.other_2.2019"], clubdata[, "X.other_3.2019"],
+                        clubdata[, "X.other_4.2019"], clubdata[, "X.other_5.2019"], clubdata[, "X.other_6.2019"], clubdata[,
+                                                                                                                           "X.other_7.2019"], clubdata[, "X.other_8.2019"], clubdata[, "X.other_9.2019"], clubdata[,
+                                                                                                                                                                                                                   "X.other_10.2019"], clubdata[, "X.other_11.2019"], clubdata[, "X.other_12.2019"]), dim = c(size,
+                                                                                                                                                                                                                                                                                                              1, n_waves))
+  
+  freq_other <- freq_ride + freq_other
+  frequencies <- ceiling(freq_other/4)
+  freq_other_temp <- ifelse(frequencies > 7, 7, frequencies)
+  
+  # and again, exclude the structural zeros:
+  freq_other_temp.nm <- array(NA, dim = c(size.nm, 1, n_waves))
+  time_other_temp.nm <- array(NA, dim = c(size.nm, 1, n_waves))
+  for (i in 1:n_waves) {
+    freq_other_temp.nm[,,i] <- freq_other_temp[,,i][-x]
+    time_other_temp.nm[,,i] <- time_other_temp[,,i][-x]
+  }
+  
+  # separating male/female/other
+  
+  male <- ifelse(clubdata[, "gender"][-x] == "M", 1,0)
+  female <- ifelse(clubdata[, "gender"][-x] == "F", 1, 0)
+  other <- ifelse(clubdata[, "gender"][-x] == "O", 1, 0)
+  
+  # specify months of winter in case we want to use it as a varying covariate starts with
+  # december
+  winter <- rep(c(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0), size.nm)
+  winter <- matrix(winter, nr = size.nm, nc = n_waves, byrow = TRUE)
+  
+  # in case we want to condition on the first activity recorded by users:
+  st_yr <- clubdata[,'start_date_year']
+  st_yr <- st_yr[-x] #exclude NAs
+  
+  start_year <- ifelse(st_yr <= 2011, 1, 
+                       ifelse(st_yr == 2012, 2,
+                              ifelse(st_yr == 2013, 3,
+                                     ifelse(st_yr == 2014, 4,
+                                            ifelse(st_yr == 2015, 5,
+                                                   ifelse(st_yr == 2016, 6,
+                                                          ifelse(st_yr == 2017, 7,
+                                                                 ifelse(st_yr == 2018, 8,
+                                                                        9))))))))
+  #hist(start_year)
+  
+  # create a list containing all the read club data for the current club
+  club <- list(friendship = friend_data, kudo = kudo_data.nm, freq_run = freq_run_temp.nm, time_run = time_run_temp.nm,
+               freq_other = freq_other_temp.nm, time_other = time_other_temp.nm, winter = winter, male = male, female = female,
+               other = other, netsize = size.nm, composition = comp, novice=start_year)
+  
+  
+  # save the club object
+  save(club, file = paste("clubs/", "club", club_id, ".RData", sep = ""))
+  
+}
+
+
+####################################################
+
+# Now that we have saved the clubdata for all clubs, let's combine them in one list
+
+# first clean the working directory, except our club string; we still need that one.
+# and our function fload.R
+rm(list = setdiff(ls(), c("club_str", "fload.R")))
+
+
+# load in the separate club-objects
+club1 <- fload.R(paste("clubs", "/", "club", club_str[1], ".RData", sep=""))
+club2 <- fload.R(paste("clubs", "/", "club", club_str[2], ".RData", sep=""))
+club3 <- fload.R(paste("clubs", "/", "club", club_str[3], ".RData", sep=""))
+club4 <- fload.R(paste("clubs", "/", "club", club_str[4], ".RData", sep=""))
+club5 <- fload.R(paste("clubs", "/", "club", club_str[5], ".RData", sep=""))
+
+# and make a list containing all the clubdata
+clubdata <- list(club1, club2, club3, club4, club5)
+
+# save the output
+save(clubdata, file = "clubs/clubdata.RData")
+
+
+``` 
+
+---  
+
+# clubdata_rsiena.RData
+
+The following script creates a list containing RSiena objects for all clubs. 
+We create a list containing RSiena objects with running frequency as the behavior variable (clubdata_rsiena_freq.RData) and running volume (clubdata_rsiena_vol.RData). 
+
+Note: in some groups, dependent variables (either the kudos-network or running behaviors) only have upward or downward changes in particular periods. We lift RSiena's automatic restriction to  follow this pattern in the simulations, by using '*allowOnly* = FALSE'. This must be done for the subsequent meta-analysis.
+
+```{r eval=FALSE}
+# clean the working environment 
+rm (list = ls( ))
+
+# load the clubdata
+load("clubs/clubdata.RData")
+str(clubdata) # inspect structure
+# clubdata is a list of 5 lists, 
+# with each of these lists containing data of the corresponding club.
+
+####################################################
+
+
+clubdata_rsiena_freq <- list()
+clubdata_rsiena_vol <- list()
+
+
+for (i in 1:5) { 
+  club <- clubdata[[i]]
+  # specify the roles of variables
+  names(club)
+  
+  # A: network variables
+  kudonet <- sienaDependent(club$kudo, allowOnly = FALSE)  #at least one Kudo
+  
+  # B: behavioral variables
+  time_run <- sienaDependent(club$time_run, type= "behavior", allowOnly = FALSE)
+  freq_run <- sienaDependent(club$freq_run, type= "behavior", allowOnly = FALSE)
+  
+  time_other <- varCovar(club$time_other[,,])
+  freq_other <- varCovar(club$freq_other[,,])
+
+  # C: covariates
+  winter <- varCovar(club$winter)
+  gender <- NA #we dichotomize gender as binary (men vs. women and other)
+  gender <- ifelse(club$male == 1, 1, gender)
+  gender <- ifelse(club$female == 1, 2, gender)
+  gender <- ifelse(club$other == 1, 2, gender)
+  gender <- coCovar(gender)
+  novice <- coCovar(club$novice)
+  
+  
+  # D: composition change (joiners)
+  joiners <- sienaCompositionChange(club$composition)
+  
+  # now combine the dependent and independent variables in a data object
+  mydata <- sienaDataCreate(kudonet, freq_run, time_other, freq_other, gender, winter, joiners, novice)
+  mydata2 <- sienaDataCreate(kudonet, time_run, time_other, freq_other, gender, winter, joiners, novice)
+
+  # this finishes the data specification
+  clubdata_rsiena_freq[[i]] <- mydata
+  clubdata_rsiena_vol[[i]] <- mydata2
+} 
+
+
+#clean environment
+rm(list = setdiff(ls(), c("clubdata_rsiena_freq", "clubdata_rsiena_vol")))
+
+# save the output
+save(clubdata_rsiena_freq, file = "clubs/clubdata_rsiena_freq.RData")
+save(clubdata_rsiena_vol, file = "clubs/clubdata_rsiena_vol.RData")
+```
+
+
+
+---
+

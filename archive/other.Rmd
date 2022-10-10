@@ -1,0 +1,270 @@
+---
+title: "Other clubs"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+
+---
+
+We also built increasingly complex models for the remaining 4 clubs. We started by modeling network structure and dynamics in kudos tie formation, using a rather simple model specification. If this did not produce adequate GOF, we assessed how the model may be extended, by a theory-guided exploration. We performed a forward model-selection procedure and use score-type tests to see which effect could improve the model. We use *sienaGOF* to estimate how the fit (based on Mahalanobis distance) would increase had we included the fixed-and-tested effects (hence, circumventing the need for re-estimating the model with the new effect). This resulted in slightly different model-specification for kudos-tie formation dynamics for each club.
+
+If adequate GOF was produced, we started modeling running activity dynamics, and investigated how well our model was able to reproduce the distribution of running behavior values of our panel data. 
+
+Down below, we create the final effect-objects for each club. 
+Note: for subsequent meta-analysis, we needed to ensure that the model specification for all our club-networks is identical. In some clubs, some effects were rather important; in clubs where this was not the case, we fixed these to 0.
+
+----
+
+# Getting started
+
+## clean up
+
+```{r, attr.output='style="max-height: 200px;"'}
+rm (list = ls( ))
+```
+
+## read in data
+
+```{r, data}
+load("clubdata_rsiena_freq.Rdata")
+```
+
+
+## necessary packages
+
+- `RSiena`
+
+```{r packages, results='hide'}
+library(RSiena)
+```
+
+
+<br>
+
+# Effect objects
+
+## {.tabset .tabset-fade}
+
+We make, for each club, 6 model specifications: 
+
+- Model 1: base model + indegree effect on running
+- Model 2: Model 1 + average alter effect
+- Model 3: Model 1 + average attraction higher
+- Model 4: Model 1 + average attraction lower
+- Model 5: Model 1 + average attraction higher + lower (main model used in the manuscript)
+- Model 6: Model 1 + average similarity effect
+
+We save these model specifications in a list for each club.
+
+### Club 2
+```{r echo=T, results='hide'}
+myeff <- getEffects(clubdata_rsiena_freq[[2]])
+
+# base model
+myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
+myeff <- includeEffects(myeff, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff <- includeEffects( myeff, outIso, name = "kudonet")
+myeff <- setEffect(myeff, higher, name = "kudonet", interaction1 = "freq_run")
+myeff <- includeEffects(myeff, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+myeff <- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = "kudonet")
+myeff <- includeEffects(myeff, reciAct, name = "kudonet")
+myeff <- setEffect( myeff, outPopSqrt, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "freq_other")
+myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "gender")
+
+# models 1-6
+myeff1 <- includeEffects(myeff, indeg, name = "freq_run", interaction1 = "kudonet")         # model 1: indegree
+myeff2 <- includeEffects(myeff1, avAlt, name = "freq_run", interaction1 = "kudonet")        # model 2: avAlt
+myeff3 <- includeEffects(myeff1, avAttHigher, name = "freq_run", interaction1 = "kudonet")  # model 3: avAttHigher
+myeff4 <- includeEffects(myeff1, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 4: avAttLower
+myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
+myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
+```   
+
+### Club 3
+```{r echo=T, results='hide'}
+myeff <- getEffects(clubdata_rsiena_freq[[3]])
+
+# base model
+myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
+myeff <- includeEffects(myeff, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff <- includeEffects( myeff, outIso, name = "kudonet")
+myeff <- setEffect(myeff, higher, name = "kudonet", interaction1 = "freq_run")
+myeff <- includeEffects(myeff, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+myeff <- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = "kudonet")
+myeff <- includeEffects(myeff, outPopSqrt, name = "kudonet")
+myeff <- setEffect( myeff, reciAct, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "freq_other")
+myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "gender")
+
+# models 1-6
+myeff1 <- includeEffects(myeff, indeg, name = "freq_run", interaction1 = "kudonet")         # model 1: indegree
+myeff2 <- includeEffects(myeff1, avAlt, name = "freq_run", interaction1 = "kudonet")        # model 2: avAlt
+myeff3 <- includeEffects(myeff1, avAttHigher, name = "freq_run", interaction1 = "kudonet")  # model 3: avAttHigher
+myeff4 <- includeEffects(myeff1, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 4: avAttLower
+myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
+myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
+```
+
+### Club 4
+```{r echo=T, results='hide'}
+myeff <- getEffects(clubdata_rsiena_freq[[4]])
+
+# base model
+myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
+myeff <- includeEffects(myeff, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff <- includeEffects( myeff, outIso, name = "kudonet")
+myeff <- setEffect(myeff, higher, name = "kudonet", interaction1 = "freq_run")
+myeff <- setEffect( myeff, egoX, name = "kudonet", interaction1 = "gender", fix=TRUE, test=FALSE, initialValue = 0)
+myeff <- setEffect( myeff, altX, name = "kudonet", interaction1 = "gender", fix=TRUE, test=FALSE, initialValue = 0)
+myeff <- setEffect( myeff, sameX, name = "kudonet", interaction1 = "gender", fix=TRUE, test=FALSE, initialValue = 0)
+myeff <- setEffect(myeff, outPopSqrt, name = "kudonet", fix=TRUE, test=FALSE, initialValue = 0)
+myeff <- setEffect(myeff, reciAct, name = "kudonet", fix=TRUE, test=FALSE, initialValue = 0)
+(myeff <- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = "kudonet"))
+(eff1 <- myeff[myeff$include,]$effect1[24])
+(eff2 <- myeff[myeff$include,]$effect2[24])
+myeff <- setEffect(myeff, unspInt, fix=TRUE, test=FALSE, effect1=eff1, effect2=eff2)
+myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "freq_other")
+myeff <- setEffect(myeff, effFrom, name = "freq_run", interaction1 = "gender", fix=T, test=F, initialValue=0)
+
+# models 1-6
+myeff1 <- includeEffects(myeff, indeg, name = "freq_run", interaction1 = "kudonet")         # model 1: indegree
+myeff2 <- includeEffects(myeff1, avAlt, name = "freq_run", interaction1 = "kudonet")        # model 2: avAlt
+myeff3 <- includeEffects(myeff1, avAttHigher, name = "freq_run", interaction1 = "kudonet")  # model 3: avAttHigher
+myeff4 <- includeEffects(myeff1, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 4: avAttLower
+myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
+myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
+```
+
+### Club 5
+```{r echo=T, results='hide'}
+myeff <- getEffects(clubdata_rsiena_freq[[5]])
+
+# base model
+myeff <- includeEffects(myeff, gwespFF, name = "kudonet") 
+myeff <- includeEffects(myeff, outActSqrt, inPopSqrt, name = "kudonet") 
+myeff <- includeEffects( myeff, outIso, name = "kudonet")
+myeff <- setEffect(myeff, higher, name = "kudonet", interaction1 = "freq_run")
+myeff <- includeEffects(myeff, egoX, altX, sameX, name="kudonet", interaction1 = "gender" )
+myeff <- includeInteraction(myeff, recip, gwespFF, parameter = 69, name = "kudonet")
+myeff <- setEffect( myeff, outPopSqrt, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff <- setEffect( myeff, reciAct, name = "kudonet", fix = TRUE, test = FALSE, initialValue = 0)
+myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "freq_other")
+myeff <- includeEffects(myeff, effFrom, name = "freq_run", interaction1 = "gender")
+
+# models 1-6
+myeff1 <- includeEffects(myeff, indeg, name = "freq_run", interaction1 = "kudonet")         # model 1: indegree
+myeff2 <- includeEffects(myeff1, avAlt, name = "freq_run", interaction1 = "kudonet")        # model 2: avAlt
+myeff3 <- includeEffects(myeff1, avAttHigher, name = "freq_run", interaction1 = "kudonet")  # model 3: avAttHigher
+myeff4 <- includeEffects(myeff1, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 4: avAttLower
+myeff5 <- includeEffects(myeff3, avAttLower, name = "freq_run", interaction1 = "kudonet")   # model 5: avAttHigher+Lower
+myeff6 <- includeEffects(myeff1, avSim, name = "freq_run", interaction1 = "kudonet")        # model 6: avSim
+```
+
+## {-}
+
+----
+
+<br>
+
+# Estimation
+
+With the following script, we estimate, for each club i (2-5), all models j (1-6).
+We rerun the models until adequate convergence is reached.
+We store the sienaFit objects in a list, which we save later on.
+
+```{r eval=F}
+
+for (i in 2:c) { # for every club
+
+  # we take the rsiena object
+  mydata <- clubdata_rsiena_freq[[i]]
+  
+  # and the list containing myeff objects
+  load(file=paste("test", "/", "myeff", "/", "myeff_club", i, ".RData", sep = "")) 
+  
+  # we make a list for storing the RSiena fit objects
+  sienaFit <- list()
+
+  # for club i we run models j in 1:m
+  for (j in 1:m) {
+ 
+    # we estimate the model
+    try <- 1
+    print(paste("Estimating model ", j, " for club ", i, sep=""))
+    sienaFit[[j]] <- siena07(myalgorithm, data = mydata, effects = myeff[[j]], returnDeps=TRUE,
+                             useCluster=TRUE, nbrNodes=10, initC=TRUE, batch=TRUE) # store it in the list
+    
+    # re-run until we reach adequate convergence 
+    while (TRUE){
+      if(sienaFit[[j]]$tconv.max >= .25){
+        try <- try + 1
+        if (try>30) { # with at max 30 runs.
+          print(paste("Now it lasted to long!") 
+          break      
+        }
+        print(paste("Model did not converge adequately (", sienaFit[[j]]$tconv.max, "); ", "Repeat the estimation (", "try ", try, ")", sep = ""))
+        sienaFit[[j]] <- siena07( myalgorithm, data = mydata, effects = myeff[[j]], prevAns= sienaFit[[j]], returnDeps=TRUE, useCluster=TRUE, nbrNodes=10, initC=TRUE, batch=TRUE)
+      }else{
+        print(paste("Reached overall maximum convergence ratio of: ", sienaFit[[j]]$tconv.max, sep = ""))
+        print("")
+        break
+      }
+    }
+    
+  }
+  # and save the list with RSiena fit objects
+  save(sienaFit, file=paste("test", "/", "sienaFit", "/", "sienaFit_club", i, ".RData", sep = ""))
+  print(paste("All models are estimated for club ", i, ". Model results are stored in sienaFit_club", i, ".RData", sep=""))
+  print("")
+  ifelse(i<c, print(paste("Continuing with club ", i+1, sep="")), print("Estimation finished!"))
+  
+}
+
+sienaFit_clubL <- list()
+
+for (i in 1:5) {
+  temp.space <- new.env()
+  bar <- load(paste("test/sienaFit/sienaFit_club", i, ".RData", sep=""), temp.space)
+  sienaFit_clubL[[i]] <- get(bar, temp.space)
+  rm(temp.space)
+}
+
+lapply(sienaFit_clubL, '[[', 5)
+map(sienaFit_clubL, 6)
+
+```
+
+
+
+
+<br>
