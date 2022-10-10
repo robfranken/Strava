@@ -1,0 +1,212 @@
+---
+title: "Replicating Table 1"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+
+---
+
+This script replicates Figure 3 (Development of the mean of running attributes).
+
+<br>
+
+# Getting started
+
+## clean up
+
+```{r, attr.output='style="max-height: 200px;"'}
+rm (list = ls( ))
+```
+
+<br> 
+
+## custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+
+```{r, results='hide'}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+```
+
+<br>
+
+
+## necessary packages
+
+We install and load the packages we need later on:
+- `moments`: for calculating statistics
+- `dplyr`: for data manipulation
+- `ggplot2`: for data visualization
+
+```{r packages, results='hide'}
+packages = c("moments", "dplyr", "ggplot2")
+fpackage.check(packages)
+```
+
+
+## load club data 
+```{r, warning=FALSE}
+load("clubdata.RData")
+
+```
+
+<br>
+----
+
+# data wrangling
+
+```{r}
+
+# data males (mean run freq./vol. and mean freq./vol. other activities: cycling swimming)
+mean_freq <- mean_vol <- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    mean_freq[t,i] <- mean(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
+    mean_vol[t,i] <- mean(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
+  }
+}
+
+sd_freq <- sd_vol <- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    sd_freq[t,i] <- sd(clubdata[[i]]$freq_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
+    sd_vol[t,i] <- sd(clubdata[[i]]$time_run[,,t][which(clubdata[[i]]$male==1)], na.rm=T)
+  }
+}
+
+se_freq <- se_vol <- matrix(NA, nrow=12, ncol=5) 
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    se_freq[t,i] <- sd_freq[t,i]/sqrt(sum(clubdata[[i]]$male==1))
+    se_vol[t,i] <- sd_vol[t,i]/sqrt(sum(clubdata[[i]]$male==1))
+  }
+}
+
+data_male <- data.frame(
+  mean = as.vector(c(mean_freq, mean_vol)),
+  sd = as.vector(c(sd_freq, sd_vol)),
+  se =  as.vector(c(se_freq, se_vol)),
+  club = as.character(sort(replicate(12, c("Club 1 (N=27)", "Club 2 (N=58)", "Club 3 (N=159)", "Club 4 (N=9)", "Club 5 (N=76)")))),
+  time = rep(c(1:12)),
+  Attribute = c(rep("Frequency", 12*5), rep("Volume", 12*5)),
+  Group = "Male")
+
+
+# data females and others
+mean_freq <- matrix(NA, nrow=12, ncol=5)
+mean_vol <- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    mean_freq[t,i] <- mean(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
+    mean_vol[t,i] <- mean(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
+  }
+}
+
+sd_freq <- matrix(NA, nrow=12, ncol=5)
+sd_vol <- matrix(NA, nrow=12, ncol=5)
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    sd_freq[t,i] <- sd(clubdata[[i]]$freq_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
+    sd_vol[t,i] <- sd(clubdata[[i]]$time_run[,,t][which(!clubdata[[i]]$male==1)],na.rm=T)
+  }
+}
+
+se_freq <- matrix(NA, nrow=12, ncol=5)  
+se_vol <- matrix(NA, nrow=12, ncol=5)  
+for ( i in 1:5) {
+  for ( t in 1:12) {
+    se_freq[t,i] <- sd_freq[t,i]/sqrt(sum(!clubdata[[1]]$male==1))
+    se_vol[t,i] <- sd_vol[t,i]/sqrt(sum(!clubdata[[1]]$male==1))
+  }
+}
+
+data_female <- data.frame(
+  mean = as.vector(c(mean_freq, mean_vol)),
+  sd = as.vector(c(sd_freq, sd_vol)),
+  se =  as.vector(c(se_freq, se_vol)),
+  club = as.character(sort(replicate(12, c("Club 1 (N=27)", "Club 2 (N=58)", "Club 3 (N=159)", "Club 4 (N=9)", "Club 5 (N=76)")))),
+  time = rep(c(1:12)),
+  Attribute = c(rep("Frequency", 12*5), rep("Volume", 12*5)),
+  Group = "Female and others"
+)
+```
+
+----
+
+# Plotting
+```{r}
+plot <- rbind(data_male, data_female) #, data_all)
+
+pd <- position_dodge(width = .8) # dodge between points to prevent overlap of CIs
+
+plot$Group <- factor(plot$Group,
+                     levels = c("Male", "Female and others"))
+
+ggplot(plot, aes(x=time, y=mean, colour=Group, #shape = Attribute,
+                 group=Group)) +
+  #group=interaction(Group, Attribute))) + 
+  geom_point(size = 1.5, position = pd) + 
+  geom_line(size = .75, position = pd) +
+  geom_errorbar(aes(time, mean, ymin = mean - se, ymax = mean + se), 
+                width = 0.6, position = pd) +
+  labs(title="Development of running activity attribute means over time", 
+       subtitle="Disaggregated by running measure (frequency and volume), club and gender") +
+  scale_colour_manual(values=c("#56B4E9", "#E69F00")) +
+  labs(x = "", y = "Hours per week        Times per week") +
+  scale_y_continuous(breaks = seq(0, 5, by = 1)) +
+  scale_x_discrete(limits=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) +
+  facet_grid(Attribute~club) +
+  theme(axis.text.x = element_text(size = 8, angle = 70, vjust = -.2, hjust=-.1), 
+        legend.position = "top",
+        legend.box.just = "right",
+        legend.direction = "horizontal",
+        legend.background = element_rect(fill="lightgray", size=.5, linetype="dotted"),
+        legend.title = element_text(face = "bold"),
+        #legend.background = element_rect(fill ="gray90", size=.5),
+        strip.text.y = element_blank())
+```
+
+
+
+
+

@@ -44,7 +44,7 @@ Last compiled on `r format(Sys.time(), '%B, %Y')`
 ----
   
 This website is a supplement to the paper on network influence in Strava by @Franken2021. It contains R code. 
-All scripts can be found on [Github](https://github.com/robfranken/Strava).
+All scripts can be found on [Github](https://github.com/robfranken/Strava)
 
 Use the top menu to navigate to the [data preparation](https://robfranken.github.io/Strava/prep.html), [descriptive statistics](https://robfranken.github.io/Strava/des.html), [model selection](https://robfranken.github.io/Strava/explore.html), or [meta-analysis](https://robfranken.github.io/Strava/meta.html).
 

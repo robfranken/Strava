@@ -13,7 +13,7 @@
 
 <title>Strava paper</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -170,11 +170,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -294,10 +298,10 @@ $(document).ready(function () {
       <a href="des.html">Procedure</a>
     </li>
     <li>
-      <a href="destab.html">Table 1: Descriptives</a>
+      <a href="destab.html">Table: Descriptives</a>
     </li>
     <li>
-      <a href="desfig.html">Figure 5: Development of the mean running</a>
+      <a href="desfig.html">Figure: Development of the mean running</a>
     </li>
   </ul>
 </li>
@@ -360,10 +364,10 @@ $(document).ready(function () {
       <a href="interaction.html">Interaction effects for influence dynamics</a>
     </li>
     <li>
-      <a href="figure3.html">Figure 6: Ego-alter influence plot</a>
+      <a href="figure3.html">Figure: Ego-alter influence plot</a>
     </li>
     <li>
-      <a href="RI.html">Figure 7: Relative importance of effects</a>
+      <a href="RI.html">Figure: Relative importance of effects</a>
     </li>
     <li>
       <a href="simulations.html">Empirically calibrated ABMs</a>
@@ -391,7 +395,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Strava paper</h1>
-<h4 class="date">Last compiled on september, 2022</h4>
+<h4 class="date">Last compiled on oktober, 2022</h4>
 
 </div>
 
@@ -407,12 +411,12 @@ $(document).ready(function () {
 <h1><strong>Strava Replication Package</strong></h1>
 <div id="rob-franken---radboud-university" class="section level3">
 <h3>Rob Franken - Radboud University</h3>
-<p>Last compiled on september, 2022</p>
+<p>Last compiled on oktober, 2022</p>
 <hr />
 <p>This website is a supplement to the paper on network influence in
 Strava by <span class="citation">Franken, Bekhuis, and Tolsma
-(submitted)</span>. It contains R code. All scripts can be found on <a
-href="https://github.com/robfranken/Strava">Github</a></p>
+(2022)</span>. It contains R code. All scripts can be found on <a
+href="https://github.com/robfranken/Strava">Github</a>.</p>
 <p>Use the top menu to navigate to the <a
 href="https://robfranken.github.io/Strava/prep.html">data
 preparation</a>, <a
@@ -439,9 +443,9 @@ class="email">rob.franken@ru.nl</a>).</p>
 <h2 class="unnumbered">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Franken2021" class="csl-entry">
-Franken, Rob, Hidde Bekhuis, and Jochem Tolsma. submitted. <span>“<a
+Franken, Rob, Hidde Bekhuis, and Jochem Tolsma. 2022. <span>“<a
 href="">Kudos Make You Run! How Runners Influence Each Other on the
-Online Social Network Strava</a>,”</span> submitted.
+Online Social Network Strava</a>.”</span> <em>Social Networks</em> 72.
 </div>
 </div>
 </div>

@@ -1,0 +1,364 @@
+---
+title: "Interaction between influence and ego's behavior"
+bibliography: references.bib
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+output: 
+  html_document:
+    css: tweaks.css
+    toc:  false
+    toc_float: true
+    number_sections: false
+    code_folding: show
+    code_download: yes
+---
+
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, results="hold", message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+----  
+
+
+We are interested in exploring influence heterogeneity between actors in the networks. More precisely, we aim to assess whether social influence differed between actors depending on their current behavior.
+
+
+But how to implement this in RSiena?
+
+
+Recall that the behavior evaluation function for actor *i* is defined as
+
+$$f_i^{beh}(x,z) = \sum_k \beta^{beh}_k s^{beh}_{ik}(x,z) $$
+
+where $\beta^{beh}_k$ are the parameters and $s^{beh}_k(x,z)$ behavior effects.
+
+Let us assume, for simplicity's sake, that behavior evolution is guided only by peer influence. 
+
+<br> 
+
+## average alter effect
+
+Following the approach in the RSiena manual (section 5.10.2), we take the `avAlt`-effect representing peer influence.
+
+This leads to the following equation; where it is assumed that also the shape effects are included in the model.
+
+$$f_i^{beh}(x,z) = \beta^{beh}_1 z_i + \beta^{beh}_2 z_i^2 + \beta^{beh}_3 z_i \frac {\textstyle \sum_j x_{ij}z_j } {\textstyle \sum_j x_{ij} }  $$
+
+To condition influence on ego's current behavior, the `avAlt` effect is interacted with the `linear` shape effect [i.e., the (mean-centered) behavior value of *i*]. Given that the linear shape effect is defined as $s^{beh}_{i1}(x,z) = z_i$, the resulting equation reads (see also the formula under section 5.10.2 of the RSiena manual)
+
+$$f_i^{beh}(x,z) = \beta^{beh}_1 z_i + \beta^{beh}_2 z_i^2 + \beta^{beh}_3 z_i \frac {\textstyle \sum_j x_{ij}z_j } {\textstyle \sum_j x_{ij} } + \beta^{beh}_4 z_i^2 \frac {\textstyle \sum_j x_{ij}z_j } {\textstyle \sum_j x_{ij} }  $$
+
+### test
+Let's see if this model captures this interaction (i.e., that a positive/negative estimate for $\beta^{beh}_4$ means that actors with higher values for *z* have a stronger/weaker tendency to assimilate to their alters' mean behavior value).
+
+
+#### functions
+we first define some functions:
+
+```{r class.source = 'fold-hide'}
+#centering behavior z
+fcentering <- function(actors) {
+    centered <- actors - mean(actors)
+    return(centered)
+}
+
+#calculate similarity score
+fsimij <- function(actors, min, max) {
+    # rv <- max(actors) - min(actors)
+    rv <- max - min
+    mat1 <- matrix(actors, nrow = length(actors), ncol = length(actors), byrow = TRUE)
+    mat2 <- t(mat1)
+    simij <- 1 - (abs(mat1 - mat2)/rv)
+    return(simij)
+}
+
+#effects
+flinear <- function(ego, alters, ...) {
+    actors <- c(ego, alters)  #define the network
+    beh_centered <- fcentering(actors)  #center behavior scores
+
+    statistic <- beh_centered[1]  #the actual statistic
+
+    return(statistic)
+}
+
+fquad <- function(ego, alters, ...) {
+    actors <- c(ego, alters)  #define the network
+    beh_centered <- fcentering(actors)  #center behavior scores
+
+    statistic <- (beh_centered[1])^2  #the actual statistic
+
+    return(statistic)
+}
+
+favAlt <- function(ego, alters, ...) {
+    actors <- c(ego, alters)
+    beh_centered <- fcentering(actors)
+
+    statistic <- beh_centered[1] * (sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+
+    return(statistic)
+}
+
+# this is the interaction between avAlt and linear shape
+favAltZ <- function(ego, alters, ...) {
+    actors <- c(ego, alters)
+    beh_centered <- fcentering(actors)
+
+    statistic <- beh_centered[1]*(sum(beh_centered[-1], na.rm = TRUE)/length(alters))
+    statistic <- beh_centered[1]*statistic #multiply with linear shape, which is the centered behavior score of ego
+
+    return(statistic)
+}
+
+
+
+favSim <- function(ego, alters, min, max) {
+    actors <- c(ego, alters)  #define the network
+    beh_centered <- fcentering(actors)  #center behavior scores
+    simij <- fsimij(beh_centered, min, max)  #calculate the similarity scores
+    diag(simij) <- NA
+    msimij <- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+    simij_c <- simij - msimij  #center the similarity scores
+
+    statistic <- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+
+    return(statistic)
+}
+
+favSimZ <- function(ego, alters, min, max) {
+    actors <- c(ego, alters)  #define the network
+    beh_centered <- fcentering(actors)  #center behavior scores
+    simij <- fsimij(beh_centered, min, max)  #calculate the similarity scores
+    diag(simij) <- NA
+    msimij <- mean(simij, na.rm = TRUE)  #calculate the mean similarity score. only calculate mean on non-diagonal cells??!!
+    simij_c <- simij - msimij  #center the similarity scores
+
+    statistic <- sum(simij_c[1, ], na.rm = TRUE)/length(alters)  #the actual statistic
+    
+    statistic <- beh_centered[1]*statistic #interact with (centered) z_i
+    
+
+    return(statistic)
+}
+
+favAttLower <- function(ego, alters, min, max) {
+    actors <- c(ego, alters)
+    beh_centered <- fcentering(actors)
+    simij <- fsimij(beh_centered, min, max)
+    diag(simij) <- NA
+
+    simijL <- simij[1, ]
+    simijL[beh_centered >= beh_centered[1]] <- 1
+    simijL[1] <- NA
+    statistic <- sum(simijL, na.rm = TRUE)/length(alters)
+
+    return(statistic)
+}
+
+favAttLowerZ <- function(ego, alters, min, max) {
+    actors <- c(ego, alters)
+    beh_centered <- fcentering(actors)
+    simij <- fsimij(beh_centered, min, max)
+    diag(simij) <- NA
+
+    simijL <- simij[1, ]
+    simijL[beh_centered >= beh_centered[1]] <- 1
+    simijL[1] <- NA
+    statistic <- sum(simijL, na.rm = TRUE)/length(alters)
+    
+    statistic <- beh_centered[1] * statistic
+
+    return(statistic)
+}
+
+favAttHigher <- function(ego, alters, min, max) {
+    actors <- c(ego, alters)
+    beh_centered <- fcentering(actors)
+    simij <- fsimij(beh_centered, min, max)
+    diag(simij) <- NA
+
+    simijH <- simij[1, ]
+    simijH[beh_centered <= beh_centered[1]] <- 1
+    simijH[1] <- NA
+    statistic <- sum(simijH, na.rm = TRUE)/length(alters)
+
+    return(statistic)
+}
+
+#plotting statistic values of evaluation function
+finfluenceplot <- function(alters, min, max, fun, params, results = TRUE, plot = TRUE) {
+    # check correct number of parameters are given
+    if (length(fun) != length(params))
+        stop("Please provide one (and only one) parameter for each of the behavioral effects!")
+
+    # calculuate value of evaluation function
+    s <- NA
+    for (i in min:max) {
+        s[i] <- 0
+        for (j in 1:length(fun)) {
+            s[i] <- s[i] + params[j] * fun[[j]](i, alters, min, max)
+        }
+    }
+
+    # calculate the probabilities
+    p <- NA
+    for (i in min:max) {
+        p[i] <- exp(s[i])/sum(exp(s))
+    }
+
+    # calculate the probabilities of choice set
+    p2 <- NA
+    for (i in min:max) {
+        if (i == min) {
+            p2[i] <- exp(s[i])/sum(exp(s[i]) + exp(s[i + 1]))
+        } else if (i == max) {
+            p2[i] <- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]))
+        } else {
+            p2[i] <- exp(s[i])/sum(exp(s[i]) + exp(s[i - 1]) + exp(s[i + 1]))
+        }
+    }
+
+    # calculate the probability ratio
+    r <- NA
+    for (i in min:max) {
+        r[i] <- p[i]/p[1]
+    }
+
+    # some simple plots
+    if (plot) {
+        name <- deparse(substitute(fun))
+        name <- stringr::str_sub(as.character(name), 6, -2)
+        par(mfrow = c(2, 2))
+        plot(y = s, x = min:max, xlab = "ego behavioral score", ylab = name, type = "b")
+        mtext("EVALUATION", line = 1)
+        mtext(paste("alters:", paste0(alters, collapse = ",")))
+        plot(y = p, x = min:max, xlab = "ego behavioral score", ylab = name, ylim = c(0, 1), type = "b")
+        mtext("PROBABILITIES", line = 1)
+        mtext(paste("alters:", paste0(alters, collapse = ",")))
+        plot(y = p2, x = min:max, xlab = "ego behavioral score", ylab = name, ylim = c(0, 1), type = "b")
+        mtext("PROBABILITIES_choice_set", line = 1)
+        mtext(paste("alters:", paste0(alters, collapse = ",")))
+        plot(y = r, x = min:max, xlab = "ego behavioral score", ylab = name, type = "b")
+        mtext("RATIOS", line = 1)
+        mtext(paste("alters:", paste0(alters, collapse = ",")))
+    }
+
+    # return results for more fancy plotting
+    if (results) {
+        x <- min:max
+        df <- data.frame(x, s, p, p2, r)
+        return(df)
+    }
+
+}
+
+``` 
+
+We assume that $\beta^{beh}_1=0$ (i.e., behavior increases are not more/less likely than decreases) and $\beta^{beh}_2=0$ [i.e., evaluation function is a straight line; no (inverse) U-shaped parabola]. $\beta^{beh}_3=5$, and $\beta^{beh}_4=0$, for now. 
+
+We assume ego *i* has a network of 6 alters (with a mean value of 4), all of whose behaviors are stable (i.e., ego is the only one facing decision regarding his behavior over time). The behavior has a range of 7.
+
+```{r}
+alters <- rep(c(3,3,3,5,5,5),1)
+```
+
+```{r}
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAlt,favAltZ), params = c(0,0,5,0))
+```
+<br>
+
+Here, the contribution of the average of alters' behavior values to the evaluation function is unconditional on ego's own value; or in other words, the tendency to 'mimic' the mean behavior is no different for actors with high and low behavior values. To allow for this heterogeneity, we tweak $\beta^{beh}_4$. 
+
+
+```{r}
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAlt,favAltZ), params = c(0,0,5,1))
+```
+```{r}
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAlt,favAltZ), params = c(0,0,5,-1))
+```
+<br>
+
+This seems alright! 
+
+Many predefined RSiena effects (like the average alter effect) have the form of a product $s^{beh}_{ik} (x,z) = z_i s^0_{ik} (x,z)$, where $s^0_{ik} (x,z)$ does not depend on $z_i$.
+
+Here, if one is interested in how the magnitude of a particular effect (e.g., the in-degree effect on behavior) depends on ego's current behavior value, one could simply interact it with the linear shape effect, like we just did.
+
+## average similarity effect
+
+However, (average) similarity and attraction effects do not have same product-form; statistic *s* depends on $z_i$ (in addition to $z_j$, for other actors *j*).
+
+If we model the average similarity effect, in interaction with the linear shape, the objective function is
+
+$$f_i^{beh}(x,z) = \beta^{beh}_1 z_i + \beta^{beh}_2 z_i^2 + \beta^{beh}_3 x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z}) + \beta^{beh}_4 z_i x^{-1}_{i+}\sum_j x_{ij}(sim^z_{ij} - \widehat{sim^z})  $$
+
+#### no interaction
+```{r}
+alters <- c(4,4,4,4,4)
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,0))
+```
+<br>
+
+#### positive and negative interactions
+
+```{r}
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,.5))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,1))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(.5,-.1,5,1))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,2))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,3))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,4))
+```
+
+```{r}
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-.5))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-1))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(.5,-.1,5,-1))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-2))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-3))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favSim,favSimZ), params = c(0,0,5,-4))
+```
+<br>
+
+`r colorize("Only makes sense with low parameter values for the interaction effect!!!", "red")`
+
+## average attraction (towards lower)
+If we model the attraction effects, in interaction with the linear shape, the objective function is
+
+
+$$f_i^{beh}(x,z) = \beta^{beh}_1 z_i + \beta^{beh}_2 z_i^2 + \beta^{beh}_3 x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)<z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} ) + \beta^{beh}_4 z_i x^{-1}_{i+}\sum_j x_{ij} (\, I \{ (z_j)<z_i \} sim^z_{ij} + I \{ (z_j ) \ge z_i \} )$$
+
+#### no interaction
+```{r}
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttHigher,favAttLower,favAttLowerZ), params = c(0,0,0,5,0))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttHigher,favAttLower,favAttLowerZ), params = c(0,0,1,5,0))
+```
+<br>
+
+#### positive and negative interactions
+
+```{r}
+alters <- c(2,2,2,3,3,3,3)
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,0))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,.5))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,1))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,-.5))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,-1))
+finfluenceplot(alters=alters, min=1, max=7, list(flinear,fquad,favAttLower,favAttLowerZ), params = c(0,0,5,-2))
+```
+
+<br>
+
+`r colorize("Hmmm... this is not what I want! Ego should not be drawn up by higher alters in the case of a positive  attraction towards lower parameter; ego should not move away from higher alters in the case of a negative parameter. That's exactly why the similarity scores for alters who *did not* score lower than ego were replaced by 1. Thus, alters that are (no longer) lower than me, have no influence anymore. But since the average similarity of alters is now multiplied by ego's own behavior, ego will always prefer increasing the behavior over staying constant (at least, in the case of a postive paramter for the interaction effect.", "red")`

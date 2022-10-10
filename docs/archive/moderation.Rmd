@@ -1,0 +1,293 @@
+---
+title: "Post-hoc probing of moderational effects"
+date: "Last compiled on `r format(Sys.time(), '%B, %Y')`"
+bibliography: references.bib
+output:
+  html_document:
+    css: tweaks.css
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    code_folding: show
+    code_download: yes
+---
+  
+```{r, globalsettings, echo=FALSE, warning=FALSE, results='hide'}
+
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(tidy.opts=list(width.cutoff=100),tidy=TRUE, warning = FALSE, message = FALSE,comment = "#>", cache=TRUE, class.source=c("test"), class.output=c("test2"))
+options(width = 100)
+rgl::setupKnitr()
+
+
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy(position = c('top', 'right'))
+#klippy::klippy(color = 'darkred')
+#klippy::klippy(tooltip_message = 'Click to copy', tooltip_success = 'Done')
+```
+
+
+
+---
+  
+Aim: to explore effect heterogeneity in social influence between actors within clubs, according to running level and gender.
+
+
+Our model already considers rather many parameters given the information available in the data-set. We have limited power to detect behavior evolution effects, as the number of data points is at the order $n$. If we consider network evolution, we have data points of the order $n^2$. Therefore, our data does now allow for backward elimination (i.e., estimating the 'full model', including all interactions simultaneously, and stepwisely removing effects that are not significant according to some criterion). 
+
+Instead, we estimate our main model and assess the interactions by testing their parameters $(H_0:\theta=0)$ *without* estimating them, using score-type tests, a procedure proposed by @schweinberger. Score-type tests indicate whether and which of the tested effects will improve a model, when included. We will consider the results of the (one-sided) one-parameter test. Its test statistic is standard normally distributed. 
+
+If we find interaction effects that would improve the model, we will estimate these effects simultaneously with the other model effects. Thus, we use a two-step exploratory procedure.
+
+
+----
+
+# Getting started
+
+## clean up
+
+```{r, attr.output='style="max-height: 200px;"'}
+rm (list = ls( ))
+#gc()
+```
+
+<br>
+
+## general custom functions
+
+- `fpackage.check`: Check if packages are installed (and install if not) in R ([source](https://vbaliga.github.io/verify-that-r-packages-are-installed-and-loaded/))
+- `fload.R`: function to load R-objects under new names.
+
+```{r, eval=F}
+
+fpackage.check <- function(packages) {
+    lapply(packages, FUN = function(x) {
+        if (!require(x, character.only = TRUE)) {
+            install.packages(x, dependencies = TRUE)
+            library(x, character.only = TRUE)
+        }
+    })
+}
+
+fload.R  <- function(fileName){
+  load(fileName)
+  get(ls()[ls() != "fileName"])
+}
+
+colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", color, x) }
+
+```
+
+
+## necessary packages
+
+- `RSiena`
+- `parallel`: utilize more cores
+
+```{r packages, eval=F}
+
+packages = c("RSiena", "parallel")
+
+fpackage.check(packages)
+```
+
+<br>
+
+Down below, we focus on running frequency; but the scripts can be modified to model running volume.
+
+
+## read in RSiena data objects
+```{r, eval=F}
+load("clubdata_rsiena_freq.Rdata")
+#load("clubdata_rsiena_vol.Rdata")
+```
+
+<br>
+
+----
+
+# Approach
+
+We probe for moderational effects of:
+
+- *gender*: to see whether receiving kudos or the activities of alters have differential effects for males and females;
+- *running level*: to see whether runners with different running experience are more/less s  usceptible to influence. We interact the influence effects with the `linear` shape effect (which represents ego's current running) and a time-constant actor-covariate representing the number of years that actors were active on Strava (labeled `novice`). 
+
+We discuss [here](https://robfranken.github.io/Strava/interaction) why we use the `linear` shape effect, and why we use `avSim` rather than `avAttLower` in the interaction models. 
+ 
+We focus on 2 influence effects, and 3 interactions; thus a total of 6 models for each club.
+
+
+
+# Step 1: score-type test
+
+```{r, eval=F}
+#detectCores()
+
+
+# make a list to store our final results in.
+results.list <- vector("list", length(clubdata_rsiena_freq)) #"pre-allocate" empty list of length 5
+
+for (i in 1:5) { # for club i
+  
+  print(paste0("next up: club ", i))
+  
+  #get rsiena object
+  mydata <- clubdata_rsiena_freq[[i]]
+  
+  #and the list containing myeff objects
+  load(file=paste0("test/myeff/myeff_club",i,".RData"))
+  #load(file=paste0("test/myeff/duration/myeff_club",i,".RData"))
+
+  #take 6th element, which is the model with avSim
+  myeff <- myeff[[6]]
+  
+  #include interaction effects, fixed to 0 and test=TRUE
+  #here, it is important that in the `getEffects` command, the `behNintn` argument is set to a high enough value...
+  
+  #current behavior (linear shape)
+  beh <- "freq_run"
+  #beh <- "time_run"
+  myeff1 <- includeInteraction(myeff, linear, indeg, name=beh, interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
+  myeff2 <- includeInteraction(myeff, linear, avSim, name=beh, interaction1=c("","kudonet"), fix=TRUE, test=TRUE)
+
+  #novice
+  myeff3 <- includeInteraction(myeff, effFrom, indeg, name = beh, interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
+  myeff4 <- includeInteraction(myeff, effFrom, avSim, name = beh, interaction1 = c("novice", "kudonet"), fix=TRUE, test=TRUE)
+  
+  #gender:
+  myeff5 <- includeInteraction(myeff, effFrom, indeg, name = beh, interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
+  myeff6 <- includeInteraction(myeff, effFrom, avSim, name = beh, interaction1 = c("gender", "kudonet"), fix=TRUE, test=TRUE)
+  
+  myeffL<-list(myeff1,myeff2, myeff3,myeff4,myeff5,myeff6)
+  
+  # specify algorithm
+  myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+ # myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=3, n3=50 ) #test
+  
+  ansL <- vector("list", length(myeffL)) #"pre-allocate" empty list of length 6 to store models j in, for club i
+
+  #estimate
+  for (j in 1:length(ansL)) {
+    
+    print(paste0("club ", i, ": estimating model ", j, "/6"))
+    
+    ans <- siena07(myalgorithm, data=mydata, effects=myeffL[[j]], nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
+    ansL[[j]] <- ans
+  }
+  
+  results.list[[i]] <- ansL
+}
+
+#takes a long time, so save the results...
+save(results.list, file="test/sienaFit/interactions_frequency.RData")
+
+#save(results.list, file="test/sienaFit/interactions_volume.RData")
+
+```
+
+---
+
+<br>
+
+- `indeg x novice` appears to improve the model in club 5;
+- `avSim x novice` appears to improve the model in clubs 2 and 4.
+
+<br>
+
+---
+
+# Step 2: estimate interaction effects
+
+We found some indication that the effects of receiving kudos and the running of friends worked differently for club members who are newer to Strava (at least, in some clubs). These dynamics were no different for the genders, nor for athletes that differed in their current running. In step 2, we include these (missing) predictors of change in running behavior in our model. `r colorize("Thus, we not only test the effect, but we also estimate it simultaneously with the other effects.", "red")`
+
+
+
+<br>
+
+## `indeg x novice`
+```{r, eval=F}
+load("clubdata_rsiena_freq.Rdata")
+
+mydata <- clubdata_rsiena_freq[[5]]
+
+#load effects object
+load(file=paste0("test/myeff/myeff_club","5",".RData"))
+myeff <- myeff[[6]] 
+
+# include interaction, and estimate the parameter
+beh <- "freq_run"
+myeff <- includeInteraction(myeff, effFrom, indeg, name = beh, interaction1 = c("novice", "kudonet"), fix=FALSE, test=FALSE)
+
+# specify algorithm
+myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+
+# estimate
+ans <- siena07(myalgorithm, data=mydata, effects=myeff, nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
+
+# save output
+save(ans, file="test/sienaFit/indeg_novice_club5.RData")
+```
+
+<br>
+
+The interaction effect `indeg x novice` is **negative** and significant, suggesting that club members who joined Strava relatively recently, are *less* susceptible to the positive motivational effect of receiving kudos from clubmates on Strava.
+
+<br>
+
+## `avSim x novice`
+```{r, eval=F}
+rm(list=setdiff(ls(), "clubdata_rsiena_freq"))
+
+# make a list to store our results in.
+results.list <- vector("list", length(clubdata_rsiena_freq)) #"pre-allocate" empty list of length 5
+
+#club we need to do the estimation for
+clubs <- c("2","4")
+
+for (i in unique(clubs)) { # for club i
+   #get rsiena object
+   mydata <- clubdata_rsiena_freq[[2]]
+   
+  #and the list containing myeff objects
+  load(file=paste0("test/myeff/myeff_club",i,".RData"))
+
+  #take 6th element, which is the model with avSim
+  myeff <- myeff[[6]]
+  
+  #include interaction, estimate parameter
+  beh <- "freq_run"
+  myeff <- includeInteraction(myeff, effFrom, avSim, name = beh, interaction1 = c("novice", "kudonet"), fix=FALSE, test=FALSE)
+  
+  # specify algorithm
+  myalgorithm <- sienaAlgorithmCreate(projname = "test", nsub=5, n3=5000 )
+  
+  #estimate saom
+  ans <- siena07(myalgorithm, data=mydata, effects=myeff, nbrNodes=10, initC=TRUE, useCluster = TRUE, batch=TRUE)
+  
+  #store in results.list
+  results.list[[i]] <- ans
+}
+
+# save output
+save(results.list, file="test/sienaFit/avsim_novice_club2_4.RData")
+```
+
+<br>
+
+In both clubs, `avSim x novice` is **positive** and significant, suggesting that the tendency to minimize the dissimilarity in running behaviors compared to friends is greater for athletes that are relatively new to Strava...
+
+
+All in all, we do not find consistent findings for these moderations.
+
+<br> 
+
+----
+
+## References
+

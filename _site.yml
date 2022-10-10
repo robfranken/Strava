@@ -10,9 +10,9 @@ navbar:
       menu: 
       - text: "Procedure"
         href: des.html
-      - text: "Table 1: Descriptives"
+      - text: "Table: Descriptives"
         href: destab.html
-      - text: "Figure 5: Development of the mean running"
+      - text: "Figure: Development of the mean running"
         href: desfig.html
     - text: "Model selection"
       menu:
@@ -38,9 +38,9 @@ navbar:
         href: influenceeffects.html
       - text: "Interaction effects for influence dynamics"
         href: interaction.html
-      - text: "Figure 6: Ego-alter influence plot"
+      - text: "Figure: Ego-alter influence plot"
         href: figure3.html
-      - text: "Figure 7: Relative importance of effects"
+      - text: "Figure: Relative importance of effects"
         href: RI.html
       - text: "Empirically calibrated ABMs"
         href: simulations.html
