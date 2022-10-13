@@ -89,7 +89,7 @@ We will:
 4. Define our algorithm
 5. And estimate the SAOM
 
-Below, we will follow these steps for club 1 (N=30). Here, we focus on running frequency. We did the same procedure for the other clubs.
+Below, we will follow these steps for club 1 (N=27). Here, we focus on running frequency. We did the same procedure for the other clubs.
 
 <br>
 
@@ -98,7 +98,7 @@ Below, we will follow these steps for club 1 (N=30). Here, we focus on running f
 
 # Step 1: Data
 
-We read in the R-SIENA objects list (*clubdata_rsiena_freq.RData*) and we grab club 1 (N=30). We take as our network variable the kudos-network in which awarding/receiving *at least* 1 kudos constitutes an *i,j* tie. 
+We read in the R-SIENA objects list (*clubdata_rsiena_freq.RData*) and we grab club 1 (N=27). We take as our network variable the kudos-network in which awarding/receiving *at least* 1 kudos constitutes an *i,j* tie. 
 
 - Our (dependent) behavioral variable is running frequency (in times per week; ranging from 0 to 7+ times per week).
 
